@@ -1,0 +1,260 @@
+\section{M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions}
+\label{group__MISC__Private__Functions}\index{M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions@{M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ N\+V\+I\+C\+\_\+\+Priority\+Group\+Config} (uint32\+\_\+t N\+V\+I\+C\+\_\+\+Priority\+Group)
+\begin{DoxyCompactList}\small\item\em Configures the priority grouping\+: pre-\/emption priority and subpriority. \end{DoxyCompactList}\item 
+void \textbf{ N\+V\+I\+C\+\_\+\+Init} (\textbf{ N\+V\+I\+C\+\_\+\+Init\+Type\+Def} $\ast$N\+V\+I\+C\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the N\+V\+IC peripheral according to the specified parameters in the N\+V\+I\+C\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ N\+V\+I\+C\+\_\+\+Set\+Vector\+Table} (uint32\+\_\+t N\+V\+I\+C\+\_\+\+Vect\+Tab, uint32\+\_\+t Offset)
+\begin{DoxyCompactList}\small\item\em Sets the vector table location and Offset. \end{DoxyCompactList}\item 
+void \textbf{ N\+V\+I\+C\+\_\+\+System\+L\+P\+Config} (uint8\+\_\+t Low\+Power\+Mode, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Selects the condition for the system to enter low power mode. \end{DoxyCompactList}\item 
+void \textbf{ Sys\+Tick\+\_\+\+C\+L\+K\+Source\+Config} (uint32\+\_\+t Sys\+Tick\+\_\+\+C\+L\+K\+Source)
+\begin{DoxyCompactList}\small\item\em Configures the Sys\+Tick clock source. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\mbox{\label{group__MISC__Private__Functions_ga4ab373ed0870c06fca5eb51d639adf41}} 
+\index{M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions@{M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions}!N\+V\+I\+C\+\_\+\+Init@{N\+V\+I\+C\+\_\+\+Init}}
+\index{N\+V\+I\+C\+\_\+\+Init@{N\+V\+I\+C\+\_\+\+Init}!M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions@{M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions}}
+\subsubsection{N\+V\+I\+C\+\_\+\+Init()}
+{\footnotesize\ttfamily void N\+V\+I\+C\+\_\+\+Init (\begin{DoxyParamCaption}\item[{\textbf{ N\+V\+I\+C\+\_\+\+Init\+Type\+Def} $\ast$}]{N\+V\+I\+C\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the N\+V\+IC peripheral according to the specified parameters in the N\+V\+I\+C\+\_\+\+Init\+Struct. 
+
+\begin{DoxyNote}{Note}
+To configure interrupts priority correctly, the \doxyref{N\+V\+I\+C\+\_\+\+Priority\+Group\+Config()}{p.}{group__MISC__Private__Functions_gadfb1f34f803ce54c976643db8c484442} function should be called before. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em N\+V\+I\+C\+\_\+\+Init\+Struct} & pointer to a \doxyref{N\+V\+I\+C\+\_\+\+Init\+Type\+Def}{p.}{structNVIC__InitTypeDef} structure that contains the configuration information for the specified N\+V\+IC peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 130} of file \textbf{ misc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ N\+V\+I\+C\+\_\+\+Init\+Type\+Def\+::\+N\+V\+I\+C\+\_\+\+I\+R\+Q\+Channel\+Cmd}, \textbf{ N\+V\+I\+C\+\_\+\+Init\+Type\+Def\+::\+N\+V\+I\+C\+\_\+\+I\+R\+Q\+Channel\+Preemption\+Priority}, and \textbf{ N\+V\+I\+C\+\_\+\+Init\+Type\+Def\+::\+N\+V\+I\+C\+\_\+\+I\+R\+Q\+Channel\+Sub\+Priority}.
+
+
+
+Referenced by \textbf{ G\+P\+I\+O\+\_\+\+Config()}, and \textbf{ S\+T\+M\+\_\+\+E\+V\+A\+L\+\_\+\+P\+B\+Init()}.
+
+
+\begin{DoxyCode}
+00131 \{
+00132   uint8\_t tmppriority = 0x00, tmppre = 0x00, tmpsub = 0x0F;
+00133   
+00134   \textcolor{comment}{/* Check the parameters */}
+00135   assert_param(IS_FUNCTIONAL_STATE(NVIC\_InitStruct->NVIC_IRQChannelCmd));
+00136   assert_param(IS_NVIC_PREEMPTION_PRIORITY(NVIC\_InitStruct->
+      NVIC_IRQChannelPreemptionPriority));  
+00137   assert_param(IS_NVIC_SUB_PRIORITY(NVIC\_InitStruct->NVIC_IRQChannelSubPriority));
+00138     
+00139   \textcolor{keywordflow}{if} (NVIC\_InitStruct->NVIC_IRQChannelCmd != DISABLE)
+00140   \{
+00141     \textcolor{comment}{/* Compute the Corresponding IRQ Priority --------------------------------*/}    
+00142     tmppriority = (0x700 - ((SCB->AIRCR) & (uint32\_t)0x700))>> 0x08;
+00143     tmppre = (0x4 - tmppriority);
+00144     tmpsub = tmpsub >> tmppriority;
+00145 
+00146     tmppriority = NVIC\_InitStruct->NVIC_IRQChannelPreemptionPriority << tmppre;
+00147     tmppriority |=  (uint8\_t)(NVIC\_InitStruct->NVIC_IRQChannelSubPriority & tmpsub);
+00148         
+00149     tmppriority = tmppriority << 0x04;
+00150         
+00151     NVIC->IP[NVIC\_InitStruct->NVIC_IRQChannel] = tmppriority;
+00152     
+00153     \textcolor{comment}{/* Enable the Selected IRQ Channels --------------------------------------*/}
+00154     NVIC->ISER[NVIC\_InitStruct->NVIC_IRQChannel >> 0x05] =
+00155       (uint32\_t)0x01 << (NVIC\_InitStruct->NVIC_IRQChannel & (uint8\_t)0x1F);
+00156   \}
+00157   \textcolor{keywordflow}{else}
+00158   \{
+00159     \textcolor{comment}{/* Disable the Selected IRQ Channels -------------------------------------*/}
+00160     NVIC->ICER[NVIC\_InitStruct->NVIC_IRQChannel >> 0x05] =
+00161       (uint32\_t)0x01 << (NVIC\_InitStruct->NVIC_IRQChannel & (uint8\_t)0x1F);
+00162   \}
+00163 \}
+\end{DoxyCode}
+\mbox{\label{group__MISC__Private__Functions_gadfb1f34f803ce54c976643db8c484442}} 
+\index{M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions@{M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions}!N\+V\+I\+C\+\_\+\+Priority\+Group\+Config@{N\+V\+I\+C\+\_\+\+Priority\+Group\+Config}}
+\index{N\+V\+I\+C\+\_\+\+Priority\+Group\+Config@{N\+V\+I\+C\+\_\+\+Priority\+Group\+Config}!M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions@{M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions}}
+\subsubsection{N\+V\+I\+C\+\_\+\+Priority\+Group\+Config()}
+{\footnotesize\ttfamily void N\+V\+I\+C\+\_\+\+Priority\+Group\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{N\+V\+I\+C\+\_\+\+Priority\+Group }\end{DoxyParamCaption})}
+
+
+
+Configures the priority grouping\+: pre-\/emption priority and subpriority. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em N\+V\+I\+C\+\_\+\+Priority\+Group} & specifies the priority grouping bits length. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item N\+V\+I\+C\+\_\+\+Priority\+Group\+\_\+0\+: 0 bits for pre-\/emption priority 4 bits for subpriority \item N\+V\+I\+C\+\_\+\+Priority\+Group\+\_\+1\+: 1 bits for pre-\/emption priority 3 bits for subpriority \item N\+V\+I\+C\+\_\+\+Priority\+Group\+\_\+2\+: 2 bits for pre-\/emption priority 2 bits for subpriority \item N\+V\+I\+C\+\_\+\+Priority\+Group\+\_\+3\+: 3 bits for pre-\/emption priority 1 bits for subpriority \item N\+V\+I\+C\+\_\+\+Priority\+Group\+\_\+4\+: 4 bits for pre-\/emption priority 0 bits for subpriority \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+When the N\+V\+I\+C\+\_\+\+Priority\+Group\+\_\+0 is selected, I\+RQ pre-\/emption is no more possible. The pending I\+RQ priority will be managed only by the subpriority. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 112} of file \textbf{ misc.\+c}.
+
+
+\begin{DoxyCode}
+00113 \{
+00114   \textcolor{comment}{/* Check the parameters */}
+00115   assert_param(IS_NVIC_PRIORITY_GROUP(NVIC\_PriorityGroup));
+00116   
+00117   \textcolor{comment}{/* Set the PRIGROUP[10:8] bits according to NVIC\_PriorityGroup value */}
+00118   SCB->AIRCR = AIRCR_VECTKEY_MASK | NVIC\_PriorityGroup;
+00119 \}
+\end{DoxyCode}
+\mbox{\label{group__MISC__Private__Functions_ga1145208ad70edfc2fab19b8b8ef1b1a1}} 
+\index{M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions@{M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions}!N\+V\+I\+C\+\_\+\+Set\+Vector\+Table@{N\+V\+I\+C\+\_\+\+Set\+Vector\+Table}}
+\index{N\+V\+I\+C\+\_\+\+Set\+Vector\+Table@{N\+V\+I\+C\+\_\+\+Set\+Vector\+Table}!M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions@{M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions}}
+\subsubsection{N\+V\+I\+C\+\_\+\+Set\+Vector\+Table()}
+{\footnotesize\ttfamily void N\+V\+I\+C\+\_\+\+Set\+Vector\+Table (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{N\+V\+I\+C\+\_\+\+Vect\+Tab,  }\item[{uint32\+\_\+t}]{Offset }\end{DoxyParamCaption})}
+
+
+
+Sets the vector table location and Offset. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em N\+V\+I\+C\+\_\+\+Vect\+Tab} & specifies if the vector table is in R\+AM or F\+L\+A\+SH memory. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item N\+V\+I\+C\+\_\+\+Vect\+Tab\+\_\+\+R\+AM\+: Vector Table in internal S\+R\+AM. \item N\+V\+I\+C\+\_\+\+Vect\+Tab\+\_\+\+F\+L\+A\+SH\+: Vector Table in internal F\+L\+A\+SH. \end{DoxyItemize}
+\\
+\hline
+{\em Offset} & Vector Table base offset field. This value must be a multiple of 0x200. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 174} of file \textbf{ misc.\+c}.
+
+
+\begin{DoxyCode}
+00175 \{ 
+00176   \textcolor{comment}{/* Check the parameters */}
+00177   assert_param(IS_NVIC_VECTTAB(NVIC\_VectTab));
+00178   assert_param(IS_NVIC_OFFSET(Offset));  
+00179    
+00180   SCB->VTOR = NVIC\_VectTab | (Offset & (uint32\_t)0x1FFFFF80);
+00181 \}
+\end{DoxyCode}
+\mbox{\label{group__MISC__Private__Functions_gae21011c5232f5b8f366acbecd12a1d4a}} 
+\index{M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions@{M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions}!N\+V\+I\+C\+\_\+\+System\+L\+P\+Config@{N\+V\+I\+C\+\_\+\+System\+L\+P\+Config}}
+\index{N\+V\+I\+C\+\_\+\+System\+L\+P\+Config@{N\+V\+I\+C\+\_\+\+System\+L\+P\+Config}!M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions@{M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions}}
+\subsubsection{N\+V\+I\+C\+\_\+\+System\+L\+P\+Config()}
+{\footnotesize\ttfamily void N\+V\+I\+C\+\_\+\+System\+L\+P\+Config (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{Low\+Power\+Mode,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Selects the condition for the system to enter low power mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Low\+Power\+Mode} & Specifies the new mode for the system to enter low power mode. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item N\+V\+I\+C\+\_\+\+L\+P\+\_\+\+S\+E\+V\+O\+N\+P\+E\+ND\+: Low Power S\+EV on Pend. \item N\+V\+I\+C\+\_\+\+L\+P\+\_\+\+S\+L\+E\+E\+P\+D\+E\+EP\+: Low Power D\+E\+E\+P\+S\+L\+E\+EP request. \item N\+V\+I\+C\+\_\+\+L\+P\+\_\+\+S\+L\+E\+E\+P\+O\+N\+E\+X\+IT\+: Low Power Sleep on Exit. \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of LP condition. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 193} of file \textbf{ misc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00194 \{
+00195   \textcolor{comment}{/* Check the parameters */}
+00196   assert_param(IS_NVIC_LP(LowPowerMode));
+00197   assert_param(IS_FUNCTIONAL_STATE(NewState));  
+00198   
+00199   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00200   \{
+00201     SCB->SCR |= LowPowerMode;
+00202   \}
+00203   \textcolor{keywordflow}{else}
+00204   \{
+00205     SCB->SCR &= (uint32\_t)(~(uint32\_t)LowPowerMode);
+00206   \}
+00207 \}
+\end{DoxyCode}
+\mbox{\label{group__MISC__Private__Functions_ga2777d255bb06ad62bb6372a9db1ff385}} 
+\index{M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions@{M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions}!Sys\+Tick\+\_\+\+C\+L\+K\+Source\+Config@{Sys\+Tick\+\_\+\+C\+L\+K\+Source\+Config}}
+\index{Sys\+Tick\+\_\+\+C\+L\+K\+Source\+Config@{Sys\+Tick\+\_\+\+C\+L\+K\+Source\+Config}!M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions@{M\+I\+S\+C\+\_\+\+Private\+\_\+\+Functions}}
+\subsubsection{Sys\+Tick\+\_\+\+C\+L\+K\+Source\+Config()}
+{\footnotesize\ttfamily void Sys\+Tick\+\_\+\+C\+L\+K\+Source\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{Sys\+Tick\+\_\+\+C\+L\+K\+Source }\end{DoxyParamCaption})}
+
+
+
+Configures the Sys\+Tick clock source. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Sys\+Tick\+\_\+\+C\+L\+K\+Source} & specifies the Sys\+Tick clock source. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item Sys\+Tick\+\_\+\+C\+L\+K\+Source\+\_\+\+H\+C\+L\+K\+\_\+\+Div8\+: A\+HB clock divided by 8 selected as Sys\+Tick clock source. \item Sys\+Tick\+\_\+\+C\+L\+K\+Source\+\_\+\+H\+C\+LK\+: A\+HB clock selected as Sys\+Tick clock source. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 217} of file \textbf{ misc.\+c}.
+
+
+\begin{DoxyCode}
+00218 \{
+00219   \textcolor{comment}{/* Check the parameters */}
+00220   assert_param(IS_SYSTICK_CLK_SOURCE(SysTick\_CLKSource));
+00221   \textcolor{keywordflow}{if} (SysTick\_CLKSource == SysTick_CLKSource_HCLK)
+00222   \{
+00223     SysTick->CTRL |= SysTick_CLKSource_HCLK;
+00224   \}
+00225   \textcolor{keywordflow}{else}
+00226   \{
+00227     SysTick->CTRL &= SysTick_CLKSource_HCLK_Div8;
+00228   \}
+00229 \}
+\end{DoxyCode}

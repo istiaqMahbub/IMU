@@ -1,0 +1,291 @@
+\section{Initialization and Configuration}
+\label{group__GPIO__Group1}\index{Initialization and Configuration@{Initialization and Configuration}}
+
+
+Initialization and Configuration.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ G\+P\+I\+O\+\_\+\+De\+Init} (\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$G\+P\+I\+Ox)
+\begin{DoxyCompactList}\small\item\em Deinitializes the G\+P\+I\+Ox peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ G\+P\+I\+O\+\_\+\+Init} (\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$G\+P\+I\+Ox, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def} $\ast$G\+P\+I\+O\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the G\+P\+I\+Ox peripheral according to the specified parameters in the G\+P\+I\+O\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ G\+P\+I\+O\+\_\+\+Struct\+Init} (\textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def} $\ast$G\+P\+I\+O\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each G\+P\+I\+O\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ G\+P\+I\+O\+\_\+\+Pin\+Lock\+Config} (\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$G\+P\+I\+Ox, uint16\+\_\+t G\+P\+I\+O\+\_\+\+Pin)
+\begin{DoxyCompactList}\small\item\em Locks G\+P\+IO Pins configuration registers. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Initialization and Configuration. 
+
+\begin{DoxyVerb} ===============================================================================
+                        Initialization and Configuration
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__GPIO__Group1_gaa60bdf3182c44b5fa818f237042f52ee}} 
+\index{Initialization and Configuration@{Initialization and Configuration}!G\+P\+I\+O\+\_\+\+De\+Init@{G\+P\+I\+O\+\_\+\+De\+Init}}
+\index{G\+P\+I\+O\+\_\+\+De\+Init@{G\+P\+I\+O\+\_\+\+De\+Init}!Initialization and Configuration@{Initialization and Configuration}}
+\subsubsection{G\+P\+I\+O\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void G\+P\+I\+O\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$}]{G\+P\+I\+Ox }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the G\+P\+I\+Ox peripheral registers to their default reset values. 
+
+\begin{DoxyNote}{Note}
+By default, The G\+P\+IO pins are configured in input floating mode (except J\+T\+AG pins). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em G\+P\+I\+Ox} & where x can be (A..I) to select the G\+P\+IO peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 120} of file \textbf{ stm32f4xx\+\_\+gpio.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, and \textbf{ R\+C\+C\+\_\+\+A\+H\+B1\+Periph\+Reset\+Cmd()}.
+
+
+\begin{DoxyCode}
+00121 \{
+00122   \textcolor{comment}{/* Check the parameters */}
+00123   assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
+00124 
+00125   \textcolor{keywordflow}{if} (GPIOx == GPIOA)
+00126   \{
+00127     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+00128     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOA, DISABLE);
+00129   \}
+00130   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (GPIOx == GPIOB)
+00131   \{
+00132     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOB, ENABLE);
+00133     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOB, DISABLE);
+00134   \}
+00135   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (GPIOx == GPIOC)
+00136   \{
+00137     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+00138     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOC, DISABLE);
+00139   \}
+00140   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (GPIOx == GPIOD)
+00141   \{
+00142     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOD, ENABLE);
+00143     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOD, DISABLE);
+00144   \}
+00145   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (GPIOx == GPIOE)
+00146   \{
+00147     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOE, ENABLE);
+00148     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOE, DISABLE);
+00149   \}
+00150   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (GPIOx == GPIOF)
+00151   \{
+00152     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOF, ENABLE);
+00153     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOF, DISABLE);
+00154   \}
+00155   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (GPIOx == GPIOG)
+00156   \{
+00157     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOG, ENABLE);
+00158     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOG, DISABLE);
+00159   \}
+00160   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (GPIOx == GPIOH)
+00161   \{
+00162     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOH, ENABLE);
+00163     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOH, DISABLE);
+00164   \}
+00165   \textcolor{keywordflow}{else}
+00166   \{
+00167     \textcolor{keywordflow}{if} (GPIOx == GPIOI)
+00168     \{
+00169       RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOI, ENABLE);
+00170       RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOI, DISABLE);
+00171     \}
+00172   \}
+00173 \}
+\end{DoxyCode}
+\mbox{\label{group__GPIO__Group1_ga71abf9404261370d03cca449b88d3a65}} 
+\index{Initialization and Configuration@{Initialization and Configuration}!G\+P\+I\+O\+\_\+\+Init@{G\+P\+I\+O\+\_\+\+Init}}
+\index{G\+P\+I\+O\+\_\+\+Init@{G\+P\+I\+O\+\_\+\+Init}!Initialization and Configuration@{Initialization and Configuration}}
+\subsubsection{G\+P\+I\+O\+\_\+\+Init()}
+{\footnotesize\ttfamily void G\+P\+I\+O\+\_\+\+Init (\begin{DoxyParamCaption}\item[{\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$}]{G\+P\+I\+Ox,  }\item[{\textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def} $\ast$}]{G\+P\+I\+O\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the G\+P\+I\+Ox peripheral according to the specified parameters in the G\+P\+I\+O\+\_\+\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em G\+P\+I\+Ox} & where x can be (A..I) to select the G\+P\+IO peripheral. \\
+\hline
+{\em G\+P\+I\+O\+\_\+\+Init\+Struct} & pointer to a \doxyref{G\+P\+I\+O\+\_\+\+Init\+Type\+Def}{p.}{structGPIO__InitTypeDef} structure that contains the configuration information for the specified G\+P\+IO peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 182} of file \textbf{ stm32f4xx\+\_\+gpio.\+c}.
+
+
+
+References \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Mode}, \textbf{ G\+P\+I\+O\+\_\+\+Mode\+\_\+\+AF}, \textbf{ G\+P\+I\+O\+\_\+\+Mode\+\_\+\+O\+UT}, and \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Pin}.
+
+
+
+Referenced by \textbf{ G\+P\+I\+O\+\_\+\+Config()}, \textbf{ I2c\+Master\+\_\+\+Init()}, \textbf{ S\+T\+M\+\_\+\+E\+V\+A\+L\+\_\+\+L\+E\+D\+Init()}, \textbf{ S\+T\+M\+\_\+\+E\+V\+A\+L\+\_\+\+P\+B\+Init()}, and \textbf{ U\+S\+A\+R\+T\+\_\+\+Config()}.
+
+
+\begin{DoxyCode}
+00183 \{
+00184   uint32\_t pinpos = 0x00, pos = 0x00 , currentpin = 0x00;
+00185 
+00186   \textcolor{comment}{/* Check the parameters */}
+00187   assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
+00188   assert_param(IS_GPIO_PIN(GPIO\_InitStruct->GPIO_Pin));
+00189   assert_param(IS_GPIO_MODE(GPIO\_InitStruct->GPIO_Mode));
+00190   assert_param(IS_GPIO_PUPD(GPIO\_InitStruct->GPIO_PuPd));
+00191 
+00192   \textcolor{comment}{/* -------------------------Configure the port pins---------------- */}
+00193   \textcolor{comment}{/*-- GPIO Mode Configuration --*/}
+00194   \textcolor{keywordflow}{for} (pinpos = 0x00; pinpos < 0x10; pinpos++)
+00195   \{
+00196     pos = ((uint32\_t)0x01) << pinpos;
+00197     \textcolor{comment}{/* Get the port pins position */}
+00198     currentpin = (GPIO\_InitStruct->GPIO_Pin) & pos;
+00199 
+00200     \textcolor{keywordflow}{if} (currentpin == pos)
+00201     \{
+00202       GPIOx->MODER  &= ~(GPIO_MODER_MODER0 << (pinpos * 2));
+00203       GPIOx->MODER |= (((uint32\_t)GPIO\_InitStruct->GPIO_Mode) << (pinpos * 2));
+00204 
+00205       \textcolor{keywordflow}{if} ((GPIO\_InitStruct->GPIO_Mode == GPIO_Mode_OUT) || (GPIO\_InitStruct->
+      GPIO_Mode == GPIO_Mode_AF))
+00206       \{
+00207         \textcolor{comment}{/* Check Speed mode parameters */}
+00208         assert_param(IS_GPIO_SPEED(GPIO\_InitStruct->GPIO_Speed));
+00209 
+00210         \textcolor{comment}{/* Speed mode configuration */}
+00211         GPIOx->OSPEEDR &= ~(GPIO_OSPEEDER_OSPEEDR0 << (pinpos * 2));
+00212         GPIOx->OSPEEDR |= ((uint32\_t)(GPIO\_InitStruct->GPIO_Speed) << (pinpos * 2));
+00213 
+00214         \textcolor{comment}{/* Check Output mode parameters */}
+00215         assert_param(IS_GPIO_OTYPE(GPIO\_InitStruct->GPIO_OType));
+00216 
+00217         \textcolor{comment}{/* Output mode configuration*/}
+00218         GPIOx->OTYPER  &= ~((GPIO_OTYPER_OT_0) << ((uint16\_t)pinpos)) ;
+00219         GPIOx->OTYPER |= (uint16\_t)(((uint16\_t)GPIO\_InitStruct->GPIO_OType) << ((uint16\_t)pinpos));
+00220       \}
+00221 
+00222       \textcolor{comment}{/* Pull-up Pull down resistor configuration*/}
+00223       GPIOx->PUPDR &= ~(GPIO_PUPDR_PUPDR0 << ((uint16\_t)pinpos * 2));
+00224       GPIOx->PUPDR |= (((uint32\_t)GPIO\_InitStruct->GPIO_PuPd) << (pinpos * 2));
+00225     \}
+00226   \}
+00227 \}
+\end{DoxyCode}
+\mbox{\label{group__GPIO__Group1_gad2f2e615928c69fd0d8c641a7cedaafc}} 
+\index{Initialization and Configuration@{Initialization and Configuration}!G\+P\+I\+O\+\_\+\+Pin\+Lock\+Config@{G\+P\+I\+O\+\_\+\+Pin\+Lock\+Config}}
+\index{G\+P\+I\+O\+\_\+\+Pin\+Lock\+Config@{G\+P\+I\+O\+\_\+\+Pin\+Lock\+Config}!Initialization and Configuration@{Initialization and Configuration}}
+\subsubsection{G\+P\+I\+O\+\_\+\+Pin\+Lock\+Config()}
+{\footnotesize\ttfamily void G\+P\+I\+O\+\_\+\+Pin\+Lock\+Config (\begin{DoxyParamCaption}\item[{\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$}]{G\+P\+I\+Ox,  }\item[{uint16\+\_\+t}]{G\+P\+I\+O\+\_\+\+Pin }\end{DoxyParamCaption})}
+
+
+
+Locks G\+P\+IO Pins configuration registers. 
+
+\begin{DoxyNote}{Note}
+The locked registers are G\+P\+I\+Ox\+\_\+\+M\+O\+D\+ER, G\+P\+I\+Ox\+\_\+\+O\+T\+Y\+P\+ER, G\+P\+I\+Ox\+\_\+\+O\+S\+P\+E\+E\+DR, G\+P\+I\+Ox\+\_\+\+P\+U\+P\+DR, G\+P\+I\+Ox\+\_\+\+A\+F\+RL and G\+P\+I\+Ox\+\_\+\+A\+F\+RH. 
+
+The configuration of the locked G\+P\+IO pins can no longer be modified until the next reset. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em G\+P\+I\+Ox} & where x can be (A..I) to select the G\+P\+IO peripheral. \\
+\hline
+{\em G\+P\+I\+O\+\_\+\+Pin} & specifies the port bit to be locked. This parameter can be any combination of G\+P\+I\+O\+\_\+\+Pin\+\_\+x where x can be (0..15). \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 255} of file \textbf{ stm32f4xx\+\_\+gpio.\+c}.
+
+
+\begin{DoxyCode}
+00256 \{
+00257   \_\_IO uint32\_t tmp = 0x00010000;
+00258 
+00259   \textcolor{comment}{/* Check the parameters */}
+00260   assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
+00261   assert_param(IS_GPIO_PIN(GPIO\_Pin));
+00262 
+00263   tmp |= GPIO\_Pin;
+00264   \textcolor{comment}{/* Set LCKK bit */}
+00265   GPIOx->LCKR = tmp;
+00266   \textcolor{comment}{/* Reset LCKK bit */}
+00267   GPIOx->LCKR =  GPIO\_Pin;
+00268   \textcolor{comment}{/* Set LCKK bit */}
+00269   GPIOx->LCKR = tmp;
+00270   \textcolor{comment}{/* Read LCKK bit*/}
+00271   tmp = GPIOx->LCKR;
+00272   \textcolor{comment}{/* Read LCKK bit*/}
+00273   tmp = GPIOx->LCKR;
+00274 \}
+\end{DoxyCode}
+\mbox{\label{group__GPIO__Group1_gab28de41278e7f8c63d0851e2733b10df}} 
+\index{Initialization and Configuration@{Initialization and Configuration}!G\+P\+I\+O\+\_\+\+Struct\+Init@{G\+P\+I\+O\+\_\+\+Struct\+Init}}
+\index{G\+P\+I\+O\+\_\+\+Struct\+Init@{G\+P\+I\+O\+\_\+\+Struct\+Init}!Initialization and Configuration@{Initialization and Configuration}}
+\subsubsection{G\+P\+I\+O\+\_\+\+Struct\+Init()}
+{\footnotesize\ttfamily void G\+P\+I\+O\+\_\+\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def} $\ast$}]{G\+P\+I\+O\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each G\+P\+I\+O\+\_\+\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em G\+P\+I\+O\+\_\+\+Init\+Struct} & \+: pointer to a \doxyref{G\+P\+I\+O\+\_\+\+Init\+Type\+Def}{p.}{structGPIO__InitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 234} of file \textbf{ stm32f4xx\+\_\+gpio.\+c}.
+
+
+
+References \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Mode}, \textbf{ G\+P\+I\+O\+\_\+\+Mode\+\_\+\+IN}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+O\+Type}, \textbf{ G\+P\+I\+O\+\_\+\+O\+Type\+\_\+\+PP}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Pin}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Pu\+Pd}, \textbf{ G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+N\+O\+P\+U\+LL}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Speed}, and \textbf{ G\+P\+I\+O\+\_\+\+Speed\+\_\+2\+M\+Hz}.
+
+
+\begin{DoxyCode}
+00235 \{
+00236   \textcolor{comment}{/* Reset GPIO init structure parameters values */}
+00237   GPIO\_InitStruct->GPIO_Pin  = GPIO_Pin_All;
+00238   GPIO\_InitStruct->GPIO_Mode = GPIO_Mode_IN;
+00239   GPIO\_InitStruct->GPIO_Speed = GPIO_Speed_2MHz;
+00240   GPIO\_InitStruct->GPIO_OType = GPIO_OType_PP;
+00241   GPIO\_InitStruct->GPIO_PuPd = GPIO_PuPd_NOPULL;
+00242 \}
+\end{DoxyCode}

@@ -1,0 +1,571 @@
+\section{Regular Channels Configuration functions}
+\label{group__ADC__Group4}\index{Regular Channels Configuration functions@{Regular Channels Configuration functions}}
+
+
+Regular Channels Configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ A\+D\+C\+\_\+\+Regular\+Channel\+Config} (\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$A\+D\+Cx, uint8\+\_\+t A\+D\+C\+\_\+\+Channel, uint8\+\_\+t Rank, uint8\+\_\+t A\+D\+C\+\_\+\+Sample\+Time)
+\begin{DoxyCompactList}\small\item\em Configures for the selected A\+DC regular channel its corresponding rank in the sequencer and its sample time. \end{DoxyCompactList}\item 
+void \textbf{ A\+D\+C\+\_\+\+Software\+Start\+Conv} (\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$A\+D\+Cx)
+\begin{DoxyCompactList}\small\item\em Enables the selected A\+DC software start conversion of the regular channels. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ A\+D\+C\+\_\+\+Get\+Software\+Start\+Conv\+Status} (\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$A\+D\+Cx)
+\begin{DoxyCompactList}\small\item\em Gets the selected A\+DC Software start regular conversion Status. \end{DoxyCompactList}\item 
+void \textbf{ A\+D\+C\+\_\+\+E\+O\+C\+On\+Each\+Regular\+Channel\+Cmd} (\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$A\+D\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the E\+OC on each regular channel conversion. \end{DoxyCompactList}\item 
+void \textbf{ A\+D\+C\+\_\+\+Continuous\+Mode\+Cmd} (\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$A\+D\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the A\+DC continuous conversion mode. \end{DoxyCompactList}\item 
+void \textbf{ A\+D\+C\+\_\+\+Disc\+Mode\+Channel\+Count\+Config} (\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$A\+D\+Cx, uint8\+\_\+t Number)
+\begin{DoxyCompactList}\small\item\em Configures the discontinuous mode for the selected A\+DC regular group channel. \end{DoxyCompactList}\item 
+void \textbf{ A\+D\+C\+\_\+\+Disc\+Mode\+Cmd} (\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$A\+D\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the discontinuous mode on regular group channel for the specified A\+DC. \end{DoxyCompactList}\item 
+uint16\+\_\+t \textbf{ A\+D\+C\+\_\+\+Get\+Conversion\+Value} (\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$A\+D\+Cx)
+\begin{DoxyCompactList}\small\item\em Returns the last A\+D\+Cx conversion result data for regular channel. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ A\+D\+C\+\_\+\+Get\+Multi\+Mode\+Conversion\+Value} (void)
+\begin{DoxyCompactList}\small\item\em Returns the last A\+D\+C1, A\+D\+C2 and A\+D\+C3 regular conversions results data in the selected multi mode. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Regular Channels Configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                  Regular Channels Configuration functions
+ ===============================================================================  
+
+  This section provides functions allowing to manage the ADC's regular channels,
+  it is composed of 2 sub sections : 
+  
+  1. Configuration and management functions for regular channels: This subsection 
+     provides functions allowing to configure the ADC regular channels :    
+          - Configure the rank in the regular group sequencer for each channel
+          - Configure the sampling time for each channel
+          - select the conversion Trigger for regular channels
+          - select the desired EOC event behavior configuration
+          - Activate the continuous Mode  (*)
+          - Activate the Discontinuous Mode 
+     Please Note that the following features for regular channels are configurated
+     using the ADC_Init() function : 
+          - scan mode activation 
+          - continuous mode activation (**) 
+          - External trigger source  
+          - External trigger edge 
+          - number of conversion in the regular channels group sequencer.
+     
+     @note (*) and (**) are performing the same configuration
+     
+  2. Get the conversion data: This subsection provides an important function in 
+     the ADC peripheral since it returns the converted data of the current 
+     regular channel. When the Conversion value is read, the EOC Flag is 
+     automatically cleared.
+     
+     @note For multi ADC mode, the last ADC1, ADC2 and ADC3 regular conversions 
+           results data (in the selected multi mode) can be returned in the same 
+           time using ADC_GetMultiModeConversionValue() function. \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__ADC__Group4_ga879d70e9345d35688590938503f961db}} 
+\index{Regular Channels Configuration functions@{Regular Channels Configuration functions}!A\+D\+C\+\_\+\+Continuous\+Mode\+Cmd@{A\+D\+C\+\_\+\+Continuous\+Mode\+Cmd}}
+\index{A\+D\+C\+\_\+\+Continuous\+Mode\+Cmd@{A\+D\+C\+\_\+\+Continuous\+Mode\+Cmd}!Regular Channels Configuration functions@{Regular Channels Configuration functions}}
+\subsubsection{A\+D\+C\+\_\+\+Continuous\+Mode\+Cmd()}
+{\footnotesize\ttfamily void A\+D\+C\+\_\+\+Continuous\+Mode\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$}]{A\+D\+Cx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the A\+DC continuous conversion mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+Cx} & where x can be 1, 2 or 3 to select the A\+DC peripheral. \\
+\hline
+{\em New\+State} & new state of the selected A\+DC continuous conversion mode This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 897} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00898 \{
+00899   \textcolor{comment}{/* Check the parameters */}
+00900   assert_param(IS_ADC_ALL_PERIPH(ADCx));
+00901   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00902   
+00903   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00904   \{
+00905     \textcolor{comment}{/* Enable the selected ADC continuous conversion mode */}
+00906     ADCx->CR2 |= (uint32\_t)ADC_CR2_CONT;
+00907   \}
+00908   \textcolor{keywordflow}{else}
+00909   \{
+00910     \textcolor{comment}{/* Disable the selected ADC continuous conversion mode */}
+00911     ADCx->CR2 &= (uint32\_t)(~ADC_CR2_CONT);
+00912   \}
+00913 \}
+\end{DoxyCode}
+\mbox{\label{group__ADC__Group4_ga6eb241ba82d67d1371136c9132083937}} 
+\index{Regular Channels Configuration functions@{Regular Channels Configuration functions}!A\+D\+C\+\_\+\+Disc\+Mode\+Channel\+Count\+Config@{A\+D\+C\+\_\+\+Disc\+Mode\+Channel\+Count\+Config}}
+\index{A\+D\+C\+\_\+\+Disc\+Mode\+Channel\+Count\+Config@{A\+D\+C\+\_\+\+Disc\+Mode\+Channel\+Count\+Config}!Regular Channels Configuration functions@{Regular Channels Configuration functions}}
+\subsubsection{A\+D\+C\+\_\+\+Disc\+Mode\+Channel\+Count\+Config()}
+{\footnotesize\ttfamily void A\+D\+C\+\_\+\+Disc\+Mode\+Channel\+Count\+Config (\begin{DoxyParamCaption}\item[{\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$}]{A\+D\+Cx,  }\item[{uint8\+\_\+t}]{Number }\end{DoxyParamCaption})}
+
+
+
+Configures the discontinuous mode for the selected A\+DC regular group channel. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+Cx} & where x can be 1, 2 or 3 to select the A\+DC peripheral. \\
+\hline
+{\em Number} & specifies the discontinuous mode regular channel count value. This number must be between 1 and 8. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 923} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+\begin{DoxyCode}
+00924 \{
+00925   uint32\_t tmpreg1 = 0;
+00926   uint32\_t tmpreg2 = 0;
+00927   
+00928   \textcolor{comment}{/* Check the parameters */}
+00929   assert_param(IS_ADC_ALL_PERIPH(ADCx));
+00930   assert_param(IS_ADC_REGULAR_DISC_NUMBER(Number));
+00931   
+00932   \textcolor{comment}{/* Get the old register value */}
+00933   tmpreg1 = ADCx->CR1;
+00934   
+00935   \textcolor{comment}{/* Clear the old discontinuous mode channel count */}
+00936   tmpreg1 &= CR1_DISCNUM_RESET;
+00937   
+00938   \textcolor{comment}{/* Set the discontinuous mode channel count */}
+00939   tmpreg2 = Number - 1;
+00940   tmpreg1 |= tmpreg2 << 13;
+00941   
+00942   \textcolor{comment}{/* Store the new register value */}
+00943   ADCx->CR1 = tmpreg1;
+00944 \}
+\end{DoxyCode}
+\mbox{\label{group__ADC__Group4_ga1909649d10253ce88d986ffbb94a4be6}} 
+\index{Regular Channels Configuration functions@{Regular Channels Configuration functions}!A\+D\+C\+\_\+\+Disc\+Mode\+Cmd@{A\+D\+C\+\_\+\+Disc\+Mode\+Cmd}}
+\index{A\+D\+C\+\_\+\+Disc\+Mode\+Cmd@{A\+D\+C\+\_\+\+Disc\+Mode\+Cmd}!Regular Channels Configuration functions@{Regular Channels Configuration functions}}
+\subsubsection{A\+D\+C\+\_\+\+Disc\+Mode\+Cmd()}
+{\footnotesize\ttfamily void A\+D\+C\+\_\+\+Disc\+Mode\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$}]{A\+D\+Cx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the discontinuous mode on regular group channel for the specified A\+DC. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+Cx} & where x can be 1, 2 or 3 to select the A\+DC peripheral. \\
+\hline
+{\em New\+State} & new state of the selected A\+DC discontinuous mode on regular group channel. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 955} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00956 \{
+00957   \textcolor{comment}{/* Check the parameters */}
+00958   assert_param(IS_ADC_ALL_PERIPH(ADCx));
+00959   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00960   
+00961   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00962   \{
+00963     \textcolor{comment}{/* Enable the selected ADC regular discontinuous mode */}
+00964     ADCx->CR1 |= (uint32\_t)ADC_CR1_DISCEN;
+00965   \}
+00966   \textcolor{keywordflow}{else}
+00967   \{
+00968     \textcolor{comment}{/* Disable the selected ADC regular discontinuous mode */}
+00969     ADCx->CR1 &= (uint32\_t)(~ADC_CR1_DISCEN);
+00970   \}
+00971 \}
+\end{DoxyCode}
+\mbox{\label{group__ADC__Group4_ga5316caaa170415ef171c486d8f0bf22d}} 
+\index{Regular Channels Configuration functions@{Regular Channels Configuration functions}!A\+D\+C\+\_\+\+E\+O\+C\+On\+Each\+Regular\+Channel\+Cmd@{A\+D\+C\+\_\+\+E\+O\+C\+On\+Each\+Regular\+Channel\+Cmd}}
+\index{A\+D\+C\+\_\+\+E\+O\+C\+On\+Each\+Regular\+Channel\+Cmd@{A\+D\+C\+\_\+\+E\+O\+C\+On\+Each\+Regular\+Channel\+Cmd}!Regular Channels Configuration functions@{Regular Channels Configuration functions}}
+\subsubsection{A\+D\+C\+\_\+\+E\+O\+C\+On\+Each\+Regular\+Channel\+Cmd()}
+{\footnotesize\ttfamily void A\+D\+C\+\_\+\+E\+O\+C\+On\+Each\+Regular\+Channel\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$}]{A\+D\+Cx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the E\+OC on each regular channel conversion. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+Cx} & where x can be 1, 2 or 3 to select the A\+DC peripheral. \\
+\hline
+{\em New\+State} & new state of the selected A\+DC E\+OC flag rising This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 872} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00873 \{
+00874   \textcolor{comment}{/* Check the parameters */}
+00875   assert_param(IS_ADC_ALL_PERIPH(ADCx));
+00876   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00877   
+00878   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00879   \{
+00880     \textcolor{comment}{/* Enable the selected ADC EOC rising on each regular channel conversion */}
+00881     ADCx->CR2 |= (uint32\_t)ADC_CR2_EOCS;
+00882   \}
+00883   \textcolor{keywordflow}{else}
+00884   \{
+00885     \textcolor{comment}{/* Disable the selected ADC EOC rising on each regular channel conversion */}
+00886     ADCx->CR2 &= (uint32\_t)(~ADC_CR2_EOCS);
+00887   \}
+00888 \}
+\end{DoxyCode}
+\mbox{\label{group__ADC__Group4_gaaf74221c285ec5dab5e66baf7bec6bd3}} 
+\index{Regular Channels Configuration functions@{Regular Channels Configuration functions}!A\+D\+C\+\_\+\+Get\+Conversion\+Value@{A\+D\+C\+\_\+\+Get\+Conversion\+Value}}
+\index{A\+D\+C\+\_\+\+Get\+Conversion\+Value@{A\+D\+C\+\_\+\+Get\+Conversion\+Value}!Regular Channels Configuration functions@{Regular Channels Configuration functions}}
+\subsubsection{A\+D\+C\+\_\+\+Get\+Conversion\+Value()}
+{\footnotesize\ttfamily uint16\+\_\+t A\+D\+C\+\_\+\+Get\+Conversion\+Value (\begin{DoxyParamCaption}\item[{\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$}]{A\+D\+Cx }\end{DoxyParamCaption})}
+
+
+
+Returns the last A\+D\+Cx conversion result data for regular channel. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+Cx} & where x can be 1, 2 or 3 to select the A\+DC peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & Data conversion value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 978} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+\begin{DoxyCode}
+00979 \{
+00980   \textcolor{comment}{/* Check the parameters */}
+00981   assert_param(IS_ADC_ALL_PERIPH(ADCx));
+00982   
+00983   \textcolor{comment}{/* Return the selected ADC conversion value */}
+00984   \textcolor{keywordflow}{return} (uint16\_t) ADCx->DR;
+00985 \}
+\end{DoxyCode}
+\mbox{\label{group__ADC__Group4_ga989f4365b56be99999b8ec096aba2081}} 
+\index{Regular Channels Configuration functions@{Regular Channels Configuration functions}!A\+D\+C\+\_\+\+Get\+Multi\+Mode\+Conversion\+Value@{A\+D\+C\+\_\+\+Get\+Multi\+Mode\+Conversion\+Value}}
+\index{A\+D\+C\+\_\+\+Get\+Multi\+Mode\+Conversion\+Value@{A\+D\+C\+\_\+\+Get\+Multi\+Mode\+Conversion\+Value}!Regular Channels Configuration functions@{Regular Channels Configuration functions}}
+\subsubsection{A\+D\+C\+\_\+\+Get\+Multi\+Mode\+Conversion\+Value()}
+{\footnotesize\ttfamily uint32\+\_\+t A\+D\+C\+\_\+\+Get\+Multi\+Mode\+Conversion\+Value (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns the last A\+D\+C1, A\+D\+C2 and A\+D\+C3 regular conversions results data in the selected multi mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & Data conversion value. \\
+\hline
+\end{DoxyRetVals}
+\begin{DoxyNote}{Note}
+In dual mode, the value returned by this function is as following Data[15\+:0] \+: these bits contain the regular data of A\+D\+C1. Data[31\+:16]\+: these bits contain the regular data of A\+D\+C2. 
+
+In triple mode, the value returned by this function is as following Data[15\+:0] \+: these bits contain alternatively the regular data of A\+D\+C1, A\+D\+C3 and A\+D\+C2. Data[31\+:16]\+: these bits contain alternatively the regular data of A\+D\+C2, A\+D\+C1 and A\+D\+C3. 
+\end{DoxyNote}
+
+
+Definition at line \textbf{ 999} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+\begin{DoxyCode}
+01000 \{
+01001   \textcolor{comment}{/* Return the multi mode conversion value */}
+01002   \textcolor{keywordflow}{return} (*(\_\_IO uint32\_t *) CDR_ADDRESS);
+01003 \}
+\end{DoxyCode}
+\mbox{\label{group__ADC__Group4_gaf1119583782ecbcec380efcb7eb74883}} 
+\index{Regular Channels Configuration functions@{Regular Channels Configuration functions}!A\+D\+C\+\_\+\+Get\+Software\+Start\+Conv\+Status@{A\+D\+C\+\_\+\+Get\+Software\+Start\+Conv\+Status}}
+\index{A\+D\+C\+\_\+\+Get\+Software\+Start\+Conv\+Status@{A\+D\+C\+\_\+\+Get\+Software\+Start\+Conv\+Status}!Regular Channels Configuration functions@{Regular Channels Configuration functions}}
+\subsubsection{A\+D\+C\+\_\+\+Get\+Software\+Start\+Conv\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} A\+D\+C\+\_\+\+Get\+Software\+Start\+Conv\+Status (\begin{DoxyParamCaption}\item[{\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$}]{A\+D\+Cx }\end{DoxyParamCaption})}
+
+
+
+Gets the selected A\+DC Software start regular conversion Status. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+Cx} & where x can be 1, 2 or 3 to select the A\+DC peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of A\+DC software start conversion (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 842} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00843 \{
+00844   FlagStatus bitstatus = RESET;
+00845   \textcolor{comment}{/* Check the parameters */}
+00846   assert_param(IS_ADC_ALL_PERIPH(ADCx));
+00847   
+00848   \textcolor{comment}{/* Check the status of SWSTART bit */}
+00849   \textcolor{keywordflow}{if} ((ADCx->CR2 & ADC_CR2_JSWSTART) != (uint32\_t)RESET)
+00850   \{
+00851     \textcolor{comment}{/* SWSTART bit is set */}
+00852     bitstatus = SET;
+00853   \}
+00854   \textcolor{keywordflow}{else}
+00855   \{
+00856     \textcolor{comment}{/* SWSTART bit is reset */}
+00857     bitstatus = RESET;
+00858   \}
+00859   
+00860   \textcolor{comment}{/* Return the SWSTART bit status */}
+00861   \textcolor{keywordflow}{return}  bitstatus;
+00862 \}
+\end{DoxyCode}
+\mbox{\label{group__ADC__Group4_gac531adb577b648d4bb8881f2ed627d52}} 
+\index{Regular Channels Configuration functions@{Regular Channels Configuration functions}!A\+D\+C\+\_\+\+Regular\+Channel\+Config@{A\+D\+C\+\_\+\+Regular\+Channel\+Config}}
+\index{A\+D\+C\+\_\+\+Regular\+Channel\+Config@{A\+D\+C\+\_\+\+Regular\+Channel\+Config}!Regular Channels Configuration functions@{Regular Channels Configuration functions}}
+\subsubsection{A\+D\+C\+\_\+\+Regular\+Channel\+Config()}
+{\footnotesize\ttfamily void A\+D\+C\+\_\+\+Regular\+Channel\+Config (\begin{DoxyParamCaption}\item[{\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$}]{A\+D\+Cx,  }\item[{uint8\+\_\+t}]{A\+D\+C\+\_\+\+Channel,  }\item[{uint8\+\_\+t}]{Rank,  }\item[{uint8\+\_\+t}]{A\+D\+C\+\_\+\+Sample\+Time }\end{DoxyParamCaption})}
+
+
+
+Configures for the selected A\+DC regular channel its corresponding rank in the sequencer and its sample time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+Cx} & where x can be 1, 2 or 3 to select the A\+DC peripheral. \\
+\hline
+{\em A\+D\+C\+\_\+\+Channel} & the A\+DC channel to configure. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item A\+D\+C\+\_\+\+Channel\+\_\+0\+: A\+DC Channel0 selected \item A\+D\+C\+\_\+\+Channel\+\_\+1\+: A\+DC Channel1 selected \item A\+D\+C\+\_\+\+Channel\+\_\+2\+: A\+DC Channel2 selected \item A\+D\+C\+\_\+\+Channel\+\_\+3\+: A\+DC Channel3 selected \item A\+D\+C\+\_\+\+Channel\+\_\+4\+: A\+DC Channel4 selected \item A\+D\+C\+\_\+\+Channel\+\_\+5\+: A\+DC Channel5 selected \item A\+D\+C\+\_\+\+Channel\+\_\+6\+: A\+DC Channel6 selected \item A\+D\+C\+\_\+\+Channel\+\_\+7\+: A\+DC Channel7 selected \item A\+D\+C\+\_\+\+Channel\+\_\+8\+: A\+DC Channel8 selected \item A\+D\+C\+\_\+\+Channel\+\_\+9\+: A\+DC Channel9 selected \item A\+D\+C\+\_\+\+Channel\+\_\+10\+: A\+DC Channel10 selected \item A\+D\+C\+\_\+\+Channel\+\_\+11\+: A\+DC Channel11 selected \item A\+D\+C\+\_\+\+Channel\+\_\+12\+: A\+DC Channel12 selected \item A\+D\+C\+\_\+\+Channel\+\_\+13\+: A\+DC Channel13 selected \item A\+D\+C\+\_\+\+Channel\+\_\+14\+: A\+DC Channel14 selected \item A\+D\+C\+\_\+\+Channel\+\_\+15\+: A\+DC Channel15 selected \item A\+D\+C\+\_\+\+Channel\+\_\+16\+: A\+DC Channel16 selected \item A\+D\+C\+\_\+\+Channel\+\_\+17\+: A\+DC Channel17 selected \item A\+D\+C\+\_\+\+Channel\+\_\+18\+: A\+DC Channel18 selected \end{DoxyItemize}
+\\
+\hline
+{\em Rank} & The rank in the regular group sequencer. This parameter must be between 1 to 16. \\
+\hline
+{\em A\+D\+C\+\_\+\+Sample\+Time} & The sample time value to be set for the selected channel. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item A\+D\+C\+\_\+\+Sample\+Time\+\_\+3\+Cycles\+: Sample time equal to 3 cycles \item A\+D\+C\+\_\+\+Sample\+Time\+\_\+15\+Cycles\+: Sample time equal to 15 cycles \item A\+D\+C\+\_\+\+Sample\+Time\+\_\+28\+Cycles\+: Sample time equal to 28 cycles \item A\+D\+C\+\_\+\+Sample\+Time\+\_\+56\+Cycles\+: Sample time equal to 56 cycles \item A\+D\+C\+\_\+\+Sample\+Time\+\_\+84\+Cycles\+: Sample time equal to 84 cycles \item A\+D\+C\+\_\+\+Sample\+Time\+\_\+112\+Cycles\+: Sample time equal to 112 cycles \item A\+D\+C\+\_\+\+Sample\+Time\+\_\+144\+Cycles\+: Sample time equal to 144 cycles \item A\+D\+C\+\_\+\+Sample\+Time\+\_\+480\+Cycles\+: Sample time equal to 480 cycles \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 708} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+\begin{DoxyCode}
+00709 \{
+00710   uint32\_t tmpreg1 = 0, tmpreg2 = 0;
+00711   \textcolor{comment}{/* Check the parameters */}
+00712   assert_param(IS_ADC_ALL_PERIPH(ADCx));
+00713   assert_param(IS_ADC_CHANNEL(ADC\_Channel));
+00714   assert_param(IS_ADC_REGULAR_RANK(Rank));
+00715   assert_param(IS_ADC_SAMPLE_TIME(ADC\_SampleTime));
+00716   
+00717   \textcolor{comment}{/* if ADC\_Channel\_10 ... ADC\_Channel\_18 is selected */}
+00718   \textcolor{keywordflow}{if} (ADC\_Channel > ADC_Channel_9)
+00719   \{
+00720     \textcolor{comment}{/* Get the old register value */}
+00721     tmpreg1 = ADCx->SMPR1;
+00722     
+00723     \textcolor{comment}{/* Calculate the mask to clear */}
+00724     tmpreg2 = SMPR1_SMP_SET << (3 * (ADC\_Channel - 10));
+00725     
+00726     \textcolor{comment}{/* Clear the old sample time */}
+00727     tmpreg1 &= ~tmpreg2;
+00728     
+00729     \textcolor{comment}{/* Calculate the mask to set */}
+00730     tmpreg2 = (uint32\_t)ADC\_SampleTime << (3 * (ADC\_Channel - 10));
+00731     
+00732     \textcolor{comment}{/* Set the new sample time */}
+00733     tmpreg1 |= tmpreg2;
+00734     
+00735     \textcolor{comment}{/* Store the new register value */}
+00736     ADCx->SMPR1 = tmpreg1;
+00737   \}
+00738   \textcolor{keywordflow}{else} \textcolor{comment}{/* ADC\_Channel include in ADC\_Channel\_[0..9] */}
+00739   \{
+00740     \textcolor{comment}{/* Get the old register value */}
+00741     tmpreg1 = ADCx->SMPR2;
+00742     
+00743     \textcolor{comment}{/* Calculate the mask to clear */}
+00744     tmpreg2 = SMPR2_SMP_SET << (3 * ADC\_Channel);
+00745     
+00746     \textcolor{comment}{/* Clear the old sample time */}
+00747     tmpreg1 &= ~tmpreg2;
+00748     
+00749     \textcolor{comment}{/* Calculate the mask to set */}
+00750     tmpreg2 = (uint32\_t)ADC\_SampleTime << (3 * ADC\_Channel);
+00751     
+00752     \textcolor{comment}{/* Set the new sample time */}
+00753     tmpreg1 |= tmpreg2;
+00754     
+00755     \textcolor{comment}{/* Store the new register value */}
+00756     ADCx->SMPR2 = tmpreg1;
+00757   \}
+00758   \textcolor{comment}{/* For Rank 1 to 6 */}
+00759   \textcolor{keywordflow}{if} (Rank < 7)
+00760   \{
+00761     \textcolor{comment}{/* Get the old register value */}
+00762     tmpreg1 = ADCx->SQR3;
+00763     
+00764     \textcolor{comment}{/* Calculate the mask to clear */}
+00765     tmpreg2 = SQR3_SQ_SET << (5 * (Rank - 1));
+00766     
+00767     \textcolor{comment}{/* Clear the old SQx bits for the selected rank */}
+00768     tmpreg1 &= ~tmpreg2;
+00769     
+00770     \textcolor{comment}{/* Calculate the mask to set */}
+00771     tmpreg2 = (uint32\_t)ADC\_Channel << (5 * (Rank - 1));
+00772     
+00773     \textcolor{comment}{/* Set the SQx bits for the selected rank */}
+00774     tmpreg1 |= tmpreg2;
+00775     
+00776     \textcolor{comment}{/* Store the new register value */}
+00777     ADCx->SQR3 = tmpreg1;
+00778   \}
+00779   \textcolor{comment}{/* For Rank 7 to 12 */}
+00780   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (Rank < 13)
+00781   \{
+00782     \textcolor{comment}{/* Get the old register value */}
+00783     tmpreg1 = ADCx->SQR2;
+00784     
+00785     \textcolor{comment}{/* Calculate the mask to clear */}
+00786     tmpreg2 = SQR2_SQ_SET << (5 * (Rank - 7));
+00787     
+00788     \textcolor{comment}{/* Clear the old SQx bits for the selected rank */}
+00789     tmpreg1 &= ~tmpreg2;
+00790     
+00791     \textcolor{comment}{/* Calculate the mask to set */}
+00792     tmpreg2 = (uint32\_t)ADC\_Channel << (5 * (Rank - 7));
+00793     
+00794     \textcolor{comment}{/* Set the SQx bits for the selected rank */}
+00795     tmpreg1 |= tmpreg2;
+00796     
+00797     \textcolor{comment}{/* Store the new register value */}
+00798     ADCx->SQR2 = tmpreg1;
+00799   \}
+00800   \textcolor{comment}{/* For Rank 13 to 16 */}
+00801   \textcolor{keywordflow}{else}
+00802   \{
+00803     \textcolor{comment}{/* Get the old register value */}
+00804     tmpreg1 = ADCx->SQR1;
+00805     
+00806     \textcolor{comment}{/* Calculate the mask to clear */}
+00807     tmpreg2 = SQR1_SQ_SET << (5 * (Rank - 13));
+00808     
+00809     \textcolor{comment}{/* Clear the old SQx bits for the selected rank */}
+00810     tmpreg1 &= ~tmpreg2;
+00811     
+00812     \textcolor{comment}{/* Calculate the mask to set */}
+00813     tmpreg2 = (uint32\_t)ADC\_Channel << (5 * (Rank - 13));
+00814     
+00815     \textcolor{comment}{/* Set the SQx bits for the selected rank */}
+00816     tmpreg1 |= tmpreg2;
+00817     
+00818     \textcolor{comment}{/* Store the new register value */}
+00819     ADCx->SQR1 = tmpreg1;
+00820   \}
+00821 \}
+\end{DoxyCode}
+\mbox{\label{group__ADC__Group4_gac1cd466e725595812c1bbfdad2459ff1}} 
+\index{Regular Channels Configuration functions@{Regular Channels Configuration functions}!A\+D\+C\+\_\+\+Software\+Start\+Conv@{A\+D\+C\+\_\+\+Software\+Start\+Conv}}
+\index{A\+D\+C\+\_\+\+Software\+Start\+Conv@{A\+D\+C\+\_\+\+Software\+Start\+Conv}!Regular Channels Configuration functions@{Regular Channels Configuration functions}}
+\subsubsection{A\+D\+C\+\_\+\+Software\+Start\+Conv()}
+{\footnotesize\ttfamily void A\+D\+C\+\_\+\+Software\+Start\+Conv (\begin{DoxyParamCaption}\item[{\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$}]{A\+D\+Cx }\end{DoxyParamCaption})}
+
+
+
+Enables the selected A\+DC software start conversion of the regular channels. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+Cx} & where x can be 1, 2 or 3 to select the A\+DC peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 828} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+\begin{DoxyCode}
+00829 \{
+00830   \textcolor{comment}{/* Check the parameters */}
+00831   assert_param(IS_ADC_ALL_PERIPH(ADCx));
+00832   
+00833   \textcolor{comment}{/* Enable the selected ADC conversion for regular group */}
+00834   ADCx->CR2 |= (uint32\_t)ADC_CR2_SWSTART;
+00835 \}
+\end{DoxyCode}

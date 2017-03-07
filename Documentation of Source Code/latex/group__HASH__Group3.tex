@@ -1,0 +1,125 @@
+\section{Context swapping functions}
+\label{group__HASH__Group3}\index{Context swapping functions@{Context swapping functions}}
+
+
+Context swapping functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+Save\+Context} (\textbf{ H\+A\+S\+H\+\_\+\+Context} $\ast$H\+A\+S\+H\+\_\+\+Context\+Save)
+\begin{DoxyCompactList}\small\item\em Save the Hash peripheral Context. \end{DoxyCompactList}\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+Restore\+Context} (\textbf{ H\+A\+S\+H\+\_\+\+Context} $\ast$H\+A\+S\+H\+\_\+\+Context\+Restore)
+\begin{DoxyCompactList}\small\item\em Restore the Hash peripheral Context. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Context swapping functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                             Context swapping functions
+ ===============================================================================  
+
+  This section provides functions allowing to save and store HASH Context
+  
+  It is possible to interrupt a HASH/HMAC process to perform another processing 
+  with a higher priority, and to complete the interrupted process later on, when 
+  the higher priority task is complete. To do so, the context of the interrupted 
+  task must be saved from the HASH registers to memory, and then be restored 
+  from memory to the HASH registers.
+  
+  1. To save the current context, use HASH_SaveContext() function
+  2. To restore the saved context, use HASH_RestoreContext() function \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__HASH__Group3_ga1d8412a13601376c968aec63212ca54e}} 
+\index{Context swapping functions@{Context swapping functions}!H\+A\+S\+H\+\_\+\+Restore\+Context@{H\+A\+S\+H\+\_\+\+Restore\+Context}}
+\index{H\+A\+S\+H\+\_\+\+Restore\+Context@{H\+A\+S\+H\+\_\+\+Restore\+Context}!Context swapping functions@{Context swapping functions}}
+\subsubsection{H\+A\+S\+H\+\_\+\+Restore\+Context()}
+{\footnotesize\ttfamily void H\+A\+S\+H\+\_\+\+Restore\+Context (\begin{DoxyParamCaption}\item[{\textbf{ H\+A\+S\+H\+\_\+\+Context} $\ast$}]{H\+A\+S\+H\+\_\+\+Context\+Restore }\end{DoxyParamCaption})}
+
+
+
+Restore the Hash peripheral Context. 
+
+\begin{DoxyNote}{Note}
+After calling this function, user can restart the processing from the point where it has been interrupted. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em H\+A\+S\+H\+\_\+\+Context\+Restore} & pointer to a \doxyref{H\+A\+S\+H\+\_\+\+Context}{p.}{structHASH__Context} structure that contains the repository for saved context. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 411} of file \textbf{ stm32f4xx\+\_\+hash.\+c}.
+
+
+\begin{DoxyCode}
+00412 \{
+00413   uint8\_t i = 0;
+00414   
+00415   \textcolor{comment}{/* restore context registers */}
+00416   HASH->IMR = HASH\_ContextRestore->HASH_IMR;   
+00417   HASH->STR = HASH\_ContextRestore->HASH_STR;     
+00418   HASH->CR = HASH\_ContextRestore->HASH_CR;
+00419   
+00420   \textcolor{comment}{/* Initialize the hash processor */}
+00421   HASH->CR |= HASH_CR_INIT; 
+00422   
+00423    \textcolor{comment}{/* continue restoring context registers */}     
+00424   \textcolor{keywordflow}{for}(i=0; i<=50;i++)
+00425   \{
+00426      HASH->CSR[i] = HASH\_ContextRestore->HASH_CSR[i];
+00427   \}   
+00428 \}
+\end{DoxyCode}
+\mbox{\label{group__HASH__Group3_ga9432b2b66e223414c840e9313c388bc5}} 
+\index{Context swapping functions@{Context swapping functions}!H\+A\+S\+H\+\_\+\+Save\+Context@{H\+A\+S\+H\+\_\+\+Save\+Context}}
+\index{H\+A\+S\+H\+\_\+\+Save\+Context@{H\+A\+S\+H\+\_\+\+Save\+Context}!Context swapping functions@{Context swapping functions}}
+\subsubsection{H\+A\+S\+H\+\_\+\+Save\+Context()}
+{\footnotesize\ttfamily void H\+A\+S\+H\+\_\+\+Save\+Context (\begin{DoxyParamCaption}\item[{\textbf{ H\+A\+S\+H\+\_\+\+Context} $\ast$}]{H\+A\+S\+H\+\_\+\+Context\+Save }\end{DoxyParamCaption})}
+
+
+
+Save the Hash peripheral Context. 
+
+\begin{DoxyNote}{Note}
+The context can be saved only when no block is currently being processed. So user must wait for D\+I\+N\+IS = 1 (the last block has been processed and the input F\+I\+FO is empty) or N\+BW != 0 (the F\+I\+FO is not full and no processing is ongoing). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em H\+A\+S\+H\+\_\+\+Context\+Save} & pointer to a \doxyref{H\+A\+S\+H\+\_\+\+Context}{p.}{structHASH__Context} structure that contains the repository for current context. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 389} of file \textbf{ stm32f4xx\+\_\+hash.\+c}.
+
+
+\begin{DoxyCode}
+00390 \{
+00391   uint8\_t i = 0;
+00392   
+00393   \textcolor{comment}{/* save context registers */}
+00394   HASH\_ContextSave->HASH_IMR = HASH->IMR;  
+00395   HASH\_ContextSave->HASH_STR = HASH->STR;      
+00396   HASH\_ContextSave->HASH_CR  = HASH->CR;     
+00397   \textcolor{keywordflow}{for}(i=0; i<=50;i++)
+00398   \{
+00399      HASH\_ContextSave->HASH_CSR[i] = HASH->CSR[i];
+00400   \}   
+00401 \}
+\end{DoxyCode}

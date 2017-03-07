@@ -1,0 +1,61 @@
+\section{F\+L\+A\+SH Power Down configuration functions}
+\label{group__PWR__Group5}\index{F\+L\+A\+S\+H Power Down configuration functions@{F\+L\+A\+S\+H Power Down configuration functions}}
+
+
+F\+L\+A\+SH Power Down configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ P\+W\+R\+\_\+\+Flash\+Power\+Down\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Flash Power Down in S\+T\+OP mode. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+F\+L\+A\+SH Power Down configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+           FLASH Power Down configuration functions
+ ===============================================================================  
+
+ - By setting the FPDS bit in the PWR_CR register by using the PWR_FlashPowerDownCmd()
+   function, the Flash memory also enters power down mode when the device enters 
+   Stop mode. When the Flash memory is in power down mode, an additional startup 
+   delay is incurred when waking up from Stop mode.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__PWR__Group5_gaf0af19a9fdf0324f2ada60c9bce1aab5}} 
+\index{F\+L\+A\+S\+H Power Down configuration functions@{F\+L\+A\+S\+H Power Down configuration functions}!P\+W\+R\+\_\+\+Flash\+Power\+Down\+Cmd@{P\+W\+R\+\_\+\+Flash\+Power\+Down\+Cmd}}
+\index{P\+W\+R\+\_\+\+Flash\+Power\+Down\+Cmd@{P\+W\+R\+\_\+\+Flash\+Power\+Down\+Cmd}!F\+L\+A\+S\+H Power Down configuration functions@{F\+L\+A\+S\+H Power Down configuration functions}}
+\subsubsection{P\+W\+R\+\_\+\+Flash\+Power\+Down\+Cmd()}
+{\footnotesize\ttfamily void P\+W\+R\+\_\+\+Flash\+Power\+Down\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the Flash Power Down in S\+T\+OP mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the Flash power mode. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 360} of file \textbf{ stm32f4xx\+\_\+pwr.\+c}.
+
+
+\begin{DoxyCode}
+00361 \{
+00362   \textcolor{comment}{/* Check the parameters */}
+00363   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00364 
+00365   *(\_\_IO uint32\_t *) CR_FPDS_BB = (uint32\_t)NewState;
+00366 \}
+\end{DoxyCode}

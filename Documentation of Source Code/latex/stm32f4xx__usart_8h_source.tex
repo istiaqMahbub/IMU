@@ -1,0 +1,459 @@
+\section{stm32f4xx\+\_\+usart.\+h}
+\label{stm32f4xx__usart_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+usart.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+usart.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_usart.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the USART }
+00008 \textcolor{comment}{  *          firmware library.}
+00009 \textcolor{comment}{  ******************************************************************************}
+00010 \textcolor{comment}{  * @attention}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00013 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00014 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00015 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00016 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00017 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00020 \textcolor{comment}{  ******************************************************************************  }
+00021 \textcolor{comment}{  */}
+00022 
+00023 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_USART\_H}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_USART\_H}
+00026 
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00028  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00033 
+00034 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00035 \textcolor{comment}{  * @\{}
+00036 \textcolor{comment}{  */}
+00037 
+00038 \textcolor{comment}{/** @addtogroup USART}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00043 
+00044 \textcolor{comment}{/** }
+00045 \textcolor{comment}{  * @brief  USART Init Structure definition  }
+00046 \textcolor{comment}{  */}
+00047 
+00048 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00049 \{
+00050   uint32\_t USART_BaudRate;            \textcolor{comment}{/*!< This member configures the USART communication baud rate.}
+00051 \textcolor{comment}{                                           The baud rate is computed using the following formula:}
+00052 \textcolor{comment}{                                            - IntegerDivider = ((PCLKx) / (8 * (OVR8+1) *
+       (USART\_InitStruct->USART\_BaudRate)))}
+00053 \textcolor{comment}{                                            - FractionalDivider = ((IntegerDivider - ((u32)
+       IntegerDivider)) * 8 * (OVR8+1)) + 0.5 }
+00054 \textcolor{comment}{                                           Where OVR8 is the "oversampling by 8 mode" configuration
+       bit in the CR1 register. */}
+00055 
+00056   uint16\_t USART_WordLength;          \textcolor{comment}{/*!< Specifies the number of data bits transmitted or received
+       in a frame.}
+00057 \textcolor{comment}{                                           This parameter can be a value of @ref USART\_Word\_Length */}
+00058 
+00059   uint16\_t USART_StopBits;            \textcolor{comment}{/*!< Specifies the number of stop bits transmitted.}
+00060 \textcolor{comment}{                                           This parameter can be a value of @ref USART\_Stop\_Bits */}
+00061 
+00062   uint16\_t USART_Parity;              \textcolor{comment}{/*!< Specifies the parity mode.}
+00063 \textcolor{comment}{                                           This parameter can be a value of @ref USART\_Parity}
+00064 \textcolor{comment}{                                           @note When parity is enabled, the computed parity is
+       inserted}
+00065 \textcolor{comment}{                                                 at the MSB position of the transmitted data (9th bit
+       when}
+00066 \textcolor{comment}{                                                 the word length is set to 9 data bits; 8th bit when
+       the}
+00067 \textcolor{comment}{                                                 word length is set to 8 data bits). */}
+00068 
+00069   uint16\_t USART_Mode;                \textcolor{comment}{/*!< Specifies wether the Receive or Transmit mode is enabled or
+       disabled.}
+00070 \textcolor{comment}{                                           This parameter can be a value of @ref USART\_Mode */}
+00071 
+00072   uint16\_t USART_HardwareFlowControl; \textcolor{comment}{/*!< Specifies wether the hardware flow control mode is enabled}
+00073 \textcolor{comment}{                                           or disabled.}
+00074 \textcolor{comment}{                                           This parameter can be a value of @ref
+       USART\_Hardware\_Flow\_Control */}
+00075 \} USART\_InitTypeDef;
+00076 
+00077 \textcolor{comment}{/** }
+00078 \textcolor{comment}{  * @brief  USART Clock Init Structure definition  }
+00079 \textcolor{comment}{  */}
+00080 
+00081 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00082 \{
+00083 
+00084   uint16\_t USART_Clock;   \textcolor{comment}{/*!< Specifies whether the USART clock is enabled or disabled.}
+00085 \textcolor{comment}{                               This parameter can be a value of @ref USART\_Clock */}
+00086 
+00087   uint16\_t USART_CPOL;    \textcolor{comment}{/*!< Specifies the steady state of the serial clock.}
+00088 \textcolor{comment}{                               This parameter can be a value of @ref USART\_Clock\_Polarity */}
+00089 
+00090   uint16\_t USART_CPHA;    \textcolor{comment}{/*!< Specifies the clock transition on which the bit capture is made.}
+00091 \textcolor{comment}{                               This parameter can be a value of @ref USART\_Clock\_Phase */}
+00092 
+00093   uint16\_t USART_LastBit; \textcolor{comment}{/*!< Specifies whether the clock pulse corresponding to the last transmitted}
+00094 \textcolor{comment}{                               data bit (MSB) has to be output on the SCLK pin in synchronous mode.}
+00095 \textcolor{comment}{                               This parameter can be a value of @ref USART\_Last\_Bit */}
+00096 \} USART\_ClockInitTypeDef;
+00097 
+00098 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00099 
+00100 \textcolor{comment}{/** @defgroup USART\_Exported\_Constants}
+00101 \textcolor{comment}{  * @\{}
+00102 \textcolor{comment}{  */}
+00103 
+00104 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_ALL\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00105                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00106                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00107                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} UART4\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00108                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} UART5\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00109                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART6\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00110 
+00111 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_1236\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00112                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00113                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00114                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART6\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00115 
+00116 \textcolor{comment}{/** @defgroup USART\_Word\_Length }
+00117 \textcolor{comment}{  * @\{}
+00118 \textcolor{comment}{  */}
+00119 
+00120 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_WordLength\_8b}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00121 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_WordLength\_9b}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x1000\textcolor{preprocessor}{)}
+00122 
+00123 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_WORD\_LENGTH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_WordLength_8b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00124                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_WordLength_9b\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00125 \textcolor{comment}{/**}
+00126 \textcolor{comment}{  * @\}}
+00127 \textcolor{comment}{  */}
+00128 
+00129 \textcolor{comment}{/** @defgroup USART\_Stop\_Bits }
+00130 \textcolor{comment}{  * @\{}
+00131 \textcolor{comment}{  */}
+00132 
+00133 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_StopBits\_1}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00134 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_StopBits\_0\_5}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x1000\textcolor{preprocessor}{)}
+00135 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_StopBits\_2}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x2000\textcolor{preprocessor}{)}
+00136 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_StopBits\_1\_5}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x3000\textcolor{preprocessor}{)}
+00137 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_STOPBITS}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STOPBITS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STOPBITS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_StopBits_1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00138                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STOPBITS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_StopBits_0_5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00139                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STOPBITS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_StopBits_2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00140                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STOPBITS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_StopBits_1_5\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00141 \textcolor{comment}{/**}
+00142 \textcolor{comment}{  * @\}}
+00143 \textcolor{comment}{  */}
+00144 
+00145 \textcolor{comment}{/** @defgroup USART\_Parity }
+00146 \textcolor{comment}{  * @\{}
+00147 \textcolor{comment}{  */}
+00148 
+00149 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_Parity\_No}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00150 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_Parity\_Even}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0400\textcolor{preprocessor}{)}
+00151 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_Parity\_Odd}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0600\textcolor{preprocessor}{)}
+00152 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_PARITY}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_Parity_No\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00153                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_Parity_Even\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00154                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_Parity_Odd\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00155 \textcolor{comment}{/**}
+00156 \textcolor{comment}{  * @\}}
+00157 \textcolor{comment}{  */}
+00158 
+00159 \textcolor{comment}{/** @defgroup USART\_Mode }
+00160 \textcolor{comment}{  * @\{}
+00161 \textcolor{comment}{  */}
+00162 
+00163 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_Mode\_Rx}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0004\textcolor{preprocessor}{)}
+00164 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_Mode\_Tx}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0008\textcolor{preprocessor}{)}
+00165 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xFFF3\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00166 \textcolor{comment}{/**}
+00167 \textcolor{comment}{  * @\}}
+00168 \textcolor{comment}{  */}
+00169 
+00170 \textcolor{comment}{/** @defgroup USART\_Hardware\_Flow\_Control }
+00171 \textcolor{comment}{  * @\{}
+00172 \textcolor{comment}{  */}
+00173 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_HardwareFlowControl\_None}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00174 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_HardwareFlowControl\_RTS}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0100\textcolor{preprocessor}{)}
+00175 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_HardwareFlowControl\_CTS}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0200\textcolor{preprocessor}{)}
+00176 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_HardwareFlowControl\_RTS\_CTS}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0300\textcolor{preprocessor}{)}
+00177 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_HARDWARE\_FLOW\_CONTROL}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CONTROL}\textcolor{preprocessor}{)}
+00178                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CONTROL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_HardwareFlowControl_None\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00179                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CONTROL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_HardwareFlowControl_RTS\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00180                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CONTROL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_HardwareFlowControl_CTS\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00181                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CONTROL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      USART_HardwareFlowControl_RTS_CTS\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00182 \textcolor{comment}{/**}
+00183 \textcolor{comment}{  * @\}}
+00184 \textcolor{comment}{  */}
+00185 
+00186 \textcolor{comment}{/** @defgroup USART\_Clock }
+00187 \textcolor{comment}{  * @\{}
+00188 \textcolor{comment}{  */}
+00189 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_Clock\_Disable}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00190 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_Clock\_Enable}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0800\textcolor{preprocessor}{)}
+00191 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_CLOCK}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CLOCK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CLOCK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_Clock_Disable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00192                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CLOCK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_Clock_Enable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00193 \textcolor{comment}{/**}
+00194 \textcolor{comment}{  * @\}}
+00195 \textcolor{comment}{  */}
+00196 
+00197 \textcolor{comment}{/** @defgroup USART\_Clock\_Polarity }
+00198 \textcolor{comment}{  * @\{}
+00199 \textcolor{comment}{  */}
+00200 
+00201 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_CPOL\_Low}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00202 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_CPOL\_High}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0400\textcolor{preprocessor}{)}
+00203 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_CPOL}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CPOL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CPOL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_CPOL_Low\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CPOL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      USART_CPOL_High\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00204 
+00205 \textcolor{comment}{/**}
+00206 \textcolor{comment}{  * @\}}
+00207 \textcolor{comment}{  */}
+00208 
+00209 \textcolor{comment}{/** @defgroup USART\_Clock\_Phase}
+00210 \textcolor{comment}{  * @\{}
+00211 \textcolor{comment}{  */}
+00212 
+00213 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_CPHA\_1Edge}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00214 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_CPHA\_2Edge}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0200\textcolor{preprocessor}{)}
+00215 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_CPHA}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CPHA}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CPHA}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_CPHA_1Edge\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CPHA}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      USART_CPHA_2Edge\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00216 
+00217 \textcolor{comment}{/**}
+00218 \textcolor{comment}{  * @\}}
+00219 \textcolor{comment}{  */}
+00220 
+00221 \textcolor{comment}{/** @defgroup USART\_Last\_Bit}
+00222 \textcolor{comment}{  * @\{}
+00223 \textcolor{comment}{  */}
+00224 
+00225 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_LastBit\_Disable}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00226 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_LastBit\_Enable}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0100\textcolor{preprocessor}{)}
+00227 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_LASTBIT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LASTBIT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LASTBIT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_LastBit_Disable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00228                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LASTBIT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_LastBit_Enable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00229 \textcolor{comment}{/**}
+00230 \textcolor{comment}{  * @\}}
+00231 \textcolor{comment}{  */}
+00232 
+00233 \textcolor{comment}{/** @defgroup USART\_Interrupt\_definition }
+00234 \textcolor{comment}{  * @\{}
+00235 \textcolor{comment}{  */}
+00236 
+00237 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_IT\_PE}                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0028\textcolor{preprocessor}{)}
+00238 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_IT\_TXE}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0727\textcolor{preprocessor}{)}
+00239 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_IT\_TC}                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0626\textcolor{preprocessor}{)}
+00240 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_IT\_RXNE}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0525\textcolor{preprocessor}{)}
+00241 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_IT\_ORE\_RX}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0325\textcolor{preprocessor}{)} \textcolor{comment}{/* In case interrupt is generated if
+       the RXNEIE bit is set */}
+00242 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_IT\_IDLE}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0424\textcolor{preprocessor}{)}
+00243 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_IT\_LBD}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0846\textcolor{preprocessor}{)}
+00244 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_IT\_CTS}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x096A\textcolor{preprocessor}{)}
+00245 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_IT\_ERR}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0060\textcolor{preprocessor}{)}
+00246 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_IT\_ORE\_ER}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0360\textcolor{preprocessor}{)} \textcolor{comment}{/* In case interrupt is generated if
+       the EIE bit is set */}
+00247 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_IT\_NE}                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0260\textcolor{preprocessor}{)}
+00248 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_IT\_FE}                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0160\textcolor{preprocessor}{)}
+00249 
+00250 \textcolor{comment}{/** @defgroup USART\_Legacy }
+00251 \textcolor{comment}{  * @\{}
+00252 \textcolor{comment}{  */}
+00253 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_IT\_ORE}                          USART_IT_ORE_ER
+00254 \textcolor{comment}{/**}
+00255 \textcolor{comment}{  * @\}}
+00256 \textcolor{comment}{  */}
+00257 
+00258 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_CONFIG\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_IT_PE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      USART_IT_TXE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00259                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_IT_TC\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      USART_IT_RXNE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00260                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_IT_IDLE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      USART_IT_LBD\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00261                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_IT_CTS\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      USART_IT_ERR\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00262 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_GET\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_IT_PE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_IT_TXE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00263                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_IT_TC\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      USART_IT_RXNE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00264                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_IT_IDLE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      USART_IT_LBD\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00265                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_IT_CTS\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      USART_IT_ORE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00266                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_IT_ORE_RX\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      USART_IT_ORE_ER\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00267                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_IT_NE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_IT_FE\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00268 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_CLEAR\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_IT_TC\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      USART_IT_RXNE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00269                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_IT_LBD\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      USART_IT_CTS\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00270 \textcolor{comment}{/**}
+00271 \textcolor{comment}{  * @\}}
+00272 \textcolor{comment}{  */}
+00273 
+00274 \textcolor{comment}{/** @defgroup USART\_DMA\_Requests }
+00275 \textcolor{comment}{  * @\{}
+00276 \textcolor{comment}{  */}
+00277 
+00278 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_DMAReq\_Tx}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0080\textcolor{preprocessor}{)}
+00279 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_DMAReq\_Rx}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0040\textcolor{preprocessor}{)}
+00280 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_DMAREQ}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DMAREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DMAREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xFF3F\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DMAREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}
+      0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00281 
+00282 \textcolor{comment}{/**}
+00283 \textcolor{comment}{  * @\}}
+00284 \textcolor{comment}{  */}
+00285 
+00286 \textcolor{comment}{/** @defgroup USART\_WakeUp\_methods}
+00287 \textcolor{comment}{  * @\{}
+00288 \textcolor{comment}{  */}
+00289 
+00290 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_WakeUp\_IdleLine}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00291 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_WakeUp\_AddressMark}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0800\textcolor{preprocessor}{)}
+00292 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_WAKEUP}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WAKEUP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WAKEUP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_WakeUp_IdleLine\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00293                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WAKEUP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_WakeUp_AddressMark\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00294 \textcolor{comment}{/**}
+00295 \textcolor{comment}{  * @\}}
+00296 \textcolor{comment}{  */}
+00297 
+00298 \textcolor{comment}{/** @defgroup USART\_LIN\_Break\_Detection\_Length }
+00299 \textcolor{comment}{  * @\{}
+00300 \textcolor{comment}{  */}
+00301 
+00302 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_LINBreakDetectLength\_10b}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00303 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_LINBreakDetectLength\_11b}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0020\textcolor{preprocessor}{)}
+00304 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_LIN\_BREAK\_DETECT\_LENGTH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)}
+00305                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_LINBreakDetectLength_10b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00306                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_LINBreakDetectLength_11b\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00307 \textcolor{comment}{/**}
+00308 \textcolor{comment}{  * @\}}
+00309 \textcolor{comment}{  */}
+00310 
+00311 \textcolor{comment}{/** @defgroup USART\_IrDA\_Low\_Power }
+00312 \textcolor{comment}{  * @\{}
+00313 \textcolor{comment}{  */}
+00314 
+00315 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_IrDAMode\_LowPower}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0004\textcolor{preprocessor}{)}
+00316 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_IrDAMode\_Normal}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00317 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_IRDA\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_IrDAMode_LowPower\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00318                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_IrDAMode_Normal\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00319 \textcolor{comment}{/**}
+00320 \textcolor{comment}{  * @\}}
+00321 \textcolor{comment}{  */}
+00322 
+00323 \textcolor{comment}{/** @defgroup USART\_Flags }
+00324 \textcolor{comment}{  * @\{}
+00325 \textcolor{comment}{  */}
+00326 
+00327 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_FLAG\_CTS}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0200\textcolor{preprocessor}{)}
+00328 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_FLAG\_LBD}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0100\textcolor{preprocessor}{)}
+00329 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_FLAG\_TXE}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0080\textcolor{preprocessor}{)}
+00330 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_FLAG\_TC}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0040\textcolor{preprocessor}{)}
+00331 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_FLAG\_RXNE}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0020\textcolor{preprocessor}{)}
+00332 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_FLAG\_IDLE}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0010\textcolor{preprocessor}{)}
+00333 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_FLAG\_ORE}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0008\textcolor{preprocessor}{)}
+00334 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_FLAG\_NE}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0004\textcolor{preprocessor}{)}
+00335 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_FLAG\_FE}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0002\textcolor{preprocessor}{)}
+00336 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USART\_FLAG\_PE}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0001\textcolor{preprocessor}{)}
+00337 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_FLAG_PE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      USART_FLAG_TXE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00338                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_FLAG_TC\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      USART_FLAG_RXNE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00339                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_FLAG_IDLE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      USART_FLAG_LBD\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00340                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_FLAG_CTS\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      USART_FLAG_ORE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00341                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} USART_FLAG_NE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      USART_FLAG_FE\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00342 
+00343 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_CLEAR\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xFC9F\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{
+      )}
+00344 
+00345 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_BAUDRATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BAUDRATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BAUDRATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{>} 0\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BAUDRATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<} 7500001\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00346 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_ADDRESS}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ADDRESS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ADDRESS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0xF\textcolor{preprocessor}{)}
+00347 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_USART\_DATA}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATA}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATA}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0x1FF\textcolor{preprocessor}{)}
+00348 
+00349 \textcolor{comment}{/**}
+00350 \textcolor{comment}{  * @\}}
+00351 \textcolor{comment}{  */}
+00352 
+00353 \textcolor{comment}{/**}
+00354 \textcolor{comment}{  * @\}}
+00355 \textcolor{comment}{  */}
+00356 
+00357 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00358 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00359 
+00360 \textcolor{comment}{/*  Function used to set the USART configuration to the default reset state ***/}
+00361 \textcolor{keywordtype}{void} USART_DeInit(USART\_TypeDef* USARTx);
+00362 
+00363 \textcolor{comment}{/* Initialization and Configuration functions *********************************/}
+00364 \textcolor{keywordtype}{void} USART_Init(USART\_TypeDef* USARTx, USART\_InitTypeDef* USART\_InitStruct);
+00365 \textcolor{keywordtype}{void} USART_StructInit(USART\_InitTypeDef* USART\_InitStruct);
+00366 \textcolor{keywordtype}{void} USART_ClockInit(USART\_TypeDef* USARTx, USART\_ClockInitTypeDef* USART\_ClockInitStruct);
+00367 \textcolor{keywordtype}{void} USART_ClockStructInit(USART\_ClockInitTypeDef* USART\_ClockInitStruct);
+00368 \textcolor{keywordtype}{void} USART_Cmd(USART\_TypeDef* USARTx, FunctionalState NewState);
+00369 \textcolor{keywordtype}{void} USART_SetPrescaler(USART\_TypeDef* USARTx, uint8\_t USART\_Prescaler);
+00370 \textcolor{keywordtype}{void} USART_OverSampling8Cmd(USART\_TypeDef* USARTx, FunctionalState NewState);
+00371 \textcolor{keywordtype}{void} USART_OneBitMethodCmd(USART\_TypeDef* USARTx, FunctionalState NewState);
+00372 
+00373 \textcolor{comment}{/* Data transfers functions ***************************************************/}
+00374 \textcolor{keywordtype}{void} USART_SendData(USART\_TypeDef* USARTx, uint16\_t Data);
+00375 uint16\_t USART_ReceiveData(USART\_TypeDef* USARTx);
+00376 
+00377 \textcolor{comment}{/* Multi-Processor Communication functions ************************************/}
+00378 \textcolor{keywordtype}{void} USART_SetAddress(USART\_TypeDef* USARTx, uint8\_t USART\_Address);
+00379 \textcolor{keywordtype}{void} USART_WakeUpConfig(USART\_TypeDef* USARTx, uint16\_t USART\_WakeUp);
+00380 \textcolor{keywordtype}{void} USART_ReceiverWakeUpCmd(USART\_TypeDef* USARTx, FunctionalState NewState);
+00381 
+00382 \textcolor{comment}{/* LIN mode functions *********************************************************/}
+00383 \textcolor{keywordtype}{void} USART_LINBreakDetectLengthConfig(USART\_TypeDef* USARTx, uint16\_t USART\_LINBreakDetectLength);
+00384 \textcolor{keywordtype}{void} USART_LINCmd(USART\_TypeDef* USARTx, FunctionalState NewState);
+00385 \textcolor{keywordtype}{void} USART_SendBreak(USART\_TypeDef* USARTx);
+00386 
+00387 \textcolor{comment}{/* Half-duplex mode function **************************************************/}
+00388 \textcolor{keywordtype}{void} USART_HalfDuplexCmd(USART\_TypeDef* USARTx, FunctionalState NewState);
+00389 
+00390 \textcolor{comment}{/* Smartcard mode functions ***************************************************/}
+00391 \textcolor{keywordtype}{void} USART_SmartCardCmd(USART\_TypeDef* USARTx, FunctionalState NewState);
+00392 \textcolor{keywordtype}{void} USART_SmartCardNACKCmd(USART\_TypeDef* USARTx, FunctionalState NewState);
+00393 \textcolor{keywordtype}{void} USART_SetGuardTime(USART\_TypeDef* USARTx, uint8\_t USART\_GuardTime);
+00394 
+00395 \textcolor{comment}{/* IrDA mode functions ********************************************************/}
+00396 \textcolor{keywordtype}{void} USART_IrDAConfig(USART\_TypeDef* USARTx, uint16\_t USART\_IrDAMode);
+00397 \textcolor{keywordtype}{void} USART_IrDACmd(USART\_TypeDef* USARTx, FunctionalState NewState);
+00398 
+00399 \textcolor{comment}{/* DMA transfers management functions *****************************************/}
+00400 \textcolor{keywordtype}{void} USART_DMACmd(USART\_TypeDef* USARTx, uint16\_t USART\_DMAReq, FunctionalState NewState);
+00401 
+00402 \textcolor{comment}{/* Interrupts and flags management functions **********************************/}
+00403 \textcolor{keywordtype}{void} USART_ITConfig(USART\_TypeDef* USARTx, uint16\_t USART\_IT, FunctionalState NewState);
+00404 FlagStatus USART_GetFlagStatus(USART\_TypeDef* USARTx, uint16\_t USART\_FLAG);
+00405 \textcolor{keywordtype}{void} USART_ClearFlag(USART\_TypeDef* USARTx, uint16\_t USART\_FLAG);
+00406 ITStatus USART_GetITStatus(USART\_TypeDef* USARTx, uint16\_t USART\_IT);
+00407 \textcolor{keywordtype}{void} USART_ClearITPendingBit(USART\_TypeDef* USARTx, uint16\_t USART\_IT);
+00408 
+00409 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00410 \}
+00411 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00412 
+00413 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/* \_\_STM32F4xx\_USART\_H */}
+00414 
+00415 \textcolor{comment}{/**}
+00416 \textcolor{comment}{  * @\}}
+00417 \textcolor{comment}{  */}
+00418 
+00419 \textcolor{comment}{/**}
+00420 \textcolor{comment}{  * @\}}
+00421 \textcolor{comment}{  */}
+00422 
+00423 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

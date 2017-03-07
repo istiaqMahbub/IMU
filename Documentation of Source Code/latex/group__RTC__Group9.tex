@@ -1,0 +1,343 @@
+\section{Tampers configuration functions}
+\label{group__RTC__Group9}\index{Tampers configuration functions@{Tampers configuration functions}}
+
+
+Tampers configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ R\+T\+C\+\_\+\+Tamper\+Trigger\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Tamper, uint32\+\_\+t R\+T\+C\+\_\+\+Tamper\+Trigger)
+\begin{DoxyCompactList}\small\item\em Configures the select Tamper pin edge. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Tamper\+Cmd} (uint32\+\_\+t R\+T\+C\+\_\+\+Tamper, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the Tamper detection. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Tamper\+Filter\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Tamper\+Filter)
+\begin{DoxyCompactList}\small\item\em Configures the Tampers Filter. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq)
+\begin{DoxyCompactList}\small\item\em Configures the Tampers Sampling Frequency. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Tamper\+Pins\+Precharge\+Duration} (uint32\+\_\+t R\+T\+C\+\_\+\+Tamper\+Precharge\+Duration)
+\begin{DoxyCompactList}\small\item\em Configures the Tampers Pins input Precharge Duration. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Time\+Stamp\+On\+Tamper\+Detection\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the Time\+Stamp on Tamper Detection Event. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Tamper\+Pull\+Up\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the Precharge of Tamper pin. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Tampers configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                       Tampers configuration functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__RTC__Group9_gaf85cc696d624da0de9fbe99779402833}} 
+\index{Tampers configuration functions@{Tampers configuration functions}!R\+T\+C\+\_\+\+Tamper\+Cmd@{R\+T\+C\+\_\+\+Tamper\+Cmd}}
+\index{R\+T\+C\+\_\+\+Tamper\+Cmd@{R\+T\+C\+\_\+\+Tamper\+Cmd}!Tampers configuration functions@{Tampers configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Tamper\+Cmd()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Tamper\+Cmd (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Tamper,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or Disables the Tamper detection. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Tamper} & Selected tamper pin. This parameter can be R\+T\+C\+\_\+\+Tamper\+\_\+1. \\
+\hline
+{\em New\+State} & new state of the tamper pin. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2104} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+02105 \{
+02106   \textcolor{comment}{/* Check the parameters */}
+02107   assert_param(IS_RTC_TAMPER(RTC\_Tamper));  
+02108   assert_param(IS_FUNCTIONAL_STATE(NewState));
+02109   
+02110   \textcolor{keywordflow}{if} (NewState != DISABLE)
+02111   \{
+02112     \textcolor{comment}{/* Enable the selected Tamper pin */}
+02113     RTC->TAFCR |= (uint32\_t)RTC\_Tamper;
+02114   \}
+02115   \textcolor{keywordflow}{else}
+02116   \{
+02117     \textcolor{comment}{/* Disable the selected Tamper pin */}
+02118     RTC->TAFCR &= (uint32\_t)~RTC\_Tamper;    
+02119   \}  
+02120 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group9_ga1e87b9ae757ad12d7585e4fbcbf2c4b8}} 
+\index{Tampers configuration functions@{Tampers configuration functions}!R\+T\+C\+\_\+\+Tamper\+Filter\+Config@{R\+T\+C\+\_\+\+Tamper\+Filter\+Config}}
+\index{R\+T\+C\+\_\+\+Tamper\+Filter\+Config@{R\+T\+C\+\_\+\+Tamper\+Filter\+Config}!Tampers configuration functions@{Tampers configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Tamper\+Filter\+Config()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Tamper\+Filter\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Tamper\+Filter }\end{DoxyParamCaption})}
+
+
+
+Configures the Tampers Filter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Tamper\+Filter} & Specifies the tampers filter. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Tamper\+Filter\+\_\+\+Disable\+: Tamper filter is disabled. \item R\+T\+C\+\_\+\+Tamper\+Filter\+\_\+2\+Sample\+: Tamper is activated after 2 consecutive samples at the active level \item R\+T\+C\+\_\+\+Tamper\+Filter\+\_\+4\+Sample\+: Tamper is activated after 4 consecutive samples at the active level \item R\+T\+C\+\_\+\+Tamper\+Filter\+\_\+8\+Sample\+: Tamper is activated after 8 consecutive samples at the active level \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2135} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02136 \{
+02137   \textcolor{comment}{/* Check the parameters */}
+02138   assert_param(IS_RTC_TAMPER_FILTER(RTC\_TamperFilter));
+02139    
+02140   \textcolor{comment}{/* Clear TAMPFLT[1:0] bits in the RTC\_TAFCR register */}
+02141   RTC->TAFCR &= (uint32\_t)~(RTC_TAFCR_TAMPFLT);
+02142 
+02143   \textcolor{comment}{/* Configure the RTC\_TAFCR register */}
+02144   RTC->TAFCR |= (uint32\_t)RTC\_TamperFilter;
+02145 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group9_gafc176a013076a651862dc6a957286025}} 
+\index{Tampers configuration functions@{Tampers configuration functions}!R\+T\+C\+\_\+\+Tamper\+Pins\+Precharge\+Duration@{R\+T\+C\+\_\+\+Tamper\+Pins\+Precharge\+Duration}}
+\index{R\+T\+C\+\_\+\+Tamper\+Pins\+Precharge\+Duration@{R\+T\+C\+\_\+\+Tamper\+Pins\+Precharge\+Duration}!Tampers configuration functions@{Tampers configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Tamper\+Pins\+Precharge\+Duration()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Tamper\+Pins\+Precharge\+Duration (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Tamper\+Precharge\+Duration }\end{DoxyParamCaption})}
+
+
+
+Configures the Tampers Pins input Precharge Duration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Tamper\+Precharge\+Duration} & Specifies the Tampers Pins input Precharge Duration. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Tamper\+Precharge\+Duration\+\_\+1\+R\+T\+C\+C\+LK\+: Tamper pins are pre-\/charged before sampling during 1 R\+T\+C\+C\+LK cycle \item R\+T\+C\+\_\+\+Tamper\+Precharge\+Duration\+\_\+2\+R\+T\+C\+C\+LK\+: Tamper pins are pre-\/charged before sampling during 2 R\+T\+C\+C\+LK cycle \item R\+T\+C\+\_\+\+Tamper\+Precharge\+Duration\+\_\+4\+R\+T\+C\+C\+LK\+: Tamper pins are pre-\/charged before sampling during 4 R\+T\+C\+C\+LK cycle \item R\+T\+C\+\_\+\+Tamper\+Precharge\+Duration\+\_\+8\+R\+T\+C\+C\+LK\+: Tamper pins are pre-\/charged before sampling during 8 R\+T\+C\+C\+LK cycle \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2192} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02193 \{
+02194   \textcolor{comment}{/* Check the parameters */}
+02195   assert_param(IS_RTC_TAMPER_PRECHARGE_DURATION(RTC\_TamperPrechargeDuration));
+02196    
+02197   \textcolor{comment}{/* Clear TAMPPRCH[1:0] bits in the RTC\_TAFCR register */}
+02198   RTC->TAFCR &= (uint32\_t)~(RTC_TAFCR_TAMPPRCH);
+02199 
+02200   \textcolor{comment}{/* Configure the RTC\_TAFCR register */}
+02201   RTC->TAFCR |= (uint32\_t)RTC\_TamperPrechargeDuration;
+02202 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group9_ga981b9c654e521282a2020a81118c8c3c}} 
+\index{Tampers configuration functions@{Tampers configuration functions}!R\+T\+C\+\_\+\+Tamper\+Pull\+Up\+Cmd@{R\+T\+C\+\_\+\+Tamper\+Pull\+Up\+Cmd}}
+\index{R\+T\+C\+\_\+\+Tamper\+Pull\+Up\+Cmd@{R\+T\+C\+\_\+\+Tamper\+Pull\+Up\+Cmd}!Tampers configuration functions@{Tampers configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Tamper\+Pull\+Up\+Cmd()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Tamper\+Pull\+Up\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or Disables the Precharge of Tamper pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of tamper pull up. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2235} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+02236 \{
+02237   \textcolor{comment}{/* Check the parameters */}
+02238   assert_param(IS_FUNCTIONAL_STATE(NewState));
+02239   
+02240  \textcolor{keywordflow}{if} (NewState != DISABLE)
+02241   \{
+02242     \textcolor{comment}{/* Enable precharge of the selected Tamper pin */}
+02243     RTC->TAFCR &= (uint32\_t)~RTC_TAFCR_TAMPPUDIS; 
+02244   \}
+02245   \textcolor{keywordflow}{else}
+02246   \{
+02247     \textcolor{comment}{/* Disable precharge of the selected Tamper pin */}
+02248     RTC->TAFCR |= (uint32\_t)RTC_TAFCR_TAMPPUDIS;    
+02249   \} 
+02250 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group9_gadc7f33a31df80b5deac313fc8af8d7f7}} 
+\index{Tampers configuration functions@{Tampers configuration functions}!R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+Config@{R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+Config}}
+\index{R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+Config@{R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+Config}!Tampers configuration functions@{Tampers configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+Config()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq }\end{DoxyParamCaption})}
+
+
+
+Configures the Tampers Sampling Frequency. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq} & Specifies the tampers Sampling Frequency. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div32768\+: Each of the tamper inputs are sampled with a frequency = R\+T\+C\+C\+LK / 32768 \item R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div16384\+: Each of the tamper inputs are sampled with a frequency = R\+T\+C\+C\+LK / 16384 \item R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div8192\+: Each of the tamper inputs are sampled with a frequency = R\+T\+C\+C\+LK / 8192 \item R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div4096\+: Each of the tamper inputs are sampled with a frequency = R\+T\+C\+C\+LK / 4096 \item R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div2048\+: Each of the tamper inputs are sampled with a frequency = R\+T\+C\+C\+LK / 2048 \item R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div1024\+: Each of the tamper inputs are sampled with a frequency = R\+T\+C\+C\+LK / 1024 \item R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div512\+: Each of the tamper inputs are sampled with a frequency = R\+T\+C\+C\+LK / 512 \item R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div256\+: Each of the tamper inputs are sampled with a frequency = R\+T\+C\+C\+LK / 256 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2169} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02170 \{
+02171   \textcolor{comment}{/* Check the parameters */}
+02172   assert_param(IS_RTC_TAMPER_SAMPLING_FREQ(RTC\_TamperSamplingFreq));
+02173  
+02174   \textcolor{comment}{/* Clear TAMPFREQ[2:0] bits in the RTC\_TAFCR register */}
+02175   RTC->TAFCR &= (uint32\_t)~(RTC_TAFCR_TAMPFREQ);
+02176 
+02177   \textcolor{comment}{/* Configure the RTC\_TAFCR register */}
+02178   RTC->TAFCR |= (uint32\_t)RTC\_TamperSamplingFreq;
+02179 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group9_gad547d636cfc4fd8d4d673325571e0ffb}} 
+\index{Tampers configuration functions@{Tampers configuration functions}!R\+T\+C\+\_\+\+Tamper\+Trigger\+Config@{R\+T\+C\+\_\+\+Tamper\+Trigger\+Config}}
+\index{R\+T\+C\+\_\+\+Tamper\+Trigger\+Config@{R\+T\+C\+\_\+\+Tamper\+Trigger\+Config}!Tampers configuration functions@{Tampers configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Tamper\+Trigger\+Config()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Tamper\+Trigger\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Tamper,  }\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Tamper\+Trigger }\end{DoxyParamCaption})}
+
+
+
+Configures the select Tamper pin edge. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Tamper} & Selected tamper pin. This parameter can be R\+T\+C\+\_\+\+Tamper\+\_\+1. \\
+\hline
+{\em R\+T\+C\+\_\+\+Tamper\+Trigger} & Specifies the trigger on the tamper pin that stimulates tamper event. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Tamper\+Trigger\+\_\+\+Rising\+Edge\+: Rising Edge of the tamper pin causes tamper event. \item R\+T\+C\+\_\+\+Tamper\+Trigger\+\_\+\+Falling\+Edge\+: Falling Edge of the tamper pin causes tamper event. \item R\+T\+C\+\_\+\+Tamper\+Trigger\+\_\+\+Low\+Level\+: Low Level of the tamper pin causes tamper event. \item R\+T\+C\+\_\+\+Tamper\+Trigger\+\_\+\+High\+Level\+: High Level of the tamper pin causes tamper event. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2078} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02079 \{
+02080   \textcolor{comment}{/* Check the parameters */}
+02081   assert_param(IS_RTC_TAMPER(RTC\_Tamper)); 
+02082   assert_param(IS_RTC_TAMPER_TRIGGER(RTC\_TamperTrigger));
+02083  
+02084   \textcolor{keywordflow}{if} (RTC\_TamperTrigger == RTC_TamperTrigger_RisingEdge)
+02085   \{  
+02086     \textcolor{comment}{/* Configure the RTC\_TAFCR register */}
+02087     RTC->TAFCR &= (uint32\_t)((uint32\_t)~(RTC\_Tamper << 1)); 
+02088   \}
+02089   \textcolor{keywordflow}{else}
+02090   \{ 
+02091     \textcolor{comment}{/* Configure the RTC\_TAFCR register */}
+02092     RTC->TAFCR |= (uint32\_t)(RTC\_Tamper << 1);  
+02093   \}  
+02094 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group9_ga29c82fceefd21a78dc55ccc5bcc1ed59}} 
+\index{Tampers configuration functions@{Tampers configuration functions}!R\+T\+C\+\_\+\+Time\+Stamp\+On\+Tamper\+Detection\+Cmd@{R\+T\+C\+\_\+\+Time\+Stamp\+On\+Tamper\+Detection\+Cmd}}
+\index{R\+T\+C\+\_\+\+Time\+Stamp\+On\+Tamper\+Detection\+Cmd@{R\+T\+C\+\_\+\+Time\+Stamp\+On\+Tamper\+Detection\+Cmd}!Tampers configuration functions@{Tampers configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Time\+Stamp\+On\+Tamper\+Detection\+Cmd()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Time\+Stamp\+On\+Tamper\+Detection\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or Disables the Time\+Stamp on Tamper Detection Event. 
+
+\begin{DoxyNote}{Note}
+The timestamp is valid even the T\+SE bit in tamper control register is reset. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the timestamp on tamper event. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2212} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+02213 \{
+02214   \textcolor{comment}{/* Check the parameters */}
+02215   assert_param(IS_FUNCTIONAL_STATE(NewState));
+02216    
+02217   \textcolor{keywordflow}{if} (NewState != DISABLE)
+02218   \{
+02219     \textcolor{comment}{/* Save timestamp on tamper detection event */}
+02220     RTC->TAFCR |= (uint32\_t)RTC_TAFCR_TAMPTS;
+02221   \}
+02222   \textcolor{keywordflow}{else}
+02223   \{
+02224     \textcolor{comment}{/* Tamper detection does not cause a timestamp to be saved */}
+02225     RTC->TAFCR &= (uint32\_t)~RTC_TAFCR_TAMPTS;    
+02226   \}
+02227 \}
+\end{DoxyCode}

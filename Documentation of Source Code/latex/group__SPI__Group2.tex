@@ -1,0 +1,106 @@
+\section{Data transfers functions}
+\label{group__SPI__Group2}\index{Data transfers functions@{Data transfers functions}}
+
+
+Data transfers functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint16\+\_\+t \textbf{ S\+P\+I\+\_\+\+I2\+S\+\_\+\+Receive\+Data} (\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$S\+P\+Ix)
+\begin{DoxyCompactList}\small\item\em Returns the most recent received data by the S\+P\+Ix/\+I2\+Sx peripheral. \end{DoxyCompactList}\item 
+void \textbf{ S\+P\+I\+\_\+\+I2\+S\+\_\+\+Send\+Data} (\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$S\+P\+Ix, uint16\+\_\+t Data)
+\begin{DoxyCompactList}\small\item\em Transmits a Data through the S\+P\+Ix/\+I2\+Sx peripheral. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Data transfers functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                         Data transfers functions
+ ===============================================================================  
+
+  This section provides a set of functions allowing to manage the SPI data transfers
+  
+  In reception, data are received and then stored into an internal Rx buffer while 
+  In transmission, data are first stored into an internal Tx buffer before being 
+  transmitted.
+
+  The read access of the SPI_DR register can be done using the SPI_I2S_ReceiveData()
+  function and returns the Rx buffered value. Whereas a write access to the SPI_DR 
+  can be done using SPI_I2S_SendData() function and stores the written data into 
+  Tx buffer.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__SPI__Group2_gab77de76547f3bff403236b263b070a30}} 
+\index{Data transfers functions@{Data transfers functions}!S\+P\+I\+\_\+\+I2\+S\+\_\+\+Receive\+Data@{S\+P\+I\+\_\+\+I2\+S\+\_\+\+Receive\+Data}}
+\index{S\+P\+I\+\_\+\+I2\+S\+\_\+\+Receive\+Data@{S\+P\+I\+\_\+\+I2\+S\+\_\+\+Receive\+Data}!Data transfers functions@{Data transfers functions}}
+\subsubsection{S\+P\+I\+\_\+\+I2\+S\+\_\+\+Receive\+Data()}
+{\footnotesize\ttfamily uint16\+\_\+t S\+P\+I\+\_\+\+I2\+S\+\_\+\+Receive\+Data (\begin{DoxyParamCaption}\item[{\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$}]{S\+P\+Ix }\end{DoxyParamCaption})}
+
+
+
+Returns the most recent received data by the S\+P\+Ix/\+I2\+Sx peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+P\+Ix} & To select the S\+P\+Ix/\+I2\+Sx peripheral, where x can be\+: 1, 2 or 3 in S\+PI mode or 2 or 3 in I2S mode or I2\+Sxext for I2S full duplex mode. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & value of the received data. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 775} of file \textbf{ stm32f4xx\+\_\+spi.\+c}.
+
+
+\begin{DoxyCode}
+00776 \{
+00777   \textcolor{comment}{/* Check the parameters */}
+00778   assert_param(IS_SPI_ALL_PERIPH_EXT(SPIx));
+00779   
+00780   \textcolor{comment}{/* Return the data in the DR register */}
+00781   \textcolor{keywordflow}{return} SPIx->DR;
+00782 \}
+\end{DoxyCode}
+\mbox{\label{group__SPI__Group2_gad5af40bebe8dbe3fa8bd476489d7e3da}} 
+\index{Data transfers functions@{Data transfers functions}!S\+P\+I\+\_\+\+I2\+S\+\_\+\+Send\+Data@{S\+P\+I\+\_\+\+I2\+S\+\_\+\+Send\+Data}}
+\index{S\+P\+I\+\_\+\+I2\+S\+\_\+\+Send\+Data@{S\+P\+I\+\_\+\+I2\+S\+\_\+\+Send\+Data}!Data transfers functions@{Data transfers functions}}
+\subsubsection{S\+P\+I\+\_\+\+I2\+S\+\_\+\+Send\+Data()}
+{\footnotesize\ttfamily void S\+P\+I\+\_\+\+I2\+S\+\_\+\+Send\+Data (\begin{DoxyParamCaption}\item[{\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$}]{S\+P\+Ix,  }\item[{uint16\+\_\+t}]{Data }\end{DoxyParamCaption})}
+
+
+
+Transmits a Data through the S\+P\+Ix/\+I2\+Sx peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+P\+Ix} & To select the S\+P\+Ix/\+I2\+Sx peripheral, where x can be\+: 1, 2 or 3 in S\+PI mode or 2 or 3 in I2S mode or I2\+Sxext for I2S full duplex mode. \\
+\hline
+{\em Data} & Data to be transmitted. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 791} of file \textbf{ stm32f4xx\+\_\+spi.\+c}.
+
+
+\begin{DoxyCode}
+00792 \{
+00793   \textcolor{comment}{/* Check the parameters */}
+00794   assert_param(IS_SPI_ALL_PERIPH_EXT(SPIx));
+00795   
+00796   \textcolor{comment}{/* Write in the DR register the data to be sent */}
+00797   SPIx->DR = Data;
+00798 \}
+\end{DoxyCode}

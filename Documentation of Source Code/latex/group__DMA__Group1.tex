@@ -1,0 +1,529 @@
+\section{Initialization and Configuration functions}
+\label{group__DMA__Group1}\index{Initialization and Configuration functions@{Initialization and Configuration functions}}
+
+
+Initialization and Configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ D\+M\+A\+\_\+\+De\+Init} (\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$D\+M\+Ay\+\_\+\+Streamx)
+\begin{DoxyCompactList}\small\item\em Deinitialize the D\+M\+Ay Streamx registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ D\+M\+A\+\_\+\+Init} (\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$D\+M\+Ay\+\_\+\+Streamx, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def} $\ast$D\+M\+A\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the D\+M\+Ay Streamx according to the specified parameters in the D\+M\+A\+\_\+\+Init\+Struct structure. \end{DoxyCompactList}\item 
+void \textbf{ D\+M\+A\+\_\+\+Struct\+Init} (\textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def} $\ast$D\+M\+A\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each D\+M\+A\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ D\+M\+A\+\_\+\+Cmd} (\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$D\+M\+Ay\+\_\+\+Streamx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified D\+M\+Ay Streamx. \end{DoxyCompactList}\item 
+void \textbf{ D\+M\+A\+\_\+\+Periph\+Inc\+Offset\+Size\+Config} (\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$D\+M\+Ay\+\_\+\+Streamx, uint32\+\_\+t D\+M\+A\+\_\+\+Pincos)
+\begin{DoxyCompactList}\small\item\em Configures, when the P\+I\+NC (Peripheral Increment address mode) bit is set, if the peripheral address should be incremented with the data size (configured with P\+S\+I\+ZE bits) or by a fixed offset equal to 4 (32-\/bit aligned addresses). \end{DoxyCompactList}\item 
+void \textbf{ D\+M\+A\+\_\+\+Flow\+Controller\+Config} (\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$D\+M\+Ay\+\_\+\+Streamx, uint32\+\_\+t D\+M\+A\+\_\+\+Flow\+Ctrl)
+\begin{DoxyCompactList}\small\item\em Configures, when the D\+M\+Ay Streamx is disabled, the flow controller for the next transactions (Peripheral or Memory). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Initialization and Configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                 Initialization and Configuration functions
+ ===============================================================================  
+
+  This subsection provides functions allowing to initialize the DMA Stream source
+  and destination addresses, incrementation and data sizes, transfer direction, 
+  buffer size, circular/normal mode selection, memory-to-memory mode selection 
+  and Stream priority value.
+  
+  The DMA_Init() function follows the DMA configuration procedures as described in
+  reference manual (RM0090) except the first point: waiting on EN bit to be reset.
+  This condition should be checked by user application using the function DMA_GetCmdStatus()
+  before calling the DMA_Init() function.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__DMA__Group1_gab2bea22f9f6dc62fdd7afb385a0c1f73}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!D\+M\+A\+\_\+\+Cmd@{D\+M\+A\+\_\+\+Cmd}}
+\index{D\+M\+A\+\_\+\+Cmd@{D\+M\+A\+\_\+\+Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{D\+M\+A\+\_\+\+Cmd()}
+{\footnotesize\ttfamily void D\+M\+A\+\_\+\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$}]{D\+M\+Ay\+\_\+\+Streamx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified D\+M\+Ay Streamx. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+M\+Ay\+\_\+\+Streamx} & where y can be 1 or 2 to select the D\+MA and x can be 0 to 7 to select the D\+MA Stream. \\
+\hline
+{\em New\+State} & new state of the D\+M\+Ay Streamx. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This function may be used to perform Pause-\/\+Resume operation. When a transfer is ongoing, calling this function to disable the Stream will cause the transfer to be paused. All configuration registers and the number of remaining data will be preserved. When calling again this function to re-\/enable the Stream, the transfer will be resumed from the point where it was paused.
+
+After configuring the D\+MA Stream (\doxyref{D\+M\+A\+\_\+\+Init()}{p.}{group__DMA__Group1_gaced8a4149acfb0a50b50e63273a87148} function) and enabling the stream, it is recommended to check (or wait until) the D\+MA Stream is effectively enabled. A Stream may remain disabled if a configuration parameter is wrong. After disabling a D\+MA Stream, it is also recommended to check (or wait until) the D\+MA Stream is effectively disabled. If a Stream is disabled while a data transfer is ongoing, the current data will be transferred and the Stream will be effectively disabled only after the transfer of this single data is finished.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 470} of file \textbf{ stm32f4xx\+\_\+dma.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00471 \{
+00472   \textcolor{comment}{/* Check the parameters */}
+00473   assert_param(IS_DMA_ALL_PERIPH(DMAy\_Streamx));
+00474   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00475 
+00476   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00477   \{
+00478     \textcolor{comment}{/* Enable the selected DMAy Streamx by setting EN bit */}
+00479     DMAy\_Streamx->CR |= (uint32\_t)DMA_SxCR_EN;
+00480   \}
+00481   \textcolor{keywordflow}{else}
+00482   \{
+00483     \textcolor{comment}{/* Disable the selected DMAy Streamx by clearing EN bit */}
+00484     DMAy\_Streamx->CR &= ~(uint32\_t)DMA_SxCR_EN;
+00485   \}
+00486 \}
+\end{DoxyCode}
+\mbox{\label{group__DMA__Group1_ga38d4a4ab8990299f8a6cf064e1e811d0}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!D\+M\+A\+\_\+\+De\+Init@{D\+M\+A\+\_\+\+De\+Init}}
+\index{D\+M\+A\+\_\+\+De\+Init@{D\+M\+A\+\_\+\+De\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{D\+M\+A\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void D\+M\+A\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$}]{D\+M\+Ay\+\_\+\+Streamx }\end{DoxyParamCaption})}
+
+
+
+Deinitialize the D\+M\+Ay Streamx registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+M\+Ay\+\_\+\+Streamx} & where y can be 1 or 2 to select the D\+MA and x can be 0 to 7 to select the D\+MA Stream. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 188} of file \textbf{ stm32f4xx\+\_\+dma.\+c}.
+
+
+\begin{DoxyCode}
+00189 \{
+00190   \textcolor{comment}{/* Check the parameters */}
+00191   assert_param(IS_DMA_ALL_PERIPH(DMAy\_Streamx));
+00192 
+00193   \textcolor{comment}{/* Disable the selected DMAy Streamx */}
+00194   DMAy\_Streamx->CR &= ~((uint32\_t)DMA_SxCR_EN);
+00195 
+00196   \textcolor{comment}{/* Reset DMAy Streamx control register */}
+00197   DMAy\_Streamx->CR  = 0;
+00198   
+00199   \textcolor{comment}{/* Reset DMAy Streamx Number of Data to Transfer register */}
+00200   DMAy\_Streamx->NDTR = 0;
+00201   
+00202   \textcolor{comment}{/* Reset DMAy Streamx peripheral address register */}
+00203   DMAy\_Streamx->PAR  = 0;
+00204   
+00205   \textcolor{comment}{/* Reset DMAy Streamx memory 0 address register */}
+00206   DMAy\_Streamx->M0AR = 0;
+00207 
+00208   \textcolor{comment}{/* Reset DMAy Streamx memory 1 address register */}
+00209   DMAy\_Streamx->M1AR = 0;
+00210 
+00211   \textcolor{comment}{/* Reset DMAy Streamx FIFO control register */}
+00212   DMAy\_Streamx->FCR = (uint32\_t)0x00000021; 
+00213 
+00214   \textcolor{comment}{/* Reset interrupt pending bits for the selected stream */}
+00215   \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA1_Stream0)
+00216   \{
+00217     \textcolor{comment}{/* Reset interrupt pending bits for DMA1 Stream0 */}
+00218     DMA1->LIFCR = DMA_Stream0_IT_MASK;
+00219   \}
+00220   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA1_Stream1)
+00221   \{
+00222     \textcolor{comment}{/* Reset interrupt pending bits for DMA1 Stream1 */}
+00223     DMA1->LIFCR = DMA_Stream1_IT_MASK;
+00224   \}
+00225   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA1_Stream2)
+00226   \{
+00227     \textcolor{comment}{/* Reset interrupt pending bits for DMA1 Stream2 */}
+00228     DMA1->LIFCR = DMA_Stream2_IT_MASK;
+00229   \}
+00230   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA1_Stream3)
+00231   \{
+00232     \textcolor{comment}{/* Reset interrupt pending bits for DMA1 Stream3 */}
+00233     DMA1->LIFCR = DMA_Stream3_IT_MASK;
+00234   \}
+00235   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA1_Stream4)
+00236   \{
+00237     \textcolor{comment}{/* Reset interrupt pending bits for DMA1 Stream4 */}
+00238     DMA1->HIFCR = DMA_Stream4_IT_MASK;
+00239   \}
+00240   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA1_Stream5)
+00241   \{
+00242     \textcolor{comment}{/* Reset interrupt pending bits for DMA1 Stream5 */}
+00243     DMA1->HIFCR = DMA_Stream5_IT_MASK;
+00244   \}
+00245   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA1_Stream6)
+00246   \{
+00247     \textcolor{comment}{/* Reset interrupt pending bits for DMA1 Stream6 */}
+00248     DMA1->HIFCR = (uint32\_t)DMA_Stream6_IT_MASK;
+00249   \}
+00250   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA1_Stream7)
+00251   \{
+00252     \textcolor{comment}{/* Reset interrupt pending bits for DMA1 Stream7 */}
+00253     DMA1->HIFCR = DMA_Stream7_IT_MASK;
+00254   \}
+00255   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA2_Stream0)
+00256   \{
+00257     \textcolor{comment}{/* Reset interrupt pending bits for DMA2 Stream0 */}
+00258     DMA2->LIFCR = DMA_Stream0_IT_MASK;
+00259   \}
+00260   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA2_Stream1)
+00261   \{
+00262     \textcolor{comment}{/* Reset interrupt pending bits for DMA2 Stream1 */}
+00263     DMA2->LIFCR = DMA_Stream1_IT_MASK;
+00264   \}
+00265   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA2_Stream2)
+00266   \{
+00267     \textcolor{comment}{/* Reset interrupt pending bits for DMA2 Stream2 */}
+00268     DMA2->LIFCR = DMA_Stream2_IT_MASK;
+00269   \}
+00270   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA2_Stream3)
+00271   \{
+00272     \textcolor{comment}{/* Reset interrupt pending bits for DMA2 Stream3 */}
+00273     DMA2->LIFCR = DMA_Stream3_IT_MASK;
+00274   \}
+00275   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA2_Stream4)
+00276   \{
+00277     \textcolor{comment}{/* Reset interrupt pending bits for DMA2 Stream4 */}
+00278     DMA2->HIFCR = DMA_Stream4_IT_MASK;
+00279   \}
+00280   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA2_Stream5)
+00281   \{
+00282     \textcolor{comment}{/* Reset interrupt pending bits for DMA2 Stream5 */}
+00283     DMA2->HIFCR = DMA_Stream5_IT_MASK;
+00284   \}
+00285   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA2_Stream6)
+00286   \{
+00287     \textcolor{comment}{/* Reset interrupt pending bits for DMA2 Stream6 */}
+00288     DMA2->HIFCR = DMA_Stream6_IT_MASK;
+00289   \}
+00290   \textcolor{keywordflow}{else} 
+00291   \{
+00292     \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA2_Stream7)
+00293     \{
+00294       \textcolor{comment}{/* Reset interrupt pending bits for DMA2 Stream7 */}
+00295       DMA2->HIFCR = DMA_Stream7_IT_MASK;
+00296     \}
+00297   \}
+00298 \}
+\end{DoxyCode}
+\mbox{\label{group__DMA__Group1_ga77f7628f6be9d6d088127eceb090b8b2}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!D\+M\+A\+\_\+\+Flow\+Controller\+Config@{D\+M\+A\+\_\+\+Flow\+Controller\+Config}}
+\index{D\+M\+A\+\_\+\+Flow\+Controller\+Config@{D\+M\+A\+\_\+\+Flow\+Controller\+Config}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{D\+M\+A\+\_\+\+Flow\+Controller\+Config()}
+{\footnotesize\ttfamily void D\+M\+A\+\_\+\+Flow\+Controller\+Config (\begin{DoxyParamCaption}\item[{\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$}]{D\+M\+Ay\+\_\+\+Streamx,  }\item[{uint32\+\_\+t}]{D\+M\+A\+\_\+\+Flow\+Ctrl }\end{DoxyParamCaption})}
+
+
+
+Configures, when the D\+M\+Ay Streamx is disabled, the flow controller for the next transactions (Peripheral or Memory). 
+
+\begin{DoxyNote}{Note}
+Before enabling this feature, check if the used peripheral supports the Flow Controller mode or not.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em D\+M\+Ay\+\_\+\+Streamx} & where y can be 1 or 2 to select the D\+MA and x can be 0 to 7 to select the D\+MA Stream. \\
+\hline
+{\em D\+M\+A\+\_\+\+Flow\+Ctrl} & specifies the D\+MA flow controller. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item D\+M\+A\+\_\+\+Flow\+Ctrl\+\_\+\+Memory\+: D\+M\+Ay\+\_\+\+Streamx transactions flow controller is the D\+MA controller. \item D\+M\+A\+\_\+\+Flow\+Ctrl\+\_\+\+Peripheral\+: D\+M\+Ay\+\_\+\+Streamx transactions flow controller is the peripheral. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 542} of file \textbf{ stm32f4xx\+\_\+dma.\+c}.
+
+
+\begin{DoxyCode}
+00543 \{
+00544   \textcolor{comment}{/* Check the parameters */}
+00545   assert_param(IS_DMA_ALL_PERIPH(DMAy\_Streamx));
+00546   assert_param(IS_DMA_FLOW_CTRL(DMA\_FlowCtrl));
+00547 
+00548   \textcolor{comment}{/* Check the needed flow controller  */}
+00549   \textcolor{keywordflow}{if}(DMA\_FlowCtrl != DMA_FlowCtrl_Memory)
+00550   \{
+00551     \textcolor{comment}{/* Configure DMA\_SxCR\_PFCTRL bit with the input parameter */}
+00552     DMAy\_Streamx->CR |= (uint32\_t)DMA_SxCR_PFCTRL;   
+00553   \}
+00554   \textcolor{keywordflow}{else}
+00555   \{
+00556     \textcolor{comment}{/* Clear the PFCTRL bit: Memory is the flow controller */}
+00557     DMAy\_Streamx->CR &= ~(uint32\_t)DMA_SxCR_PFCTRL;    
+00558   \}
+00559 \}
+\end{DoxyCode}
+\mbox{\label{group__DMA__Group1_gaced8a4149acfb0a50b50e63273a87148}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!D\+M\+A\+\_\+\+Init@{D\+M\+A\+\_\+\+Init}}
+\index{D\+M\+A\+\_\+\+Init@{D\+M\+A\+\_\+\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{D\+M\+A\+\_\+\+Init()}
+{\footnotesize\ttfamily void D\+M\+A\+\_\+\+Init (\begin{DoxyParamCaption}\item[{\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$}]{D\+M\+Ay\+\_\+\+Streamx,  }\item[{\textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def} $\ast$}]{D\+M\+A\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the D\+M\+Ay Streamx according to the specified parameters in the D\+M\+A\+\_\+\+Init\+Struct structure. 
+
+\begin{DoxyNote}{Note}
+Before calling this function, it is recommended to check that the Stream is actually disabled using the function \doxyref{D\+M\+A\+\_\+\+Get\+Cmd\+Status()}{p.}{group__DMA__Group4_gaa4d631cdd6cd020106435f30c0c6fb15}. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em D\+M\+Ay\+\_\+\+Streamx} & where y can be 1 or 2 to select the D\+MA and x can be 0 to 7 to select the D\+MA Stream. \\
+\hline
+{\em D\+M\+A\+\_\+\+Init\+Struct} & pointer to a \doxyref{D\+M\+A\+\_\+\+Init\+Type\+Def}{p.}{structDMA__InitTypeDef} structure that contains the configuration information for the specified D\+MA Stream. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 311} of file \textbf{ stm32f4xx\+\_\+dma.\+c}.
+
+
+
+References \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+Channel}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+D\+IR}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+F\+I\+F\+O\+Mode}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+F\+I\+F\+O\+Threshold}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+Memory\+Burst}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+Memory\+Data\+Size}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+Memory\+Inc}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+Mode}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+Peripheral\+Burst}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+Peripheral\+Data\+Size}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+Peripheral\+Inc}, and \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+Priority}.
+
+
+\begin{DoxyCode}
+00312 \{
+00313   uint32\_t tmpreg = 0;
+00314 
+00315   \textcolor{comment}{/* Check the parameters */}
+00316   assert_param(IS_DMA_ALL_PERIPH(DMAy\_Streamx));
+00317   assert_param(IS_DMA_CHANNEL(DMA\_InitStruct->DMA_Channel));
+00318   assert_param(IS_DMA_DIRECTION(DMA\_InitStruct->DMA_DIR));
+00319   assert_param(IS_DMA_BUFFER_SIZE(DMA\_InitStruct->DMA_BufferSize));
+00320   assert_param(IS_DMA_PERIPHERAL_INC_STATE(DMA\_InitStruct->DMA_PeripheralInc));
+00321   assert_param(IS_DMA_MEMORY_INC_STATE(DMA\_InitStruct->DMA_MemoryInc));
+00322   assert_param(IS_DMA_PERIPHERAL_DATA_SIZE(DMA\_InitStruct->
+      DMA_PeripheralDataSize));
+00323   assert_param(IS_DMA_MEMORY_DATA_SIZE(DMA\_InitStruct->DMA_MemoryDataSize));
+00324   assert_param(IS_DMA_MODE(DMA\_InitStruct->DMA_Mode));
+00325   assert_param(IS_DMA_PRIORITY(DMA\_InitStruct->DMA_Priority));
+00326   assert_param(IS_DMA_FIFO_MODE_STATE(DMA\_InitStruct->DMA_FIFOMode));
+00327   assert_param(IS_DMA_FIFO_THRESHOLD(DMA\_InitStruct->DMA_FIFOThreshold));
+00328   assert_param(IS_DMA_MEMORY_BURST(DMA\_InitStruct->DMA_MemoryBurst));
+00329   assert_param(IS_DMA_PERIPHERAL_BURST(DMA\_InitStruct->DMA_PeripheralBurst));
+00330 
+00331   \textcolor{comment}{/*------------------------- DMAy Streamx CR Configuration ------------------*/}
+00332   \textcolor{comment}{/* Get the DMAy\_Streamx CR value */}
+00333   tmpreg = DMAy\_Streamx->CR;
+00334 
+00335   \textcolor{comment}{/* Clear CHSEL, MBURST, PBURST, PL, MSIZE, PSIZE, MINC, PINC, CIRC and DIR bits */}
+00336   tmpreg &= ((uint32\_t)~(DMA_SxCR_CHSEL | DMA_SxCR_MBURST | DMA_SxCR_PBURST | \(\backslash\)
+00337                          DMA_SxCR_PL | DMA_SxCR_MSIZE | DMA_SxCR_PSIZE | \(\backslash\)
+00338                          DMA_SxCR_MINC | DMA_SxCR_PINC | DMA_SxCR_CIRC | \(\backslash\)
+00339                          DMA_SxCR_DIR));
+00340 
+00341   \textcolor{comment}{/* Configure DMAy Streamx: */}
+00342   \textcolor{comment}{/* Set CHSEL bits according to DMA\_CHSEL value */}
+00343   \textcolor{comment}{/* Set DIR bits according to DMA\_DIR value */}
+00344   \textcolor{comment}{/* Set PINC bit according to DMA\_PeripheralInc value */}
+00345   \textcolor{comment}{/* Set MINC bit according to DMA\_MemoryInc value */}
+00346   \textcolor{comment}{/* Set PSIZE bits according to DMA\_PeripheralDataSize value */}
+00347   \textcolor{comment}{/* Set MSIZE bits according to DMA\_MemoryDataSize value */}
+00348   \textcolor{comment}{/* Set CIRC bit according to DMA\_Mode value */}
+00349   \textcolor{comment}{/* Set PL bits according to DMA\_Priority value */}
+00350   \textcolor{comment}{/* Set MBURST bits according to DMA\_MemoryBurst value */}
+00351   \textcolor{comment}{/* Set PBURST bits according to DMA\_PeripheralBurst value */}
+00352   tmpreg |= DMA\_InitStruct->DMA_Channel | DMA\_InitStruct->DMA_DIR |
+00353             DMA\_InitStruct->DMA_PeripheralInc | DMA\_InitStruct->DMA_MemoryInc |
+00354             DMA\_InitStruct->DMA_PeripheralDataSize | DMA\_InitStruct->
+      DMA_MemoryDataSize |
+00355             DMA\_InitStruct->DMA_Mode | DMA\_InitStruct->DMA_Priority |
+00356             DMA\_InitStruct->DMA_MemoryBurst | DMA\_InitStruct->
+      DMA_PeripheralBurst;
+00357 
+00358   \textcolor{comment}{/* Write to DMAy Streamx CR register */}
+00359   DMAy\_Streamx->CR = tmpreg;
+00360 
+00361   \textcolor{comment}{/*------------------------- DMAy Streamx FCR Configuration -----------------*/}
+00362   \textcolor{comment}{/* Get the DMAy\_Streamx FCR value */}
+00363   tmpreg = DMAy\_Streamx->FCR;
+00364 
+00365   \textcolor{comment}{/* Clear DMDIS and FTH bits */}
+00366   tmpreg &= (uint32\_t)~(DMA_SxFCR_DMDIS | DMA_SxFCR_FTH);
+00367 
+00368   \textcolor{comment}{/* Configure DMAy Streamx FIFO: }
+00369 \textcolor{comment}{    Set DMDIS bits according to DMA\_FIFOMode value }
+00370 \textcolor{comment}{    Set FTH bits according to DMA\_FIFOThreshold value */}
+00371   tmpreg |= DMA\_InitStruct->DMA_FIFOMode | DMA\_InitStruct->DMA_FIFOThreshold;
+00372 
+00373   \textcolor{comment}{/* Write to DMAy Streamx CR */}
+00374   DMAy\_Streamx->FCR = tmpreg;
+00375 
+00376   \textcolor{comment}{/*------------------------- DMAy Streamx NDTR Configuration ----------------*/}
+00377   \textcolor{comment}{/* Write to DMAy Streamx NDTR register */}
+00378   DMAy\_Streamx->NDTR = DMA\_InitStruct->DMA_BufferSize;
+00379 
+00380   \textcolor{comment}{/*------------------------- DMAy Streamx PAR Configuration -----------------*/}
+00381   \textcolor{comment}{/* Write to DMAy Streamx PAR */}
+00382   DMAy\_Streamx->PAR = DMA\_InitStruct->DMA_PeripheralBaseAddr;
+00383 
+00384   \textcolor{comment}{/*------------------------- DMAy Streamx M0AR Configuration ----------------*/}
+00385   \textcolor{comment}{/* Write to DMAy Streamx M0AR */}
+00386   DMAy\_Streamx->M0AR = DMA\_InitStruct->DMA_Memory0BaseAddr;
+00387 \}
+\end{DoxyCode}
+\mbox{\label{group__DMA__Group1_ga210a9861460b3c9b3fa14fdc1a949744}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!D\+M\+A\+\_\+\+Periph\+Inc\+Offset\+Size\+Config@{D\+M\+A\+\_\+\+Periph\+Inc\+Offset\+Size\+Config}}
+\index{D\+M\+A\+\_\+\+Periph\+Inc\+Offset\+Size\+Config@{D\+M\+A\+\_\+\+Periph\+Inc\+Offset\+Size\+Config}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{D\+M\+A\+\_\+\+Periph\+Inc\+Offset\+Size\+Config()}
+{\footnotesize\ttfamily void D\+M\+A\+\_\+\+Periph\+Inc\+Offset\+Size\+Config (\begin{DoxyParamCaption}\item[{\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$}]{D\+M\+Ay\+\_\+\+Streamx,  }\item[{uint32\+\_\+t}]{D\+M\+A\+\_\+\+Pincos }\end{DoxyParamCaption})}
+
+
+
+Configures, when the P\+I\+NC (Peripheral Increment address mode) bit is set, if the peripheral address should be incremented with the data size (configured with P\+S\+I\+ZE bits) or by a fixed offset equal to 4 (32-\/bit aligned addresses). 
+
+\begin{DoxyNote}{Note}
+This function has no effect if the Peripheral Increment mode is disabled.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em D\+M\+Ay\+\_\+\+Streamx} & where y can be 1 or 2 to select the D\+MA and x can be 0 to 7 to select the D\+MA Stream. \\
+\hline
+{\em D\+M\+A\+\_\+\+Pincos} & specifies the Peripheral increment offset size. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item D\+M\+A\+\_\+\+P\+I\+N\+C\+O\+S\+\_\+\+Psize\+: Peripheral address increment is done accordingly to P\+S\+I\+ZE parameter. \item D\+M\+A\+\_\+\+P\+I\+N\+C\+O\+S\+\_\+\+Word\+Aligned\+: Peripheral address increment offset is fixed to 4 (32-\/bit aligned addresses). \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 506} of file \textbf{ stm32f4xx\+\_\+dma.\+c}.
+
+
+\begin{DoxyCode}
+00507 \{
+00508   \textcolor{comment}{/* Check the parameters */}
+00509   assert_param(IS_DMA_ALL_PERIPH(DMAy\_Streamx));
+00510   assert_param(IS_DMA_PINCOS_SIZE(DMA\_Pincos));
+00511 
+00512   \textcolor{comment}{/* Check the needed Peripheral increment offset */}
+00513   \textcolor{keywordflow}{if}(DMA\_Pincos != DMA_PINCOS_Psize)
+00514   \{
+00515     \textcolor{comment}{/* Configure DMA\_SxCR\_PINCOS bit with the input parameter */}
+00516     DMAy\_Streamx->CR |= (uint32\_t)DMA_SxCR_PINCOS;     
+00517   \}
+00518   \textcolor{keywordflow}{else}
+00519   \{
+00520     \textcolor{comment}{/* Clear the PINCOS bit: Peripheral address incremented according to PSIZE */}
+00521     DMAy\_Streamx->CR &= ~(uint32\_t)DMA_SxCR_PINCOS;    
+00522   \}
+00523 \}
+\end{DoxyCode}
+\mbox{\label{group__DMA__Group1_ga0f7f95f750a90a6824f4e9b6f58adc7e}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!D\+M\+A\+\_\+\+Struct\+Init@{D\+M\+A\+\_\+\+Struct\+Init}}
+\index{D\+M\+A\+\_\+\+Struct\+Init@{D\+M\+A\+\_\+\+Struct\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{D\+M\+A\+\_\+\+Struct\+Init()}
+{\footnotesize\ttfamily void D\+M\+A\+\_\+\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def} $\ast$}]{D\+M\+A\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each D\+M\+A\+\_\+\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+M\+A\+\_\+\+Init\+Struct} & \+: pointer to a \doxyref{D\+M\+A\+\_\+\+Init\+Type\+Def}{p.}{structDMA__InitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 395} of file \textbf{ stm32f4xx\+\_\+dma.\+c}.
+
+
+
+References \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+Buffer\+Size}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+Channel}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+D\+IR}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+F\+I\+F\+O\+Mode}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+F\+I\+F\+O\+Threshold}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+Memory0\+Base\+Addr}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+Memory\+Burst}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+Memory\+Data\+Size}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+Memory\+Inc}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+Mode}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+Peripheral\+Base\+Addr}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+Peripheral\+Burst}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+Peripheral\+Data\+Size}, \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+Peripheral\+Inc}, and \textbf{ D\+M\+A\+\_\+\+Init\+Type\+Def\+::\+D\+M\+A\+\_\+\+Priority}.
+
+
+\begin{DoxyCode}
+00396 \{
+00397   \textcolor{comment}{/*-------------- Reset DMA init structure parameters values ----------------*/}
+00398   \textcolor{comment}{/* Initialize the DMA\_Channel member */}
+00399   DMA\_InitStruct->DMA_Channel = 0;
+00400 
+00401   \textcolor{comment}{/* Initialize the DMA\_PeripheralBaseAddr member */}
+00402   DMA\_InitStruct->DMA_PeripheralBaseAddr = 0;
+00403 
+00404   \textcolor{comment}{/* Initialize the DMA\_Memory0BaseAddr member */}
+00405   DMA\_InitStruct->DMA_Memory0BaseAddr = 0;
+00406 
+00407   \textcolor{comment}{/* Initialize the DMA\_DIR member */}
+00408   DMA\_InitStruct->DMA_DIR = DMA_DIR_PeripheralToMemory;
+00409 
+00410   \textcolor{comment}{/* Initialize the DMA\_BufferSize member */}
+00411   DMA\_InitStruct->DMA_BufferSize = 0;
+00412 
+00413   \textcolor{comment}{/* Initialize the DMA\_PeripheralInc member */}
+00414   DMA\_InitStruct->DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+00415 
+00416   \textcolor{comment}{/* Initialize the DMA\_MemoryInc member */}
+00417   DMA\_InitStruct->DMA_MemoryInc = DMA_MemoryInc_Disable;
+00418 
+00419   \textcolor{comment}{/* Initialize the DMA\_PeripheralDataSize member */}
+00420   DMA\_InitStruct->DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
+00421 
+00422   \textcolor{comment}{/* Initialize the DMA\_MemoryDataSize member */}
+00423   DMA\_InitStruct->DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
+00424 
+00425   \textcolor{comment}{/* Initialize the DMA\_Mode member */}
+00426   DMA\_InitStruct->DMA_Mode = DMA_Mode_Normal;
+00427 
+00428   \textcolor{comment}{/* Initialize the DMA\_Priority member */}
+00429   DMA\_InitStruct->DMA_Priority = DMA_Priority_Low;
+00430 
+00431   \textcolor{comment}{/* Initialize the DMA\_FIFOMode member */}
+00432   DMA\_InitStruct->DMA_FIFOMode = DMA_FIFOMode_Disable;
+00433 
+00434   \textcolor{comment}{/* Initialize the DMA\_FIFOThreshold member */}
+00435   DMA\_InitStruct->DMA_FIFOThreshold = DMA_FIFOThreshold_1QuarterFull;
+00436 
+00437   \textcolor{comment}{/* Initialize the DMA\_MemoryBurst member */}
+00438   DMA\_InitStruct->DMA_MemoryBurst = DMA_MemoryBurst_Single;
+00439 
+00440   \textcolor{comment}{/* Initialize the DMA\_PeripheralBurst member */}
+00441   DMA\_InitStruct->DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
+00442 \}
+\end{DoxyCode}

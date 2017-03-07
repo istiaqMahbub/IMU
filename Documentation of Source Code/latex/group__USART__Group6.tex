@@ -1,0 +1,204 @@
+\section{Smartcard mode functions}
+\label{group__USART__Group6}\index{Smartcard mode functions@{Smartcard mode functions}}
+
+
+Smartcard mode functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Set\+Guard\+Time} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, uint8\+\_\+t U\+S\+A\+R\+T\+\_\+\+Guard\+Time)
+\begin{DoxyCompactList}\small\item\em Sets the specified U\+S\+A\+RT guard time. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Smart\+Card\+Cmd} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\+S\+A\+RT\textquotesingle{}s Smart Card mode. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Smart\+Card\+N\+A\+C\+K\+Cmd} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables N\+A\+CK transmission. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Smartcard mode functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                               Smartcard mode functions
+ ===============================================================================  
+
+  This subsection provides a set of functions allowing to manage the USART 
+  Smartcard communication.
+  
+  The Smartcard interface is designed to support asynchronous protocol Smartcards as
+  defined in the ISO 7816-3 standard.
+
+  The USART can provide a clock to the smartcard through the SCLK output.
+  In smartcard mode, SCLK is not associated to the communication but is simply derived 
+  from the internal peripheral input clock through a 5-bit prescaler.
+
+  Smartcard communication is possible through the following procedure:
+     1. Configures the Smartcard Prescaler using the USART_SetPrescaler() function.
+     2. Configures the Smartcard Guard Time using the USART_SetGuardTime() function.
+     3. Program the USART clock using the USART_ClockInit() function as following:
+        - USART Clock enabled
+        - USART CPOL Low
+        - USART CPHA on first edge
+        - USART Last Bit Clock Enabled
+     4. Program the Smartcard interface using the USART_Init() function as following:
+        - Word Length = 9 Bits
+        - 1.5 Stop Bit
+        - Even parity
+        - BaudRate = 12096 baud
+        - Hardware flow control disabled (RTS and CTS signals)
+        - Tx and Rx enabled
+     5. Optionally you can enable the parity error interrupt using the USART_ITConfig()
+        function
+     6. Enable the USART using the USART_Cmd() function.
+     7. Enable the Smartcard NACK using the USART_SmartCardNACKCmd() function.
+     8. Enable the Smartcard interface using the USART_SmartCardCmd() function.
+
+  Please refer to the ISO 7816-3 specification for more details.
+
+
+@note It is also possible to choose 0.5 stop bit for receiving but it is recommended 
+      to use 1.5 stop bits for both transmitting and receiving to avoid switching 
+      between the two configurations.
+@note In smartcard mode, the following bits must be kept cleared:
+        - LINEN bit in the USART_CR2 register.
+        - HDSEL and IREN bits in the USART_CR3 register.
+@note Smartcard mode is available on USART peripherals only (not available on UART4 
+      and UART5 peripherals).\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__USART__Group6_gac4a35c6acd71ae7e0d67c1f03f0a8777}} 
+\index{Smartcard mode functions@{Smartcard mode functions}!U\+S\+A\+R\+T\+\_\+\+Set\+Guard\+Time@{U\+S\+A\+R\+T\+\_\+\+Set\+Guard\+Time}}
+\index{U\+S\+A\+R\+T\+\_\+\+Set\+Guard\+Time@{U\+S\+A\+R\+T\+\_\+\+Set\+Guard\+Time}!Smartcard mode functions@{Smartcard mode functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+Set\+Guard\+Time()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+Set\+Guard\+Time (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx,  }\item[{uint8\+\_\+t}]{U\+S\+A\+R\+T\+\_\+\+Guard\+Time }\end{DoxyParamCaption})}
+
+
+
+Sets the specified U\+S\+A\+RT guard time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3 or 6 to select the U\+S\+A\+RT or U\+A\+RT peripheral. \\
+\hline
+{\em U\+S\+A\+R\+T\+\_\+\+Guard\+Time} & specifies the guard time. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 901} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+\begin{DoxyCode}
+00902 \{    
+00903   \textcolor{comment}{/* Check the parameters */}
+00904   assert_param(IS_USART_1236_PERIPH(USARTx));
+00905   
+00906   \textcolor{comment}{/* Clear the USART Guard time */}
+00907   USARTx->GTPR &= USART_GTPR_PSC;
+00908   \textcolor{comment}{/* Set the USART guard time */}
+00909   USARTx->GTPR |= (uint16\_t)((uint16\_t)USART\_GuardTime << 0x08);
+00910 \}
+\end{DoxyCode}
+\mbox{\label{group__USART__Group6_gabd1347e244c623447151ba3a5e986c5f}} 
+\index{Smartcard mode functions@{Smartcard mode functions}!U\+S\+A\+R\+T\+\_\+\+Smart\+Card\+Cmd@{U\+S\+A\+R\+T\+\_\+\+Smart\+Card\+Cmd}}
+\index{U\+S\+A\+R\+T\+\_\+\+Smart\+Card\+Cmd@{U\+S\+A\+R\+T\+\_\+\+Smart\+Card\+Cmd}!Smartcard mode functions@{Smartcard mode functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+Smart\+Card\+Cmd()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+Smart\+Card\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the U\+S\+A\+RT\textquotesingle{}s Smart Card mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3 or 6 to select the U\+S\+A\+RT or U\+A\+RT peripheral. \\
+\hline
+{\em New\+State} & new state of the Smart Card mode. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 920} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00921 \{
+00922   \textcolor{comment}{/* Check the parameters */}
+00923   assert_param(IS_USART_1236_PERIPH(USARTx));
+00924   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00925   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00926   \{
+00927     \textcolor{comment}{/* Enable the SC mode by setting the SCEN bit in the CR3 register */}
+00928     USARTx->CR3 |= USART_CR3_SCEN;
+00929   \}
+00930   \textcolor{keywordflow}{else}
+00931   \{
+00932     \textcolor{comment}{/* Disable the SC mode by clearing the SCEN bit in the CR3 register */}
+00933     USARTx->CR3 &= (uint16\_t)~((uint16\_t)USART_CR3_SCEN);
+00934   \}
+00935 \}
+\end{DoxyCode}
+\mbox{\label{group__USART__Group6_ga62e22f47e38aa53f2edce8771f7a5dfa}} 
+\index{Smartcard mode functions@{Smartcard mode functions}!U\+S\+A\+R\+T\+\_\+\+Smart\+Card\+N\+A\+C\+K\+Cmd@{U\+S\+A\+R\+T\+\_\+\+Smart\+Card\+N\+A\+C\+K\+Cmd}}
+\index{U\+S\+A\+R\+T\+\_\+\+Smart\+Card\+N\+A\+C\+K\+Cmd@{U\+S\+A\+R\+T\+\_\+\+Smart\+Card\+N\+A\+C\+K\+Cmd}!Smartcard mode functions@{Smartcard mode functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+Smart\+Card\+N\+A\+C\+K\+Cmd()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+Smart\+Card\+N\+A\+C\+K\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables N\+A\+CK transmission. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3 or 6 to select the U\+S\+A\+RT or U\+A\+RT peripheral. \\
+\hline
+{\em New\+State} & new state of the N\+A\+CK transmission. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 945} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00946 \{
+00947   \textcolor{comment}{/* Check the parameters */}
+00948   assert_param(IS_USART_1236_PERIPH(USARTx)); 
+00949   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00950   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00951   \{
+00952     \textcolor{comment}{/* Enable the NACK transmission by setting the NACK bit in the CR3 register */}
+00953     USARTx->CR3 |= USART_CR3_NACK;
+00954   \}
+00955   \textcolor{keywordflow}{else}
+00956   \{
+00957     \textcolor{comment}{/* Disable the NACK transmission by clearing the NACK bit in the CR3 register */}
+00958     USARTx->CR3 &= (uint16\_t)~((uint16\_t)USART_CR3_NACK);
+00959   \}
+00960 \}
+\end{DoxyCode}

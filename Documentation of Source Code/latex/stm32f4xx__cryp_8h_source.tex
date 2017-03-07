@@ -1,0 +1,343 @@
+\section{stm32f4xx\+\_\+cryp.\+h}
+\label{stm32f4xx__cryp_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+cryp.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+cryp.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_cryp.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the Cryptographic}
+00008 \textcolor{comment}{  *          processor(CRYP) firmware library.}
+00009 \textcolor{comment}{  ******************************************************************************}
+00010 \textcolor{comment}{  * @attention}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00013 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00014 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00015 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00016 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00017 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00020 \textcolor{comment}{  ******************************************************************************}
+00021 \textcolor{comment}{  */}
+00022 
+00023 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_CRYP\_H}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_CRYP\_H}
+00026 
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00028  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00033 
+00034 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00035 \textcolor{comment}{  * @\{}
+00036 \textcolor{comment}{  */}
+00037 
+00038 \textcolor{comment}{/** @addtogroup CRYP}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00043 
+00044 \textcolor{comment}{/** }
+00045 \textcolor{comment}{  * @brief   CRYP Init structure definition  }
+00046 \textcolor{comment}{  */}
+00047 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00048 \{
+00049   uint16\_t CRYP_AlgoDir;   \textcolor{comment}{/*!< Encrypt or Decrypt. This parameter can be a }
+00050 \textcolor{comment}{                                value of @ref CRYP\_Algorithm\_Direction */}
+00051   uint16\_t CRYP_AlgoMode;  \textcolor{comment}{/*!< TDES-ECB, TDES-CBC, DES-ECB, DES-CBC, AES-ECB, }
+00052 \textcolor{comment}{                                AES-CBC, AES-CTR, AES-Key. This parameter can be}
+00053 \textcolor{comment}{                                a value of @ref CRYP\_Algorithm\_Mode */}
+00054   uint16\_t CRYP_DataType;  \textcolor{comment}{/*!< 32-bit data, 16-bit data, bit data or bit-string.}
+00055 \textcolor{comment}{                                This parameter can be a value of @ref CRYP\_Data\_Type */}
+00056   uint16\_t CRYP_KeySize;   \textcolor{comment}{/*!< Used only in AES mode only : 128, 192 or 256 bit }
+00057 \textcolor{comment}{                                key length. This parameter can be a value of }
+00058 \textcolor{comment}{                                @ref CRYP\_Key\_Size\_for\_AES\_only */}
+00059 \}CRYP\_InitTypeDef;
+00060 
+00061 \textcolor{comment}{/** }
+00062 \textcolor{comment}{  * @brief   CRYP Key(s) structure definition  }
+00063 \textcolor{comment}{  */}
+00064 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00065 \{
+00066   uint32\_t CRYP_Key0Left;  \textcolor{comment}{/*!< Key 0 Left  */}
+00067   uint32\_t CRYP_Key0Right; \textcolor{comment}{/*!< Key 0 Right */}
+00068   uint32\_t CRYP_Key1Left;  \textcolor{comment}{/*!< Key 1 left  */}
+00069   uint32\_t CRYP_Key1Right; \textcolor{comment}{/*!< Key 1 Right */}
+00070   uint32\_t CRYP_Key2Left;  \textcolor{comment}{/*!< Key 2 left  */}
+00071   uint32\_t CRYP_Key2Right; \textcolor{comment}{/*!< Key 2 Right */}
+00072   uint32\_t CRYP_Key3Left;  \textcolor{comment}{/*!< Key 3 left  */}
+00073   uint32\_t CRYP_Key3Right; \textcolor{comment}{/*!< Key 3 Right */}
+00074 \}CRYP\_KeyInitTypeDef;
+00075 \textcolor{comment}{/** }
+00076 \textcolor{comment}{  * @brief   CRYP Initialization Vectors (IV) structure definition  }
+00077 \textcolor{comment}{  */}
+00078 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00079 \{
+00080   uint32\_t CRYP_IV0Left;  \textcolor{comment}{/*!< Init Vector 0 Left  */}
+00081   uint32\_t CRYP_IV0Right; \textcolor{comment}{/*!< Init Vector 0 Right */}
+00082   uint32\_t CRYP_IV1Left;  \textcolor{comment}{/*!< Init Vector 1 left  */}
+00083   uint32\_t CRYP_IV1Right; \textcolor{comment}{/*!< Init Vector 1 Right */}
+00084 \}CRYP\_IVInitTypeDef;
+00085 
+00086 \textcolor{comment}{/** }
+00087 \textcolor{comment}{  * @brief  CRYP context swapping structure definition  }
+00088 \textcolor{comment}{  */}
+00089 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00090 \{
+00091   \textcolor{comment}{/*!< Configuration */}
+00092   uint32\_t CR_bits9to2;
+00093   \textcolor{comment}{/*!< KEY */}
+00094   uint32\_t CRYP_IV0LR;
+00095   uint32\_t CRYP_IV0RR;
+00096   uint32\_t CRYP_IV1LR;
+00097   uint32\_t CRYP_IV1RR;
+00098   \textcolor{comment}{/*!< IV */}
+00099   uint32\_t CRYP_K0LR;
+00100   uint32\_t CRYP_K0RR;
+00101   uint32\_t CRYP_K1LR;
+00102   uint32\_t CRYP_K1RR;
+00103   uint32\_t CRYP_K2LR;
+00104   uint32\_t CRYP_K2RR;
+00105   uint32\_t CRYP_K3LR;
+00106   uint32\_t CRYP_K3RR;
+00107 \}CRYP\_Context;
+00108 
+00109 
+00110 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00111 
+00112 \textcolor{comment}{/** @defgroup CRYP\_Exported\_Constants}
+00113 \textcolor{comment}{  * @\{}
+00114 \textcolor{comment}{  */}
+00115 
+00116 \textcolor{comment}{/** @defgroup CRYP\_Algorithm\_Direction }
+00117 \textcolor{comment}{  * @\{}
+00118 \textcolor{comment}{  */}
+00119 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_AlgoDir\_Encrypt}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00120 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_AlgoDir\_Decrypt}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0004\textcolor{preprocessor}{)}
+00121 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CRYP\_ALGODIR}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALGODIR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALGODIR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_AlgoDir_Encrypt\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00122                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALGODIR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_AlgoDir_Decrypt\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00123 
+00124 \textcolor{comment}{/**}
+00125 \textcolor{comment}{  * @\}}
+00126 \textcolor{comment}{  */}
+00127 
+00128 \textcolor{comment}{/** @defgroup CRYP\_Algorithm\_Mode }
+00129 \textcolor{comment}{  * @\{}
+00130 \textcolor{comment}{  */}
+00131 
+00132 \textcolor{comment}{/*!< TDES Modes */}
+00133 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_AlgoMode\_TDES\_ECB}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00134 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_AlgoMode\_TDES\_CBC}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0008\textcolor{preprocessor}{)}
+00135 
+00136 \textcolor{comment}{/*!< DES Modes */}
+00137 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_AlgoMode\_DES\_ECB}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0010\textcolor{preprocessor}{)}
+00138 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_AlgoMode\_DES\_CBC}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0018\textcolor{preprocessor}{)}
+00139 
+00140 \textcolor{comment}{/*!< AES Modes */}
+00141 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_AlgoMode\_AES\_ECB}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0020\textcolor{preprocessor}{)}
+00142 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_AlgoMode\_AES\_CBC}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0028\textcolor{preprocessor}{)}
+00143 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_AlgoMode\_AES\_CTR}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0030\textcolor{preprocessor}{)}
+00144 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_AlgoMode\_AES\_Key}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0038\textcolor{preprocessor}{)}
+00145 
+00146 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CRYP\_ALGOMODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALGOMODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALGOMODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_AlgoMode_TDES_ECB\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00147                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALGOMODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_AlgoMode_TDES_CBC\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00148                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALGOMODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_AlgoMode_DES_ECB\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00149                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALGOMODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_AlgoMode_DES_CBC\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00150                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALGOMODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_AlgoMode_AES_ECB\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00151                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALGOMODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_AlgoMode_AES_CBC\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00152                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALGOMODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_AlgoMode_AES_CTR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00153                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALGOMODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_AlgoMode_AES_Key\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00154 \textcolor{comment}{/**}
+00155 \textcolor{comment}{  * @\}}
+00156 \textcolor{comment}{  */}
+00157 
+00158 \textcolor{comment}{/** @defgroup CRYP\_Data\_Type }
+00159 \textcolor{comment}{  * @\{}
+00160 \textcolor{comment}{  */}
+00161 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_DataType\_32b}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00162 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_DataType\_16b}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0040\textcolor{preprocessor}{)}
+00163 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_DataType\_8b}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0080\textcolor{preprocessor}{)}
+00164 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_DataType\_1b}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x00C0\textcolor{preprocessor}{)}
+00165 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CRYP\_DATATYPE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATATYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATATYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_DataType_32b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00166                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATATYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_DataType_16b\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00167                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATATYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_DataType_8b\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00168                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATATYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_DataType_1b\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00169 \textcolor{comment}{/**}
+00170 \textcolor{comment}{  * @\}}
+00171 \textcolor{comment}{  */}
+00172 
+00173 \textcolor{comment}{/** @defgroup CRYP\_Key\_Size\_for\_AES\_only }
+00174 \textcolor{comment}{  * @\{}
+00175 \textcolor{comment}{  */}
+00176 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_KeySize\_128b}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00177 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_KeySize\_192b}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0100\textcolor{preprocessor}{)}
+00178 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_KeySize\_256b}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0200\textcolor{preprocessor}{)}
+00179 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CRYP\_KEYSIZE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{KEYSIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{KEYSIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_KeySize_128b\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00180                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{KEYSIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_KeySize_192b\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00181                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{KEYSIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_KeySize_256b\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00182 \textcolor{comment}{/**}
+00183 \textcolor{comment}{  * @\}}
+00184 \textcolor{comment}{  */}
+00185 
+00186 \textcolor{comment}{/** @defgroup CRYP\_flags\_definition }
+00187 \textcolor{comment}{  * @\{}
+00188 \textcolor{comment}{  */}
+00189 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_FLAG\_BUSY}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x10\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< The CRYP core is currently }
+00190 \textcolor{comment}{                                                        processing a block of data }
+00191 \textcolor{comment}{                                                        or a key preparation (for }
+00192 \textcolor{comment}{                                                        AES decryption). */}
+00193 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_FLAG\_IFEM}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Input Fifo Empty */}
+00194 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_FLAG\_IFNF}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Input Fifo is Not Full */}
+00195 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_FLAG\_INRIS}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x22\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Raw interrupt pending */}
+00196 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_FLAG\_OFNE}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x04\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Input Fifo service raw }
+00197 \textcolor{comment}{                                                        interrupt status */}
+00198 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_FLAG\_OFFU}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x08\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Output Fifo is Full */}
+00199 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_FLAG\_OUTRIS}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x21\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Output Fifo service raw }
+00200 \textcolor{comment}{                                                        interrupt status */}
+00201 
+00202 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CRYP\_GET\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_FLAG_IFEM\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00203                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_FLAG_IFNF\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00204                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_FLAG_OFNE\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00205                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_FLAG_OFFU\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00206                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_FLAG_BUSY\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00207                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_FLAG_OUTRIS\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00208                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_FLAG_INRIS\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00209 \textcolor{comment}{/**}
+00210 \textcolor{comment}{  * @\}}
+00211 \textcolor{comment}{  */}
+00212 
+00213 \textcolor{comment}{/** @defgroup CRYP\_interrupts\_definition }
+00214 \textcolor{comment}{  * @\{}
+00215 \textcolor{comment}{  */}
+00216 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_IT\_INI}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)} \textcolor{comment}{/*!< IN Fifo Interrupt */}
+00217 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_IT\_OUTI}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)} \textcolor{comment}{/*!< OUT Fifo Interrupt */}
+00218 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CRYP\_CONFIG\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0xFC\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00219 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CRYP\_GET\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_IT_INI\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CRYP_IT_OUTI\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00220 
+00221 \textcolor{comment}{/**}
+00222 \textcolor{comment}{  * @\}}
+00223 \textcolor{comment}{  */}
+00224 
+00225 \textcolor{comment}{/** @defgroup CRYP\_Encryption\_Decryption\_modes\_definition }
+00226 \textcolor{comment}{  * @\{}
+00227 \textcolor{comment}{  */}
+00228 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{MODE\_ENCRYPT}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}
+00229 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{MODE\_DECRYPT}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}
+00230 
+00231 \textcolor{comment}{/**}
+00232 \textcolor{comment}{  * @\}}
+00233 \textcolor{comment}{  */}
+00234 
+00235 \textcolor{comment}{/** @defgroup CRYP\_DMA\_transfer\_requests }
+00236 \textcolor{comment}{  * @\{}
+00237 \textcolor{comment}{  */}
+00238 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_DMAReq\_DataIN}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}
+00239 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CRYP\_DMAReq\_DataOUT}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}
+00240 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CRYP\_DMAREQ}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DMAREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DMAREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0xFC\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DMAREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00241 \textcolor{comment}{/**}
+00242 \textcolor{comment}{  * @\}}
+00243 \textcolor{comment}{  */}
+00244 
+00245 \textcolor{comment}{/**}
+00246 \textcolor{comment}{  * @\}}
+00247 \textcolor{comment}{  */}
+00248 
+00249 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00250 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00251 
+00252 \textcolor{comment}{/*  Function used to set the CRYP configuration to the default reset state ****/}
+00253 \textcolor{keywordtype}{void} CRYP_DeInit(\textcolor{keywordtype}{void});
+00254 
+00255 \textcolor{comment}{/* CRYP Initialization and Configuration functions ****************************/}
+00256 \textcolor{keywordtype}{void} CRYP_Init(CRYP\_InitTypeDef* CRYP\_InitStruct);
+00257 \textcolor{keywordtype}{void} CRYP_StructInit(CRYP\_InitTypeDef* CRYP\_InitStruct);
+00258 \textcolor{keywordtype}{void} CRYP_KeyInit(CRYP\_KeyInitTypeDef* CRYP\_KeyInitStruct);
+00259 \textcolor{keywordtype}{void} CRYP_KeyStructInit(CRYP\_KeyInitTypeDef* CRYP\_KeyInitStruct);
+00260 \textcolor{keywordtype}{void} CRYP_IVInit(CRYP\_IVInitTypeDef* CRYP\_IVInitStruct);
+00261 \textcolor{keywordtype}{void} CRYP_IVStructInit(CRYP\_IVInitTypeDef* CRYP\_IVInitStruct);
+00262 \textcolor{keywordtype}{void} CRYP_Cmd(FunctionalState NewState);
+00263 
+00264 \textcolor{comment}{/* CRYP Data processing functions *********************************************/}
+00265 \textcolor{keywordtype}{void} CRYP_DataIn(uint32\_t Data);
+00266 uint32\_t CRYP_DataOut(\textcolor{keywordtype}{void});
+00267 \textcolor{keywordtype}{void} CRYP_FIFOFlush(\textcolor{keywordtype}{void});
+00268 
+00269 \textcolor{comment}{/* CRYP Context swapping functions ********************************************/}
+00270 ErrorStatus CRYP_SaveContext(CRYP\_Context* CRYP\_ContextSave,
+00271                              CRYP\_KeyInitTypeDef* CRYP\_KeyInitStruct);
+00272 \textcolor{keywordtype}{void} CRYP_RestoreContext(CRYP\_Context* CRYP\_ContextRestore);
+00273 
+00274 \textcolor{comment}{/* CRYP's DMA interface function **********************************************/}
+00275 \textcolor{keywordtype}{void} CRYP_DMACmd(uint8\_t CRYP\_DMAReq, FunctionalState NewState);
+00276 
+00277 \textcolor{comment}{/* Interrupts and flags management functions **********************************/}
+00278 \textcolor{keywordtype}{void} CRYP_ITConfig(uint8\_t CRYP\_IT, FunctionalState NewState);
+00279 ITStatus CRYP_GetITStatus(uint8\_t CRYP\_IT);
+00280 FlagStatus CRYP_GetFlagStatus(uint8\_t CRYP\_FLAG);
+00281 
+00282 \textcolor{comment}{/* High Level AES functions **************************************************/}
+00283 ErrorStatus CRYP_AES_ECB(uint8\_t Mode,
+00284                          uint8\_t *Key, uint16\_t Keysize,
+00285                          uint8\_t *Input, uint32\_t Ilength,
+00286                          uint8\_t *Output);
+00287 
+00288 ErrorStatus CRYP_AES_CBC(uint8\_t Mode,
+00289                          uint8\_t InitVectors[16],
+00290                          uint8\_t *Key, uint16\_t Keysize,
+00291                          uint8\_t *Input, uint32\_t Ilength,
+00292                          uint8\_t *Output);
+00293 
+00294 ErrorStatus CRYP_AES_CTR(uint8\_t Mode,
+00295                          uint8\_t InitVectors[16],
+00296                          uint8\_t *Key, uint16\_t Keysize,
+00297                          uint8\_t *Input, uint32\_t Ilength,
+00298                          uint8\_t *Output);
+00299 
+00300 \textcolor{comment}{/* High Level TDES functions **************************************************/}
+00301 ErrorStatus CRYP_TDES_ECB(uint8\_t Mode,
+00302                            uint8\_t Key[24],
+00303                            uint8\_t *Input, uint32\_t Ilength,
+00304                            uint8\_t *Output);
+00305 
+00306 ErrorStatus CRYP_TDES_CBC(uint8\_t Mode,
+00307                           uint8\_t Key[24],
+00308                           uint8\_t InitVectors[8],
+00309                           uint8\_t *Input, uint32\_t Ilength,
+00310                           uint8\_t *Output);
+00311 
+00312 \textcolor{comment}{/* High Level DES functions **************************************************/}
+00313 ErrorStatus CRYP_DES_ECB(uint8\_t Mode,
+00314                          uint8\_t Key[8],
+00315                          uint8\_t *Input, uint32\_t Ilength,
+00316                          uint8\_t *Output);
+00317 
+00318 ErrorStatus CRYP_DES_CBC(uint8\_t Mode,
+00319                          uint8\_t Key[8],
+00320                          uint8\_t InitVectors[8],
+00321                          uint8\_t *Input,uint32\_t Ilength,
+00322                          uint8\_t *Output);
+00323 
+00324 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00325 \}
+00326 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00327 
+00328 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/*\_\_STM32F4xx\_CRYP\_H */}
+00329 
+00330 \textcolor{comment}{/**}
+00331 \textcolor{comment}{  * @\}}
+00332 \textcolor{comment}{  */}
+00333 
+00334 \textcolor{comment}{/**}
+00335 \textcolor{comment}{  * @\}}
+00336 \textcolor{comment}{  */}
+00337 
+00338 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

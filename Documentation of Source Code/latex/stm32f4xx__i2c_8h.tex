@@ -1,0 +1,306 @@
+\section{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+i2c.h File Reference}
+\label{stm32f4xx__i2c_8h}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+i2c.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+i2c.\+h}}
+
+
+This file contains all the functions prototypes for the I2C firmware library.  
+
+
+{\ttfamily \#include \char`\"{}stm32f4xx.\+h\char`\"{}}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ I2\+C\+\_\+\+Init\+Type\+Def}
+\begin{DoxyCompactList}\small\item\em I2C Init structure definition. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ I\+S\+\_\+\+I2\+C\+\_\+\+A\+L\+L\+\_\+\+P\+E\+R\+I\+PH}(P\+E\+R\+I\+PH)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+Mode\+\_\+\+I2C}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+Mode\+\_\+\+S\+M\+Bus\+Device}~((uint16\+\_\+t)0x0002)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+Mode\+\_\+\+S\+M\+Bus\+Host}~((uint16\+\_\+t)0x000\+A)
+\item 
+\#define \textbf{ I\+S\+\_\+\+I2\+C\+\_\+\+M\+O\+DE}(M\+O\+DE)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+Duty\+Cycle\+\_\+16\+\_\+9}~((uint16\+\_\+t)0x4000)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+Duty\+Cycle\+\_\+2}~((uint16\+\_\+t)0x\+B\+F\+F\+F)
+\item 
+\#define \textbf{ I\+S\+\_\+\+I2\+C\+\_\+\+D\+U\+T\+Y\+\_\+\+C\+Y\+C\+LE}(C\+Y\+C\+LE)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+Ack\+\_\+\+Enable}~((uint16\+\_\+t)0x0400)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+Ack\+\_\+\+Disable}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+I2\+C\+\_\+\+A\+C\+K\+\_\+\+S\+T\+A\+TE}(S\+T\+A\+TE)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+Direction\+\_\+\+Transmitter}~((uint8\+\_\+t)0x00)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+Direction\+\_\+\+Receiver}~((uint8\+\_\+t)0x01)
+\item 
+\#define \textbf{ I\+S\+\_\+\+I2\+C\+\_\+\+D\+I\+R\+E\+C\+T\+I\+ON}(D\+I\+R\+E\+C\+T\+I\+ON)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+Acknowledged\+Address\+\_\+7bit}~((uint16\+\_\+t)0x4000)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+Acknowledged\+Address\+\_\+10bit}~((uint16\+\_\+t)0x\+C000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+I2\+C\+\_\+\+A\+C\+K\+N\+O\+W\+L\+E\+D\+G\+E\+\_\+\+A\+D\+D\+R\+E\+SS}(A\+D\+D\+R\+E\+SS)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+Register\+\_\+\+C\+R1}~((uint8\+\_\+t)0x00)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+Register\+\_\+\+C\+R2}~((uint8\+\_\+t)0x04)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+Register\+\_\+\+O\+A\+R1}~((uint8\+\_\+t)0x08)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+Register\+\_\+\+O\+A\+R2}~((uint8\+\_\+t)0x0\+C)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+Register\+\_\+\+DR}~((uint8\+\_\+t)0x10)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+Register\+\_\+\+S\+R1}~((uint8\+\_\+t)0x14)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+Register\+\_\+\+S\+R2}~((uint8\+\_\+t)0x18)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+Register\+\_\+\+C\+CR}~((uint8\+\_\+t)0x1\+C)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+Register\+\_\+\+T\+R\+I\+SE}~((uint8\+\_\+t)0x20)
+\item 
+\#define \textbf{ I\+S\+\_\+\+I2\+C\+\_\+\+R\+E\+G\+I\+S\+T\+ER}(R\+E\+G\+I\+S\+T\+ER)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+N\+A\+C\+K\+Position\+\_\+\+Next}~((uint16\+\_\+t)0x0800)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+N\+A\+C\+K\+Position\+\_\+\+Current}~((uint16\+\_\+t)0x\+F7\+F\+F)
+\item 
+\#define \textbf{ I\+S\+\_\+\+I2\+C\+\_\+\+N\+A\+C\+K\+\_\+\+P\+O\+S\+I\+T\+I\+ON}(P\+O\+S\+I\+T\+I\+ON)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+S\+M\+Bus\+Alert\+\_\+\+Low}~((uint16\+\_\+t)0x2000)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+S\+M\+Bus\+Alert\+\_\+\+High}~((uint16\+\_\+t)0x\+D\+F\+F\+F)
+\item 
+\#define \textbf{ I\+S\+\_\+\+I2\+C\+\_\+\+S\+M\+B\+U\+S\+\_\+\+A\+L\+E\+RT}(A\+L\+E\+RT)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+P\+E\+C\+Position\+\_\+\+Next}~((uint16\+\_\+t)0x0800)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+P\+E\+C\+Position\+\_\+\+Current}~((uint16\+\_\+t)0x\+F7\+F\+F)
+\item 
+\#define \textbf{ I\+S\+\_\+\+I2\+C\+\_\+\+P\+E\+C\+\_\+\+P\+O\+S\+I\+T\+I\+ON}(P\+O\+S\+I\+T\+I\+ON)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+I\+T\+\_\+\+B\+UF}~((uint16\+\_\+t)0x0400)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+I\+T\+\_\+\+E\+VT}~((uint16\+\_\+t)0x0200)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+I\+T\+\_\+\+E\+RR}~((uint16\+\_\+t)0x0100)
+\item 
+\#define \textbf{ I\+S\+\_\+\+I2\+C\+\_\+\+C\+O\+N\+F\+I\+G\+\_\+\+IT}(IT)~((((IT) \& (uint16\+\_\+t)0x\+F8\+F\+F) == 0x00) \&\& ((\+I\+T) != 0x00))
+\item 
+\#define \textbf{ I2\+C\+\_\+\+I\+T\+\_\+\+S\+M\+B\+A\+L\+E\+RT}~((uint32\+\_\+t)0x01008000)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+I\+T\+\_\+\+T\+I\+M\+E\+O\+UT}~((uint32\+\_\+t)0x01004000)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+I\+T\+\_\+\+P\+E\+C\+E\+RR}~((uint32\+\_\+t)0x01001000)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+I\+T\+\_\+\+O\+VR}~((uint32\+\_\+t)0x01000800)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+I\+T\+\_\+\+AF}~((uint32\+\_\+t)0x01000400)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+I\+T\+\_\+\+A\+R\+LO}~((uint32\+\_\+t)0x01000200)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+I\+T\+\_\+\+B\+E\+RR}~((uint32\+\_\+t)0x01000100)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+I\+T\+\_\+\+T\+XE}~((uint32\+\_\+t)0x06000080)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+I\+T\+\_\+\+R\+X\+NE}~((uint32\+\_\+t)0x06000040)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+I\+T\+\_\+\+S\+T\+O\+PF}~((uint32\+\_\+t)0x02000010)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+I\+T\+\_\+\+A\+D\+D10}~((uint32\+\_\+t)0x02000008)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+I\+T\+\_\+\+B\+TF}~((uint32\+\_\+t)0x02000004)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+I\+T\+\_\+\+A\+D\+DR}~((uint32\+\_\+t)0x02000002)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+I\+T\+\_\+\+SB}~((uint32\+\_\+t)0x02000001)
+\item 
+\#define \textbf{ I\+S\+\_\+\+I2\+C\+\_\+\+C\+L\+E\+A\+R\+\_\+\+IT}(IT)~((((IT) \& (uint16\+\_\+t)0x20\+F\+F) == 0x00) \&\& ((\+I\+T) != (uint16\+\_\+t)0x00))
+\item 
+\#define \textbf{ I\+S\+\_\+\+I2\+C\+\_\+\+G\+E\+T\+\_\+\+IT}(IT)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+D\+U\+A\+LF}~((uint32\+\_\+t)0x00800000)
+\begin{DoxyCompactList}\small\item\em S\+R2 register flags. \end{DoxyCompactList}\item 
+\#define \textbf{ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+S\+M\+B\+H\+O\+ST}~((uint32\+\_\+t)0x00400000)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+S\+M\+B\+D\+E\+F\+A\+U\+LT}~((uint32\+\_\+t)0x00200000)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+G\+E\+N\+C\+A\+LL}~((uint32\+\_\+t)0x00100000)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+RA}~((uint32\+\_\+t)0x00040000)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+B\+U\+SY}~((uint32\+\_\+t)0x00020000)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+M\+SL}~((uint32\+\_\+t)0x00010000)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+S\+M\+B\+A\+L\+E\+RT}~((uint32\+\_\+t)0x10008000)
+\begin{DoxyCompactList}\small\item\em S\+R1 register flags. \end{DoxyCompactList}\item 
+\#define \textbf{ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+I\+M\+E\+O\+UT}~((uint32\+\_\+t)0x10004000)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+P\+E\+C\+E\+RR}~((uint32\+\_\+t)0x10001000)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+O\+VR}~((uint32\+\_\+t)0x10000800)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+AF}~((uint32\+\_\+t)0x10000400)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+R\+LO}~((uint32\+\_\+t)0x10000200)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+B\+E\+RR}~((uint32\+\_\+t)0x10000100)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+XE}~((uint32\+\_\+t)0x10000080)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+NE}~((uint32\+\_\+t)0x10000040)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+S\+T\+O\+PF}~((uint32\+\_\+t)0x10000010)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+D\+D10}~((uint32\+\_\+t)0x10000008)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+B\+TF}~((uint32\+\_\+t)0x10000004)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+D\+DR}~((uint32\+\_\+t)0x10000002)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+SB}~((uint32\+\_\+t)0x10000001)
+\item 
+\#define \textbf{ I\+S\+\_\+\+I2\+C\+\_\+\+C\+L\+E\+A\+R\+\_\+\+F\+L\+AG}(F\+L\+AG)~((((F\+L\+AG) \& (uint16\+\_\+t)0x20\+F\+F) == 0x00) \&\& ((\+F\+L\+A\+G) != (uint16\+\_\+t)0x00))
+\item 
+\#define \textbf{ I\+S\+\_\+\+I2\+C\+\_\+\+G\+E\+T\+\_\+\+F\+L\+AG}(F\+L\+AG)
+\item 
+\#define \textbf{ I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+M\+A\+S\+T\+E\+R\+\_\+\+M\+O\+D\+E\+\_\+\+S\+E\+L\+E\+CT}~((uint32\+\_\+t)0x00030001)  /$\ast$ B\+U\+S\+Y, M\+S\+L and S\+B flag $\ast$/
+\begin{DoxyCompactList}\small\item\em Communication start. \end{DoxyCompactList}\item 
+\#define \textbf{ I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+M\+A\+S\+T\+E\+R\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+E\+R\+\_\+\+M\+O\+D\+E\+\_\+\+S\+E\+L\+E\+C\+T\+ED}~((uint32\+\_\+t)0x00070082)  /$\ast$ B\+U\+S\+Y, M\+S\+L, A\+D\+D\+R, T\+X\+E and T\+R\+A flags $\ast$/
+\begin{DoxyCompactList}\small\item\em Address Acknowledge. \end{DoxyCompactList}\item 
+\#define \textbf{ I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+M\+A\+S\+T\+E\+R\+\_\+\+R\+E\+C\+E\+I\+V\+E\+R\+\_\+\+M\+O\+D\+E\+\_\+\+S\+E\+L\+E\+C\+T\+ED}~((uint32\+\_\+t)0x00030002)  /$\ast$ B\+U\+S\+Y, M\+S\+L and A\+D\+D\+R flags $\ast$/
+\item 
+\#define \textbf{ I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+M\+A\+S\+T\+E\+R\+\_\+\+M\+O\+D\+E\+\_\+\+A\+D\+D\+R\+E\+S\+S10}~((uint32\+\_\+t)0x00030008)  /$\ast$ B\+U\+S\+Y, M\+S\+L and A\+D\+D10 flags $\ast$/
+\item 
+\#define \textbf{ I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+M\+A\+S\+T\+E\+R\+\_\+\+B\+Y\+T\+E\+\_\+\+R\+E\+C\+E\+I\+V\+ED}~((uint32\+\_\+t)0x00030040)  /$\ast$ B\+U\+S\+Y, M\+S\+L and R\+X\+N\+E flags $\ast$/
+\begin{DoxyCompactList}\small\item\em Communication events. \end{DoxyCompactList}\item 
+\#define \textbf{ I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+M\+A\+S\+T\+E\+R\+\_\+\+B\+Y\+T\+E\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+I\+NG}~((uint32\+\_\+t)0x00070080) /$\ast$ T\+R\+A, B\+U\+S\+Y, M\+S\+L, T\+X\+E flags $\ast$/
+\item 
+\#define \textbf{ I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+M\+A\+S\+T\+E\+R\+\_\+\+B\+Y\+T\+E\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+ED}~((uint32\+\_\+t)0x00070084)  /$\ast$ T\+R\+A, B\+U\+S\+Y, M\+S\+L, T\+X\+E and B\+T\+F flags $\ast$/
+\item 
+\#define \textbf{ I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+R\+E\+C\+E\+I\+V\+E\+R\+\_\+\+A\+D\+D\+R\+E\+S\+S\+\_\+\+M\+A\+T\+C\+H\+ED}~((uint32\+\_\+t)0x00020002) /$\ast$ B\+U\+S\+Y and A\+D\+D\+R flags $\ast$/
+\begin{DoxyCompactList}\small\item\em Communication start events. \end{DoxyCompactList}\item 
+\#define \textbf{ I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+E\+R\+\_\+\+A\+D\+D\+R\+E\+S\+S\+\_\+\+M\+A\+T\+C\+H\+ED}~((uint32\+\_\+t)0x00060082) /$\ast$ T\+R\+A, B\+U\+S\+Y, T\+X\+E and A\+D\+D\+R flags $\ast$/
+\item 
+\#define \textbf{ I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+R\+E\+C\+E\+I\+V\+E\+R\+\_\+\+S\+E\+C\+O\+N\+D\+A\+D\+D\+R\+E\+S\+S\+\_\+\+M\+A\+T\+C\+H\+ED}~((uint32\+\_\+t)0x00820000)  /$\ast$ D\+U\+A\+L\+F and B\+U\+S\+Y flags $\ast$/
+\item 
+\#define \textbf{ I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+E\+R\+\_\+\+S\+E\+C\+O\+N\+D\+A\+D\+D\+R\+E\+S\+S\+\_\+\+M\+A\+T\+C\+H\+ED}~((uint32\+\_\+t)0x00860080)  /$\ast$ D\+U\+A\+L\+F, T\+R\+A, B\+U\+S\+Y and T\+X\+E flags $\ast$/
+\item 
+\#define \textbf{ I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+G\+E\+N\+E\+R\+A\+L\+C\+A\+L\+L\+A\+D\+D\+R\+E\+S\+S\+\_\+\+M\+A\+T\+C\+H\+ED}~((uint32\+\_\+t)0x00120000)  /$\ast$ G\+E\+N\+C\+A\+L\+L and B\+U\+S\+Y flags $\ast$/
+\item 
+\#define \textbf{ I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+B\+Y\+T\+E\+\_\+\+R\+E\+C\+E\+I\+V\+ED}~((uint32\+\_\+t)0x00020040)  /$\ast$ B\+U\+S\+Y and R\+X\+N\+E flags $\ast$/
+\begin{DoxyCompactList}\small\item\em Communication events. \end{DoxyCompactList}\item 
+\#define \textbf{ I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+S\+T\+O\+P\+\_\+\+D\+E\+T\+E\+C\+T\+ED}~((uint32\+\_\+t)0x00000010)  /$\ast$ S\+T\+O\+P\+F flag $\ast$/
+\item 
+\#define \textbf{ I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+B\+Y\+T\+E\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+ED}~((uint32\+\_\+t)0x00060084)  /$\ast$ T\+R\+A, B\+U\+S\+Y, T\+X\+E and B\+T\+F flags $\ast$/
+\item 
+\#define \textbf{ I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+B\+Y\+T\+E\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+I\+NG}~((uint32\+\_\+t)0x00060080)  /$\ast$ T\+R\+A, B\+U\+S\+Y and T\+X\+E flags $\ast$/
+\item 
+\#define \textbf{ I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+A\+C\+K\+\_\+\+F\+A\+I\+L\+U\+RE}~((uint32\+\_\+t)0x00000400)  /$\ast$ A\+F flag $\ast$/
+\item 
+\#define \textbf{ I\+S\+\_\+\+I2\+C\+\_\+\+E\+V\+E\+NT}(E\+V\+E\+NT)
+\item 
+\#define \textbf{ I\+S\+\_\+\+I2\+C\+\_\+\+O\+W\+N\+\_\+\+A\+D\+D\+R\+E\+S\+S1}(A\+D\+D\+R\+E\+S\+S1)~((A\+D\+D\+R\+E\+S\+S1) $<$= 0x3\+F\+F)
+\item 
+\#define \textbf{ I\+S\+\_\+\+I2\+C\+\_\+\+C\+L\+O\+C\+K\+\_\+\+S\+P\+E\+ED}(S\+P\+E\+ED)~(((S\+P\+E\+ED) $>$= 0x1) \&\& ((\+S\+P\+E\+E\+D) $<$= 400000))
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ I2\+C\+\_\+\+De\+Init} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx)
+\begin{DoxyCompactList}\small\item\em Deinitialize the I2\+Cx peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Init} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ I2\+C\+\_\+\+Init\+Type\+Def} $\ast$I2\+C\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the I2\+Cx peripheral according to the specified parameters in the I2\+C\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Struct\+Init} (\textbf{ I2\+C\+\_\+\+Init\+Type\+Def} $\ast$I2\+C\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each I2\+C\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Cmd} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C peripheral. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Generate\+S\+T\+A\+RT} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Generates I2\+Cx communication S\+T\+A\+RT condition. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Generate\+S\+T\+OP} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Generates I2\+Cx communication S\+T\+OP condition. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Send7bit\+Address} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint8\+\_\+t Address, uint8\+\_\+t I2\+C\+\_\+\+Direction)
+\begin{DoxyCompactList}\small\item\em Transmits the address byte to select the slave device. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Acknowledge\+Config} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C acknowledge feature. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Own\+Address2\+Config} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint8\+\_\+t Address)
+\begin{DoxyCompactList}\small\item\em Configures the specified I2C own address2. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Dual\+Address\+Cmd} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C dual addressing mode. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+General\+Call\+Cmd} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C general call feature. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Software\+Reset\+Cmd} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C software reset. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Stretch\+Clock\+Cmd} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C Clock stretching. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Fast\+Mode\+Duty\+Cycle\+Config} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint16\+\_\+t I2\+C\+\_\+\+Duty\+Cycle)
+\begin{DoxyCompactList}\small\item\em Selects the specified I2C fast mode duty cycle. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+N\+A\+C\+K\+Position\+Config} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint16\+\_\+t I2\+C\+\_\+\+N\+A\+C\+K\+Position)
+\begin{DoxyCompactList}\small\item\em Selects the specified I2C N\+A\+CK position in master receiver mode. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+S\+M\+Bus\+Alert\+Config} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint16\+\_\+t I2\+C\+\_\+\+S\+M\+Bus\+Alert)
+\begin{DoxyCompactList}\small\item\em Drives the S\+M\+Bus\+Alert pin high or low for the specified I2C. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+A\+R\+P\+Cmd} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C A\+RP. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Send\+Data} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint8\+\_\+t Data)
+\begin{DoxyCompactList}\small\item\em Sends a data byte through the I2\+Cx peripheral. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ I2\+C\+\_\+\+Receive\+Data} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx)
+\begin{DoxyCompactList}\small\item\em Returns the most recent received data by the I2\+Cx peripheral. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Transmit\+P\+EC} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C P\+EC transfer. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+P\+E\+C\+Position\+Config} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint16\+\_\+t I2\+C\+\_\+\+P\+E\+C\+Position)
+\begin{DoxyCompactList}\small\item\em Selects the specified I2C P\+EC position. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Calculate\+P\+EC} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the P\+EC value calculation of the transferred bytes. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ I2\+C\+\_\+\+Get\+P\+EC} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx)
+\begin{DoxyCompactList}\small\item\em Returns the P\+EC value for the specified I2C. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+D\+M\+A\+Cmd} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C D\+MA requests. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+D\+M\+A\+Last\+Transfer\+Cmd} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Specifies that the next D\+MA transfer is the last one. \end{DoxyCompactList}\item 
+uint16\+\_\+t \textbf{ I2\+C\+\_\+\+Read\+Register} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint8\+\_\+t I2\+C\+\_\+\+Register)
+\begin{DoxyCompactList}\small\item\em Reads the specified I2C register and returns its value. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+I\+T\+Config} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint16\+\_\+t I2\+C\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C interrupts. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ I2\+C\+\_\+\+Check\+Event} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint32\+\_\+t I2\+C\+\_\+\+E\+V\+E\+NT)
+\begin{DoxyCompactList}\small\item\em Checks whether the last I2\+Cx Event is equal to the one passed as parameter. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ I2\+C\+\_\+\+Get\+Last\+Event} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx)
+\begin{DoxyCompactList}\small\item\em Returns the last I2\+Cx Event. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ I2\+C\+\_\+\+Get\+Flag\+Status} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint32\+\_\+t I2\+C\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified I2C flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Clear\+Flag} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint32\+\_\+t I2\+C\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the I2\+Cx\textquotesingle{}s pending flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ I2\+C\+\_\+\+Get\+I\+T\+Status} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint32\+\_\+t I2\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified I2C interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint32\+\_\+t I2\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the I2\+Cx\textquotesingle{}s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file contains all the functions prototypes for the I2C firmware library. 
+
+\begin{DoxyAuthor}{Author}
+M\+CD Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\+0.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+30-\/\+September-\/2011 
+\end{DoxyDate}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+T\+HE P\+R\+E\+S\+E\+NT F\+I\+R\+M\+W\+A\+RE W\+H\+I\+CH IS F\+OR G\+U\+I\+D\+A\+N\+CE O\+N\+LY A\+I\+MS AT P\+R\+O\+V\+I\+D\+I\+NG C\+U\+S\+T\+O\+M\+E\+RS W\+I\+TH C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON R\+E\+G\+A\+R\+D\+I\+NG T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS IN O\+R\+D\+ER F\+OR T\+H\+EM TO S\+A\+VE T\+I\+ME. AS A R\+E\+S\+U\+LT, S\+T\+M\+I\+C\+R\+O\+E\+L\+E\+C\+T\+R\+O\+N\+I\+CS S\+H\+A\+LL N\+OT BE H\+E\+LD L\+I\+A\+B\+LE F\+OR A\+NY D\+I\+R\+E\+CT, I\+N\+D\+I\+R\+E\+CT OR C\+O\+N\+S\+E\+Q\+U\+E\+N\+T\+I\+AL D\+A\+M\+A\+G\+ES W\+I\+TH R\+E\+S\+P\+E\+CT TO A\+NY C\+L\+A\+I\+MS A\+R\+I\+S\+I\+NG F\+R\+OM T\+HE C\+O\+N\+T\+E\+NT OF S\+U\+CH F\+I\+R\+M\+W\+A\+RE A\+N\+D/\+OR T\+HE U\+SE M\+A\+DE BY C\+U\+S\+T\+O\+M\+E\+RS OF T\+HE C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON C\+O\+N\+T\+A\+I\+N\+ED H\+E\+R\+E\+IN IN C\+O\+N\+N\+E\+C\+T\+I\+ON W\+I\+TH T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS.
+
+\subsubsection*{\begin{center}\copyright{} C\+O\+P\+Y\+R\+I\+G\+HT 2011 S\+T\+Microelectronics\end{center} }
+
+Definition in file \textbf{ stm32f4xx\+\_\+i2c.\+h}.
+

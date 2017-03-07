@@ -1,0 +1,76 @@
+\section{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Device\+Support/src/stm32f4\+\_\+discovery.c File Reference}
+\label{stm32f4__discovery_8c}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Device\+Support/src/stm32f4\+\_\+discovery.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Device\+Support/src/stm32f4\+\_\+discovery.\+c}}
+
+
+This file provides set of firmware functions to manage Leds and push-\/button available on S\+T\+M32\+F4-\/\+Discovery Kit from S\+T\+Microelectronics.  
+
+
+{\ttfamily \#include \char`\"{}stm32f4\+\_\+discovery.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+gpio.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+exti.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+rcc.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+syscfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}misc.\+h\char`\"{}}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ S\+T\+M\+\_\+\+E\+V\+A\+L\+\_\+\+L\+E\+D\+Init} (\textbf{ Led\+\_\+\+Type\+Def} Led)
+\begin{DoxyCompactList}\small\item\em Configures L\+ED G\+P\+IO. \end{DoxyCompactList}\item 
+void \textbf{ S\+T\+M\+\_\+\+E\+V\+A\+L\+\_\+\+L\+E\+D\+On} (\textbf{ Led\+\_\+\+Type\+Def} Led)
+\begin{DoxyCompactList}\small\item\em Turns selected L\+ED On. \end{DoxyCompactList}\item 
+void \textbf{ S\+T\+M\+\_\+\+E\+V\+A\+L\+\_\+\+L\+E\+D\+Off} (\textbf{ Led\+\_\+\+Type\+Def} Led)
+\begin{DoxyCompactList}\small\item\em Turns selected L\+ED Off. \end{DoxyCompactList}\item 
+void \textbf{ S\+T\+M\+\_\+\+E\+V\+A\+L\+\_\+\+L\+E\+D\+Toggle} (\textbf{ Led\+\_\+\+Type\+Def} Led)
+\begin{DoxyCompactList}\small\item\em Toggles the selected L\+ED. \end{DoxyCompactList}\item 
+void \textbf{ S\+T\+M\+\_\+\+E\+V\+A\+L\+\_\+\+P\+B\+Init} (\textbf{ Button\+\_\+\+Type\+Def} Button, \textbf{ Button\+Mode\+\_\+\+Type\+Def} Button\+\_\+\+Mode)
+\begin{DoxyCompactList}\small\item\em Configures Button G\+P\+IO and E\+X\+TI Line. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ S\+T\+M\+\_\+\+E\+V\+A\+L\+\_\+\+P\+B\+Get\+State} (\textbf{ Button\+\_\+\+Type\+Def} Button)
+\begin{DoxyCompactList}\small\item\em Returns the selected Button state. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$ \textbf{ G\+P\+I\+O\+\_\+\+P\+O\+RT} [\textbf{ L\+E\+Dn}]
+\item 
+const uint16\+\_\+t \textbf{ G\+P\+I\+O\+\_\+\+P\+IN} [\textbf{ L\+E\+Dn}]
+\item 
+const uint32\+\_\+t \textbf{ G\+P\+I\+O\+\_\+\+C\+LK} [\textbf{ L\+E\+Dn}]
+\item 
+\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$ \textbf{ B\+U\+T\+T\+O\+N\+\_\+\+P\+O\+RT} [\textbf{ B\+U\+T\+T\+O\+Nn}] = \{\textbf{ U\+S\+E\+R\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT} \}
+\item 
+const uint16\+\_\+t \textbf{ B\+U\+T\+T\+O\+N\+\_\+\+P\+IN} [\textbf{ B\+U\+T\+T\+O\+Nn}] = \{\textbf{ U\+S\+E\+R\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+P\+IN} \}
+\item 
+const uint32\+\_\+t \textbf{ B\+U\+T\+T\+O\+N\+\_\+\+C\+LK} [\textbf{ B\+U\+T\+T\+O\+Nn}] = \{\textbf{ U\+S\+E\+R\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK} \}
+\item 
+const uint16\+\_\+t \textbf{ B\+U\+T\+T\+O\+N\+\_\+\+E\+X\+T\+I\+\_\+\+L\+I\+NE} [\textbf{ B\+U\+T\+T\+O\+Nn}] = \{\textbf{ U\+S\+E\+R\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+E\+X\+T\+I\+\_\+\+L\+I\+NE} \}
+\item 
+const uint8\+\_\+t \textbf{ B\+U\+T\+T\+O\+N\+\_\+\+P\+O\+R\+T\+\_\+\+S\+O\+U\+R\+CE} [\textbf{ B\+U\+T\+T\+O\+Nn}] = \{\textbf{ U\+S\+E\+R\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+E\+X\+T\+I\+\_\+\+P\+O\+R\+T\+\_\+\+S\+O\+U\+R\+CE}\}
+\item 
+const uint8\+\_\+t \textbf{ B\+U\+T\+T\+O\+N\+\_\+\+P\+I\+N\+\_\+\+S\+O\+U\+R\+CE} [\textbf{ B\+U\+T\+T\+O\+Nn}] = \{\textbf{ U\+S\+E\+R\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+E\+X\+T\+I\+\_\+\+P\+I\+N\+\_\+\+S\+O\+U\+R\+CE} \}
+\item 
+const uint8\+\_\+t \textbf{ B\+U\+T\+T\+O\+N\+\_\+\+I\+R\+Qn} [\textbf{ B\+U\+T\+T\+O\+Nn}] = \{\textbf{ U\+S\+E\+R\+\_\+\+B\+U\+T\+T\+O\+N\+\_\+\+E\+X\+T\+I\+\_\+\+I\+R\+Qn} \}
+\item 
+\textbf{ N\+V\+I\+C\+\_\+\+Init\+Type\+Def} \textbf{ N\+V\+I\+C\+\_\+\+Init\+Structure}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file provides set of firmware functions to manage Leds and push-\/button available on S\+T\+M32\+F4-\/\+Discovery Kit from S\+T\+Microelectronics. 
+
+\begin{DoxyAuthor}{Author}
+M\+CD Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\+1.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+28-\/\+October-\/2011 
+\end{DoxyDate}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+T\+HE P\+R\+E\+S\+E\+NT F\+I\+R\+M\+W\+A\+RE W\+H\+I\+CH IS F\+OR G\+U\+I\+D\+A\+N\+CE O\+N\+LY A\+I\+MS AT P\+R\+O\+V\+I\+D\+I\+NG C\+U\+S\+T\+O\+M\+E\+RS W\+I\+TH C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON R\+E\+G\+A\+R\+D\+I\+NG T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS IN O\+R\+D\+ER F\+OR T\+H\+EM TO S\+A\+VE T\+I\+ME. AS A R\+E\+S\+U\+LT, S\+T\+M\+I\+C\+R\+O\+E\+L\+E\+C\+T\+R\+O\+N\+I\+CS S\+H\+A\+LL N\+OT BE H\+E\+LD L\+I\+A\+B\+LE F\+OR A\+NY D\+I\+R\+E\+CT, I\+N\+D\+I\+R\+E\+CT OR C\+O\+N\+S\+E\+Q\+U\+E\+N\+T\+I\+AL D\+A\+M\+A\+G\+ES W\+I\+TH R\+E\+S\+P\+E\+CT TO A\+NY C\+L\+A\+I\+MS A\+R\+I\+S\+I\+NG F\+R\+OM T\+HE C\+O\+N\+T\+E\+NT OF S\+U\+CH F\+I\+R\+M\+W\+A\+RE A\+N\+D/\+OR T\+HE U\+SE M\+A\+DE BY C\+U\+S\+T\+O\+M\+E\+RS OF T\+HE C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON C\+O\+N\+T\+A\+I\+N\+ED H\+E\+R\+E\+IN IN C\+O\+N\+N\+E\+C\+T\+I\+ON W\+I\+TH T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS.
+
+\subsubsection*{\begin{center}\copyright{} C\+O\+P\+Y\+R\+I\+G\+HT 2011 S\+T\+Microelectronics\end{center} }
+
+Definition in file \textbf{ stm32f4\+\_\+discovery.\+c}.
+

@@ -1,0 +1,119 @@
+\section{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+User/src/main.c File Reference}
+\label{main_8c}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+User/src/main.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+User/src/main.\+c}}
+
+
+Test app for e\+M\+PL using the Motion Driver D\+MP image.  
+
+
+{\ttfamily \#include \char`\"{}stm32f4xx.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+usart.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stdio.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}uart.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}i2c.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}gpio.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}main.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}board-\/st\+\_\+discovery.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}inv\+\_\+mpu.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}inv\+\_\+mpu\+\_\+dmp\+\_\+motion\+\_\+driver.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}invensense.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}invensense\+\_\+adv.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}e\+M\+P\+L\+\_\+outputs.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mltypes.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mpu.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}log.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}packet.\+h\char`\"{}}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ rx\+\_\+s}
+\item 
+struct \textbf{ hal\+\_\+s}
+\item 
+struct \textbf{ platform\+\_\+data\+\_\+s}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+A\+C\+C\+EL}~(0x01)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+G\+Y\+RO}~(0x02)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+Q\+U\+AT}~(0x04)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+C\+O\+M\+P\+A\+SS}~(0x08)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+E\+U\+L\+ER}~(0x10)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+R\+O\+T\+\_\+\+M\+AT}~(0x20)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+H\+E\+A\+D\+I\+NG}~(0x40)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+P\+E\+DO}~(0x80)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+L\+I\+N\+E\+A\+R\+\_\+\+A\+C\+C\+EL}~(0x100)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+G\+R\+A\+V\+I\+T\+Y\+\_\+\+V\+E\+C\+T\+OR}~(0x200)
+\item 
+\#define \textbf{ A\+C\+C\+E\+L\+\_\+\+ON}~(0x01)
+\item 
+\#define \textbf{ G\+Y\+R\+O\+\_\+\+ON}~(0x02)
+\item 
+\#define \textbf{ C\+O\+M\+P\+A\+S\+S\+\_\+\+ON}~(0x04)
+\item 
+\#define \textbf{ M\+O\+T\+I\+ON}~(0)
+\item 
+\#define \textbf{ N\+O\+\_\+\+M\+O\+T\+I\+ON}~(1)
+\item 
+\#define \textbf{ D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+P\+U\+\_\+\+HZ}~(20)
+\item 
+\#define \textbf{ F\+L\+A\+S\+H\+\_\+\+S\+I\+ZE}~(512)
+\item 
+\#define \textbf{ F\+L\+A\+S\+H\+\_\+\+M\+E\+M\+\_\+\+S\+T\+A\+RT}~((void$\ast$)0x1800)
+\item 
+\#define \textbf{ P\+E\+D\+O\+\_\+\+R\+E\+A\+D\+\_\+\+MS}~(1000)
+\item 
+\#define \textbf{ T\+E\+M\+P\+\_\+\+R\+E\+A\+D\+\_\+\+MS}~(500)
+\item 
+\#define \textbf{ C\+O\+M\+P\+A\+S\+S\+\_\+\+R\+E\+A\+D\+\_\+\+MS}~(100)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \textbf{ read\+\_\+from\+\_\+mpl} (void)
+\item 
+static void \textbf{ setup\+\_\+gyro} (void)
+\item 
+static void \textbf{ tap\+\_\+cb} (unsigned char direction, unsigned char count)
+\item 
+static void \textbf{ android\+\_\+orient\+\_\+cb} (unsigned char orientation)
+\item 
+static void \textbf{ run\+\_\+self\+\_\+test} (void)
+\item 
+static void \textbf{ handle\+\_\+input} (void)
+\item 
+void \textbf{ gyro\+\_\+data\+\_\+ready\+\_\+cb} (void)
+\item 
+int \textbf{ main} (void)
+\begin{DoxyCompactList}\small\item\em main entry point. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+volatile uint32\+\_\+t \textbf{ hal\+\_\+timestamp} = 0
+\begin{DoxyCompactList}\small\item\em timestamp variable initialize, its for count tick \end{DoxyCompactList}\item 
+static struct \textbf{ hal\+\_\+s} \textbf{ hal} = \{0\}
+\item 
+volatile unsigned char \textbf{ rx\+\_\+new}
+\begin{DoxyCompactList}\small\item\em Usart Receive variable init. \end{DoxyCompactList}\item 
+unsigned char $\ast$ \textbf{ mpl\+\_\+key} = (unsigned char$\ast$)\char`\"{}e\+M\+PL 5.\+1\char`\"{}
+\item 
+static struct \textbf{ platform\+\_\+data\+\_\+s} \textbf{ gyro\+\_\+pdata}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Test app for e\+M\+PL using the Motion Driver D\+MP image. 
+
+
+
+Definition in file \textbf{ main.\+c}.
+

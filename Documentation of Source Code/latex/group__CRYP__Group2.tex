@@ -1,0 +1,92 @@
+\section{C\+R\+YP Data processing functions}
+\label{group__CRYP__Group2}\index{C\+R\+Y\+P Data processing functions@{C\+R\+Y\+P Data processing functions}}
+
+
+C\+R\+YP Data processing functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+Data\+In} (uint32\+\_\+t Data)
+\begin{DoxyCompactList}\small\item\em Writes data in the Data Input register (D\+IN). \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ C\+R\+Y\+P\+\_\+\+Data\+Out} (void)
+\begin{DoxyCompactList}\small\item\em Returns the last data entered into the output F\+I\+FO. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+C\+R\+YP Data processing functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                      CRYP Data processing functions
+ ===============================================================================  
+  This section provides functions allowing the encryption and decryption 
+  operations: 
+  - Enter data to be treated in the IN FIFO : using CRYP_DataIn() function.
+  - Get the data result from the OUT FIFO : using CRYP_DataOut() function.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__CRYP__Group2_ga16dc76244318d464357ee6ff208bf9a4}} 
+\index{C\+R\+Y\+P Data processing functions@{C\+R\+Y\+P Data processing functions}!C\+R\+Y\+P\+\_\+\+Data\+In@{C\+R\+Y\+P\+\_\+\+Data\+In}}
+\index{C\+R\+Y\+P\+\_\+\+Data\+In@{C\+R\+Y\+P\+\_\+\+Data\+In}!C\+R\+Y\+P Data processing functions@{C\+R\+Y\+P Data processing functions}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+Data\+In()}
+{\footnotesize\ttfamily void C\+R\+Y\+P\+\_\+\+Data\+In (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{Data }\end{DoxyParamCaption})}
+
+
+
+Writes data in the Data Input register (D\+IN). 
+
+\begin{DoxyNote}{Note}
+After the D\+IN register has been read once or several times, the F\+I\+FO must be flushed (using \doxyref{C\+R\+Y\+P\+\_\+\+F\+I\+F\+O\+Flush()}{p.}{group__CRYP__Group1_ga23ada9d9464e1362299d7612a1409a57} function). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em Data} & data to write in Data Input register \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 413} of file \textbf{ stm32f4xx\+\_\+cryp.\+c}.
+
+
+\begin{DoxyCode}
+00414 \{
+00415   CRYP->DR = Data;
+00416 \}
+\end{DoxyCode}
+\mbox{\label{group__CRYP__Group2_gacbe5fcf4c7e4919192376fa615588b54}} 
+\index{C\+R\+Y\+P Data processing functions@{C\+R\+Y\+P Data processing functions}!C\+R\+Y\+P\+\_\+\+Data\+Out@{C\+R\+Y\+P\+\_\+\+Data\+Out}}
+\index{C\+R\+Y\+P\+\_\+\+Data\+Out@{C\+R\+Y\+P\+\_\+\+Data\+Out}!C\+R\+Y\+P Data processing functions@{C\+R\+Y\+P Data processing functions}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+Data\+Out()}
+{\footnotesize\ttfamily uint32\+\_\+t C\+R\+Y\+P\+\_\+\+Data\+Out (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns the last data entered into the output F\+I\+FO. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Last} & data entered into the output F\+I\+FO. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 423} of file \textbf{ stm32f4xx\+\_\+cryp.\+c}.
+
+
+\begin{DoxyCode}
+00424 \{
+00425   \textcolor{keywordflow}{return} CRYP->DOUT;
+00426 \}
+\end{DoxyCode}

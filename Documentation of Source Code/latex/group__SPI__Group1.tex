@@ -1,0 +1,878 @@
+\section{Initialization and Configuration functions}
+\label{group__SPI__Group1}\index{Initialization and Configuration functions@{Initialization and Configuration functions}}
+
+
+Initialization and Configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ S\+P\+I\+\_\+\+I2\+S\+\_\+\+De\+Init} (\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$S\+P\+Ix)
+\begin{DoxyCompactList}\small\item\em Deinitialize the S\+P\+Ix peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ S\+P\+I\+\_\+\+Init} (\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$S\+P\+Ix, \textbf{ S\+P\+I\+\_\+\+Init\+Type\+Def} $\ast$S\+P\+I\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the S\+P\+Ix peripheral according to the specified parameters in the S\+P\+I\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ I2\+S\+\_\+\+Init} (\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$S\+P\+Ix, \textbf{ I2\+S\+\_\+\+Init\+Type\+Def} $\ast$I2\+S\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the S\+P\+Ix peripheral according to the specified parameters in the I2\+S\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ S\+P\+I\+\_\+\+Struct\+Init} (\textbf{ S\+P\+I\+\_\+\+Init\+Type\+Def} $\ast$S\+P\+I\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each S\+P\+I\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ I2\+S\+\_\+\+Struct\+Init} (\textbf{ I2\+S\+\_\+\+Init\+Type\+Def} $\ast$I2\+S\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each I2\+S\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ S\+P\+I\+\_\+\+Cmd} (\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$S\+P\+Ix, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified S\+PI peripheral. \end{DoxyCompactList}\item 
+void \textbf{ I2\+S\+\_\+\+Cmd} (\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$S\+P\+Ix, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified S\+PI peripheral (in I2S mode). \end{DoxyCompactList}\item 
+void \textbf{ S\+P\+I\+\_\+\+Data\+Size\+Config} (\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$S\+P\+Ix, uint16\+\_\+t S\+P\+I\+\_\+\+Data\+Size)
+\begin{DoxyCompactList}\small\item\em Configures the data size for the selected S\+PI. \end{DoxyCompactList}\item 
+void \textbf{ S\+P\+I\+\_\+\+Bi\+Directional\+Line\+Config} (\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$S\+P\+Ix, uint16\+\_\+t S\+P\+I\+\_\+\+Direction)
+\begin{DoxyCompactList}\small\item\em Selects the data transfer direction in bidirectional mode for the specified S\+PI. \end{DoxyCompactList}\item 
+void \textbf{ S\+P\+I\+\_\+\+N\+S\+S\+Internal\+Software\+Config} (\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$S\+P\+Ix, uint16\+\_\+t S\+P\+I\+\_\+\+N\+S\+S\+Internal\+Soft)
+\begin{DoxyCompactList}\small\item\em Configures internally by software the N\+SS pin for the selected S\+PI. \end{DoxyCompactList}\item 
+void \textbf{ S\+P\+I\+\_\+\+S\+S\+Output\+Cmd} (\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$S\+P\+Ix, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the SS output for the selected S\+PI. \end{DoxyCompactList}\item 
+void \textbf{ S\+P\+I\+\_\+\+T\+I\+Mode\+Cmd} (\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$S\+P\+Ix, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the S\+P\+Ix/\+I2\+Sx D\+MA interface. \end{DoxyCompactList}\item 
+void \textbf{ I2\+S\+\_\+\+Full\+Duplex\+Config} (\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$I2\+Sxext, \textbf{ I2\+S\+\_\+\+Init\+Type\+Def} $\ast$I2\+S\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Configures the full duplex mode for the I2\+Sx peripheral using its extension I2\+Sxext according to the specified parameters in the I2\+S\+\_\+\+Init\+Struct. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Initialization and Configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                  Initialization and Configuration functions
+ ===============================================================================  
+
+  This section provides a set of functions allowing to initialize the SPI Direction,
+  SPI Mode, SPI Data Size, SPI Polarity, SPI Phase, SPI NSS Management, SPI Baud
+  Rate Prescaler, SPI First Bit and SPI CRC Polynomial.
+  
+  The SPI_Init() function follows the SPI configuration procedures for Master mode
+  and Slave mode (details for these procedures are available in reference manual
+  (RM0090)).\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__SPI__Group1_gafe061c71bbc5b4224f3f2884dc53739e}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!I2\+S\+\_\+\+Cmd@{I2\+S\+\_\+\+Cmd}}
+\index{I2\+S\+\_\+\+Cmd@{I2\+S\+\_\+\+Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{I2\+S\+\_\+\+Cmd()}
+{\footnotesize\ttfamily void I2\+S\+\_\+\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$}]{S\+P\+Ix,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified S\+PI peripheral (in I2S mode). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+P\+Ix} & where x can be 2 or 3 to select the S\+PI peripheral (or I2\+Sxext for full duplex mode). \\
+\hline
+{\em New\+State} & new state of the S\+P\+Ix peripheral. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 535} of file \textbf{ stm32f4xx\+\_\+spi.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00536 \{
+00537   \textcolor{comment}{/* Check the parameters */}
+00538   assert_param(IS_SPI_23_PERIPH_EXT(SPIx));
+00539   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00540   
+00541   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00542   \{
+00543     \textcolor{comment}{/* Enable the selected SPI peripheral (in I2S mode) */}
+00544     SPIx->I2SCFGR |= SPI_I2SCFGR_I2SE;
+00545   \}
+00546   \textcolor{keywordflow}{else}
+00547   \{
+00548     \textcolor{comment}{/* Disable the selected SPI peripheral in I2S mode */}
+00549     SPIx->I2SCFGR &= (uint16\_t)~((uint16\_t)SPI_I2SCFGR_I2SE);
+00550   \}
+00551 \}
+\end{DoxyCode}
+\mbox{\label{group__SPI__Group1_ga60082947bedfe9efc233405be2a7bec2}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!I2\+S\+\_\+\+Full\+Duplex\+Config@{I2\+S\+\_\+\+Full\+Duplex\+Config}}
+\index{I2\+S\+\_\+\+Full\+Duplex\+Config@{I2\+S\+\_\+\+Full\+Duplex\+Config}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{I2\+S\+\_\+\+Full\+Duplex\+Config()}
+{\footnotesize\ttfamily void I2\+S\+\_\+\+Full\+Duplex\+Config (\begin{DoxyParamCaption}\item[{\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$}]{I2\+Sxext,  }\item[{\textbf{ I2\+S\+\_\+\+Init\+Type\+Def} $\ast$}]{I2\+S\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Configures the full duplex mode for the I2\+Sx peripheral using its extension I2\+Sxext according to the specified parameters in the I2\+S\+\_\+\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Sxext} & where x can be 2 or 3 to select the I2S peripheral extension block. \\
+\hline
+{\em I2\+S\+\_\+\+Init\+Struct} & pointer to an \doxyref{I2\+S\+\_\+\+Init\+Type\+Def}{p.}{structI2S__InitTypeDef} structure that contains the configuration information for the specified I2S peripheral extension.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The structure pointed by I2\+S\+\_\+\+Init\+Struct parameter should be the same used for the master I2S peripheral. In this case, if the master is configured as transmitter, the slave will be receiver and vice versa. Or you can force a different mode by modifying the field I2\+S\+\_\+\+Mode to the value I2\+S\+\_\+\+Slave\+Rx or I2\+S\+\_\+\+Slave\+Tx indepedently of the master configuration.
+
+The I2S full duplex extension can be configured in slave mode only.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 700} of file \textbf{ stm32f4xx\+\_\+spi.\+c}.
+
+
+
+References \textbf{ I2\+S\+\_\+\+Init\+Type\+Def\+::\+I2\+S\+\_\+\+C\+P\+OL}, \textbf{ I2\+S\+\_\+\+Init\+Type\+Def\+::\+I2\+S\+\_\+\+Data\+Format}, \textbf{ I2\+S\+\_\+\+Init\+Type\+Def\+::\+I2\+S\+\_\+\+Mode}, and \textbf{ I2\+S\+\_\+\+Init\+Type\+Def\+::\+I2\+S\+\_\+\+Standard}.
+
+
+\begin{DoxyCode}
+00701 \{
+00702   uint16\_t tmpreg = 0, tmp = 0;
+00703   
+00704   \textcolor{comment}{/* Check the I2S parameters */}
+00705   assert_param(IS_I2S_EXT_PERIPH(I2Sxext));
+00706   assert_param(IS_I2S_MODE(I2S\_InitStruct->I2S_Mode));
+00707   assert_param(IS_I2S_STANDARD(I2S\_InitStruct->I2S_Standard));
+00708   assert_param(IS_I2S_DATA_FORMAT(I2S\_InitStruct->I2S_DataFormat));
+00709   assert_param(IS_I2S_CPOL(I2S\_InitStruct->I2S_CPOL));  
+00710 
+00711 \textcolor{comment}{/*----------------------- SPIx I2SCFGR & I2SPR Configuration -----------------*/}
+00712   \textcolor{comment}{/* Clear I2SMOD, I2SE, I2SCFG, PCMSYNC, I2SSTD, CKPOL, DATLEN and CHLEN bits */}
+00713   I2Sxext->I2SCFGR &= I2SCFGR_CLEAR_MASK; 
+00714   I2Sxext->I2SPR = 0x0002;
+00715   
+00716   \textcolor{comment}{/* Get the I2SCFGR register value */}
+00717   tmpreg = I2Sxext->I2SCFGR;
+00718   
+00719   \textcolor{comment}{/* Get the mode to be configured for the extended I2S */}
+00720   \textcolor{keywordflow}{if} ((I2S\_InitStruct->I2S_Mode == I2S_Mode_MasterTx) || (I2S\_InitStruct->
+      I2S_Mode == I2S_Mode_SlaveTx))
+00721   \{
+00722     tmp = I2S_Mode_SlaveRx;
+00723   \}
+00724   \textcolor{keywordflow}{else}
+00725   \{
+00726     \textcolor{keywordflow}{if} ((I2S\_InitStruct->I2S_Mode == I2S_Mode_MasterRx) || (I2S\_InitStruct->
+      I2S_Mode == I2S_Mode_SlaveRx))
+00727     \{
+00728       tmp = I2S_Mode_SlaveTx;
+00729     \}
+00730   \}
+00731 
+00732  
+00733   \textcolor{comment}{/* Configure the I2S with the SPI\_InitStruct values */}
+00734   tmpreg |= (uint16\_t)((uint16\_t)SPI_I2SCFGR_I2SMOD | (uint16\_t)(tmp | \(\backslash\)
+00735                   (uint16\_t)(I2S\_InitStruct->I2S_Standard | (uint16\_t)(I2S\_InitStruct->
+      I2S_DataFormat | \(\backslash\)
+00736                   (uint16\_t)I2S\_InitStruct->I2S_CPOL))));
+00737  
+00738   \textcolor{comment}{/* Write to SPIx I2SCFGR */}  
+00739   I2Sxext->I2SCFGR = tmpreg;
+00740 \}
+\end{DoxyCode}
+\mbox{\label{group__SPI__Group1_ga53661884ae4a9640df7cbc59187782f7}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!I2\+S\+\_\+\+Init@{I2\+S\+\_\+\+Init}}
+\index{I2\+S\+\_\+\+Init@{I2\+S\+\_\+\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{I2\+S\+\_\+\+Init()}
+{\footnotesize\ttfamily void I2\+S\+\_\+\+Init (\begin{DoxyParamCaption}\item[{\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$}]{S\+P\+Ix,  }\item[{\textbf{ I2\+S\+\_\+\+Init\+Type\+Def} $\ast$}]{I2\+S\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the S\+P\+Ix peripheral according to the specified parameters in the I2\+S\+\_\+\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+P\+Ix} & where x can be 2 or 3 to select the S\+PI peripheral (configured in I2S mode). \\
+\hline
+{\em I2\+S\+\_\+\+Init\+Struct} & pointer to an \doxyref{I2\+S\+\_\+\+Init\+Type\+Def}{p.}{structI2S__InitTypeDef} structure that contains the configuration information for the specified S\+PI peripheral configured in I2S mode.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The function calculates the optimal prescaler needed to obtain the most accurate audio frequency (depending on the I2S clock source, the P\+LL values and the product configuration). But in case the prescaler value is greater than 511, the default value (0x02) will be configured instead.
+
+if an external clock is used as source clock for the I2S, then the define I2\+S\+\_\+\+E\+X\+T\+E\+R\+N\+A\+L\+\_\+\+C\+L\+O\+C\+K\+\_\+\+V\+AL in file \doxyref{stm32f4xx\+\_\+conf.\+h}{p.}{stm32f4xx__conf_8h} should be enabled and set to the value of the the source clock frequency (in Hz).
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 321} of file \textbf{ stm32f4xx\+\_\+spi.\+c}.
+
+
+
+References \textbf{ I2\+S\+\_\+\+Init\+Type\+Def\+::\+I2\+S\+\_\+\+Audio\+Freq}, \textbf{ I2\+S\+\_\+\+Init\+Type\+Def\+::\+I2\+S\+\_\+\+C\+P\+OL}, \textbf{ I2\+S\+\_\+\+Init\+Type\+Def\+::\+I2\+S\+\_\+\+Data\+Format}, \textbf{ I2\+S\+\_\+\+Init\+Type\+Def\+::\+I2\+S\+\_\+\+M\+C\+L\+K\+Output}, \textbf{ I2\+S\+\_\+\+Init\+Type\+Def\+::\+I2\+S\+\_\+\+Mode}, and \textbf{ I2\+S\+\_\+\+Init\+Type\+Def\+::\+I2\+S\+\_\+\+Standard}.
+
+
+\begin{DoxyCode}
+00322 \{
+00323   uint16\_t tmpreg = 0, i2sdiv = 2, i2sodd = 0, packetlength = 1;
+00324   uint32\_t tmp = 0, i2sclk = 0;
+00325 \textcolor{preprocessor}{#ifndef I2S\_EXTERNAL\_CLOCK\_VAL}
+00326   uint32\_t pllm = 0, plln = 0, pllr = 0;
+00327 \textcolor{preprocessor}{#endif }\textcolor{comment}{/* I2S\_EXTERNAL\_CLOCK\_VAL */}\textcolor{preprocessor}{}
+00328   
+00329   \textcolor{comment}{/* Check the I2S parameters */}
+00330   assert_param(IS_SPI_23_PERIPH(SPIx));
+00331   assert_param(IS_I2S_MODE(I2S\_InitStruct->I2S_Mode));
+00332   assert_param(IS_I2S_STANDARD(I2S\_InitStruct->I2S_Standard));
+00333   assert_param(IS_I2S_DATA_FORMAT(I2S\_InitStruct->I2S_DataFormat));
+00334   assert_param(IS_I2S_MCLK_OUTPUT(I2S\_InitStruct->I2S_MCLKOutput));
+00335   assert_param(IS_I2S_AUDIO_FREQ(I2S\_InitStruct->I2S_AudioFreq));
+00336   assert_param(IS_I2S_CPOL(I2S\_InitStruct->I2S_CPOL));  
+00337 
+00338 \textcolor{comment}{/*----------------------- SPIx I2SCFGR & I2SPR Configuration -----------------*/}
+00339   \textcolor{comment}{/* Clear I2SMOD, I2SE, I2SCFG, PCMSYNC, I2SSTD, CKPOL, DATLEN and CHLEN bits */}
+00340   SPIx->I2SCFGR &= I2SCFGR_CLEAR_MASK; 
+00341   SPIx->I2SPR = 0x0002;
+00342   
+00343   \textcolor{comment}{/* Get the I2SCFGR register value */}
+00344   tmpreg = SPIx->I2SCFGR;
+00345   
+00346   \textcolor{comment}{/* If the default value has to be written, reinitialize i2sdiv and i2sodd*/}
+00347   \textcolor{keywordflow}{if}(I2S\_InitStruct->I2S_AudioFreq == I2S_AudioFreq_Default)
+00348   \{
+00349     i2sodd = (uint16\_t)0;
+00350     i2sdiv = (uint16\_t)2;   
+00351   \}
+00352   \textcolor{comment}{/* If the requested audio frequency is not the default, compute the prescaler */}
+00353   \textcolor{keywordflow}{else}
+00354   \{
+00355     \textcolor{comment}{/* Check the frame length (For the Prescaler computing) *******************/}
+00356     \textcolor{keywordflow}{if}(I2S\_InitStruct->I2S_DataFormat == I2S_DataFormat_16b)
+00357     \{
+00358       \textcolor{comment}{/* Packet length is 16 bits */}
+00359       packetlength = 1;
+00360     \}
+00361     \textcolor{keywordflow}{else}
+00362     \{
+00363       \textcolor{comment}{/* Packet length is 32 bits */}
+00364       packetlength = 2;
+00365     \}
+00366 
+00367     \textcolor{comment}{/* Get I2S source Clock frequency  ****************************************/}
+00368       
+00369     \textcolor{comment}{/* If an external I2S clock has to be used, this define should be set  }
+00370 \textcolor{comment}{       in the project configuration or in the stm32f4xx\_conf.h file */}
+00371 \textcolor{preprocessor}{  #ifdef I2S\_EXTERNAL\_CLOCK\_VAL     }
+00372     \textcolor{comment}{/* Set external clock as I2S clock source */}
+00373     \textcolor{keywordflow}{if} ((RCC->CFGR & RCC_CFGR_I2SSRC) == 0)
+00374     \{
+00375       RCC->CFGR |= (uint32\_t)RCC_CFGR_I2SSRC;
+00376     \}
+00377     
+00378     \textcolor{comment}{/* Set the I2S clock to the external clock  value */}
+00379     i2sclk = I2S\_EXTERNAL\_CLOCK\_VAL;
+00380 
+00381 \textcolor{preprocessor}{  #else }\textcolor{comment}{/* There is no define for External I2S clock source */}\textcolor{preprocessor}{}
+00382     \textcolor{comment}{/* Set PLLI2S as I2S clock source */}
+00383     \textcolor{keywordflow}{if} ((RCC->CFGR & RCC_CFGR_I2SSRC) != 0)
+00384     \{
+00385       RCC->CFGR &= ~(uint32\_t)RCC_CFGR_I2SSRC;
+00386     \}    
+00387     
+00388     \textcolor{comment}{/* Get the PLLI2SN value */}
+00389     plln = (uint32\_t)(((RCC->PLLI2SCFGR & RCC_PLLI2SCFGR_PLLI2SN) >> 6) & \(\backslash\)
+00390                       (RCC_PLLI2SCFGR_PLLI2SN >> 6));
+00391     
+00392     \textcolor{comment}{/* Get the PLLI2SR value */}
+00393     pllr = (uint32\_t)(((RCC->PLLI2SCFGR & RCC_PLLI2SCFGR_PLLI2SR) >> 28) & \(\backslash\)
+00394                       (RCC_PLLI2SCFGR_PLLI2SR >> 28));
+00395     
+00396     \textcolor{comment}{/* Get the PLLM value */}
+00397     pllm = (uint32\_t)(RCC->PLLCFGR & RCC_PLLCFGR_PLLM);      
+00398     
+00399     \textcolor{comment}{/* Get the I2S source clock value */}
+00400     i2sclk = (uint32\_t)(((HSE_VALUE / pllm) * plln) / pllr);
+00401 \textcolor{preprocessor}{  #endif }\textcolor{comment}{/* I2S\_EXTERNAL\_CLOCK\_VAL */}\textcolor{preprocessor}{}
+00402     
+00403     \textcolor{comment}{/* Compute the Real divider depending on the MCLK output state, with a floating point */}
+00404     \textcolor{keywordflow}{if}(I2S\_InitStruct->I2S_MCLKOutput == I2S_MCLKOutput_Enable)
+00405     \{
+00406       \textcolor{comment}{/* MCLK output is enabled */}
+00407       tmp = (uint16\_t)(((((i2sclk / 256) * 10) / I2S\_InitStruct->I2S_AudioFreq)) + 5);
+00408     \}
+00409     \textcolor{keywordflow}{else}
+00410     \{
+00411       \textcolor{comment}{/* MCLK output is disabled */}
+00412       tmp = (uint16\_t)(((((i2sclk / (32 * packetlength)) *10 ) / I2S\_InitStruct->
+      I2S_AudioFreq)) + 5);
+00413     \}
+00414     
+00415     \textcolor{comment}{/* Remove the flatting point */}
+00416     tmp = tmp / 10;  
+00417       
+00418     \textcolor{comment}{/* Check the parity of the divider */}
+00419     i2sodd = (uint16\_t)(tmp & (uint16\_t)0x0001);
+00420    
+00421     \textcolor{comment}{/* Compute the i2sdiv prescaler */}
+00422     i2sdiv = (uint16\_t)((tmp - i2sodd) / 2);
+00423    
+00424     \textcolor{comment}{/* Get the Mask for the Odd bit (SPI\_I2SPR[8]) register */}
+00425     i2sodd = (uint16\_t) (i2sodd << 8);
+00426   \}
+00427 
+00428   \textcolor{comment}{/* Test if the divider is 1 or 0 or greater than 0xFF */}
+00429   \textcolor{keywordflow}{if} ((i2sdiv < 2) || (i2sdiv > 0xFF))
+00430   \{
+00431     \textcolor{comment}{/* Set the default values */}
+00432     i2sdiv = 2;
+00433     i2sodd = 0;
+00434   \}
+00435 
+00436   \textcolor{comment}{/* Write to SPIx I2SPR register the computed value */}
+00437   SPIx->I2SPR = (uint16\_t)((uint16\_t)i2sdiv | (uint16\_t)(i2sodd | (uint16\_t)I2S\_InitStruct->
+      I2S_MCLKOutput));
+00438  
+00439   \textcolor{comment}{/* Configure the I2S with the SPI\_InitStruct values */}
+00440   tmpreg |= (uint16\_t)((uint16\_t)SPI_I2SCFGR_I2SMOD | (uint16\_t)(I2S\_InitStruct->
+      I2S_Mode | \(\backslash\)
+00441                   (uint16\_t)(I2S\_InitStruct->I2S_Standard | (uint16\_t)(I2S\_InitStruct->
+      I2S_DataFormat | \(\backslash\)
+00442                   (uint16\_t)I2S\_InitStruct->I2S_CPOL))));
+00443  
+00444   \textcolor{comment}{/* Write to SPIx I2SCFGR */}  
+00445   SPIx->I2SCFGR = tmpreg;
+00446 \}
+\end{DoxyCode}
+\mbox{\label{group__SPI__Group1_ga7470ec1d0759fdeeb42c7fe71a3b41b7}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!I2\+S\+\_\+\+Struct\+Init@{I2\+S\+\_\+\+Struct\+Init}}
+\index{I2\+S\+\_\+\+Struct\+Init@{I2\+S\+\_\+\+Struct\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{I2\+S\+\_\+\+Struct\+Init()}
+{\footnotesize\ttfamily void I2\+S\+\_\+\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ I2\+S\+\_\+\+Init\+Type\+Def} $\ast$}]{I2\+S\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each I2\+S\+\_\+\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+S\+\_\+\+Init\+Struct} & pointer to a \doxyref{I2\+S\+\_\+\+Init\+Type\+Def}{p.}{structI2S__InitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 481} of file \textbf{ stm32f4xx\+\_\+spi.\+c}.
+
+
+
+References \textbf{ I2\+S\+\_\+\+Init\+Type\+Def\+::\+I2\+S\+\_\+\+Audio\+Freq}, \textbf{ I2\+S\+\_\+\+Init\+Type\+Def\+::\+I2\+S\+\_\+\+C\+P\+OL}, \textbf{ I2\+S\+\_\+\+Init\+Type\+Def\+::\+I2\+S\+\_\+\+Data\+Format}, \textbf{ I2\+S\+\_\+\+Init\+Type\+Def\+::\+I2\+S\+\_\+\+M\+C\+L\+K\+Output}, \textbf{ I2\+S\+\_\+\+Init\+Type\+Def\+::\+I2\+S\+\_\+\+Mode}, and \textbf{ I2\+S\+\_\+\+Init\+Type\+Def\+::\+I2\+S\+\_\+\+Standard}.
+
+
+\begin{DoxyCode}
+00482 \{
+00483 \textcolor{comment}{/*--------------- Reset I2S init structure parameters values -----------------*/}
+00484   \textcolor{comment}{/* Initialize the I2S\_Mode member */}
+00485   I2S\_InitStruct->I2S_Mode = I2S_Mode_SlaveTx;
+00486   
+00487   \textcolor{comment}{/* Initialize the I2S\_Standard member */}
+00488   I2S\_InitStruct->I2S_Standard = I2S_Standard_Phillips;
+00489   
+00490   \textcolor{comment}{/* Initialize the I2S\_DataFormat member */}
+00491   I2S\_InitStruct->I2S_DataFormat = I2S_DataFormat_16b;
+00492   
+00493   \textcolor{comment}{/* Initialize the I2S\_MCLKOutput member */}
+00494   I2S\_InitStruct->I2S_MCLKOutput = I2S_MCLKOutput_Disable;
+00495   
+00496   \textcolor{comment}{/* Initialize the I2S\_AudioFreq member */}
+00497   I2S\_InitStruct->I2S_AudioFreq = I2S_AudioFreq_Default;
+00498   
+00499   \textcolor{comment}{/* Initialize the I2S\_CPOL member */}
+00500   I2S\_InitStruct->I2S_CPOL = I2S_CPOL_Low;
+00501 \}
+\end{DoxyCode}
+\mbox{\label{group__SPI__Group1_ga166171c421fc51da7714723524d41b45}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!S\+P\+I\+\_\+\+Bi\+Directional\+Line\+Config@{S\+P\+I\+\_\+\+Bi\+Directional\+Line\+Config}}
+\index{S\+P\+I\+\_\+\+Bi\+Directional\+Line\+Config@{S\+P\+I\+\_\+\+Bi\+Directional\+Line\+Config}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{S\+P\+I\+\_\+\+Bi\+Directional\+Line\+Config()}
+{\footnotesize\ttfamily void S\+P\+I\+\_\+\+Bi\+Directional\+Line\+Config (\begin{DoxyParamCaption}\item[{\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$}]{S\+P\+Ix,  }\item[{uint16\+\_\+t}]{S\+P\+I\+\_\+\+Direction }\end{DoxyParamCaption})}
+
+
+
+Selects the data transfer direction in bidirectional mode for the specified S\+PI. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+P\+Ix} & where x can be 1, 2 or 3 to select the S\+PI peripheral. \\
+\hline
+{\em S\+P\+I\+\_\+\+Direction} & specifies the data transfer direction in bidirectional mode. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item S\+P\+I\+\_\+\+Direction\+\_\+\+Tx\+: Selects Tx transmission direction \item S\+P\+I\+\_\+\+Direction\+\_\+\+Rx\+: Selects Rx receive direction \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 582} of file \textbf{ stm32f4xx\+\_\+spi.\+c}.
+
+
+\begin{DoxyCode}
+00583 \{
+00584   \textcolor{comment}{/* Check the parameters */}
+00585   assert_param(IS_SPI_ALL_PERIPH(SPIx));
+00586   assert_param(IS_SPI_DIRECTION(SPI\_Direction));
+00587   \textcolor{keywordflow}{if} (SPI\_Direction == SPI_Direction_Tx)
+00588   \{
+00589     \textcolor{comment}{/* Set the Tx only mode */}
+00590     SPIx->CR1 |= SPI_Direction_Tx;
+00591   \}
+00592   \textcolor{keywordflow}{else}
+00593   \{
+00594     \textcolor{comment}{/* Set the Rx only mode */}
+00595     SPIx->CR1 &= SPI_Direction_Rx;
+00596   \}
+00597 \}
+\end{DoxyCode}
+\mbox{\label{group__SPI__Group1_gaa31357879a65ee1ed7223f3b9114dcf3}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!S\+P\+I\+\_\+\+Cmd@{S\+P\+I\+\_\+\+Cmd}}
+\index{S\+P\+I\+\_\+\+Cmd@{S\+P\+I\+\_\+\+Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{S\+P\+I\+\_\+\+Cmd()}
+{\footnotesize\ttfamily void S\+P\+I\+\_\+\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$}]{S\+P\+Ix,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified S\+PI peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+P\+Ix} & where x can be 1, 2 or 3 to select the S\+PI peripheral. \\
+\hline
+{\em New\+State} & new state of the S\+P\+Ix peripheral. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 510} of file \textbf{ stm32f4xx\+\_\+spi.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00511 \{
+00512   \textcolor{comment}{/* Check the parameters */}
+00513   assert_param(IS_SPI_ALL_PERIPH(SPIx));
+00514   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00515   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00516   \{
+00517     \textcolor{comment}{/* Enable the selected SPI peripheral */}
+00518     SPIx->CR1 |= SPI_CR1_SPE;
+00519   \}
+00520   \textcolor{keywordflow}{else}
+00521   \{
+00522     \textcolor{comment}{/* Disable the selected SPI peripheral */}
+00523     SPIx->CR1 &= (uint16\_t)~((uint16\_t)SPI_CR1_SPE);
+00524   \}
+00525 \}
+\end{DoxyCode}
+\mbox{\label{group__SPI__Group1_gafc82e90841d7879535d655c035709cb1}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!S\+P\+I\+\_\+\+Data\+Size\+Config@{S\+P\+I\+\_\+\+Data\+Size\+Config}}
+\index{S\+P\+I\+\_\+\+Data\+Size\+Config@{S\+P\+I\+\_\+\+Data\+Size\+Config}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{S\+P\+I\+\_\+\+Data\+Size\+Config()}
+{\footnotesize\ttfamily void S\+P\+I\+\_\+\+Data\+Size\+Config (\begin{DoxyParamCaption}\item[{\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$}]{S\+P\+Ix,  }\item[{uint16\+\_\+t}]{S\+P\+I\+\_\+\+Data\+Size }\end{DoxyParamCaption})}
+
+
+
+Configures the data size for the selected S\+PI. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+P\+Ix} & where x can be 1, 2 or 3 to select the S\+PI peripheral. \\
+\hline
+{\em S\+P\+I\+\_\+\+Data\+Size} & specifies the S\+PI data size. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item S\+P\+I\+\_\+\+Data\+Size\+\_\+16b\+: Set data frame format to 16bit \item S\+P\+I\+\_\+\+Data\+Size\+\_\+8b\+: Set data frame format to 8bit \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 562} of file \textbf{ stm32f4xx\+\_\+spi.\+c}.
+
+
+\begin{DoxyCode}
+00563 \{
+00564   \textcolor{comment}{/* Check the parameters */}
+00565   assert_param(IS_SPI_ALL_PERIPH(SPIx));
+00566   assert_param(IS_SPI_DATASIZE(SPI\_DataSize));
+00567   \textcolor{comment}{/* Clear DFF bit */}
+00568   SPIx->CR1 &= (uint16\_t)~SPI_DataSize_16b;
+00569   \textcolor{comment}{/* Set new DFF bit value */}
+00570   SPIx->CR1 |= SPI\_DataSize;
+00571 \}
+\end{DoxyCode}
+\mbox{\label{group__SPI__Group1_gabe36880945fa56785283a9c0092124cc}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!S\+P\+I\+\_\+\+I2\+S\+\_\+\+De\+Init@{S\+P\+I\+\_\+\+I2\+S\+\_\+\+De\+Init}}
+\index{S\+P\+I\+\_\+\+I2\+S\+\_\+\+De\+Init@{S\+P\+I\+\_\+\+I2\+S\+\_\+\+De\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{S\+P\+I\+\_\+\+I2\+S\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void S\+P\+I\+\_\+\+I2\+S\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$}]{S\+P\+Ix }\end{DoxyParamCaption})}
+
+
+
+Deinitialize the S\+P\+Ix peripheral registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+P\+Ix} & To select the S\+P\+Ix/\+I2\+Sx peripheral, where x can be\+: 1, 2 or 3 in S\+PI mode or 2 or 3 in I2S mode.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The extended I2S blocks (ie. I2\+S2ext and I2\+S3ext blocks) are deinitialized when the relative I2S peripheral is deinitialized (the extended block\textquotesingle{}s clock is managed by the I2S peripheral clock).
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 218} of file \textbf{ stm32f4xx\+\_\+spi.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, \textbf{ R\+C\+C\+\_\+\+A\+P\+B1\+Periph\+Reset\+Cmd()}, and \textbf{ R\+C\+C\+\_\+\+A\+P\+B2\+Periph\+Reset\+Cmd()}.
+
+
+\begin{DoxyCode}
+00219 \{
+00220   \textcolor{comment}{/* Check the parameters */}
+00221   assert_param(IS_SPI_ALL_PERIPH(SPIx));
+00222 
+00223   \textcolor{keywordflow}{if} (SPIx == SPI1)
+00224   \{
+00225     \textcolor{comment}{/* Enable SPI1 reset state */}
+00226     RCC_APB2PeriphResetCmd(RCC_APB2Periph_SPI1, ENABLE);
+00227     \textcolor{comment}{/* Release SPI1 from reset state */}
+00228     RCC_APB2PeriphResetCmd(RCC_APB2Periph_SPI1, DISABLE);
+00229   \}
+00230   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (SPIx == SPI2)
+00231   \{
+00232     \textcolor{comment}{/* Enable SPI2 reset state */}
+00233     RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI2, ENABLE);
+00234     \textcolor{comment}{/* Release SPI2 from reset state */}
+00235     RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI2, DISABLE);
+00236     \}
+00237   \textcolor{keywordflow}{else}
+00238   \{
+00239     \textcolor{keywordflow}{if} (SPIx == SPI3)
+00240     \{
+00241       \textcolor{comment}{/* Enable SPI3 reset state */}
+00242       RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI3, ENABLE);
+00243       \textcolor{comment}{/* Release SPI3 from reset state */}
+00244       RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI3, DISABLE);
+00245     \}
+00246   \}
+00247 \}
+\end{DoxyCode}
+\mbox{\label{group__SPI__Group1_ga8dacc1dc48bf08c0f12da409f4889037}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!S\+P\+I\+\_\+\+Init@{S\+P\+I\+\_\+\+Init}}
+\index{S\+P\+I\+\_\+\+Init@{S\+P\+I\+\_\+\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{S\+P\+I\+\_\+\+Init()}
+{\footnotesize\ttfamily void S\+P\+I\+\_\+\+Init (\begin{DoxyParamCaption}\item[{\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$}]{S\+P\+Ix,  }\item[{\textbf{ S\+P\+I\+\_\+\+Init\+Type\+Def} $\ast$}]{S\+P\+I\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the S\+P\+Ix peripheral according to the specified parameters in the S\+P\+I\+\_\+\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+P\+Ix} & where x can be 1, 2 or 3 to select the S\+PI peripheral. \\
+\hline
+{\em S\+P\+I\+\_\+\+Init\+Struct} & pointer to a \doxyref{S\+P\+I\+\_\+\+Init\+Type\+Def}{p.}{structSPI__InitTypeDef} structure that contains the configuration information for the specified S\+PI peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 257} of file \textbf{ stm32f4xx\+\_\+spi.\+c}.
+
+
+
+References \textbf{ S\+P\+I\+\_\+\+Init\+Type\+Def\+::\+S\+P\+I\+\_\+\+Baud\+Rate\+Prescaler}, \textbf{ S\+P\+I\+\_\+\+Init\+Type\+Def\+::\+S\+P\+I\+\_\+\+C\+P\+HA}, \textbf{ S\+P\+I\+\_\+\+Init\+Type\+Def\+::\+S\+P\+I\+\_\+\+C\+P\+OL}, \textbf{ S\+P\+I\+\_\+\+Init\+Type\+Def\+::\+S\+P\+I\+\_\+\+Data\+Size}, \textbf{ S\+P\+I\+\_\+\+Init\+Type\+Def\+::\+S\+P\+I\+\_\+\+Direction}, \textbf{ S\+P\+I\+\_\+\+Init\+Type\+Def\+::\+S\+P\+I\+\_\+\+First\+Bit}, \textbf{ S\+P\+I\+\_\+\+Init\+Type\+Def\+::\+S\+P\+I\+\_\+\+Mode}, and \textbf{ S\+P\+I\+\_\+\+Init\+Type\+Def\+::\+S\+P\+I\+\_\+\+N\+SS}.
+
+
+\begin{DoxyCode}
+00258 \{
+00259   uint16\_t tmpreg = 0;
+00260   
+00261   \textcolor{comment}{/* check the parameters */}
+00262   assert_param(IS_SPI_ALL_PERIPH(SPIx));
+00263   
+00264   \textcolor{comment}{/* Check the SPI parameters */}
+00265   assert_param(IS_SPI_DIRECTION_MODE(SPI\_InitStruct->SPI_Direction));
+00266   assert_param(IS_SPI_MODE(SPI\_InitStruct->SPI_Mode));
+00267   assert_param(IS_SPI_DATASIZE(SPI\_InitStruct->SPI_DataSize));
+00268   assert_param(IS_SPI_CPOL(SPI\_InitStruct->SPI_CPOL));
+00269   assert_param(IS_SPI_CPHA(SPI\_InitStruct->SPI_CPHA));
+00270   assert_param(IS_SPI_NSS(SPI\_InitStruct->SPI_NSS));
+00271   assert_param(IS_SPI_BAUDRATE_PRESCALER(SPI\_InitStruct->SPI_BaudRatePrescaler));
+00272   assert_param(IS_SPI_FIRST_BIT(SPI\_InitStruct->SPI_FirstBit));
+00273   assert_param(IS_SPI_CRC_POLYNOMIAL(SPI\_InitStruct->SPI_CRCPolynomial));
+00274 
+00275 \textcolor{comment}{/*---------------------------- SPIx CR1 Configuration ------------------------*/}
+00276   \textcolor{comment}{/* Get the SPIx CR1 value */}
+00277   tmpreg = SPIx->CR1;
+00278   \textcolor{comment}{/* Clear BIDIMode, BIDIOE, RxONLY, SSM, SSI, LSBFirst, BR, MSTR, CPOL and CPHA bits */}
+00279   tmpreg &= CR1_CLEAR_MASK;
+00280   \textcolor{comment}{/* Configure SPIx: direction, NSS management, first transmitted bit, BaudRate prescaler}
+00281 \textcolor{comment}{     master/salve mode, CPOL and CPHA */}
+00282   \textcolor{comment}{/* Set BIDImode, BIDIOE and RxONLY bits according to SPI\_Direction value */}
+00283   \textcolor{comment}{/* Set SSM, SSI and MSTR bits according to SPI\_Mode and SPI\_NSS values */}
+00284   \textcolor{comment}{/* Set LSBFirst bit according to SPI\_FirstBit value */}
+00285   \textcolor{comment}{/* Set BR bits according to SPI\_BaudRatePrescaler value */}
+00286   \textcolor{comment}{/* Set CPOL bit according to SPI\_CPOL value */}
+00287   \textcolor{comment}{/* Set CPHA bit according to SPI\_CPHA value */}
+00288   tmpreg |= (uint16\_t)((uint32\_t)SPI\_InitStruct->SPI_Direction | SPI\_InitStruct->
+      SPI_Mode |
+00289                   SPI\_InitStruct->SPI_DataSize | SPI\_InitStruct->SPI_CPOL |  
+00290                   SPI\_InitStruct->SPI_CPHA | SPI\_InitStruct->SPI_NSS |  
+00291                   SPI\_InitStruct->SPI_BaudRatePrescaler | SPI\_InitStruct->
+      SPI_FirstBit);
+00292   \textcolor{comment}{/* Write to SPIx CR1 */}
+00293   SPIx->CR1 = tmpreg;
+00294 
+00295   \textcolor{comment}{/* Activate the SPI mode (Reset I2SMOD bit in I2SCFGR register) */}
+00296   SPIx->I2SCFGR &= (uint16\_t)~((uint16\_t)SPI_I2SCFGR_I2SMOD);
+00297 \textcolor{comment}{/*---------------------------- SPIx CRCPOLY Configuration --------------------*/}
+00298   \textcolor{comment}{/* Write to SPIx CRCPOLY */}
+00299   SPIx->CRCPR = SPI\_InitStruct->SPI_CRCPolynomial;
+00300 \}
+\end{DoxyCode}
+\mbox{\label{group__SPI__Group1_ga56fc508a482f032f9eb80e4c63184126}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!S\+P\+I\+\_\+\+N\+S\+S\+Internal\+Software\+Config@{S\+P\+I\+\_\+\+N\+S\+S\+Internal\+Software\+Config}}
+\index{S\+P\+I\+\_\+\+N\+S\+S\+Internal\+Software\+Config@{S\+P\+I\+\_\+\+N\+S\+S\+Internal\+Software\+Config}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{S\+P\+I\+\_\+\+N\+S\+S\+Internal\+Software\+Config()}
+{\footnotesize\ttfamily void S\+P\+I\+\_\+\+N\+S\+S\+Internal\+Software\+Config (\begin{DoxyParamCaption}\item[{\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$}]{S\+P\+Ix,  }\item[{uint16\+\_\+t}]{S\+P\+I\+\_\+\+N\+S\+S\+Internal\+Soft }\end{DoxyParamCaption})}
+
+
+
+Configures internally by software the N\+SS pin for the selected S\+PI. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+P\+Ix} & where x can be 1, 2 or 3 to select the S\+PI peripheral. \\
+\hline
+{\em S\+P\+I\+\_\+\+N\+S\+S\+Internal\+Soft} & specifies the S\+PI N\+SS internal state. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item S\+P\+I\+\_\+\+N\+S\+S\+Internal\+Soft\+\_\+\+Set\+: Set N\+SS pin internally \item S\+P\+I\+\_\+\+N\+S\+S\+Internal\+Soft\+\_\+\+Reset\+: Reset N\+SS pin internally \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 608} of file \textbf{ stm32f4xx\+\_\+spi.\+c}.
+
+
+\begin{DoxyCode}
+00609 \{
+00610   \textcolor{comment}{/* Check the parameters */}
+00611   assert_param(IS_SPI_ALL_PERIPH(SPIx));
+00612   assert_param(IS_SPI_NSS_INTERNAL(SPI\_NSSInternalSoft));
+00613   \textcolor{keywordflow}{if} (SPI\_NSSInternalSoft != SPI_NSSInternalSoft_Reset)
+00614   \{
+00615     \textcolor{comment}{/* Set NSS pin internally by software */}
+00616     SPIx->CR1 |= SPI_NSSInternalSoft_Set;
+00617   \}
+00618   \textcolor{keywordflow}{else}
+00619   \{
+00620     \textcolor{comment}{/* Reset NSS pin internally by software */}
+00621     SPIx->CR1 &= SPI_NSSInternalSoft_Reset;
+00622   \}
+00623 \}
+\end{DoxyCode}
+\mbox{\label{group__SPI__Group1_ga4ec54abdedf6cd17403d853a926d91c1}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!S\+P\+I\+\_\+\+S\+S\+Output\+Cmd@{S\+P\+I\+\_\+\+S\+S\+Output\+Cmd}}
+\index{S\+P\+I\+\_\+\+S\+S\+Output\+Cmd@{S\+P\+I\+\_\+\+S\+S\+Output\+Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{S\+P\+I\+\_\+\+S\+S\+Output\+Cmd()}
+{\footnotesize\ttfamily void S\+P\+I\+\_\+\+S\+S\+Output\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$}]{S\+P\+Ix,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the SS output for the selected S\+PI. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+P\+Ix} & where x can be 1, 2 or 3 to select the S\+PI peripheral. \\
+\hline
+{\em New\+State} & new state of the S\+P\+Ix SS output. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 632} of file \textbf{ stm32f4xx\+\_\+spi.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00633 \{
+00634   \textcolor{comment}{/* Check the parameters */}
+00635   assert_param(IS_SPI_ALL_PERIPH(SPIx));
+00636   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00637   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00638   \{
+00639     \textcolor{comment}{/* Enable the selected SPI SS output */}
+00640     SPIx->CR2 |= (uint16\_t)SPI_CR2_SSOE;
+00641   \}
+00642   \textcolor{keywordflow}{else}
+00643   \{
+00644     \textcolor{comment}{/* Disable the selected SPI SS output */}
+00645     SPIx->CR2 &= (uint16\_t)~((uint16\_t)SPI_CR2_SSOE);
+00646   \}
+00647 \}
+\end{DoxyCode}
+\mbox{\label{group__SPI__Group1_ga9a0116f88cc2c4478c270f05608703f1}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!S\+P\+I\+\_\+\+Struct\+Init@{S\+P\+I\+\_\+\+Struct\+Init}}
+\index{S\+P\+I\+\_\+\+Struct\+Init@{S\+P\+I\+\_\+\+Struct\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{S\+P\+I\+\_\+\+Struct\+Init()}
+{\footnotesize\ttfamily void S\+P\+I\+\_\+\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ S\+P\+I\+\_\+\+Init\+Type\+Def} $\ast$}]{S\+P\+I\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each S\+P\+I\+\_\+\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+P\+I\+\_\+\+Init\+Struct} & pointer to a \doxyref{S\+P\+I\+\_\+\+Init\+Type\+Def}{p.}{structSPI__InitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 453} of file \textbf{ stm32f4xx\+\_\+spi.\+c}.
+
+
+
+References \textbf{ S\+P\+I\+\_\+\+Init\+Type\+Def\+::\+S\+P\+I\+\_\+\+Baud\+Rate\+Prescaler}, \textbf{ S\+P\+I\+\_\+\+Init\+Type\+Def\+::\+S\+P\+I\+\_\+\+C\+P\+HA}, \textbf{ S\+P\+I\+\_\+\+Init\+Type\+Def\+::\+S\+P\+I\+\_\+\+C\+P\+OL}, \textbf{ S\+P\+I\+\_\+\+Init\+Type\+Def\+::\+S\+P\+I\+\_\+\+C\+R\+C\+Polynomial}, \textbf{ S\+P\+I\+\_\+\+Init\+Type\+Def\+::\+S\+P\+I\+\_\+\+Data\+Size}, \textbf{ S\+P\+I\+\_\+\+Init\+Type\+Def\+::\+S\+P\+I\+\_\+\+Direction}, \textbf{ S\+P\+I\+\_\+\+Init\+Type\+Def\+::\+S\+P\+I\+\_\+\+First\+Bit}, \textbf{ S\+P\+I\+\_\+\+Init\+Type\+Def\+::\+S\+P\+I\+\_\+\+Mode}, and \textbf{ S\+P\+I\+\_\+\+Init\+Type\+Def\+::\+S\+P\+I\+\_\+\+N\+SS}.
+
+
+\begin{DoxyCode}
+00454 \{
+00455 \textcolor{comment}{/*--------------- Reset SPI init structure parameters values -----------------*/}
+00456   \textcolor{comment}{/* Initialize the SPI\_Direction member */}
+00457   SPI\_InitStruct->SPI_Direction = SPI_Direction_2Lines_FullDuplex;
+00458   \textcolor{comment}{/* initialize the SPI\_Mode member */}
+00459   SPI\_InitStruct->SPI_Mode = SPI_Mode_Slave;
+00460   \textcolor{comment}{/* initialize the SPI\_DataSize member */}
+00461   SPI\_InitStruct->SPI_DataSize = SPI_DataSize_8b;
+00462   \textcolor{comment}{/* Initialize the SPI\_CPOL member */}
+00463   SPI\_InitStruct->SPI_CPOL = SPI_CPOL_Low;
+00464   \textcolor{comment}{/* Initialize the SPI\_CPHA member */}
+00465   SPI\_InitStruct->SPI_CPHA = SPI_CPHA_1Edge;
+00466   \textcolor{comment}{/* Initialize the SPI\_NSS member */}
+00467   SPI\_InitStruct->SPI_NSS = SPI_NSS_Hard;
+00468   \textcolor{comment}{/* Initialize the SPI\_BaudRatePrescaler member */}
+00469   SPI\_InitStruct->SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_2;
+00470   \textcolor{comment}{/* Initialize the SPI\_FirstBit member */}
+00471   SPI\_InitStruct->SPI_FirstBit = SPI_FirstBit_MSB;
+00472   \textcolor{comment}{/* Initialize the SPI\_CRCPolynomial member */}
+00473   SPI\_InitStruct->SPI_CRCPolynomial = 7;
+00474 \}
+\end{DoxyCode}
+\mbox{\label{group__SPI__Group1_ga74594bf32e3bf4905ac7a2deef8eb475}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!S\+P\+I\+\_\+\+T\+I\+Mode\+Cmd@{S\+P\+I\+\_\+\+T\+I\+Mode\+Cmd}}
+\index{S\+P\+I\+\_\+\+T\+I\+Mode\+Cmd@{S\+P\+I\+\_\+\+T\+I\+Mode\+Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{S\+P\+I\+\_\+\+T\+I\+Mode\+Cmd()}
+{\footnotesize\ttfamily void S\+P\+I\+\_\+\+T\+I\+Mode\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$}]{S\+P\+Ix,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the S\+P\+Ix/\+I2\+Sx D\+MA interface. 
+
+\begin{DoxyNote}{Note}
+This function can be called only after the \doxyref{S\+P\+I\+\_\+\+Init()}{p.}{group__SPI__Group1_ga8dacc1dc48bf08c0f12da409f4889037} function has been called. 
+
+When TI mode is selected, the control bits S\+SM, S\+SI, C\+P\+OL and C\+P\+HA are not taken into consideration and are configured by hardware respectively to the TI mode requirements.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em S\+P\+Ix} & where x can be 1, 2 or 3 \\
+\hline
+{\em New\+State} & new state of the selected S\+PI TI communication mode. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 663} of file \textbf{ stm32f4xx\+\_\+spi.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00664 \{
+00665   \textcolor{comment}{/* Check the parameters */}
+00666   assert_param(IS_SPI_ALL_PERIPH(SPIx));
+00667   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00668 
+00669   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00670   \{
+00671     \textcolor{comment}{/* Enable the TI mode for the selected SPI peripheral */}
+00672     SPIx->CR2 |= SPI_CR2_FRF;
+00673   \}
+00674   \textcolor{keywordflow}{else}
+00675   \{
+00676     \textcolor{comment}{/* Disable the TI mode for the selected SPI peripheral */}
+00677     SPIx->CR2 &= (uint16\_t)~SPI_CR2_FRF;
+00678   \}
+00679 \}
+\end{DoxyCode}

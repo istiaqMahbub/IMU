@@ -1,0 +1,278 @@
+\section{Interrupts and flags management functions}
+\label{group__FLASH__Group4}\index{Interrupts and flags management functions@{Interrupts and flags management functions}}
+
+
+Interrupts and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ F\+L\+A\+S\+H\+\_\+\+I\+T\+Config} (uint32\+\_\+t F\+L\+A\+S\+H\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified F\+L\+A\+SH interrupts. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ F\+L\+A\+S\+H\+\_\+\+Get\+Flag\+Status} (uint32\+\_\+t F\+L\+A\+S\+H\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified F\+L\+A\+SH flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ F\+L\+A\+S\+H\+\_\+\+Clear\+Flag} (uint32\+\_\+t F\+L\+A\+S\+H\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the F\+L\+A\+SH\textquotesingle{}s pending flags. \end{DoxyCompactList}\item 
+\textbf{ F\+L\+A\+S\+H\+\_\+\+Status} \textbf{ F\+L\+A\+S\+H\+\_\+\+Get\+Status} (void)
+\begin{DoxyCompactList}\small\item\em Returns the F\+L\+A\+SH Status. \end{DoxyCompactList}\item 
+\textbf{ F\+L\+A\+S\+H\+\_\+\+Status} \textbf{ F\+L\+A\+S\+H\+\_\+\+Wait\+For\+Last\+Operation} (void)
+\begin{DoxyCompactList}\small\item\em Waits for a F\+L\+A\+SH operation to complete. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts and flags management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                  Interrupts and flags management functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__FLASH__Group4_gac4be1d486483fa5cd70ec77d44ca8f87}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!F\+L\+A\+S\+H\+\_\+\+Clear\+Flag@{F\+L\+A\+S\+H\+\_\+\+Clear\+Flag}}
+\index{F\+L\+A\+S\+H\+\_\+\+Clear\+Flag@{F\+L\+A\+S\+H\+\_\+\+Clear\+Flag}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+Clear\+Flag()}
+{\footnotesize\ttfamily void F\+L\+A\+S\+H\+\_\+\+Clear\+Flag (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{F\+L\+A\+S\+H\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Clears the F\+L\+A\+SH\textquotesingle{}s pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\+L\+A\+S\+H\+\_\+\+F\+L\+AG} & specifies the F\+L\+A\+SH flags to clear. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item F\+L\+A\+S\+H\+\_\+\+F\+L\+A\+G\+\_\+\+E\+OP\+: F\+L\+A\+SH End of Operation flag \item F\+L\+A\+S\+H\+\_\+\+F\+L\+A\+G\+\_\+\+O\+P\+E\+RR\+: F\+L\+A\+SH operation Error flag \item F\+L\+A\+S\+H\+\_\+\+F\+L\+A\+G\+\_\+\+W\+R\+P\+E\+RR\+: F\+L\+A\+SH Write protected error flag \item F\+L\+A\+S\+H\+\_\+\+F\+L\+A\+G\+\_\+\+P\+G\+A\+E\+RR\+: F\+L\+A\+SH Programming Alignment error flag \item F\+L\+A\+S\+H\+\_\+\+F\+L\+A\+G\+\_\+\+P\+G\+P\+E\+RR\+: F\+L\+A\+SH Programming Parallelism error flag \item F\+L\+A\+S\+H\+\_\+\+F\+L\+A\+G\+\_\+\+P\+G\+S\+E\+RR\+: F\+L\+A\+SH Programming Sequence error flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 964} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+\begin{DoxyCode}
+00965 \{
+00966   \textcolor{comment}{/* Check the parameters */}
+00967   assert_param(IS_FLASH_CLEAR_FLAG(FLASH\_FLAG));
+00968   
+00969   \textcolor{comment}{/* Clear the flags */}
+00970   FLASH->SR = FLASH\_FLAG;
+00971 \}
+\end{DoxyCode}
+\mbox{\label{group__FLASH__Group4_gae3fb545e32f21501ca27d4380e0f2088}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!F\+L\+A\+S\+H\+\_\+\+Get\+Flag\+Status@{F\+L\+A\+S\+H\+\_\+\+Get\+Flag\+Status}}
+\index{F\+L\+A\+S\+H\+\_\+\+Get\+Flag\+Status@{F\+L\+A\+S\+H\+\_\+\+Get\+Flag\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} F\+L\+A\+S\+H\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{F\+L\+A\+S\+H\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified F\+L\+A\+SH flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\+L\+A\+S\+H\+\_\+\+F\+L\+AG} & specifies the F\+L\+A\+SH flag to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item F\+L\+A\+S\+H\+\_\+\+F\+L\+A\+G\+\_\+\+E\+OP\+: F\+L\+A\+SH End of Operation flag \item F\+L\+A\+S\+H\+\_\+\+F\+L\+A\+G\+\_\+\+O\+P\+E\+RR\+: F\+L\+A\+SH operation Error flag \item F\+L\+A\+S\+H\+\_\+\+F\+L\+A\+G\+\_\+\+W\+R\+P\+E\+RR\+: F\+L\+A\+SH Write protected error flag \item F\+L\+A\+S\+H\+\_\+\+F\+L\+A\+G\+\_\+\+P\+G\+A\+E\+RR\+: F\+L\+A\+SH Programming Alignment error flag \item F\+L\+A\+S\+H\+\_\+\+F\+L\+A\+G\+\_\+\+P\+G\+P\+E\+RR\+: F\+L\+A\+SH Programming Parallelism error flag \item F\+L\+A\+S\+H\+\_\+\+F\+L\+A\+G\+\_\+\+P\+G\+S\+E\+RR\+: F\+L\+A\+SH Programming Sequence error flag \item F\+L\+A\+S\+H\+\_\+\+F\+L\+A\+G\+\_\+\+B\+SY\+: F\+L\+A\+SH Busy flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of F\+L\+A\+S\+H\+\_\+\+F\+L\+AG (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 934} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00935 \{
+00936   FlagStatus bitstatus = RESET;
+00937   \textcolor{comment}{/* Check the parameters */}
+00938   assert_param(IS_FLASH_GET_FLAG(FLASH\_FLAG));
+00939 
+00940   \textcolor{keywordflow}{if}((FLASH->SR & FLASH\_FLAG) != (uint32\_t)RESET)
+00941   \{
+00942     bitstatus = SET;
+00943   \}
+00944   \textcolor{keywordflow}{else}
+00945   \{
+00946     bitstatus = RESET;
+00947   \}
+00948   \textcolor{comment}{/* Return the new state of FLASH\_FLAG (SET or RESET) */}
+00949   \textcolor{keywordflow}{return} bitstatus; 
+00950 \}
+\end{DoxyCode}
+\mbox{\label{group__FLASH__Group4_gac265b8d1e7ea11e44ceee28797c3debb}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!F\+L\+A\+S\+H\+\_\+\+Get\+Status@{F\+L\+A\+S\+H\+\_\+\+Get\+Status}}
+\index{F\+L\+A\+S\+H\+\_\+\+Get\+Status@{F\+L\+A\+S\+H\+\_\+\+Get\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+Get\+Status()}
+{\footnotesize\ttfamily \textbf{ F\+L\+A\+S\+H\+\_\+\+Status} F\+L\+A\+S\+H\+\_\+\+Get\+Status (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns the F\+L\+A\+SH Status. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em F\+L\+A\+SH} & Status\+: The returned value can be\+: F\+L\+A\+S\+H\+\_\+\+B\+U\+SY, F\+L\+A\+S\+H\+\_\+\+E\+R\+R\+O\+R\+\_\+\+P\+R\+O\+G\+R\+AM, F\+L\+A\+S\+H\+\_\+\+E\+R\+R\+O\+R\+\_\+\+W\+RP, F\+L\+A\+S\+H\+\_\+\+E\+R\+R\+O\+R\+\_\+\+O\+P\+E\+R\+A\+T\+I\+ON or F\+L\+A\+S\+H\+\_\+\+C\+O\+M\+P\+L\+E\+TE. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 979} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+
+References \textbf{ F\+L\+A\+S\+H\+\_\+\+C\+O\+M\+P\+L\+E\+TE}.
+
+
+\begin{DoxyCode}
+00980 \{
+00981   FLASH_Status flashstatus = FLASH_COMPLETE;
+00982   
+00983   \textcolor{keywordflow}{if}((FLASH->SR & FLASH_FLAG_BSY) == FLASH_FLAG_BSY) 
+00984   \{
+00985     flashstatus = FLASH_BUSY;
+00986   \}
+00987   \textcolor{keywordflow}{else} 
+00988   \{  
+00989     \textcolor{keywordflow}{if}((FLASH->SR & FLASH_FLAG_WRPERR) != (uint32\_t)0x00)
+00990     \{ 
+00991       flashstatus = FLASH_ERROR_WRP;
+00992     \}
+00993     \textcolor{keywordflow}{else} 
+00994     \{
+00995       \textcolor{keywordflow}{if}((FLASH->SR & (uint32\_t)0xEF) != (uint32\_t)0x00)
+00996       \{
+00997         flashstatus = FLASH_ERROR_PROGRAM; 
+00998       \}
+00999       \textcolor{keywordflow}{else}
+01000       \{
+01001         \textcolor{keywordflow}{if}((FLASH->SR & FLASH_FLAG_OPERR) != (uint32\_t)0x00)
+01002         \{
+01003           flashstatus = FLASH_ERROR_OPERATION;
+01004         \}
+01005         \textcolor{keywordflow}{else}
+01006         \{
+01007           flashstatus = FLASH_COMPLETE;
+01008         \}
+01009       \}
+01010     \}
+01011   \}
+01012   \textcolor{comment}{/* Return the FLASH Status */}
+01013   \textcolor{keywordflow}{return} flashstatus;
+01014 \}
+\end{DoxyCode}
+\mbox{\label{group__FLASH__Group4_ga94c1e51a9c3bf8d48eb6eb4a4d054861}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!F\+L\+A\+S\+H\+\_\+\+I\+T\+Config@{F\+L\+A\+S\+H\+\_\+\+I\+T\+Config}}
+\index{F\+L\+A\+S\+H\+\_\+\+I\+T\+Config@{F\+L\+A\+S\+H\+\_\+\+I\+T\+Config}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+I\+T\+Config()}
+{\footnotesize\ttfamily void F\+L\+A\+S\+H\+\_\+\+I\+T\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{F\+L\+A\+S\+H\+\_\+\+IT,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified F\+L\+A\+SH interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\+L\+A\+S\+H\+\_\+\+IT} & specifies the F\+L\+A\+SH interrupt sources to be enabled or disabled. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item F\+L\+A\+S\+H\+\_\+\+I\+T\+\_\+\+E\+RR\+: F\+L\+A\+SH Error Interrupt \item F\+L\+A\+S\+H\+\_\+\+I\+T\+\_\+\+E\+OP\+: F\+L\+A\+SH end of operation Interrupt \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 903} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00904 \{
+00905   \textcolor{comment}{/* Check the parameters */}
+00906   assert_param(IS_FLASH_IT(FLASH\_IT)); 
+00907   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00908 
+00909   \textcolor{keywordflow}{if}(NewState != DISABLE)
+00910   \{
+00911     \textcolor{comment}{/* Enable the interrupt sources */}
+00912     FLASH->CR |= FLASH\_IT;
+00913   \}
+00914   \textcolor{keywordflow}{else}
+00915   \{
+00916     \textcolor{comment}{/* Disable the interrupt sources */}
+00917     FLASH->CR &= ~(uint32\_t)FLASH\_IT;
+00918   \}
+00919 \}
+\end{DoxyCode}
+\mbox{\label{group__FLASH__Group4_gaaf8ea3b00c9a5f5eca0df9a795b83f22}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!F\+L\+A\+S\+H\+\_\+\+Wait\+For\+Last\+Operation@{F\+L\+A\+S\+H\+\_\+\+Wait\+For\+Last\+Operation}}
+\index{F\+L\+A\+S\+H\+\_\+\+Wait\+For\+Last\+Operation@{F\+L\+A\+S\+H\+\_\+\+Wait\+For\+Last\+Operation}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+Wait\+For\+Last\+Operation()}
+{\footnotesize\ttfamily \textbf{ F\+L\+A\+S\+H\+\_\+\+Status} F\+L\+A\+S\+H\+\_\+\+Wait\+For\+Last\+Operation (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Waits for a F\+L\+A\+SH operation to complete. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em F\+L\+A\+SH} & Status\+: The returned value can be\+: F\+L\+A\+S\+H\+\_\+\+B\+U\+SY, F\+L\+A\+S\+H\+\_\+\+E\+R\+R\+O\+R\+\_\+\+P\+R\+O\+G\+R\+AM, F\+L\+A\+S\+H\+\_\+\+E\+R\+R\+O\+R\+\_\+\+W\+RP, F\+L\+A\+S\+H\+\_\+\+E\+R\+R\+O\+R\+\_\+\+O\+P\+E\+R\+A\+T\+I\+ON or F\+L\+A\+S\+H\+\_\+\+C\+O\+M\+P\+L\+E\+TE. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1022} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+
+Referenced by \textbf{ F\+L\+A\+S\+H\+\_\+\+Erase\+All\+Sectors()}, \textbf{ F\+L\+A\+S\+H\+\_\+\+Erase\+Sector()}, \textbf{ F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Launch()}, \textbf{ F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+R\+D\+P\+Config()}, \textbf{ F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+User\+Config()}, \textbf{ F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+W\+R\+P\+Config()}, \textbf{ F\+L\+A\+S\+H\+\_\+\+Program\+Byte()}, \textbf{ F\+L\+A\+S\+H\+\_\+\+Program\+Double\+Word()}, \textbf{ F\+L\+A\+S\+H\+\_\+\+Program\+Half\+Word()}, and \textbf{ F\+L\+A\+S\+H\+\_\+\+Program\+Word()}.
+
+
+\begin{DoxyCode}
+01023 \{ 
+01024   \_\_IO FLASH_Status status = FLASH_COMPLETE;
+01025    
+01026   \textcolor{comment}{/* Check for the FLASH Status */}
+01027   status = FLASH_GetStatus();
+01028 
+01029   \textcolor{comment}{/* Wait for the FLASH operation to complete by polling on BUSY flag to be reset.}
+01030 \textcolor{comment}{     Even if the FLASH operation fails, the BUSY flag will be reset and an error}
+01031 \textcolor{comment}{     flag will be set */}
+01032   \textcolor{keywordflow}{while}(status == FLASH_BUSY)
+01033   \{
+01034     status = FLASH_GetStatus();
+01035   \}
+01036   \textcolor{comment}{/* Return the operation status */}
+01037   \textcolor{keywordflow}{return} status;
+01038 \}
+\end{DoxyCode}

@@ -1,0 +1,201 @@
+\section{stm32f4xx\+\_\+exti.\+h}
+\label{stm32f4xx__exti_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+exti.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+exti.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_exti.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the EXTI firmware}
+00008 \textcolor{comment}{  *          library.}
+00009 \textcolor{comment}{  ******************************************************************************}
+00010 \textcolor{comment}{  * @attention}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00013 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00014 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00015 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00016 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00017 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00020 \textcolor{comment}{  ******************************************************************************}
+00021 \textcolor{comment}{  */}
+00022 
+00023 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_EXTI\_H}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_EXTI\_H}
+00026 
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00028  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00033 
+00034 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00035 \textcolor{comment}{  * @\{}
+00036 \textcolor{comment}{  */}
+00037 
+00038 \textcolor{comment}{/** @addtogroup EXTI}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00043 
+00044 \textcolor{comment}{/** }
+00045 \textcolor{comment}{  * @brief  EXTI mode enumeration  }
+00046 \textcolor{comment}{  */}
+00047 
+00048 \textcolor{keyword}{typedef} \textcolor{keyword}{enum}
+00049 \{
+00050   EXTI_Mode_Interrupt = 0x00,
+00051   EXTI_Mode_Event = 0x04
+00052 \}EXTIMode\_TypeDef;
+00053 
+00054 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_EXTI\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{EXTI\_Mode\_Interrupt}\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{EXTI\_Mode\_Event}\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00055 
+00056 \textcolor{comment}{/** }
+00057 \textcolor{comment}{  * @brief  EXTI Trigger enumeration  }
+00058 \textcolor{comment}{  */}
+00059 
+00060 \textcolor{keyword}{typedef} \textcolor{keyword}{enum}
+00061 \{
+00062   EXTI_Trigger_Rising = 0x08,
+00063   EXTI_Trigger_Falling = 0x0C,
+00064   EXTI_Trigger_Rising_Falling = 0x10
+00065 \}EXTITrigger\_TypeDef;
+00066 
+00067 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_EXTI\_TRIGGER}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TRIGGER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TRIGGER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{EXTI\_Trigger\_Rising}\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00068                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TRIGGER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{EXTI\_Trigger\_Falling}\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00069                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TRIGGER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{EXTI\_Trigger\_Rising\_Falling}\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00070 \textcolor{comment}{/** }
+00071 \textcolor{comment}{  * @brief  EXTI Init Structure definition  }
+00072 \textcolor{comment}{  */}
+00073 
+00074 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00075 \{
+00076   uint32\_t EXTI_Line;               \textcolor{comment}{/*!< Specifies the EXTI lines to be enabled or disabled.}
+00077 \textcolor{comment}{                                         This parameter can be any combination value of @ref
+       EXTI\_Lines */}
+00078 
+00079   EXTIMode\_TypeDef EXTI_Mode;       \textcolor{comment}{/*!< Specifies the mode for the EXTI lines.}
+00080 \textcolor{comment}{                                         This parameter can be a value of @ref EXTIMode\_TypeDef */}
+00081 
+00082   EXTITrigger\_TypeDef EXTI_Trigger; \textcolor{comment}{/*!< Specifies the trigger signal active edge for the EXTI lines.}
+00083 \textcolor{comment}{                                         This parameter can be a value of @ref EXTITrigger\_TypeDef */}
+00084 
+00085   FunctionalState EXTI_LineCmd;     \textcolor{comment}{/*!< Specifies the new state of the selected EXTI lines.}
+00086 \textcolor{comment}{                                         This parameter can be set either to ENABLE or DISABLE */}
+00087 \}EXTI\_InitTypeDef;
+00088 
+00089 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00090 
+00091 \textcolor{comment}{/** @defgroup EXTI\_Exported\_Constants}
+00092 \textcolor{comment}{  * @\{}
+00093 \textcolor{comment}{  */}
+00094 
+00095 \textcolor{comment}{/** @defgroup EXTI\_Lines }
+00096 \textcolor{comment}{  * @\{}
+00097 \textcolor{comment}{  */}
+00098 
+00099 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line0}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00001\textcolor{preprocessor}{)}     \textcolor{comment}{/*!< External interrupt line 0 */}
+00100 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line1}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00002\textcolor{preprocessor}{)}     \textcolor{comment}{/*!< External interrupt line 1 */}
+00101 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line2}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00004\textcolor{preprocessor}{)}     \textcolor{comment}{/*!< External interrupt line 2 */}
+00102 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line3}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00008\textcolor{preprocessor}{)}     \textcolor{comment}{/*!< External interrupt line 3 */}
+00103 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line4}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00010\textcolor{preprocessor}{)}     \textcolor{comment}{/*!< External interrupt line 4 */}
+00104 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line5}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00020\textcolor{preprocessor}{)}     \textcolor{comment}{/*!< External interrupt line 5 */}
+00105 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line6}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00040\textcolor{preprocessor}{)}     \textcolor{comment}{/*!< External interrupt line 6 */}
+00106 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line7}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00080\textcolor{preprocessor}{)}     \textcolor{comment}{/*!< External interrupt line 7 */}
+00107 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line8}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00100\textcolor{preprocessor}{)}     \textcolor{comment}{/*!< External interrupt line 8 */}
+00108 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line9}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00200\textcolor{preprocessor}{)}     \textcolor{comment}{/*!< External interrupt line 9 */}
+00109 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line10}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00400\textcolor{preprocessor}{)}     \textcolor{comment}{/*!< External interrupt line 10 */}
+00110 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line11}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00800\textcolor{preprocessor}{)}     \textcolor{comment}{/*!< External interrupt line 11 */}
+00111 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line12}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x01000\textcolor{preprocessor}{)}     \textcolor{comment}{/*!< External interrupt line 12 */}
+00112 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line13}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x02000\textcolor{preprocessor}{)}     \textcolor{comment}{/*!< External interrupt line 13 */}
+00113 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line14}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x04000\textcolor{preprocessor}{)}     \textcolor{comment}{/*!< External interrupt line 14 */}
+00114 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line15}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x08000\textcolor{preprocessor}{)}     \textcolor{comment}{/*!< External interrupt line 15 */}
+00115 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line16}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000\textcolor{preprocessor}{)}     \textcolor{comment}{/*!< External interrupt line 16 Connected to the PVD
+       Output */}
+00116 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line17}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000\textcolor{preprocessor}{)}     \textcolor{comment}{/*!< External interrupt line 17 Connected to the RTC
+       Alarm event */}
+00117 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line18}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x40000\textcolor{preprocessor}{)}     \textcolor{comment}{/*!< External interrupt line 18 Connected to the USB
+       OTG FS Wakeup from suspend event */}
+00118 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line19}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x80000\textcolor{preprocessor}{)}     \textcolor{comment}{/*!< External interrupt line 19 Connected to the
+       Ethernet Wakeup event */}
+00119 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line20}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00100000\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< External interrupt line 20 Connected to the USB
+       OTG HS (configured in FS) Wakeup event  */}
+00120 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line21}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00200000\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< External interrupt line 21 Connected to the RTC
+       Tamper and Time Stamp events */}
+00121 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_Line22}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00400000\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< External interrupt line 22 Connected to the RTC
+       Wakeup event */}
+00122 
+00123 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_EXTI\_LINE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFF800000\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00124 
+00125 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_GET\_EXTI\_LINE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_Line0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      EXTI_Line1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00126                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_Line2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      EXTI_Line3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00127                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_Line4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      EXTI_Line5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00128                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_Line6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      EXTI_Line7\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00129                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_Line8\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      EXTI_Line9\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00130                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_Line10\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      EXTI_Line11\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00131                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_Line12\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      EXTI_Line13\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00132                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_Line14\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      EXTI_Line15\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00133                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_Line16\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      EXTI_Line17\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00134                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_Line18\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      EXTI_Line19\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00135                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_Line20\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      EXTI_Line21\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00136                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LINE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_Line22\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00137 
+00138 \textcolor{comment}{/**}
+00139 \textcolor{comment}{  * @\}}
+00140 \textcolor{comment}{  */}
+00141 
+00142 \textcolor{comment}{/**}
+00143 \textcolor{comment}{  * @\}}
+00144 \textcolor{comment}{  */}
+00145 
+00146 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00147 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00148 
+00149 \textcolor{comment}{/*  Function used to set the EXTI configuration to the default reset state *****/}
+00150 \textcolor{keywordtype}{void} EXTI_DeInit(\textcolor{keywordtype}{void});
+00151 
+00152 \textcolor{comment}{/* Initialization and Configuration functions *********************************/}
+00153 \textcolor{keywordtype}{void} EXTI_Init(EXTI\_InitTypeDef* EXTI\_InitStruct);
+00154 \textcolor{keywordtype}{void} EXTI_StructInit(EXTI\_InitTypeDef* EXTI\_InitStruct);
+00155 \textcolor{keywordtype}{void} EXTI_GenerateSWInterrupt(uint32\_t EXTI\_Line);
+00156 
+00157 \textcolor{comment}{/* Interrupts and flags management functions **********************************/}
+00158 FlagStatus EXTI_GetFlagStatus(uint32\_t EXTI\_Line);
+00159 \textcolor{keywordtype}{void} EXTI_ClearFlag(uint32\_t EXTI\_Line);
+00160 ITStatus EXTI_GetITStatus(uint32\_t EXTI\_Line);
+00161 \textcolor{keywordtype}{void} EXTI_ClearITPendingBit(uint32\_t EXTI\_Line);
+00162 
+00163 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00164 \}
+00165 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00166 
+00167 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/* \_\_STM32F4xx\_EXTI\_H */}
+00168 
+00169 \textcolor{comment}{/**}
+00170 \textcolor{comment}{  * @\}}
+00171 \textcolor{comment}{  */}
+00172 
+00173 \textcolor{comment}{/**}
+00174 \textcolor{comment}{  * @\}}
+00175 \textcolor{comment}{  */}
+00176 
+00177 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

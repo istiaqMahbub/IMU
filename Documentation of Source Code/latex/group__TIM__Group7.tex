@@ -1,0 +1,299 @@
+\section{Synchronization management functions}
+\label{group__TIM__Group7}\index{Synchronization management functions@{Synchronization management functions}}
+
+
+Synchronization management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ T\+I\+M\+\_\+\+Select\+Input\+Trigger} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Input\+Trigger\+Source)
+\begin{DoxyCompactList}\small\item\em Selects the Input Trigger source. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Select\+Output\+Trigger} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+T\+R\+G\+O\+Source)
+\begin{DoxyCompactList}\small\item\em Selects the T\+I\+Mx Trigger Output Mode. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Select\+Slave\+Mode} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Slave\+Mode)
+\begin{DoxyCompactList}\small\item\em Selects the T\+I\+Mx Slave Mode. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Select\+Master\+Slave\+Mode} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Master\+Slave\+Mode)
+\begin{DoxyCompactList}\small\item\em Sets or Resets the T\+I\+Mx Master/\+Slave Mode. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+E\+T\+R\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Ext\+T\+R\+G\+Prescaler, uint16\+\_\+t T\+I\+M\+\_\+\+Ext\+T\+R\+G\+Polarity, uint16\+\_\+t Ext\+T\+R\+G\+Filter)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx External Trigger (E\+TR). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Synchronization management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                       Synchronization management functions
+ ===============================================================================  
+                   
+       ===================================================================      
+              TIM Driver: how to use it in synchronization Mode
+       =================================================================== 
+       Case of two/several Timers
+       **************************
+       1. Configure the Master Timers using the following functions:
+          - void TIM_SelectOutputTrigger(TIM_TypeDef* TIMx, uint16_t TIM_TRGOSource); 
+          - void TIM_SelectMasterSlaveMode(TIM_TypeDef* TIMx, uint16_t TIM_MasterSlaveMode);  
+       2. Configure the Slave Timers using the following functions: 
+          - void TIM_SelectInputTrigger(TIM_TypeDef* TIMx, uint16_t TIM_InputTriggerSource);  
+          - void TIM_SelectSlaveMode(TIM_TypeDef* TIMx, uint16_t TIM_SlaveMode); 
+          
+       Case of Timers and external trigger(ETR pin)
+       ********************************************       
+       1. Configure the External trigger using this function:
+          - void TIM_ETRConfig(TIM_TypeDef* TIMx, uint16_t TIM_ExtTRGPrescaler, uint16_t TIM_ExtTRGPolarity,
+                               uint16_t ExtTRGFilter);
+       2. Configure the Slave Timers using the following functions: 
+          - void TIM_SelectInputTrigger(TIM_TypeDef* TIMx, uint16_t TIM_InputTriggerSource);  
+          - void TIM_SelectSlaveMode(TIM_TypeDef* TIMx, uint16_t TIM_SlaveMode); \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__TIM__Group7_ga8bdde400b7a30f3e747fe8e4962c0abe}} 
+\index{Synchronization management functions@{Synchronization management functions}!T\+I\+M\+\_\+\+E\+T\+R\+Config@{T\+I\+M\+\_\+\+E\+T\+R\+Config}}
+\index{T\+I\+M\+\_\+\+E\+T\+R\+Config@{T\+I\+M\+\_\+\+E\+T\+R\+Config}!Synchronization management functions@{Synchronization management functions}}
+\subsubsection{T\+I\+M\+\_\+\+E\+T\+R\+Config()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+E\+T\+R\+Config (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{uint16\+\_\+t}]{T\+I\+M\+\_\+\+Ext\+T\+R\+G\+Prescaler,  }\item[{uint16\+\_\+t}]{T\+I\+M\+\_\+\+Ext\+T\+R\+G\+Polarity,  }\item[{uint16\+\_\+t}]{Ext\+T\+R\+G\+Filter }\end{DoxyParamCaption})}
+
+
+
+Configures the T\+I\+Mx External Trigger (E\+TR). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\+IM peripheral. \\
+\hline
+{\em T\+I\+M\+\_\+\+Ext\+T\+R\+G\+Prescaler} & The external Trigger Prescaler. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+Ext\+T\+R\+G\+P\+S\+C\+\_\+\+O\+FF\+: E\+T\+RP Prescaler O\+FF. \item T\+I\+M\+\_\+\+Ext\+T\+R\+G\+P\+S\+C\+\_\+\+D\+I\+V2\+: E\+T\+RP frequency divided by 2. \item T\+I\+M\+\_\+\+Ext\+T\+R\+G\+P\+S\+C\+\_\+\+D\+I\+V4\+: E\+T\+RP frequency divided by 4. \item T\+I\+M\+\_\+\+Ext\+T\+R\+G\+P\+S\+C\+\_\+\+D\+I\+V8\+: E\+T\+RP frequency divided by 8. \end{DoxyItemize}
+\\
+\hline
+{\em T\+I\+M\+\_\+\+Ext\+T\+R\+G\+Polarity} & The external Trigger Polarity. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+Ext\+T\+R\+G\+Polarity\+\_\+\+Inverted\+: active low or falling edge active. \item T\+I\+M\+\_\+\+Ext\+T\+R\+G\+Polarity\+\_\+\+Non\+Inverted\+: active high or rising edge active. \end{DoxyItemize}
+\\
+\hline
+{\em Ext\+T\+R\+G\+Filter} & External Trigger Filter. This parameter must be a value between 0x00 and 0x0F \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2999} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+
+Referenced by \textbf{ T\+I\+M\+\_\+\+E\+T\+R\+Clock\+Mode1\+Config()}, and \textbf{ T\+I\+M\+\_\+\+E\+T\+R\+Clock\+Mode2\+Config()}.
+
+
+\begin{DoxyCode}
+03001 \{
+03002   uint16\_t tmpsmcr = 0;
+03003 
+03004   \textcolor{comment}{/* Check the parameters */}
+03005   assert_param(IS_TIM_LIST3_PERIPH(TIMx));
+03006   assert_param(IS_TIM_EXT_PRESCALER(TIM\_ExtTRGPrescaler));
+03007   assert_param(IS_TIM_EXT_POLARITY(TIM\_ExtTRGPolarity));
+03008   assert_param(IS_TIM_EXT_FILTER(ExtTRGFilter));
+03009 
+03010   tmpsmcr = TIMx->SMCR;
+03011 
+03012   \textcolor{comment}{/* Reset the ETR Bits */}
+03013   tmpsmcr &= SMCR_ETR_MASK;
+03014 
+03015   \textcolor{comment}{/* Set the Prescaler, the Filter value and the Polarity */}
+03016   tmpsmcr |= (uint16\_t)(TIM\_ExtTRGPrescaler | (uint16\_t)(TIM\_ExtTRGPolarity | (uint16\_t)(ExtTRGFilter << (
+      uint16\_t)8)));
+03017 
+03018   \textcolor{comment}{/* Write to TIMx SMCR */}
+03019   TIMx->SMCR = tmpsmcr;
+03020 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group7_ga4252583c6ae8a73d6fc66f7e951dbc35}} 
+\index{Synchronization management functions@{Synchronization management functions}!T\+I\+M\+\_\+\+Select\+Input\+Trigger@{T\+I\+M\+\_\+\+Select\+Input\+Trigger}}
+\index{T\+I\+M\+\_\+\+Select\+Input\+Trigger@{T\+I\+M\+\_\+\+Select\+Input\+Trigger}!Synchronization management functions@{Synchronization management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Select\+Input\+Trigger()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+Select\+Input\+Trigger (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{uint16\+\_\+t}]{T\+I\+M\+\_\+\+Input\+Trigger\+Source }\end{DoxyParamCaption})}
+
+
+
+Selects the Input Trigger source. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13 or 14 to select the T\+IM peripheral. \\
+\hline
+{\em T\+I\+M\+\_\+\+Input\+Trigger\+Source} & The Input Trigger source. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+T\+S\+\_\+\+I\+T\+R0\+: Internal Trigger 0 \item T\+I\+M\+\_\+\+T\+S\+\_\+\+I\+T\+R1\+: Internal Trigger 1 \item T\+I\+M\+\_\+\+T\+S\+\_\+\+I\+T\+R2\+: Internal Trigger 2 \item T\+I\+M\+\_\+\+T\+S\+\_\+\+I\+T\+R3\+: Internal Trigger 3 \item T\+I\+M\+\_\+\+T\+S\+\_\+\+T\+I1\+F\+\_\+\+ED\+: T\+I1 Edge Detector \item T\+I\+M\+\_\+\+T\+S\+\_\+\+T\+I1\+F\+P1\+: Filtered Timer Input 1 \item T\+I\+M\+\_\+\+T\+S\+\_\+\+T\+I2\+F\+P2\+: Filtered Timer Input 2 \item T\+I\+M\+\_\+\+T\+S\+\_\+\+E\+T\+RF\+: External Trigger input \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2879} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+
+Referenced by \textbf{ T\+I\+M\+\_\+\+I\+T\+Rx\+External\+Clock\+Config()}, and \textbf{ T\+I\+M\+\_\+\+T\+Ix\+External\+Clock\+Config()}.
+
+
+\begin{DoxyCode}
+02880 \{
+02881   uint16\_t tmpsmcr = 0;
+02882 
+02883   \textcolor{comment}{/* Check the parameters */}
+02884   assert_param(IS_TIM_LIST1_PERIPH(TIMx)); 
+02885   assert_param(IS_TIM_TRIGGER_SELECTION(TIM\_InputTriggerSource));
+02886 
+02887   \textcolor{comment}{/* Get the TIMx SMCR register value */}
+02888   tmpsmcr = TIMx->SMCR;
+02889 
+02890   \textcolor{comment}{/* Reset the TS Bits */}
+02891   tmpsmcr &= (uint16\_t)~TIM_SMCR_TS;
+02892 
+02893   \textcolor{comment}{/* Set the Input Trigger source */}
+02894   tmpsmcr |= TIM\_InputTriggerSource;
+02895 
+02896   \textcolor{comment}{/* Write to TIMx SMCR */}
+02897   TIMx->SMCR = tmpsmcr;
+02898 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group7_ga4dcc3d11b670c381d0ff9cb7e9fd01e2}} 
+\index{Synchronization management functions@{Synchronization management functions}!T\+I\+M\+\_\+\+Select\+Master\+Slave\+Mode@{T\+I\+M\+\_\+\+Select\+Master\+Slave\+Mode}}
+\index{T\+I\+M\+\_\+\+Select\+Master\+Slave\+Mode@{T\+I\+M\+\_\+\+Select\+Master\+Slave\+Mode}!Synchronization management functions@{Synchronization management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Select\+Master\+Slave\+Mode()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+Select\+Master\+Slave\+Mode (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{uint16\+\_\+t}]{T\+I\+M\+\_\+\+Master\+Slave\+Mode }\end{DoxyParamCaption})}
+
+
+
+Sets or Resets the T\+I\+Mx Master/\+Slave Mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1, 2, 3, 4, 5, 8, 9 or 12 to select the T\+IM peripheral. \\
+\hline
+{\em T\+I\+M\+\_\+\+Master\+Slave\+Mode} & specifies the Timer Master Slave Mode. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+Master\+Slave\+Mode\+\_\+\+Enable\+: synchronization between the current timer and its slaves (through T\+R\+GO) \item T\+I\+M\+\_\+\+Master\+Slave\+Mode\+\_\+\+Disable\+: No action \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2969} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+\begin{DoxyCode}
+02970 \{
+02971   \textcolor{comment}{/* Check the parameters */}
+02972   assert_param(IS_TIM_LIST2_PERIPH(TIMx));
+02973   assert_param(IS_TIM_MSM_STATE(TIM\_MasterSlaveMode));
+02974 
+02975   \textcolor{comment}{/* Reset the MSM Bit */}
+02976   TIMx->SMCR &= (uint16\_t)~TIM_SMCR_MSM;
+02977   
+02978   \textcolor{comment}{/* Set or Reset the MSM Bit */}
+02979   TIMx->SMCR |= TIM\_MasterSlaveMode;
+02980 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group7_ga28745aaa549e2067e42c19569209e6c6}} 
+\index{Synchronization management functions@{Synchronization management functions}!T\+I\+M\+\_\+\+Select\+Output\+Trigger@{T\+I\+M\+\_\+\+Select\+Output\+Trigger}}
+\index{T\+I\+M\+\_\+\+Select\+Output\+Trigger@{T\+I\+M\+\_\+\+Select\+Output\+Trigger}!Synchronization management functions@{Synchronization management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Select\+Output\+Trigger()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+Select\+Output\+Trigger (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{uint16\+\_\+t}]{T\+I\+M\+\_\+\+T\+R\+G\+O\+Source }\end{DoxyParamCaption})}
+
+
+
+Selects the T\+I\+Mx Trigger Output Mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1, 2, 3, 4, 5, 6, 7 or 8 to select the T\+IM peripheral.\\
+\hline
+{\em T\+I\+M\+\_\+\+T\+R\+G\+O\+Source} & specifies the Trigger Output source. This parameter can be one of the following values\+:\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyItemize}
+\item For all T\+I\+Mx \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+T\+R\+G\+O\+Source\+\_\+\+Reset\+: The UG bit in the T\+I\+M\+\_\+\+E\+GR register is used as the trigger output(\+T\+R\+G\+O) \item T\+I\+M\+\_\+\+T\+R\+G\+O\+Source\+\_\+\+Enable\+: The Counter Enable C\+EN is used as the trigger output(\+T\+R\+G\+O) \item T\+I\+M\+\_\+\+T\+R\+G\+O\+Source\+\_\+\+Update\+: The update event is selected as the trigger output(\+T\+R\+G\+O)\end{DoxyItemize}
+
+\item For all T\+I\+Mx except T\+I\+M6 and T\+I\+M7 \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+T\+R\+G\+O\+Source\+\_\+\+O\+C1\+: The trigger output sends a positive pulse when the C\+C1\+IF flag is to be set, as soon as a capture or compare match occurs(\+T\+R\+G\+O) \item T\+I\+M\+\_\+\+T\+R\+G\+O\+Source\+\_\+\+O\+C1\+Ref\+: O\+C1\+R\+EF signal is used as the trigger output(\+T\+R\+G\+O) \item T\+I\+M\+\_\+\+T\+R\+G\+O\+Source\+\_\+\+O\+C2\+Ref\+: O\+C2\+R\+EF signal is used as the trigger output(\+T\+R\+G\+O) \item T\+I\+M\+\_\+\+T\+R\+G\+O\+Source\+\_\+\+O\+C3\+Ref\+: O\+C3\+R\+EF signal is used as the trigger output(\+T\+R\+G\+O) \item T\+I\+M\+\_\+\+T\+R\+G\+O\+Source\+\_\+\+O\+C4\+Ref\+: O\+C4\+R\+EF signal is used as the trigger output(\+T\+R\+G\+O)\end{DoxyItemize}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+\end{DoxyItemize}
+
+Definition at line \textbf{ 2922} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+\begin{DoxyCode}
+02923 \{
+02924   \textcolor{comment}{/* Check the parameters */}
+02925   assert_param(IS_TIM_LIST5_PERIPH(TIMx));
+02926   assert_param(IS_TIM_TRGO_SOURCE(TIM\_TRGOSource));
+02927 
+02928   \textcolor{comment}{/* Reset the MMS Bits */}
+02929   TIMx->CR2 &= (uint16\_t)~TIM_CR2_MMS;
+02930   \textcolor{comment}{/* Select the TRGO source */}
+02931   TIMx->CR2 |=  TIM\_TRGOSource;
+02932 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group7_ga2f19ce1d90990691cf037e419ba08003}} 
+\index{Synchronization management functions@{Synchronization management functions}!T\+I\+M\+\_\+\+Select\+Slave\+Mode@{T\+I\+M\+\_\+\+Select\+Slave\+Mode}}
+\index{T\+I\+M\+\_\+\+Select\+Slave\+Mode@{T\+I\+M\+\_\+\+Select\+Slave\+Mode}!Synchronization management functions@{Synchronization management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Select\+Slave\+Mode()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+Select\+Slave\+Mode (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{uint16\+\_\+t}]{T\+I\+M\+\_\+\+Slave\+Mode }\end{DoxyParamCaption})}
+
+
+
+Selects the T\+I\+Mx Slave Mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1, 2, 3, 4, 5, 8, 9 or 12 to select the T\+IM peripheral. \\
+\hline
+{\em T\+I\+M\+\_\+\+Slave\+Mode} & specifies the Timer Slave Mode. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+Slave\+Mode\+\_\+\+Reset\+: Rising edge of the selected trigger signal(\+T\+R\+G\+I) reinitialize the counter and triggers an update of the registers \item T\+I\+M\+\_\+\+Slave\+Mode\+\_\+\+Gated\+: The counter clock is enabled when the trigger signal (T\+R\+GI) is high \item T\+I\+M\+\_\+\+Slave\+Mode\+\_\+\+Trigger\+: The counter starts at a rising edge of the trigger T\+R\+GI \item T\+I\+M\+\_\+\+Slave\+Mode\+\_\+\+External1\+: Rising edges of the selected trigger (T\+R\+GI) clock the counter \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2946} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+\begin{DoxyCode}
+02947 \{
+02948   \textcolor{comment}{/* Check the parameters */}
+02949   assert_param(IS_TIM_LIST2_PERIPH(TIMx));
+02950   assert_param(IS_TIM_SLAVE_MODE(TIM\_SlaveMode));
+02951 
+02952   \textcolor{comment}{/* Reset the SMS Bits */}
+02953   TIMx->SMCR &= (uint16\_t)~TIM_SMCR_SMS;
+02954 
+02955   \textcolor{comment}{/* Select the Slave Mode */}
+02956   TIMx->SMCR |= TIM\_SlaveMode;
+02957 \}
+\end{DoxyCode}

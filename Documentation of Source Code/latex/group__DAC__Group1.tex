@@ -1,0 +1,582 @@
+\section{D\+AC channels configuration}
+\label{group__DAC__Group1}\index{D\+A\+C channels configuration@{D\+A\+C channels configuration}}
+
+
+D\+AC channels configuration\+: trigger, output buffer, data format.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ D\+A\+C\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the D\+AC peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Init} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel, \textbf{ D\+A\+C\+\_\+\+Init\+Type\+Def} $\ast$D\+A\+C\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the D\+AC peripheral according to the specified parameters in the D\+A\+C\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Struct\+Init} (\textbf{ D\+A\+C\+\_\+\+Init\+Type\+Def} $\ast$D\+A\+C\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each D\+A\+C\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Cmd} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified D\+AC channel. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Software\+Trigger\+Cmd} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the selected D\+AC channel software trigger. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Dual\+Software\+Trigger\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables simultaneously the two D\+AC channels software triggers. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Wave\+Generation\+Cmd} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel, uint32\+\_\+t D\+A\+C\+\_\+\+Wave, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the selected D\+AC channel wave generation. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Set\+Channel1\+Data} (uint32\+\_\+t D\+A\+C\+\_\+\+Align, uint16\+\_\+t Data)
+\begin{DoxyCompactList}\small\item\em Set the specified data holding register value for D\+AC channel1. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Set\+Channel2\+Data} (uint32\+\_\+t D\+A\+C\+\_\+\+Align, uint16\+\_\+t Data)
+\begin{DoxyCompactList}\small\item\em Set the specified data holding register value for D\+AC channel2. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Set\+Dual\+Channel\+Data} (uint32\+\_\+t D\+A\+C\+\_\+\+Align, uint16\+\_\+t Data2, uint16\+\_\+t Data1)
+\begin{DoxyCompactList}\small\item\em Set the specified data holding register value for dual channel D\+AC. \end{DoxyCompactList}\item 
+uint16\+\_\+t \textbf{ D\+A\+C\+\_\+\+Get\+Data\+Output\+Value} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel)
+\begin{DoxyCompactList}\small\item\em Returns the last data output value of the selected D\+AC channel. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+D\+AC channels configuration\+: trigger, output buffer, data format. 
+
+\begin{DoxyVerb} ===============================================================================
+          DAC channels configuration: trigger, output buffer, data format
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__DAC__Group1_ga323e61530d7fa9396c3bce9edb61f733}} 
+\index{D\+A\+C channels configuration@{D\+A\+C channels configuration}!D\+A\+C\+\_\+\+Cmd@{D\+A\+C\+\_\+\+Cmd}}
+\index{D\+A\+C\+\_\+\+Cmd@{D\+A\+C\+\_\+\+Cmd}!D\+A\+C channels configuration@{D\+A\+C channels configuration}}
+\subsubsection{D\+A\+C\+\_\+\+Cmd()}
+{\footnotesize\ttfamily void D\+A\+C\+\_\+\+Cmd (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{D\+A\+C\+\_\+\+Channel,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified D\+AC channel. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+A\+C\+\_\+\+Channel} & The selected D\+AC channel. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item D\+A\+C\+\_\+\+Channel\+\_\+1\+: D\+AC Channel1 selected \item D\+A\+C\+\_\+\+Channel\+\_\+2\+: D\+AC Channel2 selected \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the D\+AC channel. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+When the D\+AC channel is enabled the trigger source can no more be modified. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 253} of file \textbf{ stm32f4xx\+\_\+dac.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00254 \{
+00255   \textcolor{comment}{/* Check the parameters */}
+00256   assert_param(IS_DAC_CHANNEL(DAC\_Channel));
+00257   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00258 
+00259   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00260   \{
+00261     \textcolor{comment}{/* Enable the selected DAC channel */}
+00262     DAC->CR |= (DAC_CR_EN1 << DAC\_Channel);
+00263   \}
+00264   \textcolor{keywordflow}{else}
+00265   \{
+00266     \textcolor{comment}{/* Disable the selected DAC channel */}
+00267     DAC->CR &= (~(DAC_CR_EN1 << DAC\_Channel));
+00268   \}
+00269 \}
+\end{DoxyCode}
+\mbox{\label{group__DAC__Group1_ga1fae225204e1e049d6795319e99ba8bc}} 
+\index{D\+A\+C channels configuration@{D\+A\+C channels configuration}!D\+A\+C\+\_\+\+De\+Init@{D\+A\+C\+\_\+\+De\+Init}}
+\index{D\+A\+C\+\_\+\+De\+Init@{D\+A\+C\+\_\+\+De\+Init}!D\+A\+C channels configuration@{D\+A\+C channels configuration}}
+\subsubsection{D\+A\+C\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void D\+A\+C\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the D\+AC peripheral registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 174} of file \textbf{ stm32f4xx\+\_\+dac.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, and \textbf{ R\+C\+C\+\_\+\+A\+P\+B1\+Periph\+Reset\+Cmd()}.
+
+
+\begin{DoxyCode}
+00175 \{
+00176   \textcolor{comment}{/* Enable DAC reset state */}
+00177   RCC_APB1PeriphResetCmd(RCC_APB1Periph_DAC, ENABLE);
+00178   \textcolor{comment}{/* Release DAC from reset state */}
+00179   RCC_APB1PeriphResetCmd(RCC_APB1Periph_DAC, DISABLE);
+00180 \}
+\end{DoxyCode}
+\mbox{\label{group__DAC__Group1_gab4d3b364a6b184dcd65f3b294ebf56dc}} 
+\index{D\+A\+C channels configuration@{D\+A\+C channels configuration}!D\+A\+C\+\_\+\+Dual\+Software\+Trigger\+Cmd@{D\+A\+C\+\_\+\+Dual\+Software\+Trigger\+Cmd}}
+\index{D\+A\+C\+\_\+\+Dual\+Software\+Trigger\+Cmd@{D\+A\+C\+\_\+\+Dual\+Software\+Trigger\+Cmd}!D\+A\+C channels configuration@{D\+A\+C channels configuration}}
+\subsubsection{D\+A\+C\+\_\+\+Dual\+Software\+Trigger\+Cmd()}
+{\footnotesize\ttfamily void D\+A\+C\+\_\+\+Dual\+Software\+Trigger\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables simultaneously the two D\+AC channels software triggers. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the D\+AC channels software triggers. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 305} of file \textbf{ stm32f4xx\+\_\+dac.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00306 \{
+00307   \textcolor{comment}{/* Check the parameters */}
+00308   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00309 
+00310   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00311   \{
+00312     \textcolor{comment}{/* Enable software trigger for both DAC channels */}
+00313     DAC->SWTRIGR |= DUAL_SWTRIG_SET;
+00314   \}
+00315   \textcolor{keywordflow}{else}
+00316   \{
+00317     \textcolor{comment}{/* Disable software trigger for both DAC channels */}
+00318     DAC->SWTRIGR &= DUAL_SWTRIG_RESET;
+00319   \}
+00320 \}
+\end{DoxyCode}
+\mbox{\label{group__DAC__Group1_ga51274838de1e5dd012a82d7f44d7a50b}} 
+\index{D\+A\+C channels configuration@{D\+A\+C channels configuration}!D\+A\+C\+\_\+\+Get\+Data\+Output\+Value@{D\+A\+C\+\_\+\+Get\+Data\+Output\+Value}}
+\index{D\+A\+C\+\_\+\+Get\+Data\+Output\+Value@{D\+A\+C\+\_\+\+Get\+Data\+Output\+Value}!D\+A\+C channels configuration@{D\+A\+C channels configuration}}
+\subsubsection{D\+A\+C\+\_\+\+Get\+Data\+Output\+Value()}
+{\footnotesize\ttfamily uint16\+\_\+t D\+A\+C\+\_\+\+Get\+Data\+Output\+Value (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{D\+A\+C\+\_\+\+Channel }\end{DoxyParamCaption})}
+
+
+
+Returns the last data output value of the selected D\+AC channel. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+A\+C\+\_\+\+Channel} & The selected D\+AC channel. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item D\+A\+C\+\_\+\+Channel\+\_\+1\+: D\+AC Channel1 selected \item D\+A\+C\+\_\+\+Channel\+\_\+2\+: D\+AC Channel2 selected \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & selected D\+AC channel data output value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 452} of file \textbf{ stm32f4xx\+\_\+dac.\+c}.
+
+
+\begin{DoxyCode}
+00453 \{
+00454   \_\_IO uint32\_t tmp = 0;
+00455   
+00456   \textcolor{comment}{/* Check the parameters */}
+00457   assert_param(IS_DAC_CHANNEL(DAC\_Channel));
+00458   
+00459   tmp = (uint32\_t) DAC_BASE ;
+00460   tmp += DOR_OFFSET + ((uint32\_t)DAC\_Channel >> 2);
+00461   
+00462   \textcolor{comment}{/* Returns the DAC channel data output register value */}
+00463   \textcolor{keywordflow}{return} (uint16\_t) (*(\_\_IO uint32\_t*) tmp);
+00464 \}
+\end{DoxyCode}
+\mbox{\label{group__DAC__Group1_ga7c59850468ed4bf0659663fe495441da}} 
+\index{D\+A\+C channels configuration@{D\+A\+C channels configuration}!D\+A\+C\+\_\+\+Init@{D\+A\+C\+\_\+\+Init}}
+\index{D\+A\+C\+\_\+\+Init@{D\+A\+C\+\_\+\+Init}!D\+A\+C channels configuration@{D\+A\+C channels configuration}}
+\subsubsection{D\+A\+C\+\_\+\+Init()}
+{\footnotesize\ttfamily void D\+A\+C\+\_\+\+Init (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{D\+A\+C\+\_\+\+Channel,  }\item[{\textbf{ D\+A\+C\+\_\+\+Init\+Type\+Def} $\ast$}]{D\+A\+C\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the D\+AC peripheral according to the specified parameters in the D\+A\+C\+\_\+\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+A\+C\+\_\+\+Channel} & the selected D\+AC channel. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item D\+A\+C\+\_\+\+Channel\+\_\+1\+: D\+AC Channel1 selected \item D\+A\+C\+\_\+\+Channel\+\_\+2\+: D\+AC Channel2 selected \end{DoxyItemize}
+\\
+\hline
+{\em D\+A\+C\+\_\+\+Init\+Struct} & pointer to a \doxyref{D\+A\+C\+\_\+\+Init\+Type\+Def}{p.}{structDAC__InitTypeDef} structure that contains the configuration information for the specified D\+AC channel. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 193} of file \textbf{ stm32f4xx\+\_\+dac.\+c}.
+
+
+
+References \textbf{ D\+A\+C\+\_\+\+Init\+Type\+Def\+::\+D\+A\+C\+\_\+\+L\+F\+S\+R\+Unmask\+\_\+\+Triangle\+Amplitude}, \textbf{ D\+A\+C\+\_\+\+Init\+Type\+Def\+::\+D\+A\+C\+\_\+\+Output\+Buffer}, \textbf{ D\+A\+C\+\_\+\+Init\+Type\+Def\+::\+D\+A\+C\+\_\+\+Trigger}, and \textbf{ D\+A\+C\+\_\+\+Init\+Type\+Def\+::\+D\+A\+C\+\_\+\+Wave\+Generation}.
+
+
+\begin{DoxyCode}
+00194 \{
+00195   uint32\_t tmpreg1 = 0, tmpreg2 = 0;
+00196 
+00197   \textcolor{comment}{/* Check the DAC parameters */}
+00198   assert_param(IS_DAC_TRIGGER(DAC\_InitStruct->DAC_Trigger));
+00199   assert_param(IS_DAC_GENERATE_WAVE(DAC\_InitStruct->DAC_WaveGeneration));
+00200   assert_param(IS_DAC_LFSR_UNMASK_TRIANGLE_AMPLITUDE(DAC\_InitStruct->
+      DAC_LFSRUnmask_TriangleAmplitude));
+00201   assert_param(IS_DAC_OUTPUT_BUFFER_STATE(DAC\_InitStruct->DAC_OutputBuffer));
+00202 
+00203 \textcolor{comment}{/*---------------------------- DAC CR Configuration --------------------------*/}
+00204   \textcolor{comment}{/* Get the DAC CR value */}
+00205   tmpreg1 = DAC->CR;
+00206   \textcolor{comment}{/* Clear BOFFx, TENx, TSELx, WAVEx and MAMPx bits */}
+00207   tmpreg1 &= ~(CR_CLEAR_MASK << DAC\_Channel);
+00208   \textcolor{comment}{/* Configure for the selected DAC channel: buffer output, trigger, }
+00209 \textcolor{comment}{     wave generation, mask/amplitude for wave generation */}
+00210   \textcolor{comment}{/* Set TSELx and TENx bits according to DAC\_Trigger value */}
+00211   \textcolor{comment}{/* Set WAVEx bits according to DAC\_WaveGeneration value */}
+00212   \textcolor{comment}{/* Set MAMPx bits according to DAC\_LFSRUnmask\_TriangleAmplitude value */} 
+00213   \textcolor{comment}{/* Set BOFFx bit according to DAC\_OutputBuffer value */}   
+00214   tmpreg2 = (DAC\_InitStruct->DAC_Trigger | DAC\_InitStruct->DAC_WaveGeneration |
+00215              DAC\_InitStruct->DAC_LFSRUnmask_TriangleAmplitude | \(\backslash\)
+00216              DAC\_InitStruct->DAC\_OutputBuffer);
+00217   \textcolor{comment}{/* Calculate CR register value depending on DAC\_Channel */}
+00218   tmpreg1 |= tmpreg2 << DAC\_Channel;
+00219   \textcolor{comment}{/* Write to DAC CR */}
+00220   DAC->CR = tmpreg1;
+00221 \}
+\end{DoxyCode}
+\mbox{\label{group__DAC__Group1_gad06b4230d2b17d1d13f41dce4c782461}} 
+\index{D\+A\+C channels configuration@{D\+A\+C channels configuration}!D\+A\+C\+\_\+\+Set\+Channel1\+Data@{D\+A\+C\+\_\+\+Set\+Channel1\+Data}}
+\index{D\+A\+C\+\_\+\+Set\+Channel1\+Data@{D\+A\+C\+\_\+\+Set\+Channel1\+Data}!D\+A\+C channels configuration@{D\+A\+C channels configuration}}
+\subsubsection{D\+A\+C\+\_\+\+Set\+Channel1\+Data()}
+{\footnotesize\ttfamily void D\+A\+C\+\_\+\+Set\+Channel1\+Data (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{D\+A\+C\+\_\+\+Align,  }\item[{uint16\+\_\+t}]{Data }\end{DoxyParamCaption})}
+
+
+
+Set the specified data holding register value for D\+AC channel1. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+A\+C\+\_\+\+Align} & Specifies the data alignment for D\+AC channel1. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item D\+A\+C\+\_\+\+Align\+\_\+8b\+\_\+R\+: 8bit right data alignment selected \item D\+A\+C\+\_\+\+Align\+\_\+12b\+\_\+L\+: 12bit left data alignment selected \item D\+A\+C\+\_\+\+Align\+\_\+12b\+\_\+R\+: 12bit right data alignment selected \end{DoxyItemize}
+\\
+\hline
+{\em Data} & Data to be loaded in the selected data holding register. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 365} of file \textbf{ stm32f4xx\+\_\+dac.\+c}.
+
+
+\begin{DoxyCode}
+00366 \{  
+00367   \_\_IO uint32\_t tmp = 0;
+00368   
+00369   \textcolor{comment}{/* Check the parameters */}
+00370   assert_param(IS_DAC_ALIGN(DAC\_Align));
+00371   assert_param(IS_DAC_DATA(Data));
+00372   
+00373   tmp = (uint32\_t)DAC_BASE; 
+00374   tmp += DHR12R1_OFFSET + DAC\_Align;
+00375 
+00376   \textcolor{comment}{/* Set the DAC channel1 selected data holding register */}
+00377   *(\_\_IO uint32\_t *) tmp = Data;
+00378 \}
+\end{DoxyCode}
+\mbox{\label{group__DAC__Group1_ga44e12006ec186791378d132da8541552}} 
+\index{D\+A\+C channels configuration@{D\+A\+C channels configuration}!D\+A\+C\+\_\+\+Set\+Channel2\+Data@{D\+A\+C\+\_\+\+Set\+Channel2\+Data}}
+\index{D\+A\+C\+\_\+\+Set\+Channel2\+Data@{D\+A\+C\+\_\+\+Set\+Channel2\+Data}!D\+A\+C channels configuration@{D\+A\+C channels configuration}}
+\subsubsection{D\+A\+C\+\_\+\+Set\+Channel2\+Data()}
+{\footnotesize\ttfamily void D\+A\+C\+\_\+\+Set\+Channel2\+Data (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{D\+A\+C\+\_\+\+Align,  }\item[{uint16\+\_\+t}]{Data }\end{DoxyParamCaption})}
+
+
+
+Set the specified data holding register value for D\+AC channel2. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+A\+C\+\_\+\+Align} & Specifies the data alignment for D\+AC channel2. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item D\+A\+C\+\_\+\+Align\+\_\+8b\+\_\+R\+: 8bit right data alignment selected \item D\+A\+C\+\_\+\+Align\+\_\+12b\+\_\+L\+: 12bit left data alignment selected \item D\+A\+C\+\_\+\+Align\+\_\+12b\+\_\+R\+: 12bit right data alignment selected \end{DoxyItemize}
+\\
+\hline
+{\em Data} & Data to be loaded in the selected data holding register. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 390} of file \textbf{ stm32f4xx\+\_\+dac.\+c}.
+
+
+\begin{DoxyCode}
+00391 \{
+00392   \_\_IO uint32\_t tmp = 0;
+00393 
+00394   \textcolor{comment}{/* Check the parameters */}
+00395   assert_param(IS_DAC_ALIGN(DAC\_Align));
+00396   assert_param(IS_DAC_DATA(Data));
+00397   
+00398   tmp = (uint32\_t)DAC_BASE;
+00399   tmp += DHR12R2_OFFSET + DAC\_Align;
+00400 
+00401   \textcolor{comment}{/* Set the DAC channel2 selected data holding register */}
+00402   *(\_\_IO uint32\_t *)tmp = Data;
+00403 \}
+\end{DoxyCode}
+\mbox{\label{group__DAC__Group1_ga4ca2cfdf56ab35a23f2517f23d7fbb24}} 
+\index{D\+A\+C channels configuration@{D\+A\+C channels configuration}!D\+A\+C\+\_\+\+Set\+Dual\+Channel\+Data@{D\+A\+C\+\_\+\+Set\+Dual\+Channel\+Data}}
+\index{D\+A\+C\+\_\+\+Set\+Dual\+Channel\+Data@{D\+A\+C\+\_\+\+Set\+Dual\+Channel\+Data}!D\+A\+C channels configuration@{D\+A\+C channels configuration}}
+\subsubsection{D\+A\+C\+\_\+\+Set\+Dual\+Channel\+Data()}
+{\footnotesize\ttfamily void D\+A\+C\+\_\+\+Set\+Dual\+Channel\+Data (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{D\+A\+C\+\_\+\+Align,  }\item[{uint16\+\_\+t}]{Data2,  }\item[{uint16\+\_\+t}]{Data1 }\end{DoxyParamCaption})}
+
+
+
+Set the specified data holding register value for dual channel D\+AC. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+A\+C\+\_\+\+Align} & Specifies the data alignment for dual channel D\+AC. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item D\+A\+C\+\_\+\+Align\+\_\+8b\+\_\+R\+: 8bit right data alignment selected \item D\+A\+C\+\_\+\+Align\+\_\+12b\+\_\+L\+: 12bit left data alignment selected \item D\+A\+C\+\_\+\+Align\+\_\+12b\+\_\+R\+: 12bit right data alignment selected \end{DoxyItemize}
+\\
+\hline
+{\em Data2} & Data for D\+AC Channel2 to be loaded in the selected data holding register. \\
+\hline
+{\em Data1} & Data for D\+AC Channel1 to be loaded in the selected data holding register. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+In dual mode, a unique register access is required to write in both D\+AC channels at the same time. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 418} of file \textbf{ stm32f4xx\+\_\+dac.\+c}.
+
+
+\begin{DoxyCode}
+00419 \{
+00420   uint32\_t data = 0, tmp = 0;
+00421   
+00422   \textcolor{comment}{/* Check the parameters */}
+00423   assert_param(IS_DAC_ALIGN(DAC\_Align));
+00424   assert_param(IS_DAC_DATA(Data1));
+00425   assert_param(IS_DAC_DATA(Data2));
+00426   
+00427   \textcolor{comment}{/* Calculate and set dual DAC data holding register value */}
+00428   \textcolor{keywordflow}{if} (DAC\_Align == DAC_Align_8b_R)
+00429   \{
+00430     data = ((uint32\_t)Data2 << 8) | Data1; 
+00431   \}
+00432   \textcolor{keywordflow}{else}
+00433   \{
+00434     data = ((uint32\_t)Data2 << 16) | Data1;
+00435   \}
+00436   
+00437   tmp = (uint32\_t)DAC_BASE;
+00438   tmp += DHR12RD_OFFSET + DAC\_Align;
+00439 
+00440   \textcolor{comment}{/* Set the dual DAC selected data holding register */}
+00441   *(\_\_IO uint32\_t *)tmp = data;
+00442 \}
+\end{DoxyCode}
+\mbox{\label{group__DAC__Group1_ga46f9f7f6b9520a86e300fe966afe5fb3}} 
+\index{D\+A\+C channels configuration@{D\+A\+C channels configuration}!D\+A\+C\+\_\+\+Software\+Trigger\+Cmd@{D\+A\+C\+\_\+\+Software\+Trigger\+Cmd}}
+\index{D\+A\+C\+\_\+\+Software\+Trigger\+Cmd@{D\+A\+C\+\_\+\+Software\+Trigger\+Cmd}!D\+A\+C channels configuration@{D\+A\+C channels configuration}}
+\subsubsection{D\+A\+C\+\_\+\+Software\+Trigger\+Cmd()}
+{\footnotesize\ttfamily void D\+A\+C\+\_\+\+Software\+Trigger\+Cmd (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{D\+A\+C\+\_\+\+Channel,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the selected D\+AC channel software trigger. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+A\+C\+\_\+\+Channel} & The selected D\+AC channel. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item D\+A\+C\+\_\+\+Channel\+\_\+1\+: D\+AC Channel1 selected \item D\+A\+C\+\_\+\+Channel\+\_\+2\+: D\+AC Channel2 selected \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the selected D\+AC channel software trigger. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 281} of file \textbf{ stm32f4xx\+\_\+dac.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00282 \{
+00283   \textcolor{comment}{/* Check the parameters */}
+00284   assert_param(IS_DAC_CHANNEL(DAC\_Channel));
+00285   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00286 
+00287   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00288   \{
+00289     \textcolor{comment}{/* Enable software trigger for the selected DAC channel */}
+00290     DAC->SWTRIGR |= (uint32\_t)DAC_SWTRIGR_SWTRIG1 << (DAC\_Channel >> 4);
+00291   \}
+00292   \textcolor{keywordflow}{else}
+00293   \{
+00294     \textcolor{comment}{/* Disable software trigger for the selected DAC channel */}
+00295     DAC->SWTRIGR &= ~((uint32\_t)DAC_SWTRIGR_SWTRIG1 << (DAC\_Channel >> 4));
+00296   \}
+00297 \}
+\end{DoxyCode}
+\mbox{\label{group__DAC__Group1_gadfc270974d54cb5fa5f92556015c4046}} 
+\index{D\+A\+C channels configuration@{D\+A\+C channels configuration}!D\+A\+C\+\_\+\+Struct\+Init@{D\+A\+C\+\_\+\+Struct\+Init}}
+\index{D\+A\+C\+\_\+\+Struct\+Init@{D\+A\+C\+\_\+\+Struct\+Init}!D\+A\+C channels configuration@{D\+A\+C channels configuration}}
+\subsubsection{D\+A\+C\+\_\+\+Struct\+Init()}
+{\footnotesize\ttfamily void D\+A\+C\+\_\+\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ D\+A\+C\+\_\+\+Init\+Type\+Def} $\ast$}]{D\+A\+C\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each D\+A\+C\+\_\+\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+A\+C\+\_\+\+Init\+Struct} & pointer to a \doxyref{D\+A\+C\+\_\+\+Init\+Type\+Def}{p.}{structDAC__InitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 229} of file \textbf{ stm32f4xx\+\_\+dac.\+c}.
+
+
+
+References \textbf{ D\+A\+C\+\_\+\+Init\+Type\+Def\+::\+D\+A\+C\+\_\+\+L\+F\+S\+R\+Unmask\+\_\+\+Triangle\+Amplitude}, \textbf{ D\+A\+C\+\_\+\+Init\+Type\+Def\+::\+D\+A\+C\+\_\+\+Output\+Buffer}, \textbf{ D\+A\+C\+\_\+\+Init\+Type\+Def\+::\+D\+A\+C\+\_\+\+Trigger}, and \textbf{ D\+A\+C\+\_\+\+Init\+Type\+Def\+::\+D\+A\+C\+\_\+\+Wave\+Generation}.
+
+
+\begin{DoxyCode}
+00230 \{
+00231 \textcolor{comment}{/*--------------- Reset DAC init structure parameters values -----------------*/}
+00232   \textcolor{comment}{/* Initialize the DAC\_Trigger member */}
+00233   DAC\_InitStruct->DAC_Trigger = DAC_Trigger_None;
+00234   \textcolor{comment}{/* Initialize the DAC\_WaveGeneration member */}
+00235   DAC\_InitStruct->DAC_WaveGeneration = DAC_WaveGeneration_None;
+00236   \textcolor{comment}{/* Initialize the DAC\_LFSRUnmask\_TriangleAmplitude member */}
+00237   DAC\_InitStruct->DAC_LFSRUnmask_TriangleAmplitude = DAC_LFSRUnmask_Bit0;
+00238   \textcolor{comment}{/* Initialize the DAC\_OutputBuffer member */}
+00239   DAC\_InitStruct->DAC_OutputBuffer = DAC_OutputBuffer_Enable;
+00240 \}
+\end{DoxyCode}
+\mbox{\label{group__DAC__Group1_gabd51ae6880821d4dcd923969ec19a19e}} 
+\index{D\+A\+C channels configuration@{D\+A\+C channels configuration}!D\+A\+C\+\_\+\+Wave\+Generation\+Cmd@{D\+A\+C\+\_\+\+Wave\+Generation\+Cmd}}
+\index{D\+A\+C\+\_\+\+Wave\+Generation\+Cmd@{D\+A\+C\+\_\+\+Wave\+Generation\+Cmd}!D\+A\+C channels configuration@{D\+A\+C channels configuration}}
+\subsubsection{D\+A\+C\+\_\+\+Wave\+Generation\+Cmd()}
+{\footnotesize\ttfamily void D\+A\+C\+\_\+\+Wave\+Generation\+Cmd (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{D\+A\+C\+\_\+\+Channel,  }\item[{uint32\+\_\+t}]{D\+A\+C\+\_\+\+Wave,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the selected D\+AC channel wave generation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+A\+C\+\_\+\+Channel} & The selected D\+AC channel. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item D\+A\+C\+\_\+\+Channel\+\_\+1\+: D\+AC Channel1 selected \item D\+A\+C\+\_\+\+Channel\+\_\+2\+: D\+AC Channel2 selected \end{DoxyItemize}
+\\
+\hline
+{\em D\+A\+C\+\_\+\+Wave} & specifies the wave type to enable or disable. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item D\+A\+C\+\_\+\+Wave\+\_\+\+Noise\+: noise wave generation \item D\+A\+C\+\_\+\+Wave\+\_\+\+Triangle\+: triangle wave generation \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the selected D\+AC channel wave generation. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 336} of file \textbf{ stm32f4xx\+\_\+dac.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00337 \{
+00338   \textcolor{comment}{/* Check the parameters */}
+00339   assert_param(IS_DAC_CHANNEL(DAC\_Channel));
+00340   assert_param(IS_DAC_WAVE(DAC\_Wave)); 
+00341   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00342 
+00343   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00344   \{
+00345     \textcolor{comment}{/* Enable the selected wave generation for the selected DAC channel */}
+00346     DAC->CR |= DAC\_Wave << DAC\_Channel;
+00347   \}
+00348   \textcolor{keywordflow}{else}
+00349   \{
+00350     \textcolor{comment}{/* Disable the selected wave generation for the selected DAC channel */}
+00351     DAC->CR &= ~(DAC\_Wave << DAC\_Channel);
+00352   \}
+00353 \}
+\end{DoxyCode}

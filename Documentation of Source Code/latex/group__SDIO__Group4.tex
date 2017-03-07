@@ -1,0 +1,200 @@
+\section{S\+D\+IO IO Cards mode management functions}
+\label{group__SDIO__Group4}\index{S\+D\+I\+O I\+O Cards mode management functions@{S\+D\+I\+O I\+O Cards mode management functions}}
+
+
+S\+D\+IO IO Cards mode management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Start\+S\+D\+I\+O\+Read\+Wait} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Starts the SD I/O Read Wait operation. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Stop\+S\+D\+I\+O\+Read\+Wait} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Stops the SD I/O Read Wait operation. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Read\+Wait\+Mode} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+Read\+Wait\+Mode)
+\begin{DoxyCompactList}\small\item\em Sets one of the two options of inserting read wait interval. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Operation} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the SD I/O Mode Operation. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Send\+S\+D\+I\+O\+Suspend\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the SD I/O Mode suspend command sending. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+S\+D\+IO IO Cards mode management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+              SDIO IO Cards mode management functions
+ ===============================================================================  
+
+  This section provide functions allowing to program and read the SDIO IO Cards.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__SDIO__Group4_ga9264137a01a1ab81d03bc80a3b3120fc}} 
+\index{S\+D\+I\+O I\+O Cards mode management functions@{S\+D\+I\+O I\+O Cards mode management functions}!S\+D\+I\+O\+\_\+\+Send\+S\+D\+I\+O\+Suspend\+Cmd@{S\+D\+I\+O\+\_\+\+Send\+S\+D\+I\+O\+Suspend\+Cmd}}
+\index{S\+D\+I\+O\+\_\+\+Send\+S\+D\+I\+O\+Suspend\+Cmd@{S\+D\+I\+O\+\_\+\+Send\+S\+D\+I\+O\+Suspend\+Cmd}!S\+D\+I\+O I\+O Cards mode management functions@{S\+D\+I\+O I\+O Cards mode management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Send\+S\+D\+I\+O\+Suspend\+Cmd()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Send\+S\+D\+I\+O\+Suspend\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the SD I/O Mode suspend command sending. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the SD I/O Mode suspend command. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 670} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00671 \{ 
+00672   \textcolor{comment}{/* Check the parameters */}
+00673   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00674   
+00675   *(\_\_IO uint32\_t *) CMD_SDIOSUSPEND_BB = (uint32\_t)NewState;
+00676 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group4_ga24e210c185d5a7855cbaff4472a8f8d1}} 
+\index{S\+D\+I\+O I\+O Cards mode management functions@{S\+D\+I\+O I\+O Cards mode management functions}!S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Operation@{S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Operation}}
+\index{S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Operation@{S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Operation}!S\+D\+I\+O I\+O Cards mode management functions@{S\+D\+I\+O I\+O Cards mode management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Operation()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Operation (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the SD I/O Mode Operation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of S\+D\+IO specific operation. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 656} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00657 \{ 
+00658   \textcolor{comment}{/* Check the parameters */}
+00659   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00660   
+00661   *(\_\_IO uint32\_t *) DCTRL_SDIOEN_BB = (uint32\_t)NewState;
+00662 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group4_ga2baac4ea1bb6c2d94345d2712604338a}} 
+\index{S\+D\+I\+O I\+O Cards mode management functions@{S\+D\+I\+O I\+O Cards mode management functions}!S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Read\+Wait\+Mode@{S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Read\+Wait\+Mode}}
+\index{S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Read\+Wait\+Mode@{S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Read\+Wait\+Mode}!S\+D\+I\+O I\+O Cards mode management functions@{S\+D\+I\+O I\+O Cards mode management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Read\+Wait\+Mode()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Read\+Wait\+Mode (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{S\+D\+I\+O\+\_\+\+Read\+Wait\+Mode }\end{DoxyParamCaption})}
+
+
+
+Sets one of the two options of inserting read wait interval. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+Read\+Wait\+Mode} & SD I/O Read Wait operation mode. This parameter can be\+: \begin{DoxyItemize}
+\item S\+D\+I\+O\+\_\+\+Read\+Wait\+Mode\+\_\+\+C\+LK\+: Read Wait control by stopping S\+D\+I\+O\+C\+LK \item S\+D\+I\+O\+\_\+\+Read\+Wait\+Mode\+\_\+\+D\+A\+T\+A2\+: Read Wait control using S\+D\+I\+O\+\_\+\+D\+A\+T\+A2 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 642} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00643 \{
+00644   \textcolor{comment}{/* Check the parameters */}
+00645   assert_param(IS_SDIO_READWAIT_MODE(SDIO\_ReadWaitMode));
+00646   
+00647   *(\_\_IO uint32\_t *) DCTRL_RWMOD_BB = SDIO\_ReadWaitMode;
+00648 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group4_gac88f914d9a68a83abc2265ec8a7b79fc}} 
+\index{S\+D\+I\+O I\+O Cards mode management functions@{S\+D\+I\+O I\+O Cards mode management functions}!S\+D\+I\+O\+\_\+\+Start\+S\+D\+I\+O\+Read\+Wait@{S\+D\+I\+O\+\_\+\+Start\+S\+D\+I\+O\+Read\+Wait}}
+\index{S\+D\+I\+O\+\_\+\+Start\+S\+D\+I\+O\+Read\+Wait@{S\+D\+I\+O\+\_\+\+Start\+S\+D\+I\+O\+Read\+Wait}!S\+D\+I\+O I\+O Cards mode management functions@{S\+D\+I\+O I\+O Cards mode management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Start\+S\+D\+I\+O\+Read\+Wait()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Start\+S\+D\+I\+O\+Read\+Wait (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Starts the SD I/O Read Wait operation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the Start S\+D\+IO Read Wait operation. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 612} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00613 \{ 
+00614   \textcolor{comment}{/* Check the parameters */}
+00615   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00616   
+00617   *(\_\_IO uint32\_t *) DCTRL_RWSTART_BB = (uint32\_t) NewState;
+00618 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group4_gaca6b25eb2debb73ac827c66f0ebcf837}} 
+\index{S\+D\+I\+O I\+O Cards mode management functions@{S\+D\+I\+O I\+O Cards mode management functions}!S\+D\+I\+O\+\_\+\+Stop\+S\+D\+I\+O\+Read\+Wait@{S\+D\+I\+O\+\_\+\+Stop\+S\+D\+I\+O\+Read\+Wait}}
+\index{S\+D\+I\+O\+\_\+\+Stop\+S\+D\+I\+O\+Read\+Wait@{S\+D\+I\+O\+\_\+\+Stop\+S\+D\+I\+O\+Read\+Wait}!S\+D\+I\+O I\+O Cards mode management functions@{S\+D\+I\+O I\+O Cards mode management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Stop\+S\+D\+I\+O\+Read\+Wait()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Stop\+S\+D\+I\+O\+Read\+Wait (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Stops the SD I/O Read Wait operation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the Stop S\+D\+IO Read Wait operation. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 626} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00627 \{ 
+00628   \textcolor{comment}{/* Check the parameters */}
+00629   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00630   
+00631   *(\_\_IO uint32\_t *) DCTRL_RWSTOP_BB = (uint32\_t) NewState;
+00632 \}
+\end{DoxyCode}

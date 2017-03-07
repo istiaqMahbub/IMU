@@ -1,0 +1,31 @@
+\section{i2c.\+h}
+\label{i2c_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Peripheral/src/i2c.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Peripheral/src/i2c.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/*********************************************************************}
+00002 \textcolor{comment}{File    : i2c.h}
+00003 \textcolor{comment}{Purpose : }
+00004 \textcolor{comment}{**********************************************************************/}
+00005 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_I2C\_H\_\_}
+00006 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_I2C\_H\_\_}
+00007 \textcolor{comment}{/****************************** Includes *****************************/}
+00008 \textcolor{comment}{/****************************** Defines *******************************/}
+00009 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SENSORS\_I2C}               I2C2
+00010 
+00011 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_SPEED}                 400000
+00012 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_OWN\_ADDRESS}           0x00
+00013 
+00014 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_Config}\textcolor{preprocessor}{(}\textcolor{preprocessor}{)} \textcolor{preprocessor}{I2cMaster\_Init}\textcolor{preprocessor}{(}\textcolor{preprocessor}{)}\textcolor{preprocessor}{;}
+00015 
+00016 \textcolor{keywordtype}{void} I2cMaster_Init(\textcolor{keywordtype}{void});
+00017 \textcolor{keywordtype}{void} Set_I2C_Retry(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} ml\_sec);
+00018 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} Get_I2C_Retry();
+00019 
+00020 \textcolor{keywordtype}{int} Sensors_I2C_ReadRegister(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} Address, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} RegisterAddr,
+00021                                           \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} RegisterLen, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *RegisterValue);
+00022 \textcolor{keywordtype}{int} Sensors_I2C_WriteRegister(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} Address, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} RegisterAddr,
+00023                                            \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} RegisterLen, \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *
+      RegisterValue);
+00024 
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{// \_\_I2C\_H\_\_}
+\end{DoxyCode}

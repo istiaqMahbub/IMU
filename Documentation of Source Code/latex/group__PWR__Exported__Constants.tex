@@ -1,0 +1,555 @@
+\section{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}
+\label{group__PWR__Exported__Constants}\index{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ P\+W\+R\+\_\+\+P\+V\+D\+\_\+detection\+\_\+level}
+\item 
+\textbf{ P\+W\+R\+\_\+\+Regulator\+\_\+state\+\_\+in\+\_\+\+S\+T\+O\+P\+\_\+mode}
+\item 
+\textbf{ P\+W\+R\+\_\+\+S\+T\+O\+P\+\_\+mode\+\_\+entry}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ P\+W\+R\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the P\+WR peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+Backup\+Access\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables access to the backup domain (R\+TC registers, R\+TC backup data registers and backup S\+R\+AM). \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+P\+V\+D\+Level\+Config} (uint32\+\_\+t P\+W\+R\+\_\+\+P\+V\+D\+Level)
+\begin{DoxyCompactList}\small\item\em Configures the voltage threshold detected by the Power Voltage Detector(\+P\+V\+D). \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+P\+V\+D\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Power Voltage Detector(\+P\+V\+D). \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+Wake\+Up\+Pin\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Wake\+Up Pin functionality. \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+Backup\+Regulator\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Backup Regulator. \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+Main\+Regulator\+Mode\+Config} (uint32\+\_\+t P\+W\+R\+\_\+\+Regulator\+\_\+\+Voltage)
+\begin{DoxyCompactList}\small\item\em Configures the main internal regulator output voltage. \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+Flash\+Power\+Down\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Flash Power Down in S\+T\+OP mode. \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+Enter\+S\+T\+O\+P\+Mode} (uint32\+\_\+t P\+W\+R\+\_\+\+Regulator, uint8\+\_\+t P\+W\+R\+\_\+\+S\+T\+O\+P\+Entry)
+\begin{DoxyCompactList}\small\item\em Enters S\+T\+OP mode. \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+Enter\+S\+T\+A\+N\+D\+B\+Y\+Mode} (void)
+\begin{DoxyCompactList}\small\item\em Enters S\+T\+A\+N\+D\+BY mode. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ P\+W\+R\+\_\+\+Get\+Flag\+Status} (uint32\+\_\+t P\+W\+R\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified P\+WR flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+Clear\+Flag} (uint32\+\_\+t P\+W\+R\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the P\+WR\textquotesingle{}s pending flags. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\mbox{\label{group__PWR__Exported__Constants_ga0741aea35572b1a75f82b74de12df800}} 
+\index{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}!P\+W\+R\+\_\+\+Backup\+Access\+Cmd@{P\+W\+R\+\_\+\+Backup\+Access\+Cmd}}
+\index{P\+W\+R\+\_\+\+Backup\+Access\+Cmd@{P\+W\+R\+\_\+\+Backup\+Access\+Cmd}!P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}}
+\subsubsection{P\+W\+R\+\_\+\+Backup\+Access\+Cmd()}
+{\footnotesize\ttfamily void P\+W\+R\+\_\+\+Backup\+Access\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables access to the backup domain (R\+TC registers, R\+TC backup data registers and backup S\+R\+AM). 
+
+\begin{DoxyNote}{Note}
+If the H\+SE divided by 2, 3, ..31 is used as the R\+TC clock, the Backup Domain Access should be kept enabled. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the access to the backup domain. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 135} of file \textbf{ stm32f4xx\+\_\+pwr.\+c}.
+
+
+
+Referenced by \textbf{ board\+\_\+init()}.
+
+
+\begin{DoxyCode}
+00136 \{
+00137   \textcolor{comment}{/* Check the parameters */}
+00138   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00139   
+00140   *(\_\_IO uint32\_t *) CR_DBP_BB = (uint32\_t)NewState;
+00141 \}
+\end{DoxyCode}
+\mbox{\label{group__PWR__Exported__Constants_ga83a4d6c5b048f2dab18e8fb04f5368d7}} 
+\index{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}!P\+W\+R\+\_\+\+Backup\+Regulator\+Cmd@{P\+W\+R\+\_\+\+Backup\+Regulator\+Cmd}}
+\index{P\+W\+R\+\_\+\+Backup\+Regulator\+Cmd@{P\+W\+R\+\_\+\+Backup\+Regulator\+Cmd}!P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}}
+\subsubsection{P\+W\+R\+\_\+\+Backup\+Regulator\+Cmd()}
+{\footnotesize\ttfamily void P\+W\+R\+\_\+\+Backup\+Regulator\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the Backup Regulator. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the Backup Regulator. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 298} of file \textbf{ stm32f4xx\+\_\+pwr.\+c}.
+
+
+\begin{DoxyCode}
+00299 \{
+00300   \textcolor{comment}{/* Check the parameters */}
+00301   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00302 
+00303   *(\_\_IO uint32\_t *) CSR_BRE_BB = (uint32\_t)NewState;
+00304 \}
+\end{DoxyCode}
+\mbox{\label{group__PWR__Exported__Constants_ga01c4b2fbd16514b993324e101c3ddf7c}} 
+\index{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}!P\+W\+R\+\_\+\+Clear\+Flag@{P\+W\+R\+\_\+\+Clear\+Flag}}
+\index{P\+W\+R\+\_\+\+Clear\+Flag@{P\+W\+R\+\_\+\+Clear\+Flag}!P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}}
+\subsubsection{P\+W\+R\+\_\+\+Clear\+Flag()}
+{\footnotesize\ttfamily void P\+W\+R\+\_\+\+Clear\+Flag (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{P\+W\+R\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Clears the P\+WR\textquotesingle{}s pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em P\+W\+R\+\_\+\+F\+L\+AG} & specifies the flag to clear. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item P\+W\+R\+\_\+\+F\+L\+A\+G\+\_\+\+WU\+: Wake Up flag \item P\+W\+R\+\_\+\+F\+L\+A\+G\+\_\+\+SB\+: Stand\+By flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 632} of file \textbf{ stm32f4xx\+\_\+pwr.\+c}.
+
+
+\begin{DoxyCode}
+00633 \{
+00634   \textcolor{comment}{/* Check the parameters */}
+00635   assert_param(IS_PWR_CLEAR_FLAG(PWR\_FLAG));
+00636          
+00637   PWR->CR |=  PWR\_FLAG << 2;
+00638 \}
+\end{DoxyCode}
+\mbox{\label{group__PWR__Exported__Constants_gad03a0aac7bc3bc3a9fd012f3769a6990}} 
+\index{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}!P\+W\+R\+\_\+\+De\+Init@{P\+W\+R\+\_\+\+De\+Init}}
+\index{P\+W\+R\+\_\+\+De\+Init@{P\+W\+R\+\_\+\+De\+Init}!P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}}
+\subsubsection{P\+W\+R\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void P\+W\+R\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the P\+WR peripheral registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 120} of file \textbf{ stm32f4xx\+\_\+pwr.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, and \textbf{ R\+C\+C\+\_\+\+A\+P\+B1\+Periph\+Reset\+Cmd()}.
+
+
+\begin{DoxyCode}
+00121 \{
+00122   RCC_APB1PeriphResetCmd(RCC_APB1Periph_PWR, ENABLE);
+00123   RCC_APB1PeriphResetCmd(RCC_APB1Periph_PWR, DISABLE);
+00124 \}
+\end{DoxyCode}
+\mbox{\label{group__PWR__Exported__Constants_ga00ddae00a9c327b81b24d2597b0052f3}} 
+\index{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}!P\+W\+R\+\_\+\+Enter\+S\+T\+A\+N\+D\+B\+Y\+Mode@{P\+W\+R\+\_\+\+Enter\+S\+T\+A\+N\+D\+B\+Y\+Mode}}
+\index{P\+W\+R\+\_\+\+Enter\+S\+T\+A\+N\+D\+B\+Y\+Mode@{P\+W\+R\+\_\+\+Enter\+S\+T\+A\+N\+D\+B\+Y\+Mode}!P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}}
+\subsubsection{P\+W\+R\+\_\+\+Enter\+S\+T\+A\+N\+D\+B\+Y\+Mode()}
+{\footnotesize\ttfamily void P\+W\+R\+\_\+\+Enter\+S\+T\+A\+N\+D\+B\+Y\+Mode (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Enters S\+T\+A\+N\+D\+BY mode. 
+
+\begin{DoxyNote}{Note}
+In Standby mode, all I/O pins are high impedance except for\+:
+\begin{DoxyItemize}
+\item Reset pad (still available)
+\item R\+T\+C\+\_\+\+A\+F1 pin (P\+C13) if configured for tamper, time-\/stamp, R\+TC Alarm out, or R\+TC clock calibration out.
+\item R\+T\+C\+\_\+\+A\+F2 pin (P\+I8) if configured for tamper or time-\/stamp.
+\item W\+K\+UP pin 1 (P\+A0) if enabled. 
+\end{DoxyItemize}
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 548} of file \textbf{ stm32f4xx\+\_\+pwr.\+c}.
+
+
+\begin{DoxyCode}
+00549 \{
+00550   \textcolor{comment}{/* Clear Wakeup flag */}
+00551   PWR->CR |= PWR_CR_CWUF;
+00552   
+00553   \textcolor{comment}{/* Select STANDBY mode */}
+00554   PWR->CR |= PWR_CR_PDDS;
+00555   
+00556   \textcolor{comment}{/* Set SLEEPDEEP bit of Cortex System Control Register */}
+00557   SCB->SCR |= SCB\_SCR\_SLEEPDEEP\_Msk;
+00558   
+00559 \textcolor{comment}{/* This option is used to ensure that store operations are completed */}
+00560 \textcolor{preprocessor}{#if defined ( \_\_CC\_ARM   )}
+00561   \_\_force\_stores();
+00562 \textcolor{preprocessor}{#endif}
+00563   \textcolor{comment}{/* Request Wait For Interrupt */}
+00564   \_\_WFI();
+00565 \}
+\end{DoxyCode}
+\mbox{\label{group__PWR__Exported__Constants_ga694676ac06a9baf50eae45adae0118ab}} 
+\index{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}!P\+W\+R\+\_\+\+Enter\+S\+T\+O\+P\+Mode@{P\+W\+R\+\_\+\+Enter\+S\+T\+O\+P\+Mode}}
+\index{P\+W\+R\+\_\+\+Enter\+S\+T\+O\+P\+Mode@{P\+W\+R\+\_\+\+Enter\+S\+T\+O\+P\+Mode}!P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}}
+\subsubsection{P\+W\+R\+\_\+\+Enter\+S\+T\+O\+P\+Mode()}
+{\footnotesize\ttfamily void P\+W\+R\+\_\+\+Enter\+S\+T\+O\+P\+Mode (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{P\+W\+R\+\_\+\+Regulator,  }\item[{uint8\+\_\+t}]{P\+W\+R\+\_\+\+S\+T\+O\+P\+Entry }\end{DoxyParamCaption})}
+
+
+
+Enters S\+T\+OP mode. 
+
+\begin{DoxyNote}{Note}
+In Stop mode, all I/O pins keep the same state as in Run mode. 
+
+When exiting Stop mode by issuing an interrupt or a wakeup event, the H\+SI RC oscillator is selected as system clock. 
+
+When the voltage regulator operates in low power mode, an additional startup delay is incurred when waking up from Stop mode. By keeping the internal regulator ON during Stop mode, the consumption is higher although the startup time is reduced.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em P\+W\+R\+\_\+\+Regulator} & specifies the regulator state in S\+T\+OP mode. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item P\+W\+R\+\_\+\+Regulator\+\_\+\+ON\+: S\+T\+OP mode with regulator ON \item P\+W\+R\+\_\+\+Regulator\+\_\+\+Low\+Power\+: S\+T\+OP mode with regulator in low power mode \end{DoxyItemize}
+\\
+\hline
+{\em P\+W\+R\+\_\+\+S\+T\+O\+P\+Entry} & specifies if S\+T\+OP mode in entered with W\+FI or W\+FE instruction. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item P\+W\+R\+\_\+\+S\+T\+O\+P\+Entry\+\_\+\+W\+FI\+: enter S\+T\+OP mode with W\+FI instruction \item P\+W\+R\+\_\+\+S\+T\+O\+P\+Entry\+\_\+\+W\+FE\+: enter S\+T\+OP mode with W\+FE instruction \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 500} of file \textbf{ stm32f4xx\+\_\+pwr.\+c}.
+
+
+\begin{DoxyCode}
+00501 \{
+00502   uint32\_t tmpreg = 0;
+00503   
+00504   \textcolor{comment}{/* Check the parameters */}
+00505   assert_param(IS_PWR_REGULATOR(PWR\_Regulator));
+00506   assert_param(IS_PWR_STOP_ENTRY(PWR\_STOPEntry));
+00507   
+00508   \textcolor{comment}{/* Select the regulator state in STOP mode ---------------------------------*/}
+00509   tmpreg = PWR->CR;
+00510   \textcolor{comment}{/* Clear PDDS and LPDSR bits */}
+00511   tmpreg &= CR_DS_MASK;
+00512   
+00513   \textcolor{comment}{/* Set LPDSR bit according to PWR\_Regulator value */}
+00514   tmpreg |= PWR\_Regulator;
+00515   
+00516   \textcolor{comment}{/* Store the new value */}
+00517   PWR->CR = tmpreg;
+00518   
+00519   \textcolor{comment}{/* Set SLEEPDEEP bit of Cortex System Control Register */}
+00520   SCB->SCR |= SCB\_SCR\_SLEEPDEEP\_Msk;
+00521   
+00522   \textcolor{comment}{/* Select STOP mode entry --------------------------------------------------*/}
+00523   \textcolor{keywordflow}{if}(PWR\_STOPEntry == PWR_STOPEntry_WFI)
+00524   \{   
+00525     \textcolor{comment}{/* Request Wait For Interrupt */}
+00526     \_\_WFI();
+00527   \}
+00528   \textcolor{keywordflow}{else}
+00529   \{
+00530     \textcolor{comment}{/* Request Wait For Event */}
+00531     \_\_WFE();
+00532   \}
+00533   \textcolor{comment}{/* Reset SLEEPDEEP bit of Cortex System Control Register */}
+00534   SCB->SCR &= (uint32\_t)~((uint32\_t)SCB\_SCR\_SLEEPDEEP\_Msk);  
+00535 \}
+\end{DoxyCode}
+\mbox{\label{group__PWR__Exported__Constants_gaf0af19a9fdf0324f2ada60c9bce1aab5}} 
+\index{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}!P\+W\+R\+\_\+\+Flash\+Power\+Down\+Cmd@{P\+W\+R\+\_\+\+Flash\+Power\+Down\+Cmd}}
+\index{P\+W\+R\+\_\+\+Flash\+Power\+Down\+Cmd@{P\+W\+R\+\_\+\+Flash\+Power\+Down\+Cmd}!P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}}
+\subsubsection{P\+W\+R\+\_\+\+Flash\+Power\+Down\+Cmd()}
+{\footnotesize\ttfamily void P\+W\+R\+\_\+\+Flash\+Power\+Down\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the Flash Power Down in S\+T\+OP mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the Flash power mode. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 360} of file \textbf{ stm32f4xx\+\_\+pwr.\+c}.
+
+
+\begin{DoxyCode}
+00361 \{
+00362   \textcolor{comment}{/* Check the parameters */}
+00363   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00364 
+00365   *(\_\_IO uint32\_t *) CR_FPDS_BB = (uint32\_t)NewState;
+00366 \}
+\end{DoxyCode}
+\mbox{\label{group__PWR__Exported__Constants_gaa980163a4d83304280ee34942464b4ec}} 
+\index{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}!P\+W\+R\+\_\+\+Get\+Flag\+Status@{P\+W\+R\+\_\+\+Get\+Flag\+Status}}
+\index{P\+W\+R\+\_\+\+Get\+Flag\+Status@{P\+W\+R\+\_\+\+Get\+Flag\+Status}!P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}}
+\subsubsection{P\+W\+R\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} P\+W\+R\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{P\+W\+R\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified P\+WR flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em P\+W\+R\+\_\+\+F\+L\+AG} & specifies the flag to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item P\+W\+R\+\_\+\+F\+L\+A\+G\+\_\+\+WU\+: Wake Up flag. This flag indicates that a wakeup event was received from the W\+K\+UP pin or from the R\+TC alarm (Alarm A or Alarm B), R\+TC Tamper event, R\+TC Time\+Stamp event or R\+TC Wakeup. An additional wakeup event is detected if the W\+K\+UP pin is enabled (by setting the E\+W\+UP bit) when the W\+K\+UP pin level is already high. \item P\+W\+R\+\_\+\+F\+L\+A\+G\+\_\+\+SB\+: Stand\+By flag. This flag indicates that the system was resumed from Stand\+By mode. \item P\+W\+R\+\_\+\+F\+L\+A\+G\+\_\+\+P\+V\+DO\+: P\+VD Output. This flag is valid only if P\+VD is enabled by the \doxyref{P\+W\+R\+\_\+\+P\+V\+D\+Cmd()}{p.}{group__PWR__Group2_ga42cad476b816e0a33594a933b3ed1acd} function. The P\+VD is stopped by Standby mode For this reason, this bit is equal to 0 after Standby or reset until the P\+V\+DE bit is set. \item P\+W\+R\+\_\+\+F\+L\+A\+G\+\_\+\+B\+RR\+: Backup regulator ready flag. This bit is not reset when the device wakes up from Standby mode or by a system reset or power reset. \item P\+W\+R\+\_\+\+F\+L\+A\+G\+\_\+\+V\+O\+S\+R\+DY\+: This flag indicates that the Regulator voltage scaling output selection is ready. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of P\+W\+R\+\_\+\+F\+L\+AG (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 605} of file \textbf{ stm32f4xx\+\_\+pwr.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00606 \{
+00607   FlagStatus bitstatus = RESET;
+00608   
+00609   \textcolor{comment}{/* Check the parameters */}
+00610   assert_param(IS_PWR_GET_FLAG(PWR\_FLAG));
+00611   
+00612   \textcolor{keywordflow}{if} ((PWR->CSR & PWR\_FLAG) != (uint32\_t)RESET)
+00613   \{
+00614     bitstatus = SET;
+00615   \}
+00616   \textcolor{keywordflow}{else}
+00617   \{
+00618     bitstatus = RESET;
+00619   \}
+00620   \textcolor{comment}{/* Return the flag status */}
+00621   \textcolor{keywordflow}{return} bitstatus;
+00622 \}
+\end{DoxyCode}
+\mbox{\label{group__PWR__Exported__Constants_gada193dea79762f379d4e666a98f28d89}} 
+\index{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}!P\+W\+R\+\_\+\+Main\+Regulator\+Mode\+Config@{P\+W\+R\+\_\+\+Main\+Regulator\+Mode\+Config}}
+\index{P\+W\+R\+\_\+\+Main\+Regulator\+Mode\+Config@{P\+W\+R\+\_\+\+Main\+Regulator\+Mode\+Config}!P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}}
+\subsubsection{P\+W\+R\+\_\+\+Main\+Regulator\+Mode\+Config()}
+{\footnotesize\ttfamily void P\+W\+R\+\_\+\+Main\+Regulator\+Mode\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{P\+W\+R\+\_\+\+Regulator\+\_\+\+Voltage }\end{DoxyParamCaption})}
+
+
+
+Configures the main internal regulator output voltage. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em P\+W\+R\+\_\+\+Regulator\+\_\+\+Voltage} & specifies the regulator output voltage to achieve a tradeoff between performance and power consumption when the device does not operate at the maximum frequency (refer to the datasheets for more details). This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item P\+W\+R\+\_\+\+Regulator\+\_\+\+Voltage\+\_\+\+Scale1\+: Regulator voltage output Scale 1 mode, System frequency up to 168 M\+Hz. \item P\+W\+R\+\_\+\+Regulator\+\_\+\+Voltage\+\_\+\+Scale2\+: Regulator voltage output Scale 2 mode, System frequency up to 144 M\+Hz. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 318} of file \textbf{ stm32f4xx\+\_\+pwr.\+c}.
+
+
+\begin{DoxyCode}
+00319 \{
+00320   \textcolor{comment}{/* Check the parameters */}
+00321   assert_param(IS_PWR_REGULATOR_VOLTAGE(PWR\_Regulator\_Voltage));
+00322 
+00323   \textcolor{keywordflow}{if} (PWR\_Regulator\_Voltage == PWR_Regulator_Voltage_Scale2)
+00324   \{
+00325     PWR->CR &= ~PWR_Regulator_Voltage_Scale1;
+00326   \}
+00327   \textcolor{keywordflow}{else}
+00328   \{    
+00329     PWR->CR |= PWR_Regulator_Voltage_Scale1;
+00330   \}
+00331 \}
+\end{DoxyCode}
+\mbox{\label{group__PWR__Exported__Constants_ga42cad476b816e0a33594a933b3ed1acd}} 
+\index{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}!P\+W\+R\+\_\+\+P\+V\+D\+Cmd@{P\+W\+R\+\_\+\+P\+V\+D\+Cmd}}
+\index{P\+W\+R\+\_\+\+P\+V\+D\+Cmd@{P\+W\+R\+\_\+\+P\+V\+D\+Cmd}!P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}}
+\subsubsection{P\+W\+R\+\_\+\+P\+V\+D\+Cmd()}
+{\footnotesize\ttfamily void P\+W\+R\+\_\+\+P\+V\+D\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the Power Voltage Detector(\+P\+V\+D). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the P\+VD. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 206} of file \textbf{ stm32f4xx\+\_\+pwr.\+c}.
+
+
+\begin{DoxyCode}
+00207 \{
+00208   \textcolor{comment}{/* Check the parameters */}
+00209   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00210   
+00211   *(\_\_IO uint32\_t *) CR_PVDE_BB = (uint32\_t)NewState;
+00212 \}
+\end{DoxyCode}
+\mbox{\label{group__PWR__Exported__Constants_ga237c143ef6aa55abb8049fa7bf24ab8f}} 
+\index{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}!P\+W\+R\+\_\+\+P\+V\+D\+Level\+Config@{P\+W\+R\+\_\+\+P\+V\+D\+Level\+Config}}
+\index{P\+W\+R\+\_\+\+P\+V\+D\+Level\+Config@{P\+W\+R\+\_\+\+P\+V\+D\+Level\+Config}!P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}}
+\subsubsection{P\+W\+R\+\_\+\+P\+V\+D\+Level\+Config()}
+{\footnotesize\ttfamily void P\+W\+R\+\_\+\+P\+V\+D\+Level\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{P\+W\+R\+\_\+\+P\+V\+D\+Level }\end{DoxyParamCaption})}
+
+
+
+Configures the voltage threshold detected by the Power Voltage Detector(\+P\+V\+D). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em P\+W\+R\+\_\+\+P\+V\+D\+Level} & specifies the P\+VD detection level This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item P\+W\+R\+\_\+\+P\+V\+D\+Level\+\_\+0\+: P\+VD detection level set to 2.\+0V \item P\+W\+R\+\_\+\+P\+V\+D\+Level\+\_\+1\+: P\+VD detection level set to 2.\+2V \item P\+W\+R\+\_\+\+P\+V\+D\+Level\+\_\+2\+: P\+VD detection level set to 2.\+3V \item P\+W\+R\+\_\+\+P\+V\+D\+Level\+\_\+3\+: P\+VD detection level set to 2.\+5V \item P\+W\+R\+\_\+\+P\+V\+D\+Level\+\_\+4\+: P\+VD detection level set to 2.\+7V \item P\+W\+R\+\_\+\+P\+V\+D\+Level\+\_\+5\+: P\+VD detection level set to 2.\+8V \item P\+W\+R\+\_\+\+P\+V\+D\+Level\+\_\+6\+: P\+VD detection level set to 2.\+9V \item P\+W\+R\+\_\+\+P\+V\+D\+Level\+\_\+7\+: P\+VD detection level set to 3.\+0V \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Refer to the electrical characteristics of you device datasheet for more details. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 181} of file \textbf{ stm32f4xx\+\_\+pwr.\+c}.
+
+
+\begin{DoxyCode}
+00182 \{
+00183   uint32\_t tmpreg = 0;
+00184   
+00185   \textcolor{comment}{/* Check the parameters */}
+00186   assert_param(IS_PWR_PVD_LEVEL(PWR\_PVDLevel));
+00187   
+00188   tmpreg = PWR->CR;
+00189   
+00190   \textcolor{comment}{/* Clear PLS[7:5] bits */}
+00191   tmpreg &= CR_PLS_MASK;
+00192   
+00193   \textcolor{comment}{/* Set PLS[7:5] bits according to PWR\_PVDLevel value */}
+00194   tmpreg |= PWR\_PVDLevel;
+00195   
+00196   \textcolor{comment}{/* Store the new value */}
+00197   PWR->CR = tmpreg;
+00198 \}
+\end{DoxyCode}
+\mbox{\label{group__PWR__Exported__Constants_gae5fd6f9336ef8c60d5483651cb0d1a00}} 
+\index{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}!P\+W\+R\+\_\+\+Wake\+Up\+Pin\+Cmd@{P\+W\+R\+\_\+\+Wake\+Up\+Pin\+Cmd}}
+\index{P\+W\+R\+\_\+\+Wake\+Up\+Pin\+Cmd@{P\+W\+R\+\_\+\+Wake\+Up\+Pin\+Cmd}!P\+W\+R\+\_\+\+Exported\+\_\+\+Constants@{P\+W\+R\+\_\+\+Exported\+\_\+\+Constants}}
+\subsubsection{P\+W\+R\+\_\+\+Wake\+Up\+Pin\+Cmd()}
+{\footnotesize\ttfamily void P\+W\+R\+\_\+\+Wake\+Up\+Pin\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the Wake\+Up Pin functionality. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the Wake\+Up Pin functionality. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 240} of file \textbf{ stm32f4xx\+\_\+pwr.\+c}.
+
+
+\begin{DoxyCode}
+00241 \{
+00242   \textcolor{comment}{/* Check the parameters */}  
+00243   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00244 
+00245   *(\_\_IO uint32\_t *) CSR_EWUP_BB = (uint32\_t)NewState;
+00246 \}
+\end{DoxyCode}

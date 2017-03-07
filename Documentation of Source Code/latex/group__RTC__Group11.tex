@@ -1,0 +1,136 @@
+\section{R\+TC Tamper and Time\+Stamp Pins Selection and Output Type Config configuration functions}
+\label{group__RTC__Group11}\index{R\+T\+C Tamper and Time\+Stamp Pins Selection and Output Type Config configuration functions@{R\+T\+C Tamper and Time\+Stamp Pins Selection and Output Type Config configuration functions}}
+
+
+R\+TC Tamper and Time\+Stamp Pins Selection and Output Type Config configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ R\+T\+C\+\_\+\+Tamper\+Pin\+Selection} (uint32\+\_\+t R\+T\+C\+\_\+\+Tamper\+Pin)
+\begin{DoxyCompactList}\small\item\em Selects the R\+TC Tamper Pin. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Time\+Stamp\+Pin\+Selection} (uint32\+\_\+t R\+T\+C\+\_\+\+Time\+Stamp\+Pin)
+\begin{DoxyCompactList}\small\item\em Selects the R\+TC Time\+Stamp Pin. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Output\+Type\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Output\+Type)
+\begin{DoxyCompactList}\small\item\em Configures the R\+TC Output Pin mode. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+R\+TC Tamper and Time\+Stamp Pins Selection and Output Type Config configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+  RTC Tamper and TimeStamp Pins Selection and Output Type Config configuration 
+  functions 
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__RTC__Group11_ga95263b7acf7168d52f66ef9121f14760}} 
+\index{R\+T\+C Tamper and Time\+Stamp Pins Selection and Output Type Config configuration functions@{R\+T\+C Tamper and Time\+Stamp Pins Selection and Output Type Config configuration functions}!R\+T\+C\+\_\+\+Output\+Type\+Config@{R\+T\+C\+\_\+\+Output\+Type\+Config}}
+\index{R\+T\+C\+\_\+\+Output\+Type\+Config@{R\+T\+C\+\_\+\+Output\+Type\+Config}!R\+T\+C Tamper and Time\+Stamp Pins Selection and Output Type Config configuration functions@{R\+T\+C Tamper and Time\+Stamp Pins Selection and Output Type Config configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Output\+Type\+Config()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Output\+Type\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Output\+Type }\end{DoxyParamCaption})}
+
+
+
+Configures the R\+TC Output Pin mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Output\+Type} & specifies the R\+TC Output (P\+C13) pin mode. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Output\+Type\+\_\+\+Open\+Drain\+: R\+TC Output (P\+C13) is configured in Open Drain mode. \item R\+T\+C\+\_\+\+Output\+Type\+\_\+\+Push\+Pull\+: R\+TC Output (P\+C13) is configured in Push Pull mode. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2373} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02374 \{
+02375   \textcolor{comment}{/* Check the parameters */}
+02376   assert_param(IS_RTC_OUTPUT_TYPE(RTC\_OutputType));
+02377   
+02378   RTC->TAFCR &= (uint32\_t)~(RTC_TAFCR_ALARMOUTTYPE);
+02379   RTC->TAFCR |= (uint32\_t)(RTC\_OutputType);  
+02380 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group11_ga46777272ae77eb9dc38610481e12b0ed}} 
+\index{R\+T\+C Tamper and Time\+Stamp Pins Selection and Output Type Config configuration functions@{R\+T\+C Tamper and Time\+Stamp Pins Selection and Output Type Config configuration functions}!R\+T\+C\+\_\+\+Tamper\+Pin\+Selection@{R\+T\+C\+\_\+\+Tamper\+Pin\+Selection}}
+\index{R\+T\+C\+\_\+\+Tamper\+Pin\+Selection@{R\+T\+C\+\_\+\+Tamper\+Pin\+Selection}!R\+T\+C Tamper and Time\+Stamp Pins Selection and Output Type Config configuration functions@{R\+T\+C Tamper and Time\+Stamp Pins Selection and Output Type Config configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Tamper\+Pin\+Selection()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Tamper\+Pin\+Selection (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Tamper\+Pin }\end{DoxyParamCaption})}
+
+
+
+Selects the R\+TC Tamper Pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Tamper\+Pin} & specifies the R\+TC Tamper Pin. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Tamper\+Pin\+\_\+\+P\+C13\+: P\+C13 is selected as R\+TC Tamper Pin. \item R\+T\+C\+\_\+\+Tamper\+Pin\+\_\+\+P\+I8\+: P\+I8 is selected as R\+TC Tamper Pin. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2337} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02338 \{
+02339   \textcolor{comment}{/* Check the parameters */}
+02340   assert_param(IS_RTC_TAMPER_PIN(RTC\_TamperPin));
+02341   
+02342   RTC->TAFCR &= (uint32\_t)~(RTC_TAFCR_TAMPINSEL);
+02343   RTC->TAFCR |= (uint32\_t)(RTC\_TamperPin);  
+02344 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group11_gaedf9830bdaaaa50ea5d45d2ff7bb43a9}} 
+\index{R\+T\+C Tamper and Time\+Stamp Pins Selection and Output Type Config configuration functions@{R\+T\+C Tamper and Time\+Stamp Pins Selection and Output Type Config configuration functions}!R\+T\+C\+\_\+\+Time\+Stamp\+Pin\+Selection@{R\+T\+C\+\_\+\+Time\+Stamp\+Pin\+Selection}}
+\index{R\+T\+C\+\_\+\+Time\+Stamp\+Pin\+Selection@{R\+T\+C\+\_\+\+Time\+Stamp\+Pin\+Selection}!R\+T\+C Tamper and Time\+Stamp Pins Selection and Output Type Config configuration functions@{R\+T\+C Tamper and Time\+Stamp Pins Selection and Output Type Config configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Time\+Stamp\+Pin\+Selection()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Time\+Stamp\+Pin\+Selection (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Time\+Stamp\+Pin }\end{DoxyParamCaption})}
+
+
+
+Selects the R\+TC Time\+Stamp Pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Time\+Stamp\+Pin} & specifies the R\+TC Time\+Stamp Pin. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Time\+Stamp\+Pin\+\_\+\+P\+C13\+: P\+C13 is selected as R\+TC Time\+Stamp Pin. \item R\+T\+C\+\_\+\+Time\+Stamp\+Pin\+\_\+\+P\+I8\+: P\+I8 is selected as R\+TC Time\+Stamp Pin. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2354} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02355 \{
+02356   \textcolor{comment}{/* Check the parameters */}
+02357   assert_param(IS_RTC_TIMESTAMP_PIN(RTC\_TimeStampPin));
+02358   
+02359   RTC->TAFCR &= (uint32\_t)~(RTC_TAFCR_TSINSEL);
+02360   RTC->TAFCR |= (uint32\_t)(RTC\_TimeStampPin);  
+02361 \}
+\end{DoxyCode}

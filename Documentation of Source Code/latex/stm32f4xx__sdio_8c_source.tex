@@ -1,0 +1,1026 @@
+\section{stm32f4xx\+\_\+sdio.\+c}
+\label{stm32f4xx__sdio_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+sdio.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+sdio.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_sdio.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides firmware functions to manage the following }
+00008 \textcolor{comment}{  *          functionalities of the Secure digital input/output interface (SDIO) }
+00009 \textcolor{comment}{  *          peripheral:}
+00010 \textcolor{comment}{  *           - Initialization and Configuration}
+00011 \textcolor{comment}{  *           - Command path state machine (CPSM) management}
+00012 \textcolor{comment}{  *           - Data path state machine (DPSM) management}
+00013 \textcolor{comment}{  *           - SDIO IO Cards mode management}
+00014 \textcolor{comment}{  *           - CE-ATA mode management}
+00015 \textcolor{comment}{  *           - DMA transfers management}
+00016 \textcolor{comment}{  *           - Interrupts and flags management}
+00017 \textcolor{comment}{  *}
+00018 \textcolor{comment}{  *  @verbatim}
+00019 \textcolor{comment}{  *}
+00020 \textcolor{comment}{  *}
+00021 \textcolor{comment}{  *          ===================================================================}
+00022 \textcolor{comment}{  *                                 How to use this driver}
+00023 \textcolor{comment}{  *          ===================================================================}
+00024 \textcolor{comment}{  *          1. The SDIO clock (SDIOCLK = 48 MHz) is coming from a specific output}
+00025 \textcolor{comment}{  *             of PLL (PLL48CLK). Before to start working with SDIO peripheral}
+00026 \textcolor{comment}{  *             make sure that the PLL is well configured.}
+00027 \textcolor{comment}{  *          The SDIO peripheral uses two clock signals:}
+00028 \textcolor{comment}{  *              - SDIO adapter clock (SDIOCLK = 48 MHz)}
+00029 \textcolor{comment}{  *              - APB2 bus clock (PCLK2)}
+00030 \textcolor{comment}{  *          PCLK2 and SDIO\_CK clock frequencies must respect the following condition:}
+00031 \textcolor{comment}{  *                   Frequenc(PCLK2) >= (3 / 8 x Frequency(SDIO\_CK))}
+00032 \textcolor{comment}{  *}
+00033 \textcolor{comment}{  *          2. Enable peripheral clock using RCC\_APB2PeriphClockCmd(RCC\_APB2Periph\_SDIO, ENABLE).}
+00034 \textcolor{comment}{  *}
+00035 \textcolor{comment}{  *          3.  According to the SDIO mode, enable the GPIO clocks using }
+00036 \textcolor{comment}{  *              RCC\_AHB1PeriphClockCmd() function. }
+00037 \textcolor{comment}{  *              The I/O can be one of the following configurations:}
+00038 \textcolor{comment}{  *                 - 1-bit data length: SDIO\_CMD, SDIO\_CK and D0.}
+00039 \textcolor{comment}{  *                 - 4-bit data length: SDIO\_CMD, SDIO\_CK and D[3:0].}
+00040 \textcolor{comment}{  *                 - 8-bit data length: SDIO\_CMD, SDIO\_CK and D[7:0].      }
+00041 \textcolor{comment}{  *}
+00042 \textcolor{comment}{  *          4. Peripheral's alternate function: }
+00043 \textcolor{comment}{  *                 - Connect the pin to the desired peripherals' Alternate }
+00044 \textcolor{comment}{  *                   Function (AF) using GPIO\_PinAFConfig() function}
+00045 \textcolor{comment}{  *                 - Configure the desired pin in alternate function by:}
+00046 \textcolor{comment}{  *                   GPIO\_InitStruct->GPIO\_Mode = GPIO\_Mode\_AF}
+00047 \textcolor{comment}{  *                 - Select the type, pull-up/pull-down and output speed via }
+00048 \textcolor{comment}{  *                   GPIO\_PuPd, GPIO\_OType and GPIO\_Speed members}
+00049 \textcolor{comment}{  *                 - Call GPIO\_Init() function}
+00050 \textcolor{comment}{  *}
+00051 \textcolor{comment}{  *          5. Program the Clock Edge, Clock Bypass, Clock Power Save, Bus Wide, }
+00052 \textcolor{comment}{  *             hardware, flow control and the Clock Divider using the SDIO\_Init()}
+00053 \textcolor{comment}{  *             function.}
+00054 \textcolor{comment}{  *}
+00055 \textcolor{comment}{  *          6. Enable the Power ON State using the SDIO\_SetPowerState(SDIO\_PowerState\_ON) }
+00056 \textcolor{comment}{  *             function.}
+00057 \textcolor{comment}{  *              }
+00058 \textcolor{comment}{  *          7. Enable the clock using the SDIO\_ClockCmd() function.}
+00059 \textcolor{comment}{  *}
+00060 \textcolor{comment}{  *          8. Enable the NVIC and the corresponding interrupt using the function }
+00061 \textcolor{comment}{  *             SDIO\_ITConfig() if you need to use interrupt mode. }
+00062 \textcolor{comment}{  *}
+00063 \textcolor{comment}{  *          9. When using the DMA mode }
+00064 \textcolor{comment}{  *                   - Configure the DMA using DMA\_Init() function}
+00065 \textcolor{comment}{  *                   - Active the needed channel Request using SDIO\_DMACmd() function}
+00066 \textcolor{comment}{  *}
+00067 \textcolor{comment}{  *          10. Enable the DMA using the DMA\_Cmd() function, when using DMA mode. }
+00068 \textcolor{comment}{  *}
+00069 \textcolor{comment}{  *          11. To control the CPSM (Command Path State Machine) and send }
+00070 \textcolor{comment}{  *              commands to the card use the SDIO\_SendCommand(), }
+00071 \textcolor{comment}{  *              SDIO\_GetCommandResponse() and SDIO\_GetResponse() functions.     }
+00072 \textcolor{comment}{  *              First, user has to fill the command structure (pointer to}
+00073 \textcolor{comment}{  *              SDIO\_CmdInitTypeDef) according to the selected command to be sent.}
+00074 \textcolor{comment}{  *                 The parameters that should be filled are:}
+00075 \textcolor{comment}{  *                   - Command Argument}
+00076 \textcolor{comment}{  *                   - Command Index}
+00077 \textcolor{comment}{  *                   - Command Response type}
+00078 \textcolor{comment}{  *                   - Command Wait}
+00079 \textcolor{comment}{  *                   - CPSM Status (Enable or Disable)}
+00080 \textcolor{comment}{  *}
+00081 \textcolor{comment}{  *              To check if the command is well received, read the SDIO\_CMDRESP}
+00082 \textcolor{comment}{  *              register using the SDIO\_GetCommandResponse().}
+00083 \textcolor{comment}{  *              The SDIO responses registers (SDIO\_RESP1 to SDIO\_RESP2), use the}
+00084 \textcolor{comment}{  *              SDIO\_GetResponse() function.}
+00085 \textcolor{comment}{  *}
+00086 \textcolor{comment}{  *          12. To control the DPSM (Data Path State Machine) and send/receive }
+00087 \textcolor{comment}{  *              data to/from the card use the SDIO\_DataConfig(), SDIO\_GetDataCounter(), }
+00088 \textcolor{comment}{  *              SDIO\_ReadData(), SDIO\_WriteData() and SDIO\_GetFIFOCount() functions.}
+00089 \textcolor{comment}{  *}
+00090 \textcolor{comment}{  *              Read Operations}
+00091 \textcolor{comment}{  *              ---------------}
+00092 \textcolor{comment}{  *              a) First, user has to fill the data structure (pointer to}
+00093 \textcolor{comment}{  *                 SDIO\_DataInitTypeDef) according to the selected data type to}
+00094 \textcolor{comment}{  *                 be received.}
+00095 \textcolor{comment}{  *                 The parameters that should be filled are:}
+00096 \textcolor{comment}{  *                   - Data TimeOut}
+00097 \textcolor{comment}{  *                   - Data Length}
+00098 \textcolor{comment}{  *                   - Data Block size}
+00099 \textcolor{comment}{  *                   - Data Transfer direction: should be from card (To SDIO)}
+00100 \textcolor{comment}{  *                   - Data Transfer mode}
+00101 \textcolor{comment}{  *                   - DPSM Status (Enable or Disable)}
+00102 \textcolor{comment}{  *                                   }
+00103 \textcolor{comment}{  *              b) Configure the SDIO resources to receive the data from the card}
+00104 \textcolor{comment}{  *                 according to selected transfer mode (Refer to Step 8, 9 and 10).}
+00105 \textcolor{comment}{  *}
+00106 \textcolor{comment}{  *              c) Send the selected Read command (refer to step 11).}
+00107 \textcolor{comment}{  *                  }
+00108 \textcolor{comment}{  *              d) Use the SDIO flags/interrupts to check the transfer status.}
+00109 \textcolor{comment}{  *}
+00110 \textcolor{comment}{  *              Write Operations}
+00111 \textcolor{comment}{  *              ---------------}
+00112 \textcolor{comment}{  *              a) First, user has to fill the data structure (pointer to}
+00113 \textcolor{comment}{  *                 SDIO\_DataInitTypeDef) according to the selected data type to}
+00114 \textcolor{comment}{  *                 be received.}
+00115 \textcolor{comment}{  *                 The parameters that should be filled are:}
+00116 \textcolor{comment}{  *                   - Data TimeOut}
+00117 \textcolor{comment}{  *                   - Data Length}
+00118 \textcolor{comment}{  *                   - Data Block size}
+00119 \textcolor{comment}{  *                   - Data Transfer direction:  should be to card (To CARD)}
+00120 \textcolor{comment}{  *                   - Data Transfer mode}
+00121 \textcolor{comment}{  *                   - DPSM Status (Enable or Disable)}
+00122 \textcolor{comment}{  *}
+00123 \textcolor{comment}{  *              b) Configure the SDIO resources to send the data to the card}
+00124 \textcolor{comment}{  *                 according to selected transfer mode (Refer to Step 8, 9 and 10).}
+00125 \textcolor{comment}{  *                   }
+00126 \textcolor{comment}{  *              c) Send the selected Write command (refer to step 11).}
+00127 \textcolor{comment}{  *                  }
+00128 \textcolor{comment}{  *              d) Use the SDIO flags/interrupts to check the transfer status.}
+00129 \textcolor{comment}{  *}
+00130 \textcolor{comment}{  *}
+00131 \textcolor{comment}{  *  @endverbatim}
+00132 \textcolor{comment}{  *}
+00133 \textcolor{comment}{  *}
+00134 \textcolor{comment}{  ******************************************************************************}
+00135 \textcolor{comment}{  * @attention}
+00136 \textcolor{comment}{  *}
+00137 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00138 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00139 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00140 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00141 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00142 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00143 \textcolor{comment}{  *}
+00144 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00145 \textcolor{comment}{  ******************************************************************************}
+00146 \textcolor{comment}{  */}
+00147 
+00148 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00149 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_sdio.h"
+00150 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rcc.h"
+00151 
+00152 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00153 \textcolor{comment}{  * @\{}
+00154 \textcolor{comment}{  */}
+00155 
+00156 \textcolor{comment}{/** @defgroup SDIO }
+00157 \textcolor{comment}{  * @brief SDIO driver modules}
+00158 \textcolor{comment}{  * @\{}
+00159 \textcolor{comment}{  */}
+00160 
+00161 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00162 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00163 
+00164 \textcolor{comment}{/* ------------ SDIO registers bit address in the alias region ----------- */}
+00165 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_OFFSET}                \textcolor{preprocessor}{(}SDIO_BASE \textcolor{preprocessor}{-} PERIPH_BASE\textcolor{preprocessor}{)}
+00166 
+00167 \textcolor{comment}{/* --- CLKCR Register ---*/}
+00168 \textcolor{comment}{/* Alias word address of CLKEN bit */}
+00169 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CLKCR\_OFFSET}              \textcolor{preprocessor}{(}SDIO_OFFSET \textcolor{preprocessor}{+} 0x04\textcolor{preprocessor}{)}
+00170 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CLKEN\_BitNumber}           0x08
+00171 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CLKCR\_CLKEN\_BB}            \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}CLKCR_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      CLKEN_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00172 
+00173 \textcolor{comment}{/* --- CMD Register ---*/}
+00174 \textcolor{comment}{/* Alias word address of SDIOSUSPEND bit */}
+00175 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CMD\_OFFSET}                \textcolor{preprocessor}{(}SDIO_OFFSET \textcolor{preprocessor}{+} 0x0C\textcolor{preprocessor}{)}
+00176 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIOSUSPEND\_BitNumber}     0x0B
+00177 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CMD\_SDIOSUSPEND\_BB}        \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}CMD_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      SDIOSUSPEND_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00178 
+00179 \textcolor{comment}{/* Alias word address of ENCMDCOMPL bit */}
+00180 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ENCMDCOMPL\_BitNumber}      0x0C
+00181 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CMD\_ENCMDCOMPL\_BB}         \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}CMD_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      ENCMDCOMPL_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00182 
+00183 \textcolor{comment}{/* Alias word address of NIEN bit */}
+00184 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{NIEN\_BitNumber}            0x0D
+00185 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CMD\_NIEN\_BB}               \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}CMD_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      NIEN_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00186 
+00187 \textcolor{comment}{/* Alias word address of ATACMD bit */}
+00188 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ATACMD\_BitNumber}          0x0E
+00189 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CMD\_ATACMD\_BB}             \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}CMD_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      ATACMD_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00190 
+00191 \textcolor{comment}{/* --- DCTRL Register ---*/}
+00192 \textcolor{comment}{/* Alias word address of DMAEN bit */}
+00193 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCTRL\_OFFSET}              \textcolor{preprocessor}{(}SDIO_OFFSET \textcolor{preprocessor}{+} 0x2C\textcolor{preprocessor}{)}
+00194 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMAEN\_BitNumber}           0x03
+00195 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCTRL\_DMAEN\_BB}            \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}DCTRL_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      DMAEN_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00196 
+00197 \textcolor{comment}{/* Alias word address of RWSTART bit */}
+00198 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RWSTART\_BitNumber}         0x08
+00199 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCTRL\_RWSTART\_BB}          \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}DCTRL_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      RWSTART_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00200 
+00201 \textcolor{comment}{/* Alias word address of RWSTOP bit */}
+00202 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RWSTOP\_BitNumber}          0x09
+00203 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCTRL\_RWSTOP\_BB}           \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}DCTRL_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      RWSTOP_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00204 
+00205 \textcolor{comment}{/* Alias word address of RWMOD bit */}
+00206 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RWMOD\_BitNumber}           0x0A
+00207 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCTRL\_RWMOD\_BB}            \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}DCTRL_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      RWMOD_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00208 
+00209 \textcolor{comment}{/* Alias word address of SDIOEN bit */}
+00210 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIOEN\_BitNumber}          0x0B
+00211 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCTRL\_SDIOEN\_BB}           \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}DCTRL_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      SDIOEN_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00212 
+00213 \textcolor{comment}{/* ---------------------- SDIO registers bit mask ------------------------ */}
+00214 \textcolor{comment}{/* --- CLKCR Register ---*/}
+00215 \textcolor{comment}{/* CLKCR register clear mask */}
+00216 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CLKCR\_CLEAR\_MASK}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFFF8100\textcolor{preprocessor}{)}
+00217 
+00218 \textcolor{comment}{/* --- PWRCTRL Register ---*/}
+00219 \textcolor{comment}{/* SDIO PWRCTRL Mask */}
+00220 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_PWRCTRL\_MASK}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFFFFFFC\textcolor{preprocessor}{)}
+00221 
+00222 \textcolor{comment}{/* --- DCTRL Register ---*/}
+00223 \textcolor{comment}{/* SDIO DCTRL Clear Mask */}
+00224 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCTRL\_CLEAR\_MASK}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFFFFF08\textcolor{preprocessor}{)}
+00225 
+00226 \textcolor{comment}{/* --- CMD Register ---*/}
+00227 \textcolor{comment}{/* CMD Register clear mask */}
+00228 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CMD\_CLEAR\_MASK}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFFFF800\textcolor{preprocessor}{)}
+00229 
+00230 \textcolor{comment}{/* SDIO RESP Registers Address */}
+00231 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_RESP\_ADDR}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}SDIO_BASE \textcolor{preprocessor}{+} 0x14\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00232 
+00233 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00234 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00235 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00236 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00237 
+00238 \textcolor{comment}{/** @defgroup SDIO\_Private\_Functions}
+00239 \textcolor{comment}{  * @\{}
+00240 \textcolor{comment}{  */}
+00241 
+00242 \textcolor{comment}{/** @defgroup SDIO\_Group1 Initialization and Configuration functions}
+00243 \textcolor{comment}{ *  @brief   Initialization and Configuration functions }
+00244 \textcolor{comment}{ *}
+00245 \textcolor{comment}{@verbatim   }
+00246 \textcolor{comment}{ ===============================================================================}
+00247 \textcolor{comment}{                 Initialization and Configuration functions}
+00248 \textcolor{comment}{ ===============================================================================}
+00249 \textcolor{comment}{}
+00250 \textcolor{comment}{@endverbatim}
+00251 \textcolor{comment}{  * @\{}
+00252 \textcolor{comment}{  */}
+00253 
+00254 \textcolor{comment}{/**}
+00255 \textcolor{comment}{  * @brief  Deinitializes the SDIO peripheral registers to their default reset values.}
+00256 \textcolor{comment}{  * @param  None}
+00257 \textcolor{comment}{  * @retval None}
+00258 \textcolor{comment}{  */}
+00259 \textcolor{keywordtype}{void} SDIO_DeInit(\textcolor{keywordtype}{void})
+00260 \{
+00261   RCC_APB2PeriphResetCmd(RCC_APB2Periph_SDIO, ENABLE);
+00262   RCC_APB2PeriphResetCmd(RCC_APB2Periph_SDIO, DISABLE);
+00263 \}
+00264 
+00265 \textcolor{comment}{/**}
+00266 \textcolor{comment}{  * @brief  Initializes the SDIO peripheral according to the specified }
+00267 \textcolor{comment}{  *         parameters in the SDIO\_InitStruct.}
+00268 \textcolor{comment}{  * @param  SDIO\_InitStruct : pointer to a SDIO\_InitTypeDef structure }
+00269 \textcolor{comment}{  *         that contains the configuration information for the SDIO peripheral.}
+00270 \textcolor{comment}{  * @retval None}
+00271 \textcolor{comment}{  */}
+00272 \textcolor{keywordtype}{void} SDIO_Init(SDIO\_InitTypeDef* SDIO\_InitStruct)
+00273 \{
+00274   uint32\_t tmpreg = 0;
+00275 
+00276   \textcolor{comment}{/* Check the parameters */}
+00277   assert_param(IS\_SDIO\_CLOCK\_EDGE(SDIO\_InitStruct->SDIO\_ClockEdge));
+00278   assert_param(IS\_SDIO\_CLOCK\_BYPASS(SDIO\_InitStruct->SDIO\_ClockBypass));
+00279   assert_param(IS\_SDIO\_CLOCK\_POWER\_SAVE(SDIO\_InitStruct->SDIO\_ClockPowerSave));
+00280   assert_param(IS\_SDIO\_BUS\_WIDE(SDIO\_InitStruct->SDIO\_BusWide));
+00281   assert_param(IS\_SDIO\_HARDWARE\_FLOW\_CONTROL(SDIO\_InitStruct->SDIO\_HardwareFlowControl));
+00282 
+00283 \textcolor{comment}{/*---------------------------- SDIO CLKCR Configuration ------------------------*/}
+00284   \textcolor{comment}{/* Get the SDIO CLKCR value */}
+00285   tmpreg = SDIO->CLKCR;
+00286 
+00287   \textcolor{comment}{/* Clear CLKDIV, PWRSAV, BYPASS, WIDBUS, NEGEDGE, HWFC\_EN bits */}
+00288   tmpreg &= CLKCR_CLEAR_MASK;
+00289 
+00290   \textcolor{comment}{/* Set CLKDIV bits according to SDIO\_ClockDiv value */}
+00291   \textcolor{comment}{/* Set PWRSAV bit according to SDIO\_ClockPowerSave value */}
+00292   \textcolor{comment}{/* Set BYPASS bit according to SDIO\_ClockBypass value */}
+00293   \textcolor{comment}{/* Set WIDBUS bits according to SDIO\_BusWide value */}
+00294   \textcolor{comment}{/* Set NEGEDGE bits according to SDIO\_ClockEdge value */}
+00295   \textcolor{comment}{/* Set HWFC\_EN bits according to SDIO\_HardwareFlowControl value */}
+00296   tmpreg |= (SDIO\_InitStruct->SDIO_ClockDiv  | SDIO\_InitStruct->
+      SDIO_ClockPowerSave |
+00297              SDIO\_InitStruct->SDIO_ClockBypass | SDIO\_InitStruct->
+      SDIO_BusWide |
+00298              SDIO\_InitStruct->SDIO_ClockEdge | SDIO\_InitStruct->
+      SDIO_HardwareFlowControl);
+00299 
+00300   \textcolor{comment}{/* Write to SDIO CLKCR */}
+00301   SDIO->CLKCR = tmpreg;
+00302 \}
+00303 
+00304 \textcolor{comment}{/**}
+00305 \textcolor{comment}{  * @brief  Fills each SDIO\_InitStruct member with its default value.}
+00306 \textcolor{comment}{  * @param  SDIO\_InitStruct: pointer to an SDIO\_InitTypeDef structure which }
+00307 \textcolor{comment}{  *         will be initialized.}
+00308 \textcolor{comment}{  * @retval None}
+00309 \textcolor{comment}{  */}
+00310 \textcolor{keywordtype}{void} SDIO_StructInit(SDIO\_InitTypeDef* SDIO\_InitStruct)
+00311 \{
+00312   \textcolor{comment}{/* SDIO\_InitStruct members default value */}
+00313   SDIO\_InitStruct->SDIO_ClockDiv = 0x00;
+00314   SDIO\_InitStruct->SDIO_ClockEdge = SDIO_ClockEdge_Rising;
+00315   SDIO\_InitStruct->SDIO_ClockBypass = SDIO_ClockBypass_Disable;
+00316   SDIO\_InitStruct->SDIO_ClockPowerSave = SDIO_ClockPowerSave_Disable;
+00317   SDIO\_InitStruct->SDIO_BusWide = SDIO_BusWide_1b;
+00318   SDIO\_InitStruct->SDIO_HardwareFlowControl = 
+      SDIO_HardwareFlowControl_Disable;
+00319 \}
+00320 
+00321 \textcolor{comment}{/**}
+00322 \textcolor{comment}{  * @brief  Enables or disables the SDIO Clock.}
+00323 \textcolor{comment}{  * @param  NewState: new state of the SDIO Clock. }
+00324 \textcolor{comment}{  *         This parameter can be: ENABLE or DISABLE.}
+00325 \textcolor{comment}{  * @retval None}
+00326 \textcolor{comment}{  */}
+00327 \textcolor{keywordtype}{void} SDIO_ClockCmd(FunctionalState NewState)
+00328 \{
+00329   \textcolor{comment}{/* Check the parameters */}
+00330   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00331 
+00332   *(\_\_IO uint32\_t *) CLKCR_CLKEN_BB = (uint32\_t)NewState;
+00333 \}
+00334 
+00335 \textcolor{comment}{/**}
+00336 \textcolor{comment}{  * @brief  Sets the power status of the controller.}
+00337 \textcolor{comment}{  * @param  SDIO\_PowerState: new state of the Power state. }
+00338 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00339 \textcolor{comment}{  *            @arg SDIO\_PowerState\_OFF: SDIO Power OFF}
+00340 \textcolor{comment}{  *            @arg SDIO\_PowerState\_ON: SDIO Power ON}
+00341 \textcolor{comment}{  * @retval None}
+00342 \textcolor{comment}{  */}
+00343 \textcolor{keywordtype}{void} SDIO_SetPowerState(uint32\_t SDIO\_PowerState)
+00344 \{
+00345   \textcolor{comment}{/* Check the parameters */}
+00346   assert_param(IS\_SDIO\_POWER\_STATE(SDIO\_PowerState));
+00347 
+00348   SDIO->POWER = SDIO\_PowerState;
+00349 \}
+00350 
+00351 \textcolor{comment}{/**}
+00352 \textcolor{comment}{  * @brief  Gets the power status of the controller.}
+00353 \textcolor{comment}{  * @param  None}
+00354 \textcolor{comment}{  * @retval Power status of the controller. The returned value can be one of the }
+00355 \textcolor{comment}{  *         following values:}
+00356 \textcolor{comment}{  *            - 0x00: Power OFF}
+00357 \textcolor{comment}{  *            - 0x02: Power UP}
+00358 \textcolor{comment}{  *            - 0x03: Power ON }
+00359 \textcolor{comment}{  */}
+00360 uint32\_t SDIO_GetPowerState(\textcolor{keywordtype}{void})
+00361 \{
+00362   \textcolor{keywordflow}{return} (SDIO->POWER & (~PWR_PWRCTRL_MASK));
+00363 \}
+00364 
+00365 \textcolor{comment}{/**}
+00366 \textcolor{comment}{  * @\}}
+00367 \textcolor{comment}{  */}
+00368 
+00369 \textcolor{comment}{/** @defgroup SDIO\_Group2 Command path state machine (CPSM) management functions}
+00370 \textcolor{comment}{ *  @brief   Command path state machine (CPSM) management functions }
+00371 \textcolor{comment}{ *}
+00372 \textcolor{comment}{@verbatim   }
+00373 \textcolor{comment}{ ===============================================================================}
+00374 \textcolor{comment}{              Command path state machine (CPSM) management functions}
+00375 \textcolor{comment}{ ===============================================================================  }
+00376 \textcolor{comment}{}
+00377 \textcolor{comment}{  This section provide functions allowing to program and read the Command path }
+00378 \textcolor{comment}{  state machine (CPSM).}
+00379 \textcolor{comment}{}
+00380 \textcolor{comment}{@endverbatim}
+00381 \textcolor{comment}{  * @\{}
+00382 \textcolor{comment}{  */}
+00383 
+00384 \textcolor{comment}{/**}
+00385 \textcolor{comment}{  * @brief  Initializes the SDIO Command according to the specified }
+00386 \textcolor{comment}{  *         parameters in the SDIO\_CmdInitStruct and send the command.}
+00387 \textcolor{comment}{  * @param  SDIO\_CmdInitStruct : pointer to a SDIO\_CmdInitTypeDef }
+00388 \textcolor{comment}{  *         structure that contains the configuration information for the SDIO }
+00389 \textcolor{comment}{  *         command.}
+00390 \textcolor{comment}{  * @retval None}
+00391 \textcolor{comment}{  */}
+00392 \textcolor{keywordtype}{void} SDIO_SendCommand(SDIO\_CmdInitTypeDef *SDIO\_CmdInitStruct)
+00393 \{
+00394   uint32\_t tmpreg = 0;
+00395 
+00396   \textcolor{comment}{/* Check the parameters */}
+00397   assert_param(IS\_SDIO\_CMD\_INDEX(SDIO\_CmdInitStruct->SDIO\_CmdIndex));
+00398   assert_param(IS\_SDIO\_RESPONSE(SDIO\_CmdInitStruct->SDIO\_Response));
+00399   assert_param(IS\_SDIO\_WAIT(SDIO\_CmdInitStruct->SDIO\_Wait));
+00400   assert_param(IS\_SDIO\_CPSM(SDIO\_CmdInitStruct->SDIO\_CPSM));
+00401 
+00402 \textcolor{comment}{/*---------------------------- SDIO ARG Configuration ------------------------*/}
+00403   \textcolor{comment}{/* Set the SDIO Argument value */}
+00404   SDIO->ARG = SDIO\_CmdInitStruct->SDIO\_Argument;
+00405 
+00406 \textcolor{comment}{/*---------------------------- SDIO CMD Configuration ------------------------*/}
+00407   \textcolor{comment}{/* Get the SDIO CMD value */}
+00408   tmpreg = SDIO->CMD;
+00409   \textcolor{comment}{/* Clear CMDINDEX, WAITRESP, WAITINT, WAITPEND, CPSMEN bits */}
+00410   tmpreg &= CMD_CLEAR_MASK;
+00411   \textcolor{comment}{/* Set CMDINDEX bits according to SDIO\_CmdIndex value */}
+00412   \textcolor{comment}{/* Set WAITRESP bits according to SDIO\_Response value */}
+00413   \textcolor{comment}{/* Set WAITINT and WAITPEND bits according to SDIO\_Wait value */}
+00414   \textcolor{comment}{/* Set CPSMEN bits according to SDIO\_CPSM value */}
+00415   tmpreg |= (uint32\_t)SDIO\_CmdInitStruct->SDIO_CmdIndex | SDIO\_CmdInitStruct
+      ->SDIO_Response
+00416            | SDIO\_CmdInitStruct->SDIO_Wait | SDIO\_CmdInitStruct->SDIO_CPSM;
+00417 
+00418   \textcolor{comment}{/* Write to SDIO CMD */}
+00419   SDIO->CMD = tmpreg;
+00420 \}
+00421 
+00422 \textcolor{comment}{/**}
+00423 \textcolor{comment}{  * @brief  Fills each SDIO\_CmdInitStruct member with its default value.}
+00424 \textcolor{comment}{  * @param  SDIO\_CmdInitStruct: pointer to an SDIO\_CmdInitTypeDef }
+00425 \textcolor{comment}{  *         structure which will be initialized.}
+00426 \textcolor{comment}{  * @retval None}
+00427 \textcolor{comment}{  */}
+00428 \textcolor{keywordtype}{void} SDIO_CmdStructInit(SDIO\_CmdInitTypeDef* SDIO\_CmdInitStruct)
+00429 \{
+00430   \textcolor{comment}{/* SDIO\_CmdInitStruct members default value */}
+00431   SDIO\_CmdInitStruct->SDIO_Argument = 0x00;
+00432   SDIO\_CmdInitStruct->SDIO_CmdIndex = 0x00;
+00433   SDIO\_CmdInitStruct->SDIO_Response = SDIO_Response_No;
+00434   SDIO\_CmdInitStruct->SDIO_Wait = SDIO_Wait_No;
+00435   SDIO\_CmdInitStruct->SDIO_CPSM = SDIO_CPSM_Disable;
+00436 \}
+00437 
+00438 \textcolor{comment}{/**}
+00439 \textcolor{comment}{  * @brief  Returns command index of last command for which response received.}
+00440 \textcolor{comment}{  * @param  None}
+00441 \textcolor{comment}{  * @retval Returns the command index of the last command response received.}
+00442 \textcolor{comment}{  */}
+00443 uint8\_t SDIO_GetCommandResponse(\textcolor{keywordtype}{void})
+00444 \{
+00445   \textcolor{keywordflow}{return} (uint8\_t)(SDIO->RESPCMD);
+00446 \}
+00447 
+00448 \textcolor{comment}{/**}
+00449 \textcolor{comment}{  * @brief  Returns response received from the card for the last command.}
+00450 \textcolor{comment}{  * @param  SDIO\_RESP: Specifies the SDIO response register. }
+00451 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00452 \textcolor{comment}{  *            @arg SDIO\_RESP1: Response Register 1}
+00453 \textcolor{comment}{  *            @arg SDIO\_RESP2: Response Register 2}
+00454 \textcolor{comment}{  *            @arg SDIO\_RESP3: Response Register 3}
+00455 \textcolor{comment}{  *            @arg SDIO\_RESP4: Response Register 4}
+00456 \textcolor{comment}{  * @retval The Corresponding response register value.}
+00457 \textcolor{comment}{  */}
+00458 uint32\_t SDIO_GetResponse(uint32\_t SDIO\_RESP)
+00459 \{
+00460   \_\_IO uint32\_t tmp = 0;
+00461 
+00462   \textcolor{comment}{/* Check the parameters */}
+00463   assert_param(IS\_SDIO\_RESP(SDIO\_RESP));
+00464 
+00465   tmp = SDIO_RESP_ADDR + SDIO\_RESP;
+00466 
+00467   \textcolor{keywordflow}{return} (*(\_\_IO uint32\_t *) tmp);
+00468 \}
+00469 
+00470 \textcolor{comment}{/**}
+00471 \textcolor{comment}{  * @\}}
+00472 \textcolor{comment}{  */}
+00473 
+00474 \textcolor{comment}{/** @defgroup SDIO\_Group3 Data path state machine (DPSM) management functions}
+00475 \textcolor{comment}{ *  @brief   Data path state machine (DPSM) management functions}
+00476 \textcolor{comment}{ *}
+00477 \textcolor{comment}{@verbatim   }
+00478 \textcolor{comment}{ ===============================================================================}
+00479 \textcolor{comment}{              Data path state machine (DPSM) management functions}
+00480 \textcolor{comment}{ ===============================================================================  }
+00481 \textcolor{comment}{}
+00482 \textcolor{comment}{  This section provide functions allowing to program and read the Data path }
+00483 \textcolor{comment}{  state machine (DPSM).}
+00484 \textcolor{comment}{}
+00485 \textcolor{comment}{@endverbatim}
+00486 \textcolor{comment}{  * @\{}
+00487 \textcolor{comment}{  */}
+00488 
+00489 \textcolor{comment}{/**}
+00490 \textcolor{comment}{  * @brief  Initializes the SDIO data path according to the specified }
+00491 \textcolor{comment}{  *         parameters in the SDIO\_DataInitStruct.}
+00492 \textcolor{comment}{  * @param  SDIO\_DataInitStruct : pointer to a SDIO\_DataInitTypeDef structure }
+00493 \textcolor{comment}{  *         that contains the configuration information for the SDIO command.}
+00494 \textcolor{comment}{  * @retval None}
+00495 \textcolor{comment}{  */}
+00496 \textcolor{keywordtype}{void} SDIO_DataConfig(SDIO\_DataInitTypeDef* SDIO\_DataInitStruct)
+00497 \{
+00498   uint32\_t tmpreg = 0;
+00499 
+00500   \textcolor{comment}{/* Check the parameters */}
+00501   assert_param(IS\_SDIO\_DATA\_LENGTH(SDIO\_DataInitStruct->SDIO\_DataLength));
+00502   assert_param(IS\_SDIO\_BLOCK\_SIZE(SDIO\_DataInitStruct->SDIO\_DataBlockSize));
+00503   assert_param(IS\_SDIO\_TRANSFER\_DIR(SDIO\_DataInitStruct->SDIO\_TransferDir));
+00504   assert_param(IS\_SDIO\_TRANSFER\_MODE(SDIO\_DataInitStruct->SDIO\_TransferMode));
+00505   assert_param(IS\_SDIO\_DPSM(SDIO\_DataInitStruct->SDIO\_DPSM));
+00506 
+00507 \textcolor{comment}{/*---------------------------- SDIO DTIMER Configuration ---------------------*/}
+00508   \textcolor{comment}{/* Set the SDIO Data TimeOut value */}
+00509   SDIO->DTIMER = SDIO\_DataInitStruct->SDIO\_DataTimeOut;
+00510 
+00511 \textcolor{comment}{/*---------------------------- SDIO DLEN Configuration -----------------------*/}
+00512   \textcolor{comment}{/* Set the SDIO DataLength value */}
+00513   SDIO->DLEN = SDIO\_DataInitStruct->SDIO\_DataLength;
+00514 
+00515 \textcolor{comment}{/*---------------------------- SDIO DCTRL Configuration ----------------------*/}
+00516   \textcolor{comment}{/* Get the SDIO DCTRL value */}
+00517   tmpreg = SDIO->DCTRL;
+00518   \textcolor{comment}{/* Clear DEN, DTMODE, DTDIR and DBCKSIZE bits */}
+00519   tmpreg &= DCTRL_CLEAR_MASK;
+00520   \textcolor{comment}{/* Set DEN bit according to SDIO\_DPSM value */}
+00521   \textcolor{comment}{/* Set DTMODE bit according to SDIO\_TransferMode value */}
+00522   \textcolor{comment}{/* Set DTDIR bit according to SDIO\_TransferDir value */}
+00523   \textcolor{comment}{/* Set DBCKSIZE bits according to SDIO\_DataBlockSize value */}
+00524   tmpreg |= (uint32\_t)SDIO\_DataInitStruct->SDIO_DataBlockSize | SDIO\_DataInitStruct
+      ->SDIO_TransferDir
+00525            | SDIO\_DataInitStruct->SDIO_TransferMode | SDIO\_DataInitStruct->
+      SDIO_DPSM;
+00526 
+00527   \textcolor{comment}{/* Write to SDIO DCTRL */}
+00528   SDIO->DCTRL = tmpreg;
+00529 \}
+00530 
+00531 \textcolor{comment}{/**}
+00532 \textcolor{comment}{  * @brief  Fills each SDIO\_DataInitStruct member with its default value.}
+00533 \textcolor{comment}{  * @param  SDIO\_DataInitStruct: pointer to an SDIO\_DataInitTypeDef structure }
+00534 \textcolor{comment}{  *         which will be initialized.}
+00535 \textcolor{comment}{  * @retval None}
+00536 \textcolor{comment}{  */}
+00537 \textcolor{keywordtype}{void} SDIO_DataStructInit(SDIO\_DataInitTypeDef* SDIO\_DataInitStruct)
+00538 \{
+00539   \textcolor{comment}{/* SDIO\_DataInitStruct members default value */}
+00540   SDIO\_DataInitStruct->SDIO_DataTimeOut = 0xFFFFFFFF;
+00541   SDIO\_DataInitStruct->SDIO_DataLength = 0x00;
+00542   SDIO\_DataInitStruct->SDIO_DataBlockSize = SDIO_DataBlockSize_1b;
+00543   SDIO\_DataInitStruct->SDIO_TransferDir = SDIO_TransferDir_ToCard;
+00544   SDIO\_DataInitStruct->SDIO_TransferMode = SDIO_TransferMode_Block;
+00545   SDIO\_DataInitStruct->SDIO_DPSM = SDIO_DPSM_Disable;
+00546 \}
+00547 
+00548 \textcolor{comment}{/**}
+00549 \textcolor{comment}{  * @brief  Returns number of remaining data bytes to be transferred.}
+00550 \textcolor{comment}{  * @param  None}
+00551 \textcolor{comment}{  * @retval Number of remaining data bytes to be transferred}
+00552 \textcolor{comment}{  */}
+00553 uint32\_t SDIO_GetDataCounter(\textcolor{keywordtype}{void})
+00554 \{
+00555   \textcolor{keywordflow}{return} SDIO->DCOUNT;
+00556 \}
+00557 
+00558 \textcolor{comment}{/**}
+00559 \textcolor{comment}{  * @brief  Read one data word from Rx FIFO.}
+00560 \textcolor{comment}{  * @param  None}
+00561 \textcolor{comment}{  * @retval Data received}
+00562 \textcolor{comment}{  */}
+00563 uint32\_t SDIO_ReadData(\textcolor{keywordtype}{void})
+00564 \{
+00565   \textcolor{keywordflow}{return} SDIO->FIFO;
+00566 \}
+00567 
+00568 \textcolor{comment}{/**}
+00569 \textcolor{comment}{  * @brief  Write one data word to Tx FIFO.}
+00570 \textcolor{comment}{  * @param  Data: 32-bit data word to write.}
+00571 \textcolor{comment}{  * @retval None}
+00572 \textcolor{comment}{  */}
+00573 \textcolor{keywordtype}{void} SDIO_WriteData(uint32\_t Data)
+00574 \{
+00575   SDIO->FIFO = Data;
+00576 \}
+00577 
+00578 \textcolor{comment}{/**}
+00579 \textcolor{comment}{  * @brief  Returns the number of words left to be written to or read from FIFO.    }
+00580 \textcolor{comment}{  * @param  None}
+00581 \textcolor{comment}{  * @retval Remaining number of words.}
+00582 \textcolor{comment}{  */}
+00583 uint32\_t SDIO_GetFIFOCount(\textcolor{keywordtype}{void})
+00584 \{
+00585   \textcolor{keywordflow}{return} SDIO->FIFOCNT;
+00586 \}
+00587 
+00588 \textcolor{comment}{/**}
+00589 \textcolor{comment}{  * @\}}
+00590 \textcolor{comment}{  */}
+00591 
+00592 \textcolor{comment}{/** @defgroup SDIO\_Group4 SDIO IO Cards mode management functions}
+00593 \textcolor{comment}{ *  @brief   SDIO IO Cards mode management functions}
+00594 \textcolor{comment}{ *}
+00595 \textcolor{comment}{@verbatim   }
+00596 \textcolor{comment}{ ===============================================================================}
+00597 \textcolor{comment}{              SDIO IO Cards mode management functions}
+00598 \textcolor{comment}{ ===============================================================================  }
+00599 \textcolor{comment}{}
+00600 \textcolor{comment}{  This section provide functions allowing to program and read the SDIO IO Cards.}
+00601 \textcolor{comment}{}
+00602 \textcolor{comment}{@endverbatim}
+00603 \textcolor{comment}{  * @\{}
+00604 \textcolor{comment}{  */}
+00605 
+00606 \textcolor{comment}{/**}
+00607 \textcolor{comment}{  * @brief  Starts the SD I/O Read Wait operation.  }
+00608 \textcolor{comment}{  * @param  NewState: new state of the Start SDIO Read Wait operation. }
+00609 \textcolor{comment}{  *         This parameter can be: ENABLE or DISABLE.}
+00610 \textcolor{comment}{  * @retval None}
+00611 \textcolor{comment}{  */}
+00612 \textcolor{keywordtype}{void} SDIO_StartSDIOReadWait(FunctionalState NewState)
+00613 \{
+00614   \textcolor{comment}{/* Check the parameters */}
+00615   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00616 
+00617   *(\_\_IO uint32\_t *) DCTRL_RWSTART_BB = (uint32\_t) NewState;
+00618 \}
+00619 
+00620 \textcolor{comment}{/**}
+00621 \textcolor{comment}{  * @brief  Stops the SD I/O Read Wait operation.   }
+00622 \textcolor{comment}{  * @param  NewState: new state of the Stop SDIO Read Wait operation. }
+00623 \textcolor{comment}{  *         This parameter can be: ENABLE or DISABLE.}
+00624 \textcolor{comment}{  * @retval None}
+00625 \textcolor{comment}{  */}
+00626 \textcolor{keywordtype}{void} SDIO_StopSDIOReadWait(FunctionalState NewState)
+00627 \{
+00628   \textcolor{comment}{/* Check the parameters */}
+00629   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00630 
+00631   *(\_\_IO uint32\_t *) DCTRL_RWSTOP_BB = (uint32\_t) NewState;
+00632 \}
+00633 
+00634 \textcolor{comment}{/**}
+00635 \textcolor{comment}{  * @brief  Sets one of the two options of inserting read wait interval.}
+00636 \textcolor{comment}{  * @param  SDIO\_ReadWaitMode: SD I/O Read Wait operation mode.}
+00637 \textcolor{comment}{  *          This parameter can be:}
+00638 \textcolor{comment}{  *            @arg SDIO\_ReadWaitMode\_CLK: Read Wait control by stopping SDIOCLK}
+00639 \textcolor{comment}{  *            @arg SDIO\_ReadWaitMode\_DATA2: Read Wait control using SDIO\_DATA2}
+00640 \textcolor{comment}{  * @retval None}
+00641 \textcolor{comment}{  */}
+00642 \textcolor{keywordtype}{void} SDIO_SetSDIOReadWaitMode(uint32\_t SDIO\_ReadWaitMode)
+00643 \{
+00644   \textcolor{comment}{/* Check the parameters */}
+00645   assert_param(IS\_SDIO\_READWAIT\_MODE(SDIO\_ReadWaitMode));
+00646 
+00647   *(\_\_IO uint32\_t *) DCTRL_RWMOD_BB = SDIO\_ReadWaitMode;
+00648 \}
+00649 
+00650 \textcolor{comment}{/**}
+00651 \textcolor{comment}{  * @brief  Enables or disables the SD I/O Mode Operation.}
+00652 \textcolor{comment}{  * @param  NewState: new state of SDIO specific operation. }
+00653 \textcolor{comment}{  *         This parameter can be: ENABLE or DISABLE.}
+00654 \textcolor{comment}{  * @retval None}
+00655 \textcolor{comment}{  */}
+00656 \textcolor{keywordtype}{void} SDIO_SetSDIOOperation(FunctionalState NewState)
+00657 \{
+00658   \textcolor{comment}{/* Check the parameters */}
+00659   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00660 
+00661   *(\_\_IO uint32\_t *) DCTRL_SDIOEN_BB = (uint32\_t)NewState;
+00662 \}
+00663 
+00664 \textcolor{comment}{/**}
+00665 \textcolor{comment}{  * @brief  Enables or disables the SD I/O Mode suspend command sending.}
+00666 \textcolor{comment}{  * @param  NewState: new state of the SD I/O Mode suspend command.}
+00667 \textcolor{comment}{  *         This parameter can be: ENABLE or DISABLE.}
+00668 \textcolor{comment}{  * @retval None}
+00669 \textcolor{comment}{  */}
+00670 \textcolor{keywordtype}{void} SDIO_SendSDIOSuspendCmd(FunctionalState NewState)
+00671 \{
+00672   \textcolor{comment}{/* Check the parameters */}
+00673   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00674 
+00675   *(\_\_IO uint32\_t *) CMD_SDIOSUSPEND_BB = (uint32\_t)NewState;
+00676 \}
+00677 
+00678 \textcolor{comment}{/**}
+00679 \textcolor{comment}{  * @\}}
+00680 \textcolor{comment}{  */}
+00681 
+00682 \textcolor{comment}{/** @defgroup SDIO\_Group5 CE-ATA mode management functions}
+00683 \textcolor{comment}{ *  @brief   CE-ATA mode management functions}
+00684 \textcolor{comment}{ *}
+00685 \textcolor{comment}{@verbatim   }
+00686 \textcolor{comment}{ ===============================================================================}
+00687 \textcolor{comment}{              CE-ATA mode management functions}
+00688 \textcolor{comment}{ ===============================================================================  }
+00689 \textcolor{comment}{}
+00690 \textcolor{comment}{  This section provide functions allowing to program and read the CE-ATA card.}
+00691 \textcolor{comment}{}
+00692 \textcolor{comment}{@endverbatim}
+00693 \textcolor{comment}{  * @\{}
+00694 \textcolor{comment}{  */}
+00695 
+00696 \textcolor{comment}{/**}
+00697 \textcolor{comment}{  * @brief  Enables or disables the command completion signal.}
+00698 \textcolor{comment}{  * @param  NewState: new state of command completion signal. }
+00699 \textcolor{comment}{  *         This parameter can be: ENABLE or DISABLE.}
+00700 \textcolor{comment}{  * @retval None}
+00701 \textcolor{comment}{  */}
+00702 \textcolor{keywordtype}{void} SDIO_CommandCompletionCmd(FunctionalState NewState)
+00703 \{
+00704   \textcolor{comment}{/* Check the parameters */}
+00705   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00706 
+00707   *(\_\_IO uint32\_t *) CMD_ENCMDCOMPL_BB = (uint32\_t)NewState;
+00708 \}
+00709 
+00710 \textcolor{comment}{/**}
+00711 \textcolor{comment}{  * @brief  Enables or disables the CE-ATA interrupt.}
+00712 \textcolor{comment}{  * @param  NewState: new state of CE-ATA interrupt. }
+00713 \textcolor{comment}{  *         This parameter can be: ENABLE or DISABLE.}
+00714 \textcolor{comment}{  * @retval None}
+00715 \textcolor{comment}{  */}
+00716 \textcolor{keywordtype}{void} SDIO_CEATAITCmd(FunctionalState NewState)
+00717 \{
+00718   \textcolor{comment}{/* Check the parameters */}
+00719   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00720 
+00721   *(\_\_IO uint32\_t *) CMD_NIEN_BB = (uint32\_t)((~((uint32\_t)NewState)) & ((uint32\_t)0x1));
+00722 \}
+00723 
+00724 \textcolor{comment}{/**}
+00725 \textcolor{comment}{  * @brief  Sends CE-ATA command (CMD61).}
+00726 \textcolor{comment}{  * @param  NewState: new state of CE-ATA command. }
+00727 \textcolor{comment}{  *         This parameter can be: ENABLE or DISABLE.}
+00728 \textcolor{comment}{  * @retval None}
+00729 \textcolor{comment}{  */}
+00730 \textcolor{keywordtype}{void} SDIO_SendCEATACmd(FunctionalState NewState)
+00731 \{
+00732   \textcolor{comment}{/* Check the parameters */}
+00733   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00734 
+00735   *(\_\_IO uint32\_t *) CMD_ATACMD_BB = (uint32\_t)NewState;
+00736 \}
+00737 
+00738 \textcolor{comment}{/**}
+00739 \textcolor{comment}{  * @\}}
+00740 \textcolor{comment}{  */}
+00741 
+00742 \textcolor{comment}{/** @defgroup SDIO\_Group6 DMA transfers management functions}
+00743 \textcolor{comment}{ *  @brief   DMA transfers management functions}
+00744 \textcolor{comment}{ *}
+00745 \textcolor{comment}{@verbatim   }
+00746 \textcolor{comment}{ ===============================================================================}
+00747 \textcolor{comment}{              DMA transfers management functions}
+00748 \textcolor{comment}{ ===============================================================================  }
+00749 \textcolor{comment}{}
+00750 \textcolor{comment}{  This section provide functions allowing to program SDIO DMA transfer.}
+00751 \textcolor{comment}{}
+00752 \textcolor{comment}{@endverbatim}
+00753 \textcolor{comment}{  * @\{}
+00754 \textcolor{comment}{  */}
+00755 
+00756 \textcolor{comment}{/**}
+00757 \textcolor{comment}{  * @brief  Enables or disables the SDIO DMA request.}
+00758 \textcolor{comment}{  * @param  NewState: new state of the selected SDIO DMA request.}
+00759 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00760 \textcolor{comment}{  * @retval None}
+00761 \textcolor{comment}{  */}
+00762 \textcolor{keywordtype}{void} SDIO_DMACmd(FunctionalState NewState)
+00763 \{
+00764   \textcolor{comment}{/* Check the parameters */}
+00765   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00766 
+00767   *(\_\_IO uint32\_t *) DCTRL_DMAEN_BB = (uint32\_t)NewState;
+00768 \}
+00769 
+00770 \textcolor{comment}{/**}
+00771 \textcolor{comment}{  * @\}}
+00772 \textcolor{comment}{  */}
+00773 
+00774 \textcolor{comment}{/** @defgroup SDIO\_Group7 Interrupts and flags management functions}
+00775 \textcolor{comment}{ *  @brief   Interrupts and flags management functions  }
+00776 \textcolor{comment}{ *}
+00777 \textcolor{comment}{@verbatim   }
+00778 \textcolor{comment}{ ===============================================================================}
+00779 \textcolor{comment}{                       Interrupts and flags management functions}
+00780 \textcolor{comment}{ ===============================================================================  }
+00781 \textcolor{comment}{}
+00782 \textcolor{comment}{}
+00783 \textcolor{comment}{@endverbatim}
+00784 \textcolor{comment}{  * @\{}
+00785 \textcolor{comment}{  */}
+00786 
+00787 \textcolor{comment}{/**}
+00788 \textcolor{comment}{  * @brief  Enables or disables the SDIO interrupts.}
+00789 \textcolor{comment}{  * @param  SDIO\_IT: specifies the SDIO interrupt sources to be enabled or disabled.}
+00790 \textcolor{comment}{  *          This parameter can be one or a combination of the following values:}
+00791 \textcolor{comment}{  *            @arg SDIO\_IT\_CCRCFAIL: Command response received (CRC check failed) interrupt}
+00792 \textcolor{comment}{  *            @arg SDIO\_IT\_DCRCFAIL: Data block sent/received (CRC check failed) interrupt}
+00793 \textcolor{comment}{  *            @arg SDIO\_IT\_CTIMEOUT: Command response timeout interrupt}
+00794 \textcolor{comment}{  *            @arg SDIO\_IT\_DTIMEOUT: Data timeout interrupt}
+00795 \textcolor{comment}{  *            @arg SDIO\_IT\_TXUNDERR: Transmit FIFO underrun error interrupt}
+00796 \textcolor{comment}{  *            @arg SDIO\_IT\_RXOVERR:  Received FIFO overrun error interrupt}
+00797 \textcolor{comment}{  *            @arg SDIO\_IT\_CMDREND:  Command response received (CRC check passed) interrupt}
+00798 \textcolor{comment}{  *            @arg SDIO\_IT\_CMDSENT:  Command sent (no response required) interrupt}
+00799 \textcolor{comment}{  *            @arg SDIO\_IT\_DATAEND:  Data end (data counter, SDIDCOUNT, is zero) interrupt}
+00800 \textcolor{comment}{  *            @arg SDIO\_IT\_STBITERR: Start bit not detected on all data signals in wide }
+00801 \textcolor{comment}{  *                                   bus mode interrupt}
+00802 \textcolor{comment}{  *            @arg SDIO\_IT\_DBCKEND:  Data block sent/received (CRC check passed) interrupt}
+00803 \textcolor{comment}{  *            @arg SDIO\_IT\_CMDACT:   Command transfer in progress interrupt}
+00804 \textcolor{comment}{  *            @arg SDIO\_IT\_TXACT:    Data transmit in progress interrupt}
+00805 \textcolor{comment}{  *            @arg SDIO\_IT\_RXACT:    Data receive in progress interrupt}
+00806 \textcolor{comment}{  *            @arg SDIO\_IT\_TXFIFOHE: Transmit FIFO Half Empty interrupt}
+00807 \textcolor{comment}{  *            @arg SDIO\_IT\_RXFIFOHF: Receive FIFO Half Full interrupt}
+00808 \textcolor{comment}{  *            @arg SDIO\_IT\_TXFIFOF:  Transmit FIFO full interrupt}
+00809 \textcolor{comment}{  *            @arg SDIO\_IT\_RXFIFOF:  Receive FIFO full interrupt}
+00810 \textcolor{comment}{  *            @arg SDIO\_IT\_TXFIFOE:  Transmit FIFO empty interrupt}
+00811 \textcolor{comment}{  *            @arg SDIO\_IT\_RXFIFOE:  Receive FIFO empty interrupt}
+00812 \textcolor{comment}{  *            @arg SDIO\_IT\_TXDAVL:   Data available in transmit FIFO interrupt}
+00813 \textcolor{comment}{  *            @arg SDIO\_IT\_RXDAVL:   Data available in receive FIFO interrupt}
+00814 \textcolor{comment}{  *            @arg SDIO\_IT\_SDIOIT:   SD I/O interrupt received interrupt}
+00815 \textcolor{comment}{  *            @arg SDIO\_IT\_CEATAEND: CE-ATA command completion signal received for CMD61 interrupt}
+00816 \textcolor{comment}{  * @param  NewState: new state of the specified SDIO interrupts.}
+00817 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00818 \textcolor{comment}{  * @retval None }
+00819 \textcolor{comment}{  */}
+00820 \textcolor{keywordtype}{void} SDIO_ITConfig(uint32\_t SDIO\_IT, FunctionalState NewState)
+00821 \{
+00822   \textcolor{comment}{/* Check the parameters */}
+00823   assert_param(IS\_SDIO\_IT(SDIO\_IT));
+00824   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00825 
+00826   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00827   \{
+00828     \textcolor{comment}{/* Enable the SDIO interrupts */}
+00829     SDIO->MASK |= SDIO\_IT;
+00830   \}
+00831   \textcolor{keywordflow}{else}
+00832   \{
+00833     \textcolor{comment}{/* Disable the SDIO interrupts */}
+00834     SDIO->MASK &= ~SDIO\_IT;
+00835   \}
+00836 \}
+00837 
+00838 \textcolor{comment}{/**}
+00839 \textcolor{comment}{  * @brief  Checks whether the specified SDIO flag is set or not.}
+00840 \textcolor{comment}{  * @param  SDIO\_FLAG: specifies the flag to check. }
+00841 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00842 \textcolor{comment}{  *            @arg SDIO\_FLAG\_CCRCFAIL: Command response received (CRC check failed)}
+00843 \textcolor{comment}{  *            @arg SDIO\_FLAG\_DCRCFAIL: Data block sent/received (CRC check failed)}
+00844 \textcolor{comment}{  *            @arg SDIO\_FLAG\_CTIMEOUT: Command response timeout}
+00845 \textcolor{comment}{  *            @arg SDIO\_FLAG\_DTIMEOUT: Data timeout}
+00846 \textcolor{comment}{  *            @arg SDIO\_FLAG\_TXUNDERR: Transmit FIFO underrun error}
+00847 \textcolor{comment}{  *            @arg SDIO\_FLAG\_RXOVERR:  Received FIFO overrun error}
+00848 \textcolor{comment}{  *            @arg SDIO\_FLAG\_CMDREND:  Command response received (CRC check passed)}
+00849 \textcolor{comment}{  *            @arg SDIO\_FLAG\_CMDSENT:  Command sent (no response required)}
+00850 \textcolor{comment}{  *            @arg SDIO\_FLAG\_DATAEND:  Data end (data counter, SDIDCOUNT, is zero)}
+00851 \textcolor{comment}{  *            @arg SDIO\_FLAG\_STBITERR: Start bit not detected on all data signals in wide bus mode.}
+00852 \textcolor{comment}{  *            @arg SDIO\_FLAG\_DBCKEND:  Data block sent/received (CRC check passed)}
+00853 \textcolor{comment}{  *            @arg SDIO\_FLAG\_CMDACT:   Command transfer in progress}
+00854 \textcolor{comment}{  *            @arg SDIO\_FLAG\_TXACT:    Data transmit in progress}
+00855 \textcolor{comment}{  *            @arg SDIO\_FLAG\_RXACT:    Data receive in progress}
+00856 \textcolor{comment}{  *            @arg SDIO\_FLAG\_TXFIFOHE: Transmit FIFO Half Empty}
+00857 \textcolor{comment}{  *            @arg SDIO\_FLAG\_RXFIFOHF: Receive FIFO Half Full}
+00858 \textcolor{comment}{  *            @arg SDIO\_FLAG\_TXFIFOF:  Transmit FIFO full}
+00859 \textcolor{comment}{  *            @arg SDIO\_FLAG\_RXFIFOF:  Receive FIFO full}
+00860 \textcolor{comment}{  *            @arg SDIO\_FLAG\_TXFIFOE:  Transmit FIFO empty}
+00861 \textcolor{comment}{  *            @arg SDIO\_FLAG\_RXFIFOE:  Receive FIFO empty}
+00862 \textcolor{comment}{  *            @arg SDIO\_FLAG\_TXDAVL:   Data available in transmit FIFO}
+00863 \textcolor{comment}{  *            @arg SDIO\_FLAG\_RXDAVL:   Data available in receive FIFO}
+00864 \textcolor{comment}{  *            @arg SDIO\_FLAG\_SDIOIT:   SD I/O interrupt received}
+00865 \textcolor{comment}{  *            @arg SDIO\_FLAG\_CEATAEND: CE-ATA command completion signal received for CMD61}
+00866 \textcolor{comment}{  * @retval The new state of SDIO\_FLAG (SET or RESET).}
+00867 \textcolor{comment}{  */}
+00868 FlagStatus SDIO_GetFlagStatus(uint32\_t SDIO\_FLAG)
+00869 \{
+00870   FlagStatus bitstatus = RESET;
+00871 
+00872   \textcolor{comment}{/* Check the parameters */}
+00873   assert_param(IS\_SDIO\_FLAG(SDIO\_FLAG));
+00874 
+00875   \textcolor{keywordflow}{if} ((SDIO->STA & SDIO\_FLAG) != (uint32\_t)RESET)
+00876   \{
+00877     bitstatus = SET;
+00878   \}
+00879   \textcolor{keywordflow}{else}
+00880   \{
+00881     bitstatus = RESET;
+00882   \}
+00883   \textcolor{keywordflow}{return} bitstatus;
+00884 \}
+00885 
+00886 \textcolor{comment}{/**}
+00887 \textcolor{comment}{  * @brief  Clears the SDIO's pending flags.}
+00888 \textcolor{comment}{  * @param  SDIO\_FLAG: specifies the flag to clear.  }
+00889 \textcolor{comment}{  *          This parameter can be one or a combination of the following values:}
+00890 \textcolor{comment}{  *            @arg SDIO\_FLAG\_CCRCFAIL: Command response received (CRC check failed)}
+00891 \textcolor{comment}{  *            @arg SDIO\_FLAG\_DCRCFAIL: Data block sent/received (CRC check failed)}
+00892 \textcolor{comment}{  *            @arg SDIO\_FLAG\_CTIMEOUT: Command response timeout}
+00893 \textcolor{comment}{  *            @arg SDIO\_FLAG\_DTIMEOUT: Data timeout}
+00894 \textcolor{comment}{  *            @arg SDIO\_FLAG\_TXUNDERR: Transmit FIFO underrun error}
+00895 \textcolor{comment}{  *            @arg SDIO\_FLAG\_RXOVERR:  Received FIFO overrun error}
+00896 \textcolor{comment}{  *            @arg SDIO\_FLAG\_CMDREND:  Command response received (CRC check passed)}
+00897 \textcolor{comment}{  *            @arg SDIO\_FLAG\_CMDSENT:  Command sent (no response required)}
+00898 \textcolor{comment}{  *            @arg SDIO\_FLAG\_DATAEND:  Data end (data counter, SDIDCOUNT, is zero)}
+00899 \textcolor{comment}{  *            @arg SDIO\_FLAG\_STBITERR: Start bit not detected on all data signals in wide bus mode}
+00900 \textcolor{comment}{  *            @arg SDIO\_FLAG\_DBCKEND:  Data block sent/received (CRC check passed)}
+00901 \textcolor{comment}{  *            @arg SDIO\_FLAG\_SDIOIT:   SD I/O interrupt received}
+00902 \textcolor{comment}{  *            @arg SDIO\_FLAG\_CEATAEND: CE-ATA command completion signal received for CMD61}
+00903 \textcolor{comment}{  * @retval None}
+00904 \textcolor{comment}{  */}
+00905 \textcolor{keywordtype}{void} SDIO_ClearFlag(uint32\_t SDIO\_FLAG)
+00906 \{
+00907   \textcolor{comment}{/* Check the parameters */}
+00908   assert_param(IS\_SDIO\_CLEAR\_FLAG(SDIO\_FLAG));
+00909 
+00910   SDIO->ICR = SDIO\_FLAG;
+00911 \}
+00912 
+00913 \textcolor{comment}{/**}
+00914 \textcolor{comment}{  * @brief  Checks whether the specified SDIO interrupt has occurred or not.}
+00915 \textcolor{comment}{  * @param  SDIO\_IT: specifies the SDIO interrupt source to check. }
+00916 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00917 \textcolor{comment}{  *            @arg SDIO\_IT\_CCRCFAIL: Command response received (CRC check failed) interrupt}
+00918 \textcolor{comment}{  *            @arg SDIO\_IT\_DCRCFAIL: Data block sent/received (CRC check failed) interrupt}
+00919 \textcolor{comment}{  *            @arg SDIO\_IT\_CTIMEOUT: Command response timeout interrupt}
+00920 \textcolor{comment}{  *            @arg SDIO\_IT\_DTIMEOUT: Data timeout interrupt}
+00921 \textcolor{comment}{  *            @arg SDIO\_IT\_TXUNDERR: Transmit FIFO underrun error interrupt}
+00922 \textcolor{comment}{  *            @arg SDIO\_IT\_RXOVERR:  Received FIFO overrun error interrupt}
+00923 \textcolor{comment}{  *            @arg SDIO\_IT\_CMDREND:  Command response received (CRC check passed) interrupt}
+00924 \textcolor{comment}{  *            @arg SDIO\_IT\_CMDSENT:  Command sent (no response required) interrupt}
+00925 \textcolor{comment}{  *            @arg SDIO\_IT\_DATAEND:  Data end (data counter, SDIDCOUNT, is zero) interrupt}
+00926 \textcolor{comment}{  *            @arg SDIO\_IT\_STBITERR: Start bit not detected on all data signals in wide }
+00927 \textcolor{comment}{  *                                   bus mode interrupt}
+00928 \textcolor{comment}{  *            @arg SDIO\_IT\_DBCKEND:  Data block sent/received (CRC check passed) interrupt}
+00929 \textcolor{comment}{  *            @arg SDIO\_IT\_CMDACT:   Command transfer in progress interrupt}
+00930 \textcolor{comment}{  *            @arg SDIO\_IT\_TXACT:    Data transmit in progress interrupt}
+00931 \textcolor{comment}{  *            @arg SDIO\_IT\_RXACT:    Data receive in progress interrupt}
+00932 \textcolor{comment}{  *            @arg SDIO\_IT\_TXFIFOHE: Transmit FIFO Half Empty interrupt}
+00933 \textcolor{comment}{  *            @arg SDIO\_IT\_RXFIFOHF: Receive FIFO Half Full interrupt}
+00934 \textcolor{comment}{  *            @arg SDIO\_IT\_TXFIFOF:  Transmit FIFO full interrupt}
+00935 \textcolor{comment}{  *            @arg SDIO\_IT\_RXFIFOF:  Receive FIFO full interrupt}
+00936 \textcolor{comment}{  *            @arg SDIO\_IT\_TXFIFOE:  Transmit FIFO empty interrupt}
+00937 \textcolor{comment}{  *            @arg SDIO\_IT\_RXFIFOE:  Receive FIFO empty interrupt}
+00938 \textcolor{comment}{  *            @arg SDIO\_IT\_TXDAVL:   Data available in transmit FIFO interrupt}
+00939 \textcolor{comment}{  *            @arg SDIO\_IT\_RXDAVL:   Data available in receive FIFO interrupt}
+00940 \textcolor{comment}{  *            @arg SDIO\_IT\_SDIOIT:   SD I/O interrupt received interrupt}
+00941 \textcolor{comment}{  *            @arg SDIO\_IT\_CEATAEND: CE-ATA command completion signal received for CMD61 interrupt}
+00942 \textcolor{comment}{  * @retval The new state of SDIO\_IT (SET or RESET).}
+00943 \textcolor{comment}{  */}
+00944 ITStatus SDIO_GetITStatus(uint32\_t SDIO\_IT)
+00945 \{
+00946   ITStatus bitstatus = RESET;
+00947 
+00948   \textcolor{comment}{/* Check the parameters */}
+00949   assert_param(IS\_SDIO\_GET\_IT(SDIO\_IT));
+00950   \textcolor{keywordflow}{if} ((SDIO->STA & SDIO\_IT) != (uint32\_t)RESET)
+00951   \{
+00952     bitstatus = SET;
+00953   \}
+00954   \textcolor{keywordflow}{else}
+00955   \{
+00956     bitstatus = RESET;
+00957   \}
+00958   \textcolor{keywordflow}{return} bitstatus;
+00959 \}
+00960 
+00961 \textcolor{comment}{/**}
+00962 \textcolor{comment}{  * @brief  Clears the SDIO's interrupt pending bits.}
+00963 \textcolor{comment}{  * @param  SDIO\_IT: specifies the interrupt pending bit to clear. }
+00964 \textcolor{comment}{  *          This parameter can be one or a combination of the following values:}
+00965 \textcolor{comment}{  *            @arg SDIO\_IT\_CCRCFAIL: Command response received (CRC check failed) interrupt}
+00966 \textcolor{comment}{  *            @arg SDIO\_IT\_DCRCFAIL: Data block sent/received (CRC check failed) interrupt}
+00967 \textcolor{comment}{  *            @arg SDIO\_IT\_CTIMEOUT: Command response timeout interrupt}
+00968 \textcolor{comment}{  *            @arg SDIO\_IT\_DTIMEOUT: Data timeout interrupt}
+00969 \textcolor{comment}{  *            @arg SDIO\_IT\_TXUNDERR: Transmit FIFO underrun error interrupt}
+00970 \textcolor{comment}{  *            @arg SDIO\_IT\_RXOVERR:  Received FIFO overrun error interrupt}
+00971 \textcolor{comment}{  *            @arg SDIO\_IT\_CMDREND:  Command response received (CRC check passed) interrupt}
+00972 \textcolor{comment}{  *            @arg SDIO\_IT\_CMDSENT:  Command sent (no response required) interrupt}
+00973 \textcolor{comment}{  *            @arg SDIO\_IT\_DATAEND:  Data end (data counter, SDIO\_DCOUNT, is zero) interrupt}
+00974 \textcolor{comment}{  *            @arg SDIO\_IT\_STBITERR: Start bit not detected on all data signals in wide }
+00975 \textcolor{comment}{  *                                   bus mode interrupt}
+00976 \textcolor{comment}{  *            @arg SDIO\_IT\_SDIOIT:   SD I/O interrupt received interrupt}
+00977 \textcolor{comment}{  *            @arg SDIO\_IT\_CEATAEND: CE-ATA command completion signal received for CMD61}
+00978 \textcolor{comment}{  * @retval None}
+00979 \textcolor{comment}{  */}
+00980 \textcolor{keywordtype}{void} SDIO_ClearITPendingBit(uint32\_t SDIO\_IT)
+00981 \{
+00982   \textcolor{comment}{/* Check the parameters */}
+00983   assert_param(IS\_SDIO\_CLEAR\_IT(SDIO\_IT));
+00984 
+00985   SDIO->ICR = SDIO\_IT;
+00986 \}
+00987 
+00988 \textcolor{comment}{/**}
+00989 \textcolor{comment}{  * @\}}
+00990 \textcolor{comment}{  */}
+00991 
+00992 \textcolor{comment}{/**}
+00993 \textcolor{comment}{  * @\}}
+00994 \textcolor{comment}{  */}
+00995 
+00996 \textcolor{comment}{/**}
+00997 \textcolor{comment}{  * @\}}
+00998 \textcolor{comment}{  */}
+00999 
+01000 \textcolor{comment}{/**}
+01001 \textcolor{comment}{  * @\}}
+01002 \textcolor{comment}{  */}
+01003 
+01004 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

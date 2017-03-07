@@ -1,0 +1,141 @@
+\section{Ir\+DA mode functions}
+\label{group__USART__Group7}\index{Ir\+D\+A mode functions@{Ir\+D\+A mode functions}}
+
+
+Ir\+DA mode functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Config} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, uint16\+\_\+t U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Mode)
+\begin{DoxyCompactList}\small\item\em Configures the U\+S\+A\+RT\textquotesingle{}s Ir\+DA interface. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Cmd} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\+S\+A\+RT\textquotesingle{}s Ir\+DA interface. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Ir\+DA mode functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                                IrDA mode functions
+ ===============================================================================  
+
+  This subsection provides a set of functions allowing to manage the USART 
+  IrDA communication.
+  
+  IrDA is a half duplex communication protocol. If the Transmitter is busy, any data
+  on the IrDA receive line will be ignored by the IrDA decoder and if the Receiver 
+  is busy, data on the TX from the USART to IrDA will not be encoded by IrDA.
+  While receiving data, transmission should be avoided as the data to be transmitted
+  could be corrupted.
+
+  IrDA communication is possible through the following procedure:
+     1. Program the Baud rate, Word length = 8 bits, Stop bits, Parity, Transmitter/Receiver 
+        modes and hardware flow control values using the USART_Init() function.
+     2. Enable the USART using the USART_Cmd() function.
+     3. Configures the IrDA pulse width by configuring the prescaler using  
+        the USART_SetPrescaler() function.
+     4. Configures the IrDA  USART_IrDAMode_LowPower or USART_IrDAMode_Normal mode
+        using the USART_IrDAConfig() function.
+     5. Enable the IrDA using the USART_IrDACmd() function.
+
+@note A pulse of width less than two and greater than one PSC period(s) may or may
+      not be rejected.
+@note The receiver set up time should be managed by software. The IrDA physical layer
+      specification specifies a minimum of 10 ms delay between transmission and 
+      reception (IrDA is a half duplex protocol).
+@note In IrDA mode, the following bits must be kept cleared:
+        - LINEN, STOP and CLKEN bits in the USART_CR2 register.
+        - SCEN and HDSEL bits in the USART_CR3 register.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__USART__Group7_gabff56ebb494fdfadcc6ef4fe9ac8dd24}} 
+\index{Ir\+D\+A mode functions@{Ir\+D\+A mode functions}!U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Cmd@{U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Cmd}}
+\index{U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Cmd@{U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Cmd}!Ir\+D\+A mode functions@{Ir\+D\+A mode functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Cmd()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the U\+S\+A\+RT\textquotesingle{}s Ir\+DA interface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3, 4, 5 or 6 to select the U\+S\+A\+RT or U\+A\+RT peripheral. \\
+\hline
+{\em New\+State} & new state of the Ir\+DA mode. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1034} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+01035 \{
+01036   \textcolor{comment}{/* Check the parameters */}
+01037   assert_param(IS_USART_ALL_PERIPH(USARTx));
+01038   assert_param(IS_FUNCTIONAL_STATE(NewState));
+01039     
+01040   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01041   \{
+01042     \textcolor{comment}{/* Enable the IrDA mode by setting the IREN bit in the CR3 register */}
+01043     USARTx->CR3 |= USART_CR3_IREN;
+01044   \}
+01045   \textcolor{keywordflow}{else}
+01046   \{
+01047     \textcolor{comment}{/* Disable the IrDA mode by clearing the IREN bit in the CR3 register */}
+01048     USARTx->CR3 &= (uint16\_t)~((uint16\_t)USART_CR3_IREN);
+01049   \}
+01050 \}
+\end{DoxyCode}
+\mbox{\label{group__USART__Group7_ga81a0cd36199040bf6d266b57babd678e}} 
+\index{Ir\+D\+A mode functions@{Ir\+D\+A mode functions}!U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Config@{U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Config}}
+\index{U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Config@{U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Config}!Ir\+D\+A mode functions@{Ir\+D\+A mode functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Config()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Config (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx,  }\item[{uint16\+\_\+t}]{U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Mode }\end{DoxyParamCaption})}
+
+
+
+Configures the U\+S\+A\+RT\textquotesingle{}s Ir\+DA interface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3, 4, 5 or 6 to select the U\+S\+A\+RT or U\+A\+RT peripheral. \\
+\hline
+{\em U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Mode} & specifies the Ir\+DA mode. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Mode\+\_\+\+Low\+Power \item U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Mode\+\_\+\+Normal \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1016} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+\begin{DoxyCode}
+01017 \{
+01018   \textcolor{comment}{/* Check the parameters */}
+01019   assert_param(IS_USART_ALL_PERIPH(USARTx));
+01020   assert_param(IS_USART_IRDA_MODE(USART\_IrDAMode));
+01021     
+01022   USARTx->CR3 &= (uint16\_t)~((uint16\_t)USART_CR3_IRLP);
+01023   USARTx->CR3 |= USART\_IrDAMode;
+01024 \}
+\end{DoxyCode}

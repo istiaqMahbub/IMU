@@ -1,0 +1,60 @@
+\section{Wake\+Up pin configuration functions}
+\label{group__PWR__Group3}\index{Wake\+Up pin configuration functions@{Wake\+Up pin configuration functions}}
+
+
+Wake\+Up pin configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ P\+W\+R\+\_\+\+Wake\+Up\+Pin\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Wake\+Up Pin functionality. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Wake\+Up pin configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                    WakeUp pin configuration functions
+ ===============================================================================  
+
+ - WakeUp pin is used to wakeup the system from Standby mode. This pin is 
+   forced in input pull down configuration and is active on rising edges.
+ - There is only one WakeUp pin: WakeUp Pin 1 on PA.00.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__PWR__Group3_gae5fd6f9336ef8c60d5483651cb0d1a00}} 
+\index{Wake\+Up pin configuration functions@{Wake\+Up pin configuration functions}!P\+W\+R\+\_\+\+Wake\+Up\+Pin\+Cmd@{P\+W\+R\+\_\+\+Wake\+Up\+Pin\+Cmd}}
+\index{P\+W\+R\+\_\+\+Wake\+Up\+Pin\+Cmd@{P\+W\+R\+\_\+\+Wake\+Up\+Pin\+Cmd}!Wake\+Up pin configuration functions@{Wake\+Up pin configuration functions}}
+\subsubsection{P\+W\+R\+\_\+\+Wake\+Up\+Pin\+Cmd()}
+{\footnotesize\ttfamily void P\+W\+R\+\_\+\+Wake\+Up\+Pin\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the Wake\+Up Pin functionality. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the Wake\+Up Pin functionality. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 240} of file \textbf{ stm32f4xx\+\_\+pwr.\+c}.
+
+
+\begin{DoxyCode}
+00241 \{
+00242   \textcolor{comment}{/* Check the parameters */}  
+00243   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00244 
+00245   *(\_\_IO uint32\_t *) CSR_EWUP_BB = (uint32\_t)NewState;
+00246 \}
+\end{DoxyCode}

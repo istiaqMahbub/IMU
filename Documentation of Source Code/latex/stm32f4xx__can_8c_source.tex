@@ -1,0 +1,1713 @@
+\section{stm32f4xx\+\_\+can.\+c}
+\label{stm32f4xx__can_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+can.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+can.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_can.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides firmware functions to manage the following }
+00008 \textcolor{comment}{  *          functionalities of the Controller area network (CAN) peripheral:           }
+00009 \textcolor{comment}{  *           - Initialization and Configuration }
+00010 \textcolor{comment}{  *           - CAN Frames Transmission }
+00011 \textcolor{comment}{  *           - CAN Frames Reception    }
+00012 \textcolor{comment}{  *           - Operation modes switch  }
+00013 \textcolor{comment}{  *           - Error management          }
+00014 \textcolor{comment}{  *           - Interrupts and flags        }
+00015 \textcolor{comment}{  *         }
+00016 \textcolor{comment}{  *  @verbatim}
+00017 \textcolor{comment}{  *                               }
+00018 \textcolor{comment}{  *          ===================================================================      }
+00019 \textcolor{comment}{  *                                   How to use this driver}
+00020 \textcolor{comment}{  *          ===================================================================}
+00021 \textcolor{comment}{                }
+00022 \textcolor{comment}{  *          1.  Enable the CAN controller interface clock using }
+00023 \textcolor{comment}{  *                  RCC\_APB1PeriphClockCmd(RCC\_APB1Periph\_CAN1, ENABLE); for CAN1 }
+00024 \textcolor{comment}{  *              and RCC\_APB1PeriphClockCmd(RCC\_APB1Periph\_CAN2, ENABLE); for CAN2}
+00025 \textcolor{comment}{  *  @note   In case you are using CAN2 only, you have to enable the CAN1 clock.}
+00026 \textcolor{comment}{  *     }
+00027 \textcolor{comment}{  *          2. CAN pins configuration}
+00028 \textcolor{comment}{  *               - Enable the clock for the CAN GPIOs using the following function:}
+00029 \textcolor{comment}{  *                   RCC\_AHB1PeriphClockCmd(RCC\_AHB1Periph\_GPIOx, ENABLE);   }
+00030 \textcolor{comment}{  *               - Connect the involved CAN pins to AF9 using the following function }
+00031 \textcolor{comment}{  *                   GPIO\_PinAFConfig(GPIOx, GPIO\_PinSourcex, GPIO\_AF\_CANx); }
+00032 \textcolor{comment}{  *                - Configure these CAN pins in alternate function mode by calling}
+00033 \textcolor{comment}{  *                  the function  GPIO\_Init();}
+00034 \textcolor{comment}{  *    }
+00035 \textcolor{comment}{  *          3.  Initialise and configure the CAN using CAN\_Init() and }
+00036 \textcolor{comment}{  *               CAN\_FilterInit() functions.   }
+00037 \textcolor{comment}{  *               }
+00038 \textcolor{comment}{  *          4.  Transmit the desired CAN frame using CAN\_Transmit() function.}
+00039 \textcolor{comment}{  *         }
+00040 \textcolor{comment}{  *          5.  Check the transmission of a CAN frame using CAN\_TransmitStatus()}
+00041 \textcolor{comment}{  *              function.}
+00042 \textcolor{comment}{  *               }
+00043 \textcolor{comment}{  *          6.  Cancel the transmission of a CAN frame using CAN\_CancelTransmit()}
+00044 \textcolor{comment}{  *              function.  }
+00045 \textcolor{comment}{  *            }
+00046 \textcolor{comment}{  *          7.  Receive a CAN frame using CAN\_Recieve() function.}
+00047 \textcolor{comment}{  *         }
+00048 \textcolor{comment}{  *          8.  Release the receive FIFOs using CAN\_FIFORelease() function.}
+00049 \textcolor{comment}{  *               }
+00050 \textcolor{comment}{  *          9. Return the number of pending received frames using }
+00051 \textcolor{comment}{  *              CAN\_MessagePending() function.            }
+00052 \textcolor{comment}{  *                   }
+00053 \textcolor{comment}{  *          10. To control CAN events you can use one of the following two methods:}
+00054 \textcolor{comment}{  *               - Check on CAN flags using the CAN\_GetFlagStatus() function.  }
+00055 \textcolor{comment}{  *               - Use CAN interrupts through the function CAN\_ITConfig() at }
+00056 \textcolor{comment}{  *                 initialization phase and CAN\_GetITStatus() function into }
+00057 \textcolor{comment}{  *                 interrupt routines to check if the event has occurred or not.}
+00058 \textcolor{comment}{  *             After checking on a flag you should clear it using CAN\_ClearFlag()}
+00059 \textcolor{comment}{  *             function. And after checking on an interrupt event you should }
+00060 \textcolor{comment}{  *             clear it using CAN\_ClearITPendingBit() function.            }
+00061 \textcolor{comment}{  *               }
+00062 \textcolor{comment}{  *              }
+00063 \textcolor{comment}{  *  @endverbatim}
+00064 \textcolor{comment}{  *         }
+00065 \textcolor{comment}{  ******************************************************************************}
+00066 \textcolor{comment}{  * @attention}
+00067 \textcolor{comment}{  *}
+00068 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00069 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00070 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00071 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00072 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00073 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00074 \textcolor{comment}{  *}
+00075 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00076 \textcolor{comment}{  ******************************************************************************  }
+00077 \textcolor{comment}{  */}
+00078 
+00079 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00080 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_can.h"
+00081 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rcc.h"
+00082 
+00083 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00084 \textcolor{comment}{  * @\{}
+00085 \textcolor{comment}{  */}
+00086 
+00087 \textcolor{comment}{/** @defgroup CAN }
+00088 \textcolor{comment}{  * @brief CAN driver modules}
+00089 \textcolor{comment}{  * @\{}
+00090 \textcolor{comment}{  */}
+00091 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00092 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00093 
+00094 \textcolor{comment}{/* CAN Master Control Register bits */}
+00095 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{MCR\_DBF}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00010000\textcolor{preprocessor}{)} \textcolor{comment}{/* software master reset */}
+00096 
+00097 \textcolor{comment}{/* CAN Mailbox Transmit Request */}
+00098 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TMIDxR\_TXRQ}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)} \textcolor{comment}{/* Transmit mailbox request */}
+00099 
+00100 \textcolor{comment}{/* CAN Filter Master Register bits */}
+00101 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FMR\_FINIT}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)} \textcolor{comment}{/* Filter init mode */}
+00102 
+00103 \textcolor{comment}{/* Time out for INAK bit */}
+00104 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{INAK\_TIMEOUT}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0000FFFF\textcolor{preprocessor}{)}
+00105 \textcolor{comment}{/* Time out for SLAK bit */}
+00106 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SLAK\_TIMEOUT}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0000FFFF\textcolor{preprocessor}{)}
+00107 
+00108 \textcolor{comment}{/* Flags in TSR register */}
+00109 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FLAGS\_TSR}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x08000000\textcolor{preprocessor}{)}
+00110 \textcolor{comment}{/* Flags in RF1R register */}
+00111 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FLAGS\_RF1R}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x04000000\textcolor{preprocessor}{)}
+00112 \textcolor{comment}{/* Flags in RF0R register */}
+00113 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FLAGS\_RF0R}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x02000000\textcolor{preprocessor}{)}
+00114 \textcolor{comment}{/* Flags in MSR register */}
+00115 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FLAGS\_MSR}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x01000000\textcolor{preprocessor}{)}
+00116 \textcolor{comment}{/* Flags in ESR register */}
+00117 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FLAGS\_ESR}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00F00000\textcolor{preprocessor}{)}
+00118 
+00119 \textcolor{comment}{/* Mailboxes definition */}
+00120 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_TXMAILBOX\_0}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}
+00121 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_TXMAILBOX\_1}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}
+00122 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_TXMAILBOX\_2}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}
+00123 
+00124 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_MODE\_MASK}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)} 0x00000003\textcolor{preprocessor}{)}
+00125 
+00126 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00127 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00128 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00129 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00130 \textcolor{keyword}{static} ITStatus CheckITStatus(uint32\_t CAN\_Reg, uint32\_t It\_Bit);
+00131 
+00132 \textcolor{comment}{/** @defgroup CAN\_Private\_Functions}
+00133 \textcolor{comment}{  * @\{}
+00134 \textcolor{comment}{  */}
+00135 
+00136 \textcolor{comment}{/** @defgroup CAN\_Group1 Initialization and Configuration functions}
+00137 \textcolor{comment}{ *  @brief    Initialization and Configuration functions }
+00138 \textcolor{comment}{ *}
+00139 \textcolor{comment}{@verbatim    }
+00140 \textcolor{comment}{ ===============================================================================}
+00141 \textcolor{comment}{                      Initialization and Configuration functions}
+00142 \textcolor{comment}{ ===============================================================================  }
+00143 \textcolor{comment}{  This section provides functions allowing to }
+00144 \textcolor{comment}{   - Initialize the CAN peripherals : Prescaler, operating mode, the maximum number }
+00145 \textcolor{comment}{     of time quanta to perform resynchronization, the number of time quanta in}
+00146 \textcolor{comment}{     Bit Segment 1 and 2 and many other modes. }
+00147 \textcolor{comment}{     Refer to  @ref CAN\_InitTypeDef  for more details.}
+00148 \textcolor{comment}{   - Configures the CAN reception filter.                                      }
+00149 \textcolor{comment}{   - Select the start bank filter for slave CAN.}
+00150 \textcolor{comment}{   - Enables or disables the Debug Freeze mode for CAN}
+00151 \textcolor{comment}{   - Enables or disables the CAN Time Trigger Operation communication mode}
+00152 \textcolor{comment}{   }
+00153 \textcolor{comment}{@endverbatim}
+00154 \textcolor{comment}{  * @\{}
+00155 \textcolor{comment}{  */}
+00156 
+00157 \textcolor{comment}{/**}
+00158 \textcolor{comment}{  * @brief  Deinitializes the CAN peripheral registers to their default reset values.}
+00159 \textcolor{comment}{  * @param  CANx: where x can be 1 or 2 to select the CAN peripheral.}
+00160 \textcolor{comment}{  * @retval None.}
+00161 \textcolor{comment}{  */}
+00162 \textcolor{keywordtype}{void} CAN_DeInit(CAN\_TypeDef* CANx)
+00163 \{
+00164   \textcolor{comment}{/* Check the parameters */}
+00165   assert_param(IS\_CAN\_ALL\_PERIPH(CANx));
+00166 
+00167   \textcolor{keywordflow}{if} (CANx == CAN1)
+00168   \{
+00169     \textcolor{comment}{/* Enable CAN1 reset state */}
+00170     RCC_APB1PeriphResetCmd(RCC_APB1Periph_CAN1, ENABLE);
+00171     \textcolor{comment}{/* Release CAN1 from reset state */}
+00172     RCC_APB1PeriphResetCmd(RCC_APB1Periph_CAN1, DISABLE);
+00173   \}
+00174   \textcolor{keywordflow}{else}
+00175   \{
+00176     \textcolor{comment}{/* Enable CAN2 reset state */}
+00177     RCC_APB1PeriphResetCmd(RCC_APB1Periph_CAN2, ENABLE);
+00178     \textcolor{comment}{/* Release CAN2 from reset state */}
+00179     RCC_APB1PeriphResetCmd(RCC_APB1Periph_CAN2, DISABLE);
+00180   \}
+00181 \}
+00182 
+00183 \textcolor{comment}{/**}
+00184 \textcolor{comment}{  * @brief  Initializes the CAN peripheral according to the specified}
+00185 \textcolor{comment}{  *         parameters in the CAN\_InitStruct.}
+00186 \textcolor{comment}{  * @param  CANx: where x can be 1 or 2 to select the CAN peripheral.}
+00187 \textcolor{comment}{  * @param  CAN\_InitStruct: pointer to a CAN\_InitTypeDef structure that contains}
+00188 \textcolor{comment}{  *         the configuration information for the CAN peripheral.}
+00189 \textcolor{comment}{  * @retval Constant indicates initialization succeed which will be }
+00190 \textcolor{comment}{  *         CAN\_InitStatus\_Failed or CAN\_InitStatus\_Success.}
+00191 \textcolor{comment}{  */}
+00192 uint8\_t CAN_Init(CAN\_TypeDef* CANx, CAN\_InitTypeDef* CAN\_InitStruct)
+00193 \{
+00194   uint8\_t InitStatus = CAN_InitStatus_Failed;
+00195   uint32\_t wait\_ack = 0x00000000;
+00196   \textcolor{comment}{/* Check the parameters */}
+00197   assert_param(IS\_CAN\_ALL\_PERIPH(CANx));
+00198   assert_param(IS\_FUNCTIONAL\_STATE(CAN\_InitStruct->CAN\_TTCM));
+00199   assert_param(IS\_FUNCTIONAL\_STATE(CAN\_InitStruct->CAN\_ABOM));
+00200   assert_param(IS\_FUNCTIONAL\_STATE(CAN\_InitStruct->CAN\_AWUM));
+00201   assert_param(IS\_FUNCTIONAL\_STATE(CAN\_InitStruct->CAN\_NART));
+00202   assert_param(IS\_FUNCTIONAL\_STATE(CAN\_InitStruct->CAN\_RFLM));
+00203   assert_param(IS\_FUNCTIONAL\_STATE(CAN\_InitStruct->CAN\_TXFP));
+00204   assert_param(IS\_CAN\_MODE(CAN\_InitStruct->CAN\_Mode));
+00205   assert_param(IS\_CAN\_SJW(CAN\_InitStruct->CAN\_SJW));
+00206   assert_param(IS\_CAN\_BS1(CAN\_InitStruct->CAN\_BS1));
+00207   assert_param(IS\_CAN\_BS2(CAN\_InitStruct->CAN\_BS2));
+00208   assert_param(IS\_CAN\_PRESCALER(CAN\_InitStruct->CAN\_Prescaler));
+00209 
+00210   \textcolor{comment}{/* Exit from sleep mode */}
+00211   CANx->MCR &= (~(uint32\_t)CAN_MCR_SLEEP);
+00212 
+00213   \textcolor{comment}{/* Request initialisation */}
+00214   CANx->MCR |= CAN_MCR_INRQ ;
+00215 
+00216   \textcolor{comment}{/* Wait the acknowledge */}
+00217   \textcolor{keywordflow}{while} (((CANx->MSR & CAN_MSR_INAK) != CAN_MSR_INAK) && (wait\_ack != 
+      INAK_TIMEOUT))
+00218   \{
+00219     wait\_ack++;
+00220   \}
+00221 
+00222   \textcolor{comment}{/* Check acknowledge */}
+00223   \textcolor{keywordflow}{if} ((CANx->MSR & CAN_MSR_INAK) != CAN_MSR_INAK)
+00224   \{
+00225     InitStatus = CAN_InitStatus_Failed;
+00226   \}
+00227   \textcolor{keywordflow}{else}
+00228   \{
+00229     \textcolor{comment}{/* Set the time triggered communication mode */}
+00230     \textcolor{keywordflow}{if} (CAN\_InitStruct->CAN\_TTCM == ENABLE)
+00231     \{
+00232       CANx->MCR |= CAN_MCR_TTCM;
+00233     \}
+00234     \textcolor{keywordflow}{else}
+00235     \{
+00236       CANx->MCR &= ~(uint32\_t)CAN_MCR_TTCM;
+00237     \}
+00238 
+00239     \textcolor{comment}{/* Set the automatic bus-off management */}
+00240     \textcolor{keywordflow}{if} (CAN\_InitStruct->CAN\_ABOM == ENABLE)
+00241     \{
+00242       CANx->MCR |= CAN_MCR_ABOM;
+00243     \}
+00244     \textcolor{keywordflow}{else}
+00245     \{
+00246       CANx->MCR &= ~(uint32\_t)CAN_MCR_ABOM;
+00247     \}
+00248 
+00249     \textcolor{comment}{/* Set the automatic wake-up mode */}
+00250     \textcolor{keywordflow}{if} (CAN\_InitStruct->CAN\_AWUM == ENABLE)
+00251     \{
+00252       CANx->MCR |= CAN_MCR_AWUM;
+00253     \}
+00254     \textcolor{keywordflow}{else}
+00255     \{
+00256       CANx->MCR &= ~(uint32\_t)CAN_MCR_AWUM;
+00257     \}
+00258 
+00259     \textcolor{comment}{/* Set the no automatic retransmission */}
+00260     \textcolor{keywordflow}{if} (CAN\_InitStruct->CAN\_NART == ENABLE)
+00261     \{
+00262       CANx->MCR |= CAN_MCR_NART;
+00263     \}
+00264     \textcolor{keywordflow}{else}
+00265     \{
+00266       CANx->MCR &= ~(uint32\_t)CAN_MCR_NART;
+00267     \}
+00268 
+00269     \textcolor{comment}{/* Set the receive FIFO locked mode */}
+00270     \textcolor{keywordflow}{if} (CAN\_InitStruct->CAN\_RFLM == ENABLE)
+00271     \{
+00272       CANx->MCR |= CAN_MCR_RFLM;
+00273     \}
+00274     \textcolor{keywordflow}{else}
+00275     \{
+00276       CANx->MCR &= ~(uint32\_t)CAN_MCR_RFLM;
+00277     \}
+00278 
+00279     \textcolor{comment}{/* Set the transmit FIFO priority */}
+00280     \textcolor{keywordflow}{if} (CAN\_InitStruct->CAN\_TXFP == ENABLE)
+00281     \{
+00282       CANx->MCR |= CAN_MCR_TXFP;
+00283     \}
+00284     \textcolor{keywordflow}{else}
+00285     \{
+00286       CANx->MCR &= ~(uint32\_t)CAN_MCR_TXFP;
+00287     \}
+00288 
+00289     \textcolor{comment}{/* Set the bit timing register */}
+00290     CANx->BTR = (uint32\_t)((uint32\_t)CAN\_InitStruct->CAN\_Mode << 30) |
+00291                 ((uint32\_t)CAN\_InitStruct->CAN\_SJW << 24) |
+00292                 ((uint32\_t)CAN\_InitStruct->CAN\_BS1 << 16) |
+00293                 ((uint32\_t)CAN\_InitStruct->CAN\_BS2 << 20) |
+00294                ((uint32\_t)CAN\_InitStruct->CAN\_Prescaler - 1);
+00295 
+00296     \textcolor{comment}{/* Request leave initialisation */}
+00297     CANx->MCR &= ~(uint32\_t)CAN_MCR_INRQ;
+00298 
+00299    \textcolor{comment}{/* Wait the acknowledge */}
+00300    wait\_ack = 0;
+00301 
+00302    \textcolor{keywordflow}{while} (((CANx->MSR & CAN_MSR_INAK) == CAN_MSR_INAK) && (wait\_ack != 
+      INAK_TIMEOUT))
+00303    \{
+00304      wait\_ack++;
+00305    \}
+00306 
+00307     \textcolor{comment}{/* ...and check acknowledged */}
+00308     \textcolor{keywordflow}{if} ((CANx->MSR & CAN_MSR_INAK) == CAN_MSR_INAK)
+00309     \{
+00310       InitStatus = CAN_InitStatus_Failed;
+00311     \}
+00312     \textcolor{keywordflow}{else}
+00313     \{
+00314       InitStatus = CAN_InitStatus_Success ;
+00315     \}
+00316   \}
+00317 
+00318   \textcolor{comment}{/* At this step, return the status of initialization */}
+00319   \textcolor{keywordflow}{return} InitStatus;
+00320 \}
+00321 
+00322 \textcolor{comment}{/**}
+00323 \textcolor{comment}{  * @brief  Configures the CAN reception filter according to the specified}
+00324 \textcolor{comment}{  *         parameters in the CAN\_FilterInitStruct.}
+00325 \textcolor{comment}{  * @param  CAN\_FilterInitStruct: pointer to a CAN\_FilterInitTypeDef structure that}
+00326 \textcolor{comment}{  *         contains the configuration information.}
+00327 \textcolor{comment}{  * @retval None}
+00328 \textcolor{comment}{  */}
+00329 \textcolor{keywordtype}{void} CAN_FilterInit(CAN\_FilterInitTypeDef* CAN\_FilterInitStruct)
+00330 \{
+00331   uint32\_t filter\_number\_bit\_pos = 0;
+00332   \textcolor{comment}{/* Check the parameters */}
+00333   assert_param(IS\_CAN\_FILTER\_NUMBER(CAN\_FilterInitStruct->CAN\_FilterNumber));
+00334   assert_param(IS\_CAN\_FILTER\_MODE(CAN\_FilterInitStruct->CAN\_FilterMode));
+00335   assert_param(IS\_CAN\_FILTER\_SCALE(CAN\_FilterInitStruct->CAN\_FilterScale));
+00336   assert_param(IS\_CAN\_FILTER\_FIFO(CAN\_FilterInitStruct->CAN\_FilterFIFOAssignment));
+00337   assert_param(IS\_FUNCTIONAL\_STATE(CAN\_FilterInitStruct->CAN\_FilterActivation));
+00338 
+00339   filter\_number\_bit\_pos = ((uint32\_t)1) << CAN\_FilterInitStruct->
+      CAN_FilterNumber;
+00340 
+00341   \textcolor{comment}{/* Initialisation mode for the filter */}
+00342   CAN1->FMR |= FMR_FINIT;
+00343 
+00344   \textcolor{comment}{/* Filter Deactivation */}
+00345   CAN1->FA1R &= ~(uint32\_t)filter\_number\_bit\_pos;
+00346 
+00347   \textcolor{comment}{/* Filter Scale */}
+00348   \textcolor{keywordflow}{if} (CAN\_FilterInitStruct->CAN_FilterScale == CAN_FilterScale_16bit)
+00349   \{
+00350     \textcolor{comment}{/* 16-bit scale for the filter */}
+00351     CAN1->FS1R &= ~(uint32\_t)filter\_number\_bit\_pos;
+00352 
+00353     \textcolor{comment}{/* First 16-bit identifier and First 16-bit mask */}
+00354     \textcolor{comment}{/* Or First 16-bit identifier and Second 16-bit identifier */}
+00355     CAN1->sFilterRegister[CAN\_FilterInitStruct->CAN\_FilterNumber].FR1 =
+00356        ((0x0000FFFF & (uint32\_t)CAN\_FilterInitStruct->CAN\_FilterMaskIdLow) << 16) |
+00357         (0x0000FFFF & (uint32\_t)CAN\_FilterInitStruct->CAN\_FilterIdLow);
+00358 
+00359     \textcolor{comment}{/* Second 16-bit identifier and Second 16-bit mask */}
+00360     \textcolor{comment}{/* Or Third 16-bit identifier and Fourth 16-bit identifier */}
+00361     CAN1->sFilterRegister[CAN\_FilterInitStruct->CAN\_FilterNumber].FR2 =
+00362        ((0x0000FFFF & (uint32\_t)CAN\_FilterInitStruct->CAN\_FilterMaskIdHigh) << 16) |
+00363         (0x0000FFFF & (uint32\_t)CAN\_FilterInitStruct->CAN\_FilterIdHigh);
+00364   \}
+00365 
+00366   \textcolor{keywordflow}{if} (CAN\_FilterInitStruct->CAN_FilterScale == CAN_FilterScale_32bit)
+00367   \{
+00368     \textcolor{comment}{/* 32-bit scale for the filter */}
+00369     CAN1->FS1R |= filter\_number\_bit\_pos;
+00370     \textcolor{comment}{/* 32-bit identifier or First 32-bit identifier */}
+00371     CAN1->sFilterRegister[CAN\_FilterInitStruct->CAN\_FilterNumber].FR1 =
+00372        ((0x0000FFFF & (uint32\_t)CAN\_FilterInitStruct->CAN\_FilterIdHigh) << 16) |
+00373         (0x0000FFFF & (uint32\_t)CAN\_FilterInitStruct->CAN\_FilterIdLow);
+00374     \textcolor{comment}{/* 32-bit mask or Second 32-bit identifier */}
+00375     CAN1->sFilterRegister[CAN\_FilterInitStruct->CAN\_FilterNumber].FR2 =
+00376        ((0x0000FFFF & (uint32\_t)CAN\_FilterInitStruct->CAN\_FilterMaskIdHigh) << 16) |
+00377         (0x0000FFFF & (uint32\_t)CAN\_FilterInitStruct->CAN\_FilterMaskIdLow);
+00378   \}
+00379 
+00380   \textcolor{comment}{/* Filter Mode */}
+00381   \textcolor{keywordflow}{if} (CAN\_FilterInitStruct->CAN_FilterMode == CAN_FilterMode_IdMask)
+00382   \{
+00383     \textcolor{comment}{/*Id/Mask mode for the filter*/}
+00384     CAN1->FM1R &= ~(uint32\_t)filter\_number\_bit\_pos;
+00385   \}
+00386   \textcolor{keywordflow}{else} \textcolor{comment}{/* CAN\_FilterInitStruct->CAN\_FilterMode == CAN\_FilterMode\_IdList */}
+00387   \{
+00388     \textcolor{comment}{/*Identifier list mode for the filter*/}
+00389     CAN1->FM1R |= (uint32\_t)filter\_number\_bit\_pos;
+00390   \}
+00391 
+00392   \textcolor{comment}{/* Filter FIFO assignment */}
+00393   \textcolor{keywordflow}{if} (CAN\_FilterInitStruct->CAN_FilterFIFOAssignment == CAN_Filter_FIFO0)
+00394   \{
+00395     \textcolor{comment}{/* FIFO 0 assignation for the filter */}
+00396     CAN1->FFA1R &= ~(uint32\_t)filter\_number\_bit\_pos;
+00397   \}
+00398 
+00399   \textcolor{keywordflow}{if} (CAN\_FilterInitStruct->CAN_FilterFIFOAssignment == CAN_Filter_FIFO1)
+00400   \{
+00401     \textcolor{comment}{/* FIFO 1 assignation for the filter */}
+00402     CAN1->FFA1R |= (uint32\_t)filter\_number\_bit\_pos;
+00403   \}
+00404 
+00405   \textcolor{comment}{/* Filter activation */}
+00406   \textcolor{keywordflow}{if} (CAN\_FilterInitStruct->CAN_FilterActivation == ENABLE)
+00407   \{
+00408     CAN1->FA1R |= filter\_number\_bit\_pos;
+00409   \}
+00410 
+00411   \textcolor{comment}{/* Leave the initialisation mode for the filter */}
+00412   CAN1->FMR &= ~FMR_FINIT;
+00413 \}
+00414 
+00415 \textcolor{comment}{/**}
+00416 \textcolor{comment}{  * @brief  Fills each CAN\_InitStruct member with its default value.}
+00417 \textcolor{comment}{  * @param  CAN\_InitStruct: pointer to a CAN\_InitTypeDef structure which ill be initialized.}
+00418 \textcolor{comment}{  * @retval None}
+00419 \textcolor{comment}{  */}
+00420 \textcolor{keywordtype}{void} CAN_StructInit(CAN\_InitTypeDef* CAN\_InitStruct)
+00421 \{
+00422   \textcolor{comment}{/* Reset CAN init structure parameters values */}
+00423 
+00424   \textcolor{comment}{/* Initialize the time triggered communication mode */}
+00425   CAN\_InitStruct->CAN_TTCM = DISABLE;
+00426 
+00427   \textcolor{comment}{/* Initialize the automatic bus-off management */}
+00428   CAN\_InitStruct->CAN_ABOM = DISABLE;
+00429 
+00430   \textcolor{comment}{/* Initialize the automatic wake-up mode */}
+00431   CAN\_InitStruct->CAN_AWUM = DISABLE;
+00432 
+00433   \textcolor{comment}{/* Initialize the no automatic retransmission */}
+00434   CAN\_InitStruct->CAN_NART = DISABLE;
+00435 
+00436   \textcolor{comment}{/* Initialize the receive FIFO locked mode */}
+00437   CAN\_InitStruct->CAN_RFLM = DISABLE;
+00438 
+00439   \textcolor{comment}{/* Initialize the transmit FIFO priority */}
+00440   CAN\_InitStruct->CAN_TXFP = DISABLE;
+00441 
+00442   \textcolor{comment}{/* Initialize the CAN\_Mode member */}
+00443   CAN\_InitStruct->CAN_Mode = CAN_Mode_Normal;
+00444 
+00445   \textcolor{comment}{/* Initialize the CAN\_SJW member */}
+00446   CAN\_InitStruct->CAN_SJW = CAN_SJW_1tq;
+00447 
+00448   \textcolor{comment}{/* Initialize the CAN\_BS1 member */}
+00449   CAN\_InitStruct->CAN_BS1 = CAN_BS1_4tq;
+00450 
+00451   \textcolor{comment}{/* Initialize the CAN\_BS2 member */}
+00452   CAN\_InitStruct->CAN_BS2 = CAN_BS2_3tq;
+00453 
+00454   \textcolor{comment}{/* Initialize the CAN\_Prescaler member */}
+00455   CAN\_InitStruct->CAN_Prescaler = 1;
+00456 \}
+00457 
+00458 \textcolor{comment}{/**}
+00459 \textcolor{comment}{  * @brief  Select the start bank filter for slave CAN.}
+00460 \textcolor{comment}{  * @param  CAN\_BankNumber: Select the start slave bank filter from 1..27.}
+00461 \textcolor{comment}{  * @retval None}
+00462 \textcolor{comment}{  */}
+00463 \textcolor{keywordtype}{void} CAN_SlaveStartBank(uint8\_t CAN\_BankNumber)
+00464 \{
+00465   \textcolor{comment}{/* Check the parameters */}
+00466   assert_param(IS\_CAN\_BANKNUMBER(CAN\_BankNumber));
+00467 
+00468   \textcolor{comment}{/* Enter Initialisation mode for the filter */}
+00469   CAN1->FMR |= FMR_FINIT;
+00470 
+00471   \textcolor{comment}{/* Select the start slave bank */}
+00472   CAN1->FMR &= (uint32\_t)0xFFFFC0F1 ;
+00473   CAN1->FMR |= (uint32\_t)(CAN\_BankNumber)<<8;
+00474 
+00475   \textcolor{comment}{/* Leave Initialisation mode for the filter */}
+00476   CAN1->FMR &= ~FMR_FINIT;
+00477 \}
+00478 
+00479 \textcolor{comment}{/**}
+00480 \textcolor{comment}{  * @brief  Enables or disables the DBG Freeze for CAN.}
+00481 \textcolor{comment}{  * @param  CANx: where x can be 1 or 2 to to select the CAN peripheral.}
+00482 \textcolor{comment}{  * @param  NewState: new state of the CAN peripheral. }
+00483 \textcolor{comment}{  *          This parameter can be: ENABLE (CAN reception/transmission is frozen}
+00484 \textcolor{comment}{  *          during debug. Reception FIFOs can still be accessed/controlled normally) }
+00485 \textcolor{comment}{  *          or DISABLE (CAN is working during debug).}
+00486 \textcolor{comment}{  * @retval None}
+00487 \textcolor{comment}{  */}
+00488 \textcolor{keywordtype}{void} CAN_DBGFreeze(CAN\_TypeDef* CANx, FunctionalState NewState)
+00489 \{
+00490   \textcolor{comment}{/* Check the parameters */}
+00491   assert_param(IS\_CAN\_ALL\_PERIPH(CANx));
+00492   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00493 
+00494   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00495   \{
+00496     \textcolor{comment}{/* Enable Debug Freeze  */}
+00497     CANx->MCR |= MCR_DBF;
+00498   \}
+00499   \textcolor{keywordflow}{else}
+00500   \{
+00501     \textcolor{comment}{/* Disable Debug Freeze */}
+00502     CANx->MCR &= ~MCR_DBF;
+00503   \}
+00504 \}
+00505 
+00506 
+00507 \textcolor{comment}{/**}
+00508 \textcolor{comment}{  * @brief  Enables or disables the CAN Time TriggerOperation communication mode.}
+00509 \textcolor{comment}{  * @note   DLC must be programmed as 8 in order Time Stamp (2 bytes) to be }
+00510 \textcolor{comment}{  *         sent over the CAN bus.  }
+00511 \textcolor{comment}{  * @param  CANx: where x can be 1 or 2 to to select the CAN peripheral.}
+00512 \textcolor{comment}{  * @param  NewState: Mode new state. This parameter can be: ENABLE or DISABLE.}
+00513 \textcolor{comment}{  *         When enabled, Time stamp (TIME[15:0]) value is  sent in the last two}
+00514 \textcolor{comment}{  *         data bytes of the 8-byte message: TIME[7:0] in data byte 6 and TIME[15:8] }
+00515 \textcolor{comment}{  *         in data byte 7. }
+00516 \textcolor{comment}{  * @retval None}
+00517 \textcolor{comment}{  */}
+00518 \textcolor{keywordtype}{void} CAN_TTComModeCmd(CAN\_TypeDef* CANx, FunctionalState NewState)
+00519 \{
+00520   \textcolor{comment}{/* Check the parameters */}
+00521   assert_param(IS\_CAN\_ALL\_PERIPH(CANx));
+00522   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00523   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00524   \{
+00525     \textcolor{comment}{/* Enable the TTCM mode */}
+00526     CANx->MCR |= CAN_MCR_TTCM;
+00527 
+00528     \textcolor{comment}{/* Set TGT bits */}
+00529     CANx->sTxMailBox[0].TDTR |= ((uint32\_t)CAN_TDT0R_TGT);
+00530     CANx->sTxMailBox[1].TDTR |= ((uint32\_t)CAN_TDT1R_TGT);
+00531     CANx->sTxMailBox[2].TDTR |= ((uint32\_t)CAN_TDT2R_TGT);
+00532   \}
+00533   \textcolor{keywordflow}{else}
+00534   \{
+00535     \textcolor{comment}{/* Disable the TTCM mode */}
+00536     CANx->MCR &= (uint32\_t)(~(uint32\_t)CAN_MCR_TTCM);
+00537 
+00538     \textcolor{comment}{/* Reset TGT bits */}
+00539     CANx->sTxMailBox[0].TDTR &= ((uint32\_t)~CAN_TDT0R_TGT);
+00540     CANx->sTxMailBox[1].TDTR &= ((uint32\_t)~CAN_TDT1R_TGT);
+00541     CANx->sTxMailBox[2].TDTR &= ((uint32\_t)~CAN_TDT2R_TGT);
+00542   \}
+00543 \}
+00544 \textcolor{comment}{/**}
+00545 \textcolor{comment}{  * @\}}
+00546 \textcolor{comment}{  */}
+00547 
+00548 
+00549 \textcolor{comment}{/** @defgroup CAN\_Group2 CAN Frames Transmission functions}
+00550 \textcolor{comment}{ *  @brief    CAN Frames Transmission functions }
+00551 \textcolor{comment}{ *}
+00552 \textcolor{comment}{@verbatim    }
+00553 \textcolor{comment}{ ===============================================================================}
+00554 \textcolor{comment}{                      CAN Frames Transmission functions}
+00555 \textcolor{comment}{ ===============================================================================  }
+00556 \textcolor{comment}{  This section provides functions allowing to }
+00557 \textcolor{comment}{   - Initiate and transmit a CAN frame message (if there is an empty mailbox).}
+00558 \textcolor{comment}{   - Check the transmission status of a CAN Frame}
+00559 \textcolor{comment}{   - Cancel a transmit request}
+00560 \textcolor{comment}{   }
+00561 \textcolor{comment}{@endverbatim}
+00562 \textcolor{comment}{  * @\{}
+00563 \textcolor{comment}{  */}
+00564 
+00565 \textcolor{comment}{/**}
+00566 \textcolor{comment}{  * @brief  Initiates and transmits a CAN frame message.}
+00567 \textcolor{comment}{  * @param  CANx: where x can be 1 or 2 to to select the CAN peripheral.}
+00568 \textcolor{comment}{  * @param  TxMessage: pointer to a structure which contains CAN Id, CAN DLC and CAN data.}
+00569 \textcolor{comment}{  * @retval The number of the mailbox that is used for transmission or}
+00570 \textcolor{comment}{  *         CAN\_TxStatus\_NoMailBox if there is no empty mailbox.}
+00571 \textcolor{comment}{  */}
+00572 uint8\_t CAN_Transmit(CAN\_TypeDef* CANx, CanTxMsg* TxMessage)
+00573 \{
+00574   uint8\_t transmit\_mailbox = 0;
+00575   \textcolor{comment}{/* Check the parameters */}
+00576   assert_param(IS\_CAN\_ALL\_PERIPH(CANx));
+00577   assert_param(IS\_CAN\_IDTYPE(TxMessage->IDE));
+00578   assert_param(IS\_CAN\_RTR(TxMessage->RTR));
+00579   assert_param(IS\_CAN\_DLC(TxMessage->DLC));
+00580 
+00581   \textcolor{comment}{/* Select one empty transmit mailbox */}
+00582   \textcolor{keywordflow}{if} ((CANx->TSR&CAN_TSR_TME0) == CAN_TSR_TME0)
+00583   \{
+00584     transmit\_mailbox = 0;
+00585   \}
+00586   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((CANx->TSR&CAN_TSR_TME1) == CAN_TSR_TME1)
+00587   \{
+00588     transmit\_mailbox = 1;
+00589   \}
+00590   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((CANx->TSR&CAN_TSR_TME2) == CAN_TSR_TME2)
+00591   \{
+00592     transmit\_mailbox = 2;
+00593   \}
+00594   \textcolor{keywordflow}{else}
+00595   \{
+00596     transmit\_mailbox = CAN_TxStatus_NoMailBox;
+00597   \}
+00598 
+00599   \textcolor{keywordflow}{if} (transmit\_mailbox != CAN_TxStatus_NoMailBox)
+00600   \{
+00601     \textcolor{comment}{/* Set up the Id */}
+00602     CANx->sTxMailBox[transmit\_mailbox].TIR &= TMIDxR_TXRQ;
+00603     \textcolor{keywordflow}{if} (TxMessage->IDE == CAN_Id_Standard)
+00604     \{
+00605       assert_param(IS\_CAN\_STDID(TxMessage->StdId));
+00606       CANx->sTxMailBox[transmit\_mailbox].TIR |= ((TxMessage->StdId << 21) |
+00607                                                   TxMessage->RTR);
+00608     \}
+00609     \textcolor{keywordflow}{else}
+00610     \{
+00611       assert_param(IS\_CAN\_EXTID(TxMessage->ExtId));
+00612       CANx->sTxMailBox[transmit\_mailbox].TIR |= ((TxMessage->ExtId << 3) |
+00613                                                   TxMessage->IDE |
+00614                                                   TxMessage->RTR);
+00615     \}
+00616 
+00617     \textcolor{comment}{/* Set up the DLC */}
+00618     TxMessage->DLC &= (uint8\_t)0x0000000F;
+00619     CANx->sTxMailBox[transmit\_mailbox].TDTR &= (uint32\_t)0xFFFFFFF0;
+00620     CANx->sTxMailBox[transmit\_mailbox].TDTR |= TxMessage->DLC;
+00621 
+00622     \textcolor{comment}{/* Set up the data field */}
+00623     CANx->sTxMailBox[transmit\_mailbox].TDLR = (((uint32\_t)TxMessage->Data[3] << 24) |
+00624                                              ((uint32\_t)TxMessage->Data[2] << 16) |
+00625                                              ((uint32\_t)TxMessage->Data[1] << 8) |
+00626                                              ((uint32\_t)TxMessage->Data[0]));
+00627     CANx->sTxMailBox[transmit\_mailbox].TDHR = (((uint32\_t)TxMessage->Data[7] << 24) |
+00628                                              ((uint32\_t)TxMessage->Data[6] << 16) |
+00629                                              ((uint32\_t)TxMessage->Data[5] << 8) |
+00630                                              ((uint32\_t)TxMessage->Data[4]));
+00631     \textcolor{comment}{/* Request transmission */}
+00632     CANx->sTxMailBox[transmit\_mailbox].TIR |= TMIDxR_TXRQ;
+00633   \}
+00634   \textcolor{keywordflow}{return} transmit\_mailbox;
+00635 \}
+00636 
+00637 \textcolor{comment}{/**}
+00638 \textcolor{comment}{  * @brief  Checks the transmission status of a CAN Frame.}
+00639 \textcolor{comment}{  * @param  CANx: where x can be 1 or 2 to select the CAN peripheral.}
+00640 \textcolor{comment}{  * @param  TransmitMailbox: the number of the mailbox that is used for transmission.}
+00641 \textcolor{comment}{  * @retval CAN\_TxStatus\_Ok if the CAN driver transmits the message, }
+00642 \textcolor{comment}{  *         CAN\_TxStatus\_Failed in an other case.}
+00643 \textcolor{comment}{  */}
+00644 uint8\_t CAN_TransmitStatus(CAN\_TypeDef* CANx, uint8\_t TransmitMailbox)
+00645 \{
+00646   uint32\_t state = 0;
+00647 
+00648   \textcolor{comment}{/* Check the parameters */}
+00649   assert_param(IS\_CAN\_ALL\_PERIPH(CANx));
+00650   assert_param(IS\_CAN\_TRANSMITMAILBOX(TransmitMailbox));
+00651 
+00652   \textcolor{keywordflow}{switch} (TransmitMailbox)
+00653   \{
+00654     \textcolor{keywordflow}{case} (CAN_TXMAILBOX_0):
+00655       state =   CANx->TSR &  (CAN_TSR_RQCP0 | CAN_TSR_TXOK0 | CAN_TSR_TME0);
+00656       \textcolor{keywordflow}{break};
+00657     \textcolor{keywordflow}{case} (CAN_TXMAILBOX_1):
+00658       state =   CANx->TSR &  (CAN_TSR_RQCP1 | CAN_TSR_TXOK1 | CAN_TSR_TME1);
+00659       \textcolor{keywordflow}{break};
+00660     \textcolor{keywordflow}{case} (CAN_TXMAILBOX_2):
+00661       state =   CANx->TSR &  (CAN_TSR_RQCP2 | CAN_TSR_TXOK2 | CAN_TSR_TME2);
+00662       \textcolor{keywordflow}{break};
+00663     \textcolor{keywordflow}{default}:
+00664       state = CAN_TxStatus_Failed;
+00665       \textcolor{keywordflow}{break};
+00666   \}
+00667   \textcolor{keywordflow}{switch} (state)
+00668   \{
+00669       \textcolor{comment}{/* transmit pending  */}
+00670     \textcolor{keywordflow}{case} (0x0): state = CAN_TxStatus_Pending;
+00671       \textcolor{keywordflow}{break};
+00672       \textcolor{comment}{/* transmit failed  */}
+00673      \textcolor{keywordflow}{case} (CAN_TSR_RQCP0 | CAN_TSR_TME0): state = CAN_TxStatus_Failed;
+00674       \textcolor{keywordflow}{break};
+00675      \textcolor{keywordflow}{case} (CAN_TSR_RQCP1 | CAN_TSR_TME1): state = CAN_TxStatus_Failed;
+00676       \textcolor{keywordflow}{break};
+00677      \textcolor{keywordflow}{case} (CAN_TSR_RQCP2 | CAN_TSR_TME2): state = CAN_TxStatus_Failed;
+00678       \textcolor{keywordflow}{break};
+00679       \textcolor{comment}{/* transmit succeeded  */}
+00680     \textcolor{keywordflow}{case} (CAN_TSR_RQCP0 | CAN_TSR_TXOK0 | CAN_TSR_TME0):state = 
+      CAN_TxStatus_Ok;
+00681       \textcolor{keywordflow}{break};
+00682     \textcolor{keywordflow}{case} (CAN_TSR_RQCP1 | CAN_TSR_TXOK1 | CAN_TSR_TME1):state = 
+      CAN_TxStatus_Ok;
+00683       \textcolor{keywordflow}{break};
+00684     \textcolor{keywordflow}{case} (CAN_TSR_RQCP2 | CAN_TSR_TXOK2 | CAN_TSR_TME2):state = 
+      CAN_TxStatus_Ok;
+00685       \textcolor{keywordflow}{break};
+00686     \textcolor{keywordflow}{default}: state = CAN_TxStatus_Failed;
+00687       \textcolor{keywordflow}{break};
+00688   \}
+00689   \textcolor{keywordflow}{return} (uint8\_t) state;
+00690 \}
+00691 
+00692 \textcolor{comment}{/**}
+00693 \textcolor{comment}{  * @brief  Cancels a transmit request.}
+00694 \textcolor{comment}{  * @param  CANx: where x can be 1 or 2 to select the CAN peripheral.}
+00695 \textcolor{comment}{  * @param  Mailbox: Mailbox number.}
+00696 \textcolor{comment}{  * @retval None}
+00697 \textcolor{comment}{  */}
+00698 \textcolor{keywordtype}{void} CAN_CancelTransmit(CAN\_TypeDef* CANx, uint8\_t Mailbox)
+00699 \{
+00700   \textcolor{comment}{/* Check the parameters */}
+00701   assert_param(IS\_CAN\_ALL\_PERIPH(CANx));
+00702   assert_param(IS\_CAN\_TRANSMITMAILBOX(Mailbox));
+00703   \textcolor{comment}{/* abort transmission */}
+00704   \textcolor{keywordflow}{switch} (Mailbox)
+00705   \{
+00706     \textcolor{keywordflow}{case} (CAN_TXMAILBOX_0): CANx->TSR |= CAN_TSR_ABRQ0;
+00707       \textcolor{keywordflow}{break};
+00708     \textcolor{keywordflow}{case} (CAN_TXMAILBOX_1): CANx->TSR |= CAN_TSR_ABRQ1;
+00709       \textcolor{keywordflow}{break};
+00710     \textcolor{keywordflow}{case} (CAN_TXMAILBOX_2): CANx->TSR |= CAN_TSR_ABRQ2;
+00711       \textcolor{keywordflow}{break};
+00712     \textcolor{keywordflow}{default}:
+00713       \textcolor{keywordflow}{break};
+00714   \}
+00715 \}
+00716 \textcolor{comment}{/**}
+00717 \textcolor{comment}{  * @\}}
+00718 \textcolor{comment}{  */}
+00719 
+00720 
+00721 \textcolor{comment}{/** @defgroup CAN\_Group3 CAN Frames Reception functions}
+00722 \textcolor{comment}{ *  @brief    CAN Frames Reception functions }
+00723 \textcolor{comment}{ *}
+00724 \textcolor{comment}{@verbatim    }
+00725 \textcolor{comment}{ ===============================================================================}
+00726 \textcolor{comment}{                      CAN Frames Reception functions}
+00727 \textcolor{comment}{ ===============================================================================  }
+00728 \textcolor{comment}{  This section provides functions allowing to }
+00729 \textcolor{comment}{   -  Receive a correct CAN frame}
+00730 \textcolor{comment}{   -  Release a specified receive FIFO (2 FIFOs are available)}
+00731 \textcolor{comment}{   -  Return the number of the pending received CAN frames}
+00732 \textcolor{comment}{   }
+00733 \textcolor{comment}{@endverbatim}
+00734 \textcolor{comment}{  * @\{}
+00735 \textcolor{comment}{  */}
+00736 
+00737 \textcolor{comment}{/**}
+00738 \textcolor{comment}{  * @brief  Receives a correct CAN frame.}
+00739 \textcolor{comment}{  * @param  CANx: where x can be 1 or 2 to select the CAN peripheral.}
+00740 \textcolor{comment}{  * @param  FIFONumber: Receive FIFO number, CAN\_FIFO0 or CAN\_FIFO1.}
+00741 \textcolor{comment}{  * @param  RxMessage: pointer to a structure receive frame which contains CAN Id,}
+00742 \textcolor{comment}{  *         CAN DLC, CAN data and FMI number.}
+00743 \textcolor{comment}{  * @retval None}
+00744 \textcolor{comment}{  */}
+00745 \textcolor{keywordtype}{void} CAN_Receive(CAN\_TypeDef* CANx, uint8\_t FIFONumber, CanRxMsg* RxMessage)
+00746 \{
+00747   \textcolor{comment}{/* Check the parameters */}
+00748   assert_param(IS\_CAN\_ALL\_PERIPH(CANx));
+00749   assert_param(IS\_CAN\_FIFO(FIFONumber));
+00750   \textcolor{comment}{/* Get the Id */}
+00751   RxMessage->IDE = (uint8\_t)0x04 & CANx->sFIFOMailBox[FIFONumber].RIR;
+00752   \textcolor{keywordflow}{if} (RxMessage->IDE == CAN_Id_Standard)
+00753   \{
+00754     RxMessage->StdId = (uint32\_t)0x000007FF & (CANx->sFIFOMailBox[FIFONumber].RIR >> 21);
+00755   \}
+00756   \textcolor{keywordflow}{else}
+00757   \{
+00758     RxMessage->ExtId = (uint32\_t)0x1FFFFFFF & (CANx->sFIFOMailBox[FIFONumber].RIR >> 3);
+00759   \}
+00760 
+00761   RxMessage->RTR = (uint8\_t)0x02 & CANx->sFIFOMailBox[FIFONumber].RIR;
+00762   \textcolor{comment}{/* Get the DLC */}
+00763   RxMessage->DLC = (uint8\_t)0x0F & CANx->sFIFOMailBox[FIFONumber].RDTR;
+00764   \textcolor{comment}{/* Get the FMI */}
+00765   RxMessage->FMI = (uint8\_t)0xFF & (CANx->sFIFOMailBox[FIFONumber].RDTR >> 8);
+00766   \textcolor{comment}{/* Get the data field */}
+00767   RxMessage->Data[0] = (uint8\_t)0xFF & CANx->sFIFOMailBox[FIFONumber].RDLR;
+00768   RxMessage->Data[1] = (uint8\_t)0xFF & (CANx->sFIFOMailBox[FIFONumber].RDLR >> 8);
+00769   RxMessage->Data[2] = (uint8\_t)0xFF & (CANx->sFIFOMailBox[FIFONumber].RDLR >> 16);
+00770   RxMessage->Data[3] = (uint8\_t)0xFF & (CANx->sFIFOMailBox[FIFONumber].RDLR >> 24);
+00771   RxMessage->Data[4] = (uint8\_t)0xFF & CANx->sFIFOMailBox[FIFONumber].RDHR;
+00772   RxMessage->Data[5] = (uint8\_t)0xFF & (CANx->sFIFOMailBox[FIFONumber].RDHR >> 8);
+00773   RxMessage->Data[6] = (uint8\_t)0xFF & (CANx->sFIFOMailBox[FIFONumber].RDHR >> 16);
+00774   RxMessage->Data[7] = (uint8\_t)0xFF & (CANx->sFIFOMailBox[FIFONumber].RDHR >> 24);
+00775   \textcolor{comment}{/* Release the FIFO */}
+00776   \textcolor{comment}{/* Release FIFO0 */}
+00777   \textcolor{keywordflow}{if} (FIFONumber == CAN_FIFO0)
+00778   \{
+00779     CANx->RF0R |= CAN_RF0R_RFOM0;
+00780   \}
+00781   \textcolor{comment}{/* Release FIFO1 */}
+00782   \textcolor{keywordflow}{else} \textcolor{comment}{/* FIFONumber == CAN\_FIFO1 */}
+00783   \{
+00784     CANx->RF1R |= CAN_RF1R_RFOM1;
+00785   \}
+00786 \}
+00787 
+00788 \textcolor{comment}{/**}
+00789 \textcolor{comment}{  * @brief  Releases the specified receive FIFO.}
+00790 \textcolor{comment}{  * @param  CANx: where x can be 1 or 2 to select the CAN peripheral.}
+00791 \textcolor{comment}{  * @param  FIFONumber: FIFO to release, CAN\_FIFO0 or CAN\_FIFO1.}
+00792 \textcolor{comment}{  * @retval None}
+00793 \textcolor{comment}{  */}
+00794 \textcolor{keywordtype}{void} CAN_FIFORelease(CAN\_TypeDef* CANx, uint8\_t FIFONumber)
+00795 \{
+00796   \textcolor{comment}{/* Check the parameters */}
+00797   assert_param(IS\_CAN\_ALL\_PERIPH(CANx));
+00798   assert_param(IS\_CAN\_FIFO(FIFONumber));
+00799   \textcolor{comment}{/* Release FIFO0 */}
+00800   \textcolor{keywordflow}{if} (FIFONumber == CAN_FIFO0)
+00801   \{
+00802     CANx->RF0R |= CAN_RF0R_RFOM0;
+00803   \}
+00804   \textcolor{comment}{/* Release FIFO1 */}
+00805   \textcolor{keywordflow}{else} \textcolor{comment}{/* FIFONumber == CAN\_FIFO1 */}
+00806   \{
+00807     CANx->RF1R |= CAN_RF1R_RFOM1;
+00808   \}
+00809 \}
+00810 
+00811 \textcolor{comment}{/**}
+00812 \textcolor{comment}{  * @brief  Returns the number of pending received messages.}
+00813 \textcolor{comment}{  * @param  CANx: where x can be 1 or 2 to select the CAN peripheral.}
+00814 \textcolor{comment}{  * @param  FIFONumber: Receive FIFO number, CAN\_FIFO0 or CAN\_FIFO1.}
+00815 \textcolor{comment}{  * @retval NbMessage : which is the number of pending message.}
+00816 \textcolor{comment}{  */}
+00817 uint8\_t CAN_MessagePending(CAN\_TypeDef* CANx, uint8\_t FIFONumber)
+00818 \{
+00819   uint8\_t message\_pending=0;
+00820   \textcolor{comment}{/* Check the parameters */}
+00821   assert_param(IS\_CAN\_ALL\_PERIPH(CANx));
+00822   assert_param(IS\_CAN\_FIFO(FIFONumber));
+00823   \textcolor{keywordflow}{if} (FIFONumber == CAN_FIFO0)
+00824   \{
+00825     message\_pending = (uint8\_t)(CANx->RF0R&(uint32\_t)0x03);
+00826   \}
+00827   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (FIFONumber == CAN_FIFO1)
+00828   \{
+00829     message\_pending = (uint8\_t)(CANx->RF1R&(uint32\_t)0x03);
+00830   \}
+00831   \textcolor{keywordflow}{else}
+00832   \{
+00833     message\_pending = 0;
+00834   \}
+00835   \textcolor{keywordflow}{return} message\_pending;
+00836 \}
+00837 \textcolor{comment}{/**}
+00838 \textcolor{comment}{  * @\}}
+00839 \textcolor{comment}{  */}
+00840 
+00841 
+00842 \textcolor{comment}{/** @defgroup CAN\_Group4 CAN Operation modes functions}
+00843 \textcolor{comment}{ *  @brief    CAN Operation modes functions }
+00844 \textcolor{comment}{ *}
+00845 \textcolor{comment}{@verbatim    }
+00846 \textcolor{comment}{ ===============================================================================}
+00847 \textcolor{comment}{                      CAN Operation modes functions}
+00848 \textcolor{comment}{ ===============================================================================  }
+00849 \textcolor{comment}{  This section provides functions allowing to select the CAN Operation modes}
+00850 \textcolor{comment}{  - sleep mode}
+00851 \textcolor{comment}{  - normal mode }
+00852 \textcolor{comment}{  - initialization mode}
+00853 \textcolor{comment}{   }
+00854 \textcolor{comment}{@endverbatim}
+00855 \textcolor{comment}{  * @\{}
+00856 \textcolor{comment}{  */}
+00857 
+00858 
+00859 \textcolor{comment}{/**}
+00860 \textcolor{comment}{  * @brief  Selects the CAN Operation mode.}
+00861 \textcolor{comment}{  * @param  CAN\_OperatingMode: CAN Operating Mode.}
+00862 \textcolor{comment}{  *         This parameter can be one of @ref CAN\_OperatingMode\_TypeDef enumeration.}
+00863 \textcolor{comment}{  * @retval status of the requested mode which can be }
+00864 \textcolor{comment}{  *         - CAN\_ModeStatus\_Failed:  CAN failed entering the specific mode }
+00865 \textcolor{comment}{  *         - CAN\_ModeStatus\_Success: CAN Succeed entering the specific mode }
+00866 \textcolor{comment}{  */}
+00867 uint8\_t CAN_OperatingModeRequest(CAN\_TypeDef* CANx, uint8\_t CAN\_OperatingMode)
+00868 \{
+00869   uint8\_t status = CAN_ModeStatus_Failed;
+00870 
+00871   \textcolor{comment}{/* Timeout for INAK or also for SLAK bits*/}
+00872   uint32\_t timeout = INAK_TIMEOUT;
+00873 
+00874   \textcolor{comment}{/* Check the parameters */}
+00875   assert_param(IS\_CAN\_ALL\_PERIPH(CANx));
+00876   assert_param(IS\_CAN\_OPERATING\_MODE(CAN\_OperatingMode));
+00877 
+00878   \textcolor{keywordflow}{if} (CAN\_OperatingMode == CAN_OperatingMode_Initialization)
+00879   \{
+00880     \textcolor{comment}{/* Request initialisation */}
+00881     CANx->MCR = (uint32\_t)((CANx->MCR & (uint32\_t)(~(uint32\_t)CAN_MCR_SLEEP)) | 
+      CAN_MCR_INRQ);
+00882 
+00883     \textcolor{comment}{/* Wait the acknowledge */}
+00884     \textcolor{keywordflow}{while} (((CANx->MSR & CAN_MODE_MASK) != CAN_MSR_INAK) && (timeout != 0))
+00885     \{
+00886       timeout--;
+00887     \}
+00888     \textcolor{keywordflow}{if} ((CANx->MSR & CAN_MODE_MASK) != CAN_MSR_INAK)
+00889     \{
+00890       status = CAN_ModeStatus_Failed;
+00891     \}
+00892     \textcolor{keywordflow}{else}
+00893     \{
+00894       status = CAN_ModeStatus_Success;
+00895     \}
+00896   \}
+00897   \textcolor{keywordflow}{else}  \textcolor{keywordflow}{if} (CAN\_OperatingMode == CAN_OperatingMode_Normal)
+00898   \{
+00899     \textcolor{comment}{/* Request leave initialisation and sleep mode  and enter Normal mode */}
+00900     CANx->MCR &= (uint32\_t)(~(CAN_MCR_SLEEP|CAN_MCR_INRQ));
+00901 
+00902     \textcolor{comment}{/* Wait the acknowledge */}
+00903     \textcolor{keywordflow}{while} (((CANx->MSR & CAN_MODE_MASK) != 0) && (timeout!=0))
+00904     \{
+00905       timeout--;
+00906     \}
+00907     \textcolor{keywordflow}{if} ((CANx->MSR & CAN_MODE_MASK) != 0)
+00908     \{
+00909       status = CAN_ModeStatus_Failed;
+00910     \}
+00911     \textcolor{keywordflow}{else}
+00912     \{
+00913       status = CAN_ModeStatus_Success;
+00914     \}
+00915   \}
+00916   \textcolor{keywordflow}{else}  \textcolor{keywordflow}{if} (CAN\_OperatingMode == CAN_OperatingMode_Sleep)
+00917   \{
+00918     \textcolor{comment}{/* Request Sleep mode */}
+00919     CANx->MCR = (uint32\_t)((CANx->MCR & (uint32\_t)(~(uint32\_t)CAN_MCR_INRQ)) | 
+      CAN_MCR_SLEEP);
+00920 
+00921     \textcolor{comment}{/* Wait the acknowledge */}
+00922     \textcolor{keywordflow}{while} (((CANx->MSR & CAN_MODE_MASK) != CAN_MSR_SLAK) && (timeout!=0))
+00923     \{
+00924       timeout--;
+00925     \}
+00926     \textcolor{keywordflow}{if} ((CANx->MSR & CAN_MODE_MASK) != CAN_MSR_SLAK)
+00927     \{
+00928       status = CAN_ModeStatus_Failed;
+00929     \}
+00930     \textcolor{keywordflow}{else}
+00931     \{
+00932       status = CAN_ModeStatus_Success;
+00933     \}
+00934   \}
+00935   \textcolor{keywordflow}{else}
+00936   \{
+00937     status = CAN_ModeStatus_Failed;
+00938   \}
+00939 
+00940   \textcolor{keywordflow}{return}  (uint8\_t) status;
+00941 \}
+00942 
+00943 \textcolor{comment}{/**}
+00944 \textcolor{comment}{  * @brief  Enters the Sleep (low power) mode.}
+00945 \textcolor{comment}{  * @param  CANx: where x can be 1 or 2 to select the CAN peripheral.}
+00946 \textcolor{comment}{  * @retval CAN\_Sleep\_Ok if sleep entered, CAN\_Sleep\_Failed otherwise.}
+00947 \textcolor{comment}{  */}
+00948 uint8\_t CAN_Sleep(CAN\_TypeDef* CANx)
+00949 \{
+00950   uint8\_t sleepstatus = CAN_Sleep_Failed;
+00951 
+00952   \textcolor{comment}{/* Check the parameters */}
+00953   assert_param(IS\_CAN\_ALL\_PERIPH(CANx));
+00954 
+00955   \textcolor{comment}{/* Request Sleep mode */}
+00956    CANx->MCR = (((CANx->MCR) & (uint32\_t)(~(uint32\_t)CAN_MCR_INRQ)) | 
+      CAN_MCR_SLEEP);
+00957 
+00958   \textcolor{comment}{/* Sleep mode status */}
+00959   \textcolor{keywordflow}{if} ((CANx->MSR & (CAN_MSR_SLAK|CAN_MSR_INAK)) == CAN_MSR_SLAK)
+00960   \{
+00961     \textcolor{comment}{/* Sleep mode not entered */}
+00962     sleepstatus =  CAN_Sleep_Ok;
+00963   \}
+00964   \textcolor{comment}{/* return sleep mode status */}
+00965    \textcolor{keywordflow}{return} (uint8\_t)sleepstatus;
+00966 \}
+00967 
+00968 \textcolor{comment}{/**}
+00969 \textcolor{comment}{  * @brief  Wakes up the CAN peripheral from sleep mode .}
+00970 \textcolor{comment}{  * @param  CANx: where x can be 1 or 2 to select the CAN peripheral.}
+00971 \textcolor{comment}{  * @retval CAN\_WakeUp\_Ok if sleep mode left, CAN\_WakeUp\_Failed otherwise.}
+00972 \textcolor{comment}{  */}
+00973 uint8\_t CAN_WakeUp(CAN\_TypeDef* CANx)
+00974 \{
+00975   uint32\_t wait\_slak = SLAK_TIMEOUT;
+00976   uint8\_t wakeupstatus = CAN_WakeUp_Failed;
+00977 
+00978   \textcolor{comment}{/* Check the parameters */}
+00979   assert_param(IS\_CAN\_ALL\_PERIPH(CANx));
+00980 
+00981   \textcolor{comment}{/* Wake up request */}
+00982   CANx->MCR &= ~(uint32\_t)CAN_MCR_SLEEP;
+00983 
+00984   \textcolor{comment}{/* Sleep mode status */}
+00985   \textcolor{keywordflow}{while}(((CANx->MSR & CAN_MSR_SLAK) == CAN_MSR_SLAK)&&(wait\_slak!=0x00))
+00986   \{
+00987    wait\_slak--;
+00988   \}
+00989   \textcolor{keywordflow}{if}((CANx->MSR & CAN_MSR_SLAK) != CAN_MSR_SLAK)
+00990   \{
+00991    \textcolor{comment}{/* wake up done : Sleep mode exited */}
+00992     wakeupstatus = CAN_WakeUp_Ok;
+00993   \}
+00994   \textcolor{comment}{/* return wakeup status */}
+00995   \textcolor{keywordflow}{return} (uint8\_t)wakeupstatus;
+00996 \}
+00997 \textcolor{comment}{/**}
+00998 \textcolor{comment}{  * @\}}
+00999 \textcolor{comment}{  */}
+01000 
+01001 
+01002 \textcolor{comment}{/** @defgroup CAN\_Group5 CAN Bus Error management functions}
+01003 \textcolor{comment}{ *  @brief    CAN Bus Error management functions }
+01004 \textcolor{comment}{ *}
+01005 \textcolor{comment}{@verbatim    }
+01006 \textcolor{comment}{ ===============================================================================}
+01007 \textcolor{comment}{                      CAN Bus Error management functions}
+01008 \textcolor{comment}{ ===============================================================================  }
+01009 \textcolor{comment}{  This section provides functions allowing to }
+01010 \textcolor{comment}{   -  Return the CANx's last error code (LEC)}
+01011 \textcolor{comment}{   -  Return the CANx Receive Error Counter (REC)}
+01012 \textcolor{comment}{   -  Return the LSB of the 9-bit CANx Transmit Error Counter(TEC).}
+01013 \textcolor{comment}{   }
+01014 \textcolor{comment}{   @note If TEC is greater than 255, The CAN is in bus-off state.}
+01015 \textcolor{comment}{   @note if REC or TEC are greater than 96, an Error warning flag occurs.}
+01016 \textcolor{comment}{   @note if REC or TEC are greater than 127, an Error Passive Flag occurs.}
+01017 \textcolor{comment}{                        }
+01018 \textcolor{comment}{@endverbatim}
+01019 \textcolor{comment}{  * @\{}
+01020 \textcolor{comment}{  */}
+01021 
+01022 \textcolor{comment}{/**}
+01023 \textcolor{comment}{  * @brief  Returns the CANx's last error code (LEC).}
+01024 \textcolor{comment}{  * @param  CANx: where x can be 1 or 2 to select the CAN peripheral.}
+01025 \textcolor{comment}{  * @retval Error code: }
+01026 \textcolor{comment}{  *          - CAN\_ERRORCODE\_NoErr: No Error  }
+01027 \textcolor{comment}{  *          - CAN\_ERRORCODE\_StuffErr: Stuff Error}
+01028 \textcolor{comment}{  *          - CAN\_ERRORCODE\_FormErr: Form Error}
+01029 \textcolor{comment}{  *          - CAN\_ERRORCODE\_ACKErr : Acknowledgment Error}
+01030 \textcolor{comment}{  *          - CAN\_ERRORCODE\_BitRecessiveErr: Bit Recessive Error}
+01031 \textcolor{comment}{  *          - CAN\_ERRORCODE\_BitDominantErr: Bit Dominant Error}
+01032 \textcolor{comment}{  *          - CAN\_ERRORCODE\_CRCErr: CRC Error}
+01033 \textcolor{comment}{  *          - CAN\_ERRORCODE\_SoftwareSetErr: Software Set Error  }
+01034 \textcolor{comment}{  */}
+01035 uint8\_t CAN_GetLastErrorCode(CAN\_TypeDef* CANx)
+01036 \{
+01037   uint8\_t errorcode=0;
+01038 
+01039   \textcolor{comment}{/* Check the parameters */}
+01040   assert_param(IS\_CAN\_ALL\_PERIPH(CANx));
+01041 
+01042   \textcolor{comment}{/* Get the error code*/}
+01043   errorcode = (((uint8\_t)CANx->ESR) & (uint8\_t)CAN_ESR_LEC);
+01044 
+01045   \textcolor{comment}{/* Return the error code*/}
+01046   \textcolor{keywordflow}{return} errorcode;
+01047 \}
+01048 
+01049 \textcolor{comment}{/**}
+01050 \textcolor{comment}{  * @brief  Returns the CANx Receive Error Counter (REC).}
+01051 \textcolor{comment}{  * @note   In case of an error during reception, this counter is incremented }
+01052 \textcolor{comment}{  *         by 1 or by 8 depending on the error condition as defined by the CAN }
+01053 \textcolor{comment}{  *         standard. After every successful reception, the counter is }
+01054 \textcolor{comment}{  *         decremented by 1 or reset to 120 if its value was higher than 128. }
+01055 \textcolor{comment}{  *         When the counter value exceeds 127, the CAN controller enters the }
+01056 \textcolor{comment}{  *         error passive state.  }
+01057 \textcolor{comment}{  * @param  CANx: where x can be 1 or 2 to to select the CAN peripheral.  }
+01058 \textcolor{comment}{  * @retval CAN Receive Error Counter. }
+01059 \textcolor{comment}{  */}
+01060 uint8\_t CAN_GetReceiveErrorCounter(CAN\_TypeDef* CANx)
+01061 \{
+01062   uint8\_t counter=0;
+01063 
+01064   \textcolor{comment}{/* Check the parameters */}
+01065   assert_param(IS\_CAN\_ALL\_PERIPH(CANx));
+01066 
+01067   \textcolor{comment}{/* Get the Receive Error Counter*/}
+01068   counter = (uint8\_t)((CANx->ESR & CAN_ESR_REC)>> 24);
+01069 
+01070   \textcolor{comment}{/* Return the Receive Error Counter*/}
+01071   \textcolor{keywordflow}{return} counter;
+01072 \}
+01073 
+01074 
+01075 \textcolor{comment}{/**}
+01076 \textcolor{comment}{  * @brief  Returns the LSB of the 9-bit CANx Transmit Error Counter(TEC).}
+01077 \textcolor{comment}{  * @param  CANx: where x can be 1 or 2 to to select the CAN peripheral.}
+01078 \textcolor{comment}{  * @retval LSB of the 9-bit CAN Transmit Error Counter. }
+01079 \textcolor{comment}{  */}
+01080 uint8\_t CAN_GetLSBTransmitErrorCounter(CAN\_TypeDef* CANx)
+01081 \{
+01082   uint8\_t counter=0;
+01083 
+01084   \textcolor{comment}{/* Check the parameters */}
+01085   assert_param(IS\_CAN\_ALL\_PERIPH(CANx));
+01086 
+01087   \textcolor{comment}{/* Get the LSB of the 9-bit CANx Transmit Error Counter(TEC) */}
+01088   counter = (uint8\_t)((CANx->ESR & CAN_ESR_TEC)>> 16);
+01089 
+01090   \textcolor{comment}{/* Return the LSB of the 9-bit CANx Transmit Error Counter(TEC) */}
+01091   \textcolor{keywordflow}{return} counter;
+01092 \}
+01093 \textcolor{comment}{/**}
+01094 \textcolor{comment}{  * @\}}
+01095 \textcolor{comment}{  */}
+01096 
+01097 \textcolor{comment}{/** @defgroup CAN\_Group6 Interrupts and flags management functions}
+01098 \textcolor{comment}{ *  @brief   Interrupts and flags management functions}
+01099 \textcolor{comment}{ *}
+01100 \textcolor{comment}{@verbatim   }
+01101 \textcolor{comment}{ ===============================================================================}
+01102 \textcolor{comment}{                   Interrupts and flags management functions}
+01103 \textcolor{comment}{ ===============================================================================  }
+01104 \textcolor{comment}{}
+01105 \textcolor{comment}{  This section provides functions allowing to configure the CAN Interrupts and }
+01106 \textcolor{comment}{  to get the status and clear flags and Interrupts pending bits.}
+01107 \textcolor{comment}{  }
+01108 \textcolor{comment}{  The CAN provides 14 Interrupts sources and 15 Flags:}
+01109 \textcolor{comment}{}
+01110 \textcolor{comment}{  ===============  }
+01111 \textcolor{comment}{      Flags :}
+01112 \textcolor{comment}{  ===============}
+01113 \textcolor{comment}{  The 15 flags can be divided on 4 groups: }
+01114 \textcolor{comment}{}
+01115 \textcolor{comment}{   A. Transmit Flags}
+01116 \textcolor{comment}{  -----------------------}
+01117 \textcolor{comment}{        CAN\_FLAG\_RQCP0, }
+01118 \textcolor{comment}{        CAN\_FLAG\_RQCP1, }
+01119 \textcolor{comment}{        CAN\_FLAG\_RQCP2  : Request completed MailBoxes 0, 1 and 2  Flags}
+01120 \textcolor{comment}{                          Set when when the last request (transmit or abort) has }
+01121 \textcolor{comment}{                          been performed. }
+01122 \textcolor{comment}{}
+01123 \textcolor{comment}{  B. Receive Flags}
+01124 \textcolor{comment}{  -----------------------}
+01125 \textcolor{comment}{}
+01126 \textcolor{comment}{        CAN\_FLAG\_FMP0,}
+01127 \textcolor{comment}{        CAN\_FLAG\_FMP1   : FIFO 0 and 1 Message Pending Flags }
+01128 \textcolor{comment}{                          set to signal that messages are pending in the receive }
+01129 \textcolor{comment}{                          FIFO.}
+01130 \textcolor{comment}{                          These Flags are cleared only by hardware. }
+01131 \textcolor{comment}{}
+01132 \textcolor{comment}{        CAN\_FLAG\_FF0,}
+01133 \textcolor{comment}{        CAN\_FLAG\_FF1    : FIFO 0 and 1 Full Flags}
+01134 \textcolor{comment}{                          set when three messages are stored in the selected }
+01135 \textcolor{comment}{                          FIFO.                        }
+01136 \textcolor{comment}{}
+01137 \textcolor{comment}{        CAN\_FLAG\_FOV0              }
+01138 \textcolor{comment}{        CAN\_FLAG\_FOV1   : FIFO 0 and 1 Overrun Flags}
+01139 \textcolor{comment}{                          set when a new message has been received and passed }
+01140 \textcolor{comment}{                          the filter while the FIFO was full.         }
+01141 \textcolor{comment}{}
+01142 \textcolor{comment}{  C. Operating Mode Flags}
+01143 \textcolor{comment}{  ----------------------- }
+01144 \textcolor{comment}{        CAN\_FLAG\_WKU    : Wake up Flag}
+01145 \textcolor{comment}{                          set to signal that a SOF bit has been detected while }
+01146 \textcolor{comment}{                          the CAN hardware was in Sleep mode. }
+01147 \textcolor{comment}{        }
+01148 \textcolor{comment}{        CAN\_FLAG\_SLAK   : Sleep acknowledge Flag}
+01149 \textcolor{comment}{                          Set to signal that the CAN has entered Sleep Mode. }
+01150 \textcolor{comment}{    }
+01151 \textcolor{comment}{  D. Error Flags}
+01152 \textcolor{comment}{  ----------------------- }
+01153 \textcolor{comment}{        CAN\_FLAG\_EWG    : Error Warning Flag}
+01154 \textcolor{comment}{                          Set when the warning limit has been reached (Receive }
+01155 \textcolor{comment}{                          Error Counter or Transmit Error Counter greater than 96). }
+01156 \textcolor{comment}{                          This Flag is cleared only by hardware.}
+01157 \textcolor{comment}{                            }
+01158 \textcolor{comment}{        CAN\_FLAG\_EPV    : Error Passive Flag}
+01159 \textcolor{comment}{                          Set when the Error Passive limit has been reached }
+01160 \textcolor{comment}{                          (Receive Error Counter or Transmit Error Counter }
+01161 \textcolor{comment}{                          greater than 127).}
+01162 \textcolor{comment}{                          This Flag is cleared only by hardware.}
+01163 \textcolor{comment}{                             }
+01164 \textcolor{comment}{        CAN\_FLAG\_BOF    : Bus-Off Flag}
+01165 \textcolor{comment}{                          set when CAN enters the bus-off state. The bus-off }
+01166 \textcolor{comment}{                          state is entered on TEC overflow, greater than 255.}
+01167 \textcolor{comment}{                          This Flag is cleared only by hardware.}
+01168 \textcolor{comment}{                                   }
+01169 \textcolor{comment}{        CAN\_FLAG\_LEC    : Last error code Flag}
+01170 \textcolor{comment}{                          set If a message has been transferred (reception or}
+01171 \textcolor{comment}{                          transmission) with error, and the error code is hold.              }
+01172 \textcolor{comment}{                          }
+01173 \textcolor{comment}{  ===============  }
+01174 \textcolor{comment}{   Interrupts :}
+01175 \textcolor{comment}{  ===============}
+01176 \textcolor{comment}{  The 14 interrupts can be divided on 4 groups: }
+01177 \textcolor{comment}{  }
+01178 \textcolor{comment}{   A. Transmit interrupt}
+01179 \textcolor{comment}{  -----------------------   }
+01180 \textcolor{comment}{          CAN\_IT\_TME   :  Transmit mailbox empty Interrupt}
+01181 \textcolor{comment}{                          if enabled, this interrupt source is pending when }
+01182 \textcolor{comment}{                          no transmit request are pending for Tx mailboxes.      }
+01183 \textcolor{comment}{}
+01184 \textcolor{comment}{   B. Receive Interrupts}
+01185 \textcolor{comment}{  -----------------------          }
+01186 \textcolor{comment}{        CAN\_IT\_FMP0,}
+01187 \textcolor{comment}{        CAN\_IT\_FMP1    :  FIFO 0 and FIFO1 message pending Interrupts}
+01188 \textcolor{comment}{                          if enabled, these interrupt sources are pending when }
+01189 \textcolor{comment}{                          messages are pending in the receive FIFO.}
+01190 \textcolor{comment}{                          The corresponding interrupt pending bits are cleared }
+01191 \textcolor{comment}{                          only by hardware.}
+01192 \textcolor{comment}{                }
+01193 \textcolor{comment}{        CAN\_IT\_FF0,              }
+01194 \textcolor{comment}{        CAN\_IT\_FF1     :  FIFO 0 and FIFO1 full Interrupts}
+01195 \textcolor{comment}{                          if enabled, these interrupt sources are pending when}
+01196 \textcolor{comment}{                          three messages are stored in the selected FIFO.}
+01197 \textcolor{comment}{        }
+01198 \textcolor{comment}{        CAN\_IT\_FOV0,        }
+01199 \textcolor{comment}{        CAN\_IT\_FOV1    :  FIFO 0 and FIFO1 overrun Interrupts        }
+01200 \textcolor{comment}{                          if enabled, these interrupt sources are pending when}
+01201 \textcolor{comment}{                          a new message has been received and passed the filter}
+01202 \textcolor{comment}{                          while the FIFO was full.}
+01203 \textcolor{comment}{}
+01204 \textcolor{comment}{   C. Operating Mode Interrupts}
+01205 \textcolor{comment}{  -------------------------------          }
+01206 \textcolor{comment}{        CAN\_IT\_WKU     :  Wake-up Interrupt}
+01207 \textcolor{comment}{                          if enabled, this interrupt source is pending when }
+01208 \textcolor{comment}{                          a SOF bit has been detected while the CAN hardware was }
+01209 \textcolor{comment}{                          in Sleep mode.}
+01210 \textcolor{comment}{                                  }
+01211 \textcolor{comment}{        CAN\_IT\_SLK     :  Sleep acknowledge Interrupt}
+01212 \textcolor{comment}{                          if enabled, this interrupt source is pending when }
+01213 \textcolor{comment}{                          the CAN has entered Sleep Mode.       }
+01214 \textcolor{comment}{}
+01215 \textcolor{comment}{   D. Error Interrupts }
+01216 \textcolor{comment}{  -----------------------         }
+01217 \textcolor{comment}{        CAN\_IT\_EWG     :  Error warning Interrupt }
+01218 \textcolor{comment}{                          if enabled, this interrupt source is pending when}
+01219 \textcolor{comment}{                          the warning limit has been reached (Receive Error }
+01220 \textcolor{comment}{                          Counter or Transmit Error Counter=96). }
+01221 \textcolor{comment}{                               }
+01222 \textcolor{comment}{        CAN\_IT\_EPV     :  Error passive Interrupt        }
+01223 \textcolor{comment}{                          if enabled, this interrupt source is pending when}
+01224 \textcolor{comment}{                          the Error Passive limit has been reached (Receive }
+01225 \textcolor{comment}{                          Error Counter or Transmit Error Counter>127).}
+01226 \textcolor{comment}{                          }
+01227 \textcolor{comment}{        CAN\_IT\_BOF     :  Bus-off Interrupt}
+01228 \textcolor{comment}{                          if enabled, this interrupt source is pending when}
+01229 \textcolor{comment}{                          CAN enters the bus-off state. The bus-off state is }
+01230 \textcolor{comment}{                          entered on TEC overflow, greater than 255.}
+01231 \textcolor{comment}{                          This Flag is cleared only by hardware.}
+01232 \textcolor{comment}{                                  }
+01233 \textcolor{comment}{        CAN\_IT\_LEC     :  Last error code Interrupt        }
+01234 \textcolor{comment}{                          if enabled, this interrupt source is pending  when}
+01235 \textcolor{comment}{                          a message has been transferred (reception or}
+01236 \textcolor{comment}{                          transmission) with error, and the error code is hold.}
+01237 \textcolor{comment}{                          }
+01238 \textcolor{comment}{        CAN\_IT\_ERR     :  Error Interrupt}
+01239 \textcolor{comment}{                          if enabled, this interrupt source is pending when }
+01240 \textcolor{comment}{                          an error condition is pending.      }
+01241 \textcolor{comment}{                      }
+01242 \textcolor{comment}{}
+01243 \textcolor{comment}{  Managing the CAN controller events :}
+01244 \textcolor{comment}{  ------------------------------------ }
+01245 \textcolor{comment}{  The user should identify which mode will be used in his application to manage }
+01246 \textcolor{comment}{  the CAN controller events: Polling mode or Interrupt mode.}
+01247 \textcolor{comment}{  }
+01248 \textcolor{comment}{  1.  In the Polling Mode it is advised to use the following functions:}
+01249 \textcolor{comment}{      - CAN\_GetFlagStatus() : to check if flags events occur. }
+01250 \textcolor{comment}{      - CAN\_ClearFlag()     : to clear the flags events.}
+01251 \textcolor{comment}{  }
+01252 \textcolor{comment}{}
+01253 \textcolor{comment}{  }
+01254 \textcolor{comment}{  2.  In the Interrupt Mode it is advised to use the following functions:}
+01255 \textcolor{comment}{      - CAN\_ITConfig()       : to enable or disable the interrupt source.}
+01256 \textcolor{comment}{      - CAN\_GetITStatus()    : to check if Interrupt occurs.}
+01257 \textcolor{comment}{      - CAN\_ClearITPendingBit() : to clear the Interrupt pending Bit (corresponding Flag).}
+01258 \textcolor{comment}{      @note  This function has no impact on CAN\_IT\_FMP0 and CAN\_IT\_FMP1 Interrupts }
+01259 \textcolor{comment}{             pending bits since there are cleared only by hardware. }
+01260 \textcolor{comment}{  }
+01261 \textcolor{comment}{@endverbatim}
+01262 \textcolor{comment}{  * @\{}
+01263 \textcolor{comment}{  */}
+01264 \textcolor{comment}{/**}
+01265 \textcolor{comment}{  * @brief  Enables or disables the specified CANx interrupts.}
+01266 \textcolor{comment}{  * @param  CANx: where x can be 1 or 2 to to select the CAN peripheral.}
+01267 \textcolor{comment}{  * @param  CAN\_IT: specifies the CAN interrupt sources to be enabled or disabled.}
+01268 \textcolor{comment}{  *          This parameter can be: }
+01269 \textcolor{comment}{  *            @arg CAN\_IT\_TME: Transmit mailbox empty Interrupt }
+01270 \textcolor{comment}{  *            @arg CAN\_IT\_FMP0: FIFO 0 message pending Interrupt }
+01271 \textcolor{comment}{  *            @arg CAN\_IT\_FF0: FIFO 0 full Interrupt}
+01272 \textcolor{comment}{  *            @arg CAN\_IT\_FOV0: FIFO 0 overrun Interrupt}
+01273 \textcolor{comment}{  *            @arg CAN\_IT\_FMP1: FIFO 1 message pending Interrupt }
+01274 \textcolor{comment}{  *            @arg CAN\_IT\_FF1: FIFO 1 full Interrupt}
+01275 \textcolor{comment}{  *            @arg CAN\_IT\_FOV1: FIFO 1 overrun Interrupt}
+01276 \textcolor{comment}{  *            @arg CAN\_IT\_WKU: Wake-up Interrupt}
+01277 \textcolor{comment}{  *            @arg CAN\_IT\_SLK: Sleep acknowledge Interrupt  }
+01278 \textcolor{comment}{  *            @arg CAN\_IT\_EWG: Error warning Interrupt}
+01279 \textcolor{comment}{  *            @arg CAN\_IT\_EPV: Error passive Interrupt}
+01280 \textcolor{comment}{  *            @arg CAN\_IT\_BOF: Bus-off Interrupt  }
+01281 \textcolor{comment}{  *            @arg CAN\_IT\_LEC: Last error code Interrupt}
+01282 \textcolor{comment}{  *            @arg CAN\_IT\_ERR: Error Interrupt}
+01283 \textcolor{comment}{  * @param  NewState: new state of the CAN interrupts.}
+01284 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01285 \textcolor{comment}{  * @retval None}
+01286 \textcolor{comment}{  */}
+01287 \textcolor{keywordtype}{void} CAN_ITConfig(CAN\_TypeDef* CANx, uint32\_t CAN\_IT, FunctionalState NewState)
+01288 \{
+01289   \textcolor{comment}{/* Check the parameters */}
+01290   assert_param(IS\_CAN\_ALL\_PERIPH(CANx));
+01291   assert_param(IS\_CAN\_IT(CAN\_IT));
+01292   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01293 
+01294   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01295   \{
+01296     \textcolor{comment}{/* Enable the selected CANx interrupt */}
+01297     CANx->IER |= CAN\_IT;
+01298   \}
+01299   \textcolor{keywordflow}{else}
+01300   \{
+01301     \textcolor{comment}{/* Disable the selected CANx interrupt */}
+01302     CANx->IER &= ~CAN\_IT;
+01303   \}
+01304 \}
+01305 \textcolor{comment}{/**}
+01306 \textcolor{comment}{  * @brief  Checks whether the specified CAN flag is set or not.}
+01307 \textcolor{comment}{  * @param  CANx: where x can be 1 or 2 to to select the CAN peripheral.}
+01308 \textcolor{comment}{  * @param  CAN\_FLAG: specifies the flag to check.}
+01309 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01310 \textcolor{comment}{  *            @arg CAN\_FLAG\_RQCP0: Request MailBox0 Flag}
+01311 \textcolor{comment}{  *            @arg CAN\_FLAG\_RQCP1: Request MailBox1 Flag}
+01312 \textcolor{comment}{  *            @arg CAN\_FLAG\_RQCP2: Request MailBox2 Flag}
+01313 \textcolor{comment}{  *            @arg CAN\_FLAG\_FMP0: FIFO 0 Message Pending Flag   }
+01314 \textcolor{comment}{  *            @arg CAN\_FLAG\_FF0: FIFO 0 Full Flag       }
+01315 \textcolor{comment}{  *            @arg CAN\_FLAG\_FOV0: FIFO 0 Overrun Flag }
+01316 \textcolor{comment}{  *            @arg CAN\_FLAG\_FMP1: FIFO 1 Message Pending Flag   }
+01317 \textcolor{comment}{  *            @arg CAN\_FLAG\_FF1: FIFO 1 Full Flag        }
+01318 \textcolor{comment}{  *            @arg CAN\_FLAG\_FOV1: FIFO 1 Overrun Flag     }
+01319 \textcolor{comment}{  *            @arg CAN\_FLAG\_WKU: Wake up Flag}
+01320 \textcolor{comment}{  *            @arg CAN\_FLAG\_SLAK: Sleep acknowledge Flag }
+01321 \textcolor{comment}{  *            @arg CAN\_FLAG\_EWG: Error Warning Flag}
+01322 \textcolor{comment}{  *            @arg CAN\_FLAG\_EPV: Error Passive Flag  }
+01323 \textcolor{comment}{  *            @arg CAN\_FLAG\_BOF: Bus-Off Flag    }
+01324 \textcolor{comment}{  *            @arg CAN\_FLAG\_LEC: Last error code Flag      }
+01325 \textcolor{comment}{  * @retval The new state of CAN\_FLAG (SET or RESET).}
+01326 \textcolor{comment}{  */}
+01327 FlagStatus CAN_GetFlagStatus(CAN\_TypeDef* CANx, uint32\_t CAN\_FLAG)
+01328 \{
+01329   FlagStatus bitstatus = RESET;
+01330 
+01331   \textcolor{comment}{/* Check the parameters */}
+01332   assert_param(IS\_CAN\_ALL\_PERIPH(CANx));
+01333   assert_param(IS\_CAN\_GET\_FLAG(CAN\_FLAG));
+01334 
+01335 
+01336   \textcolor{keywordflow}{if}((CAN\_FLAG & CAN_FLAGS_ESR) != (uint32\_t)RESET)
+01337   \{
+01338     \textcolor{comment}{/* Check the status of the specified CAN flag */}
+01339     \textcolor{keywordflow}{if} ((CANx->ESR & (CAN\_FLAG & 0x000FFFFF)) != (uint32\_t)RESET)
+01340     \{
+01341       \textcolor{comment}{/* CAN\_FLAG is set */}
+01342       bitstatus = SET;
+01343     \}
+01344     \textcolor{keywordflow}{else}
+01345     \{
+01346       \textcolor{comment}{/* CAN\_FLAG is reset */}
+01347       bitstatus = RESET;
+01348     \}
+01349   \}
+01350   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}((CAN\_FLAG & CAN_FLAGS_MSR) != (uint32\_t)RESET)
+01351   \{
+01352     \textcolor{comment}{/* Check the status of the specified CAN flag */}
+01353     \textcolor{keywordflow}{if} ((CANx->MSR & (CAN\_FLAG & 0x000FFFFF)) != (uint32\_t)RESET)
+01354     \{
+01355       \textcolor{comment}{/* CAN\_FLAG is set */}
+01356       bitstatus = SET;
+01357     \}
+01358     \textcolor{keywordflow}{else}
+01359     \{
+01360       \textcolor{comment}{/* CAN\_FLAG is reset */}
+01361       bitstatus = RESET;
+01362     \}
+01363   \}
+01364   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}((CAN\_FLAG & CAN_FLAGS_TSR) != (uint32\_t)RESET)
+01365   \{
+01366     \textcolor{comment}{/* Check the status of the specified CAN flag */}
+01367     \textcolor{keywordflow}{if} ((CANx->TSR & (CAN\_FLAG & 0x000FFFFF)) != (uint32\_t)RESET)
+01368     \{
+01369       \textcolor{comment}{/* CAN\_FLAG is set */}
+01370       bitstatus = SET;
+01371     \}
+01372     \textcolor{keywordflow}{else}
+01373     \{
+01374       \textcolor{comment}{/* CAN\_FLAG is reset */}
+01375       bitstatus = RESET;
+01376     \}
+01377   \}
+01378   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}((CAN\_FLAG & CAN_FLAGS_RF0R) != (uint32\_t)RESET)
+01379   \{
+01380     \textcolor{comment}{/* Check the status of the specified CAN flag */}
+01381     \textcolor{keywordflow}{if} ((CANx->RF0R & (CAN\_FLAG & 0x000FFFFF)) != (uint32\_t)RESET)
+01382     \{
+01383       \textcolor{comment}{/* CAN\_FLAG is set */}
+01384       bitstatus = SET;
+01385     \}
+01386     \textcolor{keywordflow}{else}
+01387     \{
+01388       \textcolor{comment}{/* CAN\_FLAG is reset */}
+01389       bitstatus = RESET;
+01390     \}
+01391   \}
+01392   \textcolor{keywordflow}{else} \textcolor{comment}{/* If(CAN\_FLAG & CAN\_FLAGS\_RF1R != (uint32\_t)RESET) */}
+01393   \{
+01394     \textcolor{comment}{/* Check the status of the specified CAN flag */}
+01395     \textcolor{keywordflow}{if} ((uint32\_t)(CANx->RF1R & (CAN\_FLAG & 0x000FFFFF)) != (uint32\_t)RESET)
+01396     \{
+01397       \textcolor{comment}{/* CAN\_FLAG is set */}
+01398       bitstatus = SET;
+01399     \}
+01400     \textcolor{keywordflow}{else}
+01401     \{
+01402       \textcolor{comment}{/* CAN\_FLAG is reset */}
+01403       bitstatus = RESET;
+01404     \}
+01405   \}
+01406   \textcolor{comment}{/* Return the CAN\_FLAG status */}
+01407   \textcolor{keywordflow}{return}  bitstatus;
+01408 \}
+01409 
+01410 \textcolor{comment}{/**}
+01411 \textcolor{comment}{  * @brief  Clears the CAN's pending flags.}
+01412 \textcolor{comment}{  * @param  CANx: where x can be 1 or 2 to to select the CAN peripheral.}
+01413 \textcolor{comment}{  * @param  CAN\_FLAG: specifies the flag to clear.}
+01414 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01415 \textcolor{comment}{  *            @arg CAN\_FLAG\_RQCP0: Request MailBox0 Flag}
+01416 \textcolor{comment}{  *            @arg CAN\_FLAG\_RQCP1: Request MailBox1 Flag}
+01417 \textcolor{comment}{  *            @arg CAN\_FLAG\_RQCP2: Request MailBox2 Flag }
+01418 \textcolor{comment}{  *            @arg CAN\_FLAG\_FF0: FIFO 0 Full Flag       }
+01419 \textcolor{comment}{  *            @arg CAN\_FLAG\_FOV0: FIFO 0 Overrun Flag  }
+01420 \textcolor{comment}{  *            @arg CAN\_FLAG\_FF1: FIFO 1 Full Flag        }
+01421 \textcolor{comment}{  *            @arg CAN\_FLAG\_FOV1: FIFO 1 Overrun Flag     }
+01422 \textcolor{comment}{  *            @arg CAN\_FLAG\_WKU: Wake up Flag}
+01423 \textcolor{comment}{  *            @arg CAN\_FLAG\_SLAK: Sleep acknowledge Flag    }
+01424 \textcolor{comment}{  *            @arg CAN\_FLAG\_LEC: Last error code Flag        }
+01425 \textcolor{comment}{  * @retval None}
+01426 \textcolor{comment}{  */}
+01427 \textcolor{keywordtype}{void} CAN_ClearFlag(CAN\_TypeDef* CANx, uint32\_t CAN\_FLAG)
+01428 \{
+01429   uint32\_t flagtmp=0;
+01430   \textcolor{comment}{/* Check the parameters */}
+01431   assert_param(IS\_CAN\_ALL\_PERIPH(CANx));
+01432   assert_param(IS\_CAN\_CLEAR\_FLAG(CAN\_FLAG));
+01433 
+01434   \textcolor{keywordflow}{if} (CAN\_FLAG == CAN_FLAG_LEC) \textcolor{comment}{/* ESR register */}
+01435   \{
+01436     \textcolor{comment}{/* Clear the selected CAN flags */}
+01437     CANx->ESR = (uint32\_t)RESET;
+01438   \}
+01439   \textcolor{keywordflow}{else} \textcolor{comment}{/* MSR or TSR or RF0R or RF1R */}
+01440   \{
+01441     flagtmp = CAN\_FLAG & 0x000FFFFF;
+01442 
+01443     \textcolor{keywordflow}{if} ((CAN\_FLAG & CAN_FLAGS_RF0R)!=(uint32\_t)RESET)
+01444     \{
+01445       \textcolor{comment}{/* Receive Flags */}
+01446       CANx->RF0R = (uint32\_t)(flagtmp);
+01447     \}
+01448     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((CAN\_FLAG & CAN_FLAGS_RF1R)!=(uint32\_t)RESET)
+01449     \{
+01450       \textcolor{comment}{/* Receive Flags */}
+01451       CANx->RF1R = (uint32\_t)(flagtmp);
+01452     \}
+01453     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((CAN\_FLAG & CAN_FLAGS_TSR)!=(uint32\_t)RESET)
+01454     \{
+01455       \textcolor{comment}{/* Transmit Flags */}
+01456       CANx->TSR = (uint32\_t)(flagtmp);
+01457     \}
+01458     \textcolor{keywordflow}{else} \textcolor{comment}{/* If((CAN\_FLAG & CAN\_FLAGS\_MSR)!=(uint32\_t)RESET) */}
+01459     \{
+01460       \textcolor{comment}{/* Operating mode Flags */}
+01461       CANx->MSR = (uint32\_t)(flagtmp);
+01462     \}
+01463   \}
+01464 \}
+01465 
+01466 \textcolor{comment}{/**}
+01467 \textcolor{comment}{  * @brief  Checks whether the specified CANx interrupt has occurred or not.}
+01468 \textcolor{comment}{  * @param  CANx: where x can be 1 or 2 to to select the CAN peripheral.}
+01469 \textcolor{comment}{  * @param  CAN\_IT: specifies the CAN interrupt source to check.}
+01470 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01471 \textcolor{comment}{  *            @arg CAN\_IT\_TME: Transmit mailbox empty Interrupt }
+01472 \textcolor{comment}{  *            @arg CAN\_IT\_FMP0: FIFO 0 message pending Interrupt }
+01473 \textcolor{comment}{  *            @arg CAN\_IT\_FF0: FIFO 0 full Interrupt}
+01474 \textcolor{comment}{  *            @arg CAN\_IT\_FOV0: FIFO 0 overrun Interrupt}
+01475 \textcolor{comment}{  *            @arg CAN\_IT\_FMP1: FIFO 1 message pending Interrupt }
+01476 \textcolor{comment}{  *            @arg CAN\_IT\_FF1: FIFO 1 full Interrupt}
+01477 \textcolor{comment}{  *            @arg CAN\_IT\_FOV1: FIFO 1 overrun Interrupt}
+01478 \textcolor{comment}{  *            @arg CAN\_IT\_WKU: Wake-up Interrupt}
+01479 \textcolor{comment}{  *            @arg CAN\_IT\_SLK: Sleep acknowledge Interrupt  }
+01480 \textcolor{comment}{  *            @arg CAN\_IT\_EWG: Error warning Interrupt}
+01481 \textcolor{comment}{  *            @arg CAN\_IT\_EPV: Error passive Interrupt}
+01482 \textcolor{comment}{  *            @arg CAN\_IT\_BOF: Bus-off Interrupt  }
+01483 \textcolor{comment}{  *            @arg CAN\_IT\_LEC: Last error code Interrupt}
+01484 \textcolor{comment}{  *            @arg CAN\_IT\_ERR: Error Interrupt}
+01485 \textcolor{comment}{  * @retval The current state of CAN\_IT (SET or RESET).}
+01486 \textcolor{comment}{  */}
+01487 ITStatus CAN_GetITStatus(CAN\_TypeDef* CANx, uint32\_t CAN\_IT)
+01488 \{
+01489   ITStatus itstatus = RESET;
+01490   \textcolor{comment}{/* Check the parameters */}
+01491   assert_param(IS\_CAN\_ALL\_PERIPH(CANx));
+01492   assert_param(IS\_CAN\_IT(CAN\_IT));
+01493 
+01494   \textcolor{comment}{/* check the interrupt enable bit */}
+01495  \textcolor{keywordflow}{if}((CANx->IER & CAN\_IT) != RESET)
+01496  \{
+01497    \textcolor{comment}{/* in case the Interrupt is enabled, .... */}
+01498     \textcolor{keywordflow}{switch} (CAN\_IT)
+01499     \{
+01500       \textcolor{keywordflow}{case} CAN_IT_TME:
+01501         \textcolor{comment}{/* Check CAN\_TSR\_RQCPx bits */}
+01502         itstatus = CheckITStatus(CANx->TSR, CAN_TSR_RQCP0|CAN_TSR_RQCP1|
+      CAN_TSR_RQCP2);
+01503         \textcolor{keywordflow}{break};
+01504       \textcolor{keywordflow}{case} CAN_IT_FMP0:
+01505         \textcolor{comment}{/* Check CAN\_RF0R\_FMP0 bit */}
+01506         itstatus = CheckITStatus(CANx->RF0R, CAN_RF0R_FMP0);
+01507         \textcolor{keywordflow}{break};
+01508       \textcolor{keywordflow}{case} CAN_IT_FF0:
+01509         \textcolor{comment}{/* Check CAN\_RF0R\_FULL0 bit */}
+01510         itstatus = CheckITStatus(CANx->RF0R, CAN_RF0R_FULL0);
+01511         \textcolor{keywordflow}{break};
+01512       \textcolor{keywordflow}{case} CAN_IT_FOV0:
+01513         \textcolor{comment}{/* Check CAN\_RF0R\_FOVR0 bit */}
+01514         itstatus = CheckITStatus(CANx->RF0R, CAN_RF0R_FOVR0);
+01515         \textcolor{keywordflow}{break};
+01516       \textcolor{keywordflow}{case} CAN_IT_FMP1:
+01517         \textcolor{comment}{/* Check CAN\_RF1R\_FMP1 bit */}
+01518         itstatus = CheckITStatus(CANx->RF1R, CAN_RF1R_FMP1);
+01519         \textcolor{keywordflow}{break};
+01520       \textcolor{keywordflow}{case} CAN_IT_FF1:
+01521         \textcolor{comment}{/* Check CAN\_RF1R\_FULL1 bit */}
+01522         itstatus = CheckITStatus(CANx->RF1R, CAN_RF1R_FULL1);
+01523         \textcolor{keywordflow}{break};
+01524       \textcolor{keywordflow}{case} CAN_IT_FOV1:
+01525         \textcolor{comment}{/* Check CAN\_RF1R\_FOVR1 bit */}
+01526         itstatus = CheckITStatus(CANx->RF1R, CAN_RF1R_FOVR1);
+01527         \textcolor{keywordflow}{break};
+01528       \textcolor{keywordflow}{case} CAN_IT_WKU:
+01529         \textcolor{comment}{/* Check CAN\_MSR\_WKUI bit */}
+01530         itstatus = CheckITStatus(CANx->MSR, CAN_MSR_WKUI);
+01531         \textcolor{keywordflow}{break};
+01532       \textcolor{keywordflow}{case} CAN_IT_SLK:
+01533         \textcolor{comment}{/* Check CAN\_MSR\_SLAKI bit */}
+01534         itstatus = CheckITStatus(CANx->MSR, CAN_MSR_SLAKI);
+01535         \textcolor{keywordflow}{break};
+01536       \textcolor{keywordflow}{case} CAN_IT_EWG:
+01537         \textcolor{comment}{/* Check CAN\_ESR\_EWGF bit */}
+01538         itstatus = CheckITStatus(CANx->ESR, CAN_ESR_EWGF);
+01539         \textcolor{keywordflow}{break};
+01540       \textcolor{keywordflow}{case} CAN_IT_EPV:
+01541         \textcolor{comment}{/* Check CAN\_ESR\_EPVF bit */}
+01542         itstatus = CheckITStatus(CANx->ESR, CAN_ESR_EPVF);
+01543         \textcolor{keywordflow}{break};
+01544       \textcolor{keywordflow}{case} CAN_IT_BOF:
+01545         \textcolor{comment}{/* Check CAN\_ESR\_BOFF bit */}
+01546         itstatus = CheckITStatus(CANx->ESR, CAN_ESR_BOFF);
+01547         \textcolor{keywordflow}{break};
+01548       \textcolor{keywordflow}{case} CAN_IT_LEC:
+01549         \textcolor{comment}{/* Check CAN\_ESR\_LEC bit */}
+01550         itstatus = CheckITStatus(CANx->ESR, CAN_ESR_LEC);
+01551         \textcolor{keywordflow}{break};
+01552       \textcolor{keywordflow}{case} CAN_IT_ERR:
+01553         \textcolor{comment}{/* Check CAN\_MSR\_ERRI bit */}
+01554         itstatus = CheckITStatus(CANx->MSR, CAN_MSR_ERRI);
+01555         \textcolor{keywordflow}{break};
+01556       \textcolor{keywordflow}{default}:
+01557         \textcolor{comment}{/* in case of error, return RESET */}
+01558         itstatus = RESET;
+01559         \textcolor{keywordflow}{break};
+01560     \}
+01561   \}
+01562   \textcolor{keywordflow}{else}
+01563   \{
+01564    \textcolor{comment}{/* in case the Interrupt is not enabled, return RESET */}
+01565     itstatus  = RESET;
+01566   \}
+01567 
+01568   \textcolor{comment}{/* Return the CAN\_IT status */}
+01569   \textcolor{keywordflow}{return}  itstatus;
+01570 \}
+01571 
+01572 \textcolor{comment}{/**}
+01573 \textcolor{comment}{  * @brief  Clears the CANx's interrupt pending bits.}
+01574 \textcolor{comment}{  * @param  CANx: where x can be 1 or 2 to to select the CAN peripheral.}
+01575 \textcolor{comment}{  * @param  CAN\_IT: specifies the interrupt pending bit to clear.}
+01576 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01577 \textcolor{comment}{  *            @arg CAN\_IT\_TME: Transmit mailbox empty Interrupt}
+01578 \textcolor{comment}{  *            @arg CAN\_IT\_FF0: FIFO 0 full Interrupt}
+01579 \textcolor{comment}{  *            @arg CAN\_IT\_FOV0: FIFO 0 overrun Interrupt}
+01580 \textcolor{comment}{  *            @arg CAN\_IT\_FF1: FIFO 1 full Interrupt}
+01581 \textcolor{comment}{  *            @arg CAN\_IT\_FOV1: FIFO 1 overrun Interrupt}
+01582 \textcolor{comment}{  *            @arg CAN\_IT\_WKU: Wake-up Interrupt}
+01583 \textcolor{comment}{  *            @arg CAN\_IT\_SLK: Sleep acknowledge Interrupt  }
+01584 \textcolor{comment}{  *            @arg CAN\_IT\_EWG: Error warning Interrupt}
+01585 \textcolor{comment}{  *            @arg CAN\_IT\_EPV: Error passive Interrupt}
+01586 \textcolor{comment}{  *            @arg CAN\_IT\_BOF: Bus-off Interrupt  }
+01587 \textcolor{comment}{  *            @arg CAN\_IT\_LEC: Last error code Interrupt}
+01588 \textcolor{comment}{  *            @arg CAN\_IT\_ERR: Error Interrupt }
+01589 \textcolor{comment}{  * @retval None}
+01590 \textcolor{comment}{  */}
+01591 \textcolor{keywordtype}{void} CAN_ClearITPendingBit(CAN\_TypeDef* CANx, uint32\_t CAN\_IT)
+01592 \{
+01593   \textcolor{comment}{/* Check the parameters */}
+01594   assert_param(IS\_CAN\_ALL\_PERIPH(CANx));
+01595   assert_param(IS\_CAN\_CLEAR\_IT(CAN\_IT));
+01596 
+01597   \textcolor{keywordflow}{switch} (CAN\_IT)
+01598   \{
+01599     \textcolor{keywordflow}{case} CAN_IT_TME:
+01600       \textcolor{comment}{/* Clear CAN\_TSR\_RQCPx (rc\_w1)*/}
+01601       CANx->TSR = CAN_TSR_RQCP0|CAN_TSR_RQCP1|CAN_TSR_RQCP2;
+01602       \textcolor{keywordflow}{break};
+01603     \textcolor{keywordflow}{case} CAN_IT_FF0:
+01604       \textcolor{comment}{/* Clear CAN\_RF0R\_FULL0 (rc\_w1)*/}
+01605       CANx->RF0R = CAN_RF0R_FULL0;
+01606       \textcolor{keywordflow}{break};
+01607     \textcolor{keywordflow}{case} CAN_IT_FOV0:
+01608       \textcolor{comment}{/* Clear CAN\_RF0R\_FOVR0 (rc\_w1)*/}
+01609       CANx->RF0R = CAN_RF0R_FOVR0;
+01610       \textcolor{keywordflow}{break};
+01611     \textcolor{keywordflow}{case} CAN_IT_FF1:
+01612       \textcolor{comment}{/* Clear CAN\_RF1R\_FULL1 (rc\_w1)*/}
+01613       CANx->RF1R = CAN_RF1R_FULL1;
+01614       \textcolor{keywordflow}{break};
+01615     \textcolor{keywordflow}{case} CAN_IT_FOV1:
+01616       \textcolor{comment}{/* Clear CAN\_RF1R\_FOVR1 (rc\_w1)*/}
+01617       CANx->RF1R = CAN_RF1R_FOVR1;
+01618       \textcolor{keywordflow}{break};
+01619     \textcolor{keywordflow}{case} CAN_IT_WKU:
+01620       \textcolor{comment}{/* Clear CAN\_MSR\_WKUI (rc\_w1)*/}
+01621       CANx->MSR = CAN_MSR_WKUI;
+01622       \textcolor{keywordflow}{break};
+01623     \textcolor{keywordflow}{case} CAN_IT_SLK:
+01624       \textcolor{comment}{/* Clear CAN\_MSR\_SLAKI (rc\_w1)*/}
+01625       CANx->MSR = CAN_MSR_SLAKI;
+01626       \textcolor{keywordflow}{break};
+01627     \textcolor{keywordflow}{case} CAN_IT_EWG:
+01628       \textcolor{comment}{/* Clear CAN\_MSR\_ERRI (rc\_w1) */}
+01629       CANx->MSR = CAN_MSR_ERRI;
+01630        \textcolor{comment}{/* @note the corresponding Flag is cleared by hardware depending on the CAN Bus status*/}
+01631       \textcolor{keywordflow}{break};
+01632     \textcolor{keywordflow}{case} CAN_IT_EPV:
+01633       \textcolor{comment}{/* Clear CAN\_MSR\_ERRI (rc\_w1) */}
+01634       CANx->MSR = CAN_MSR_ERRI;
+01635        \textcolor{comment}{/* @note the corresponding Flag is cleared by hardware depending on the CAN Bus status*/}
+01636       \textcolor{keywordflow}{break};
+01637     \textcolor{keywordflow}{case} CAN_IT_BOF:
+01638       \textcolor{comment}{/* Clear CAN\_MSR\_ERRI (rc\_w1) */}
+01639       CANx->MSR = CAN_MSR_ERRI;
+01640        \textcolor{comment}{/* @note the corresponding Flag is cleared by hardware depending on the CAN Bus status*/}
+01641        \textcolor{keywordflow}{break};
+01642     \textcolor{keywordflow}{case} CAN_IT_LEC:
+01643       \textcolor{comment}{/*  Clear LEC bits */}
+01644       CANx->ESR = RESET;
+01645       \textcolor{comment}{/* Clear CAN\_MSR\_ERRI (rc\_w1) */}
+01646       CANx->MSR = CAN_MSR_ERRI;
+01647       \textcolor{keywordflow}{break};
+01648     \textcolor{keywordflow}{case} CAN_IT_ERR:
+01649       \textcolor{comment}{/*Clear LEC bits */}
+01650       CANx->ESR = RESET;
+01651       \textcolor{comment}{/* Clear CAN\_MSR\_ERRI (rc\_w1) */}
+01652       CANx->MSR = CAN_MSR_ERRI;
+01653        \textcolor{comment}{/* @note BOFF, EPVF and EWGF Flags are cleared by hardware depending on the CAN Bus status*/}
+01654        \textcolor{keywordflow}{break};
+01655     \textcolor{keywordflow}{default}:
+01656        \textcolor{keywordflow}{break};
+01657    \}
+01658 \}
+01659  \textcolor{comment}{/**}
+01660 \textcolor{comment}{  * @\}}
+01661 \textcolor{comment}{  */}
+01662 
+01663 \textcolor{comment}{/**}
+01664 \textcolor{comment}{  * @brief  Checks whether the CAN interrupt has occurred or not.}
+01665 \textcolor{comment}{  * @param  CAN\_Reg: specifies the CAN interrupt register to check.}
+01666 \textcolor{comment}{  * @param  It\_Bit: specifies the interrupt source bit to check.}
+01667 \textcolor{comment}{  * @retval The new state of the CAN Interrupt (SET or RESET).}
+01668 \textcolor{comment}{  */}
+01669 \textcolor{keyword}{static} ITStatus CheckITStatus(uint32\_t CAN\_Reg, uint32\_t It\_Bit)
+01670 \{
+01671   ITStatus pendingbitstatus = RESET;
+01672 
+01673   \textcolor{keywordflow}{if} ((CAN\_Reg & It\_Bit) != (uint32\_t)RESET)
+01674   \{
+01675     \textcolor{comment}{/* CAN\_IT is set */}
+01676     pendingbitstatus = SET;
+01677   \}
+01678   \textcolor{keywordflow}{else}
+01679   \{
+01680     \textcolor{comment}{/* CAN\_IT is reset */}
+01681     pendingbitstatus = RESET;
+01682   \}
+01683   \textcolor{keywordflow}{return} pendingbitstatus;
+01684 \}
+01685 
+01686 \textcolor{comment}{/**}
+01687 \textcolor{comment}{  * @\}}
+01688 \textcolor{comment}{  */}
+01689 
+01690 \textcolor{comment}{/**}
+01691 \textcolor{comment}{  * @\}}
+01692 \textcolor{comment}{  */}
+01693 
+01694 \textcolor{comment}{/**}
+01695 \textcolor{comment}{  * @\}}
+01696 \textcolor{comment}{  */}
+01697 
+01698 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

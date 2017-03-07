@@ -1,0 +1,570 @@
+\section{stm32f4xx\+\_\+gpio.\+c}
+\label{stm32f4xx__gpio_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+gpio.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+gpio.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_gpio.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides firmware functions to manage the following }
+00008 \textcolor{comment}{  *          functionalities of the GPIO peripheral:           }
+00009 \textcolor{comment}{  *           - Initialization and Configuration}
+00010 \textcolor{comment}{  *           - GPIO Read and Write}
+00011 \textcolor{comment}{  *           - GPIO Alternate functions configuration}
+00012 \textcolor{comment}{  * }
+00013 \textcolor{comment}{  *  @verbatim}
+00014 \textcolor{comment}{  *}
+00015 \textcolor{comment}{  *          ===================================================================}
+00016 \textcolor{comment}{  *                                 How to use this driver}
+00017 \textcolor{comment}{  *          ===================================================================       }
+00018 \textcolor{comment}{  *           1. Enable the GPIO AHB clock using the following function}
+00019 \textcolor{comment}{  *                RCC\_AHB1PeriphClockCmd(RCC\_AHB1Periph\_GPIOx, ENABLE);}
+00020 \textcolor{comment}{  *             }
+00021 \textcolor{comment}{  *           2. Configure the GPIO pin(s) using GPIO\_Init()}
+00022 \textcolor{comment}{  *              Four possible configuration are available for each pin:}
+00023 \textcolor{comment}{  *                - Input: Floating, Pull-up, Pull-down.}
+00024 \textcolor{comment}{  *                - Output: Push-Pull (Pull-up, Pull-down or no Pull)}
+00025 \textcolor{comment}{  *                          Open Drain (Pull-up, Pull-down or no Pull).}
+00026 \textcolor{comment}{  *                  In output mode, the speed is configurable: 2 MHz, 25 MHz,}
+00027 \textcolor{comment}{  *                  50 MHz or 100 MHz.}
+00028 \textcolor{comment}{  *                - Alternate Function: Push-Pull (Pull-up, Pull-down or no Pull)}
+00029 \textcolor{comment}{  *                                      Open Drain (Pull-up, Pull-down or no Pull).}
+00030 \textcolor{comment}{  *                - Analog: required mode when a pin is to be used as ADC channel}
+00031 \textcolor{comment}{  *                          or DAC output.}
+00032 \textcolor{comment}{  * }
+00033 \textcolor{comment}{  *          3- Peripherals alternate function:}
+00034 \textcolor{comment}{  *              - For ADC and DAC, configure the desired pin in analog mode using }
+00035 \textcolor{comment}{  *                  GPIO\_InitStruct->GPIO\_Mode = GPIO\_Mode\_AN;}
+00036 \textcolor{comment}{  *              - For other peripherals (TIM, USART...):}
+00037 \textcolor{comment}{  *                 - Connect the pin to the desired peripherals' Alternate }
+00038 \textcolor{comment}{  *                   Function (AF) using GPIO\_PinAFConfig() function}
+00039 \textcolor{comment}{  *                 - Configure the desired pin in alternate function mode using}
+00040 \textcolor{comment}{  *                   GPIO\_InitStruct->GPIO\_Mode = GPIO\_Mode\_AF}
+00041 \textcolor{comment}{  *                 - Select the type, pull-up/pull-down and output speed via }
+00042 \textcolor{comment}{  *                   GPIO\_PuPd, GPIO\_OType and GPIO\_Speed members}
+00043 \textcolor{comment}{  *                 - Call GPIO\_Init() function}
+00044 \textcolor{comment}{  *        }
+00045 \textcolor{comment}{  *          4. To get the level of a pin configured in input mode use GPIO\_ReadInputDataBit()}
+00046 \textcolor{comment}{  *          }
+00047 \textcolor{comment}{  *          5. To set/reset the level of a pin configured in output mode use}
+00048 \textcolor{comment}{  *             GPIO\_SetBits()/GPIO\_ResetBits()}
+00049 \textcolor{comment}{  *               }
+00050 \textcolor{comment}{  *          6. During and just after reset, the alternate functions are not }
+00051 \textcolor{comment}{  *             active and the GPIO pins are configured in input floating mode}
+00052 \textcolor{comment}{  *             (except JTAG pins).}
+00053 \textcolor{comment}{  *}
+00054 \textcolor{comment}{  *          7. The LSE oscillator pins OSC32\_IN and OSC32\_OUT can be used as }
+00055 \textcolor{comment}{  *             general-purpose (PC14 and PC15, respectively) when the LSE}
+00056 \textcolor{comment}{  *             oscillator is off. The LSE has priority over the GPIO function.}
+00057 \textcolor{comment}{  *}
+00058 \textcolor{comment}{  *          8. The HSE oscillator pins OSC\_IN/OSC\_OUT can be used as }
+00059 \textcolor{comment}{  *             general-purpose PH0 and PH1, respectively, when the HSE }
+00060 \textcolor{comment}{  *             oscillator is off. The HSE has priority over the GPIO function.}
+00061 \textcolor{comment}{  *             }
+00062 \textcolor{comment}{  *  @endverbatim        }
+00063 \textcolor{comment}{  *}
+00064 \textcolor{comment}{  ******************************************************************************}
+00065 \textcolor{comment}{  * @attention}
+00066 \textcolor{comment}{  *}
+00067 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00068 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00069 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00070 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00071 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00072 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00073 \textcolor{comment}{  *}
+00074 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00075 \textcolor{comment}{  ******************************************************************************}
+00076 \textcolor{comment}{  */}
+00077 
+00078 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00079 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_gpio.h"
+00080 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rcc.h"
+00081 
+00082 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00083 \textcolor{comment}{  * @\{}
+00084 \textcolor{comment}{  */}
+00085 
+00086 \textcolor{comment}{/** @defgroup GPIO }
+00087 \textcolor{comment}{  * @brief GPIO driver modules}
+00088 \textcolor{comment}{  * @\{}
+00089 \textcolor{comment}{  */}
+00090 
+00091 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00092 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00093 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00094 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00095 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00096 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00097 
+00098 \textcolor{comment}{/** @defgroup GPIO\_Private\_Functions}
+00099 \textcolor{comment}{  * @\{}
+00100 \textcolor{comment}{  */}
+00101 
+00102 \textcolor{comment}{/** @defgroup GPIO\_Group1 Initialization and Configuration}
+00103 \textcolor{comment}{ *  @brief   Initialization and Configuration}
+00104 \textcolor{comment}{ *}
+00105 \textcolor{comment}{@verbatim   }
+00106 \textcolor{comment}{ ===============================================================================}
+00107 \textcolor{comment}{                        Initialization and Configuration}
+00108 \textcolor{comment}{ ===============================================================================  }
+00109 \textcolor{comment}{}
+00110 \textcolor{comment}{@endverbatim}
+00111 \textcolor{comment}{  * @\{}
+00112 \textcolor{comment}{  */}
+00113 
+00114 \textcolor{comment}{/**}
+00115 \textcolor{comment}{  * @brief  Deinitializes the GPIOx peripheral registers to their default reset values.}
+00116 \textcolor{comment}{  * @note   By default, The GPIO pins are configured in input floating mode (except JTAG pins).}
+00117 \textcolor{comment}{  * @param  GPIOx: where x can be (A..I) to select the GPIO peripheral.}
+00118 \textcolor{comment}{  * @retval None}
+00119 \textcolor{comment}{  */}
+00120 \textcolor{keywordtype}{void} GPIO_DeInit(GPIO\_TypeDef* GPIOx)
+00121 \{
+00122   \textcolor{comment}{/* Check the parameters */}
+00123   assert_param(IS\_GPIO\_ALL\_PERIPH(GPIOx));
+00124 
+00125   \textcolor{keywordflow}{if} (GPIOx == GPIOA)
+00126   \{
+00127     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+00128     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOA, DISABLE);
+00129   \}
+00130   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (GPIOx == GPIOB)
+00131   \{
+00132     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOB, ENABLE);
+00133     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOB, DISABLE);
+00134   \}
+00135   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (GPIOx == GPIOC)
+00136   \{
+00137     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+00138     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOC, DISABLE);
+00139   \}
+00140   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (GPIOx == GPIOD)
+00141   \{
+00142     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOD, ENABLE);
+00143     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOD, DISABLE);
+00144   \}
+00145   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (GPIOx == GPIOE)
+00146   \{
+00147     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOE, ENABLE);
+00148     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOE, DISABLE);
+00149   \}
+00150   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (GPIOx == GPIOF)
+00151   \{
+00152     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOF, ENABLE);
+00153     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOF, DISABLE);
+00154   \}
+00155   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (GPIOx == GPIOG)
+00156   \{
+00157     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOG, ENABLE);
+00158     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOG, DISABLE);
+00159   \}
+00160   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (GPIOx == GPIOH)
+00161   \{
+00162     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOH, ENABLE);
+00163     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOH, DISABLE);
+00164   \}
+00165   \textcolor{keywordflow}{else}
+00166   \{
+00167     \textcolor{keywordflow}{if} (GPIOx == GPIOI)
+00168     \{
+00169       RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOI, ENABLE);
+00170       RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOI, DISABLE);
+00171     \}
+00172   \}
+00173 \}
+00174 
+00175 \textcolor{comment}{/**}
+00176 \textcolor{comment}{  * @brief  Initializes the GPIOx peripheral according to the specified parameters in the
+       GPIO\_InitStruct.}
+00177 \textcolor{comment}{  * @param  GPIOx: where x can be (A..I) to select the GPIO peripheral.}
+00178 \textcolor{comment}{  * @param  GPIO\_InitStruct: pointer to a GPIO\_InitTypeDef structure that contains}
+00179 \textcolor{comment}{  *         the configuration information for the specified GPIO peripheral.}
+00180 \textcolor{comment}{  * @retval None}
+00181 \textcolor{comment}{  */}
+00182 \textcolor{keywordtype}{void} GPIO_Init(GPIO\_TypeDef* GPIOx, GPIO\_InitTypeDef* GPIO\_InitStruct)
+00183 \{
+00184   uint32\_t pinpos = 0x00, pos = 0x00 , currentpin = 0x00;
+00185 
+00186   \textcolor{comment}{/* Check the parameters */}
+00187   assert_param(IS\_GPIO\_ALL\_PERIPH(GPIOx));
+00188   assert_param(IS\_GPIO\_PIN(GPIO\_InitStruct->GPIO\_Pin));
+00189   assert_param(IS\_GPIO\_MODE(GPIO\_InitStruct->GPIO\_Mode));
+00190   assert_param(IS\_GPIO\_PUPD(GPIO\_InitStruct->GPIO\_PuPd));
+00191 
+00192   \textcolor{comment}{/* -------------------------Configure the port pins---------------- */}
+00193   \textcolor{comment}{/*-- GPIO Mode Configuration --*/}
+00194   \textcolor{keywordflow}{for} (pinpos = 0x00; pinpos < 0x10; pinpos++)
+00195   \{
+00196     pos = ((uint32\_t)0x01) << pinpos;
+00197     \textcolor{comment}{/* Get the port pins position */}
+00198     currentpin = (GPIO\_InitStruct->GPIO_Pin) & pos;
+00199 
+00200     \textcolor{keywordflow}{if} (currentpin == pos)
+00201     \{
+00202       GPIOx->MODER  &= ~(GPIO_MODER_MODER0 << (pinpos * 2));
+00203       GPIOx->MODER |= (((uint32\_t)GPIO\_InitStruct->GPIO\_Mode) << (pinpos * 2));
+00204 
+00205       \textcolor{keywordflow}{if} ((GPIO\_InitStruct->GPIO_Mode == GPIO_Mode_OUT) || (GPIO\_InitStruct
+      ->GPIO_Mode == GPIO_Mode_AF))
+00206       \{
+00207         \textcolor{comment}{/* Check Speed mode parameters */}
+00208         assert_param(IS\_GPIO\_SPEED(GPIO\_InitStruct->GPIO\_Speed));
+00209 
+00210         \textcolor{comment}{/* Speed mode configuration */}
+00211         GPIOx->OSPEEDR &= ~(GPIO_OSPEEDER_OSPEEDR0 << (pinpos * 2));
+00212         GPIOx->OSPEEDR |= ((uint32\_t)(GPIO\_InitStruct->GPIO\_Speed) << (pinpos * 2));
+00213 
+00214         \textcolor{comment}{/* Check Output mode parameters */}
+00215         assert_param(IS\_GPIO\_OTYPE(GPIO\_InitStruct->GPIO\_OType));
+00216 
+00217         \textcolor{comment}{/* Output mode configuration*/}
+00218         GPIOx->OTYPER  &= ~((GPIO_OTYPER_OT_0) << ((uint16\_t)pinpos)) ;
+00219         GPIOx->OTYPER |= (uint16\_t)(((uint16\_t)GPIO\_InitStruct->GPIO\_OType) << ((uint16\_t)pinpos));
+00220       \}
+00221 
+00222       \textcolor{comment}{/* Pull-up Pull down resistor configuration*/}
+00223       GPIOx->PUPDR &= ~(GPIO_PUPDR_PUPDR0 << ((uint16\_t)pinpos * 2));
+00224       GPIOx->PUPDR |= (((uint32\_t)GPIO\_InitStruct->GPIO\_PuPd) << (pinpos * 2));
+00225     \}
+00226   \}
+00227 \}
+00228 
+00229 \textcolor{comment}{/**}
+00230 \textcolor{comment}{  * @brief  Fills each GPIO\_InitStruct member with its default value.}
+00231 \textcolor{comment}{  * @param  GPIO\_InitStruct : pointer to a GPIO\_InitTypeDef structure which will be initialized.}
+00232 \textcolor{comment}{  * @retval None}
+00233 \textcolor{comment}{  */}
+00234 \textcolor{keywordtype}{void} GPIO_StructInit(GPIO\_InitTypeDef* GPIO\_InitStruct)
+00235 \{
+00236   \textcolor{comment}{/* Reset GPIO init structure parameters values */}
+00237   GPIO\_InitStruct->GPIO_Pin  = GPIO_Pin_All;
+00238   GPIO\_InitStruct->GPIO_Mode = GPIO_Mode_IN;
+00239   GPIO\_InitStruct->GPIO_Speed = GPIO_Speed_2MHz;
+00240   GPIO\_InitStruct->GPIO_OType = GPIO_OType_PP;
+00241   GPIO\_InitStruct->GPIO_PuPd = GPIO_PuPd_NOPULL;
+00242 \}
+00243 
+00244 \textcolor{comment}{/**}
+00245 \textcolor{comment}{  * @brief  Locks GPIO Pins configuration registers.}
+00246 \textcolor{comment}{  * @note   The locked registers are GPIOx\_MODER, GPIOx\_OTYPER, GPIOx\_OSPEEDR,}
+00247 \textcolor{comment}{  *         GPIOx\_PUPDR, GPIOx\_AFRL and GPIOx\_AFRH.}
+00248 \textcolor{comment}{  * @note   The configuration of the locked GPIO pins can no longer be modified}
+00249 \textcolor{comment}{  *         until the next reset.}
+00250 \textcolor{comment}{  * @param  GPIOx: where x can be (A..I) to select the GPIO peripheral.}
+00251 \textcolor{comment}{  * @param  GPIO\_Pin: specifies the port bit to be locked.}
+00252 \textcolor{comment}{  *          This parameter can be any combination of GPIO\_Pin\_x where x can be (0..15).}
+00253 \textcolor{comment}{  * @retval None}
+00254 \textcolor{comment}{  */}
+00255 \textcolor{keywordtype}{void} GPIO_PinLockConfig(GPIO\_TypeDef* GPIOx, uint16\_t GPIO\_Pin)
+00256 \{
+00257   \_\_IO uint32\_t tmp = 0x00010000;
+00258 
+00259   \textcolor{comment}{/* Check the parameters */}
+00260   assert_param(IS\_GPIO\_ALL\_PERIPH(GPIOx));
+00261   assert_param(IS\_GPIO\_PIN(GPIO\_Pin));
+00262 
+00263   tmp |= GPIO\_Pin;
+00264   \textcolor{comment}{/* Set LCKK bit */}
+00265   GPIOx->LCKR = tmp;
+00266   \textcolor{comment}{/* Reset LCKK bit */}
+00267   GPIOx->LCKR =  GPIO\_Pin;
+00268   \textcolor{comment}{/* Set LCKK bit */}
+00269   GPIOx->LCKR = tmp;
+00270   \textcolor{comment}{/* Read LCKK bit*/}
+00271   tmp = GPIOx->LCKR;
+00272   \textcolor{comment}{/* Read LCKK bit*/}
+00273   tmp = GPIOx->LCKR;
+00274 \}
+00275 
+00276 \textcolor{comment}{/**}
+00277 \textcolor{comment}{  * @\}}
+00278 \textcolor{comment}{  */}
+00279 
+00280 \textcolor{comment}{/** @defgroup GPIO\_Group2 GPIO Read and Write}
+00281 \textcolor{comment}{ *  @brief   GPIO Read and Write}
+00282 \textcolor{comment}{ *}
+00283 \textcolor{comment}{@verbatim   }
+00284 \textcolor{comment}{ ===============================================================================}
+00285 \textcolor{comment}{                              GPIO Read and Write}
+00286 \textcolor{comment}{ ===============================================================================  }
+00287 \textcolor{comment}{}
+00288 \textcolor{comment}{@endverbatim}
+00289 \textcolor{comment}{  * @\{}
+00290 \textcolor{comment}{  */}
+00291 
+00292 \textcolor{comment}{/**}
+00293 \textcolor{comment}{  * @brief  Reads the specified input port pin.}
+00294 \textcolor{comment}{  * @param  GPIOx: where x can be (A..I) to select the GPIO peripheral.}
+00295 \textcolor{comment}{  * @param  GPIO\_Pin: specifies the port bit to read.}
+00296 \textcolor{comment}{  *         This parameter can be GPIO\_Pin\_x where x can be (0..15).}
+00297 \textcolor{comment}{  * @retval The input port pin value.}
+00298 \textcolor{comment}{  */}
+00299 uint8\_t GPIO_ReadInputDataBit(GPIO\_TypeDef* GPIOx, uint16\_t GPIO\_Pin)
+00300 \{
+00301   uint8\_t bitstatus = 0x00;
+00302 
+00303   \textcolor{comment}{/* Check the parameters */}
+00304   assert_param(IS\_GPIO\_ALL\_PERIPH(GPIOx));
+00305   assert_param(IS\_GET\_GPIO\_PIN(GPIO\_Pin));
+00306 
+00307   \textcolor{keywordflow}{if} ((GPIOx->IDR & GPIO\_Pin) != (uint32\_t)Bit\_RESET)
+00308   \{
+00309     bitstatus = (uint8\_t)Bit\_SET;
+00310   \}
+00311   \textcolor{keywordflow}{else}
+00312   \{
+00313     bitstatus = (uint8\_t)Bit\_RESET;
+00314   \}
+00315   \textcolor{keywordflow}{return} bitstatus;
+00316 \}
+00317 
+00318 \textcolor{comment}{/**}
+00319 \textcolor{comment}{  * @brief  Reads the specified GPIO input data port.}
+00320 \textcolor{comment}{  * @param  GPIOx: where x can be (A..I) to select the GPIO peripheral.}
+00321 \textcolor{comment}{  * @retval GPIO input data port value.}
+00322 \textcolor{comment}{  */}
+00323 uint16\_t GPIO_ReadInputData(GPIO\_TypeDef* GPIOx)
+00324 \{
+00325   \textcolor{comment}{/* Check the parameters */}
+00326   assert_param(IS\_GPIO\_ALL\_PERIPH(GPIOx));
+00327 
+00328   \textcolor{keywordflow}{return} ((uint16\_t)GPIOx->IDR);
+00329 \}
+00330 
+00331 \textcolor{comment}{/**}
+00332 \textcolor{comment}{  * @brief  Reads the specified output data port bit.}
+00333 \textcolor{comment}{  * @param  GPIOx: where x can be (A..I) to select the GPIO peripheral.}
+00334 \textcolor{comment}{  * @param  GPIO\_Pin: specifies the port bit to read.}
+00335 \textcolor{comment}{  *          This parameter can be GPIO\_Pin\_x where x can be (0..15).}
+00336 \textcolor{comment}{  * @retval The output port pin value.}
+00337 \textcolor{comment}{  */}
+00338 uint8\_t GPIO_ReadOutputDataBit(GPIO\_TypeDef* GPIOx, uint16\_t GPIO\_Pin)
+00339 \{
+00340   uint8\_t bitstatus = 0x00;
+00341 
+00342   \textcolor{comment}{/* Check the parameters */}
+00343   assert_param(IS\_GPIO\_ALL\_PERIPH(GPIOx));
+00344   assert_param(IS\_GET\_GPIO\_PIN(GPIO\_Pin));
+00345 
+00346   \textcolor{keywordflow}{if} ((GPIOx->ODR & GPIO\_Pin) != (uint32\_t)Bit\_RESET)
+00347   \{
+00348     bitstatus = (uint8\_t)Bit\_SET;
+00349   \}
+00350   \textcolor{keywordflow}{else}
+00351   \{
+00352     bitstatus = (uint8\_t)Bit\_RESET;
+00353   \}
+00354   \textcolor{keywordflow}{return} bitstatus;
+00355 \}
+00356 
+00357 \textcolor{comment}{/**}
+00358 \textcolor{comment}{  * @brief  Reads the specified GPIO output data port.}
+00359 \textcolor{comment}{  * @param  GPIOx: where x can be (A..I) to select the GPIO peripheral.}
+00360 \textcolor{comment}{  * @retval GPIO output data port value.}
+00361 \textcolor{comment}{  */}
+00362 uint16\_t GPIO_ReadOutputData(GPIO\_TypeDef* GPIOx)
+00363 \{
+00364   \textcolor{comment}{/* Check the parameters */}
+00365   assert_param(IS\_GPIO\_ALL\_PERIPH(GPIOx));
+00366 
+00367   \textcolor{keywordflow}{return} ((uint16\_t)GPIOx->ODR);
+00368 \}
+00369 
+00370 \textcolor{comment}{/**}
+00371 \textcolor{comment}{  * @brief  Sets the selected data port bits.}
+00372 \textcolor{comment}{  * @note   This functions uses GPIOx\_BSRR register to allow atomic read/modify }
+00373 \textcolor{comment}{  *         accesses. In this way, there is no risk of an IRQ occurring between}
+00374 \textcolor{comment}{  *         the read and the modify access.}
+00375 \textcolor{comment}{  * @param  GPIOx: where x can be (A..I) to select the GPIO peripheral.}
+00376 \textcolor{comment}{  * @param  GPIO\_Pin: specifies the port bits to be written.}
+00377 \textcolor{comment}{  *          This parameter can be any combination of GPIO\_Pin\_x where x can be (0..15).}
+00378 \textcolor{comment}{  * @retval None}
+00379 \textcolor{comment}{  */}
+00380 \textcolor{keywordtype}{void} GPIO_SetBits(GPIO\_TypeDef* GPIOx, uint16\_t GPIO\_Pin)
+00381 \{
+00382   \textcolor{comment}{/* Check the parameters */}
+00383   assert_param(IS\_GPIO\_ALL\_PERIPH(GPIOx));
+00384   assert_param(IS\_GPIO\_PIN(GPIO\_Pin));
+00385 
+00386   GPIOx->BSRRL = GPIO\_Pin;
+00387 \}
+00388 
+00389 \textcolor{comment}{/**}
+00390 \textcolor{comment}{  * @brief  Clears the selected data port bits.}
+00391 \textcolor{comment}{  * @note   This functions uses GPIOx\_BSRR register to allow atomic read/modify }
+00392 \textcolor{comment}{  *         accesses. In this way, there is no risk of an IRQ occurring between}
+00393 \textcolor{comment}{  *         the read and the modify access.}
+00394 \textcolor{comment}{  * @param  GPIOx: where x can be (A..I) to select the GPIO peripheral.}
+00395 \textcolor{comment}{  * @param  GPIO\_Pin: specifies the port bits to be written.}
+00396 \textcolor{comment}{  *          This parameter can be any combination of GPIO\_Pin\_x where x can be (0..15).}
+00397 \textcolor{comment}{  * @retval None}
+00398 \textcolor{comment}{  */}
+00399 \textcolor{keywordtype}{void} GPIO_ResetBits(GPIO\_TypeDef* GPIOx, uint16\_t GPIO\_Pin)
+00400 \{
+00401   \textcolor{comment}{/* Check the parameters */}
+00402   assert_param(IS\_GPIO\_ALL\_PERIPH(GPIOx));
+00403   assert_param(IS\_GPIO\_PIN(GPIO\_Pin));
+00404 
+00405   GPIOx->BSRRH = GPIO\_Pin;
+00406 \}
+00407 
+00408 \textcolor{comment}{/**}
+00409 \textcolor{comment}{  * @brief  Sets or clears the selected data port bit.}
+00410 \textcolor{comment}{  * @param  GPIOx: where x can be (A..I) to select the GPIO peripheral.}
+00411 \textcolor{comment}{  * @param  GPIO\_Pin: specifies the port bit to be written.}
+00412 \textcolor{comment}{  *          This parameter can be one of GPIO\_Pin\_x where x can be (0..15).}
+00413 \textcolor{comment}{  * @param  BitVal: specifies the value to be written to the selected bit.}
+00414 \textcolor{comment}{  *          This parameter can be one of the BitAction enum values:}
+00415 \textcolor{comment}{  *            @arg Bit\_RESET: to clear the port pin}
+00416 \textcolor{comment}{  *            @arg Bit\_SET: to set the port pin}
+00417 \textcolor{comment}{  * @retval None}
+00418 \textcolor{comment}{  */}
+00419 \textcolor{keywordtype}{void} GPIO_WriteBit(GPIO\_TypeDef* GPIOx, uint16\_t GPIO\_Pin, BitAction BitVal)
+00420 \{
+00421   \textcolor{comment}{/* Check the parameters */}
+00422   assert_param(IS\_GPIO\_ALL\_PERIPH(GPIOx));
+00423   assert_param(IS\_GET\_GPIO\_PIN(GPIO\_Pin));
+00424   assert_param(IS\_GPIO\_BIT\_ACTION(BitVal));
+00425 
+00426   \textcolor{keywordflow}{if} (BitVal != Bit_RESET)
+00427   \{
+00428     GPIOx->BSRRL = GPIO\_Pin;
+00429   \}
+00430   \textcolor{keywordflow}{else}
+00431   \{
+00432     GPIOx->BSRRH = GPIO\_Pin ;
+00433   \}
+00434 \}
+00435 
+00436 \textcolor{comment}{/**}
+00437 \textcolor{comment}{  * @brief  Writes data to the specified GPIO data port.}
+00438 \textcolor{comment}{  * @param  GPIOx: where x can be (A..I) to select the GPIO peripheral.}
+00439 \textcolor{comment}{  * @param  PortVal: specifies the value to be written to the port output data register.}
+00440 \textcolor{comment}{  * @retval None}
+00441 \textcolor{comment}{  */}
+00442 \textcolor{keywordtype}{void} GPIO_Write(GPIO\_TypeDef* GPIOx, uint16\_t PortVal)
+00443 \{
+00444   \textcolor{comment}{/* Check the parameters */}
+00445   assert_param(IS\_GPIO\_ALL\_PERIPH(GPIOx));
+00446 
+00447   GPIOx->ODR = PortVal;
+00448 \}
+00449 
+00450 \textcolor{comment}{/**}
+00451 \textcolor{comment}{  * @brief  Toggles the specified GPIO pins..}
+00452 \textcolor{comment}{  * @param  GPIOx: where x can be (A..I) to select the GPIO peripheral.}
+00453 \textcolor{comment}{  * @param  GPIO\_Pin: Specifies the pins to be toggled.}
+00454 \textcolor{comment}{  * @retval None}
+00455 \textcolor{comment}{  */}
+00456 \textcolor{keywordtype}{void} GPIO_ToggleBits(GPIO\_TypeDef* GPIOx, uint16\_t GPIO\_Pin)
+00457 \{
+00458   \textcolor{comment}{/* Check the parameters */}
+00459   assert_param(IS\_GPIO\_ALL\_PERIPH(GPIOx));
+00460 
+00461   GPIOx->ODR ^= GPIO\_Pin;
+00462 \}
+00463 
+00464 \textcolor{comment}{/**}
+00465 \textcolor{comment}{  * @\}}
+00466 \textcolor{comment}{  */}
+00467 
+00468 \textcolor{comment}{/** @defgroup GPIO\_Group3 GPIO Alternate functions configuration function}
+00469 \textcolor{comment}{ *  @brief   GPIO Alternate functions configuration function}
+00470 \textcolor{comment}{ *}
+00471 \textcolor{comment}{@verbatim   }
+00472 \textcolor{comment}{ ===============================================================================}
+00473 \textcolor{comment}{               GPIO Alternate functions configuration function}
+00474 \textcolor{comment}{ ===============================================================================  }
+00475 \textcolor{comment}{}
+00476 \textcolor{comment}{@endverbatim}
+00477 \textcolor{comment}{  * @\{}
+00478 \textcolor{comment}{  */}
+00479 
+00480 \textcolor{comment}{/**}
+00481 \textcolor{comment}{  * @brief  Changes the mapping of the specified pin.}
+00482 \textcolor{comment}{  * @param  GPIOx: where x can be (A..I) to select the GPIO peripheral.}
+00483 \textcolor{comment}{  * @param  GPIO\_PinSource: specifies the pin for the Alternate function.}
+00484 \textcolor{comment}{  *         This parameter can be GPIO\_PinSourcex where x can be (0..15).}
+00485 \textcolor{comment}{  * @param  GPIO\_AFSelection: selects the pin to used as Alternate function.}
+00486 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00487 \textcolor{comment}{  *            @arg GPIO\_AF\_RTC\_50Hz: Connect RTC\_50Hz pin to AF0 (default after reset) }
+00488 \textcolor{comment}{  *            @arg GPIO\_AF\_MCO: Connect MCO pin (MCO1 and MCO2) to AF0 (default after reset) }
+00489 \textcolor{comment}{  *            @arg GPIO\_AF\_TAMPER: Connect TAMPER pins (TAMPER\_1 and TAMPER\_2) to AF0 (default after
+       reset) }
+00490 \textcolor{comment}{  *            @arg GPIO\_AF\_SWJ: Connect SWJ pins (SWD and JTAG)to AF0 (default after reset) }
+00491 \textcolor{comment}{  *            @arg GPIO\_AF\_TRACE: Connect TRACE pins to AF0 (default after reset)}
+00492 \textcolor{comment}{  *            @arg GPIO\_AF\_TIM1: Connect TIM1 pins to AF1}
+00493 \textcolor{comment}{  *            @arg GPIO\_AF\_TIM2: Connect TIM2 pins to AF1}
+00494 \textcolor{comment}{  *            @arg GPIO\_AF\_TIM3: Connect TIM3 pins to AF2}
+00495 \textcolor{comment}{  *            @arg GPIO\_AF\_TIM4: Connect TIM4 pins to AF2}
+00496 \textcolor{comment}{  *            @arg GPIO\_AF\_TIM5: Connect TIM5 pins to AF2}
+00497 \textcolor{comment}{  *            @arg GPIO\_AF\_TIM8: Connect TIM8 pins to AF3}
+00498 \textcolor{comment}{  *            @arg GPIO\_AF\_TIM9: Connect TIM9 pins to AF3}
+00499 \textcolor{comment}{  *            @arg GPIO\_AF\_TIM10: Connect TIM10 pins to AF3}
+00500 \textcolor{comment}{  *            @arg GPIO\_AF\_TIM11: Connect TIM11 pins to AF3}
+00501 \textcolor{comment}{  *            @arg GPIO\_AF\_I2C1: Connect I2C1 pins to AF4}
+00502 \textcolor{comment}{  *            @arg GPIO\_AF\_I2C2: Connect I2C2 pins to AF4}
+00503 \textcolor{comment}{  *            @arg GPIO\_AF\_I2C3: Connect I2C3 pins to AF4}
+00504 \textcolor{comment}{  *            @arg GPIO\_AF\_SPI1: Connect SPI1 pins to AF5}
+00505 \textcolor{comment}{  *            @arg GPIO\_AF\_SPI2: Connect SPI2/I2S2 pins to AF5}
+00506 \textcolor{comment}{  *            @arg GPIO\_AF\_SPI3: Connect SPI3/I2S3 pins to AF6}
+00507 \textcolor{comment}{  *            @arg GPIO\_AF\_I2S3ext: Connect I2S3ext pins to AF7}
+00508 \textcolor{comment}{  *            @arg GPIO\_AF\_USART1: Connect USART1 pins to AF7}
+00509 \textcolor{comment}{  *            @arg GPIO\_AF\_USART2: Connect USART2 pins to AF7}
+00510 \textcolor{comment}{  *            @arg GPIO\_AF\_USART3: Connect USART3 pins to AF7}
+00511 \textcolor{comment}{  *            @arg GPIO\_AF\_UART4: Connect UART4 pins to AF8}
+00512 \textcolor{comment}{  *            @arg GPIO\_AF\_UART5: Connect UART5 pins to AF8}
+00513 \textcolor{comment}{  *            @arg GPIO\_AF\_USART6: Connect USART6 pins to AF8}
+00514 \textcolor{comment}{  *            @arg GPIO\_AF\_CAN1: Connect CAN1 pins to AF9}
+00515 \textcolor{comment}{  *            @arg GPIO\_AF\_CAN2: Connect CAN2 pins to AF9}
+00516 \textcolor{comment}{  *            @arg GPIO\_AF\_TIM12: Connect TIM12 pins to AF9}
+00517 \textcolor{comment}{  *            @arg GPIO\_AF\_TIM13: Connect TIM13 pins to AF9}
+00518 \textcolor{comment}{  *            @arg GPIO\_AF\_TIM14: Connect TIM14 pins to AF9}
+00519 \textcolor{comment}{  *            @arg GPIO\_AF\_OTG\_FS: Connect OTG\_FS pins to AF10}
+00520 \textcolor{comment}{  *            @arg GPIO\_AF\_OTG\_HS: Connect OTG\_HS pins to AF10}
+00521 \textcolor{comment}{  *            @arg GPIO\_AF\_ETH: Connect ETHERNET pins to AF11}
+00522 \textcolor{comment}{  *            @arg GPIO\_AF\_FSMC: Connect FSMC pins to AF12}
+00523 \textcolor{comment}{  *            @arg GPIO\_AF\_OTG\_HS\_FS: Connect OTG HS (configured in FS) pins to AF12}
+00524 \textcolor{comment}{  *            @arg GPIO\_AF\_SDIO: Connect SDIO pins to AF12}
+00525 \textcolor{comment}{  *            @arg GPIO\_AF\_DCMI: Connect DCMI pins to AF13}
+00526 \textcolor{comment}{  *            @arg GPIO\_AF\_EVENTOUT: Connect EVENTOUT pins to AF15}
+00527 \textcolor{comment}{  * @retval None}
+00528 \textcolor{comment}{  */}
+00529 \textcolor{keywordtype}{void} GPIO_PinAFConfig(GPIO\_TypeDef* GPIOx, uint16\_t GPIO\_PinSource, uint8\_t GPIO\_AF)
+00530 \{
+00531   uint32\_t temp = 0x00;
+00532   uint32\_t temp\_2 = 0x00;
+00533 
+00534   \textcolor{comment}{/* Check the parameters */}
+00535   assert_param(IS\_GPIO\_ALL\_PERIPH(GPIOx));
+00536   assert_param(IS\_GPIO\_PIN\_SOURCE(GPIO\_PinSource));
+00537   assert_param(IS\_GPIO\_AF(GPIO\_AF));
+00538 
+00539   temp = ((uint32\_t)(GPIO\_AF) << ((uint32\_t)((uint32\_t)GPIO\_PinSource & (uint32\_t)0x07) * 4)) ;
+00540   GPIOx->AFR[GPIO\_PinSource >> 0x03] &= ~((uint32\_t)0xF << ((uint32\_t)((uint32\_t)GPIO\_PinSource & (
+      uint32\_t)0x07) * 4)) ;
+00541   temp\_2 = GPIOx->AFR[GPIO\_PinSource >> 0x03] | temp;
+00542   GPIOx->AFR[GPIO\_PinSource >> 0x03] = temp\_2;
+00543 \}
+00544 
+00545 \textcolor{comment}{/**}
+00546 \textcolor{comment}{  * @\}}
+00547 \textcolor{comment}{  */}
+00548 
+00549 \textcolor{comment}{/**}
+00550 \textcolor{comment}{  * @\}}
+00551 \textcolor{comment}{  */}
+00552 
+00553 \textcolor{comment}{/**}
+00554 \textcolor{comment}{  * @\}}
+00555 \textcolor{comment}{  */}
+00556 
+00557 \textcolor{comment}{/**}
+00558 \textcolor{comment}{  * @\}}
+00559 \textcolor{comment}{  */}
+00560 
+00561 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

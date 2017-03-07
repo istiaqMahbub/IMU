@@ -1,0 +1,122 @@
+\section{R\+T\+C\+\_\+\+Private\+\_\+\+Functions}
+\label{group__RTC__Private__Functions}\index{R\+T\+C\+\_\+\+Private\+\_\+\+Functions@{R\+T\+C\+\_\+\+Private\+\_\+\+Functions}}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Alarms configuration functions}
+\begin{DoxyCompactList}\small\item\em Alarms (Alarm A and Alarm B) configuration functions. \end{DoxyCompactList}\item 
+\textbf{ Backup Data Registers configuration functions}
+\begin{DoxyCompactList}\small\item\em Backup Data Registers configuration functions. \end{DoxyCompactList}\item 
+\textbf{ Daylight Saving configuration functions}
+\begin{DoxyCompactList}\small\item\em Daylight Saving configuration functions. \end{DoxyCompactList}\item 
+\textbf{ Digital Calibration configuration functions}
+\begin{DoxyCompactList}\small\item\em Coarse Calibration configuration functions. \end{DoxyCompactList}\item 
+\textbf{ Initialization and Configuration functions}
+\begin{DoxyCompactList}\small\item\em Initialization and Configuration functions. \end{DoxyCompactList}\item 
+\textbf{ Interrupts and flags management functions}
+\begin{DoxyCompactList}\small\item\em Interrupts and flags management functions. \end{DoxyCompactList}\item 
+\textbf{ Output pin Configuration function}
+\begin{DoxyCompactList}\small\item\em Output pin Configuration function. \end{DoxyCompactList}\item 
+\textbf{ R\+T\+C Tamper and Time\+Stamp Pins Selection and Output Type Config configuration functions}
+\begin{DoxyCompactList}\small\item\em R\+TC Tamper and Time\+Stamp Pins Selection and Output Type Config configuration functions. \end{DoxyCompactList}\item 
+\textbf{ Shift control synchronisation functions}
+\begin{DoxyCompactList}\small\item\em Shift control synchronisation functions. \end{DoxyCompactList}\item 
+\textbf{ Tampers configuration functions}
+\begin{DoxyCompactList}\small\item\em Tampers configuration functions. \end{DoxyCompactList}\item 
+\textbf{ Time and Date configuration functions}
+\begin{DoxyCompactList}\small\item\em Time and Date configuration functions. \end{DoxyCompactList}\item 
+\textbf{ Time\+Stamp configuration functions}
+\begin{DoxyCompactList}\small\item\em Time\+Stamp configuration functions. \end{DoxyCompactList}\item 
+\textbf{ Wake\+Up Timer configuration functions}
+\begin{DoxyCompactList}\small\item\em Wake\+Up Timer configuration functions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static uint8\+\_\+t \textbf{ R\+T\+C\+\_\+\+Byte\+To\+Bcd2} (uint8\+\_\+t Value)
+\begin{DoxyCompactList}\small\item\em Converts a 2 digit decimal to B\+CD format. \end{DoxyCompactList}\item 
+static uint8\+\_\+t \textbf{ R\+T\+C\+\_\+\+Bcd2\+To\+Byte} (uint8\+\_\+t Value)
+\begin{DoxyCompactList}\small\item\em Convert from 2 digit B\+CD to Binary. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\mbox{\label{group__RTC__Private__Functions_ga39e7c20215c2f546a20cf5df25c72d72}} 
+\index{R\+T\+C\+\_\+\+Private\+\_\+\+Functions@{R\+T\+C\+\_\+\+Private\+\_\+\+Functions}!R\+T\+C\+\_\+\+Bcd2\+To\+Byte@{R\+T\+C\+\_\+\+Bcd2\+To\+Byte}}
+\index{R\+T\+C\+\_\+\+Bcd2\+To\+Byte@{R\+T\+C\+\_\+\+Bcd2\+To\+Byte}!R\+T\+C\+\_\+\+Private\+\_\+\+Functions@{R\+T\+C\+\_\+\+Private\+\_\+\+Functions}}
+\subsubsection{R\+T\+C\+\_\+\+Bcd2\+To\+Byte()}
+{\footnotesize\ttfamily static uint8\+\_\+t R\+T\+C\+\_\+\+Bcd2\+To\+Byte (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Convert from 2 digit B\+CD to Binary. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Value} & B\+CD value to be converted. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Converted} & word \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2713} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+Referenced by \textbf{ R\+T\+C\+\_\+\+Get\+Alarm()}, \textbf{ R\+T\+C\+\_\+\+Get\+Date()}, \textbf{ R\+T\+C\+\_\+\+Get\+Time()}, \textbf{ R\+T\+C\+\_\+\+Get\+Time\+Stamp()}, \textbf{ R\+T\+C\+\_\+\+Set\+Alarm()}, and \textbf{ R\+T\+C\+\_\+\+Set\+Date()}.
+
+
+\begin{DoxyCode}
+02714 \{
+02715   uint8\_t tmp = 0;
+02716   tmp = ((uint8\_t)(Value & (uint8\_t)0xF0) >> (uint8\_t)0x4) * 10;
+02717   \textcolor{keywordflow}{return} (tmp + (Value & (uint8\_t)0x0F));
+02718 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Private__Functions_ga020add50c73f0a08516fef0eeee8cca9}} 
+\index{R\+T\+C\+\_\+\+Private\+\_\+\+Functions@{R\+T\+C\+\_\+\+Private\+\_\+\+Functions}!R\+T\+C\+\_\+\+Byte\+To\+Bcd2@{R\+T\+C\+\_\+\+Byte\+To\+Bcd2}}
+\index{R\+T\+C\+\_\+\+Byte\+To\+Bcd2@{R\+T\+C\+\_\+\+Byte\+To\+Bcd2}!R\+T\+C\+\_\+\+Private\+\_\+\+Functions@{R\+T\+C\+\_\+\+Private\+\_\+\+Functions}}
+\subsubsection{R\+T\+C\+\_\+\+Byte\+To\+Bcd2()}
+{\footnotesize\ttfamily static uint8\+\_\+t R\+T\+C\+\_\+\+Byte\+To\+Bcd2 (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{Value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Converts a 2 digit decimal to B\+CD format. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Value} & Byte to be converted. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Converted} & byte \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2695} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+Referenced by \textbf{ R\+T\+C\+\_\+\+Set\+Alarm()}, \textbf{ R\+T\+C\+\_\+\+Set\+Date()}, and \textbf{ R\+T\+C\+\_\+\+Set\+Time()}.
+
+
+\begin{DoxyCode}
+02696 \{
+02697   uint8\_t bcdhigh = 0;
+02698   
+02699   \textcolor{keywordflow}{while} (Value >= 10)
+02700   \{
+02701     bcdhigh++;
+02702     Value -= 10;
+02703   \}
+02704   
+02705   \textcolor{keywordflow}{return}  ((uint8\_t)(bcdhigh << 4) | Value);
+02706 \}
+\end{DoxyCode}

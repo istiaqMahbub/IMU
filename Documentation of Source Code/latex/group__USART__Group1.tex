@@ -1,0 +1,623 @@
+\section{Initialization and Configuration functions}
+\label{group__USART__Group1}\index{Initialization and Configuration functions@{Initialization and Configuration functions}}
+
+
+Initialization and Configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+De\+Init} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx})
+\begin{DoxyCompactList}\small\item\em Deinitializes the U\+S\+A\+R\+Tx peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Init} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def} $\ast$U\+S\+A\+R\+T\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the U\+S\+A\+R\+Tx peripheral according to the specified parameters in the U\+S\+A\+R\+T\+\_\+\+Init\+Struct . \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Struct\+Init} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def} $\ast$U\+S\+A\+R\+T\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each U\+S\+A\+R\+T\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Clock\+Init} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Type\+Def} $\ast$U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the U\+S\+A\+R\+Tx peripheral Clock according to the specified parameters in the U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Struct . \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Clock\+Struct\+Init} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Type\+Def} $\ast$U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Cmd} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified U\+S\+A\+RT peripheral. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Set\+Prescaler} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, uint8\+\_\+t U\+S\+A\+R\+T\+\_\+\+Prescaler)
+\begin{DoxyCompactList}\small\item\em Sets the system clock prescaler. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Over\+Sampling8\+Cmd} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\+S\+A\+RT\textquotesingle{}s 8x oversampling mode. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+One\+Bit\+Method\+Cmd} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\+S\+A\+RT\textquotesingle{}s one bit sampling method. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Initialization and Configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                  Initialization and Configuration functions
+ ===============================================================================  
+
+  This subsection provides a set of functions allowing to initialize the USART 
+  in asynchronous and in synchronous modes.
+   - For the asynchronous mode only these parameters can be configured: 
+        - Baud Rate
+        - Word Length 
+        - Stop Bit
+        - Parity: If the parity is enabled, then the MSB bit of the data written
+          in the data register is transmitted but is changed by the parity bit.
+          Depending on the frame length defined by the M bit (8-bits or 9-bits),
+          the possible USART frame formats are as listed in the following table:
+   +-------------------------------------------------------------+     
+   |   M bit |  PCE bit  |            USART frame                |
+   |---------------------|---------------------------------------|             
+   |    0    |    0      |    | SB | 8 bit data | STB |          |
+   |---------|-----------|---------------------------------------|  
+   |    0    |    1      |    | SB | 7 bit data | PB | STB |     |
+   |---------|-----------|---------------------------------------|  
+   |    1    |    0      |    | SB | 9 bit data | STB |          |
+   |---------|-----------|---------------------------------------|  
+   |    1    |    1      |    | SB | 8 bit data | PB | STB |     |
+   +-------------------------------------------------------------+            
+        - Hardware flow control
+        - Receiver/transmitter modes
+
+  The USART_Init() function follows the USART  asynchronous configuration procedure
+  (details for the procedure are available in reference manual (RM0090)).
+
+  - For the synchronous mode in addition to the asynchronous mode parameters these 
+    parameters should be also configured:
+        - USART Clock Enabled
+        - USART polarity
+        - USART phase
+        - USART LastBit
+  
+  These parameters can be configured using the USART_ClockInit() function.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__USART__Group1_gadb50c7a2175c91acd3728f8eefd0c63d}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!U\+S\+A\+R\+T\+\_\+\+Clock\+Init@{U\+S\+A\+R\+T\+\_\+\+Clock\+Init}}
+\index{U\+S\+A\+R\+T\+\_\+\+Clock\+Init@{U\+S\+A\+R\+T\+\_\+\+Clock\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+Clock\+Init()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+Clock\+Init (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx,  }\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Type\+Def} $\ast$}]{U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the U\+S\+A\+R\+Tx peripheral Clock according to the specified parameters in the U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Struct . 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3 or 6 to select the U\+S\+A\+RT peripheral. \\
+\hline
+{\em U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Struct} & pointer to a \doxyref{U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Type\+Def}{p.}{structUSART__ClockInitTypeDef} structure that contains the configuration information for the specified U\+S\+A\+RT peripheral. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The Smart Card and Synchronous modes are not available for U\+A\+R\+T4 and U\+A\+R\+T5. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 360} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+
+References \textbf{ U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+Clock}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+C\+P\+HA}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+C\+P\+OL}, and \textbf{ U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+Last\+Bit}.
+
+
+\begin{DoxyCode}
+00361 \{
+00362   uint32\_t tmpreg = 0x00;
+00363   \textcolor{comment}{/* Check the parameters */}
+00364   assert_param(IS_USART_1236_PERIPH(USARTx));
+00365   assert_param(IS_USART_CLOCK(USART\_ClockInitStruct->USART_Clock));
+00366   assert_param(IS_USART_CPOL(USART\_ClockInitStruct->USART_CPOL));
+00367   assert_param(IS_USART_CPHA(USART\_ClockInitStruct->USART_CPHA));
+00368   assert_param(IS_USART_LASTBIT(USART\_ClockInitStruct->USART_LastBit));
+00369   
+00370 \textcolor{comment}{/*---------------------------- USART CR2 Configuration -----------------------*/}
+00371   tmpreg = USARTx->CR2;
+00372   \textcolor{comment}{/* Clear CLKEN, CPOL, CPHA and LBCL bits */}
+00373   tmpreg &= (uint32\_t)~((uint32\_t)CR2_CLOCK_CLEAR_MASK);
+00374   \textcolor{comment}{/* Configure the USART Clock, CPOL, CPHA and LastBit ------------*/}
+00375   \textcolor{comment}{/* Set CLKEN bit according to USART\_Clock value */}
+00376   \textcolor{comment}{/* Set CPOL bit according to USART\_CPOL value */}
+00377   \textcolor{comment}{/* Set CPHA bit according to USART\_CPHA value */}
+00378   \textcolor{comment}{/* Set LBCL bit according to USART\_LastBit value */}
+00379   tmpreg |= (uint32\_t)USART\_ClockInitStruct->USART_Clock | USART\_ClockInitStruct->
+      USART_CPOL | 
+00380                  USART\_ClockInitStruct->USART_CPHA | USART\_ClockInitStruct->
+      USART_LastBit;
+00381   \textcolor{comment}{/* Write to USART CR2 */}
+00382   USARTx->CR2 = (uint16\_t)tmpreg;
+00383 \}
+\end{DoxyCode}
+\mbox{\label{group__USART__Group1_ga59df27d0adda18b16ee28d47672cc724}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!U\+S\+A\+R\+T\+\_\+\+Clock\+Struct\+Init@{U\+S\+A\+R\+T\+\_\+\+Clock\+Struct\+Init}}
+\index{U\+S\+A\+R\+T\+\_\+\+Clock\+Struct\+Init@{U\+S\+A\+R\+T\+\_\+\+Clock\+Struct\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+Clock\+Struct\+Init()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+Clock\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Type\+Def} $\ast$}]{U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Struct} & pointer to a \doxyref{U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Type\+Def}{p.}{structUSART__ClockInitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 391} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+
+References \textbf{ U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+Clock}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+C\+P\+HA}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+C\+P\+OL}, and \textbf{ U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+Last\+Bit}.
+
+
+\begin{DoxyCode}
+00392 \{
+00393   \textcolor{comment}{/* USART\_ClockInitStruct members default value */}
+00394   USART\_ClockInitStruct->USART_Clock = USART_Clock_Disable;
+00395   USART\_ClockInitStruct->USART_CPOL = USART_CPOL_Low;
+00396   USART\_ClockInitStruct->USART_CPHA = USART_CPHA_1Edge;
+00397   USART\_ClockInitStruct->USART_LastBit = USART_LastBit_Disable;
+00398 \}
+\end{DoxyCode}
+\mbox{\label{group__USART__Group1_ga45e51626739c5f22a6567c8a85d1d85e}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!U\+S\+A\+R\+T\+\_\+\+Cmd@{U\+S\+A\+R\+T\+\_\+\+Cmd}}
+\index{U\+S\+A\+R\+T\+\_\+\+Cmd@{U\+S\+A\+R\+T\+\_\+\+Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+Cmd()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified U\+S\+A\+RT peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3, 4, 5 or 6 to select the U\+S\+A\+RT or U\+A\+RT peripheral. \\
+\hline
+{\em New\+State} & new state of the U\+S\+A\+R\+Tx peripheral. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 408} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+
+Referenced by \textbf{ U\+S\+A\+R\+T\+\_\+\+Config()}.
+
+
+\begin{DoxyCode}
+00409 \{
+00410   \textcolor{comment}{/* Check the parameters */}
+00411   assert_param(IS_USART_ALL_PERIPH(USARTx));
+00412   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00413   
+00414   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00415   \{
+00416     \textcolor{comment}{/* Enable the selected USART by setting the UE bit in the CR1 register */}
+00417     USARTx->CR1 |= USART_CR1_UE;
+00418   \}
+00419   \textcolor{keywordflow}{else}
+00420   \{
+00421     \textcolor{comment}{/* Disable the selected USART by clearing the UE bit in the CR1 register */}
+00422     USARTx->CR1 &= (uint16\_t)~((uint16\_t)USART_CR1_UE);
+00423   \}
+00424 \}
+\end{DoxyCode}
+\mbox{\label{group__USART__Group1_ga2f8e1ce72da21b6539d8e1f299ec3b0d}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!U\+S\+A\+R\+T\+\_\+\+De\+Init@{U\+S\+A\+R\+T\+\_\+\+De\+Init}}
+\index{U\+S\+A\+R\+T\+\_\+\+De\+Init@{U\+S\+A\+R\+T\+\_\+\+De\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the U\+S\+A\+R\+Tx peripheral registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3, 4, 5 or 6 to select the U\+S\+A\+RT or U\+A\+RT peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 178} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, \textbf{ R\+C\+C\+\_\+\+A\+P\+B1\+Periph\+Reset\+Cmd()}, and \textbf{ R\+C\+C\+\_\+\+A\+P\+B2\+Periph\+Reset\+Cmd()}.
+
+
+\begin{DoxyCode}
+00179 \{
+00180   \textcolor{comment}{/* Check the parameters */}
+00181   assert_param(IS_USART_ALL_PERIPH(USARTx));
+00182 
+00183   \textcolor{keywordflow}{if} (USARTx == USART1)
+00184   \{
+00185     RCC_APB2PeriphResetCmd(RCC_APB2Periph_USART1, ENABLE);
+00186     RCC_APB2PeriphResetCmd(RCC_APB2Periph_USART1, DISABLE);
+00187   \}
+00188   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (USARTx == USART2)
+00189   \{
+00190     RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART2, ENABLE);
+00191     RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART2, DISABLE);
+00192   \}
+00193   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (USARTx == USART3)
+00194   \{
+00195     RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART3, ENABLE);
+00196     RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART3, DISABLE);
+00197   \}    
+00198   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (USARTx == UART4)
+00199   \{
+00200     RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART4, ENABLE);
+00201     RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART4, DISABLE);
+00202   \}
+00203   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (USARTx == UART5)
+00204   \{
+00205     RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART5, ENABLE);
+00206     RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART5, DISABLE);
+00207   \}     
+00208   \textcolor{keywordflow}{else}
+00209   \{
+00210     \textcolor{keywordflow}{if} (USARTx == USART6)
+00211     \{ 
+00212       RCC_APB2PeriphResetCmd(RCC_APB2Periph_USART6, ENABLE);
+00213       RCC_APB2PeriphResetCmd(RCC_APB2Periph_USART6, DISABLE);
+00214     \}
+00215   \}
+00216 \}
+\end{DoxyCode}
+\mbox{\label{group__USART__Group1_ga98da340ea0324002ba1b4263e91ab2ff}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!U\+S\+A\+R\+T\+\_\+\+Init@{U\+S\+A\+R\+T\+\_\+\+Init}}
+\index{U\+S\+A\+R\+T\+\_\+\+Init@{U\+S\+A\+R\+T\+\_\+\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+Init()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+Init (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx,  }\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def} $\ast$}]{U\+S\+A\+R\+T\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the U\+S\+A\+R\+Tx peripheral according to the specified parameters in the U\+S\+A\+R\+T\+\_\+\+Init\+Struct . 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3, 4, 5 or 6 to select the U\+S\+A\+RT or U\+A\+RT peripheral. \\
+\hline
+{\em U\+S\+A\+R\+T\+\_\+\+Init\+Struct} & pointer to a \doxyref{U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def}{p.}{structUSART__InitTypeDef} structure that contains the configuration information for the specified U\+S\+A\+RT peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 227} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+
+References \textbf{ R\+C\+C\+\_\+\+Clocks\+Type\+Def\+::\+P\+C\+L\+K1\+\_\+\+Frequency}, \textbf{ R\+C\+C\+\_\+\+Clocks\+Type\+Def\+::\+P\+C\+L\+K2\+\_\+\+Frequency}, \textbf{ R\+C\+C\+\_\+\+Get\+Clocks\+Freq()}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+Hardware\+Flow\+Control}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+Mode}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+Parity}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+Stop\+Bits}, and \textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+Word\+Length}.
+
+
+
+Referenced by \textbf{ U\+S\+A\+R\+T\+\_\+\+Config()}.
+
+
+\begin{DoxyCode}
+00228 \{
+00229   uint32\_t tmpreg = 0x00, apbclock = 0x00;
+00230   uint32\_t integerdivider = 0x00;
+00231   uint32\_t fractionaldivider = 0x00;
+00232   RCC_ClocksTypeDef RCC\_ClocksStatus;
+00233 
+00234   \textcolor{comment}{/* Check the parameters */}
+00235   assert_param(IS_USART_ALL_PERIPH(USARTx));
+00236   assert_param(IS_USART_BAUDRATE(USART\_InitStruct->USART_BaudRate));  
+00237   assert_param(IS_USART_WORD_LENGTH(USART\_InitStruct->USART_WordLength));
+00238   assert_param(IS_USART_STOPBITS(USART\_InitStruct->USART_StopBits));
+00239   assert_param(IS_USART_PARITY(USART\_InitStruct->USART_Parity));
+00240   assert_param(IS_USART_MODE(USART\_InitStruct->USART_Mode));
+00241   assert_param(IS_USART_HARDWARE_FLOW_CONTROL(USART\_InitStruct->
+      USART_HardwareFlowControl));
+00242 
+00243   \textcolor{comment}{/* The hardware flow control is available only for USART1, USART2, USART3 and USART6 */}
+00244   \textcolor{keywordflow}{if} (USART\_InitStruct->USART_HardwareFlowControl != 
+      USART_HardwareFlowControl_None)
+00245   \{
+00246     assert_param(IS_USART_1236_PERIPH(USARTx));
+00247   \}
+00248 
+00249 \textcolor{comment}{/*---------------------------- USART CR2 Configuration -----------------------*/}
+00250   tmpreg = USARTx->CR2;
+00251 
+00252   \textcolor{comment}{/* Clear STOP[13:12] bits */}
+00253   tmpreg &= (uint32\_t)~((uint32\_t)USART_CR2_STOP);
+00254 
+00255   \textcolor{comment}{/* Configure the USART Stop Bits, Clock, CPOL, CPHA and LastBit :}
+00256 \textcolor{comment}{      Set STOP[13:12] bits according to USART\_StopBits value */}
+00257   tmpreg |= (uint32\_t)USART\_InitStruct->USART_StopBits;
+00258   
+00259   \textcolor{comment}{/* Write to USART CR2 */}
+00260   USARTx->CR2 = (uint16\_t)tmpreg;
+00261 
+00262 \textcolor{comment}{/*---------------------------- USART CR1 Configuration -----------------------*/}
+00263   tmpreg = USARTx->CR1;
+00264 
+00265   \textcolor{comment}{/* Clear M, PCE, PS, TE and RE bits */}
+00266   tmpreg &= (uint32\_t)~((uint32\_t)CR1_CLEAR_MASK);
+00267 
+00268   \textcolor{comment}{/* Configure the USART Word Length, Parity and mode: }
+00269 \textcolor{comment}{     Set the M bits according to USART\_WordLength value }
+00270 \textcolor{comment}{     Set PCE and PS bits according to USART\_Parity value}
+00271 \textcolor{comment}{     Set TE and RE bits according to USART\_Mode value */}
+00272   tmpreg |= (uint32\_t)USART\_InitStruct->USART_WordLength | USART\_InitStruct->
+      USART_Parity |
+00273             USART\_InitStruct->USART_Mode;
+00274 
+00275   \textcolor{comment}{/* Write to USART CR1 */}
+00276   USARTx->CR1 = (uint16\_t)tmpreg;
+00277 
+00278 \textcolor{comment}{/*---------------------------- USART CR3 Configuration -----------------------*/}  
+00279   tmpreg = USARTx->CR3;
+00280 
+00281   \textcolor{comment}{/* Clear CTSE and RTSE bits */}
+00282   tmpreg &= (uint32\_t)~((uint32\_t)CR3_CLEAR_MASK);
+00283 
+00284   \textcolor{comment}{/* Configure the USART HFC : }
+00285 \textcolor{comment}{      Set CTSE and RTSE bits according to USART\_HardwareFlowControl value */}
+00286   tmpreg |= USART\_InitStruct->USART_HardwareFlowControl;
+00287 
+00288   \textcolor{comment}{/* Write to USART CR3 */}
+00289   USARTx->CR3 = (uint16\_t)tmpreg;
+00290 
+00291 \textcolor{comment}{/*---------------------------- USART BRR Configuration -----------------------*/}
+00292   \textcolor{comment}{/* Configure the USART Baud Rate */}
+00293   RCC_GetClocksFreq(&RCC\_ClocksStatus);
+00294 
+00295   \textcolor{keywordflow}{if} ((USARTx == USART1) || (USARTx == USART6))
+00296   \{
+00297     apbclock = RCC\_ClocksStatus.PCLK2_Frequency;
+00298   \}
+00299   \textcolor{keywordflow}{else}
+00300   \{
+00301     apbclock = RCC\_ClocksStatus.PCLK1_Frequency;
+00302   \}
+00303   
+00304   \textcolor{comment}{/* Determine the integer part */}
+00305   \textcolor{keywordflow}{if} ((USARTx->CR1 & USART_CR1_OVER8) != 0)
+00306   \{
+00307     \textcolor{comment}{/* Integer part computing in case Oversampling mode is 8 Samples */}
+00308     integerdivider = ((25 * apbclock) / (2 * (USART\_InitStruct->USART_BaudRate)));    
+00309   \}
+00310   \textcolor{keywordflow}{else} \textcolor{comment}{/* if ((USARTx->CR1 & USART\_CR1\_OVER8) == 0) */}
+00311   \{
+00312     \textcolor{comment}{/* Integer part computing in case Oversampling mode is 16 Samples */}
+00313     integerdivider = ((25 * apbclock) / (4 * (USART\_InitStruct->USART_BaudRate)));    
+00314   \}
+00315   tmpreg = (integerdivider / 100) << 4;
+00316 
+00317   \textcolor{comment}{/* Determine the fractional part */}
+00318   fractionaldivider = integerdivider - (100 * (tmpreg >> 4));
+00319 
+00320   \textcolor{comment}{/* Implement the fractional part in the register */}
+00321   \textcolor{keywordflow}{if} ((USARTx->CR1 & USART_CR1_OVER8) != 0)
+00322   \{
+00323     tmpreg |= ((((fractionaldivider * 8) + 50) / 100)) & ((uint8\_t)0x07);
+00324   \}
+00325   \textcolor{keywordflow}{else} \textcolor{comment}{/* if ((USARTx->CR1 & USART\_CR1\_OVER8) == 0) */}
+00326   \{
+00327     tmpreg |= ((((fractionaldivider * 16) + 50) / 100)) & ((uint8\_t)0x0F);
+00328   \}
+00329   
+00330   \textcolor{comment}{/* Write to USART BRR register */}
+00331   USARTx->BRR = (uint16\_t)tmpreg;
+00332 \}
+\end{DoxyCode}
+\mbox{\label{group__USART__Group1_ga3ed89ea8765d851510cfe90f7d90cbbb}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!U\+S\+A\+R\+T\+\_\+\+One\+Bit\+Method\+Cmd@{U\+S\+A\+R\+T\+\_\+\+One\+Bit\+Method\+Cmd}}
+\index{U\+S\+A\+R\+T\+\_\+\+One\+Bit\+Method\+Cmd@{U\+S\+A\+R\+T\+\_\+\+One\+Bit\+Method\+Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+One\+Bit\+Method\+Cmd()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+One\+Bit\+Method\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the U\+S\+A\+RT\textquotesingle{}s one bit sampling method. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3, 4, 5 or 6 to select the U\+S\+A\+RT or U\+A\+RT peripheral. \\
+\hline
+{\em New\+State} & new state of the U\+S\+A\+RT one bit sampling method. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 481} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00482 \{
+00483   \textcolor{comment}{/* Check the parameters */}
+00484   assert_param(IS_USART_ALL_PERIPH(USARTx));
+00485   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00486   
+00487   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00488   \{
+00489     \textcolor{comment}{/* Enable the one bit method by setting the ONEBITE bit in the CR3 register */}
+00490     USARTx->CR3 |= USART_CR3_ONEBIT;
+00491   \}
+00492   \textcolor{keywordflow}{else}
+00493   \{
+00494     \textcolor{comment}{/* Disable the one bit method by clearing the ONEBITE bit in the CR3 register */}
+00495     USARTx->CR3 &= (uint16\_t)~((uint16\_t)USART_CR3_ONEBIT);
+00496   \}
+00497 \}
+\end{DoxyCode}
+\mbox{\label{group__USART__Group1_ga3897bab07491d9239f8a238a9a7cddea}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!U\+S\+A\+R\+T\+\_\+\+Over\+Sampling8\+Cmd@{U\+S\+A\+R\+T\+\_\+\+Over\+Sampling8\+Cmd}}
+\index{U\+S\+A\+R\+T\+\_\+\+Over\+Sampling8\+Cmd@{U\+S\+A\+R\+T\+\_\+\+Over\+Sampling8\+Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+Over\+Sampling8\+Cmd()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+Over\+Sampling8\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the U\+S\+A\+RT\textquotesingle{}s 8x oversampling mode. 
+
+\begin{DoxyNote}{Note}
+This function has to be called before calling \doxyref{U\+S\+A\+R\+T\+\_\+\+Init()}{p.}{group__USART__Group1_ga98da340ea0324002ba1b4263e91ab2ff} function in order to have correct baudrate Divider value. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3, 4, 5 or 6 to select the U\+S\+A\+RT or U\+A\+RT peripheral. \\
+\hline
+{\em New\+State} & new state of the U\+S\+A\+RT 8x oversampling mode. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 455} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00456 \{
+00457   \textcolor{comment}{/* Check the parameters */}
+00458   assert_param(IS_USART_ALL_PERIPH(USARTx));
+00459   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00460   
+00461   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00462   \{
+00463     \textcolor{comment}{/* Enable the 8x Oversampling mode by setting the OVER8 bit in the CR1 register */}
+00464     USARTx->CR1 |= USART_CR1_OVER8;
+00465   \}
+00466   \textcolor{keywordflow}{else}
+00467   \{
+00468     \textcolor{comment}{/* Disable the 8x Oversampling mode by clearing the OVER8 bit in the CR1 register */}
+00469     USARTx->CR1 &= (uint16\_t)~((uint16\_t)USART_CR1_OVER8);
+00470   \}
+00471 \}  
+\end{DoxyCode}
+\mbox{\label{group__USART__Group1_gaf5da8f2eee8245425584d85d4f62cc33}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!U\+S\+A\+R\+T\+\_\+\+Set\+Prescaler@{U\+S\+A\+R\+T\+\_\+\+Set\+Prescaler}}
+\index{U\+S\+A\+R\+T\+\_\+\+Set\+Prescaler@{U\+S\+A\+R\+T\+\_\+\+Set\+Prescaler}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+Set\+Prescaler()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+Set\+Prescaler (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx,  }\item[{uint8\+\_\+t}]{U\+S\+A\+R\+T\+\_\+\+Prescaler }\end{DoxyParamCaption})}
+
+
+
+Sets the system clock prescaler. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3, 4, 5 or 6 to select the U\+S\+A\+RT or U\+A\+RT peripheral. \\
+\hline
+{\em U\+S\+A\+R\+T\+\_\+\+Prescaler} & specifies the prescaler clock. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The function is used for Ir\+DA mode with U\+A\+R\+T4 and U\+A\+R\+T5. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 434} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+\begin{DoxyCode}
+00435 \{ 
+00436   \textcolor{comment}{/* Check the parameters */}
+00437   assert_param(IS_USART_ALL_PERIPH(USARTx));
+00438   
+00439   \textcolor{comment}{/* Clear the USART prescaler */}
+00440   USARTx->GTPR &= USART_GTPR_GT;
+00441   \textcolor{comment}{/* Set the USART prescaler */}
+00442   USARTx->GTPR |= USART\_Prescaler;
+00443 \}
+\end{DoxyCode}
+\mbox{\label{group__USART__Group1_ga34e1faa2f312496c16cfd05155f4c8b1}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!U\+S\+A\+R\+T\+\_\+\+Struct\+Init@{U\+S\+A\+R\+T\+\_\+\+Struct\+Init}}
+\index{U\+S\+A\+R\+T\+\_\+\+Struct\+Init@{U\+S\+A\+R\+T\+\_\+\+Struct\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+Struct\+Init()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def} $\ast$}]{U\+S\+A\+R\+T\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each U\+S\+A\+R\+T\+\_\+\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+T\+\_\+\+Init\+Struct} & pointer to a \doxyref{U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def}{p.}{structUSART__InitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 340} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+
+References \textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+Baud\+Rate}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+Hardware\+Flow\+Control}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+Mode}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+Parity}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+Stop\+Bits}, and \textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+Word\+Length}.
+
+
+\begin{DoxyCode}
+00341 \{
+00342   \textcolor{comment}{/* USART\_InitStruct members default value */}
+00343   USART\_InitStruct->USART_BaudRate = 9600;
+00344   USART\_InitStruct->USART_WordLength = USART_WordLength_8b;
+00345   USART\_InitStruct->USART_StopBits = USART_StopBits_1;
+00346   USART\_InitStruct->USART_Parity = USART_Parity_No ;
+00347   USART\_InitStruct->USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+00348   USART\_InitStruct->USART_HardwareFlowControl = USART_HardwareFlowControl_None;  
+00349 \}
+\end{DoxyCode}

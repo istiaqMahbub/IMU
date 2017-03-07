@@ -1,0 +1,253 @@
+\section{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Peripheral/src/gpio.c File Reference}
+\label{gpio_8c}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Peripheral/src/gpio.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Peripheral/src/gpio.\+c}}
+{\ttfamily \#include \char`\"{}stm32f4xx.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+gpio.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}misc.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+exti.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+rcc.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+syscfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}G\+P\+I\+O.\+h\char`\"{}}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+P\+IN}~\textbf{ G\+P\+I\+O\+\_\+\+Pin\+\_\+1}
+\item 
+\#define \textbf{ I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT}~\textbf{ G\+P\+I\+OB}
+\item 
+\#define \textbf{ I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK}~\textbf{ R\+C\+C\+\_\+\+A\+H\+B1\+Periph\+\_\+\+G\+P\+I\+OB}
+\item 
+\#define \textbf{ I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+P\+O\+RT}~\textbf{ E\+X\+T\+I\+\_\+\+Port\+Source\+G\+P\+I\+OB}
+\item 
+\#define \textbf{ I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+P\+IN}~\textbf{ E\+X\+T\+I\+\_\+\+Pin\+Source1}
+\item 
+\#define \textbf{ I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+L\+I\+NE}~\textbf{ E\+X\+T\+I\+\_\+\+Line1}
+\item 
+\#define \textbf{ I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+I\+RQ}~\textbf{ E\+X\+T\+I1\+\_\+\+I\+R\+Qn}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ G\+P\+I\+O\+\_\+\+Config} (void)
+\item 
+void \textbf{ Enable\+Inv\+Interrupt} (void)
+\item 
+void \textbf{ Disable\+Inv\+Interrupt} (void)
+\item 
+void \textbf{ Inv\+Int\+Handler} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\label{gpio_8c_a8cb5a3f191b27ebb7b3c6c6fd763a197}} 
+\index{gpio.\+c@{gpio.\+c}!I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+I\+RQ@{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+I\+RQ}}
+\index{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+I\+RQ@{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+I\+RQ}!gpio.\+c@{gpio.\+c}}
+\subsubsection{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+I\+RQ}
+{\footnotesize\ttfamily \#define I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+I\+RQ~\textbf{ E\+X\+T\+I1\+\_\+\+I\+R\+Qn}}
+
+
+
+Definition at line \textbf{ 24} of file \textbf{ gpio.\+c}.
+
+\mbox{\label{gpio_8c_a082114032a9cb47ea69d6de3f635e9ee}} 
+\index{gpio.\+c@{gpio.\+c}!I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+L\+I\+NE@{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+L\+I\+NE}}
+\index{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+L\+I\+NE@{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+L\+I\+NE}!gpio.\+c@{gpio.\+c}}
+\subsubsection{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+L\+I\+NE}
+{\footnotesize\ttfamily \#define I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+L\+I\+NE~\textbf{ E\+X\+T\+I\+\_\+\+Line1}}
+
+
+
+Definition at line \textbf{ 23} of file \textbf{ gpio.\+c}.
+
+\mbox{\label{gpio_8c_adec0c72928f47334ec0f64b223c228c6}} 
+\index{gpio.\+c@{gpio.\+c}!I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+P\+IN@{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+P\+IN}}
+\index{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+P\+IN@{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+P\+IN}!gpio.\+c@{gpio.\+c}}
+\subsubsection{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+P\+IN}
+{\footnotesize\ttfamily \#define I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+P\+IN~\textbf{ E\+X\+T\+I\+\_\+\+Pin\+Source1}}
+
+
+
+Definition at line \textbf{ 22} of file \textbf{ gpio.\+c}.
+
+\mbox{\label{gpio_8c_a0b29e96ccd1a7803380100557663de8a}} 
+\index{gpio.\+c@{gpio.\+c}!I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+P\+O\+RT@{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+P\+O\+RT}}
+\index{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+P\+O\+RT@{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+P\+O\+RT}!gpio.\+c@{gpio.\+c}}
+\subsubsection{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+P\+O\+RT}
+{\footnotesize\ttfamily \#define I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+E\+X\+T\+I\+\_\+\+P\+O\+RT~\textbf{ E\+X\+T\+I\+\_\+\+Port\+Source\+G\+P\+I\+OB}}
+
+
+
+Definition at line \textbf{ 21} of file \textbf{ gpio.\+c}.
+
+\mbox{\label{gpio_8c_a859a278a23389fd05c4d8dd0887e2e5f}} 
+\index{gpio.\+c@{gpio.\+c}!I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK@{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK}}
+\index{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK@{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK}!gpio.\+c@{gpio.\+c}}
+\subsubsection{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK}
+{\footnotesize\ttfamily \#define I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK~\textbf{ R\+C\+C\+\_\+\+A\+H\+B1\+Periph\+\_\+\+G\+P\+I\+OB}}
+
+
+
+Definition at line \textbf{ 20} of file \textbf{ gpio.\+c}.
+
+\mbox{\label{gpio_8c_aca42feff8ad8236df921af6a244474e4}} 
+\index{gpio.\+c@{gpio.\+c}!I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT@{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT}}
+\index{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT@{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT}!gpio.\+c@{gpio.\+c}}
+\subsubsection{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT}
+{\footnotesize\ttfamily \#define I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT~\textbf{ G\+P\+I\+OB}}
+
+
+
+Definition at line \textbf{ 19} of file \textbf{ gpio.\+c}.
+
+\mbox{\label{gpio_8c_ac06872c8c2b8cbfaf69b79dbf4b45e4b}} 
+\index{gpio.\+c@{gpio.\+c}!I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+P\+IN@{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+P\+IN}}
+\index{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+P\+IN@{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+P\+IN}!gpio.\+c@{gpio.\+c}}
+\subsubsection{I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+P\+IN}
+{\footnotesize\ttfamily \#define I\+N\+V\+E\+N\+\_\+\+I\+N\+T\+\_\+\+P\+IN~\textbf{ G\+P\+I\+O\+\_\+\+Pin\+\_\+1}}
+
+
+
+Definition at line \textbf{ 18} of file \textbf{ gpio.\+c}.
+
+
+
+\subsection{Function Documentation}
+\mbox{\label{gpio_8c_aa4a445d404267e03cd1d6b354472cd19}} 
+\index{gpio.\+c@{gpio.\+c}!Disable\+Inv\+Interrupt@{Disable\+Inv\+Interrupt}}
+\index{Disable\+Inv\+Interrupt@{Disable\+Inv\+Interrupt}!gpio.\+c@{gpio.\+c}}
+\subsubsection{Disable\+Inv\+Interrupt()}
+{\footnotesize\ttfamily void Disable\+Inv\+Interrupt (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \textbf{ 81} of file \textbf{ gpio.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+X\+T\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit()}, \textbf{ E\+X\+T\+I\+\_\+\+Init()}, \textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def\+::\+E\+X\+T\+I\+\_\+\+Line}, \textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def\+::\+E\+X\+T\+I\+\_\+\+Line\+Cmd}, \textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def\+::\+E\+X\+T\+I\+\_\+\+Mode}, \textbf{ E\+X\+T\+I\+\_\+\+Mode\+\_\+\+Interrupt}, \textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def\+::\+E\+X\+T\+I\+\_\+\+Trigger}, and \textbf{ E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Rising}.
+
+
+\begin{DoxyCode}
+00082 \{
+00083   EXTI_InitTypeDef   EXTI\_InitStructure;
+00084     \textcolor{comment}{/* Configure EXTI Line1 */}
+00085   EXTI\_InitStructure.EXTI_Line = INVEN_INT_EXTI_LINE;
+00086   EXTI\_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+00087   EXTI\_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
+00088   EXTI\_InitStructure.EXTI_LineCmd = DISABLE;
+00089   EXTI_Init(&EXTI\_InitStructure);
+00090   EXTI_ClearITPendingBit(INVEN_INT_EXTI_LINE);
+00091 \}
+\end{DoxyCode}
+\mbox{\label{gpio_8c_ac956352ee6a2cc7b303eeec6bea6ee59}} 
+\index{gpio.\+c@{gpio.\+c}!Enable\+Inv\+Interrupt@{Enable\+Inv\+Interrupt}}
+\index{Enable\+Inv\+Interrupt@{Enable\+Inv\+Interrupt}!gpio.\+c@{gpio.\+c}}
+\subsubsection{Enable\+Inv\+Interrupt()}
+{\footnotesize\ttfamily void Enable\+Inv\+Interrupt (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \textbf{ 71} of file \textbf{ gpio.\+c}.
+
+
+
+References \textbf{ E\+N\+A\+B\+LE}, \textbf{ E\+X\+T\+I\+\_\+\+Init()}, \textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def\+::\+E\+X\+T\+I\+\_\+\+Line}, \textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def\+::\+E\+X\+T\+I\+\_\+\+Line\+Cmd}, \textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def\+::\+E\+X\+T\+I\+\_\+\+Mode}, \textbf{ E\+X\+T\+I\+\_\+\+Mode\+\_\+\+Interrupt}, \textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def\+::\+E\+X\+T\+I\+\_\+\+Trigger}, and \textbf{ E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Rising}.
+
+
+
+Referenced by \textbf{ G\+P\+I\+O\+\_\+\+Config()}.
+
+
+\begin{DoxyCode}
+00072 \{
+00073   EXTI_InitTypeDef   EXTI\_InitStructure;
+00074   \textcolor{comment}{/* Configure EXTI Line1 */}
+00075   EXTI\_InitStructure.EXTI_Line = INVEN_INT_EXTI_LINE;
+00076   EXTI\_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+00077   EXTI\_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
+00078   EXTI\_InitStructure.EXTI_LineCmd = ENABLE;
+00079   EXTI_Init(&EXTI\_InitStructure);
+00080 \}
+\end{DoxyCode}
+\mbox{\label{gpio_8c_a56c8ff165146f2f845a0bf90e3eacd39}} 
+\index{gpio.\+c@{gpio.\+c}!G\+P\+I\+O\+\_\+\+Config@{G\+P\+I\+O\+\_\+\+Config}}
+\index{G\+P\+I\+O\+\_\+\+Config@{G\+P\+I\+O\+\_\+\+Config}!gpio.\+c@{gpio.\+c}}
+\subsubsection{G\+P\+I\+O\+\_\+\+Config()}
+{\footnotesize\ttfamily void G\+P\+I\+O\+\_\+\+Config (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \textbf{ 30} of file \textbf{ gpio.\+c}.
+
+
+
+References \textbf{ E\+N\+A\+B\+LE}, \textbf{ Enable\+Inv\+Interrupt()}, \textbf{ E\+X\+T\+I\+\_\+\+Init()}, \textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def\+::\+E\+X\+T\+I\+\_\+\+Line}, \textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def\+::\+E\+X\+T\+I\+\_\+\+Line\+Cmd}, \textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def\+::\+E\+X\+T\+I\+\_\+\+Mode}, \textbf{ E\+X\+T\+I\+\_\+\+Mode\+\_\+\+Interrupt}, \textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def\+::\+E\+X\+T\+I\+\_\+\+Trigger}, \textbf{ E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Rising}, \textbf{ G\+P\+I\+O\+\_\+\+Init()}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Mode}, \textbf{ G\+P\+I\+O\+\_\+\+Mode\+\_\+\+IN}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Pin}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Pu\+Pd}, \textbf{ G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+N\+O\+P\+U\+LL}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Speed}, \textbf{ G\+P\+I\+O\+\_\+\+Speed\+\_\+100\+M\+Hz}, \textbf{ N\+V\+I\+C\+\_\+\+Init()}, \textbf{ N\+V\+I\+C\+\_\+\+Init\+Type\+Def\+::\+N\+V\+I\+C\+\_\+\+I\+R\+Q\+Channel}, \textbf{ N\+V\+I\+C\+\_\+\+Init\+Type\+Def\+::\+N\+V\+I\+C\+\_\+\+I\+R\+Q\+Channel\+Cmd}, \textbf{ N\+V\+I\+C\+\_\+\+Init\+Type\+Def\+::\+N\+V\+I\+C\+\_\+\+I\+R\+Q\+Channel\+Preemption\+Priority}, \textbf{ N\+V\+I\+C\+\_\+\+Init\+Type\+Def\+::\+N\+V\+I\+C\+\_\+\+I\+R\+Q\+Channel\+Sub\+Priority}, \textbf{ R\+C\+C\+\_\+\+A\+H\+B1\+Periph\+Clock\+Cmd()}, \textbf{ R\+C\+C\+\_\+\+A\+P\+B2\+Periph\+Clock\+Cmd()}, and \textbf{ S\+Y\+S\+C\+F\+G\+\_\+\+E\+X\+T\+I\+Line\+Config()}.
+
+
+
+Referenced by \textbf{ board\+\_\+init()}.
+
+
+\begin{DoxyCode}
+00031 \{
+00032 
+00033   GPIO_InitTypeDef   GPIO\_InitStructure;
+00034   NVIC_InitTypeDef   NVIC_InitStructure;
+00035   EXTI_InitTypeDef   EXTI\_InitStructure;
+00036 
+00037 \textcolor{comment}{//  GPIO\_DeInit(GPIOA);}
+00038 \textcolor{comment}{//  GPIO\_DeInit(GPIOC);}
+00039   
+00040   \textcolor{comment}{/* Enable GPIOB clock */}
+00041   RCC_AHB1PeriphClockCmd(INVEN_INT_GPIO_CLK, ENABLE);
+00042   \textcolor{comment}{/* Enable SYSCFG clock */}
+00043   RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
+00044   
+00045   \textcolor{comment}{/* Configure invensense sensor interrupt pin as input floating */}
+00046   GPIO\_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+00047   GPIO\_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+00048   GPIO\_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+00049   GPIO\_InitStructure.GPIO_Pin = INVEN_INT_PIN;
+00050   GPIO_Init(INVEN_INT_GPIO_PORT, &GPIO\_InitStructure); \textcolor{comment}{//GPIOA}
+00051 
+00052   \textcolor{comment}{/* Connect EXTI Line to inv sensor interrupt pin */}
+00053   SYSCFG_EXTILineConfig(INVEN_INT_EXTI_PORT, INVEN_INT_EXTI_PIN);
+00054 
+00055   \textcolor{comment}{/* Configure EXTI Line1 */}
+00056   EXTI\_InitStructure.EXTI_Line = INVEN_INT_EXTI_LINE;
+00057   EXTI\_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+00058   EXTI\_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
+00059   EXTI\_InitStructure.EXTI_LineCmd = ENABLE;
+00060   EXTI_Init(&EXTI\_InitStructure);
+00061 
+00062   \textcolor{comment}{/* Enable and set EXTI Line Interrupt to the highest priority */}
+00063   NVIC\_InitStructure.NVIC_IRQChannel = INVEN_INT_EXTI_IRQ;
+00064   NVIC\_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;
+00065   NVIC\_InitStructure.NVIC_IRQChannelSubPriority = 0x00;
+00066   NVIC\_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+00067   NVIC_Init(&NVIC\_InitStructure);
+00068   EnableInvInterrupt();
+00069 \}
+\end{DoxyCode}
+\mbox{\label{gpio_8c_a6da582e1afa9abd4b19e1027556c71ce}} 
+\index{gpio.\+c@{gpio.\+c}!Inv\+Int\+Handler@{Inv\+Int\+Handler}}
+\index{Inv\+Int\+Handler@{Inv\+Int\+Handler}!gpio.\+c@{gpio.\+c}}
+\subsubsection{Inv\+Int\+Handler()}
+{\footnotesize\ttfamily void Inv\+Int\+Handler (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \textbf{ 93} of file \textbf{ gpio.\+c}.
+
+
+
+References \textbf{ E\+X\+T\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit()}.
+
+
+\begin{DoxyCode}
+00094 \{
+00095 
+00096   \textcolor{comment}{/* Clear the EXTI line 1 pending bit */}
+00097    EXTI_ClearITPendingBit(INVEN_INT_EXTI_LINE);
+00098 
+00099 \}
+\end{DoxyCode}

@@ -1,0 +1,421 @@
+\section{W\+W\+DG}
+\label{group__WWDG}\index{W\+W\+DG@{W\+W\+DG}}
+
+
+W\+W\+DG driver modules.  
+
+
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ W\+W\+D\+G\+\_\+\+Exported\+\_\+\+Constants}
+\item 
+\textbf{ W\+W\+D\+G\+\_\+\+Private\+\_\+\+Functions}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ W\+W\+D\+G\+\_\+\+O\+F\+F\+S\+ET}~(\textbf{ W\+W\+D\+G\+\_\+\+B\+A\+SE} -\/ \textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+A\+SE})
+\item 
+\#define \textbf{ C\+F\+R\+\_\+\+O\+F\+F\+S\+ET}~(\textbf{ W\+W\+D\+G\+\_\+\+O\+F\+F\+S\+ET} + 0x04)
+\item 
+\#define \textbf{ E\+W\+I\+\_\+\+Bit\+Number}~0x09
+\item 
+\#define \textbf{ C\+F\+R\+\_\+\+E\+W\+I\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+F\+R\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ E\+W\+I\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ C\+F\+R\+\_\+\+W\+D\+G\+T\+B\+\_\+\+M\+A\+SK}~((uint32\+\_\+t)0x\+F\+F\+F\+F\+F\+E7\+F)
+\item 
+\#define \textbf{ C\+F\+R\+\_\+\+W\+\_\+\+M\+A\+SK}~((uint32\+\_\+t)0x\+F\+F\+F\+F\+F\+F80)
+\item 
+\#define \textbf{ B\+I\+T\+\_\+\+M\+A\+SK}~((uint8\+\_\+t)0x7\+F)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ W\+W\+D\+G\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the W\+W\+DG peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ W\+W\+D\+G\+\_\+\+Set\+Prescaler} (uint32\+\_\+t W\+W\+D\+G\+\_\+\+Prescaler)
+\begin{DoxyCompactList}\small\item\em Sets the W\+W\+DG Prescaler. \end{DoxyCompactList}\item 
+void \textbf{ W\+W\+D\+G\+\_\+\+Set\+Window\+Value} (uint8\+\_\+t Window\+Value)
+\begin{DoxyCompactList}\small\item\em Sets the W\+W\+DG window value. \end{DoxyCompactList}\item 
+void \textbf{ W\+W\+D\+G\+\_\+\+Enable\+IT} (void)
+\begin{DoxyCompactList}\small\item\em Enables the W\+W\+DG Early Wakeup interrupt(\+E\+W\+I). \end{DoxyCompactList}\item 
+void \textbf{ W\+W\+D\+G\+\_\+\+Set\+Counter} (uint8\+\_\+t Counter)
+\begin{DoxyCompactList}\small\item\em Sets the W\+W\+DG counter value. \end{DoxyCompactList}\item 
+void \textbf{ W\+W\+D\+G\+\_\+\+Enable} (uint8\+\_\+t Counter)
+\begin{DoxyCompactList}\small\item\em Enables W\+W\+DG and load the counter value. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ W\+W\+D\+G\+\_\+\+Get\+Flag\+Status} (void)
+\begin{DoxyCompactList}\small\item\em Checks whether the Early Wakeup interrupt flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ W\+W\+D\+G\+\_\+\+Clear\+Flag} (void)
+\begin{DoxyCompactList}\small\item\em Clears Early Wakeup interrupt flag. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+W\+W\+DG driver modules. 
+
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\label{group__WWDG_ga7d4a1875576135ebdd354a816679d45c}} 
+\index{W\+W\+DG@{W\+W\+DG}!B\+I\+T\+\_\+\+M\+A\+SK@{B\+I\+T\+\_\+\+M\+A\+SK}}
+\index{B\+I\+T\+\_\+\+M\+A\+SK@{B\+I\+T\+\_\+\+M\+A\+SK}!W\+W\+DG@{W\+W\+DG}}
+\subsubsection{B\+I\+T\+\_\+\+M\+A\+SK}
+{\footnotesize\ttfamily \#define B\+I\+T\+\_\+\+M\+A\+SK~((uint8\+\_\+t)0x7\+F)}
+
+
+
+Definition at line \textbf{ 106} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+\mbox{\label{group__WWDG_gaa48804210cea547f0e0f4ca49c44fc94}} 
+\index{W\+W\+DG@{W\+W\+DG}!C\+F\+R\+\_\+\+E\+W\+I\+\_\+\+BB@{C\+F\+R\+\_\+\+E\+W\+I\+\_\+\+BB}}
+\index{C\+F\+R\+\_\+\+E\+W\+I\+\_\+\+BB@{C\+F\+R\+\_\+\+E\+W\+I\+\_\+\+BB}!W\+W\+DG@{W\+W\+DG}}
+\subsubsection{C\+F\+R\+\_\+\+E\+W\+I\+\_\+\+BB}
+{\footnotesize\ttfamily \#define C\+F\+R\+\_\+\+E\+W\+I\+\_\+\+BB~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+F\+R\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ E\+W\+I\+\_\+\+Bit\+Number} $\ast$ 4))}
+
+
+
+Definition at line \textbf{ 100} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+\mbox{\label{group__WWDG_ga3e0f9d9f7f69a6d133bba721e25aca4a}} 
+\index{W\+W\+DG@{W\+W\+DG}!C\+F\+R\+\_\+\+O\+F\+F\+S\+ET@{C\+F\+R\+\_\+\+O\+F\+F\+S\+ET}}
+\index{C\+F\+R\+\_\+\+O\+F\+F\+S\+ET@{C\+F\+R\+\_\+\+O\+F\+F\+S\+ET}!W\+W\+DG@{W\+W\+DG}}
+\subsubsection{C\+F\+R\+\_\+\+O\+F\+F\+S\+ET}
+{\footnotesize\ttfamily \#define C\+F\+R\+\_\+\+O\+F\+F\+S\+ET~(\textbf{ W\+W\+D\+G\+\_\+\+O\+F\+F\+S\+ET} + 0x04)}
+
+
+
+Definition at line \textbf{ 98} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+\mbox{\label{group__WWDG_gab99b48f5d1720c22c2ef8d8a5f934a11}} 
+\index{W\+W\+DG@{W\+W\+DG}!C\+F\+R\+\_\+\+W\+\_\+\+M\+A\+SK@{C\+F\+R\+\_\+\+W\+\_\+\+M\+A\+SK}}
+\index{C\+F\+R\+\_\+\+W\+\_\+\+M\+A\+SK@{C\+F\+R\+\_\+\+W\+\_\+\+M\+A\+SK}!W\+W\+DG@{W\+W\+DG}}
+\subsubsection{C\+F\+R\+\_\+\+W\+\_\+\+M\+A\+SK}
+{\footnotesize\ttfamily \#define C\+F\+R\+\_\+\+W\+\_\+\+M\+A\+SK~((uint32\+\_\+t)0x\+F\+F\+F\+F\+F\+F80)}
+
+
+
+Definition at line \textbf{ 105} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+\mbox{\label{group__WWDG_gab500f6978b5964c1de28e59e7ac98012}} 
+\index{W\+W\+DG@{W\+W\+DG}!C\+F\+R\+\_\+\+W\+D\+G\+T\+B\+\_\+\+M\+A\+SK@{C\+F\+R\+\_\+\+W\+D\+G\+T\+B\+\_\+\+M\+A\+SK}}
+\index{C\+F\+R\+\_\+\+W\+D\+G\+T\+B\+\_\+\+M\+A\+SK@{C\+F\+R\+\_\+\+W\+D\+G\+T\+B\+\_\+\+M\+A\+SK}!W\+W\+DG@{W\+W\+DG}}
+\subsubsection{C\+F\+R\+\_\+\+W\+D\+G\+T\+B\+\_\+\+M\+A\+SK}
+{\footnotesize\ttfamily \#define C\+F\+R\+\_\+\+W\+D\+G\+T\+B\+\_\+\+M\+A\+SK~((uint32\+\_\+t)0x\+F\+F\+F\+F\+F\+E7\+F)}
+
+
+
+Definition at line \textbf{ 104} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+\mbox{\label{group__WWDG_ga97c9005823520f5aaefe211923b48215}} 
+\index{W\+W\+DG@{W\+W\+DG}!E\+W\+I\+\_\+\+Bit\+Number@{E\+W\+I\+\_\+\+Bit\+Number}}
+\index{E\+W\+I\+\_\+\+Bit\+Number@{E\+W\+I\+\_\+\+Bit\+Number}!W\+W\+DG@{W\+W\+DG}}
+\subsubsection{E\+W\+I\+\_\+\+Bit\+Number}
+{\footnotesize\ttfamily \#define E\+W\+I\+\_\+\+Bit\+Number~0x09}
+
+
+
+Definition at line \textbf{ 99} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+\mbox{\label{group__WWDG_gab6dcdf2385dd7317ec775e146cff40ca}} 
+\index{W\+W\+DG@{W\+W\+DG}!W\+W\+D\+G\+\_\+\+O\+F\+F\+S\+ET@{W\+W\+D\+G\+\_\+\+O\+F\+F\+S\+ET}}
+\index{W\+W\+D\+G\+\_\+\+O\+F\+F\+S\+ET@{W\+W\+D\+G\+\_\+\+O\+F\+F\+S\+ET}!W\+W\+DG@{W\+W\+DG}}
+\subsubsection{W\+W\+D\+G\+\_\+\+O\+F\+F\+S\+ET}
+{\footnotesize\ttfamily \#define W\+W\+D\+G\+\_\+\+O\+F\+F\+S\+ET~(\textbf{ W\+W\+D\+G\+\_\+\+B\+A\+SE} -\/ \textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+A\+SE})}
+
+
+
+Definition at line \textbf{ 96} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+
+
+\subsection{Function Documentation}
+\mbox{\label{group__WWDG_gabd2b5a6317c2e1a3ab0795838ce59dd2}} 
+\index{W\+W\+DG@{W\+W\+DG}!W\+W\+D\+G\+\_\+\+Clear\+Flag@{W\+W\+D\+G\+\_\+\+Clear\+Flag}}
+\index{W\+W\+D\+G\+\_\+\+Clear\+Flag@{W\+W\+D\+G\+\_\+\+Clear\+Flag}!W\+W\+DG@{W\+W\+DG}}
+\subsubsection{W\+W\+D\+G\+\_\+\+Clear\+Flag()}
+{\footnotesize\ttfamily void W\+W\+D\+G\+\_\+\+Clear\+Flag (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Clears Early Wakeup interrupt flag. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 282} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+
+\begin{DoxyCode}
+00283 \{
+00284   WWDG->SR = (uint32\_t)RESET;
+00285 \}
+\end{DoxyCode}
+\mbox{\label{group__WWDG_ga7130f4dc861b9234b62e73f9f57f89a1}} 
+\index{W\+W\+DG@{W\+W\+DG}!W\+W\+D\+G\+\_\+\+De\+Init@{W\+W\+D\+G\+\_\+\+De\+Init}}
+\index{W\+W\+D\+G\+\_\+\+De\+Init@{W\+W\+D\+G\+\_\+\+De\+Init}!W\+W\+DG@{W\+W\+DG}}
+\subsubsection{W\+W\+D\+G\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void W\+W\+D\+G\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the W\+W\+DG peripheral registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 134} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, and \textbf{ R\+C\+C\+\_\+\+A\+P\+B1\+Periph\+Reset\+Cmd()}.
+
+
+\begin{DoxyCode}
+00135 \{
+00136   RCC_APB1PeriphResetCmd(RCC_APB1Periph_WWDG, ENABLE);
+00137   RCC_APB1PeriphResetCmd(RCC_APB1Periph_WWDG, DISABLE);
+00138 \}
+\end{DoxyCode}
+\mbox{\label{group__WWDG_ga10dc2554d0b504b5472e3ecf0f02a9e6}} 
+\index{W\+W\+DG@{W\+W\+DG}!W\+W\+D\+G\+\_\+\+Enable@{W\+W\+D\+G\+\_\+\+Enable}}
+\index{W\+W\+D\+G\+\_\+\+Enable@{W\+W\+D\+G\+\_\+\+Enable}!W\+W\+DG@{W\+W\+DG}}
+\subsubsection{W\+W\+D\+G\+\_\+\+Enable()}
+{\footnotesize\ttfamily void W\+W\+D\+G\+\_\+\+Enable (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{Counter }\end{DoxyParamCaption})}
+
+
+
+Enables W\+W\+DG and load the counter value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Counter} & specifies the watchdog counter value. This parameter must be a number between 0x40 and 0x7F (to prevent generating an immediate reset) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 235} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+
+\begin{DoxyCode}
+00236 \{
+00237   \textcolor{comment}{/* Check the parameters */}
+00238   assert_param(IS_WWDG_COUNTER(Counter));
+00239   WWDG->CR = WWDG_CR_WDGA | Counter;
+00240 \}
+\end{DoxyCode}
+\mbox{\label{group__WWDG_gac8af66ea5254d3d78b60b9b7c7f29521}} 
+\index{W\+W\+DG@{W\+W\+DG}!W\+W\+D\+G\+\_\+\+Enable\+IT@{W\+W\+D\+G\+\_\+\+Enable\+IT}}
+\index{W\+W\+D\+G\+\_\+\+Enable\+IT@{W\+W\+D\+G\+\_\+\+Enable\+IT}!W\+W\+DG@{W\+W\+DG}}
+\subsubsection{W\+W\+D\+G\+\_\+\+Enable\+I\+T()}
+{\footnotesize\ttfamily void W\+W\+D\+G\+\_\+\+Enable\+IT (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Enables the W\+W\+DG Early Wakeup interrupt(\+E\+W\+I). 
+
+\begin{DoxyNote}{Note}
+Once enabled this interrupt cannot be disabled except by a system reset. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 192} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+
+\begin{DoxyCode}
+00193 \{
+00194   *(\_\_IO uint32\_t *) CFR_EWI_BB = (uint32\_t)ENABLE;
+00195 \}
+\end{DoxyCode}
+\mbox{\label{group__WWDG_ga7df4882d45918b9b8249dfca1e44fabc}} 
+\index{W\+W\+DG@{W\+W\+DG}!W\+W\+D\+G\+\_\+\+Get\+Flag\+Status@{W\+W\+D\+G\+\_\+\+Get\+Flag\+Status}}
+\index{W\+W\+D\+G\+\_\+\+Get\+Flag\+Status@{W\+W\+D\+G\+\_\+\+Get\+Flag\+Status}!W\+W\+DG@{W\+W\+DG}}
+\subsubsection{W\+W\+D\+G\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} W\+W\+D\+G\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Checks whether the Early Wakeup interrupt flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of the Early Wakeup interrupt flag (S\+ET or R\+E\+S\+ET) \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 262} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00263 \{
+00264   FlagStatus bitstatus = RESET;
+00265     
+00266   \textcolor{keywordflow}{if} ((WWDG->SR) != (uint32\_t)RESET)
+00267   \{
+00268     bitstatus = SET;
+00269   \}
+00270   \textcolor{keywordflow}{else}
+00271   \{
+00272     bitstatus = RESET;
+00273   \}
+00274   \textcolor{keywordflow}{return} bitstatus;
+00275 \}
+\end{DoxyCode}
+\mbox{\label{group__WWDG_ga6e44cc35f133b28b9ad861f459bf8d76}} 
+\index{W\+W\+DG@{W\+W\+DG}!W\+W\+D\+G\+\_\+\+Set\+Counter@{W\+W\+D\+G\+\_\+\+Set\+Counter}}
+\index{W\+W\+D\+G\+\_\+\+Set\+Counter@{W\+W\+D\+G\+\_\+\+Set\+Counter}!W\+W\+DG@{W\+W\+DG}}
+\subsubsection{W\+W\+D\+G\+\_\+\+Set\+Counter()}
+{\footnotesize\ttfamily void W\+W\+D\+G\+\_\+\+Set\+Counter (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{Counter }\end{DoxyParamCaption})}
+
+
+
+Sets the W\+W\+DG counter value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Counter} & specifies the watchdog counter value. This parameter must be a number between 0x40 and 0x7F (to prevent generating an immediate reset) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 204} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+
+\begin{DoxyCode}
+00205 \{
+00206   \textcolor{comment}{/* Check the parameters */}
+00207   assert_param(IS_WWDG_COUNTER(Counter));
+00208   \textcolor{comment}{/* Write to T[6:0] bits to configure the counter value, no need to do}
+00209 \textcolor{comment}{     a read-modify-write; writing a 0 to WDGA bit does nothing */}
+00210   WWDG->CR = Counter & BIT_MASK;
+00211 \}
+\end{DoxyCode}
+\mbox{\label{group__WWDG_gafeaa2b52c31ba7baca7eb61d2d42e07b}} 
+\index{W\+W\+DG@{W\+W\+DG}!W\+W\+D\+G\+\_\+\+Set\+Prescaler@{W\+W\+D\+G\+\_\+\+Set\+Prescaler}}
+\index{W\+W\+D\+G\+\_\+\+Set\+Prescaler@{W\+W\+D\+G\+\_\+\+Set\+Prescaler}!W\+W\+DG@{W\+W\+DG}}
+\subsubsection{W\+W\+D\+G\+\_\+\+Set\+Prescaler()}
+{\footnotesize\ttfamily void W\+W\+D\+G\+\_\+\+Set\+Prescaler (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{W\+W\+D\+G\+\_\+\+Prescaler }\end{DoxyParamCaption})}
+
+
+
+Sets the W\+W\+DG Prescaler. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em W\+W\+D\+G\+\_\+\+Prescaler} & specifies the W\+W\+DG Prescaler. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item W\+W\+D\+G\+\_\+\+Prescaler\+\_\+1\+: W\+W\+DG counter clock = (P\+C\+L\+K1/4096)/1 \item W\+W\+D\+G\+\_\+\+Prescaler\+\_\+2\+: W\+W\+DG counter clock = (P\+C\+L\+K1/4096)/2 \item W\+W\+D\+G\+\_\+\+Prescaler\+\_\+4\+: W\+W\+DG counter clock = (P\+C\+L\+K1/4096)/4 \item W\+W\+D\+G\+\_\+\+Prescaler\+\_\+8\+: W\+W\+DG counter clock = (P\+C\+L\+K1/4096)/8 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 150} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+
+\begin{DoxyCode}
+00151 \{
+00152   uint32\_t tmpreg = 0;
+00153   \textcolor{comment}{/* Check the parameters */}
+00154   assert_param(IS_WWDG_PRESCALER(WWDG\_Prescaler));
+00155   \textcolor{comment}{/* Clear WDGTB[1:0] bits */}
+00156   tmpreg = WWDG->CFR & CFR_WDGTB_MASK;
+00157   \textcolor{comment}{/* Set WDGTB[1:0] bits according to WWDG\_Prescaler value */}
+00158   tmpreg |= WWDG\_Prescaler;
+00159   \textcolor{comment}{/* Store the new value */}
+00160   WWDG->CFR = tmpreg;
+00161 \}
+\end{DoxyCode}
+\mbox{\label{group__WWDG_gaf44a7bf8bf6b11b41cd89ff521fdd5a5}} 
+\index{W\+W\+DG@{W\+W\+DG}!W\+W\+D\+G\+\_\+\+Set\+Window\+Value@{W\+W\+D\+G\+\_\+\+Set\+Window\+Value}}
+\index{W\+W\+D\+G\+\_\+\+Set\+Window\+Value@{W\+W\+D\+G\+\_\+\+Set\+Window\+Value}!W\+W\+DG@{W\+W\+DG}}
+\subsubsection{W\+W\+D\+G\+\_\+\+Set\+Window\+Value()}
+{\footnotesize\ttfamily void W\+W\+D\+G\+\_\+\+Set\+Window\+Value (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{Window\+Value }\end{DoxyParamCaption})}
+
+
+
+Sets the W\+W\+DG window value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Window\+Value} & specifies the window value to be compared to the downcounter. This parameter value must be lower than 0x80. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 169} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+
+\begin{DoxyCode}
+00170 \{
+00171   \_\_IO uint32\_t tmpreg = 0;
+00172 
+00173   \textcolor{comment}{/* Check the parameters */}
+00174   assert_param(IS_WWDG_WINDOW_VALUE(WindowValue));
+00175   \textcolor{comment}{/* Clear W[6:0] bits */}
+00176 
+00177   tmpreg = WWDG->CFR & CFR_W_MASK;
+00178 
+00179   \textcolor{comment}{/* Set W[6:0] bits according to WindowValue value */}
+00180   tmpreg |= WindowValue & (uint32\_t) BIT_MASK;
+00181 
+00182   \textcolor{comment}{/* Store the new value */}
+00183   WWDG->CFR = tmpreg;
+00184 \}
+\end{DoxyCode}

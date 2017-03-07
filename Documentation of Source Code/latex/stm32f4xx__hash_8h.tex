@@ -1,0 +1,140 @@
+\section{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+hash.h File Reference}
+\label{stm32f4xx__hash_8h}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+hash.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+hash.\+h}}
+
+
+This file contains all the functions prototypes for the H\+A\+SH firmware library.  
+
+
+{\ttfamily \#include \char`\"{}stm32f4xx.\+h\char`\"{}}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ H\+A\+S\+H\+\_\+\+Init\+Type\+Def}
+\begin{DoxyCompactList}\small\item\em H\+A\+SH Init structure definition. \end{DoxyCompactList}\item 
+struct \textbf{ H\+A\+S\+H\+\_\+\+Msg\+Digest}
+\begin{DoxyCompactList}\small\item\em H\+A\+SH message digest result structure definition. \end{DoxyCompactList}\item 
+struct \textbf{ H\+A\+S\+H\+\_\+\+Context}
+\begin{DoxyCompactList}\small\item\em H\+A\+SH context swapping structure definition. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ H\+A\+S\+H\+\_\+\+Algo\+Selection\+\_\+\+S\+H\+A1}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ H\+A\+S\+H\+\_\+\+Algo\+Selection\+\_\+\+M\+D5}~((uint16\+\_\+t)0x0080)
+\item 
+\#define \textbf{ I\+S\+\_\+\+H\+A\+S\+H\+\_\+\+A\+L\+G\+O\+S\+E\+L\+E\+C\+T\+I\+ON}(A\+L\+G\+O\+S\+E\+L\+E\+C\+T\+I\+ON)
+\item 
+\#define \textbf{ H\+A\+S\+H\+\_\+\+Algo\+Mode\+\_\+\+H\+A\+SH}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ H\+A\+S\+H\+\_\+\+Algo\+Mode\+\_\+\+H\+M\+AC}~((uint16\+\_\+t)0x0040)
+\item 
+\#define \textbf{ I\+S\+\_\+\+H\+A\+S\+H\+\_\+\+A\+L\+G\+O\+M\+O\+DE}(A\+L\+G\+O\+M\+O\+DE)
+\item 
+\#define \textbf{ H\+A\+S\+H\+\_\+\+Data\+Type\+\_\+32b}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ H\+A\+S\+H\+\_\+\+Data\+Type\+\_\+16b}~((uint16\+\_\+t)0x0010)
+\item 
+\#define \textbf{ H\+A\+S\+H\+\_\+\+Data\+Type\+\_\+8b}~((uint16\+\_\+t)0x0020)
+\item 
+\#define \textbf{ H\+A\+S\+H\+\_\+\+Data\+Type\+\_\+1b}~((uint16\+\_\+t)0x0030)
+\item 
+\#define \textbf{ I\+S\+\_\+\+H\+A\+S\+H\+\_\+\+D\+A\+T\+A\+T\+Y\+PE}(D\+A\+T\+A\+T\+Y\+PE)
+\item 
+\#define \textbf{ H\+A\+S\+H\+\_\+\+H\+M\+A\+C\+Key\+Type\+\_\+\+Short\+Key}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ H\+A\+S\+H\+\_\+\+H\+M\+A\+C\+Key\+Type\+\_\+\+Long\+Key}~((uint32\+\_\+t)0x00010000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+H\+A\+S\+H\+\_\+\+H\+M\+A\+C\+\_\+\+K\+E\+Y\+T\+Y\+PE}(K\+E\+Y\+T\+Y\+PE)
+\item 
+\#define \textbf{ I\+S\+\_\+\+H\+A\+S\+H\+\_\+\+V\+A\+L\+I\+D\+B\+I\+T\+S\+N\+U\+M\+B\+ER}(V\+A\+L\+I\+D\+B\+I\+TS)~((V\+A\+L\+I\+D\+B\+I\+TS) $<$= 0x1\+F)
+\item 
+\#define \textbf{ H\+A\+S\+H\+\_\+\+I\+T\+\_\+\+D\+I\+NI}~((uint8\+\_\+t)0x01)
+\item 
+\#define \textbf{ H\+A\+S\+H\+\_\+\+I\+T\+\_\+\+D\+CI}~((uint8\+\_\+t)0x02)
+\item 
+\#define \textbf{ I\+S\+\_\+\+H\+A\+S\+H\+\_\+\+IT}(IT)~((((IT) \& (uint8\+\_\+t)0x\+F\+C) == 0x00) \&\& ((\+I\+T) != 0x00))
+\item 
+\#define \textbf{ I\+S\+\_\+\+H\+A\+S\+H\+\_\+\+G\+E\+T\+\_\+\+IT}(IT)~(((IT) == \textbf{ H\+A\+S\+H\+\_\+\+I\+T\+\_\+\+D\+I\+NI}) $\vert$$\vert$ ((IT) == \textbf{ H\+A\+S\+H\+\_\+\+I\+T\+\_\+\+D\+CI}))
+\item 
+\#define \textbf{ H\+A\+S\+H\+\_\+\+F\+L\+A\+G\+\_\+\+D\+I\+N\+IS}~((uint16\+\_\+t)0x0001)
+\item 
+\#define \textbf{ H\+A\+S\+H\+\_\+\+F\+L\+A\+G\+\_\+\+D\+C\+IS}~((uint16\+\_\+t)0x0002)
+\item 
+\#define \textbf{ H\+A\+S\+H\+\_\+\+F\+L\+A\+G\+\_\+\+D\+M\+AS}~((uint16\+\_\+t)0x0004)
+\item 
+\#define \textbf{ H\+A\+S\+H\+\_\+\+F\+L\+A\+G\+\_\+\+B\+U\+SY}~((uint16\+\_\+t)0x0008)
+\item 
+\#define \textbf{ H\+A\+S\+H\+\_\+\+F\+L\+A\+G\+\_\+\+D\+I\+N\+NE}~((uint16\+\_\+t)0x1000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+H\+A\+S\+H\+\_\+\+G\+E\+T\+\_\+\+F\+L\+AG}(F\+L\+AG)
+\item 
+\#define \textbf{ I\+S\+\_\+\+H\+A\+S\+H\+\_\+\+C\+L\+E\+A\+R\+\_\+\+F\+L\+AG}(F\+L\+AG)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the H\+A\+SH peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+Init} (\textbf{ H\+A\+S\+H\+\_\+\+Init\+Type\+Def} $\ast$H\+A\+S\+H\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the H\+A\+SH peripheral according to the specified parameters in the H\+A\+S\+H\+\_\+\+Init\+Struct structure. \end{DoxyCompactList}\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+Struct\+Init} (\textbf{ H\+A\+S\+H\+\_\+\+Init\+Type\+Def} $\ast$H\+A\+S\+H\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each H\+A\+S\+H\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+Reset} (void)
+\begin{DoxyCompactList}\small\item\em Resets the H\+A\+SH processor core, so that the H\+A\+SH will be ready to compute the message digest of a new message. \end{DoxyCompactList}\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+Data\+In} (uint32\+\_\+t Data)
+\begin{DoxyCompactList}\small\item\em Writes data in the Data Input F\+I\+FO. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ H\+A\+S\+H\+\_\+\+Get\+In\+F\+I\+F\+O\+Words\+Nbr} (void)
+\begin{DoxyCompactList}\small\item\em Returns the number of words already pushed into the IN F\+I\+FO. \end{DoxyCompactList}\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+Set\+Last\+Word\+Valid\+Bits\+Nbr} (uint16\+\_\+t Valid\+Number)
+\begin{DoxyCompactList}\small\item\em Configure the Number of valid bits in last word of the message. \end{DoxyCompactList}\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+Start\+Digest} (void)
+\begin{DoxyCompactList}\small\item\em Starts the message padding and calculation of the final message. \end{DoxyCompactList}\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+Get\+Digest} (\textbf{ H\+A\+S\+H\+\_\+\+Msg\+Digest} $\ast$H\+A\+S\+H\+\_\+\+Message\+Digest)
+\begin{DoxyCompactList}\small\item\em Provides the message digest result. \end{DoxyCompactList}\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+Save\+Context} (\textbf{ H\+A\+S\+H\+\_\+\+Context} $\ast$H\+A\+S\+H\+\_\+\+Context\+Save)
+\begin{DoxyCompactList}\small\item\em Save the Hash peripheral Context. \end{DoxyCompactList}\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+Restore\+Context} (\textbf{ H\+A\+S\+H\+\_\+\+Context} $\ast$H\+A\+S\+H\+\_\+\+Context\+Restore)
+\begin{DoxyCompactList}\small\item\em Restore the Hash peripheral Context. \end{DoxyCompactList}\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+D\+M\+A\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the H\+A\+SH D\+MA interface. \end{DoxyCompactList}\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+I\+T\+Config} (uint8\+\_\+t H\+A\+S\+H\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified H\+A\+SH interrupts. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ H\+A\+S\+H\+\_\+\+Get\+Flag\+Status} (uint16\+\_\+t H\+A\+S\+H\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified H\+A\+SH flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+Clear\+Flag} (uint16\+\_\+t H\+A\+S\+H\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the H\+A\+SH flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ H\+A\+S\+H\+\_\+\+Get\+I\+T\+Status} (uint8\+\_\+t H\+A\+S\+H\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified H\+A\+SH interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+Clear\+I\+T\+Pending\+Bit} (uint8\+\_\+t H\+A\+S\+H\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the H\+A\+SH interrupt pending bit(s). \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ H\+A\+S\+H\+\_\+\+S\+H\+A1} (uint8\+\_\+t $\ast$Input, uint32\+\_\+t Ilen, uint8\+\_\+t Output[20])
+\begin{DoxyCompactList}\small\item\em Compute the H\+A\+SH S\+H\+A1 digest. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ H\+M\+A\+C\+\_\+\+S\+H\+A1} (uint8\+\_\+t $\ast$Key, uint32\+\_\+t Keylen, uint8\+\_\+t $\ast$Input, uint32\+\_\+t Ilen, uint8\+\_\+t Output[20])
+\begin{DoxyCompactList}\small\item\em Compute the H\+M\+AC S\+H\+A1 digest. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ H\+A\+S\+H\+\_\+\+M\+D5} (uint8\+\_\+t $\ast$Input, uint32\+\_\+t Ilen, uint8\+\_\+t Output[16])
+\begin{DoxyCompactList}\small\item\em Compute the H\+A\+SH M\+D5 digest. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ H\+M\+A\+C\+\_\+\+M\+D5} (uint8\+\_\+t $\ast$Key, uint32\+\_\+t Keylen, uint8\+\_\+t $\ast$Input, uint32\+\_\+t Ilen, uint8\+\_\+t Output[16])
+\begin{DoxyCompactList}\small\item\em Compute the H\+M\+AC M\+D5 digest. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file contains all the functions prototypes for the H\+A\+SH firmware library. 
+
+\begin{DoxyAuthor}{Author}
+M\+CD Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\+0.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+30-\/\+September-\/2011 
+\end{DoxyDate}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+T\+HE P\+R\+E\+S\+E\+NT F\+I\+R\+M\+W\+A\+RE W\+H\+I\+CH IS F\+OR G\+U\+I\+D\+A\+N\+CE O\+N\+LY A\+I\+MS AT P\+R\+O\+V\+I\+D\+I\+NG C\+U\+S\+T\+O\+M\+E\+RS W\+I\+TH C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON R\+E\+G\+A\+R\+D\+I\+NG T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS IN O\+R\+D\+ER F\+OR T\+H\+EM TO S\+A\+VE T\+I\+ME. AS A R\+E\+S\+U\+LT, S\+T\+M\+I\+C\+R\+O\+E\+L\+E\+C\+T\+R\+O\+N\+I\+CS S\+H\+A\+LL N\+OT BE H\+E\+LD L\+I\+A\+B\+LE F\+OR A\+NY D\+I\+R\+E\+CT, I\+N\+D\+I\+R\+E\+CT OR C\+O\+N\+S\+E\+Q\+U\+E\+N\+T\+I\+AL D\+A\+M\+A\+G\+ES W\+I\+TH R\+E\+S\+P\+E\+CT TO A\+NY C\+L\+A\+I\+MS A\+R\+I\+S\+I\+NG F\+R\+OM T\+HE C\+O\+N\+T\+E\+NT OF S\+U\+CH F\+I\+R\+M\+W\+A\+RE A\+N\+D/\+OR T\+HE U\+SE M\+A\+DE BY C\+U\+S\+T\+O\+M\+E\+RS OF T\+HE C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON C\+O\+N\+T\+A\+I\+N\+ED H\+E\+R\+E\+IN IN C\+O\+N\+N\+E\+C\+T\+I\+ON W\+I\+TH T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS.
+
+\subsubsection*{\begin{center}\copyright{} C\+O\+P\+Y\+R\+I\+G\+HT 2011 S\+T\+Microelectronics\end{center} }
+
+Definition in file \textbf{ stm32f4xx\+\_\+hash.\+h}.
+

@@ -1,0 +1,667 @@
+\section{stm32f4xx\+\_\+pwr.\+c}
+\label{stm32f4xx__pwr_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+pwr.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+pwr.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_pwr.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides firmware functions to manage the following }
+00008 \textcolor{comment}{  *          functionalities of the Power Controller (PWR) peripheral:           }
+00009 \textcolor{comment}{  *           - Backup Domain Access}
+00010 \textcolor{comment}{  *           - PVD configuration}
+00011 \textcolor{comment}{  *           - WakeUp pin configuration}
+00012 \textcolor{comment}{  *           - Main and Backup Regulators configuration}
+00013 \textcolor{comment}{  *           - FLASH Power Down configuration}
+00014 \textcolor{comment}{  *           - Low Power modes configuration}
+00015 \textcolor{comment}{  *           - Flags management}
+00016 \textcolor{comment}{  *               }
+00017 \textcolor{comment}{  ******************************************************************************}
+00018 \textcolor{comment}{  * @attention}
+00019 \textcolor{comment}{  *}
+00020 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00021 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00022 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00023 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00024 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00025 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00026 \textcolor{comment}{  *}
+00027 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00028 \textcolor{comment}{  ******************************************************************************}
+00029 \textcolor{comment}{  */}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_pwr.h"
+00033 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rcc.h"
+00034 
+00035 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00036 \textcolor{comment}{  * @\{}
+00037 \textcolor{comment}{  */}
+00038 
+00039 \textcolor{comment}{/** @defgroup PWR }
+00040 \textcolor{comment}{  * @brief PWR driver modules}
+00041 \textcolor{comment}{  * @\{}
+00042 \textcolor{comment}{  */}
+00043 
+00044 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00045 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00046 \textcolor{comment}{/* --------- PWR registers bit address in the alias region ---------- */}
+00047 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_OFFSET}               \textcolor{preprocessor}{(}PWR_BASE \textcolor{preprocessor}{-} PERIPH_BASE\textcolor{preprocessor}{)}
+00048 
+00049 \textcolor{comment}{/* --- CR Register ---*/}
+00050 
+00051 \textcolor{comment}{/* Alias word address of DBP bit */}
+00052 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR\_OFFSET}                \textcolor{preprocessor}{(}PWR_OFFSET \textcolor{preprocessor}{+} 0x00\textcolor{preprocessor}{)}
+00053 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBP\_BitNumber}            0x08
+00054 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR\_DBP\_BB}                \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}CR_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      DBP_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00055 
+00056 \textcolor{comment}{/* Alias word address of PVDE bit */}
+00057 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PVDE\_BitNumber}           0x04
+00058 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR\_PVDE\_BB}               \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}CR_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      PVDE_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00059 
+00060 \textcolor{comment}{/* Alias word address of FPDS bit */}
+00061 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FPDS\_BitNumber}           0x09
+00062 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR\_FPDS\_BB}               \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}CR_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      FPDS_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00063 
+00064 \textcolor{comment}{/* Alias word address of PMODE bit */}
+00065 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PMODE\_BitNumber}           0x0E
+00066 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR\_PMODE\_BB}               \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}CR_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      PMODE_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00067 
+00068 
+00069 \textcolor{comment}{/* --- CSR Register ---*/}
+00070 
+00071 \textcolor{comment}{/* Alias word address of EWUP bit */}
+00072 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CSR\_OFFSET}               \textcolor{preprocessor}{(}PWR_OFFSET \textcolor{preprocessor}{+} 0x04\textcolor{preprocessor}{)}
+00073 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EWUP\_BitNumber}           0x08
+00074 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CSR\_EWUP\_BB}              \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}CSR_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      EWUP_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00075 
+00076 \textcolor{comment}{/* Alias word address of BRE bit */}
+00077 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{BRE\_BitNumber}            0x09
+00078 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CSR\_BRE\_BB}              \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}CSR_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      BRE_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00079 
+00080 \textcolor{comment}{/* ------------------ PWR registers bit mask ------------------------ */}
+00081 
+00082 \textcolor{comment}{/* CR register bit mask */}
+00083 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR\_DS\_MASK}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFFFFFFC\textcolor{preprocessor}{)}
+00084 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR\_PLS\_MASK}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFFFFF1F\textcolor{preprocessor}{)}
+00085 
+00086 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00087 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00088 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00089 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00090 
+00091 \textcolor{comment}{/** @defgroup PWR\_Private\_Functions}
+00092 \textcolor{comment}{  * @\{}
+00093 \textcolor{comment}{  */}
+00094 
+00095 \textcolor{comment}{/** @defgroup PWR\_Group1 Backup Domain Access function }
+00096 \textcolor{comment}{ *  @brief   Backup Domain Access function  }
+00097 \textcolor{comment}{ *}
+00098 \textcolor{comment}{@verbatim   }
+00099 \textcolor{comment}{ ===============================================================================}
+00100 \textcolor{comment}{                            Backup Domain Access function }
+00101 \textcolor{comment}{ ===============================================================================  }
+00102 \textcolor{comment}{}
+00103 \textcolor{comment}{  After reset, the backup domain (RTC registers, RTC backup data }
+00104 \textcolor{comment}{  registers and backup SRAM) is protected against possible unwanted }
+00105 \textcolor{comment}{  write accesses. }
+00106 \textcolor{comment}{  To enable access to the RTC Domain and RTC registers, proceed as follows:}
+00107 \textcolor{comment}{    - Enable the Power Controller (PWR) APB1 interface clock using the}
+00108 \textcolor{comment}{      RCC\_APB1PeriphClockCmd() function.}
+00109 \textcolor{comment}{    - Enable access to RTC domain using the PWR\_BackupAccessCmd() function.}
+00110 \textcolor{comment}{}
+00111 \textcolor{comment}{@endverbatim}
+00112 \textcolor{comment}{  * @\{}
+00113 \textcolor{comment}{  */}
+00114 
+00115 \textcolor{comment}{/**}
+00116 \textcolor{comment}{  * @brief  Deinitializes the PWR peripheral registers to their default reset values.     }
+00117 \textcolor{comment}{  * @param  None}
+00118 \textcolor{comment}{  * @retval None}
+00119 \textcolor{comment}{  */}
+00120 \textcolor{keywordtype}{void} PWR_DeInit(\textcolor{keywordtype}{void})
+00121 \{
+00122   RCC_APB1PeriphResetCmd(RCC_APB1Periph_PWR, ENABLE);
+00123   RCC_APB1PeriphResetCmd(RCC_APB1Periph_PWR, DISABLE);
+00124 \}
+00125 
+00126 \textcolor{comment}{/**}
+00127 \textcolor{comment}{  * @brief  Enables or disables access to the backup domain (RTC registers, RTC }
+00128 \textcolor{comment}{  *         backup data registers and backup SRAM).}
+00129 \textcolor{comment}{  * @note   If the HSE divided by 2, 3, ..31 is used as the RTC clock, the }
+00130 \textcolor{comment}{  *         Backup Domain Access should be kept enabled.}
+00131 \textcolor{comment}{  * @param  NewState: new state of the access to the backup domain.}
+00132 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00133 \textcolor{comment}{  * @retval None}
+00134 \textcolor{comment}{  */}
+00135 \textcolor{keywordtype}{void} PWR_BackupAccessCmd(FunctionalState NewState)
+00136 \{
+00137   \textcolor{comment}{/* Check the parameters */}
+00138   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00139 
+00140   *(\_\_IO uint32\_t *) CR_DBP_BB = (uint32\_t)NewState;
+00141 \}
+00142 
+00143 \textcolor{comment}{/**}
+00144 \textcolor{comment}{  * @\}}
+00145 \textcolor{comment}{  */}
+00146 
+00147 \textcolor{comment}{/** @defgroup PWR\_Group2 PVD configuration functions}
+00148 \textcolor{comment}{ *  @brief   PVD configuration functions }
+00149 \textcolor{comment}{ *}
+00150 \textcolor{comment}{@verbatim   }
+00151 \textcolor{comment}{ ===============================================================================}
+00152 \textcolor{comment}{                           PVD configuration functions}
+00153 \textcolor{comment}{ ===============================================================================  }
+00154 \textcolor{comment}{}
+00155 \textcolor{comment}{ - The PVD is used to monitor the VDD power supply by comparing it to a threshold}
+00156 \textcolor{comment}{   selected by the PVD Level (PLS[2:0] bits in the PWR\_CR).}
+00157 \textcolor{comment}{ - A PVDO flag is available to indicate if VDD/VDDA is higher or lower than the }
+00158 \textcolor{comment}{   PVD threshold. This event is internally connected to the EXTI line16}
+00159 \textcolor{comment}{   and can generate an interrupt if enabled through the EXTI registers.}
+00160 \textcolor{comment}{ - The PVD is stopped in Standby mode.}
+00161 \textcolor{comment}{}
+00162 \textcolor{comment}{@endverbatim}
+00163 \textcolor{comment}{  * @\{}
+00164 \textcolor{comment}{  */}
+00165 
+00166 \textcolor{comment}{/**}
+00167 \textcolor{comment}{  * @brief  Configures the voltage threshold detected by the Power Voltage Detector(PVD).}
+00168 \textcolor{comment}{  * @param  PWR\_PVDLevel: specifies the PVD detection level}
+00169 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00170 \textcolor{comment}{  *            @arg PWR\_PVDLevel\_0: PVD detection level set to 2.0V}
+00171 \textcolor{comment}{  *            @arg PWR\_PVDLevel\_1: PVD detection level set to 2.2V}
+00172 \textcolor{comment}{  *            @arg PWR\_PVDLevel\_2: PVD detection level set to 2.3V}
+00173 \textcolor{comment}{  *            @arg PWR\_PVDLevel\_3: PVD detection level set to 2.5V}
+00174 \textcolor{comment}{  *            @arg PWR\_PVDLevel\_4: PVD detection level set to 2.7V}
+00175 \textcolor{comment}{  *            @arg PWR\_PVDLevel\_5: PVD detection level set to 2.8V}
+00176 \textcolor{comment}{  *            @arg PWR\_PVDLevel\_6: PVD detection level set to 2.9V}
+00177 \textcolor{comment}{  *            @arg PWR\_PVDLevel\_7: PVD detection level set to 3.0V}
+00178 \textcolor{comment}{  * @note   Refer to the electrical characteristics of you device datasheet for more details. }
+00179 \textcolor{comment}{  * @retval None}
+00180 \textcolor{comment}{  */}
+00181 \textcolor{keywordtype}{void} PWR_PVDLevelConfig(uint32\_t PWR\_PVDLevel)
+00182 \{
+00183   uint32\_t tmpreg = 0;
+00184 
+00185   \textcolor{comment}{/* Check the parameters */}
+00186   assert_param(IS\_PWR\_PVD\_LEVEL(PWR\_PVDLevel));
+00187 
+00188   tmpreg = PWR->CR;
+00189 
+00190   \textcolor{comment}{/* Clear PLS[7:5] bits */}
+00191   tmpreg &= CR_PLS_MASK;
+00192 
+00193   \textcolor{comment}{/* Set PLS[7:5] bits according to PWR\_PVDLevel value */}
+00194   tmpreg |= PWR\_PVDLevel;
+00195 
+00196   \textcolor{comment}{/* Store the new value */}
+00197   PWR->CR = tmpreg;
+00198 \}
+00199 
+00200 \textcolor{comment}{/**}
+00201 \textcolor{comment}{  * @brief  Enables or disables the Power Voltage Detector(PVD).}
+00202 \textcolor{comment}{  * @param  NewState: new state of the PVD.}
+00203 \textcolor{comment}{  *         This parameter can be: ENABLE or DISABLE.}
+00204 \textcolor{comment}{  * @retval None}
+00205 \textcolor{comment}{  */}
+00206 \textcolor{keywordtype}{void} PWR_PVDCmd(FunctionalState NewState)
+00207 \{
+00208   \textcolor{comment}{/* Check the parameters */}
+00209   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00210 
+00211   *(\_\_IO uint32\_t *) CR_PVDE_BB = (uint32\_t)NewState;
+00212 \}
+00213 
+00214 \textcolor{comment}{/**}
+00215 \textcolor{comment}{  * @\}}
+00216 \textcolor{comment}{  */}
+00217 
+00218 \textcolor{comment}{/** @defgroup PWR\_Group3 WakeUp pin configuration functions}
+00219 \textcolor{comment}{ *  @brief   WakeUp pin configuration functions }
+00220 \textcolor{comment}{ *}
+00221 \textcolor{comment}{@verbatim   }
+00222 \textcolor{comment}{ ===============================================================================}
+00223 \textcolor{comment}{                    WakeUp pin configuration functions}
+00224 \textcolor{comment}{ ===============================================================================  }
+00225 \textcolor{comment}{}
+00226 \textcolor{comment}{ - WakeUp pin is used to wakeup the system from Standby mode. This pin is }
+00227 \textcolor{comment}{   forced in input pull down configuration and is active on rising edges.}
+00228 \textcolor{comment}{ - There is only one WakeUp pin: WakeUp Pin 1 on PA.00.}
+00229 \textcolor{comment}{}
+00230 \textcolor{comment}{@endverbatim}
+00231 \textcolor{comment}{  * @\{}
+00232 \textcolor{comment}{  */}
+00233 
+00234 \textcolor{comment}{/**}
+00235 \textcolor{comment}{  * @brief  Enables or disables the WakeUp Pin functionality.}
+00236 \textcolor{comment}{  * @param  NewState: new state of the WakeUp Pin functionality.}
+00237 \textcolor{comment}{  *         This parameter can be: ENABLE or DISABLE.}
+00238 \textcolor{comment}{  * @retval None}
+00239 \textcolor{comment}{  */}
+00240 \textcolor{keywordtype}{void} PWR_WakeUpPinCmd(FunctionalState NewState)
+00241 \{
+00242   \textcolor{comment}{/* Check the parameters */}
+00243   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00244 
+00245   *(\_\_IO uint32\_t *) CSR_EWUP_BB = (uint32\_t)NewState;
+00246 \}
+00247 
+00248 \textcolor{comment}{/**}
+00249 \textcolor{comment}{  * @\}}
+00250 \textcolor{comment}{  */}
+00251 
+00252 \textcolor{comment}{/** @defgroup PWR\_Group4 Main and Backup Regulators configuration functions}
+00253 \textcolor{comment}{ *  @brief   Main and Backup Regulators configuration functions }
+00254 \textcolor{comment}{ *}
+00255 \textcolor{comment}{@verbatim   }
+00256 \textcolor{comment}{ ===============================================================================}
+00257 \textcolor{comment}{                    Main and Backup Regulators configuration functions}
+00258 \textcolor{comment}{ ===============================================================================  }
+00259 \textcolor{comment}{}
+00260 \textcolor{comment}{ - The backup domain includes 4 Kbytes of backup SRAM accessible only from the }
+00261 \textcolor{comment}{   CPU, and address in 32-bit, 16-bit or 8-bit mode. Its content is retained }
+00262 \textcolor{comment}{   even in Standby or VBAT mode when the low power backup regulator is enabled. }
+00263 \textcolor{comment}{   It can be considered as an internal EEPROM when VBAT is always present.}
+00264 \textcolor{comment}{   You can use the PWR\_BackupRegulatorCmd() function to enable the low power}
+00265 \textcolor{comment}{   backup regulator and use the PWR\_GetFlagStatus(PWR\_FLAG\_BRR) to check if it is}
+00266 \textcolor{comment}{   ready or not. }
+00267 \textcolor{comment}{}
+00268 \textcolor{comment}{ - When the backup domain is supplied by VDD (analog switch connected to VDD) }
+00269 \textcolor{comment}{   the backup SRAM is powered from VDD which replaces the VBAT power supply to }
+00270 \textcolor{comment}{   save battery life.}
+00271 \textcolor{comment}{}
+00272 \textcolor{comment}{ - The backup SRAM is not mass erased by an tamper event. It is read protected }
+00273 \textcolor{comment}{   to prevent confidential data, such as cryptographic private key, from being }
+00274 \textcolor{comment}{   accessed. The backup SRAM can be erased only through the Flash interface when}
+00275 \textcolor{comment}{   a protection level change from level 1 to level 0 is requested. }
+00276 \textcolor{comment}{   Refer to the description of Read protection (RDP) in the Flash programming manual.}
+00277 \textcolor{comment}{}
+00278 \textcolor{comment}{ - The main internal regulator can be configured to have a tradeoff between performance}
+00279 \textcolor{comment}{   and power consumption when the device does not operate at the maximum frequency. }
+00280 \textcolor{comment}{   This is done through PWR\_MainRegulatorModeConfig() function which configure VOS bit}
+00281 \textcolor{comment}{   in PWR\_CR register: }
+00282 \textcolor{comment}{      - When this bit is set (Regulator voltage output Scale 1 mode selected) the System}
+00283 \textcolor{comment}{        frequency can go up to 168 MHz. }
+00284 \textcolor{comment}{      - When this bit is reset (Regulator voltage output Scale 2 mode selected) the System}
+00285 \textcolor{comment}{        frequency can go up to 144 MHz. }
+00286 \textcolor{comment}{   Refer to the datasheets for more details.}
+00287 \textcolor{comment}{           }
+00288 \textcolor{comment}{@endverbatim}
+00289 \textcolor{comment}{  * @\{}
+00290 \textcolor{comment}{  */}
+00291 
+00292 \textcolor{comment}{/**}
+00293 \textcolor{comment}{  * @brief  Enables or disables the Backup Regulator.}
+00294 \textcolor{comment}{  * @param  NewState: new state of the Backup Regulator.}
+00295 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00296 \textcolor{comment}{  * @retval None}
+00297 \textcolor{comment}{  */}
+00298 \textcolor{keywordtype}{void} PWR_BackupRegulatorCmd(FunctionalState NewState)
+00299 \{
+00300   \textcolor{comment}{/* Check the parameters */}
+00301   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00302 
+00303   *(\_\_IO uint32\_t *) CSR_BRE_BB = (uint32\_t)NewState;
+00304 \}
+00305 
+00306 \textcolor{comment}{/**}
+00307 \textcolor{comment}{  * @brief  Configures the main internal regulator output voltage.}
+00308 \textcolor{comment}{  * @param  PWR\_Regulator\_Voltage: specifies the regulator output voltage to achieve}
+00309 \textcolor{comment}{  *         a tradeoff between performance and power consumption when the device does}
+00310 \textcolor{comment}{  *         not operate at the maximum frequency (refer to the datasheets for more details).}
+00311 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00312 \textcolor{comment}{  *            @arg PWR\_Regulator\_Voltage\_Scale1: Regulator voltage output Scale 1 mode, }
+00313 \textcolor{comment}{  *                                                System frequency up to 168 MHz. }
+00314 \textcolor{comment}{  *            @arg PWR\_Regulator\_Voltage\_Scale2: Regulator voltage output Scale 2 mode, }
+00315 \textcolor{comment}{  *                                                System frequency up to 144 MHz.    }
+00316 \textcolor{comment}{  * @retval None}
+00317 \textcolor{comment}{  */}
+00318 \textcolor{keywordtype}{void} PWR_MainRegulatorModeConfig(uint32\_t PWR\_Regulator\_Voltage)
+00319 \{
+00320   \textcolor{comment}{/* Check the parameters */}
+00321   assert_param(IS\_PWR\_REGULATOR\_VOLTAGE(PWR\_Regulator\_Voltage));
+00322 
+00323   \textcolor{keywordflow}{if} (PWR\_Regulator\_Voltage == PWR_Regulator_Voltage_Scale2)
+00324   \{
+00325     PWR->CR &= ~PWR_Regulator_Voltage_Scale1;
+00326   \}
+00327   \textcolor{keywordflow}{else}
+00328   \{
+00329     PWR->CR |= PWR_Regulator_Voltage_Scale1;
+00330   \}
+00331 \}
+00332 
+00333 \textcolor{comment}{/**}
+00334 \textcolor{comment}{  * @\}}
+00335 \textcolor{comment}{  */}
+00336 
+00337 \textcolor{comment}{/** @defgroup PWR\_Group5 FLASH Power Down configuration functions}
+00338 \textcolor{comment}{ *  @brief   FLASH Power Down configuration functions }
+00339 \textcolor{comment}{ *}
+00340 \textcolor{comment}{@verbatim   }
+00341 \textcolor{comment}{ ===============================================================================}
+00342 \textcolor{comment}{           FLASH Power Down configuration functions}
+00343 \textcolor{comment}{ ===============================================================================  }
+00344 \textcolor{comment}{}
+00345 \textcolor{comment}{ - By setting the FPDS bit in the PWR\_CR register by using the PWR\_FlashPowerDownCmd()}
+00346 \textcolor{comment}{   function, the Flash memory also enters power down mode when the device enters }
+00347 \textcolor{comment}{   Stop mode. When the Flash memory is in power down mode, an additional startup }
+00348 \textcolor{comment}{   delay is incurred when waking up from Stop mode.}
+00349 \textcolor{comment}{}
+00350 \textcolor{comment}{@endverbatim}
+00351 \textcolor{comment}{  * @\{}
+00352 \textcolor{comment}{  */}
+00353 
+00354 \textcolor{comment}{/**}
+00355 \textcolor{comment}{  * @brief  Enables or disables the Flash Power Down in STOP mode.}
+00356 \textcolor{comment}{  * @param  NewState: new state of the Flash power mode.}
+00357 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00358 \textcolor{comment}{  * @retval None}
+00359 \textcolor{comment}{  */}
+00360 \textcolor{keywordtype}{void} PWR_FlashPowerDownCmd(FunctionalState NewState)
+00361 \{
+00362   \textcolor{comment}{/* Check the parameters */}
+00363   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00364 
+00365   *(\_\_IO uint32\_t *) CR_FPDS_BB = (uint32\_t)NewState;
+00366 \}
+00367 
+00368 \textcolor{comment}{/**}
+00369 \textcolor{comment}{  * @\}}
+00370 \textcolor{comment}{  */}
+00371 
+00372 \textcolor{comment}{/** @defgroup PWR\_Group6 Low Power modes configuration functions}
+00373 \textcolor{comment}{ *  @brief   Low Power modes configuration functions }
+00374 \textcolor{comment}{ *}
+00375 \textcolor{comment}{@verbatim   }
+00376 \textcolor{comment}{ ===============================================================================}
+00377 \textcolor{comment}{                    Low Power modes configuration functions}
+00378 \textcolor{comment}{ ===============================================================================  }
+00379 \textcolor{comment}{}
+00380 \textcolor{comment}{  The devices feature 3 low-power modes:}
+00381 \textcolor{comment}{   - Sleep mode: Cortex-M4 core stopped, peripherals kept running.}
+00382 \textcolor{comment}{   - Stop mode: all clocks are stopped, regulator running, regulator in low power mode}
+00383 \textcolor{comment}{   - Standby mode: 1.2V domain powered off.}
+00384 \textcolor{comment}{   }
+00385 \textcolor{comment}{   Sleep mode}
+00386 \textcolor{comment}{   ===========}
+00387 \textcolor{comment}{    - Entry:}
+00388 \textcolor{comment}{      - The Sleep mode is entered by using the \_\_WFI() or \_\_WFE() functions.}
+00389 \textcolor{comment}{    - Exit:}
+00390 \textcolor{comment}{      - Any peripheral interrupt acknowledged by the nested vectored interrupt }
+00391 \textcolor{comment}{        controller (NVIC) can wake up the device from Sleep mode.}
+00392 \textcolor{comment}{}
+00393 \textcolor{comment}{   Stop mode}
+00394 \textcolor{comment}{   ==========}
+00395 \textcolor{comment}{   In Stop mode, all clocks in the 1.2V domain are stopped, the PLL, the HSI,}
+00396 \textcolor{comment}{   and the HSE RC oscillators are disabled. Internal SRAM and register contents }
+00397 \textcolor{comment}{   are preserved.}
+00398 \textcolor{comment}{   The voltage regulator can be configured either in normal or low-power mode.}
+00399 \textcolor{comment}{   To minimize the consumption In Stop mode, FLASH can be powered off before }
+00400 \textcolor{comment}{   entering the Stop mode. It can be switched on again by software after exiting }
+00401 \textcolor{comment}{   the Stop mode using the PWR\_FlashPowerDownCmd() function. }
+00402 \textcolor{comment}{   }
+00403 \textcolor{comment}{    - Entry:}
+00404 \textcolor{comment}{      - The Stop mode is entered using the PWR\_EnterSTOPMode(PWR\_Regulator\_LowPower,) }
+00405 \textcolor{comment}{        function with regulator in LowPower or with Regulator ON.}
+00406 \textcolor{comment}{    - Exit:}
+00407 \textcolor{comment}{      - Any EXTI Line (Internal or External) configured in Interrupt/Event mode.}
+00408 \textcolor{comment}{      }
+00409 \textcolor{comment}{   Standby mode}
+00410 \textcolor{comment}{   ============}
+00411 \textcolor{comment}{   The Standby mode allows to achieve the lowest power consumption. It is based }
+00412 \textcolor{comment}{   on the Cortex-M4 deepsleep mode, with the voltage regulator disabled. }
+00413 \textcolor{comment}{   The 1.2V domain is consequently powered off. The PLL, the HSI oscillator and }
+00414 \textcolor{comment}{   the HSE oscillator are also switched off. SRAM and register contents are lost }
+00415 \textcolor{comment}{   except for the RTC registers, RTC backup registers, backup SRAM and Standby }
+00416 \textcolor{comment}{   circuitry.}
+00417 \textcolor{comment}{   }
+00418 \textcolor{comment}{   The voltage regulator is OFF.}
+00419 \textcolor{comment}{      }
+00420 \textcolor{comment}{    - Entry:}
+00421 \textcolor{comment}{      - The Standby mode is entered using the PWR\_EnterSTANDBYMode() function.}
+00422 \textcolor{comment}{    - Exit:}
+00423 \textcolor{comment}{      - WKUP pin rising edge, RTC alarm (Alarm A and Alarm B), RTC wakeup,}
+00424 \textcolor{comment}{        tamper event, time-stamp event, external reset in NRST pin, IWDG reset.              }
+00425 \textcolor{comment}{}
+00426 \textcolor{comment}{   Auto-wakeup (AWU) from low-power mode}
+00427 \textcolor{comment}{   =====================================}
+00428 \textcolor{comment}{   The MCU can be woken up from low-power mode by an RTC Alarm event, an RTC }
+00429 \textcolor{comment}{   Wakeup event, a tamper event, a time-stamp event, or a comparator event, }
+00430 \textcolor{comment}{   without depending on an external interrupt (Auto-wakeup mode).}
+00431 \textcolor{comment}{}
+00432 \textcolor{comment}{   - RTC auto-wakeup (AWU) from the Stop mode}
+00433 \textcolor{comment}{     ----------------------------------------}
+00434 \textcolor{comment}{     }
+00435 \textcolor{comment}{     - To wake up from the Stop mode with an RTC alarm event, it is necessary to:}
+00436 \textcolor{comment}{       - Configure the EXTI Line 17 to be sensitive to rising edges (Interrupt }
+00437 \textcolor{comment}{         or Event modes) using the EXTI\_Init() function.}
+00438 \textcolor{comment}{       - Enable the RTC Alarm Interrupt using the RTC\_ITConfig() function}
+00439 \textcolor{comment}{       - Configure the RTC to generate the RTC alarm using the RTC\_SetAlarm() }
+00440 \textcolor{comment}{         and RTC\_AlarmCmd() functions.}
+00441 \textcolor{comment}{     - To wake up from the Stop mode with an RTC Tamper or time stamp event, it }
+00442 \textcolor{comment}{       is necessary to:}
+00443 \textcolor{comment}{       - Configure the EXTI Line 21 to be sensitive to rising edges (Interrupt }
+00444 \textcolor{comment}{         or Event modes) using the EXTI\_Init() function.}
+00445 \textcolor{comment}{       - Enable the RTC Tamper or time stamp Interrupt using the RTC\_ITConfig() }
+00446 \textcolor{comment}{         function}
+00447 \textcolor{comment}{       - Configure the RTC to detect the tamper or time stamp event using the}
+00448 \textcolor{comment}{         RTC\_TimeStampConfig(), RTC\_TamperTriggerConfig() and RTC\_TamperCmd()}
+00449 \textcolor{comment}{         functions.}
+00450 \textcolor{comment}{     - To wake up from the Stop mode with an RTC WakeUp event, it is necessary to:}
+00451 \textcolor{comment}{       - Configure the EXTI Line 22 to be sensitive to rising edges (Interrupt }
+00452 \textcolor{comment}{         or Event modes) using the EXTI\_Init() function.}
+00453 \textcolor{comment}{       - Enable the RTC WakeUp Interrupt using the RTC\_ITConfig() function}
+00454 \textcolor{comment}{       - Configure the RTC to generate the RTC WakeUp event using the RTC\_WakeUpClockConfig(), }
+00455 \textcolor{comment}{         RTC\_SetWakeUpCounter() and RTC\_WakeUpCmd() functions.}
+00456 \textcolor{comment}{}
+00457 \textcolor{comment}{   - RTC auto-wakeup (AWU) from the Standby mode}
+00458 \textcolor{comment}{     -------------------------------------------}
+00459 \textcolor{comment}{     - To wake up from the Standby mode with an RTC alarm event, it is necessary to:}
+00460 \textcolor{comment}{       - Enable the RTC Alarm Interrupt using the RTC\_ITConfig() function}
+00461 \textcolor{comment}{       - Configure the RTC to generate the RTC alarm using the RTC\_SetAlarm() }
+00462 \textcolor{comment}{         and RTC\_AlarmCmd() functions.}
+00463 \textcolor{comment}{     - To wake up from the Standby mode with an RTC Tamper or time stamp event, it }
+00464 \textcolor{comment}{       is necessary to:}
+00465 \textcolor{comment}{       - Enable the RTC Tamper or time stamp Interrupt using the RTC\_ITConfig() }
+00466 \textcolor{comment}{         function}
+00467 \textcolor{comment}{       - Configure the RTC to detect the tamper or time stamp event using the}
+00468 \textcolor{comment}{         RTC\_TimeStampConfig(), RTC\_TamperTriggerConfig() and RTC\_TamperCmd()}
+00469 \textcolor{comment}{         functions.}
+00470 \textcolor{comment}{     - To wake up from the Standby mode with an RTC WakeUp event, it is necessary to:}
+00471 \textcolor{comment}{       - Enable the RTC WakeUp Interrupt using the RTC\_ITConfig() function}
+00472 \textcolor{comment}{       - Configure the RTC to generate the RTC WakeUp event using the RTC\_WakeUpClockConfig(), }
+00473 \textcolor{comment}{         RTC\_SetWakeUpCounter() and RTC\_WakeUpCmd() functions.}
+00474 \textcolor{comment}{}
+00475 \textcolor{comment}{@endverbatim}
+00476 \textcolor{comment}{  * @\{}
+00477 \textcolor{comment}{  */}
+00478 
+00479 \textcolor{comment}{/**}
+00480 \textcolor{comment}{  * @brief  Enters STOP mode.}
+00481 \textcolor{comment}{  *   }
+00482 \textcolor{comment}{  * @note   In Stop mode, all I/O pins keep the same state as in Run mode.}
+00483 \textcolor{comment}{  * @note   When exiting Stop mode by issuing an interrupt or a wakeup event, }
+00484 \textcolor{comment}{  *         the HSI RC oscillator is selected as system clock.}
+00485 \textcolor{comment}{  * @note   When the voltage regulator operates in low power mode, an additional }
+00486 \textcolor{comment}{  *         startup delay is incurred when waking up from Stop mode. }
+00487 \textcolor{comment}{  *         By keeping the internal regulator ON during Stop mode, the consumption }
+00488 \textcolor{comment}{  *         is higher although the startup time is reduced.           }
+00489 \textcolor{comment}{  *     }
+00490 \textcolor{comment}{  * @param  PWR\_Regulator: specifies the regulator state in STOP mode.}
+00491 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00492 \textcolor{comment}{  *            @arg PWR\_Regulator\_ON: STOP mode with regulator ON}
+00493 \textcolor{comment}{  *            @arg PWR\_Regulator\_LowPower: STOP mode with regulator in low power mode}
+00494 \textcolor{comment}{  * @param  PWR\_STOPEntry: specifies if STOP mode in entered with WFI or WFE instruction.}
+00495 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00496 \textcolor{comment}{  *            @arg PWR\_STOPEntry\_WFI: enter STOP mode with WFI instruction}
+00497 \textcolor{comment}{  *            @arg PWR\_STOPEntry\_WFE: enter STOP mode with WFE instruction}
+00498 \textcolor{comment}{  * @retval None}
+00499 \textcolor{comment}{  */}
+00500 \textcolor{keywordtype}{void} PWR_EnterSTOPMode(uint32\_t PWR\_Regulator, uint8\_t PWR\_STOPEntry)
+00501 \{
+00502   uint32\_t tmpreg = 0;
+00503 
+00504   \textcolor{comment}{/* Check the parameters */}
+00505   assert_param(IS\_PWR\_REGULATOR(PWR\_Regulator));
+00506   assert_param(IS\_PWR\_STOP\_ENTRY(PWR\_STOPEntry));
+00507 
+00508   \textcolor{comment}{/* Select the regulator state in STOP mode ---------------------------------*/}
+00509   tmpreg = PWR->CR;
+00510   \textcolor{comment}{/* Clear PDDS and LPDSR bits */}
+00511   tmpreg &= CR_DS_MASK;
+00512 
+00513   \textcolor{comment}{/* Set LPDSR bit according to PWR\_Regulator value */}
+00514   tmpreg |= PWR\_Regulator;
+00515 
+00516   \textcolor{comment}{/* Store the new value */}
+00517   PWR->CR = tmpreg;
+00518 
+00519   \textcolor{comment}{/* Set SLEEPDEEP bit of Cortex System Control Register */}
+00520   SCB->SCR |= SCB\_SCR\_SLEEPDEEP\_Msk;
+00521 
+00522   \textcolor{comment}{/* Select STOP mode entry --------------------------------------------------*/}
+00523   \textcolor{keywordflow}{if}(PWR\_STOPEntry == PWR_STOPEntry_WFI)
+00524   \{
+00525     \textcolor{comment}{/* Request Wait For Interrupt */}
+00526     \_\_WFI();
+00527   \}
+00528   \textcolor{keywordflow}{else}
+00529   \{
+00530     \textcolor{comment}{/* Request Wait For Event */}
+00531     \_\_WFE();
+00532   \}
+00533   \textcolor{comment}{/* Reset SLEEPDEEP bit of Cortex System Control Register */}
+00534   SCB->SCR &= (uint32\_t)~((uint32\_t)SCB\_SCR\_SLEEPDEEP\_Msk);
+00535 \}
+00536 
+00537 \textcolor{comment}{/**}
+00538 \textcolor{comment}{  * @brief  Enters STANDBY mode.}
+00539 \textcolor{comment}{  * @note   In Standby mode, all I/O pins are high impedance except for:}
+00540 \textcolor{comment}{  *          - Reset pad (still available) }
+00541 \textcolor{comment}{  *          - RTC\_AF1 pin (PC13) if configured for tamper, time-stamp, RTC }
+00542 \textcolor{comment}{  *            Alarm out, or RTC clock calibration out.}
+00543 \textcolor{comment}{  *          - RTC\_AF2 pin (PI8) if configured for tamper or time-stamp.  }
+00544 \textcolor{comment}{  *          - WKUP pin 1 (PA0) if enabled.       }
+00545 \textcolor{comment}{  * @param  None}
+00546 \textcolor{comment}{  * @retval None}
+00547 \textcolor{comment}{  */}
+00548 \textcolor{keywordtype}{void} PWR_EnterSTANDBYMode(\textcolor{keywordtype}{void})
+00549 \{
+00550   \textcolor{comment}{/* Clear Wakeup flag */}
+00551   PWR->CR |= PWR_CR_CWUF;
+00552 
+00553   \textcolor{comment}{/* Select STANDBY mode */}
+00554   PWR->CR |= PWR_CR_PDDS;
+00555 
+00556   \textcolor{comment}{/* Set SLEEPDEEP bit of Cortex System Control Register */}
+00557   SCB->SCR |= SCB\_SCR\_SLEEPDEEP\_Msk;
+00558 
+00559 \textcolor{comment}{/* This option is used to ensure that store operations are completed */}
+00560 \textcolor{preprocessor}{#}\textcolor{preprocessor}{if} \textcolor{preprocessor}{defined} \textcolor{preprocessor}{(} \textcolor{preprocessor}{\_\_CC\_ARM}   \textcolor{preprocessor}{)}
+00561   \_\_force\_stores();
+00562 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00563   \textcolor{comment}{/* Request Wait For Interrupt */}
+00564   \_\_WFI();
+00565 \}
+00566 
+00567 \textcolor{comment}{/**}
+00568 \textcolor{comment}{  * @\}}
+00569 \textcolor{comment}{  */}
+00570 
+00571 \textcolor{comment}{/** @defgroup PWR\_Group7 Flags management functions}
+00572 \textcolor{comment}{ *  @brief   Flags management functions }
+00573 \textcolor{comment}{ *}
+00574 \textcolor{comment}{@verbatim   }
+00575 \textcolor{comment}{ ===============================================================================}
+00576 \textcolor{comment}{                           Flags management functions}
+00577 \textcolor{comment}{ ===============================================================================  }
+00578 \textcolor{comment}{}
+00579 \textcolor{comment}{@endverbatim}
+00580 \textcolor{comment}{  * @\{}
+00581 \textcolor{comment}{  */}
+00582 
+00583 \textcolor{comment}{/**}
+00584 \textcolor{comment}{  * @brief  Checks whether the specified PWR flag is set or not.}
+00585 \textcolor{comment}{  * @param  PWR\_FLAG: specifies the flag to check.}
+00586 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00587 \textcolor{comment}{  *            @arg PWR\_FLAG\_WU: Wake Up flag. This flag indicates that a wakeup event }
+00588 \textcolor{comment}{  *                  was received from the WKUP pin or from the RTC alarm (Alarm A }
+00589 \textcolor{comment}{  *                  or Alarm B), RTC Tamper event, RTC TimeStamp event or RTC Wakeup.}
+00590 \textcolor{comment}{  *                  An additional wakeup event is detected if the WKUP pin is enabled }
+00591 \textcolor{comment}{  *                  (by setting the EWUP bit) when the WKUP pin level is already high.  }
+00592 \textcolor{comment}{  *            @arg PWR\_FLAG\_SB: StandBy flag. This flag indicates that the system was}
+00593 \textcolor{comment}{  *                  resumed from StandBy mode.    }
+00594 \textcolor{comment}{  *            @arg PWR\_FLAG\_PVDO: PVD Output. This flag is valid only if PVD is enabled }
+00595 \textcolor{comment}{  *                  by the PWR\_PVDCmd() function. The PVD is stopped by Standby mode }
+00596 \textcolor{comment}{  *                  For this reason, this bit is equal to 0 after Standby or reset}
+00597 \textcolor{comment}{  *                  until the PVDE bit is set.}
+00598 \textcolor{comment}{  *            @arg PWR\_FLAG\_BRR: Backup regulator ready flag. This bit is not reset }
+00599 \textcolor{comment}{  *                  when the device wakes up from Standby mode or by a system reset }
+00600 \textcolor{comment}{  *                  or power reset.  }
+00601 \textcolor{comment}{  *            @arg PWR\_FLAG\_VOSRDY: This flag indicates that the Regulator voltage }
+00602 \textcolor{comment}{  *                 scaling output selection is ready. }
+00603 \textcolor{comment}{  * @retval The new state of PWR\_FLAG (SET or RESET).}
+00604 \textcolor{comment}{  */}
+00605 FlagStatus PWR_GetFlagStatus(uint32\_t PWR\_FLAG)
+00606 \{
+00607   FlagStatus bitstatus = RESET;
+00608 
+00609   \textcolor{comment}{/* Check the parameters */}
+00610   assert_param(IS\_PWR\_GET\_FLAG(PWR\_FLAG));
+00611 
+00612   \textcolor{keywordflow}{if} ((PWR->CSR & PWR\_FLAG) != (uint32\_t)RESET)
+00613   \{
+00614     bitstatus = SET;
+00615   \}
+00616   \textcolor{keywordflow}{else}
+00617   \{
+00618     bitstatus = RESET;
+00619   \}
+00620   \textcolor{comment}{/* Return the flag status */}
+00621   \textcolor{keywordflow}{return} bitstatus;
+00622 \}
+00623 
+00624 \textcolor{comment}{/**}
+00625 \textcolor{comment}{  * @brief  Clears the PWR's pending flags.}
+00626 \textcolor{comment}{  * @param  PWR\_FLAG: specifies the flag to clear.}
+00627 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00628 \textcolor{comment}{  *            @arg PWR\_FLAG\_WU: Wake Up flag}
+00629 \textcolor{comment}{  *            @arg PWR\_FLAG\_SB: StandBy flag}
+00630 \textcolor{comment}{  * @retval None}
+00631 \textcolor{comment}{  */}
+00632 \textcolor{keywordtype}{void} PWR_ClearFlag(uint32\_t PWR\_FLAG)
+00633 \{
+00634   \textcolor{comment}{/* Check the parameters */}
+00635   assert_param(IS\_PWR\_CLEAR\_FLAG(PWR\_FLAG));
+00636 
+00637   PWR->CR |=  PWR\_FLAG << 2;
+00638 \}
+00639 
+00640 \textcolor{comment}{/**}
+00641 \textcolor{comment}{  * @\}}
+00642 \textcolor{comment}{  */}
+00643 
+00644 \textcolor{comment}{/**}
+00645 \textcolor{comment}{  * @\}}
+00646 \textcolor{comment}{  */}
+00647 
+00648 \textcolor{comment}{/**}
+00649 \textcolor{comment}{  * @\}}
+00650 \textcolor{comment}{  */}
+00651 
+00652 \textcolor{comment}{/**}
+00653 \textcolor{comment}{  * @\}}
+00654 \textcolor{comment}{  */}
+00655 
+00656 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

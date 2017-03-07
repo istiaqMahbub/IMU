@@ -1,0 +1,114 @@
+\section{P\+VD configuration functions}
+\label{group__PWR__Group2}\index{P\+V\+D configuration functions@{P\+V\+D configuration functions}}
+
+
+P\+VD configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ P\+W\+R\+\_\+\+P\+V\+D\+Level\+Config} (uint32\+\_\+t P\+W\+R\+\_\+\+P\+V\+D\+Level)
+\begin{DoxyCompactList}\small\item\em Configures the voltage threshold detected by the Power Voltage Detector(\+P\+V\+D). \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+P\+V\+D\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Power Voltage Detector(\+P\+V\+D). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+P\+VD configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                           PVD configuration functions
+ ===============================================================================  
+
+ - The PVD is used to monitor the VDD power supply by comparing it to a threshold
+   selected by the PVD Level (PLS[2:0] bits in the PWR_CR).
+ - A PVDO flag is available to indicate if VDD/VDDA is higher or lower than the 
+   PVD threshold. This event is internally connected to the EXTI line16
+   and can generate an interrupt if enabled through the EXTI registers.
+ - The PVD is stopped in Standby mode.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__PWR__Group2_ga42cad476b816e0a33594a933b3ed1acd}} 
+\index{P\+V\+D configuration functions@{P\+V\+D configuration functions}!P\+W\+R\+\_\+\+P\+V\+D\+Cmd@{P\+W\+R\+\_\+\+P\+V\+D\+Cmd}}
+\index{P\+W\+R\+\_\+\+P\+V\+D\+Cmd@{P\+W\+R\+\_\+\+P\+V\+D\+Cmd}!P\+V\+D configuration functions@{P\+V\+D configuration functions}}
+\subsubsection{P\+W\+R\+\_\+\+P\+V\+D\+Cmd()}
+{\footnotesize\ttfamily void P\+W\+R\+\_\+\+P\+V\+D\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the Power Voltage Detector(\+P\+V\+D). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the P\+VD. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 206} of file \textbf{ stm32f4xx\+\_\+pwr.\+c}.
+
+
+\begin{DoxyCode}
+00207 \{
+00208   \textcolor{comment}{/* Check the parameters */}
+00209   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00210   
+00211   *(\_\_IO uint32\_t *) CR_PVDE_BB = (uint32\_t)NewState;
+00212 \}
+\end{DoxyCode}
+\mbox{\label{group__PWR__Group2_ga237c143ef6aa55abb8049fa7bf24ab8f}} 
+\index{P\+V\+D configuration functions@{P\+V\+D configuration functions}!P\+W\+R\+\_\+\+P\+V\+D\+Level\+Config@{P\+W\+R\+\_\+\+P\+V\+D\+Level\+Config}}
+\index{P\+W\+R\+\_\+\+P\+V\+D\+Level\+Config@{P\+W\+R\+\_\+\+P\+V\+D\+Level\+Config}!P\+V\+D configuration functions@{P\+V\+D configuration functions}}
+\subsubsection{P\+W\+R\+\_\+\+P\+V\+D\+Level\+Config()}
+{\footnotesize\ttfamily void P\+W\+R\+\_\+\+P\+V\+D\+Level\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{P\+W\+R\+\_\+\+P\+V\+D\+Level }\end{DoxyParamCaption})}
+
+
+
+Configures the voltage threshold detected by the Power Voltage Detector(\+P\+V\+D). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em P\+W\+R\+\_\+\+P\+V\+D\+Level} & specifies the P\+VD detection level This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item P\+W\+R\+\_\+\+P\+V\+D\+Level\+\_\+0\+: P\+VD detection level set to 2.\+0V \item P\+W\+R\+\_\+\+P\+V\+D\+Level\+\_\+1\+: P\+VD detection level set to 2.\+2V \item P\+W\+R\+\_\+\+P\+V\+D\+Level\+\_\+2\+: P\+VD detection level set to 2.\+3V \item P\+W\+R\+\_\+\+P\+V\+D\+Level\+\_\+3\+: P\+VD detection level set to 2.\+5V \item P\+W\+R\+\_\+\+P\+V\+D\+Level\+\_\+4\+: P\+VD detection level set to 2.\+7V \item P\+W\+R\+\_\+\+P\+V\+D\+Level\+\_\+5\+: P\+VD detection level set to 2.\+8V \item P\+W\+R\+\_\+\+P\+V\+D\+Level\+\_\+6\+: P\+VD detection level set to 2.\+9V \item P\+W\+R\+\_\+\+P\+V\+D\+Level\+\_\+7\+: P\+VD detection level set to 3.\+0V \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Refer to the electrical characteristics of you device datasheet for more details. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 181} of file \textbf{ stm32f4xx\+\_\+pwr.\+c}.
+
+
+\begin{DoxyCode}
+00182 \{
+00183   uint32\_t tmpreg = 0;
+00184   
+00185   \textcolor{comment}{/* Check the parameters */}
+00186   assert_param(IS_PWR_PVD_LEVEL(PWR\_PVDLevel));
+00187   
+00188   tmpreg = PWR->CR;
+00189   
+00190   \textcolor{comment}{/* Clear PLS[7:5] bits */}
+00191   tmpreg &= CR_PLS_MASK;
+00192   
+00193   \textcolor{comment}{/* Set PLS[7:5] bits according to PWR\_PVDLevel value */}
+00194   tmpreg |= PWR\_PVDLevel;
+00195   
+00196   \textcolor{comment}{/* Store the new value */}
+00197   PWR->CR = tmpreg;
+00198 \}
+\end{DoxyCode}

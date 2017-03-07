@@ -1,0 +1,1891 @@
+\section{I2C}
+\label{group__I2C}\index{I2C@{I2C}}
+
+
+I2C driver modules.  
+
+
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ I2\+C\+\_\+\+Exported\+\_\+\+Constants}
+\item 
+\textbf{ I2\+C\+\_\+\+Private\+\_\+\+Functions}
+\end{DoxyCompactItemize}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ I2\+C\+\_\+\+Init\+Type\+Def}
+\begin{DoxyCompactList}\small\item\em I2C Init structure definition. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ C\+R1\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}~((uint16\+\_\+t)0x\+F\+B\+F5)      /$\ast$$<$! I2\+C registers Masks $\ast$/
+\item 
+\#define \textbf{ F\+L\+A\+G\+\_\+\+M\+A\+SK}~((uint32\+\_\+t)0x00\+F\+F\+F\+F\+F\+F)  /$\ast$$<$! I2\+C F\+L\+A\+G mask $\ast$/
+\item 
+\#define \textbf{ I\+T\+E\+N\+\_\+\+M\+A\+SK}~((uint32\+\_\+t)0x07000000)  /$\ast$$<$! I2\+C Interrupt Enable mask $\ast$/
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ I2\+C\+\_\+\+De\+Init} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx)
+\begin{DoxyCompactList}\small\item\em Deinitialize the I2\+Cx peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Init} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ I2\+C\+\_\+\+Init\+Type\+Def} $\ast$I2\+C\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the I2\+Cx peripheral according to the specified parameters in the I2\+C\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Struct\+Init} (\textbf{ I2\+C\+\_\+\+Init\+Type\+Def} $\ast$I2\+C\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each I2\+C\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Cmd} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C peripheral. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Generate\+S\+T\+A\+RT} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Generates I2\+Cx communication S\+T\+A\+RT condition. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Generate\+S\+T\+OP} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Generates I2\+Cx communication S\+T\+OP condition. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Send7bit\+Address} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint8\+\_\+t Address, uint8\+\_\+t I2\+C\+\_\+\+Direction)
+\begin{DoxyCompactList}\small\item\em Transmits the address byte to select the slave device. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Acknowledge\+Config} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C acknowledge feature. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Own\+Address2\+Config} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint8\+\_\+t Address)
+\begin{DoxyCompactList}\small\item\em Configures the specified I2C own address2. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Dual\+Address\+Cmd} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C dual addressing mode. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+General\+Call\+Cmd} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C general call feature. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Software\+Reset\+Cmd} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C software reset. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Stretch\+Clock\+Cmd} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C Clock stretching. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Fast\+Mode\+Duty\+Cycle\+Config} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint16\+\_\+t I2\+C\+\_\+\+Duty\+Cycle)
+\begin{DoxyCompactList}\small\item\em Selects the specified I2C fast mode duty cycle. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+N\+A\+C\+K\+Position\+Config} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint16\+\_\+t I2\+C\+\_\+\+N\+A\+C\+K\+Position)
+\begin{DoxyCompactList}\small\item\em Selects the specified I2C N\+A\+CK position in master receiver mode. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+S\+M\+Bus\+Alert\+Config} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint16\+\_\+t I2\+C\+\_\+\+S\+M\+Bus\+Alert)
+\begin{DoxyCompactList}\small\item\em Drives the S\+M\+Bus\+Alert pin high or low for the specified I2C. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+A\+R\+P\+Cmd} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C A\+RP. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Send\+Data} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint8\+\_\+t Data)
+\begin{DoxyCompactList}\small\item\em Sends a data byte through the I2\+Cx peripheral. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ I2\+C\+\_\+\+Receive\+Data} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx)
+\begin{DoxyCompactList}\small\item\em Returns the most recent received data by the I2\+Cx peripheral. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Transmit\+P\+EC} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C P\+EC transfer. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+P\+E\+C\+Position\+Config} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint16\+\_\+t I2\+C\+\_\+\+P\+E\+C\+Position)
+\begin{DoxyCompactList}\small\item\em Selects the specified I2C P\+EC position. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Calculate\+P\+EC} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the P\+EC value calculation of the transferred bytes. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ I2\+C\+\_\+\+Get\+P\+EC} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx)
+\begin{DoxyCompactList}\small\item\em Returns the P\+EC value for the specified I2C. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+D\+M\+A\+Cmd} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C D\+MA requests. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+D\+M\+A\+Last\+Transfer\+Cmd} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Specifies that the next D\+MA transfer is the last one. \end{DoxyCompactList}\item 
+uint16\+\_\+t \textbf{ I2\+C\+\_\+\+Read\+Register} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint8\+\_\+t I2\+C\+\_\+\+Register)
+\begin{DoxyCompactList}\small\item\em Reads the specified I2C register and returns its value. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+I\+T\+Config} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint16\+\_\+t I2\+C\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C interrupts. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ I2\+C\+\_\+\+Check\+Event} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint32\+\_\+t I2\+C\+\_\+\+E\+V\+E\+NT)
+\begin{DoxyCompactList}\small\item\em Checks whether the last I2\+Cx Event is equal to the one passed as parameter. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ I2\+C\+\_\+\+Get\+Last\+Event} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx)
+\begin{DoxyCompactList}\small\item\em Returns the last I2\+Cx Event. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ I2\+C\+\_\+\+Get\+Flag\+Status} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint32\+\_\+t I2\+C\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified I2C flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Clear\+Flag} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint32\+\_\+t I2\+C\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the I2\+Cx\textquotesingle{}s pending flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ I2\+C\+\_\+\+Get\+I\+T\+Status} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint32\+\_\+t I2\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified I2C interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint32\+\_\+t I2\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the I2\+Cx\textquotesingle{}s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+I2C driver modules. 
+
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\label{group__I2C_ga8d425258898b4af4ebc820f52635fad8}} 
+\index{I2C@{I2C}!C\+R1\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK@{C\+R1\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}}
+\index{C\+R1\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK@{C\+R1\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}!I2C@{I2C}}
+\subsubsection{C\+R1\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}
+{\footnotesize\ttfamily \#define C\+R1\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK~((uint16\+\_\+t)0x\+F\+B\+F5)      /$\ast$$<$! I2\+C registers Masks $\ast$/}
+
+
+
+Definition at line \textbf{ 102} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+\mbox{\label{group__I2C_ga890221cb651a3f30f6d1bca0d9b0e13d}} 
+\index{I2C@{I2C}!F\+L\+A\+G\+\_\+\+M\+A\+SK@{F\+L\+A\+G\+\_\+\+M\+A\+SK}}
+\index{F\+L\+A\+G\+\_\+\+M\+A\+SK@{F\+L\+A\+G\+\_\+\+M\+A\+SK}!I2C@{I2C}}
+\subsubsection{F\+L\+A\+G\+\_\+\+M\+A\+SK}
+{\footnotesize\ttfamily \#define F\+L\+A\+G\+\_\+\+M\+A\+SK~((uint32\+\_\+t)0x00\+F\+F\+F\+F\+F\+F)  /$\ast$$<$! I2\+C F\+L\+A\+G mask $\ast$/}
+
+
+
+Definition at line \textbf{ 103} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+\mbox{\label{group__I2C_ga0befa8c9e0cb00ab52bd8a8d68718706}} 
+\index{I2C@{I2C}!I\+T\+E\+N\+\_\+\+M\+A\+SK@{I\+T\+E\+N\+\_\+\+M\+A\+SK}}
+\index{I\+T\+E\+N\+\_\+\+M\+A\+SK@{I\+T\+E\+N\+\_\+\+M\+A\+SK}!I2C@{I2C}}
+\subsubsection{I\+T\+E\+N\+\_\+\+M\+A\+SK}
+{\footnotesize\ttfamily \#define I\+T\+E\+N\+\_\+\+M\+A\+SK~((uint32\+\_\+t)0x07000000)  /$\ast$$<$! I2\+C Interrupt Enable mask $\ast$/}
+
+
+
+Definition at line \textbf{ 104} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+\subsection{Function Documentation}
+\mbox{\label{group__I2C_ga7bb44e894d68a7991f564c43fb187486}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Acknowledge\+Config@{I2\+C\+\_\+\+Acknowledge\+Config}}
+\index{I2\+C\+\_\+\+Acknowledge\+Config@{I2\+C\+\_\+\+Acknowledge\+Config}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Acknowledge\+Config()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Acknowledge\+Config (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified I2C acknowledge feature. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em New\+State} & new state of the I2C Acknowledgement. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None.} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 411} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00412 \{
+00413   \textcolor{comment}{/* Check the parameters */}
+00414   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00415   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00416   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00417   \{
+00418     \textcolor{comment}{/* Enable the acknowledgement */}
+00419     I2Cx->CR1 |= I2C_CR1_ACK;
+00420   \}
+00421   \textcolor{keywordflow}{else}
+00422   \{
+00423     \textcolor{comment}{/* Disable the acknowledgement */}
+00424     I2Cx->CR1 &= (uint16\_t)~((uint16\_t)I2C_CR1_ACK);
+00425   \}
+00426 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga66d86742bf1be58b17ef8779ffc79d02}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+A\+R\+P\+Cmd@{I2\+C\+\_\+\+A\+R\+P\+Cmd}}
+\index{I2\+C\+\_\+\+A\+R\+P\+Cmd@{I2\+C\+\_\+\+A\+R\+P\+Cmd}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+A\+R\+P\+Cmd()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+A\+R\+P\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified I2C A\+RP. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em New\+State} & new state of the I2\+Cx A\+RP. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 651} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00652 \{
+00653   \textcolor{comment}{/* Check the parameters */}
+00654   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00655   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00656   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00657   \{
+00658     \textcolor{comment}{/* Enable the selected I2C ARP */}
+00659     I2Cx->CR1 |= I2C_CR1_ENARP;
+00660   \}
+00661   \textcolor{keywordflow}{else}
+00662   \{
+00663     \textcolor{comment}{/* Disable the selected I2C ARP */}
+00664     I2Cx->CR1 &= (uint16\_t)~((uint16\_t)I2C_CR1_ENARP);
+00665   \}
+00666 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_gae86801251359226c35745e0a258388b0}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Calculate\+P\+EC@{I2\+C\+\_\+\+Calculate\+P\+EC}}
+\index{I2\+C\+\_\+\+Calculate\+P\+EC@{I2\+C\+\_\+\+Calculate\+P\+EC}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Calculate\+P\+E\+C()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Calculate\+P\+EC (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the P\+EC value calculation of the transferred bytes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em New\+State} & new state of the I2\+Cx P\+EC value calculation. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 788} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00789 \{
+00790   \textcolor{comment}{/* Check the parameters */}
+00791   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00792   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00793   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00794   \{
+00795     \textcolor{comment}{/* Enable the selected I2C PEC calculation */}
+00796     I2Cx->CR1 |= I2C_CR1_ENPEC;
+00797   \}
+00798   \textcolor{keywordflow}{else}
+00799   \{
+00800     \textcolor{comment}{/* Disable the selected I2C PEC calculation */}
+00801     I2Cx->CR1 &= (uint16\_t)~((uint16\_t)I2C_CR1_ENPEC);
+00802   \}
+00803 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga2d5701342f9d4c1f09bf9d3cdcacc326}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Check\+Event@{I2\+C\+\_\+\+Check\+Event}}
+\index{I2\+C\+\_\+\+Check\+Event@{I2\+C\+\_\+\+Check\+Event}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Check\+Event()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} I2\+C\+\_\+\+Check\+Event (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint32\+\_\+t}]{I2\+C\+\_\+\+E\+V\+E\+NT }\end{DoxyParamCaption})}
+
+
+
+Checks whether the last I2\+Cx Event is equal to the one passed as parameter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em I2\+C\+\_\+\+E\+V\+E\+NT} & specifies the event to be checked. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+E\+R\+\_\+\+A\+D\+D\+R\+E\+S\+S\+\_\+\+M\+A\+T\+C\+H\+ED\+: E\+V1 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+R\+E\+C\+E\+I\+V\+E\+R\+\_\+\+A\+D\+D\+R\+E\+S\+S\+\_\+\+M\+A\+T\+C\+H\+ED\+: E\+V1 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+E\+R\+\_\+\+S\+E\+C\+O\+N\+D\+A\+D\+D\+R\+E\+S\+S\+\_\+\+M\+A\+T\+C\+H\+ED\+: E\+V1 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+R\+E\+C\+E\+I\+V\+E\+R\+\_\+\+S\+E\+C\+O\+N\+D\+A\+D\+D\+R\+E\+S\+S\+\_\+\+M\+A\+T\+C\+H\+ED\+: E\+V1 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+G\+E\+N\+E\+R\+A\+L\+C\+A\+L\+L\+A\+D\+D\+R\+E\+S\+S\+\_\+\+M\+A\+T\+C\+H\+ED\+: E\+V1 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+B\+Y\+T\+E\+\_\+\+R\+E\+C\+E\+I\+V\+ED\+: E\+V2 \item (I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+B\+Y\+T\+E\+\_\+\+R\+E\+C\+E\+I\+V\+ED $\vert$ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+D\+U\+A\+LF)\+: E\+V2 \item (I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+B\+Y\+T\+E\+\_\+\+R\+E\+C\+E\+I\+V\+ED $\vert$ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+G\+E\+N\+C\+A\+LL)\+: E\+V2 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+B\+Y\+T\+E\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+ED\+: E\+V3 \item (I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+B\+Y\+T\+E\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+ED $\vert$ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+D\+U\+A\+LF)\+: E\+V3 \item (I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+B\+Y\+T\+E\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+ED $\vert$ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+G\+E\+N\+C\+A\+LL)\+: E\+V3 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+A\+C\+K\+\_\+\+F\+A\+I\+L\+U\+RE\+: E\+V3\+\_\+2 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+S\+T\+O\+P\+\_\+\+D\+E\+T\+E\+C\+T\+ED\+: E\+V4 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+M\+A\+S\+T\+E\+R\+\_\+\+M\+O\+D\+E\+\_\+\+S\+E\+L\+E\+CT\+: E\+V5 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+M\+A\+S\+T\+E\+R\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+E\+R\+\_\+\+M\+O\+D\+E\+\_\+\+S\+E\+L\+E\+C\+T\+ED\+: E\+V6 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+M\+A\+S\+T\+E\+R\+\_\+\+R\+E\+C\+E\+I\+V\+E\+R\+\_\+\+M\+O\+D\+E\+\_\+\+S\+E\+L\+E\+C\+T\+ED\+: E\+V6 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+M\+A\+S\+T\+E\+R\+\_\+\+B\+Y\+T\+E\+\_\+\+R\+E\+C\+E\+I\+V\+ED\+: E\+V7 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+M\+A\+S\+T\+E\+R\+\_\+\+B\+Y\+T\+E\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+I\+NG\+: E\+V8 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+M\+A\+S\+T\+E\+R\+\_\+\+B\+Y\+T\+E\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+ED\+: E\+V8\+\_\+2 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+M\+A\+S\+T\+E\+R\+\_\+\+M\+O\+D\+E\+\_\+\+A\+D\+D\+R\+E\+S\+S10\+: E\+V9\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+For detailed description of Events, please refer to section I2\+C\+\_\+\+Events in \doxyref{stm32f4xx\+\_\+i2c.\+h}{p.}{stm32f4xx__i2c_8h} file.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: Last event is equal to the I2\+C\+\_\+\+E\+V\+E\+NT
+\item E\+R\+R\+OR\+: Last event is different from the I2\+C\+\_\+\+E\+V\+E\+NT 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1091} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+01092 \{
+01093   uint32\_t lastevent = 0;
+01094   uint32\_t flag1 = 0, flag2 = 0;
+01095   ErrorStatus status = ERROR;
+01096 
+01097   \textcolor{comment}{/* Check the parameters */}
+01098   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+01099   assert_param(IS_I2C_EVENT(I2C\_EVENT));
+01100 
+01101   \textcolor{comment}{/* Read the I2Cx status register */}
+01102   flag1 = I2Cx->SR1;
+01103   flag2 = I2Cx->SR2;
+01104   flag2 = flag2 << 16;
+01105 
+01106   \textcolor{comment}{/* Get the last event value from I2C status register */}
+01107   lastevent = (flag1 | flag2) & FLAG_MASK;
+01108 
+01109   \textcolor{comment}{/* Check whether the last event contains the I2C\_EVENT */}
+01110   \textcolor{keywordflow}{if} ((lastevent & I2C\_EVENT) == I2C\_EVENT)
+01111   \{
+01112     \textcolor{comment}{/* SUCCESS: last event is equal to I2C\_EVENT */}
+01113     status = SUCCESS;
+01114   \}
+01115   \textcolor{keywordflow}{else}
+01116   \{
+01117     \textcolor{comment}{/* ERROR: last event is different from I2C\_EVENT */}
+01118     status = ERROR;
+01119   \}
+01120   \textcolor{comment}{/* Return status */}
+01121   \textcolor{keywordflow}{return} status;
+01122 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga9d4f8fe9f7232696114b5578b1223963}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Clear\+Flag@{I2\+C\+\_\+\+Clear\+Flag}}
+\index{I2\+C\+\_\+\+Clear\+Flag@{I2\+C\+\_\+\+Clear\+Flag}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Clear\+Flag()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Clear\+Flag (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint32\+\_\+t}]{I2\+C\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Clears the I2\+Cx\textquotesingle{}s pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em I2\+C\+\_\+\+F\+L\+AG} & specifies the flag to clear. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+S\+M\+B\+A\+L\+E\+RT\+: S\+M\+Bus Alert flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+I\+M\+E\+O\+UT\+: Timeout or Tlow error flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+P\+E\+C\+E\+RR\+: P\+EC error in reception flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+O\+VR\+: Overrun/\+Underrun flag (Slave mode) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+AF\+: Acknowledge failure flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+R\+LO\+: Arbitration lost flag (Master mode) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+B\+E\+RR\+: Bus error flag\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+S\+T\+O\+PF (S\+T\+OP detection) is cleared by software sequence\+: a read operation to I2\+C\+\_\+\+S\+R1 register (\doxyref{I2\+C\+\_\+\+Get\+Flag\+Status()}{p.}{group__I2C__Group5_ga15c95d0ed124f029621a2061b1677ee7}) followed by a write operation to I2\+C\+\_\+\+C\+R1 register (\doxyref{I2\+C\+\_\+\+Cmd()}{p.}{group__I2C__Group1_ga7e1323c9133c2cb424dfb5b10b7d2f0b} to re-\/enable the I2C peripheral). 
+
+A\+D\+D10 (10-\/bit header sent) is cleared by software sequence\+: a read operation to I2\+C\+\_\+\+S\+R1 (\doxyref{I2\+C\+\_\+\+Get\+Flag\+Status()}{p.}{group__I2C__Group5_ga15c95d0ed124f029621a2061b1677ee7}) followed by writing the second byte of the address in DR register. 
+
+B\+TF (Byte Transfer Finished) is cleared by software sequence\+: a read operation to I2\+C\+\_\+\+S\+R1 register (\doxyref{I2\+C\+\_\+\+Get\+Flag\+Status()}{p.}{group__I2C__Group5_ga15c95d0ed124f029621a2061b1677ee7}) followed by a read/write to I2\+C\+\_\+\+DR register (\doxyref{I2\+C\+\_\+\+Send\+Data()}{p.}{group__I2C__Group2_ga7bd9e70b8eafde0dd5eb42b0d95fe1a9}). 
+
+A\+D\+DR (Address sent) is cleared by software sequence\+: a read operation to I2\+C\+\_\+\+S\+R1 register (\doxyref{I2\+C\+\_\+\+Get\+Flag\+Status()}{p.}{group__I2C__Group5_ga15c95d0ed124f029621a2061b1677ee7}) followed by a read operation to I2\+C\+\_\+\+S\+R2 register ((void)(I2\+Cx-\/$>$S\+R2)). 
+
+SB (Start Bit) is cleared software sequence\+: a read operation to I2\+C\+\_\+\+S\+R1 register (\doxyref{I2\+C\+\_\+\+Get\+Flag\+Status()}{p.}{group__I2C__Group5_ga15c95d0ed124f029621a2061b1677ee7}) followed by a write operation to I2\+C\+\_\+\+DR register (\doxyref{I2\+C\+\_\+\+Send\+Data()}{p.}{group__I2C__Group2_ga7bd9e70b8eafde0dd5eb42b0d95fe1a9}).
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1271} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+\begin{DoxyCode}
+01272 \{
+01273   uint32\_t flagpos = 0;
+01274   \textcolor{comment}{/* Check the parameters */}
+01275   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+01276   assert_param(IS_I2C_CLEAR_FLAG(I2C\_FLAG));
+01277   \textcolor{comment}{/* Get the I2C flag position */}
+01278   flagpos = I2C\_FLAG & FLAG_MASK;
+01279   \textcolor{comment}{/* Clear the selected I2C flag */}
+01280   I2Cx->SR1 = (uint16\_t)~flagpos;
+01281 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga110dda440fa200b5f77349df19b3e6bb}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit@{I2\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit}}
+\index{I2\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit@{I2\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint32\+\_\+t}]{I2\+C\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Clears the I2\+Cx\textquotesingle{}s interrupt pending bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em I2\+C\+\_\+\+IT} & specifies the interrupt pending bit to clear. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item I2\+C\+\_\+\+I\+T\+\_\+\+S\+M\+B\+A\+L\+E\+RT\+: S\+M\+Bus Alert interrupt \item I2\+C\+\_\+\+I\+T\+\_\+\+T\+I\+M\+E\+O\+UT\+: Timeout or Tlow error interrupt \item I2\+C\+\_\+\+I\+T\+\_\+\+P\+E\+C\+E\+RR\+: P\+EC error in reception interrupt \item I2\+C\+\_\+\+I\+T\+\_\+\+O\+VR\+: Overrun/\+Underrun interrupt (Slave mode) \item I2\+C\+\_\+\+I\+T\+\_\+\+AF\+: Acknowledge failure interrupt \item I2\+C\+\_\+\+I\+T\+\_\+\+A\+R\+LO\+: Arbitration lost interrupt (Master mode) \item I2\+C\+\_\+\+I\+T\+\_\+\+B\+E\+RR\+: Bus error interrupt\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+S\+T\+O\+PF (S\+T\+OP detection) is cleared by software sequence\+: a read operation to I2\+C\+\_\+\+S\+R1 register (\doxyref{I2\+C\+\_\+\+Get\+I\+T\+Status()}{p.}{group__I2C__Group5_ga447771fbbd94a56f3570b9f430a069ba}) followed by a write operation to I2\+C\+\_\+\+C\+R1 register (\doxyref{I2\+C\+\_\+\+Cmd()}{p.}{group__I2C__Group1_ga7e1323c9133c2cb424dfb5b10b7d2f0b} to re-\/enable the I2C peripheral). 
+
+A\+D\+D10 (10-\/bit header sent) is cleared by software sequence\+: a read operation to I2\+C\+\_\+\+S\+R1 (\doxyref{I2\+C\+\_\+\+Get\+I\+T\+Status()}{p.}{group__I2C__Group5_ga447771fbbd94a56f3570b9f430a069ba}) followed by writing the second byte of the address in I2\+C\+\_\+\+DR register. 
+
+B\+TF (Byte Transfer Finished) is cleared by software sequence\+: a read operation to I2\+C\+\_\+\+S\+R1 register (\doxyref{I2\+C\+\_\+\+Get\+I\+T\+Status()}{p.}{group__I2C__Group5_ga447771fbbd94a56f3570b9f430a069ba}) followed by a read/write to I2\+C\+\_\+\+DR register (\doxyref{I2\+C\+\_\+\+Send\+Data()}{p.}{group__I2C__Group2_ga7bd9e70b8eafde0dd5eb42b0d95fe1a9}). 
+
+A\+D\+DR (Address sent) is cleared by software sequence\+: a read operation to I2\+C\+\_\+\+S\+R1 register (\doxyref{I2\+C\+\_\+\+Get\+I\+T\+Status()}{p.}{group__I2C__Group5_ga447771fbbd94a56f3570b9f430a069ba}) followed by a read operation to I2\+C\+\_\+\+S\+R2 register ((void)(I2\+Cx-\/$>$S\+R2)). 
+
+SB (Start Bit) is cleared by software sequence\+: a read operation to I2\+C\+\_\+\+S\+R1 register (\doxyref{I2\+C\+\_\+\+Get\+I\+T\+Status()}{p.}{group__I2C__Group5_ga447771fbbd94a56f3570b9f430a069ba}) followed by a write operation to I2\+C\+\_\+\+DR register (\doxyref{I2\+C\+\_\+\+Send\+Data()}{p.}{group__I2C__Group2_ga7bd9e70b8eafde0dd5eb42b0d95fe1a9}). 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1365} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+\begin{DoxyCode}
+01366 \{
+01367   uint32\_t flagpos = 0;
+01368   \textcolor{comment}{/* Check the parameters */}
+01369   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+01370   assert_param(IS_I2C_CLEAR_IT(I2C\_IT));
+01371 
+01372   \textcolor{comment}{/* Get the I2C flag position */}
+01373   flagpos = I2C\_IT & FLAG_MASK;
+01374 
+01375   \textcolor{comment}{/* Clear the selected I2C flag */}
+01376   I2Cx->SR1 = (uint16\_t)~flagpos;
+01377 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga7e1323c9133c2cb424dfb5b10b7d2f0b}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Cmd@{I2\+C\+\_\+\+Cmd}}
+\index{I2\+C\+\_\+\+Cmd@{I2\+C\+\_\+\+Cmd}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Cmd()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified I2C peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em New\+State} & new state of the I2\+Cx peripheral. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 308} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+
+Referenced by \textbf{ I2c\+Master\+\_\+\+Init()}, and \textbf{ I2\+Cx\+\_\+\+T\+I\+M\+E\+O\+U\+T\+\_\+\+User\+Callback()}.
+
+
+\begin{DoxyCode}
+00309 \{
+00310   \textcolor{comment}{/* Check the parameters */}
+00311   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00312   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00313   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00314   \{
+00315     \textcolor{comment}{/* Enable the selected I2C peripheral */}
+00316     I2Cx->CR1 |= I2C_CR1_PE;
+00317   \}
+00318   \textcolor{keywordflow}{else}
+00319   \{
+00320     \textcolor{comment}{/* Disable the selected I2C peripheral */}
+00321     I2Cx->CR1 &= (uint16\_t)~((uint16\_t)I2C_CR1_PE);
+00322   \}
+00323 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga2ee214364603059ad5d9089f749f5bfd}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+De\+Init@{I2\+C\+\_\+\+De\+Init}}
+\index{I2\+C\+\_\+\+De\+Init@{I2\+C\+\_\+\+De\+Init}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx }\end{DoxyParamCaption})}
+
+
+
+Deinitialize the I2\+Cx peripheral registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 132} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, and \textbf{ R\+C\+C\+\_\+\+A\+P\+B1\+Periph\+Reset\+Cmd()}.
+
+
+
+Referenced by \textbf{ I2c\+Master\+\_\+\+Init()}, and \textbf{ I2\+Cx\+\_\+\+T\+I\+M\+E\+O\+U\+T\+\_\+\+User\+Callback()}.
+
+
+\begin{DoxyCode}
+00133 \{
+00134   \textcolor{comment}{/* Check the parameters */}
+00135   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00136 
+00137   \textcolor{keywordflow}{if} (I2Cx == I2C1)
+00138   \{
+00139     \textcolor{comment}{/* Enable I2C1 reset state */}
+00140     RCC_APB1PeriphResetCmd(RCC_APB1Periph_I2C1, ENABLE);
+00141     \textcolor{comment}{/* Release I2C1 from reset state */}
+00142     RCC_APB1PeriphResetCmd(RCC_APB1Periph_I2C1, DISABLE);    
+00143   \}
+00144   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (I2Cx == I2C2)
+00145   \{
+00146     \textcolor{comment}{/* Enable I2C2 reset state */}
+00147     RCC_APB1PeriphResetCmd(RCC_APB1Periph_I2C2, ENABLE);
+00148     \textcolor{comment}{/* Release I2C2 from reset state */}
+00149     RCC_APB1PeriphResetCmd(RCC_APB1Periph_I2C2, DISABLE);      
+00150   \}
+00151   \textcolor{keywordflow}{else} 
+00152   \{
+00153     \textcolor{keywordflow}{if} (I2Cx == I2C3)
+00154     \{
+00155       \textcolor{comment}{/* Enable I2C3 reset state */}
+00156       RCC_APB1PeriphResetCmd(RCC_APB1Periph_I2C3, ENABLE);
+00157       \textcolor{comment}{/* Release I2C3 from reset state */}
+00158       RCC_APB1PeriphResetCmd(RCC_APB1Periph_I2C3, DISABLE);     
+00159     \}
+00160   \}
+00161 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga38502ce11e5ec923e0f6476aaa35b45c}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+D\+M\+A\+Cmd@{I2\+C\+\_\+\+D\+M\+A\+Cmd}}
+\index{I2\+C\+\_\+\+D\+M\+A\+Cmd@{I2\+C\+\_\+\+D\+M\+A\+Cmd}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+D\+M\+A\+Cmd()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+D\+M\+A\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified I2C D\+MA requests. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em New\+State} & new state of the I2C D\+MA transfer. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 843} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00844 \{
+00845   \textcolor{comment}{/* Check the parameters */}
+00846   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00847   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00848   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00849   \{
+00850     \textcolor{comment}{/* Enable the selected I2C DMA requests */}
+00851     I2Cx->CR2 |= I2C_CR2_DMAEN;
+00852   \}
+00853   \textcolor{keywordflow}{else}
+00854   \{
+00855     \textcolor{comment}{/* Disable the selected I2C DMA requests */}
+00856     I2Cx->CR2 &= (uint16\_t)~((uint16\_t)I2C_CR2_DMAEN);
+00857   \}
+00858 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_gab2e994c5681eb6ec7c26a03ffe1de060}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+D\+M\+A\+Last\+Transfer\+Cmd@{I2\+C\+\_\+\+D\+M\+A\+Last\+Transfer\+Cmd}}
+\index{I2\+C\+\_\+\+D\+M\+A\+Last\+Transfer\+Cmd@{I2\+C\+\_\+\+D\+M\+A\+Last\+Transfer\+Cmd}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+D\+M\+A\+Last\+Transfer\+Cmd()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+D\+M\+A\+Last\+Transfer\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Specifies that the next D\+MA transfer is the last one. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em New\+State} & new state of the I2C D\+MA last transfer. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 867} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00868 \{
+00869   \textcolor{comment}{/* Check the parameters */}
+00870   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00871   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00872   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00873   \{
+00874     \textcolor{comment}{/* Next DMA transfer is the last transfer */}
+00875     I2Cx->CR2 |= I2C_CR2_LAST;
+00876   \}
+00877   \textcolor{keywordflow}{else}
+00878   \{
+00879     \textcolor{comment}{/* Next DMA transfer is not the last transfer */}
+00880     I2Cx->CR2 &= (uint16\_t)~((uint16\_t)I2C_CR2_LAST);
+00881   \}
+00882 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga02145a333a56e79557d6ef4ea03fc313}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Dual\+Address\+Cmd@{I2\+C\+\_\+\+Dual\+Address\+Cmd}}
+\index{I2\+C\+\_\+\+Dual\+Address\+Cmd@{I2\+C\+\_\+\+Dual\+Address\+Cmd}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Dual\+Address\+Cmd()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Dual\+Address\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified I2C dual addressing mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em New\+State} & new state of the I2C dual addressing mode. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 461} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00462 \{
+00463   \textcolor{comment}{/* Check the parameters */}
+00464   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00465   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00466   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00467   \{
+00468     \textcolor{comment}{/* Enable dual addressing mode */}
+00469     I2Cx->OAR2 |= I2C_OAR2_ENDUAL;
+00470   \}
+00471   \textcolor{keywordflow}{else}
+00472   \{
+00473     \textcolor{comment}{/* Disable dual addressing mode */}
+00474     I2Cx->OAR2 &= (uint16\_t)~((uint16\_t)I2C_OAR2_ENDUAL);
+00475   \}
+00476 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_gaa570f76bc34e5b0531b29b1a90af1275}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Fast\+Mode\+Duty\+Cycle\+Config@{I2\+C\+\_\+\+Fast\+Mode\+Duty\+Cycle\+Config}}
+\index{I2\+C\+\_\+\+Fast\+Mode\+Duty\+Cycle\+Config@{I2\+C\+\_\+\+Fast\+Mode\+Duty\+Cycle\+Config}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Fast\+Mode\+Duty\+Cycle\+Config()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Fast\+Mode\+Duty\+Cycle\+Config (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint16\+\_\+t}]{I2\+C\+\_\+\+Duty\+Cycle }\end{DoxyParamCaption})}
+
+
+
+Selects the specified I2C fast mode duty cycle. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em I2\+C\+\_\+\+Duty\+Cycle} & specifies the fast mode duty cycle. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item I2\+C\+\_\+\+Duty\+Cycle\+\_\+2\+: I2C fast mode Tlow/\+Thigh = 2 \item I2\+C\+\_\+\+Duty\+Cycle\+\_\+16\+\_\+9\+: I2C fast mode Tlow/\+Thigh = 16/9 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 561} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+\begin{DoxyCode}
+00562 \{
+00563   \textcolor{comment}{/* Check the parameters */}
+00564   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00565   assert_param(IS_I2C_DUTY_CYCLE(I2C\_DutyCycle));
+00566   \textcolor{keywordflow}{if} (I2C\_DutyCycle != I2C_DutyCycle_16_9)
+00567   \{
+00568     \textcolor{comment}{/* I2C fast mode Tlow/Thigh=2 */}
+00569     I2Cx->CCR &= I2C_DutyCycle_2;
+00570   \}
+00571   \textcolor{keywordflow}{else}
+00572   \{
+00573     \textcolor{comment}{/* I2C fast mode Tlow/Thigh=16/9 */}
+00574     I2Cx->CCR |= I2C_DutyCycle_16_9;
+00575   \}
+00576 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga65c740fc8d7b3b9f15cc432d8699d471}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+General\+Call\+Cmd@{I2\+C\+\_\+\+General\+Call\+Cmd}}
+\index{I2\+C\+\_\+\+General\+Call\+Cmd@{I2\+C\+\_\+\+General\+Call\+Cmd}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+General\+Call\+Cmd()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+General\+Call\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified I2C general call feature. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em New\+State} & new state of the I2C General call. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 485} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00486 \{
+00487   \textcolor{comment}{/* Check the parameters */}
+00488   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00489   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00490   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00491   \{
+00492     \textcolor{comment}{/* Enable generall call */}
+00493     I2Cx->CR1 |= I2C_CR1_ENGC;
+00494   \}
+00495   \textcolor{keywordflow}{else}
+00496   \{
+00497     \textcolor{comment}{/* Disable generall call */}
+00498     I2Cx->CR1 &= (uint16\_t)~((uint16\_t)I2C_CR1_ENGC);
+00499   \}
+00500 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga36c522b471588be9779c878222ccb20f}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Generate\+S\+T\+A\+RT@{I2\+C\+\_\+\+Generate\+S\+T\+A\+RT}}
+\index{I2\+C\+\_\+\+Generate\+S\+T\+A\+RT@{I2\+C\+\_\+\+Generate\+S\+T\+A\+RT}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Generate\+S\+T\+A\+R\+T()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Generate\+S\+T\+A\+RT (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Generates I2\+Cx communication S\+T\+A\+RT condition. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em New\+State} & new state of the I2C S\+T\+A\+RT condition generation. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None.} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 332} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00333 \{
+00334   \textcolor{comment}{/* Check the parameters */}
+00335   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00336   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00337   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00338   \{
+00339     \textcolor{comment}{/* Generate a START condition */}
+00340     I2Cx->CR1 |= I2C_CR1_START;
+00341   \}
+00342   \textcolor{keywordflow}{else}
+00343   \{
+00344     \textcolor{comment}{/* Disable the START condition generation */}
+00345     I2Cx->CR1 &= (uint16\_t)~((uint16\_t)I2C_CR1_START);
+00346   \}
+00347 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga5c92cb573ca0ae58cc465e5400246561}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Generate\+S\+T\+OP@{I2\+C\+\_\+\+Generate\+S\+T\+OP}}
+\index{I2\+C\+\_\+\+Generate\+S\+T\+OP@{I2\+C\+\_\+\+Generate\+S\+T\+OP}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Generate\+S\+T\+O\+P()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Generate\+S\+T\+OP (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Generates I2\+Cx communication S\+T\+OP condition. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em New\+State} & new state of the I2C S\+T\+OP condition generation. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None.} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 356} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+
+Referenced by \textbf{ I2\+Cx\+\_\+\+T\+I\+M\+E\+O\+U\+T\+\_\+\+User\+Callback()}.
+
+
+\begin{DoxyCode}
+00357 \{
+00358   \textcolor{comment}{/* Check the parameters */}
+00359   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00360   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00361   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00362   \{
+00363     \textcolor{comment}{/* Generate a STOP condition */}
+00364     I2Cx->CR1 |= I2C_CR1_STOP;
+00365   \}
+00366   \textcolor{keywordflow}{else}
+00367   \{
+00368     \textcolor{comment}{/* Disable the STOP condition generation */}
+00369     I2Cx->CR1 &= (uint16\_t)~((uint16\_t)I2C_CR1_STOP);
+00370   \}
+00371 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga15c95d0ed124f029621a2061b1677ee7}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Get\+Flag\+Status@{I2\+C\+\_\+\+Get\+Flag\+Status}}
+\index{I2\+C\+\_\+\+Get\+Flag\+Status@{I2\+C\+\_\+\+Get\+Flag\+Status}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} I2\+C\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint32\+\_\+t}]{I2\+C\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified I2C flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em I2\+C\+\_\+\+F\+L\+AG} & specifies the flag to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+D\+U\+A\+LF\+: Dual flag (Slave mode) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+S\+M\+B\+H\+O\+ST\+: S\+M\+Bus host header (Slave mode) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+S\+M\+B\+D\+E\+F\+A\+U\+LT\+: S\+M\+Bus default header (Slave mode) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+G\+E\+N\+C\+A\+LL\+: General call header flag (Slave mode) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+RA\+: Transmitter/\+Receiver flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+B\+U\+SY\+: Bus busy flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+M\+SL\+: Master/\+Slave flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+S\+M\+B\+A\+L\+E\+RT\+: S\+M\+Bus Alert flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+I\+M\+E\+O\+UT\+: Timeout or Tlow error flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+P\+E\+C\+E\+RR\+: P\+EC error in reception flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+O\+VR\+: Overrun/\+Underrun flag (Slave mode) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+AF\+: Acknowledge failure flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+R\+LO\+: Arbitration lost flag (Master mode) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+B\+E\+RR\+: Bus error flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+XE\+: Data register empty flag (Transmitter) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+NE\+: Data register not empty (Receiver) flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+S\+T\+O\+PF\+: Stop detection flag (Slave mode) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+D\+D10\+: 10-\/bit header sent flag (Master mode) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+B\+TF\+: Byte transfer finished flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+D\+DR\+: Address sent flag (Master mode) \char`\"{}\+A\+D\+S\+L\char`\"{} Address matched flag (Slave mode)\char`\"{}\+E\+N\+D\+A\+D\char`\"{} \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+SB\+: Start bit flag (Master mode) \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of I2\+C\+\_\+\+F\+L\+AG (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1194} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+01195 \{
+01196   FlagStatus bitstatus = RESET;
+01197   \_\_IO uint32\_t i2creg = 0, i2cxbase = 0;
+01198 
+01199   \textcolor{comment}{/* Check the parameters */}
+01200   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+01201   assert_param(IS_I2C_GET_FLAG(I2C\_FLAG));
+01202 
+01203   \textcolor{comment}{/* Get the I2Cx peripheral base address */}
+01204   i2cxbase = (uint32\_t)I2Cx;
+01205   
+01206   \textcolor{comment}{/* Read flag register index */}
+01207   i2creg = I2C\_FLAG >> 28;
+01208   
+01209   \textcolor{comment}{/* Get bit[23:0] of the flag */}
+01210   I2C\_FLAG &= FLAG_MASK;
+01211   
+01212   \textcolor{keywordflow}{if}(i2creg != 0)
+01213   \{
+01214     \textcolor{comment}{/* Get the I2Cx SR1 register address */}
+01215     i2cxbase += 0x14;
+01216   \}
+01217   \textcolor{keywordflow}{else}
+01218   \{
+01219     \textcolor{comment}{/* Flag in I2Cx SR2 Register */}
+01220     I2C\_FLAG = (uint32\_t)(I2C\_FLAG >> 16);
+01221     \textcolor{comment}{/* Get the I2Cx SR2 register address */}
+01222     i2cxbase += 0x18;
+01223   \}
+01224   
+01225   \textcolor{keywordflow}{if}(((*(\_\_IO uint32\_t *)i2cxbase) & I2C\_FLAG) != (uint32\_t)RESET)
+01226   \{
+01227     \textcolor{comment}{/* I2C\_FLAG is set */}
+01228     bitstatus = SET;
+01229   \}
+01230   \textcolor{keywordflow}{else}
+01231   \{
+01232     \textcolor{comment}{/* I2C\_FLAG is reset */}
+01233     bitstatus = RESET;
+01234   \}
+01235   
+01236   \textcolor{comment}{/* Return the I2C\_FLAG status */}
+01237   \textcolor{keywordflow}{return}  bitstatus;
+01238 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga447771fbbd94a56f3570b9f430a069ba}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Get\+I\+T\+Status@{I2\+C\+\_\+\+Get\+I\+T\+Status}}
+\index{I2\+C\+\_\+\+Get\+I\+T\+Status@{I2\+C\+\_\+\+Get\+I\+T\+Status}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Get\+I\+T\+Status()}
+{\footnotesize\ttfamily \textbf{ I\+T\+Status} I2\+C\+\_\+\+Get\+I\+T\+Status (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint32\+\_\+t}]{I2\+C\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified I2C interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em I2\+C\+\_\+\+IT} & specifies the interrupt source to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item I2\+C\+\_\+\+I\+T\+\_\+\+S\+M\+B\+A\+L\+E\+RT\+: S\+M\+Bus Alert flag \item I2\+C\+\_\+\+I\+T\+\_\+\+T\+I\+M\+E\+O\+UT\+: Timeout or Tlow error flag \item I2\+C\+\_\+\+I\+T\+\_\+\+P\+E\+C\+E\+RR\+: P\+EC error in reception flag \item I2\+C\+\_\+\+I\+T\+\_\+\+O\+VR\+: Overrun/\+Underrun flag (Slave mode) \item I2\+C\+\_\+\+I\+T\+\_\+\+AF\+: Acknowledge failure flag \item I2\+C\+\_\+\+I\+T\+\_\+\+A\+R\+LO\+: Arbitration lost flag (Master mode) \item I2\+C\+\_\+\+I\+T\+\_\+\+B\+E\+RR\+: Bus error flag \item I2\+C\+\_\+\+I\+T\+\_\+\+T\+XE\+: Data register empty flag (Transmitter) \item I2\+C\+\_\+\+I\+T\+\_\+\+R\+X\+NE\+: Data register not empty (Receiver) flag \item I2\+C\+\_\+\+I\+T\+\_\+\+S\+T\+O\+PF\+: Stop detection flag (Slave mode) \item I2\+C\+\_\+\+I\+T\+\_\+\+A\+D\+D10\+: 10-\/bit header sent flag (Master mode) \item I2\+C\+\_\+\+I\+T\+\_\+\+B\+TF\+: Byte transfer finished flag \item I2\+C\+\_\+\+I\+T\+\_\+\+A\+D\+DR\+: Address sent flag (Master mode) \char`\"{}\+A\+D\+S\+L\char`\"{} Address matched flag (Slave mode)\char`\"{}\+E\+N\+D\+A\+D\char`\"{} \item I2\+C\+\_\+\+I\+T\+\_\+\+SB\+: Start bit flag (Master mode) \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of I2\+C\+\_\+\+IT (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1305} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+01306 \{
+01307   ITStatus bitstatus = RESET;
+01308   uint32\_t enablestatus = 0;
+01309 
+01310   \textcolor{comment}{/* Check the parameters */}
+01311   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+01312   assert_param(IS_I2C_GET_IT(I2C\_IT));
+01313 
+01314   \textcolor{comment}{/* Check if the interrupt source is enabled or not */}
+01315   enablestatus = (uint32\_t)(((I2C\_IT & ITEN_MASK) >> 16) & (I2Cx->CR2)) ;
+01316   
+01317   \textcolor{comment}{/* Get bit[23:0] of the flag */}
+01318   I2C\_IT &= FLAG_MASK;
+01319 
+01320   \textcolor{comment}{/* Check the status of the specified I2C flag */}
+01321   \textcolor{keywordflow}{if} (((I2Cx->SR1 & I2C\_IT) != (uint32\_t)RESET) && enablestatus)
+01322   \{
+01323     \textcolor{comment}{/* I2C\_IT is set */}
+01324     bitstatus = SET;
+01325   \}
+01326   \textcolor{keywordflow}{else}
+01327   \{
+01328     \textcolor{comment}{/* I2C\_IT is reset */}
+01329     bitstatus = RESET;
+01330   \}
+01331   \textcolor{comment}{/* Return the I2C\_IT status */}
+01332   \textcolor{keywordflow}{return}  bitstatus;
+01333 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga29237aea9b5a3ead33167e1d027e9f1a}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Get\+Last\+Event@{I2\+C\+\_\+\+Get\+Last\+Event}}
+\index{I2\+C\+\_\+\+Get\+Last\+Event@{I2\+C\+\_\+\+Get\+Last\+Event}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Get\+Last\+Event()}
+{\footnotesize\ttfamily uint32\+\_\+t I2\+C\+\_\+\+Get\+Last\+Event (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx }\end{DoxyParamCaption})}
+
+
+
+Returns the last I2\+Cx Event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+For detailed description of Events, please refer to section I2\+C\+\_\+\+Events in \doxyref{stm32f4xx\+\_\+i2c.\+h}{p.}{stm32f4xx__i2c_8h} file.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & last event \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1139} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+\begin{DoxyCode}
+01140 \{
+01141   uint32\_t lastevent = 0;
+01142   uint32\_t flag1 = 0, flag2 = 0;
+01143 
+01144   \textcolor{comment}{/* Check the parameters */}
+01145   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+01146 
+01147   \textcolor{comment}{/* Read the I2Cx status register */}
+01148   flag1 = I2Cx->SR1;
+01149   flag2 = I2Cx->SR2;
+01150   flag2 = flag2 << 16;
+01151 
+01152   \textcolor{comment}{/* Get the last event value from I2C status register */}
+01153   lastevent = (flag1 | flag2) & FLAG_MASK;
+01154 
+01155   \textcolor{comment}{/* Return status */}
+01156   \textcolor{keywordflow}{return} lastevent;
+01157 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga7bf75e7c27c0e1d73e70fc0e1c7cd1dd}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Get\+P\+EC@{I2\+C\+\_\+\+Get\+P\+EC}}
+\index{I2\+C\+\_\+\+Get\+P\+EC@{I2\+C\+\_\+\+Get\+P\+EC}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Get\+P\+E\+C()}
+{\footnotesize\ttfamily uint8\+\_\+t I2\+C\+\_\+\+Get\+P\+EC (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx }\end{DoxyParamCaption})}
+
+
+
+Returns the P\+EC value for the specified I2C. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & P\+EC value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 810} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+\begin{DoxyCode}
+00811 \{
+00812   \textcolor{comment}{/* Check the parameters */}
+00813   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00814   \textcolor{comment}{/* Return the selected I2C PEC value */}
+00815   \textcolor{keywordflow}{return} ((I2Cx->SR2) >> 8);
+00816 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_gaac29465bca70fbc91c2f922ab67bb88e}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Init@{I2\+C\+\_\+\+Init}}
+\index{I2\+C\+\_\+\+Init@{I2\+C\+\_\+\+Init}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Init()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Init (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{\textbf{ I2\+C\+\_\+\+Init\+Type\+Def} $\ast$}]{I2\+C\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the I2\+Cx peripheral according to the specified parameters in the I2\+C\+\_\+\+Init\+Struct. 
+
+\begin{DoxyNote}{Note}
+To use the I2C at 400 K\+Hz (in fast mode), the P\+C\+L\+K1 frequency (I2C peripheral input clock) must be a multiple of 10 M\+Hz.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em I2\+C\+\_\+\+Init\+Struct} & pointer to a \doxyref{I2\+C\+\_\+\+Init\+Type\+Def}{p.}{structI2C__InitTypeDef} structure that contains the configuration information for the specified I2C peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 175} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Ack}, \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Clock\+Speed}, \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Duty\+Cycle}, \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Mode}, \textbf{ R\+C\+C\+\_\+\+Clocks\+Type\+Def\+::\+P\+C\+L\+K1\+\_\+\+Frequency}, and \textbf{ R\+C\+C\+\_\+\+Get\+Clocks\+Freq()}.
+
+
+
+Referenced by \textbf{ I2c\+Master\+\_\+\+Init()}, and \textbf{ I2\+Cx\+\_\+\+T\+I\+M\+E\+O\+U\+T\+\_\+\+User\+Callback()}.
+
+
+\begin{DoxyCode}
+00176 \{
+00177   uint16\_t tmpreg = 0, freqrange = 0;
+00178   uint16\_t result = 0x04;
+00179   uint32\_t pclk1 = 8000000;
+00180   RCC_ClocksTypeDef  rcc\_clocks;
+00181   \textcolor{comment}{/* Check the parameters */}
+00182   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00183   assert_param(IS_I2C_CLOCK_SPEED(I2C\_InitStruct->I2C_ClockSpeed));
+00184   assert_param(IS_I2C_MODE(I2C\_InitStruct->I2C_Mode));
+00185   assert_param(IS_I2C_DUTY_CYCLE(I2C\_InitStruct->I2C_DutyCycle));
+00186   assert_param(IS_I2C_OWN_ADDRESS1(I2C\_InitStruct->I2C_OwnAddress1));
+00187   assert_param(IS_I2C_ACK_STATE(I2C\_InitStruct->I2C_Ack));
+00188   assert_param(IS_I2C_ACKNOWLEDGE_ADDRESS(I2C\_InitStruct->
+      I2C_AcknowledgedAddress));
+00189 
+00190 \textcolor{comment}{/*---------------------------- I2Cx CR2 Configuration ------------------------*/}
+00191   \textcolor{comment}{/* Get the I2Cx CR2 value */}
+00192   tmpreg = I2Cx->CR2;
+00193   \textcolor{comment}{/* Clear frequency FREQ[5:0] bits */}
+00194   tmpreg &= (uint16\_t)~((uint16\_t)I2C_CR2_FREQ);
+00195   \textcolor{comment}{/* Get pclk1 frequency value */}
+00196   RCC_GetClocksFreq(&rcc\_clocks);
+00197   pclk1 = rcc\_clocks.PCLK1_Frequency;
+00198   \textcolor{comment}{/* Set frequency bits depending on pclk1 value */}
+00199   freqrange = (uint16\_t)(pclk1 / 1000000);
+00200   tmpreg |= freqrange;
+00201   \textcolor{comment}{/* Write to I2Cx CR2 */}
+00202   I2Cx->CR2 = tmpreg;
+00203 
+00204 \textcolor{comment}{/*---------------------------- I2Cx CCR Configuration ------------------------*/}
+00205   \textcolor{comment}{/* Disable the selected I2C peripheral to configure TRISE */}
+00206   I2Cx->CR1 &= (uint16\_t)~((uint16\_t)I2C_CR1_PE);
+00207   \textcolor{comment}{/* Reset tmpreg value */}
+00208   \textcolor{comment}{/* Clear F/S, DUTY and CCR[11:0] bits */}
+00209   tmpreg = 0;
+00210 
+00211   \textcolor{comment}{/* Configure speed in standard mode */}
+00212   \textcolor{keywordflow}{if} (I2C\_InitStruct->I2C_ClockSpeed <= 100000)
+00213   \{
+00214     \textcolor{comment}{/* Standard mode speed calculate */}
+00215     result = (uint16\_t)(pclk1 / (I2C\_InitStruct->I2C_ClockSpeed << 1));
+00216     \textcolor{comment}{/* Test if CCR value is under 0x4*/}
+00217     \textcolor{keywordflow}{if} (result < 0x04)
+00218     \{
+00219       \textcolor{comment}{/* Set minimum allowed value */}
+00220       result = 0x04;  
+00221     \}
+00222     \textcolor{comment}{/* Set speed value for standard mode */}
+00223     tmpreg |= result;     
+00224     \textcolor{comment}{/* Set Maximum Rise Time for standard mode */}
+00225     I2Cx->TRISE = freqrange + 1; 
+00226   \}
+00227   \textcolor{comment}{/* Configure speed in fast mode */}
+00228   \textcolor{comment}{/* To use the I2C at 400 KHz (in fast mode), the PCLK1 frequency (I2C peripheral}
+00229 \textcolor{comment}{     input clock) must be a multiple of 10 MHz */}
+00230   \textcolor{keywordflow}{else} \textcolor{comment}{/*(I2C\_InitStruct->I2C\_ClockSpeed <= 400000)*/}
+00231   \{
+00232     \textcolor{keywordflow}{if} (I2C\_InitStruct->I2C_DutyCycle == I2C_DutyCycle_2)
+00233     \{
+00234       \textcolor{comment}{/* Fast mode speed calculate: Tlow/Thigh = 2 */}
+00235       result = (uint16\_t)(pclk1 / (I2C\_InitStruct->I2C_ClockSpeed * 3));
+00236     \}
+00237     \textcolor{keywordflow}{else} \textcolor{comment}{/*I2C\_InitStruct->I2C\_DutyCycle == I2C\_DutyCycle\_16\_9*/}
+00238     \{
+00239       \textcolor{comment}{/* Fast mode speed calculate: Tlow/Thigh = 16/9 */}
+00240       result = (uint16\_t)(pclk1 / (I2C\_InitStruct->I2C_ClockSpeed * 25));
+00241       \textcolor{comment}{/* Set DUTY bit */}
+00242       result |= I2C_DutyCycle_16_9;
+00243     \}
+00244 
+00245     \textcolor{comment}{/* Test if CCR value is under 0x1*/}
+00246     \textcolor{keywordflow}{if} ((result & I2C_CCR_CCR) == 0)
+00247     \{
+00248       \textcolor{comment}{/* Set minimum allowed value */}
+00249       result |= (uint16\_t)0x0001;  
+00250     \}
+00251     \textcolor{comment}{/* Set speed value and set F/S bit for fast mode */}
+00252     tmpreg |= (uint16\_t)(result | I2C_CCR_FS);
+00253     \textcolor{comment}{/* Set Maximum Rise Time for fast mode */}
+00254     I2Cx->TRISE = (uint16\_t)(((freqrange * (uint16\_t)300) / (uint16\_t)1000) + (uint16\_t)1);  
+00255   \}
+00256 
+00257   \textcolor{comment}{/* Write to I2Cx CCR */}
+00258   I2Cx->CCR = tmpreg;
+00259   \textcolor{comment}{/* Enable the selected I2C peripheral */}
+00260   I2Cx->CR1 |= I2C_CR1_PE;
+00261 
+00262 \textcolor{comment}{/*---------------------------- I2Cx CR1 Configuration ------------------------*/}
+00263   \textcolor{comment}{/* Get the I2Cx CR1 value */}
+00264   tmpreg = I2Cx->CR1;
+00265   \textcolor{comment}{/* Clear ACK, SMBTYPE and  SMBUS bits */}
+00266   tmpreg &= CR1_CLEAR_MASK;
+00267   \textcolor{comment}{/* Configure I2Cx: mode and acknowledgement */}
+00268   \textcolor{comment}{/* Set SMBTYPE and SMBUS bits according to I2C\_Mode value */}
+00269   \textcolor{comment}{/* Set ACK bit according to I2C\_Ack value */}
+00270   tmpreg |= (uint16\_t)((uint32\_t)I2C\_InitStruct->I2C_Mode | I2C\_InitStruct->
+      I2C_Ack);
+00271   \textcolor{comment}{/* Write to I2Cx CR1 */}
+00272   I2Cx->CR1 = tmpreg;
+00273 
+00274 \textcolor{comment}{/*---------------------------- I2Cx OAR1 Configuration -----------------------*/}
+00275   \textcolor{comment}{/* Set I2Cx Own Address1 and acknowledged address */}
+00276   I2Cx->OAR1 = (I2C\_InitStruct->I2C_AcknowledgedAddress | I2C\_InitStruct->
+      I2C_OwnAddress1);
+00277 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga58fed146a06cb81d2940604e460de047}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+I\+T\+Config@{I2\+C\+\_\+\+I\+T\+Config}}
+\index{I2\+C\+\_\+\+I\+T\+Config@{I2\+C\+\_\+\+I\+T\+Config}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+I\+T\+Config()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+I\+T\+Config (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint16\+\_\+t}]{I2\+C\+\_\+\+IT,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified I2C interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em I2\+C\+\_\+\+IT} & specifies the I2C interrupts sources to be enabled or disabled. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item I2\+C\+\_\+\+I\+T\+\_\+\+B\+UF\+: Buffer interrupt mask \item I2\+C\+\_\+\+I\+T\+\_\+\+E\+VT\+: Event interrupt mask \item I2\+C\+\_\+\+I\+T\+\_\+\+E\+RR\+: Error interrupt mask \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the specified I2C interrupts. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1032} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+01033 \{
+01034   \textcolor{comment}{/* Check the parameters */}
+01035   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+01036   assert_param(IS_FUNCTIONAL_STATE(NewState));
+01037   assert_param(IS_I2C_CONFIG_IT(I2C\_IT));
+01038   
+01039   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01040   \{
+01041     \textcolor{comment}{/* Enable the selected I2C interrupts */}
+01042     I2Cx->CR2 |= I2C\_IT;
+01043   \}
+01044   \textcolor{keywordflow}{else}
+01045   \{
+01046     \textcolor{comment}{/* Disable the selected I2C interrupts */}
+01047     I2Cx->CR2 &= (uint16\_t)~I2C\_IT;
+01048   \}
+01049 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_gad08ebffc3a234d84e6405ec115bd74f1}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+N\+A\+C\+K\+Position\+Config@{I2\+C\+\_\+\+N\+A\+C\+K\+Position\+Config}}
+\index{I2\+C\+\_\+\+N\+A\+C\+K\+Position\+Config@{I2\+C\+\_\+\+N\+A\+C\+K\+Position\+Config}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+N\+A\+C\+K\+Position\+Config()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+N\+A\+C\+K\+Position\+Config (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint16\+\_\+t}]{I2\+C\+\_\+\+N\+A\+C\+K\+Position }\end{DoxyParamCaption})}
+
+
+
+Selects the specified I2C N\+A\+CK position in master receiver mode. 
+
+\begin{DoxyNote}{Note}
+This function is useful in I2C Master Receiver mode when the number of data to be received is equal to 2. In this case, this function should be called (with parameter I2\+C\+\_\+\+N\+A\+C\+K\+Position\+\_\+\+Next) before data reception starts,as described in the 2-\/byte reception procedure recommended in Reference Manual in Section\+: Master receiver. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em I2\+C\+\_\+\+N\+A\+C\+K\+Position} & specifies the N\+A\+CK position. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item I2\+C\+\_\+\+N\+A\+C\+K\+Position\+\_\+\+Next\+: indicates that the next byte will be the last received byte. \item I2\+C\+\_\+\+N\+A\+C\+K\+Position\+\_\+\+Current\+: indicates that current byte is the last received byte.\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This function configures the same bit (P\+OS) as \doxyref{I2\+C\+\_\+\+P\+E\+C\+Position\+Config()}{p.}{group__I2C__Group3_ga5d0f939bdd45542502827bf408f24161} but is intended to be used in I2C mode while \doxyref{I2\+C\+\_\+\+P\+E\+C\+Position\+Config()}{p.}{group__I2C__Group3_ga5d0f939bdd45542502827bf408f24161} is intended to used in S\+M\+B\+US mode.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 599} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+\begin{DoxyCode}
+00600 \{
+00601   \textcolor{comment}{/* Check the parameters */}
+00602   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00603   assert_param(IS_I2C_NACK_POSITION(I2C\_NACKPosition));
+00604   
+00605   \textcolor{comment}{/* Check the input parameter */}
+00606   \textcolor{keywordflow}{if} (I2C\_NACKPosition == I2C_NACKPosition_Next)
+00607   \{
+00608     \textcolor{comment}{/* Next byte in shift register is the last received byte */}
+00609     I2Cx->CR1 |= I2C_NACKPosition_Next;
+00610   \}
+00611   \textcolor{keywordflow}{else}
+00612   \{
+00613     \textcolor{comment}{/* Current byte in shift register is the last received byte */}
+00614     I2Cx->CR1 &= I2C_NACKPosition_Current;
+00615   \}
+00616 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga7be2cc634a613c8e3539137e897a22df}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Own\+Address2\+Config@{I2\+C\+\_\+\+Own\+Address2\+Config}}
+\index{I2\+C\+\_\+\+Own\+Address2\+Config@{I2\+C\+\_\+\+Own\+Address2\+Config}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Own\+Address2\+Config()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Own\+Address2\+Config (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint8\+\_\+t}]{Address }\end{DoxyParamCaption})}
+
+
+
+Configures the specified I2C own address2. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em Address} & specifies the 7bit I2C own address2. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None.} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 434} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+\begin{DoxyCode}
+00435 \{
+00436   uint16\_t tmpreg = 0;
+00437 
+00438   \textcolor{comment}{/* Check the parameters */}
+00439   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00440 
+00441   \textcolor{comment}{/* Get the old register value */}
+00442   tmpreg = I2Cx->OAR2;
+00443 
+00444   \textcolor{comment}{/* Reset I2Cx Own address2 bit [7:1] */}
+00445   tmpreg &= (uint16\_t)~((uint16\_t)I2C_OAR2_ADD2);
+00446 
+00447   \textcolor{comment}{/* Set I2Cx Own address2 */}
+00448   tmpreg |= (uint16\_t)((uint16\_t)Address & (uint16\_t)0x00FE);
+00449 
+00450   \textcolor{comment}{/* Store the new register value */}
+00451   I2Cx->OAR2 = tmpreg;
+00452 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga5d0f939bdd45542502827bf408f24161}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+P\+E\+C\+Position\+Config@{I2\+C\+\_\+\+P\+E\+C\+Position\+Config}}
+\index{I2\+C\+\_\+\+P\+E\+C\+Position\+Config@{I2\+C\+\_\+\+P\+E\+C\+Position\+Config}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+P\+E\+C\+Position\+Config()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+P\+E\+C\+Position\+Config (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint16\+\_\+t}]{I2\+C\+\_\+\+P\+E\+C\+Position }\end{DoxyParamCaption})}
+
+
+
+Selects the specified I2C P\+EC position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em I2\+C\+\_\+\+P\+E\+C\+Position} & specifies the P\+EC position. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item I2\+C\+\_\+\+P\+E\+C\+Position\+\_\+\+Next\+: indicates that the next byte is P\+EC \item I2\+C\+\_\+\+P\+E\+C\+Position\+\_\+\+Current\+: indicates that current byte is P\+EC\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This function configures the same bit (P\+OS) as \doxyref{I2\+C\+\_\+\+N\+A\+C\+K\+Position\+Config()}{p.}{group__I2C__Group1_gad08ebffc3a234d84e6405ec115bd74f1} but is intended to be used in S\+M\+B\+US mode while \doxyref{I2\+C\+\_\+\+N\+A\+C\+K\+Position\+Config()}{p.}{group__I2C__Group1_gad08ebffc3a234d84e6405ec115bd74f1} is intended to used in I2C mode.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 764} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+\begin{DoxyCode}
+00765 \{
+00766   \textcolor{comment}{/* Check the parameters */}
+00767   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00768   assert_param(IS_I2C_PEC_POSITION(I2C\_PECPosition));
+00769   \textcolor{keywordflow}{if} (I2C\_PECPosition == I2C_PECPosition_Next)
+00770   \{
+00771     \textcolor{comment}{/* Next byte in shift register is PEC */}
+00772     I2Cx->CR1 |= I2C_PECPosition_Next;
+00773   \}
+00774   \textcolor{keywordflow}{else}
+00775   \{
+00776     \textcolor{comment}{/* Current byte in shift register is PEC */}
+00777     I2Cx->CR1 &= I2C_PECPosition_Current;
+00778   \}
+00779 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga8021dc796d15f997356b0583d6346805}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Read\+Register@{I2\+C\+\_\+\+Read\+Register}}
+\index{I2\+C\+\_\+\+Read\+Register@{I2\+C\+\_\+\+Read\+Register}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Read\+Register()}
+{\footnotesize\ttfamily uint16\+\_\+t I2\+C\+\_\+\+Read\+Register (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint8\+\_\+t}]{I2\+C\+\_\+\+Register }\end{DoxyParamCaption})}
+
+
+
+Reads the specified I2C register and returns its value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+C\+\_\+\+Register} & specifies the register to read. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item I2\+C\+\_\+\+Register\+\_\+\+C\+R1\+: C\+R1 register. \item I2\+C\+\_\+\+Register\+\_\+\+C\+R2\+: C\+R2 register. \item I2\+C\+\_\+\+Register\+\_\+\+O\+A\+R1\+: O\+A\+R1 register. \item I2\+C\+\_\+\+Register\+\_\+\+O\+A\+R2\+: O\+A\+R2 register. \item I2\+C\+\_\+\+Register\+\_\+\+DR\+: DR register. \item I2\+C\+\_\+\+Register\+\_\+\+S\+R1\+: S\+R1 register. \item I2\+C\+\_\+\+Register\+\_\+\+S\+R2\+: S\+R2 register. \item I2\+C\+\_\+\+Register\+\_\+\+C\+CR\+: C\+CR register. \item I2\+C\+\_\+\+Register\+\_\+\+T\+R\+I\+SE\+: T\+R\+I\+SE register. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & value of the read register. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1005} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+\begin{DoxyCode}
+01006 \{
+01007   \_\_IO uint32\_t tmp = 0;
+01008 
+01009   \textcolor{comment}{/* Check the parameters */}
+01010   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+01011   assert_param(IS_I2C_REGISTER(I2C\_Register));
+01012 
+01013   tmp = (uint32\_t) I2Cx;
+01014   tmp += I2C\_Register;
+01015 
+01016   \textcolor{comment}{/* Return the selected register value */}
+01017   \textcolor{keywordflow}{return} (*(\_\_IO uint16\_t *) tmp);
+01018 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_gaeaaa4b6f77f50eb57465148c55d27fb2}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Receive\+Data@{I2\+C\+\_\+\+Receive\+Data}}
+\index{I2\+C\+\_\+\+Receive\+Data@{I2\+C\+\_\+\+Receive\+Data}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Receive\+Data()}
+{\footnotesize\ttfamily uint8\+\_\+t I2\+C\+\_\+\+Receive\+Data (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx }\end{DoxyParamCaption})}
+
+
+
+Returns the most recent received data by the I2\+Cx peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & value of the received data. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 702} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+\begin{DoxyCode}
+00703 \{
+00704   \textcolor{comment}{/* Check the parameters */}
+00705   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00706   \textcolor{comment}{/* Return the data in the DR register */}
+00707   \textcolor{keywordflow}{return} (uint8\_t)I2Cx->DR;
+00708 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga009fc2a5b2313c36da39ece39a1156a6}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Send7bit\+Address@{I2\+C\+\_\+\+Send7bit\+Address}}
+\index{I2\+C\+\_\+\+Send7bit\+Address@{I2\+C\+\_\+\+Send7bit\+Address}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Send7bit\+Address()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Send7bit\+Address (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint8\+\_\+t}]{Address,  }\item[{uint8\+\_\+t}]{I2\+C\+\_\+\+Direction }\end{DoxyParamCaption})}
+
+
+
+Transmits the address byte to select the slave device. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em Address} & specifies the slave address which will be transmitted \\
+\hline
+{\em I2\+C\+\_\+\+Direction} & specifies whether the I2C device will be a Transmitter or a Receiver. This parameter can be one of the following values \begin{DoxyItemize}
+\item I2\+C\+\_\+\+Direction\+\_\+\+Transmitter\+: Transmitter mode \item I2\+C\+\_\+\+Direction\+\_\+\+Receiver\+: Receiver mode \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None.} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 384} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+\begin{DoxyCode}
+00385 \{
+00386   \textcolor{comment}{/* Check the parameters */}
+00387   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00388   assert_param(IS_I2C_DIRECTION(I2C\_Direction));
+00389   \textcolor{comment}{/* Test on the direction to set/reset the read/write bit */}
+00390   \textcolor{keywordflow}{if} (I2C\_Direction != I2C_Direction_Transmitter)
+00391   \{
+00392     \textcolor{comment}{/* Set the address bit0 for read */}
+00393     Address |= I2C_OAR1_ADD0;
+00394   \}
+00395   \textcolor{keywordflow}{else}
+00396   \{
+00397     \textcolor{comment}{/* Reset the address bit0 for write */}
+00398     Address &= (uint8\_t)~((uint8\_t)I2C_OAR1_ADD0);
+00399   \}
+00400   \textcolor{comment}{/* Send the address */}
+00401   I2Cx->DR = Address;
+00402 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga7bd9e70b8eafde0dd5eb42b0d95fe1a9}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Send\+Data@{I2\+C\+\_\+\+Send\+Data}}
+\index{I2\+C\+\_\+\+Send\+Data@{I2\+C\+\_\+\+Send\+Data}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Send\+Data()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Send\+Data (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint8\+\_\+t}]{Data }\end{DoxyParamCaption})}
+
+
+
+Sends a data byte through the I2\+Cx peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em Data} & Byte to be transmitted.. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 689} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+\begin{DoxyCode}
+00690 \{
+00691   \textcolor{comment}{/* Check the parameters */}
+00692   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00693   \textcolor{comment}{/* Write in the DR register the data to be sent */}
+00694   I2Cx->DR = Data;
+00695 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga75a810776d9710d2f6d9c5d9e93241c6}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+S\+M\+Bus\+Alert\+Config@{I2\+C\+\_\+\+S\+M\+Bus\+Alert\+Config}}
+\index{I2\+C\+\_\+\+S\+M\+Bus\+Alert\+Config@{I2\+C\+\_\+\+S\+M\+Bus\+Alert\+Config}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+S\+M\+Bus\+Alert\+Config()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+S\+M\+Bus\+Alert\+Config (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint16\+\_\+t}]{I2\+C\+\_\+\+S\+M\+Bus\+Alert }\end{DoxyParamCaption})}
+
+
+
+Drives the S\+M\+Bus\+Alert pin high or low for the specified I2C. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em I2\+C\+\_\+\+S\+M\+Bus\+Alert} & specifies S\+M\+B\+Alert pin level. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item I2\+C\+\_\+\+S\+M\+Bus\+Alert\+\_\+\+Low\+: S\+M\+B\+Alert pin driven low \item I2\+C\+\_\+\+S\+M\+Bus\+Alert\+\_\+\+High\+: S\+M\+B\+Alert pin driven high \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 627} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+\begin{DoxyCode}
+00628 \{
+00629   \textcolor{comment}{/* Check the parameters */}
+00630   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00631   assert_param(IS_I2C_SMBUS_ALERT(I2C\_SMBusAlert));
+00632   \textcolor{keywordflow}{if} (I2C\_SMBusAlert == I2C_SMBusAlert_Low)
+00633   \{
+00634     \textcolor{comment}{/* Drive the SMBusAlert pin Low */}
+00635     I2Cx->CR1 |= I2C_SMBusAlert_Low;
+00636   \}
+00637   \textcolor{keywordflow}{else}
+00638   \{
+00639     \textcolor{comment}{/* Drive the SMBusAlert pin High  */}
+00640     I2Cx->CR1 &= I2C_SMBusAlert_High;
+00641   \}
+00642 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga1289c908aeb882443aba323b459c638b}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Software\+Reset\+Cmd@{I2\+C\+\_\+\+Software\+Reset\+Cmd}}
+\index{I2\+C\+\_\+\+Software\+Reset\+Cmd@{I2\+C\+\_\+\+Software\+Reset\+Cmd}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Software\+Reset\+Cmd()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Software\+Reset\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified I2C software reset. 
+
+\begin{DoxyNote}{Note}
+When software reset is enabled, the I2C I\+Os are released (this can be useful to recover from bus errors). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em New\+State} & new state of the I2C software reset. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 511} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+
+Referenced by \textbf{ I2\+Cx\+\_\+\+T\+I\+M\+E\+O\+U\+T\+\_\+\+User\+Callback()}.
+
+
+\begin{DoxyCode}
+00512 \{
+00513   \textcolor{comment}{/* Check the parameters */}
+00514   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00515   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00516   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00517   \{
+00518     \textcolor{comment}{/* Peripheral under reset */}
+00519     I2Cx->CR1 |= I2C_CR1_SWRST;
+00520   \}
+00521   \textcolor{keywordflow}{else}
+00522   \{
+00523     \textcolor{comment}{/* Peripheral not under reset */}
+00524     I2Cx->CR1 &= (uint16\_t)~((uint16\_t)I2C_CR1_SWRST);
+00525   \}
+00526 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga7459feb3b1dfcd3e4f6574002ca7d3bd}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Stretch\+Clock\+Cmd@{I2\+C\+\_\+\+Stretch\+Clock\+Cmd}}
+\index{I2\+C\+\_\+\+Stretch\+Clock\+Cmd@{I2\+C\+\_\+\+Stretch\+Clock\+Cmd}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Stretch\+Clock\+Cmd()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Stretch\+Clock\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified I2C Clock stretching. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em New\+State} & new state of the I2\+Cx Clock stretching. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 535} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00536 \{
+00537   \textcolor{comment}{/* Check the parameters */}
+00538   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00539   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00540   \textcolor{keywordflow}{if} (NewState == DISABLE)
+00541   \{
+00542     \textcolor{comment}{/* Enable the selected I2C Clock stretching */}
+00543     I2Cx->CR1 |= I2C_CR1_NOSTRETCH;
+00544   \}
+00545   \textcolor{keywordflow}{else}
+00546   \{
+00547     \textcolor{comment}{/* Disable the selected I2C Clock stretching */}
+00548     I2Cx->CR1 &= (uint16\_t)~((uint16\_t)I2C_CR1_NOSTRETCH);
+00549   \}
+00550 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_ga08582aca6d7d7910cd5cbff0d9def350}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Struct\+Init@{I2\+C\+\_\+\+Struct\+Init}}
+\index{I2\+C\+\_\+\+Struct\+Init@{I2\+C\+\_\+\+Struct\+Init}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Struct\+Init()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Init\+Type\+Def} $\ast$}]{I2\+C\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each I2\+C\+\_\+\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+C\+\_\+\+Init\+Struct} & pointer to an \doxyref{I2\+C\+\_\+\+Init\+Type\+Def}{p.}{structI2C__InitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 284} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Ack}, \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Acknowledged\+Address}, \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Clock\+Speed}, \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Duty\+Cycle}, \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Mode}, and \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Own\+Address1}.
+
+
+\begin{DoxyCode}
+00285 \{
+00286 \textcolor{comment}{/*---------------- Reset I2C init structure parameters values ----------------*/}
+00287   \textcolor{comment}{/* initialize the I2C\_ClockSpeed member */}
+00288   I2C\_InitStruct->I2C_ClockSpeed = 5000;
+00289   \textcolor{comment}{/* Initialize the I2C\_Mode member */}
+00290   I2C\_InitStruct->I2C_Mode = I2C_Mode_I2C;
+00291   \textcolor{comment}{/* Initialize the I2C\_DutyCycle member */}
+00292   I2C\_InitStruct->I2C_DutyCycle = I2C_DutyCycle_2;
+00293   \textcolor{comment}{/* Initialize the I2C\_OwnAddress1 member */}
+00294   I2C\_InitStruct->I2C_OwnAddress1 = 0;
+00295   \textcolor{comment}{/* Initialize the I2C\_Ack member */}
+00296   I2C\_InitStruct->I2C_Ack = I2C_Ack_Disable;
+00297   \textcolor{comment}{/* Initialize the I2C\_AcknowledgedAddress member */}
+00298   I2C\_InitStruct->I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
+00299 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C_gaa27d1440290fe601e730b6980999afe3}} 
+\index{I2C@{I2C}!I2\+C\+\_\+\+Transmit\+P\+EC@{I2\+C\+\_\+\+Transmit\+P\+EC}}
+\index{I2\+C\+\_\+\+Transmit\+P\+EC@{I2\+C\+\_\+\+Transmit\+P\+EC}!I2C@{I2C}}
+\subsubsection{I2\+C\+\_\+\+Transmit\+P\+E\+C()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Transmit\+P\+EC (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified I2C P\+EC transfer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em New\+State} & new state of the I2C P\+EC transmission. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 733} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00734 \{
+00735   \textcolor{comment}{/* Check the parameters */}
+00736   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00737   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00738   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00739   \{
+00740     \textcolor{comment}{/* Enable the selected I2C PEC transmission */}
+00741     I2Cx->CR1 |= I2C_CR1_PEC;
+00742   \}
+00743   \textcolor{keywordflow}{else}
+00744   \{
+00745     \textcolor{comment}{/* Disable the selected I2C PEC transmission */}
+00746     I2Cx->CR1 &= (uint16\_t)~((uint16\_t)I2C_CR1_PEC);
+00747   \}
+00748 \}
+\end{DoxyCode}

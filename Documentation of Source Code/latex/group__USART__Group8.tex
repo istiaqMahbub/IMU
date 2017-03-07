@@ -1,0 +1,79 @@
+\section{D\+MA transfers management functions}
+\label{group__USART__Group8}\index{D\+M\+A transfers management functions@{D\+M\+A transfers management functions}}
+
+
+D\+MA transfers management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+D\+M\+A\+Cmd} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, uint16\+\_\+t U\+S\+A\+R\+T\+\_\+\+D\+M\+A\+Req, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\+S\+A\+RT\textquotesingle{}s D\+MA interface. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+D\+MA transfers management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                      DMA transfers management functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__USART__Group8_ga902857f199ebfba21c63d725354af66f}} 
+\index{D\+M\+A transfers management functions@{D\+M\+A transfers management functions}!U\+S\+A\+R\+T\+\_\+\+D\+M\+A\+Cmd@{U\+S\+A\+R\+T\+\_\+\+D\+M\+A\+Cmd}}
+\index{U\+S\+A\+R\+T\+\_\+\+D\+M\+A\+Cmd@{U\+S\+A\+R\+T\+\_\+\+D\+M\+A\+Cmd}!D\+M\+A transfers management functions@{D\+M\+A transfers management functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+D\+M\+A\+Cmd()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+D\+M\+A\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx,  }\item[{uint16\+\_\+t}]{U\+S\+A\+R\+T\+\_\+\+D\+M\+A\+Req,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the U\+S\+A\+RT\textquotesingle{}s D\+MA interface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3, 4, 5 or 6 to select the U\+S\+A\+RT or U\+A\+RT peripheral. \\
+\hline
+{\em U\+S\+A\+R\+T\+\_\+\+D\+M\+A\+Req} & specifies the D\+MA request. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item U\+S\+A\+R\+T\+\_\+\+D\+M\+A\+Req\+\_\+\+Tx\+: U\+S\+A\+RT D\+MA transmit request \item U\+S\+A\+R\+T\+\_\+\+D\+M\+A\+Req\+\_\+\+Rx\+: U\+S\+A\+RT D\+MA receive request \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the D\+MA Request sources. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1080} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+01081 \{
+01082   \textcolor{comment}{/* Check the parameters */}
+01083   assert_param(IS_USART_ALL_PERIPH(USARTx));
+01084   assert_param(IS_USART_DMAREQ(USART\_DMAReq));  
+01085   assert_param(IS_FUNCTIONAL_STATE(NewState)); 
+01086 
+01087   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01088   \{
+01089     \textcolor{comment}{/* Enable the DMA transfer for selected requests by setting the DMAT and/or}
+01090 \textcolor{comment}{       DMAR bits in the USART CR3 register */}
+01091     USARTx->CR3 |= USART\_DMAReq;
+01092   \}
+01093   \textcolor{keywordflow}{else}
+01094   \{
+01095     \textcolor{comment}{/* Disable the DMA transfer for selected requests by clearing the DMAT and/or}
+01096 \textcolor{comment}{       DMAR bits in the USART CR3 register */}
+01097     USARTx->CR3 &= (uint16\_t)~USART\_DMAReq;
+01098   \}
+01099 \}
+\end{DoxyCode}

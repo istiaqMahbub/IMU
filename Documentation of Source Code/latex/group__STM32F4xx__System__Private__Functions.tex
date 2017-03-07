@@ -1,0 +1,286 @@
+\section{S\+T\+M32\+F4xx\+\_\+\+System\+\_\+\+Private\+\_\+\+Functions}
+\label{group__STM32F4xx__System__Private__Functions}\index{S\+T\+M32\+F4xx\+\_\+\+System\+\_\+\+Private\+\_\+\+Functions@{S\+T\+M32\+F4xx\+\_\+\+System\+\_\+\+Private\+\_\+\+Functions}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ System\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Setup the microcontroller system Initialize the Embedded Flash Interface, the P\+LL and update the System\+Frequency variable. \end{DoxyCompactList}\item 
+void \textbf{ System\+Core\+Clock\+Update} (void)
+\begin{DoxyCompactList}\small\item\em Update System\+Core\+Clock variable according to Clock Register Values. The System\+Core\+Clock variable contains the core clock (H\+C\+LK), it can be used by the user application to setup the Sys\+Tick timer or configure other parameters. \end{DoxyCompactList}\item 
+static void \textbf{ Set\+Sys\+Clock} (void)
+\begin{DoxyCompactList}\small\item\em Configures the System clock source, P\+LL Multiplier and Divider factors, A\+H\+B/\+A\+P\+Bx prescalers and Flash settings  This function should be called only once the R\+CC clock configuration is reset to the default reset state (done in \doxyref{System\+Init()}{p.}{group__STM32F4xx__System__Private__Functions_ga93f514700ccf00d08dbdcff7f1224eb2} function). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\mbox{\label{group__STM32F4xx__System__Private__Functions_ga1ee14ac28e60198cc998586807b51e4c}} 
+\index{S\+T\+M32\+F4xx\+\_\+\+System\+\_\+\+Private\+\_\+\+Functions@{S\+T\+M32\+F4xx\+\_\+\+System\+\_\+\+Private\+\_\+\+Functions}!Set\+Sys\+Clock@{Set\+Sys\+Clock}}
+\index{Set\+Sys\+Clock@{Set\+Sys\+Clock}!S\+T\+M32\+F4xx\+\_\+\+System\+\_\+\+Private\+\_\+\+Functions@{S\+T\+M32\+F4xx\+\_\+\+System\+\_\+\+Private\+\_\+\+Functions}}
+\subsubsection{Set\+Sys\+Clock()}
+{\footnotesize\ttfamily static void Set\+Sys\+Clock (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Configures the System clock source, P\+LL Multiplier and Divider factors, A\+H\+B/\+A\+P\+Bx prescalers and Flash settings  This function should be called only once the R\+CC clock configuration is reset to the default reset state (done in \doxyref{System\+Init()}{p.}{group__STM32F4xx__System__Private__Functions_ga93f514700ccf00d08dbdcff7f1224eb2} function). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 344} of file \textbf{ system\+\_\+stm32f4xx.\+c}.
+
+
+\begin{DoxyCode}
+00344 \{
+00345 \textcolor{comment}{/******************************************************************************/}
+00346 \textcolor{comment}{/*            PLL (clocked by HSE) used as System clock source                */}
+00347 \textcolor{comment}{/******************************************************************************/}
+00348   \_\_IO uint32\_t StartUpCounter = 0, HSEStatus = 0;
+00349   
+00350   \textcolor{comment}{/* Enable HSE */}
+00351   RCC->CR |= ((uint32\_t)RCC_CR_HSEON);
+00352  
+00353   \textcolor{comment}{/* Wait till HSE is ready and if Time out is reached exit */}
+00354   \textcolor{keywordflow}{do}
+00355   \{
+00356     HSEStatus = RCC->CR & RCC_CR_HSERDY;
+00357     StartUpCounter++;
+00358   \} \textcolor{keywordflow}{while}((HSEStatus == 0) && (StartUpCounter != HSE_STARTUP_TIMEOUT));
+00359 
+00360   \textcolor{keywordflow}{if} ((RCC->CR & RCC_CR_HSERDY) != RESET)
+00361   \{
+00362     HSEStatus = (uint32\_t)0x01;
+00363   \}
+00364   \textcolor{keywordflow}{else}
+00365   \{
+00366     HSEStatus = (uint32\_t)0x00;
+00367   \}
+00368 
+00369   \textcolor{keywordflow}{if} (HSEStatus == (uint32\_t)0x01)
+00370   \{
+00371     \textcolor{comment}{/* Select regulator voltage output Scale 1 mode, System frequency up to 168 MHz */}
+00372     RCC->APB1ENR |= RCC_APB1ENR_PWREN;
+00373     PWR->CR |= PWR_CR_VOS;
+00374 
+00375     \textcolor{comment}{/* HCLK = SYSCLK / 1*/}
+00376     RCC->CFGR |= RCC_CFGR_HPRE_DIV1;
+00377       
+00378     \textcolor{comment}{/* PCLK2 = HCLK / 2*/}
+00379     RCC->CFGR |= RCC_CFGR_PPRE2_DIV2;
+00380     
+00381     \textcolor{comment}{/* PCLK1 = HCLK / 4*/}
+00382     RCC->CFGR |= RCC_CFGR_PPRE1_DIV4;
+00383 
+00384     \textcolor{comment}{/* Configure the main PLL */}
+00385     RCC->PLLCFGR = PLL_M | (PLL\_N << 6) | (((PLL\_P >> 1) -1) << 16) |
+00386                    (RCC_PLLCFGR_PLLSRC_HSE) | (PLL_Q << 24);
+00387 
+00388     \textcolor{comment}{/* Enable the main PLL */}
+00389     RCC->CR |= RCC_CR_PLLON;
+00390 
+00391     \textcolor{comment}{/* Wait till the main PLL is ready */}
+00392     \textcolor{keywordflow}{while}((RCC->CR & RCC_CR_PLLRDY) == 0)
+00393     \{
+00394     \}
+00395    
+00396     \textcolor{comment}{/* Configure Flash prefetch, Instruction cache, Data cache and wait state */}
+00397     FLASH->ACR = FLASH_ACR_ICEN |FLASH_ACR_DCEN |FLASH_ACR_LATENCY_5WS;
+00398 
+00399     \textcolor{comment}{/* Select the main PLL as system clock source */}
+00400     RCC->CFGR &= (uint32\_t)((uint32\_t)~(RCC_CFGR_SW));
+00401     RCC->CFGR |= RCC_CFGR_SW_PLL;
+00402 
+00403     \textcolor{comment}{/* Wait till the main PLL is used as system clock source */}
+00404     \textcolor{keywordflow}{while} ((RCC->CFGR & (uint32\_t)RCC_CFGR_SWS ) != RCC_CFGR_SWS_PLL);
+00405     \{
+00406     \}
+00407   \}
+00408   \textcolor{keywordflow}{else}
+00409   \{ \textcolor{comment}{/* If HSE fails to start-up, the application will have wrong clock}
+00410 \textcolor{comment}{         configuration. User can add here some code to deal with this error */}
+00411   \}
+00412 
+00413 \}
+00414 
+\end{DoxyCode}
+\mbox{\label{group__STM32F4xx__System__Private__Functions_gae0c36a9591fe6e9c45ecb21a794f0f0f}} 
+\index{S\+T\+M32\+F4xx\+\_\+\+System\+\_\+\+Private\+\_\+\+Functions@{S\+T\+M32\+F4xx\+\_\+\+System\+\_\+\+Private\+\_\+\+Functions}!System\+Core\+Clock\+Update@{System\+Core\+Clock\+Update}}
+\index{System\+Core\+Clock\+Update@{System\+Core\+Clock\+Update}!S\+T\+M32\+F4xx\+\_\+\+System\+\_\+\+Private\+\_\+\+Functions@{S\+T\+M32\+F4xx\+\_\+\+System\+\_\+\+Private\+\_\+\+Functions}}
+\subsubsection{System\+Core\+Clock\+Update()}
+{\footnotesize\ttfamily void System\+Core\+Clock\+Update (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Update System\+Core\+Clock variable according to Clock Register Values. The System\+Core\+Clock variable contains the core clock (H\+C\+LK), it can be used by the user application to setup the Sys\+Tick timer or configure other parameters. 
+
+\begin{DoxyNote}{Note}
+Each time the core clock (H\+C\+LK) changes, this function must be called to update System\+Core\+Clock variable value. Otherwise, any configuration based on this variable will be incorrect.
+
+-\/ The system frequency computed by this function is not the real frequency in the chip. It is calculated based on the predefined constant and the selected clock source\+:
+\end{DoxyNote}
+
+\begin{DoxyItemize}
+\item If S\+Y\+S\+C\+LK source is H\+SI, System\+Core\+Clock will contain the \doxyref{H\+S\+I\+\_\+\+V\+A\+L\+U\+E($\ast$)}{p.}{stm32f4xx__hal__conf_8h_aaa8c76e274d0f6dd2cefb5d0b17fbc37}
+\item If S\+Y\+S\+C\+LK source is H\+SE, System\+Core\+Clock will contain the \doxyref{H\+S\+E\+\_\+\+V\+A\+L\+U\+E($\ast$$\ast$)}{p.}{stm32f4xx__hal__conf_8h_aeafcff4f57440c60e64812dddd13e7cb}
+\item If S\+Y\+S\+C\+LK source is P\+LL, System\+Core\+Clock will contain the \doxyref{H\+S\+E\+\_\+\+V\+A\+L\+U\+E($\ast$$\ast$)}{p.}{stm32f4xx__hal__conf_8h_aeafcff4f57440c60e64812dddd13e7cb} or \doxyref{H\+S\+I\+\_\+\+V\+A\+L\+U\+E($\ast$)}{p.}{stm32f4xx__hal__conf_8h_aaa8c76e274d0f6dd2cefb5d0b17fbc37} multiplied/divided by the P\+LL factors.
+\end{DoxyItemize}
+
+($\ast$) H\+S\+I\+\_\+\+V\+A\+L\+UE is a constant defined in \doxyref{stm32f4xx.\+h}{p.}{stm32f4xx_8h} file (default value 16 M\+Hz) but the real value may vary depending on the variations in voltage and temperature.
+
+($\ast$$\ast$) H\+S\+E\+\_\+\+V\+A\+L\+UE is a constant defined in \doxyref{stm32f4xx.\+h}{p.}{stm32f4xx_8h} file (default value 25 M\+Hz), user has to ensure that H\+S\+E\+\_\+\+V\+A\+L\+UE is same as the real frequency of the crystal used. Otherwise, this function may have wrong result.
+
+
+\begin{DoxyItemize}
+\item The result of this function could be not correct when using fractional value for H\+SE crystal.
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 288} of file \textbf{ system\+\_\+stm32f4xx.\+c}.
+
+
+
+References \textbf{ System\+Core\+Clock}.
+
+
+
+Referenced by \textbf{ board\+\_\+init()}.
+
+
+\begin{DoxyCode}
+00288 \{
+00289   uint32\_t tmp = 0, pllvco = 0, pllp = 2, pllsource = 0, pllm = 2;
+00290   
+00291   \textcolor{comment}{/* Get SYSCLK source -------------------------------------------------------*/}
+00292   tmp = RCC->CFGR & RCC_CFGR_SWS;
+00293 
+00294   \textcolor{keywordflow}{switch} (tmp)
+00295   \{
+00296     \textcolor{keywordflow}{case} 0x00:  \textcolor{comment}{/* HSI used as system clock source */}
+00297       SystemCoreClock = HSI_VALUE;
+00298       \textcolor{keywordflow}{break};
+00299     \textcolor{keywordflow}{case} 0x04:  \textcolor{comment}{/* HSE used as system clock source */}
+00300       SystemCoreClock = HSE_VALUE;
+00301       \textcolor{keywordflow}{break};
+00302     \textcolor{keywordflow}{case} 0x08:  \textcolor{comment}{/* PLL used as system clock source */}
+00303 
+00304       \textcolor{comment}{/* PLL\_VCO = (HSE\_VALUE or HSI\_VALUE / PLL\_M) * PLL\_N}
+00305 \textcolor{comment}{         SYSCLK = PLL\_VCO / PLL\_P}
+00306 \textcolor{comment}{         */}    
+00307       pllsource = (RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC) >> 22;
+00308       pllm = RCC->PLLCFGR & RCC_PLLCFGR_PLLM;
+00309       
+00310       \textcolor{keywordflow}{if} (pllsource != 0)
+00311       \{
+00312         \textcolor{comment}{/* HSE used as PLL clock source */}
+00313         pllvco = (HSE_VALUE / pllm) * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6);
+00314       \}
+00315       \textcolor{keywordflow}{else}
+00316       \{
+00317         \textcolor{comment}{/* HSI used as PLL clock source */}
+00318         pllvco = (HSI_VALUE / pllm) * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6);      
+00319       \}
+00320 
+00321       pllp = (((RCC->PLLCFGR & RCC_PLLCFGR_PLLP) >>16) + 1 ) *2;
+00322       SystemCoreClock = pllvco/pllp;
+00323       \textcolor{keywordflow}{break};
+00324     \textcolor{keywordflow}{default}:
+00325       SystemCoreClock = HSI_VALUE;
+00326       \textcolor{keywordflow}{break};
+00327   \}
+00328   \textcolor{comment}{/* Compute HCLK frequency --------------------------------------------------*/}
+00329   \textcolor{comment}{/* Get HCLK prescaler */}
+00330   tmp = AHBPrescTable[((RCC->CFGR & RCC_CFGR_HPRE) >> 4)];
+00331   \textcolor{comment}{/* HCLK frequency */}
+00332   SystemCoreClock >>= tmp;
+00333 \}
+00334 
+\end{DoxyCode}
+\mbox{\label{group__STM32F4xx__System__Private__Functions_ga93f514700ccf00d08dbdcff7f1224eb2}} 
+\index{S\+T\+M32\+F4xx\+\_\+\+System\+\_\+\+Private\+\_\+\+Functions@{S\+T\+M32\+F4xx\+\_\+\+System\+\_\+\+Private\+\_\+\+Functions}!System\+Init@{System\+Init}}
+\index{System\+Init@{System\+Init}!S\+T\+M32\+F4xx\+\_\+\+System\+\_\+\+Private\+\_\+\+Functions@{S\+T\+M32\+F4xx\+\_\+\+System\+\_\+\+Private\+\_\+\+Functions}}
+\subsubsection{System\+Init()}
+{\footnotesize\ttfamily void System\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Setup the microcontroller system Initialize the Embedded Flash Interface, the P\+LL and update the System\+Frequency variable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 210} of file \textbf{ system\+\_\+stm32f4xx.\+c}.
+
+
+\begin{DoxyCode}
+00210 \{
+00211   \textcolor{comment}{/* FPU settings ------------------------------------------------------------*/}
+00212 \textcolor{preprocessor}{  #if (\_\_FPU\_PRESENT == 1) && (\_\_FPU\_USED == 1)}
+00213     SCB->CPACR |= ((3UL << 10*2)|(3UL << 11*2));  \textcolor{comment}{/* set CP10 and CP11 Full Access */}
+00214 \textcolor{preprocessor}{  #endif}
+00215 
+00216   \textcolor{comment}{/* Reset the RCC clock configuration to the default reset state ------------*/}
+00217   \textcolor{comment}{/* Set HSION bit */}
+00218   RCC->CR |= (uint32\_t)0x00000001;
+00219 
+00220   \textcolor{comment}{/* Reset CFGR register */}
+00221   RCC->CFGR = 0x00000000;
+00222 
+00223   \textcolor{comment}{/* Reset HSEON, CSSON and PLLON bits */}
+00224   RCC->CR &= (uint32\_t)0xFEF6FFFF;
+00225 
+00226   \textcolor{comment}{/* Reset PLLCFGR register */}
+00227   RCC->PLLCFGR = 0x24003010;
+00228 
+00229   \textcolor{comment}{/* Reset HSEBYP bit */}
+00230   RCC->CR &= (uint32\_t)0xFFFBFFFF;
+00231 
+00232   \textcolor{comment}{/* Disable all interrupts */}
+00233   RCC->CIR = 0x00000000;
+00234 
+00235 \textcolor{preprocessor}{#ifdef DATA\_IN\_ExtSRAM}
+00236   SystemInit\_ExtMemCtl(); 
+00237 \textcolor{preprocessor}{#endif }\textcolor{comment}{/* DATA\_IN\_ExtSRAM */}\textcolor{preprocessor}{}
+00238          
+00239   \textcolor{comment}{/* Configure the System clock source, PLL Multiplier and Divider factors, }
+00240 \textcolor{comment}{     AHB/APBx prescalers and Flash settings ----------------------------------*/}
+00241   SetSysClock();
+00242 
+00243   \textcolor{comment}{/* Configure the Vector Table location add offset address ------------------*/}
+00244 \textcolor{preprocessor}{#ifdef VECT\_TAB\_SRAM}
+00245   SCB->VTOR = SRAM_BASE | VECT_TAB_OFFSET; \textcolor{comment}{/* Vector Table Relocation in Internal SRAM */}
+00246 \textcolor{preprocessor}{#else}
+00247   SCB->VTOR = FLASH_BASE | VECT_TAB_OFFSET; \textcolor{comment}{/* Vector Table Relocation in Internal FLASH */}
+00248 \textcolor{preprocessor}{#endif}
+00249 \}
+00250 
+\end{DoxyCode}

@@ -1,0 +1,3371 @@
+\section{stm32f4xx\+\_\+tim.\+c}
+\label{stm32f4xx__tim_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+tim.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+tim.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_tim.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides firmware functions to manage the following }
+00008 \textcolor{comment}{  *          functionalities of the TIM peripheral:}
+00009 \textcolor{comment}{  *            - TimeBase management}
+00010 \textcolor{comment}{  *            - Output Compare management}
+00011 \textcolor{comment}{  *            - Input Capture management}
+00012 \textcolor{comment}{  *            - Advanced-control timers (TIM1 and TIM8) specific features  }
+00013 \textcolor{comment}{  *            - Interrupts, DMA and flags management}
+00014 \textcolor{comment}{  *            - Clocks management}
+00015 \textcolor{comment}{  *            - Synchronization management}
+00016 \textcolor{comment}{  *            - Specific interface management}
+00017 \textcolor{comment}{  *            - Specific remapping management      }
+00018 \textcolor{comment}{  *              }
+00019 \textcolor{comment}{  *  @verbatim}
+00020 \textcolor{comment}{  *  }
+00021 \textcolor{comment}{  *          ===================================================================}
+00022 \textcolor{comment}{  *                                 How to use this driver}
+00023 \textcolor{comment}{  *          ===================================================================}
+00024 \textcolor{comment}{  *          This driver provides functions to configure and program the TIM }
+00025 \textcolor{comment}{  *          of all STM32F4xx devices.}
+00026 \textcolor{comment}{  *          These functions are split in 9 groups: }
+00027 \textcolor{comment}{  *   }
+00028 \textcolor{comment}{  *          1. TIM TimeBase management: this group includes all needed functions }
+00029 \textcolor{comment}{  *             to configure the TM Timebase unit:}
+00030 \textcolor{comment}{  *                   - Set/Get Prescaler}
+00031 \textcolor{comment}{  *                   - Set/Get Autoreload  }
+00032 \textcolor{comment}{  *                   - Counter modes configuration}
+00033 \textcolor{comment}{  *                   - Set Clock division  }
+00034 \textcolor{comment}{  *                   - Select the One Pulse mode}
+00035 \textcolor{comment}{  *                   - Update Request Configuration}
+00036 \textcolor{comment}{  *                   - Update Disable Configuration}
+00037 \textcolor{comment}{  *                   - Auto-Preload Configuration }
+00038 \textcolor{comment}{  *                   - Enable/Disable the counter     }
+00039 \textcolor{comment}{  *                 }
+00040 \textcolor{comment}{  *          2. TIM Output Compare management: this group includes all needed }
+00041 \textcolor{comment}{  *             functions to configure the Capture/Compare unit used in Output }
+00042 \textcolor{comment}{  *             compare mode: }
+00043 \textcolor{comment}{  *                   - Configure each channel, independently, in Output Compare mode}
+00044 \textcolor{comment}{  *                   - Select the output compare modes}
+00045 \textcolor{comment}{  *                   - Select the Polarities of each channel}
+00046 \textcolor{comment}{  *                   - Set/Get the Capture/Compare register values}
+00047 \textcolor{comment}{  *                   - Select the Output Compare Fast mode }
+00048 \textcolor{comment}{  *                   - Select the Output Compare Forced mode  }
+00049 \textcolor{comment}{  *                   - Output Compare-Preload Configuration }
+00050 \textcolor{comment}{  *                   - Clear Output Compare Reference}
+00051 \textcolor{comment}{  *                   - Select the OCREF Clear signal}
+00052 \textcolor{comment}{  *                   - Enable/Disable the Capture/Compare Channels    }
+00053 \textcolor{comment}{  *                   }
+00054 \textcolor{comment}{  *          3. TIM Input Capture management: this group includes all needed }
+00055 \textcolor{comment}{  *             functions to configure the Capture/Compare unit used in }
+00056 \textcolor{comment}{  *             Input Capture mode:}
+00057 \textcolor{comment}{  *                   - Configure each channel in input capture mode}
+00058 \textcolor{comment}{  *                   - Configure Channel1/2 in PWM Input mode}
+00059 \textcolor{comment}{  *                   - Set the Input Capture Prescaler}
+00060 \textcolor{comment}{  *                   - Get the Capture/Compare values      }
+00061 \textcolor{comment}{  *                   }
+00062 \textcolor{comment}{  *          4. Advanced-control timers (TIM1 and TIM8) specific features}
+00063 \textcolor{comment}{  *                   - Configures the Break input, dead time, Lock level, the OSSI,}
+00064 \textcolor{comment}{  *                      the OSSR State and the AOE(automatic output enable)}
+00065 \textcolor{comment}{  *                   - Enable/Disable the TIM peripheral Main Outputs}
+00066 \textcolor{comment}{  *                   - Select the Commutation event}
+00067 \textcolor{comment}{  *                   - Set/Reset the Capture Compare Preload Control bit}
+00068 \textcolor{comment}{  *                              }
+00069 \textcolor{comment}{  *          5. TIM interrupts, DMA and flags management}
+00070 \textcolor{comment}{  *                   - Enable/Disable interrupt sources}
+00071 \textcolor{comment}{  *                   - Get flags status}
+00072 \textcolor{comment}{  *                   - Clear flags/ Pending bits}
+00073 \textcolor{comment}{  *                   - Enable/Disable DMA requests }
+00074 \textcolor{comment}{  *                   - Configure DMA burst mode}
+00075 \textcolor{comment}{  *                   - Select CaptureCompare DMA request  }
+00076 \textcolor{comment}{  *              }
+00077 \textcolor{comment}{  *          6. TIM clocks management: this group includes all needed functions }
+00078 \textcolor{comment}{  *             to configure the clock controller unit:}
+00079 \textcolor{comment}{  *                   - Select internal/External clock}
+00080 \textcolor{comment}{  *                   - Select the external clock mode: ETR(Mode1/Mode2), TIx or ITRx}
+00081 \textcolor{comment}{  *         }
+00082 \textcolor{comment}{  *          7. TIM synchronization management: this group includes all needed }
+00083 \textcolor{comment}{  *             functions to configure the Synchronization unit:}
+00084 \textcolor{comment}{  *                   - Select Input Trigger  }
+00085 \textcolor{comment}{  *                   - Select Output Trigger  }
+00086 \textcolor{comment}{  *                   - Select Master Slave Mode }
+00087 \textcolor{comment}{  *                   - ETR Configuration when used as external trigger   }
+00088 \textcolor{comment}{  *     }
+00089 \textcolor{comment}{  *          8. TIM specific interface management, this group includes all }
+00090 \textcolor{comment}{  *             needed functions to use the specific TIM interface:}
+00091 \textcolor{comment}{  *                   - Encoder Interface Configuration}
+00092 \textcolor{comment}{  *                   - Select Hall Sensor   }
+00093 \textcolor{comment}{  *         }
+00094 \textcolor{comment}{  *          9. TIM specific remapping management includes the Remapping }
+00095 \textcolor{comment}{  *             configuration of specific timers               }
+00096 \textcolor{comment}{  *   }
+00097 \textcolor{comment}{  *  @endverbatim}
+00098 \textcolor{comment}{  *    }
+00099 \textcolor{comment}{  ******************************************************************************}
+00100 \textcolor{comment}{  * @attention}
+00101 \textcolor{comment}{  *}
+00102 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00103 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00104 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00105 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00106 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00107 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00108 \textcolor{comment}{  *}
+00109 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00110 \textcolor{comment}{  ******************************************************************************}
+00111 \textcolor{comment}{  */}
+00112 
+00113 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00114 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_tim.h"
+00115 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rcc.h"
+00116 
+00117 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00118 \textcolor{comment}{  * @\{}
+00119 \textcolor{comment}{  */}
+00120 
+00121 \textcolor{comment}{/** @defgroup TIM }
+00122 \textcolor{comment}{  * @brief TIM driver modules}
+00123 \textcolor{comment}{  * @\{}
+00124 \textcolor{comment}{  */}
+00125 
+00126 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00127 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00128 
+00129 \textcolor{comment}{/* ---------------------- TIM registers bit mask ------------------------ */}
+00130 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SMCR\_ETR\_MASK}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x00FF\textcolor{preprocessor}{)}
+00131 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CCMR\_OFFSET}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0018\textcolor{preprocessor}{)}
+00132 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CCER\_CCE\_SET}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0001\textcolor{preprocessor}{)}
+00133 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CCER\_CCNE\_SET}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0004\textcolor{preprocessor}{)}
+00134 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CCMR\_OC13M\_MASK}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xFF8F\textcolor{preprocessor}{)}
+00135 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CCMR\_OC24M\_MASK}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x8FFF\textcolor{preprocessor}{)}
+00136 
+00137 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00138 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00139 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00140 \textcolor{keyword}{static} \textcolor{keywordtype}{void} TI1_Config(TIM\_TypeDef* TIMx, uint16\_t TIM\_ICPolarity, uint16\_t TIM\_ICSelection,
+00141                        uint16\_t TIM\_ICFilter);
+00142 \textcolor{keyword}{static} \textcolor{keywordtype}{void} TI2_Config(TIM\_TypeDef* TIMx, uint16\_t TIM\_ICPolarity, uint16\_t TIM\_ICSelection,
+00143                        uint16\_t TIM\_ICFilter);
+00144 \textcolor{keyword}{static} \textcolor{keywordtype}{void} TI3_Config(TIM\_TypeDef* TIMx, uint16\_t TIM\_ICPolarity, uint16\_t TIM\_ICSelection,
+00145                        uint16\_t TIM\_ICFilter);
+00146 \textcolor{keyword}{static} \textcolor{keywordtype}{void} TI4_Config(TIM\_TypeDef* TIMx, uint16\_t TIM\_ICPolarity, uint16\_t TIM\_ICSelection,
+00147                        uint16\_t TIM\_ICFilter);
+00148 
+00149 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00150 
+00151 \textcolor{comment}{/** @defgroup TIM\_Private\_Functions}
+00152 \textcolor{comment}{  * @\{}
+00153 \textcolor{comment}{  */}
+00154 
+00155 \textcolor{comment}{/** @defgroup TIM\_Group1 TimeBase management functions}
+00156 \textcolor{comment}{ *  @brief   TimeBase management functions }
+00157 \textcolor{comment}{ *}
+00158 \textcolor{comment}{@verbatim   }
+00159 \textcolor{comment}{ ===============================================================================}
+00160 \textcolor{comment}{                       TimeBase management functions}
+00161 \textcolor{comment}{ ===============================================================================  }
+00162 \textcolor{comment}{  }
+00163 \textcolor{comment}{       ===================================================================      }
+00164 \textcolor{comment}{              TIM Driver: how to use it in Timing(Time base) Mode}
+00165 \textcolor{comment}{       =================================================================== }
+00166 \textcolor{comment}{       To use the Timer in Timing(Time base) mode, the following steps are mandatory:}
+00167 \textcolor{comment}{       }
+00168 \textcolor{comment}{       1. Enable TIM clock using RCC\_APBxPeriphClockCmd(RCC\_APBxPeriph\_TIMx, ENABLE) function}
+00169 \textcolor{comment}{                    }
+00170 \textcolor{comment}{       2. Fill the TIM\_TimeBaseInitStruct with the desired parameters.}
+00171 \textcolor{comment}{       }
+00172 \textcolor{comment}{       3. Call TIM\_TimeBaseInit(TIMx, &TIM\_TimeBaseInitStruct) to configure the Time Base unit}
+00173 \textcolor{comment}{          with the corresponding configuration}
+00174 \textcolor{comment}{          }
+00175 \textcolor{comment}{       4. Enable the NVIC if you need to generate the update interrupt. }
+00176 \textcolor{comment}{          }
+00177 \textcolor{comment}{       5. Enable the corresponding interrupt using the function TIM\_ITConfig(TIMx, TIM\_IT\_Update) }
+00178 \textcolor{comment}{       }
+00179 \textcolor{comment}{       6. Call the TIM\_Cmd(ENABLE) function to enable the TIM counter.}
+00180 \textcolor{comment}{             }
+00181 \textcolor{comment}{       Note1: All other functions can be used separately to modify, if needed,}
+00182 \textcolor{comment}{          a specific feature of the Timer. }
+00183 \textcolor{comment}{}
+00184 \textcolor{comment}{@endverbatim}
+00185 \textcolor{comment}{  * @\{}
+00186 \textcolor{comment}{  */}
+00187 
+00188 \textcolor{comment}{/**}
+00189 \textcolor{comment}{  * @brief  Deinitializes the TIMx peripheral registers to their default reset values.}
+00190 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 to select the TIM peripheral.}
+00191 \textcolor{comment}{  * @retval None}
+00192 \textcolor{comment}{}
+00193 \textcolor{comment}{  */}
+00194 \textcolor{keywordtype}{void} TIM_DeInit(TIM\_TypeDef* TIMx)
+00195 \{
+00196   \textcolor{comment}{/* Check the parameters */}
+00197   assert_param(IS\_TIM\_ALL\_PERIPH(TIMx));
+00198 
+00199   \textcolor{keywordflow}{if} (TIMx == TIM1)
+00200   \{
+00201     RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM1, ENABLE);
+00202     RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM1, DISABLE);
+00203   \}
+00204   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM2)
+00205   \{
+00206     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM2, ENABLE);
+00207     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM2, DISABLE);
+00208   \}
+00209   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM3)
+00210   \{
+00211     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM3, ENABLE);
+00212     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM3, DISABLE);
+00213   \}
+00214   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM4)
+00215   \{
+00216     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM4, ENABLE);
+00217     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM4, DISABLE);
+00218   \}
+00219   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM5)
+00220   \{
+00221     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM5, ENABLE);
+00222     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM5, DISABLE);
+00223   \}
+00224   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM6)
+00225   \{
+00226     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM6, ENABLE);
+00227     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM6, DISABLE);
+00228   \}
+00229   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM7)
+00230   \{
+00231     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM7, ENABLE);
+00232     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM7, DISABLE);
+00233   \}
+00234   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM8)
+00235   \{
+00236     RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM8, ENABLE);
+00237     RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM8, DISABLE);
+00238   \}
+00239   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM9)
+00240   \{
+00241     RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM9, ENABLE);
+00242     RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM9, DISABLE);
+00243    \}
+00244   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM10)
+00245   \{
+00246     RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM10, ENABLE);
+00247     RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM10, DISABLE);
+00248   \}
+00249   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM11)
+00250   \{
+00251     RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM11, ENABLE);
+00252     RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM11, DISABLE);
+00253   \}
+00254   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM12)
+00255   \{
+00256     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM12, ENABLE);
+00257     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM12, DISABLE);
+00258   \}
+00259   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM13)
+00260   \{
+00261     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM13, ENABLE);
+00262     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM13, DISABLE);
+00263   \}
+00264   \textcolor{keywordflow}{else}
+00265   \{
+00266     \textcolor{keywordflow}{if} (TIMx == TIM14)
+00267     \{
+00268       RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM14, ENABLE);
+00269       RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM14, DISABLE);
+00270     \}
+00271   \}
+00272 \}
+00273 
+00274 \textcolor{comment}{/**}
+00275 \textcolor{comment}{  * @brief  Initializes the TIMx Time Base Unit peripheral according to }
+00276 \textcolor{comment}{  *         the specified parameters in the TIM\_TimeBaseInitStruct.}
+00277 \textcolor{comment}{  * @param  TIMx: where x can be  1 to 14 to select the TIM peripheral.}
+00278 \textcolor{comment}{  * @param  TIM\_TimeBaseInitStruct: pointer to a TIM\_TimeBaseInitTypeDef structure}
+00279 \textcolor{comment}{  *         that contains the configuration information for the specified TIM peripheral.}
+00280 \textcolor{comment}{  * @retval None}
+00281 \textcolor{comment}{  */}
+00282 \textcolor{keywordtype}{void} TIM_TimeBaseInit(TIM\_TypeDef* TIMx, TIM\_TimeBaseInitTypeDef* TIM\_TimeBaseInitStruct)
+00283 \{
+00284   uint16\_t tmpcr1 = 0;
+00285 
+00286   \textcolor{comment}{/* Check the parameters */}
+00287   assert_param(IS\_TIM\_ALL\_PERIPH(TIMx));
+00288   assert_param(IS\_TIM\_COUNTER\_MODE(TIM\_TimeBaseInitStruct->TIM\_CounterMode));
+00289   assert_param(IS\_TIM\_CKD\_DIV(TIM\_TimeBaseInitStruct->TIM\_ClockDivision));
+00290 
+00291   tmpcr1 = TIMx->CR1;
+00292 
+00293   \textcolor{keywordflow}{if}((TIMx == TIM1) || (TIMx == TIM8)||
+00294      (TIMx == TIM2) || (TIMx == TIM3)||
+00295      (TIMx == TIM4) || (TIMx == TIM5))
+00296   \{
+00297     \textcolor{comment}{/* Select the Counter Mode */}
+00298     tmpcr1 &= (uint16\_t)(~(TIM_CR1_DIR | TIM_CR1_CMS));
+00299     tmpcr1 |= (uint32\_t)TIM\_TimeBaseInitStruct->TIM_CounterMode;
+00300   \}
+00301 
+00302   \textcolor{keywordflow}{if}((TIMx != TIM6) && (TIMx != TIM7))
+00303   \{
+00304     \textcolor{comment}{/* Set the clock division */}
+00305     tmpcr1 &=  (uint16\_t)(~TIM_CR1_CKD);
+00306     tmpcr1 |= (uint32\_t)TIM\_TimeBaseInitStruct->TIM_ClockDivision;
+00307   \}
+00308 
+00309   TIMx->CR1 = tmpcr1;
+00310 
+00311   \textcolor{comment}{/* Set the Autoreload value */}
+00312   TIMx->ARR = TIM\_TimeBaseInitStruct->TIM\_Period ;
+00313 
+00314   \textcolor{comment}{/* Set the Prescaler value */}
+00315   TIMx->PSC = TIM\_TimeBaseInitStruct->TIM\_Prescaler;
+00316 
+00317   \textcolor{keywordflow}{if} ((TIMx == TIM1) || (TIMx == TIM8))
+00318   \{
+00319     \textcolor{comment}{/* Set the Repetition Counter value */}
+00320     TIMx->RCR = TIM\_TimeBaseInitStruct->TIM\_RepetitionCounter;
+00321   \}
+00322 
+00323   \textcolor{comment}{/* Generate an update event to reload the Prescaler }
+00324 \textcolor{comment}{     and the repetition counter(only for TIM1 and TIM8) value immediatly */}
+00325   TIMx->EGR = TIM_PSCReloadMode_Immediate;
+00326 \}
+00327 
+00328 \textcolor{comment}{/**}
+00329 \textcolor{comment}{  * @brief  Fills each TIM\_TimeBaseInitStruct member with its default value.}
+00330 \textcolor{comment}{  * @param  TIM\_TimeBaseInitStruct : pointer to a TIM\_TimeBaseInitTypeDef}
+00331 \textcolor{comment}{  *         structure which will be initialized.}
+00332 \textcolor{comment}{  * @retval None}
+00333 \textcolor{comment}{  */}
+00334 \textcolor{keywordtype}{void} TIM_TimeBaseStructInit(TIM\_TimeBaseInitTypeDef* TIM\_TimeBaseInitStruct)
+00335 \{
+00336   \textcolor{comment}{/* Set the default configuration */}
+00337   TIM\_TimeBaseInitStruct->TIM_Period = 0xFFFFFFFF;
+00338   TIM\_TimeBaseInitStruct->TIM_Prescaler = 0x0000;
+00339   TIM\_TimeBaseInitStruct->TIM_ClockDivision = TIM_CKD_DIV1;
+00340   TIM\_TimeBaseInitStruct->TIM_CounterMode = TIM_CounterMode_Up;
+00341   TIM\_TimeBaseInitStruct->TIM_RepetitionCounter = 0x0000;
+00342 \}
+00343 
+00344 \textcolor{comment}{/**}
+00345 \textcolor{comment}{  * @brief  Configures the TIMx Prescaler.}
+00346 \textcolor{comment}{  * @param  TIMx: where x can be  1 to 14 to select the TIM peripheral.}
+00347 \textcolor{comment}{  * @param  Prescaler: specifies the Prescaler Register value}
+00348 \textcolor{comment}{  * @param  TIM\_PSCReloadMode: specifies the TIM Prescaler Reload mode}
+00349 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00350 \textcolor{comment}{  *            @arg TIM\_PSCReloadMode\_Update: The Prescaler is loaded at the update event.}
+00351 \textcolor{comment}{  *            @arg TIM\_PSCReloadMode\_Immediate: The Prescaler is loaded immediatly.}
+00352 \textcolor{comment}{  * @retval None}
+00353 \textcolor{comment}{  */}
+00354 \textcolor{keywordtype}{void} TIM_PrescalerConfig(TIM\_TypeDef* TIMx, uint16\_t Prescaler, uint16\_t TIM\_PSCReloadMode)
+00355 \{
+00356   \textcolor{comment}{/* Check the parameters */}
+00357   assert_param(IS\_TIM\_ALL\_PERIPH(TIMx));
+00358   assert_param(IS\_TIM\_PRESCALER\_RELOAD(TIM\_PSCReloadMode));
+00359   \textcolor{comment}{/* Set the Prescaler value */}
+00360   TIMx->PSC = Prescaler;
+00361   \textcolor{comment}{/* Set or reset the UG Bit */}
+00362   TIMx->EGR = TIM\_PSCReloadMode;
+00363 \}
+00364 
+00365 \textcolor{comment}{/**}
+00366 \textcolor{comment}{  * @brief  Specifies the TIMx Counter Mode to be used.}
+00367 \textcolor{comment}{  * @param  TIMx: where x can be  1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+00368 \textcolor{comment}{  * @param  TIM\_CounterMode: specifies the Counter Mode to be used}
+00369 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00370 \textcolor{comment}{  *            @arg TIM\_CounterMode\_Up: TIM Up Counting Mode}
+00371 \textcolor{comment}{  *            @arg TIM\_CounterMode\_Down: TIM Down Counting Mode}
+00372 \textcolor{comment}{  *            @arg TIM\_CounterMode\_CenterAligned1: TIM Center Aligned Mode1}
+00373 \textcolor{comment}{  *            @arg TIM\_CounterMode\_CenterAligned2: TIM Center Aligned Mode2}
+00374 \textcolor{comment}{  *            @arg TIM\_CounterMode\_CenterAligned3: TIM Center Aligned Mode3}
+00375 \textcolor{comment}{  * @retval None}
+00376 \textcolor{comment}{  */}
+00377 \textcolor{keywordtype}{void} TIM_CounterModeConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_CounterMode)
+00378 \{
+00379   uint16\_t tmpcr1 = 0;
+00380 
+00381   \textcolor{comment}{/* Check the parameters */}
+00382   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+00383   assert_param(IS\_TIM\_COUNTER\_MODE(TIM\_CounterMode));
+00384 
+00385   tmpcr1 = TIMx->CR1;
+00386 
+00387   \textcolor{comment}{/* Reset the CMS and DIR Bits */}
+00388   tmpcr1 &= (uint16\_t)~(TIM_CR1_DIR | TIM_CR1_CMS);
+00389 
+00390   \textcolor{comment}{/* Set the Counter Mode */}
+00391   tmpcr1 |= TIM\_CounterMode;
+00392 
+00393   \textcolor{comment}{/* Write to TIMx CR1 register */}
+00394   TIMx->CR1 = tmpcr1;
+00395 \}
+00396 
+00397 \textcolor{comment}{/**}
+00398 \textcolor{comment}{  * @brief  Sets the TIMx Counter Register value}
+00399 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 to select the TIM peripheral.}
+00400 \textcolor{comment}{  * @param  Counter: specifies the Counter register new value.}
+00401 \textcolor{comment}{  * @retval None}
+00402 \textcolor{comment}{  */}
+00403 \textcolor{keywordtype}{void} TIM_SetCounter(TIM\_TypeDef* TIMx, uint32\_t Counter)
+00404 \{
+00405   \textcolor{comment}{/* Check the parameters */}
+00406    assert_param(IS\_TIM\_ALL\_PERIPH(TIMx));
+00407 
+00408   \textcolor{comment}{/* Set the Counter Register value */}
+00409   TIMx->CNT = Counter;
+00410 \}
+00411 
+00412 \textcolor{comment}{/**}
+00413 \textcolor{comment}{  * @brief  Sets the TIMx Autoreload Register value}
+00414 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 to select the TIM peripheral.}
+00415 \textcolor{comment}{  * @param  Autoreload: specifies the Autoreload register new value.}
+00416 \textcolor{comment}{  * @retval None}
+00417 \textcolor{comment}{  */}
+00418 \textcolor{keywordtype}{void} TIM_SetAutoreload(TIM\_TypeDef* TIMx, uint32\_t Autoreload)
+00419 \{
+00420   \textcolor{comment}{/* Check the parameters */}
+00421   assert_param(IS\_TIM\_ALL\_PERIPH(TIMx));
+00422 
+00423   \textcolor{comment}{/* Set the Autoreload Register value */}
+00424   TIMx->ARR = Autoreload;
+00425 \}
+00426 
+00427 \textcolor{comment}{/**}
+00428 \textcolor{comment}{  * @brief  Gets the TIMx Counter value.}
+00429 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 to select the TIM peripheral.}
+00430 \textcolor{comment}{  * @retval Counter Register value}
+00431 \textcolor{comment}{  */}
+00432 uint32\_t TIM_GetCounter(TIM\_TypeDef* TIMx)
+00433 \{
+00434   \textcolor{comment}{/* Check the parameters */}
+00435   assert_param(IS\_TIM\_ALL\_PERIPH(TIMx));
+00436 
+00437   \textcolor{comment}{/* Get the Counter Register value */}
+00438   \textcolor{keywordflow}{return} TIMx->CNT;
+00439 \}
+00440 
+00441 \textcolor{comment}{/**}
+00442 \textcolor{comment}{  * @brief  Gets the TIMx Prescaler value.}
+00443 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 to select the TIM peripheral.}
+00444 \textcolor{comment}{  * @retval Prescaler Register value.}
+00445 \textcolor{comment}{  */}
+00446 uint16\_t TIM_GetPrescaler(TIM\_TypeDef* TIMx)
+00447 \{
+00448   \textcolor{comment}{/* Check the parameters */}
+00449   assert_param(IS\_TIM\_ALL\_PERIPH(TIMx));
+00450 
+00451   \textcolor{comment}{/* Get the Prescaler Register value */}
+00452   \textcolor{keywordflow}{return} TIMx->PSC;
+00453 \}
+00454 
+00455 \textcolor{comment}{/**}
+00456 \textcolor{comment}{  * @brief  Enables or Disables the TIMx Update event.}
+00457 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 to select the TIM peripheral.}
+00458 \textcolor{comment}{  * @param  NewState: new state of the TIMx UDIS bit}
+00459 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00460 \textcolor{comment}{  * @retval None}
+00461 \textcolor{comment}{  */}
+00462 \textcolor{keywordtype}{void} TIM_UpdateDisableConfig(TIM\_TypeDef* TIMx, FunctionalState NewState)
+00463 \{
+00464   \textcolor{comment}{/* Check the parameters */}
+00465   assert_param(IS\_TIM\_ALL\_PERIPH(TIMx));
+00466   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00467 
+00468   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00469   \{
+00470     \textcolor{comment}{/* Set the Update Disable Bit */}
+00471     TIMx->CR1 |= TIM_CR1_UDIS;
+00472   \}
+00473   \textcolor{keywordflow}{else}
+00474   \{
+00475     \textcolor{comment}{/* Reset the Update Disable Bit */}
+00476     TIMx->CR1 &= (uint16\_t)~TIM_CR1_UDIS;
+00477   \}
+00478 \}
+00479 
+00480 \textcolor{comment}{/**}
+00481 \textcolor{comment}{  * @brief  Configures the TIMx Update Request Interrupt source.}
+00482 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 to select the TIM peripheral.}
+00483 \textcolor{comment}{  * @param  TIM\_UpdateSource: specifies the Update source.}
+00484 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00485 \textcolor{comment}{  *            @arg TIM\_UpdateSource\_Global: Source of update is the counter}
+00486 \textcolor{comment}{  *                 overflow/underflow or the setting of UG bit, or an update}
+00487 \textcolor{comment}{  *                 generation through the slave mode controller.}
+00488 \textcolor{comment}{  *            @arg TIM\_UpdateSource\_Regular: Source of update is counter overflow/underflow.}
+00489 \textcolor{comment}{  * @retval None}
+00490 \textcolor{comment}{  */}
+00491 \textcolor{keywordtype}{void} TIM_UpdateRequestConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_UpdateSource)
+00492 \{
+00493   \textcolor{comment}{/* Check the parameters */}
+00494   assert_param(IS\_TIM\_ALL\_PERIPH(TIMx));
+00495   assert_param(IS\_TIM\_UPDATE\_SOURCE(TIM\_UpdateSource));
+00496 
+00497   \textcolor{keywordflow}{if} (TIM\_UpdateSource != TIM_UpdateSource_Global)
+00498   \{
+00499     \textcolor{comment}{/* Set the URS Bit */}
+00500     TIMx->CR1 |= TIM_CR1_URS;
+00501   \}
+00502   \textcolor{keywordflow}{else}
+00503   \{
+00504     \textcolor{comment}{/* Reset the URS Bit */}
+00505     TIMx->CR1 &= (uint16\_t)~TIM_CR1_URS;
+00506   \}
+00507 \}
+00508 
+00509 \textcolor{comment}{/**}
+00510 \textcolor{comment}{  * @brief  Enables or disables TIMx peripheral Preload register on ARR.}
+00511 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 to select the TIM peripheral.}
+00512 \textcolor{comment}{  * @param  NewState: new state of the TIMx peripheral Preload register}
+00513 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00514 \textcolor{comment}{  * @retval None}
+00515 \textcolor{comment}{  */}
+00516 \textcolor{keywordtype}{void} TIM_ARRPreloadConfig(TIM\_TypeDef* TIMx, FunctionalState NewState)
+00517 \{
+00518   \textcolor{comment}{/* Check the parameters */}
+00519   assert_param(IS\_TIM\_ALL\_PERIPH(TIMx));
+00520   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00521 
+00522   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00523   \{
+00524     \textcolor{comment}{/* Set the ARR Preload Bit */}
+00525     TIMx->CR1 |= TIM_CR1_ARPE;
+00526   \}
+00527   \textcolor{keywordflow}{else}
+00528   \{
+00529     \textcolor{comment}{/* Reset the ARR Preload Bit */}
+00530     TIMx->CR1 &= (uint16\_t)~TIM_CR1_ARPE;
+00531   \}
+00532 \}
+00533 
+00534 \textcolor{comment}{/**}
+00535 \textcolor{comment}{  * @brief  Selects the TIMx's One Pulse Mode.}
+00536 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 to select the TIM peripheral.}
+00537 \textcolor{comment}{  * @param  TIM\_OPMode: specifies the OPM Mode to be used.}
+00538 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00539 \textcolor{comment}{  *            @arg TIM\_OPMode\_Single}
+00540 \textcolor{comment}{  *            @arg TIM\_OPMode\_Repetitive}
+00541 \textcolor{comment}{  * @retval None}
+00542 \textcolor{comment}{  */}
+00543 \textcolor{keywordtype}{void} TIM_SelectOnePulseMode(TIM\_TypeDef* TIMx, uint16\_t TIM\_OPMode)
+00544 \{
+00545   \textcolor{comment}{/* Check the parameters */}
+00546   assert_param(IS\_TIM\_ALL\_PERIPH(TIMx));
+00547   assert_param(IS\_TIM\_OPM\_MODE(TIM\_OPMode));
+00548 
+00549   \textcolor{comment}{/* Reset the OPM Bit */}
+00550   TIMx->CR1 &= (uint16\_t)~TIM_CR1_OPM;
+00551 
+00552   \textcolor{comment}{/* Configure the OPM Mode */}
+00553   TIMx->CR1 |= TIM\_OPMode;
+00554 \}
+00555 
+00556 \textcolor{comment}{/**}
+00557 \textcolor{comment}{  * @brief  Sets the TIMx Clock Division value.}
+00558 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 except 6 and 7, to select the TIM peripheral.}
+00559 \textcolor{comment}{  * @param  TIM\_CKD: specifies the clock division value.}
+00560 \textcolor{comment}{  *          This parameter can be one of the following value:}
+00561 \textcolor{comment}{  *            @arg TIM\_CKD\_DIV1: TDTS = Tck\_tim}
+00562 \textcolor{comment}{  *            @arg TIM\_CKD\_DIV2: TDTS = 2*Tck\_tim}
+00563 \textcolor{comment}{  *            @arg TIM\_CKD\_DIV4: TDTS = 4*Tck\_tim}
+00564 \textcolor{comment}{  * @retval None}
+00565 \textcolor{comment}{  */}
+00566 \textcolor{keywordtype}{void} TIM_SetClockDivision(TIM\_TypeDef* TIMx, uint16\_t TIM\_CKD)
+00567 \{
+00568   \textcolor{comment}{/* Check the parameters */}
+00569   assert_param(IS\_TIM\_LIST1\_PERIPH(TIMx));
+00570   assert_param(IS\_TIM\_CKD\_DIV(TIM\_CKD));
+00571 
+00572   \textcolor{comment}{/* Reset the CKD Bits */}
+00573   TIMx->CR1 &= (uint16\_t)(~TIM_CR1_CKD);
+00574 
+00575   \textcolor{comment}{/* Set the CKD value */}
+00576   TIMx->CR1 |= TIM\_CKD;
+00577 \}
+00578 
+00579 \textcolor{comment}{/**}
+00580 \textcolor{comment}{  * @brief  Enables or disables the specified TIM peripheral.}
+00581 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 to select the TIMx peripheral.}
+00582 \textcolor{comment}{  * @param  NewState: new state of the TIMx peripheral.}
+00583 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00584 \textcolor{comment}{  * @retval None}
+00585 \textcolor{comment}{  */}
+00586 \textcolor{keywordtype}{void} TIM_Cmd(TIM\_TypeDef* TIMx, FunctionalState NewState)
+00587 \{
+00588   \textcolor{comment}{/* Check the parameters */}
+00589   assert_param(IS\_TIM\_ALL\_PERIPH(TIMx));
+00590   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00591 
+00592   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00593   \{
+00594     \textcolor{comment}{/* Enable the TIM Counter */}
+00595     TIMx->CR1 |= TIM_CR1_CEN;
+00596   \}
+00597   \textcolor{keywordflow}{else}
+00598   \{
+00599     \textcolor{comment}{/* Disable the TIM Counter */}
+00600     TIMx->CR1 &= (uint16\_t)~TIM_CR1_CEN;
+00601   \}
+00602 \}
+00603 \textcolor{comment}{/**}
+00604 \textcolor{comment}{  * @\}}
+00605 \textcolor{comment}{  */}
+00606 
+00607 \textcolor{comment}{/** @defgroup TIM\_Group2 Output Compare management functions}
+00608 \textcolor{comment}{ *  @brief    Output Compare management functions }
+00609 \textcolor{comment}{ *}
+00610 \textcolor{comment}{@verbatim   }
+00611 \textcolor{comment}{ ===============================================================================}
+00612 \textcolor{comment}{                        Output Compare management functions}
+00613 \textcolor{comment}{ ===============================================================================  }
+00614 \textcolor{comment}{   }
+00615 \textcolor{comment}{       ===================================================================      }
+00616 \textcolor{comment}{              TIM Driver: how to use it in Output Compare Mode}
+00617 \textcolor{comment}{       =================================================================== }
+00618 \textcolor{comment}{       To use the Timer in Output Compare mode, the following steps are mandatory:}
+00619 \textcolor{comment}{       }
+00620 \textcolor{comment}{       1. Enable TIM clock using RCC\_APBxPeriphClockCmd(RCC\_APBxPeriph\_TIMx, ENABLE) function}
+00621 \textcolor{comment}{       }
+00622 \textcolor{comment}{       2. Configure the TIM pins by configuring the corresponding GPIO pins}
+00623 \textcolor{comment}{       }
+00624 \textcolor{comment}{       2. Configure the Time base unit as described in the first part of this driver, }
+00625 \textcolor{comment}{          if needed, else the Timer will run with the default configuration:}
+00626 \textcolor{comment}{          - Autoreload value = 0xFFFF}
+00627 \textcolor{comment}{          - Prescaler value = 0x0000}
+00628 \textcolor{comment}{          - Counter mode = Up counting}
+00629 \textcolor{comment}{          - Clock Division = TIM\_CKD\_DIV1}
+00630 \textcolor{comment}{          }
+00631 \textcolor{comment}{       3. Fill the TIM\_OCInitStruct with the desired parameters including:}
+00632 \textcolor{comment}{          - The TIM Output Compare mode: TIM\_OCMode}
+00633 \textcolor{comment}{          - TIM Output State: TIM\_OutputState}
+00634 \textcolor{comment}{          - TIM Pulse value: TIM\_Pulse}
+00635 \textcolor{comment}{          - TIM Output Compare Polarity : TIM\_OCPolarity}
+00636 \textcolor{comment}{       }
+00637 \textcolor{comment}{       4. Call TIM\_OCxInit(TIMx, &TIM\_OCInitStruct) to configure the desired channel with the }
+00638 \textcolor{comment}{          corresponding configuration}
+00639 \textcolor{comment}{       }
+00640 \textcolor{comment}{       5. Call the TIM\_Cmd(ENABLE) function to enable the TIM counter.}
+00641 \textcolor{comment}{       }
+00642 \textcolor{comment}{       Note1: All other functions can be used separately to modify, if needed,}
+00643 \textcolor{comment}{              a specific feature of the Timer. }
+00644 \textcolor{comment}{          }
+00645 \textcolor{comment}{       Note2: In case of PWM mode, this function is mandatory:}
+00646 \textcolor{comment}{              TIM\_OCxPreloadConfig(TIMx, TIM\_OCPreload\_ENABLE); }
+00647 \textcolor{comment}{              }
+00648 \textcolor{comment}{       Note3: If the corresponding interrupt or DMA request are needed, the user should:}
+00649 \textcolor{comment}{                1. Enable the NVIC (or the DMA) to use the TIM interrupts (or DMA requests). }
+00650 \textcolor{comment}{                2. Enable the corresponding interrupt (or DMA request) using the function }
+00651 \textcolor{comment}{                   TIM\_ITConfig(TIMx, TIM\_IT\_CCx) (or TIM\_DMA\_Cmd(TIMx, TIM\_DMA\_CCx))   }
+00652 \textcolor{comment}{}
+00653 \textcolor{comment}{@endverbatim}
+00654 \textcolor{comment}{  * @\{}
+00655 \textcolor{comment}{  */}
+00656 
+00657 \textcolor{comment}{/**}
+00658 \textcolor{comment}{  * @brief  Initializes the TIMx Channel1 according to the specified parameters in}
+00659 \textcolor{comment}{  *         the TIM\_OCInitStruct.}
+00660 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 except 6 and 7, to select the TIM peripheral.}
+00661 \textcolor{comment}{  * @param  TIM\_OCInitStruct: pointer to a TIM\_OCInitTypeDef structure that contains}
+00662 \textcolor{comment}{  *         the configuration information for the specified TIM peripheral.}
+00663 \textcolor{comment}{  * @retval None}
+00664 \textcolor{comment}{  */}
+00665 \textcolor{keywordtype}{void} TIM_OC1Init(TIM\_TypeDef* TIMx, TIM\_OCInitTypeDef* TIM\_OCInitStruct)
+00666 \{
+00667   uint16\_t tmpccmrx = 0, tmpccer = 0, tmpcr2 = 0;
+00668 
+00669   \textcolor{comment}{/* Check the parameters */}
+00670   assert_param(IS\_TIM\_LIST1\_PERIPH(TIMx));
+00671   assert_param(IS\_TIM\_OC\_MODE(TIM\_OCInitStruct->TIM\_OCMode));
+00672   assert_param(IS\_TIM\_OUTPUT\_STATE(TIM\_OCInitStruct->TIM\_OutputState));
+00673   assert_param(IS\_TIM\_OC\_POLARITY(TIM\_OCInitStruct->TIM\_OCPolarity));
+00674 
+00675   \textcolor{comment}{/* Disable the Channel 1: Reset the CC1E Bit */}
+00676   TIMx->CCER &= (uint16\_t)~TIM_CCER_CC1E;
+00677 
+00678   \textcolor{comment}{/* Get the TIMx CCER register value */}
+00679   tmpccer = TIMx->CCER;
+00680   \textcolor{comment}{/* Get the TIMx CR2 register value */}
+00681   tmpcr2 =  TIMx->CR2;
+00682 
+00683   \textcolor{comment}{/* Get the TIMx CCMR1 register value */}
+00684   tmpccmrx = TIMx->CCMR1;
+00685 
+00686   \textcolor{comment}{/* Reset the Output Compare Mode Bits */}
+00687   tmpccmrx &= (uint16\_t)~TIM_CCMR1_OC1M;
+00688   tmpccmrx &= (uint16\_t)~TIM_CCMR1_CC1S;
+00689   \textcolor{comment}{/* Select the Output Compare Mode */}
+00690   tmpccmrx |= TIM\_OCInitStruct->TIM_OCMode;
+00691 
+00692   \textcolor{comment}{/* Reset the Output Polarity level */}
+00693   tmpccer &= (uint16\_t)~TIM_CCER_CC1P;
+00694   \textcolor{comment}{/* Set the Output Compare Polarity */}
+00695   tmpccer |= TIM\_OCInitStruct->TIM_OCPolarity;
+00696 
+00697   \textcolor{comment}{/* Set the Output State */}
+00698   tmpccer |= TIM\_OCInitStruct->TIM_OutputState;
+00699 
+00700   \textcolor{keywordflow}{if}((TIMx == TIM1) || (TIMx == TIM8))
+00701   \{
+00702     assert_param(IS\_TIM\_OUTPUTN\_STATE(TIM\_OCInitStruct->TIM\_OutputNState));
+00703     assert_param(IS\_TIM\_OCN\_POLARITY(TIM\_OCInitStruct->TIM\_OCNPolarity));
+00704     assert_param(IS\_TIM\_OCNIDLE\_STATE(TIM\_OCInitStruct->TIM\_OCNIdleState));
+00705     assert_param(IS\_TIM\_OCIDLE\_STATE(TIM\_OCInitStruct->TIM\_OCIdleState));
+00706 
+00707     \textcolor{comment}{/* Reset the Output N Polarity level */}
+00708     tmpccer &= (uint16\_t)~TIM_CCER_CC1NP;
+00709     \textcolor{comment}{/* Set the Output N Polarity */}
+00710     tmpccer |= TIM\_OCInitStruct->TIM_OCNPolarity;
+00711     \textcolor{comment}{/* Reset the Output N State */}
+00712     tmpccer &= (uint16\_t)~TIM_CCER_CC1NE;
+00713 
+00714     \textcolor{comment}{/* Set the Output N State */}
+00715     tmpccer |= TIM\_OCInitStruct->TIM_OutputNState;
+00716     \textcolor{comment}{/* Reset the Output Compare and Output Compare N IDLE State */}
+00717     tmpcr2 &= (uint16\_t)~TIM_CR2_OIS1;
+00718     tmpcr2 &= (uint16\_t)~TIM_CR2_OIS1N;
+00719     \textcolor{comment}{/* Set the Output Idle state */}
+00720     tmpcr2 |= TIM\_OCInitStruct->TIM_OCIdleState;
+00721     \textcolor{comment}{/* Set the Output N Idle state */}
+00722     tmpcr2 |= TIM\_OCInitStruct->TIM_OCNIdleState;
+00723   \}
+00724   \textcolor{comment}{/* Write to TIMx CR2 */}
+00725   TIMx->CR2 = tmpcr2;
+00726 
+00727   \textcolor{comment}{/* Write to TIMx CCMR1 */}
+00728   TIMx->CCMR1 = tmpccmrx;
+00729 
+00730   \textcolor{comment}{/* Set the Capture Compare Register value */}
+00731   TIMx->CCR1 = TIM\_OCInitStruct->TIM\_Pulse;
+00732 
+00733   \textcolor{comment}{/* Write to TIMx CCER */}
+00734   TIMx->CCER = tmpccer;
+00735 \}
+00736 
+00737 \textcolor{comment}{/**}
+00738 \textcolor{comment}{  * @brief  Initializes the TIMx Channel2 according to the specified parameters }
+00739 \textcolor{comment}{  *         in the TIM\_OCInitStruct.}
+00740 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5, 8, 9 or 12 to select the TIM }
+00741 \textcolor{comment}{  *         peripheral.}
+00742 \textcolor{comment}{  * @param  TIM\_OCInitStruct: pointer to a TIM\_OCInitTypeDef structure that contains}
+00743 \textcolor{comment}{  *         the configuration information for the specified TIM peripheral.}
+00744 \textcolor{comment}{  * @retval None}
+00745 \textcolor{comment}{  */}
+00746 \textcolor{keywordtype}{void} TIM_OC2Init(TIM\_TypeDef* TIMx, TIM\_OCInitTypeDef* TIM\_OCInitStruct)
+00747 \{
+00748   uint16\_t tmpccmrx = 0, tmpccer = 0, tmpcr2 = 0;
+00749 
+00750   \textcolor{comment}{/* Check the parameters */}
+00751   assert_param(IS\_TIM\_LIST2\_PERIPH(TIMx));
+00752   assert_param(IS\_TIM\_OC\_MODE(TIM\_OCInitStruct->TIM\_OCMode));
+00753   assert_param(IS\_TIM\_OUTPUT\_STATE(TIM\_OCInitStruct->TIM\_OutputState));
+00754   assert_param(IS\_TIM\_OC\_POLARITY(TIM\_OCInitStruct->TIM\_OCPolarity));
+00755 
+00756   \textcolor{comment}{/* Disable the Channel 2: Reset the CC2E Bit */}
+00757   TIMx->CCER &= (uint16\_t)~TIM_CCER_CC2E;
+00758 
+00759   \textcolor{comment}{/* Get the TIMx CCER register value */}
+00760   tmpccer = TIMx->CCER;
+00761   \textcolor{comment}{/* Get the TIMx CR2 register value */}
+00762   tmpcr2 =  TIMx->CR2;
+00763 
+00764   \textcolor{comment}{/* Get the TIMx CCMR1 register value */}
+00765   tmpccmrx = TIMx->CCMR1;
+00766 
+00767   \textcolor{comment}{/* Reset the Output Compare mode and Capture/Compare selection Bits */}
+00768   tmpccmrx &= (uint16\_t)~TIM_CCMR1_OC2M;
+00769   tmpccmrx &= (uint16\_t)~TIM_CCMR1_CC2S;
+00770 
+00771   \textcolor{comment}{/* Select the Output Compare Mode */}
+00772   tmpccmrx |= (uint16\_t)(TIM\_OCInitStruct->TIM_OCMode << 8);
+00773 
+00774   \textcolor{comment}{/* Reset the Output Polarity level */}
+00775   tmpccer &= (uint16\_t)~TIM_CCER_CC2P;
+00776   \textcolor{comment}{/* Set the Output Compare Polarity */}
+00777   tmpccer |= (uint16\_t)(TIM\_OCInitStruct->TIM_OCPolarity << 4);
+00778 
+00779   \textcolor{comment}{/* Set the Output State */}
+00780   tmpccer |= (uint16\_t)(TIM\_OCInitStruct->TIM_OutputState << 4);
+00781 
+00782   \textcolor{keywordflow}{if}((TIMx == TIM1) || (TIMx == TIM8))
+00783   \{
+00784     assert_param(IS\_TIM\_OUTPUTN\_STATE(TIM\_OCInitStruct->TIM\_OutputNState));
+00785     assert_param(IS\_TIM\_OCN\_POLARITY(TIM\_OCInitStruct->TIM\_OCNPolarity));
+00786     assert_param(IS\_TIM\_OCNIDLE\_STATE(TIM\_OCInitStruct->TIM\_OCNIdleState));
+00787     assert_param(IS\_TIM\_OCIDLE\_STATE(TIM\_OCInitStruct->TIM\_OCIdleState));
+00788 
+00789     \textcolor{comment}{/* Reset the Output N Polarity level */}
+00790     tmpccer &= (uint16\_t)~TIM_CCER_CC2NP;
+00791     \textcolor{comment}{/* Set the Output N Polarity */}
+00792     tmpccer |= (uint16\_t)(TIM\_OCInitStruct->TIM_OCNPolarity << 4);
+00793     \textcolor{comment}{/* Reset the Output N State */}
+00794     tmpccer &= (uint16\_t)~TIM_CCER_CC2NE;
+00795 
+00796     \textcolor{comment}{/* Set the Output N State */}
+00797     tmpccer |= (uint16\_t)(TIM\_OCInitStruct->TIM_OutputNState << 4);
+00798     \textcolor{comment}{/* Reset the Output Compare and Output Compare N IDLE State */}
+00799     tmpcr2 &= (uint16\_t)~TIM_CR2_OIS2;
+00800     tmpcr2 &= (uint16\_t)~TIM_CR2_OIS2N;
+00801     \textcolor{comment}{/* Set the Output Idle state */}
+00802     tmpcr2 |= (uint16\_t)(TIM\_OCInitStruct->TIM_OCIdleState << 2);
+00803     \textcolor{comment}{/* Set the Output N Idle state */}
+00804     tmpcr2 |= (uint16\_t)(TIM\_OCInitStruct->TIM_OCNIdleState << 2);
+00805   \}
+00806   \textcolor{comment}{/* Write to TIMx CR2 */}
+00807   TIMx->CR2 = tmpcr2;
+00808 
+00809   \textcolor{comment}{/* Write to TIMx CCMR1 */}
+00810   TIMx->CCMR1 = tmpccmrx;
+00811 
+00812   \textcolor{comment}{/* Set the Capture Compare Register value */}
+00813   TIMx->CCR2 = TIM\_OCInitStruct->TIM\_Pulse;
+00814 
+00815   \textcolor{comment}{/* Write to TIMx CCER */}
+00816   TIMx->CCER = tmpccer;
+00817 \}
+00818 
+00819 \textcolor{comment}{/**}
+00820 \textcolor{comment}{  * @brief  Initializes the TIMx Channel3 according to the specified parameters}
+00821 \textcolor{comment}{  *         in the TIM\_OCInitStruct.}
+00822 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+00823 \textcolor{comment}{  * @param  TIM\_OCInitStruct: pointer to a TIM\_OCInitTypeDef structure that contains}
+00824 \textcolor{comment}{  *         the configuration information for the specified TIM peripheral.}
+00825 \textcolor{comment}{  * @retval None}
+00826 \textcolor{comment}{  */}
+00827 \textcolor{keywordtype}{void} TIM_OC3Init(TIM\_TypeDef* TIMx, TIM\_OCInitTypeDef* TIM\_OCInitStruct)
+00828 \{
+00829   uint16\_t tmpccmrx = 0, tmpccer = 0, tmpcr2 = 0;
+00830 
+00831   \textcolor{comment}{/* Check the parameters */}
+00832   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+00833   assert_param(IS\_TIM\_OC\_MODE(TIM\_OCInitStruct->TIM\_OCMode));
+00834   assert_param(IS\_TIM\_OUTPUT\_STATE(TIM\_OCInitStruct->TIM\_OutputState));
+00835   assert_param(IS\_TIM\_OC\_POLARITY(TIM\_OCInitStruct->TIM\_OCPolarity));
+00836 
+00837   \textcolor{comment}{/* Disable the Channel 3: Reset the CC2E Bit */}
+00838   TIMx->CCER &= (uint16\_t)~TIM_CCER_CC3E;
+00839 
+00840   \textcolor{comment}{/* Get the TIMx CCER register value */}
+00841   tmpccer = TIMx->CCER;
+00842   \textcolor{comment}{/* Get the TIMx CR2 register value */}
+00843   tmpcr2 =  TIMx->CR2;
+00844 
+00845   \textcolor{comment}{/* Get the TIMx CCMR2 register value */}
+00846   tmpccmrx = TIMx->CCMR2;
+00847 
+00848   \textcolor{comment}{/* Reset the Output Compare mode and Capture/Compare selection Bits */}
+00849   tmpccmrx &= (uint16\_t)~TIM_CCMR2_OC3M;
+00850   tmpccmrx &= (uint16\_t)~TIM_CCMR2_CC3S;
+00851   \textcolor{comment}{/* Select the Output Compare Mode */}
+00852   tmpccmrx |= TIM\_OCInitStruct->TIM_OCMode;
+00853 
+00854   \textcolor{comment}{/* Reset the Output Polarity level */}
+00855   tmpccer &= (uint16\_t)~TIM_CCER_CC3P;
+00856   \textcolor{comment}{/* Set the Output Compare Polarity */}
+00857   tmpccer |= (uint16\_t)(TIM\_OCInitStruct->TIM_OCPolarity << 8);
+00858 
+00859   \textcolor{comment}{/* Set the Output State */}
+00860   tmpccer |= (uint16\_t)(TIM\_OCInitStruct->TIM_OutputState << 8);
+00861 
+00862   \textcolor{keywordflow}{if}((TIMx == TIM1) || (TIMx == TIM8))
+00863   \{
+00864     assert_param(IS\_TIM\_OUTPUTN\_STATE(TIM\_OCInitStruct->TIM\_OutputNState));
+00865     assert_param(IS\_TIM\_OCN\_POLARITY(TIM\_OCInitStruct->TIM\_OCNPolarity));
+00866     assert_param(IS\_TIM\_OCNIDLE\_STATE(TIM\_OCInitStruct->TIM\_OCNIdleState));
+00867     assert_param(IS\_TIM\_OCIDLE\_STATE(TIM\_OCInitStruct->TIM\_OCIdleState));
+00868 
+00869     \textcolor{comment}{/* Reset the Output N Polarity level */}
+00870     tmpccer &= (uint16\_t)~TIM_CCER_CC3NP;
+00871     \textcolor{comment}{/* Set the Output N Polarity */}
+00872     tmpccer |= (uint16\_t)(TIM\_OCInitStruct->TIM_OCNPolarity << 8);
+00873     \textcolor{comment}{/* Reset the Output N State */}
+00874     tmpccer &= (uint16\_t)~TIM_CCER_CC3NE;
+00875 
+00876     \textcolor{comment}{/* Set the Output N State */}
+00877     tmpccer |= (uint16\_t)(TIM\_OCInitStruct->TIM_OutputNState << 8);
+00878     \textcolor{comment}{/* Reset the Output Compare and Output Compare N IDLE State */}
+00879     tmpcr2 &= (uint16\_t)~TIM_CR2_OIS3;
+00880     tmpcr2 &= (uint16\_t)~TIM_CR2_OIS3N;
+00881     \textcolor{comment}{/* Set the Output Idle state */}
+00882     tmpcr2 |= (uint16\_t)(TIM\_OCInitStruct->TIM_OCIdleState << 4);
+00883     \textcolor{comment}{/* Set the Output N Idle state */}
+00884     tmpcr2 |= (uint16\_t)(TIM\_OCInitStruct->TIM_OCNIdleState << 4);
+00885   \}
+00886   \textcolor{comment}{/* Write to TIMx CR2 */}
+00887   TIMx->CR2 = tmpcr2;
+00888 
+00889   \textcolor{comment}{/* Write to TIMx CCMR2 */}
+00890   TIMx->CCMR2 = tmpccmrx;
+00891 
+00892   \textcolor{comment}{/* Set the Capture Compare Register value */}
+00893   TIMx->CCR3 = TIM\_OCInitStruct->TIM\_Pulse;
+00894 
+00895   \textcolor{comment}{/* Write to TIMx CCER */}
+00896   TIMx->CCER = tmpccer;
+00897 \}
+00898 
+00899 \textcolor{comment}{/**}
+00900 \textcolor{comment}{  * @brief  Initializes the TIMx Channel4 according to the specified parameters}
+00901 \textcolor{comment}{  *         in the TIM\_OCInitStruct.}
+00902 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+00903 \textcolor{comment}{  * @param  TIM\_OCInitStruct: pointer to a TIM\_OCInitTypeDef structure that contains}
+00904 \textcolor{comment}{  *         the configuration information for the specified TIM peripheral.}
+00905 \textcolor{comment}{  * @retval None}
+00906 \textcolor{comment}{  */}
+00907 \textcolor{keywordtype}{void} TIM_OC4Init(TIM\_TypeDef* TIMx, TIM\_OCInitTypeDef* TIM\_OCInitStruct)
+00908 \{
+00909   uint16\_t tmpccmrx = 0, tmpccer = 0, tmpcr2 = 0;
+00910 
+00911   \textcolor{comment}{/* Check the parameters */}
+00912   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+00913   assert_param(IS\_TIM\_OC\_MODE(TIM\_OCInitStruct->TIM\_OCMode));
+00914   assert_param(IS\_TIM\_OUTPUT\_STATE(TIM\_OCInitStruct->TIM\_OutputState));
+00915   assert_param(IS\_TIM\_OC\_POLARITY(TIM\_OCInitStruct->TIM\_OCPolarity));
+00916 
+00917   \textcolor{comment}{/* Disable the Channel 4: Reset the CC4E Bit */}
+00918   TIMx->CCER &= (uint16\_t)~TIM_CCER_CC4E;
+00919 
+00920   \textcolor{comment}{/* Get the TIMx CCER register value */}
+00921   tmpccer = TIMx->CCER;
+00922   \textcolor{comment}{/* Get the TIMx CR2 register value */}
+00923   tmpcr2 =  TIMx->CR2;
+00924 
+00925   \textcolor{comment}{/* Get the TIMx CCMR2 register value */}
+00926   tmpccmrx = TIMx->CCMR2;
+00927 
+00928   \textcolor{comment}{/* Reset the Output Compare mode and Capture/Compare selection Bits */}
+00929   tmpccmrx &= (uint16\_t)~TIM_CCMR2_OC4M;
+00930   tmpccmrx &= (uint16\_t)~TIM_CCMR2_CC4S;
+00931 
+00932   \textcolor{comment}{/* Select the Output Compare Mode */}
+00933   tmpccmrx |= (uint16\_t)(TIM\_OCInitStruct->TIM_OCMode << 8);
+00934 
+00935   \textcolor{comment}{/* Reset the Output Polarity level */}
+00936   tmpccer &= (uint16\_t)~TIM_CCER_CC4P;
+00937   \textcolor{comment}{/* Set the Output Compare Polarity */}
+00938   tmpccer |= (uint16\_t)(TIM\_OCInitStruct->TIM_OCPolarity << 12);
+00939 
+00940   \textcolor{comment}{/* Set the Output State */}
+00941   tmpccer |= (uint16\_t)(TIM\_OCInitStruct->TIM_OutputState << 12);
+00942 
+00943   \textcolor{keywordflow}{if}((TIMx == TIM1) || (TIMx == TIM8))
+00944   \{
+00945     assert_param(IS\_TIM\_OCIDLE\_STATE(TIM\_OCInitStruct->TIM\_OCIdleState));
+00946     \textcolor{comment}{/* Reset the Output Compare IDLE State */}
+00947     tmpcr2 &=(uint16\_t) ~TIM_CR2_OIS4;
+00948     \textcolor{comment}{/* Set the Output Idle state */}
+00949     tmpcr2 |= (uint16\_t)(TIM\_OCInitStruct->TIM_OCIdleState << 6);
+00950   \}
+00951   \textcolor{comment}{/* Write to TIMx CR2 */}
+00952   TIMx->CR2 = tmpcr2;
+00953 
+00954   \textcolor{comment}{/* Write to TIMx CCMR2 */}
+00955   TIMx->CCMR2 = tmpccmrx;
+00956 
+00957   \textcolor{comment}{/* Set the Capture Compare Register value */}
+00958   TIMx->CCR4 = TIM\_OCInitStruct->TIM\_Pulse;
+00959 
+00960   \textcolor{comment}{/* Write to TIMx CCER */}
+00961   TIMx->CCER = tmpccer;
+00962 \}
+00963 
+00964 \textcolor{comment}{/**}
+00965 \textcolor{comment}{  * @brief  Fills each TIM\_OCInitStruct member with its default value.}
+00966 \textcolor{comment}{  * @param  TIM\_OCInitStruct: pointer to a TIM\_OCInitTypeDef structure which will}
+00967 \textcolor{comment}{  *         be initialized.}
+00968 \textcolor{comment}{  * @retval None}
+00969 \textcolor{comment}{  */}
+00970 \textcolor{keywordtype}{void} TIM_OCStructInit(TIM\_OCInitTypeDef* TIM\_OCInitStruct)
+00971 \{
+00972   \textcolor{comment}{/* Set the default configuration */}
+00973   TIM\_OCInitStruct->TIM_OCMode = TIM_OCMode_Timing;
+00974   TIM\_OCInitStruct->TIM_OutputState = TIM_OutputState_Disable;
+00975   TIM\_OCInitStruct->TIM_OutputNState = TIM_OutputNState_Disable;
+00976   TIM\_OCInitStruct->TIM_Pulse = 0x00000000;
+00977   TIM\_OCInitStruct->TIM_OCPolarity = TIM_OCPolarity_High;
+00978   TIM\_OCInitStruct->TIM_OCNPolarity = TIM_OCPolarity_High;
+00979   TIM\_OCInitStruct->TIM_OCIdleState = TIM_OCIdleState_Reset;
+00980   TIM\_OCInitStruct->TIM_OCNIdleState = TIM_OCNIdleState_Reset;
+00981 \}
+00982 
+00983 \textcolor{comment}{/**}
+00984 \textcolor{comment}{  * @brief  Selects the TIM Output Compare Mode.}
+00985 \textcolor{comment}{  * @note   This function disables the selected channel before changing the Output}
+00986 \textcolor{comment}{  *         Compare Mode. If needed, user has to enable this channel using}
+00987 \textcolor{comment}{  *         TIM\_CCxCmd() and TIM\_CCxNCmd() functions.}
+00988 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 except 6 and 7, to select the TIM peripheral.}
+00989 \textcolor{comment}{  * @param  TIM\_Channel: specifies the TIM Channel}
+00990 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00991 \textcolor{comment}{  *            @arg TIM\_Channel\_1: TIM Channel 1}
+00992 \textcolor{comment}{  *            @arg TIM\_Channel\_2: TIM Channel 2}
+00993 \textcolor{comment}{  *            @arg TIM\_Channel\_3: TIM Channel 3}
+00994 \textcolor{comment}{  *            @arg TIM\_Channel\_4: TIM Channel 4}
+00995 \textcolor{comment}{  * @param  TIM\_OCMode: specifies the TIM Output Compare Mode.}
+00996 \textcolor{comment}{  *           This parameter can be one of the following values:}
+00997 \textcolor{comment}{  *            @arg TIM\_OCMode\_Timing}
+00998 \textcolor{comment}{  *            @arg TIM\_OCMode\_Active}
+00999 \textcolor{comment}{  *            @arg TIM\_OCMode\_Toggle}
+01000 \textcolor{comment}{  *            @arg TIM\_OCMode\_PWM1}
+01001 \textcolor{comment}{  *            @arg TIM\_OCMode\_PWM2}
+01002 \textcolor{comment}{  *            @arg TIM\_ForcedAction\_Active}
+01003 \textcolor{comment}{  *            @arg TIM\_ForcedAction\_InActive}
+01004 \textcolor{comment}{  * @retval None}
+01005 \textcolor{comment}{  */}
+01006 \textcolor{keywordtype}{void} TIM_SelectOCxM(TIM\_TypeDef* TIMx, uint16\_t TIM\_Channel, uint16\_t TIM\_OCMode)
+01007 \{
+01008   uint32\_t tmp = 0;
+01009   uint16\_t tmp1 = 0;
+01010 
+01011   \textcolor{comment}{/* Check the parameters */}
+01012   assert_param(IS\_TIM\_LIST1\_PERIPH(TIMx));
+01013   assert_param(IS\_TIM\_CHANNEL(TIM\_Channel));
+01014   assert_param(IS\_TIM\_OCM(TIM\_OCMode));
+01015 
+01016   tmp = (uint32\_t) TIMx;
+01017   tmp += CCMR_OFFSET;
+01018 
+01019   tmp1 = CCER_CCE_SET << (uint16\_t)TIM\_Channel;
+01020 
+01021   \textcolor{comment}{/* Disable the Channel: Reset the CCxE Bit */}
+01022   TIMx->CCER &= (uint16\_t) ~tmp1;
+01023 
+01024   \textcolor{keywordflow}{if}((TIM\_Channel == TIM_Channel_1) ||(TIM\_Channel == TIM_Channel_3))
+01025   \{
+01026     tmp += (TIM\_Channel>>1);
+01027 
+01028     \textcolor{comment}{/* Reset the OCxM bits in the CCMRx register */}
+01029     *(\_\_IO uint32\_t *) tmp &= CCMR_OC13M_MASK;
+01030 
+01031     \textcolor{comment}{/* Configure the OCxM bits in the CCMRx register */}
+01032     *(\_\_IO uint32\_t *) tmp |= TIM\_OCMode;
+01033   \}
+01034   \textcolor{keywordflow}{else}
+01035   \{
+01036     tmp += (uint16\_t)(TIM\_Channel - (uint16\_t)4)>> (uint16\_t)1;
+01037 
+01038     \textcolor{comment}{/* Reset the OCxM bits in the CCMRx register */}
+01039     *(\_\_IO uint32\_t *) tmp &= CCMR_OC24M_MASK;
+01040 
+01041     \textcolor{comment}{/* Configure the OCxM bits in the CCMRx register */}
+01042     *(\_\_IO uint32\_t *) tmp |= (uint16\_t)(TIM\_OCMode << 8);
+01043   \}
+01044 \}
+01045 
+01046 \textcolor{comment}{/**}
+01047 \textcolor{comment}{  * @brief  Sets the TIMx Capture Compare1 Register value}
+01048 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 except 6 and 7, to select the TIM peripheral.}
+01049 \textcolor{comment}{  * @param  Compare1: specifies the Capture Compare1 register new value.}
+01050 \textcolor{comment}{  * @retval None}
+01051 \textcolor{comment}{  */}
+01052 \textcolor{keywordtype}{void} TIM_SetCompare1(TIM\_TypeDef* TIMx, uint32\_t Compare1)
+01053 \{
+01054   \textcolor{comment}{/* Check the parameters */}
+01055   assert_param(IS\_TIM\_LIST1\_PERIPH(TIMx));
+01056 
+01057   \textcolor{comment}{/* Set the Capture Compare1 Register value */}
+01058   TIMx->CCR1 = Compare1;
+01059 \}
+01060 
+01061 \textcolor{comment}{/**}
+01062 \textcolor{comment}{  * @brief  Sets the TIMx Capture Compare2 Register value}
+01063 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5, 8, 9 or 12 to select the TIM }
+01064 \textcolor{comment}{  *         peripheral.}
+01065 \textcolor{comment}{  * @param  Compare2: specifies the Capture Compare2 register new value.}
+01066 \textcolor{comment}{  * @retval None}
+01067 \textcolor{comment}{  */}
+01068 \textcolor{keywordtype}{void} TIM_SetCompare2(TIM\_TypeDef* TIMx, uint32\_t Compare2)
+01069 \{
+01070   \textcolor{comment}{/* Check the parameters */}
+01071   assert_param(IS\_TIM\_LIST2\_PERIPH(TIMx));
+01072 
+01073   \textcolor{comment}{/* Set the Capture Compare2 Register value */}
+01074   TIMx->CCR2 = Compare2;
+01075 \}
+01076 
+01077 \textcolor{comment}{/**}
+01078 \textcolor{comment}{  * @brief  Sets the TIMx Capture Compare3 Register value}
+01079 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+01080 \textcolor{comment}{  * @param  Compare3: specifies the Capture Compare3 register new value.}
+01081 \textcolor{comment}{  * @retval None}
+01082 \textcolor{comment}{  */}
+01083 \textcolor{keywordtype}{void} TIM_SetCompare3(TIM\_TypeDef* TIMx, uint32\_t Compare3)
+01084 \{
+01085   \textcolor{comment}{/* Check the parameters */}
+01086   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+01087 
+01088   \textcolor{comment}{/* Set the Capture Compare3 Register value */}
+01089   TIMx->CCR3 = Compare3;
+01090 \}
+01091 
+01092 \textcolor{comment}{/**}
+01093 \textcolor{comment}{  * @brief  Sets the TIMx Capture Compare4 Register value}
+01094 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+01095 \textcolor{comment}{  * @param  Compare4: specifies the Capture Compare4 register new value.}
+01096 \textcolor{comment}{  * @retval None}
+01097 \textcolor{comment}{  */}
+01098 \textcolor{keywordtype}{void} TIM_SetCompare4(TIM\_TypeDef* TIMx, uint32\_t Compare4)
+01099 \{
+01100   \textcolor{comment}{/* Check the parameters */}
+01101   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+01102 
+01103   \textcolor{comment}{/* Set the Capture Compare4 Register value */}
+01104   TIMx->CCR4 = Compare4;
+01105 \}
+01106 
+01107 \textcolor{comment}{/**}
+01108 \textcolor{comment}{  * @brief  Forces the TIMx output 1 waveform to active or inactive level.}
+01109 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 except 6 and 7, to select the TIM peripheral.}
+01110 \textcolor{comment}{  * @param  TIM\_ForcedAction: specifies the forced Action to be set to the output waveform.}
+01111 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01112 \textcolor{comment}{  *            @arg TIM\_ForcedAction\_Active: Force active level on OC1REF}
+01113 \textcolor{comment}{  *            @arg TIM\_ForcedAction\_InActive: Force inactive level on OC1REF.}
+01114 \textcolor{comment}{  * @retval None}
+01115 \textcolor{comment}{  */}
+01116 \textcolor{keywordtype}{void} TIM_ForcedOC1Config(TIM\_TypeDef* TIMx, uint16\_t TIM\_ForcedAction)
+01117 \{
+01118   uint16\_t tmpccmr1 = 0;
+01119 
+01120   \textcolor{comment}{/* Check the parameters */}
+01121   assert_param(IS\_TIM\_LIST1\_PERIPH(TIMx));
+01122   assert_param(IS\_TIM\_FORCED\_ACTION(TIM\_ForcedAction));
+01123   tmpccmr1 = TIMx->CCMR1;
+01124 
+01125   \textcolor{comment}{/* Reset the OC1M Bits */}
+01126   tmpccmr1 &= (uint16\_t)~TIM_CCMR1_OC1M;
+01127 
+01128   \textcolor{comment}{/* Configure The Forced output Mode */}
+01129   tmpccmr1 |= TIM\_ForcedAction;
+01130 
+01131   \textcolor{comment}{/* Write to TIMx CCMR1 register */}
+01132   TIMx->CCMR1 = tmpccmr1;
+01133 \}
+01134 
+01135 \textcolor{comment}{/**}
+01136 \textcolor{comment}{  * @brief  Forces the TIMx output 2 waveform to active or inactive level.}
+01137 \textcolor{comment}{  * @param  TIMx: where x can be  1, 2, 3, 4, 5, 8, 9 or 12 to select the TIM }
+01138 \textcolor{comment}{  *         peripheral.}
+01139 \textcolor{comment}{  * @param  TIM\_ForcedAction: specifies the forced Action to be set to the output waveform.}
+01140 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01141 \textcolor{comment}{  *            @arg TIM\_ForcedAction\_Active: Force active level on OC2REF}
+01142 \textcolor{comment}{  *            @arg TIM\_ForcedAction\_InActive: Force inactive level on OC2REF.}
+01143 \textcolor{comment}{  * @retval None}
+01144 \textcolor{comment}{  */}
+01145 \textcolor{keywordtype}{void} TIM_ForcedOC2Config(TIM\_TypeDef* TIMx, uint16\_t TIM\_ForcedAction)
+01146 \{
+01147   uint16\_t tmpccmr1 = 0;
+01148 
+01149   \textcolor{comment}{/* Check the parameters */}
+01150   assert_param(IS\_TIM\_LIST2\_PERIPH(TIMx));
+01151   assert_param(IS\_TIM\_FORCED\_ACTION(TIM\_ForcedAction));
+01152   tmpccmr1 = TIMx->CCMR1;
+01153 
+01154   \textcolor{comment}{/* Reset the OC2M Bits */}
+01155   tmpccmr1 &= (uint16\_t)~TIM_CCMR1_OC2M;
+01156 
+01157   \textcolor{comment}{/* Configure The Forced output Mode */}
+01158   tmpccmr1 |= (uint16\_t)(TIM\_ForcedAction << 8);
+01159 
+01160   \textcolor{comment}{/* Write to TIMx CCMR1 register */}
+01161   TIMx->CCMR1 = tmpccmr1;
+01162 \}
+01163 
+01164 \textcolor{comment}{/**}
+01165 \textcolor{comment}{  * @brief  Forces the TIMx output 3 waveform to active or inactive level.}
+01166 \textcolor{comment}{  * @param  TIMx: where x can be  1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+01167 \textcolor{comment}{  * @param  TIM\_ForcedAction: specifies the forced Action to be set to the output waveform.}
+01168 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01169 \textcolor{comment}{  *            @arg TIM\_ForcedAction\_Active: Force active level on OC3REF}
+01170 \textcolor{comment}{  *            @arg TIM\_ForcedAction\_InActive: Force inactive level on OC3REF.}
+01171 \textcolor{comment}{  * @retval None}
+01172 \textcolor{comment}{  */}
+01173 \textcolor{keywordtype}{void} TIM_ForcedOC3Config(TIM\_TypeDef* TIMx, uint16\_t TIM\_ForcedAction)
+01174 \{
+01175   uint16\_t tmpccmr2 = 0;
+01176 
+01177   \textcolor{comment}{/* Check the parameters */}
+01178   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+01179   assert_param(IS\_TIM\_FORCED\_ACTION(TIM\_ForcedAction));
+01180 
+01181   tmpccmr2 = TIMx->CCMR2;
+01182 
+01183   \textcolor{comment}{/* Reset the OC1M Bits */}
+01184   tmpccmr2 &= (uint16\_t)~TIM_CCMR2_OC3M;
+01185 
+01186   \textcolor{comment}{/* Configure The Forced output Mode */}
+01187   tmpccmr2 |= TIM\_ForcedAction;
+01188 
+01189   \textcolor{comment}{/* Write to TIMx CCMR2 register */}
+01190   TIMx->CCMR2 = tmpccmr2;
+01191 \}
+01192 
+01193 \textcolor{comment}{/**}
+01194 \textcolor{comment}{  * @brief  Forces the TIMx output 4 waveform to active or inactive level.}
+01195 \textcolor{comment}{  * @param  TIMx: where x can be  1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+01196 \textcolor{comment}{  * @param  TIM\_ForcedAction: specifies the forced Action to be set to the output waveform.}
+01197 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01198 \textcolor{comment}{  *            @arg TIM\_ForcedAction\_Active: Force active level on OC4REF}
+01199 \textcolor{comment}{  *            @arg TIM\_ForcedAction\_InActive: Force inactive level on OC4REF.}
+01200 \textcolor{comment}{  * @retval None}
+01201 \textcolor{comment}{  */}
+01202 \textcolor{keywordtype}{void} TIM_ForcedOC4Config(TIM\_TypeDef* TIMx, uint16\_t TIM\_ForcedAction)
+01203 \{
+01204   uint16\_t tmpccmr2 = 0;
+01205 
+01206   \textcolor{comment}{/* Check the parameters */}
+01207   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+01208   assert_param(IS\_TIM\_FORCED\_ACTION(TIM\_ForcedAction));
+01209   tmpccmr2 = TIMx->CCMR2;
+01210 
+01211   \textcolor{comment}{/* Reset the OC2M Bits */}
+01212   tmpccmr2 &= (uint16\_t)~TIM_CCMR2_OC4M;
+01213 
+01214   \textcolor{comment}{/* Configure The Forced output Mode */}
+01215   tmpccmr2 |= (uint16\_t)(TIM\_ForcedAction << 8);
+01216 
+01217   \textcolor{comment}{/* Write to TIMx CCMR2 register */}
+01218   TIMx->CCMR2 = tmpccmr2;
+01219 \}
+01220 
+01221 \textcolor{comment}{/**}
+01222 \textcolor{comment}{  * @brief  Enables or disables the TIMx peripheral Preload register on CCR1.}
+01223 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 except 6 and 7, to select the TIM peripheral.}
+01224 \textcolor{comment}{  * @param  TIM\_OCPreload: new state of the TIMx peripheral Preload register}
+01225 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01226 \textcolor{comment}{  *            @arg TIM\_OCPreload\_Enable}
+01227 \textcolor{comment}{  *            @arg TIM\_OCPreload\_Disable}
+01228 \textcolor{comment}{  * @retval None}
+01229 \textcolor{comment}{  */}
+01230 \textcolor{keywordtype}{void} TIM_OC1PreloadConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCPreload)
+01231 \{
+01232   uint16\_t tmpccmr1 = 0;
+01233 
+01234   \textcolor{comment}{/* Check the parameters */}
+01235   assert_param(IS\_TIM\_LIST1\_PERIPH(TIMx));
+01236   assert_param(IS\_TIM\_OCPRELOAD\_STATE(TIM\_OCPreload));
+01237 
+01238   tmpccmr1 = TIMx->CCMR1;
+01239 
+01240   \textcolor{comment}{/* Reset the OC1PE Bit */}
+01241   tmpccmr1 &= (uint16\_t)(~TIM_CCMR1_OC1PE);
+01242 
+01243   \textcolor{comment}{/* Enable or Disable the Output Compare Preload feature */}
+01244   tmpccmr1 |= TIM\_OCPreload;
+01245 
+01246   \textcolor{comment}{/* Write to TIMx CCMR1 register */}
+01247   TIMx->CCMR1 = tmpccmr1;
+01248 \}
+01249 
+01250 \textcolor{comment}{/**}
+01251 \textcolor{comment}{  * @brief  Enables or disables the TIMx peripheral Preload register on CCR2.}
+01252 \textcolor{comment}{  * @param  TIMx: where x can be  1, 2, 3, 4, 5, 8, 9 or 12 to select the TIM }
+01253 \textcolor{comment}{  *         peripheral.}
+01254 \textcolor{comment}{  * @param  TIM\_OCPreload: new state of the TIMx peripheral Preload register}
+01255 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01256 \textcolor{comment}{  *            @arg TIM\_OCPreload\_Enable}
+01257 \textcolor{comment}{  *            @arg TIM\_OCPreload\_Disable}
+01258 \textcolor{comment}{  * @retval None}
+01259 \textcolor{comment}{  */}
+01260 \textcolor{keywordtype}{void} TIM_OC2PreloadConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCPreload)
+01261 \{
+01262   uint16\_t tmpccmr1 = 0;
+01263 
+01264   \textcolor{comment}{/* Check the parameters */}
+01265   assert_param(IS\_TIM\_LIST2\_PERIPH(TIMx));
+01266   assert_param(IS\_TIM\_OCPRELOAD\_STATE(TIM\_OCPreload));
+01267 
+01268   tmpccmr1 = TIMx->CCMR1;
+01269 
+01270   \textcolor{comment}{/* Reset the OC2PE Bit */}
+01271   tmpccmr1 &= (uint16\_t)(~TIM_CCMR1_OC2PE);
+01272 
+01273   \textcolor{comment}{/* Enable or Disable the Output Compare Preload feature */}
+01274   tmpccmr1 |= (uint16\_t)(TIM\_OCPreload << 8);
+01275 
+01276   \textcolor{comment}{/* Write to TIMx CCMR1 register */}
+01277   TIMx->CCMR1 = tmpccmr1;
+01278 \}
+01279 
+01280 \textcolor{comment}{/**}
+01281 \textcolor{comment}{  * @brief  Enables or disables the TIMx peripheral Preload register on CCR3.}
+01282 \textcolor{comment}{  * @param  TIMx: where x can be  1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+01283 \textcolor{comment}{  * @param  TIM\_OCPreload: new state of the TIMx peripheral Preload register}
+01284 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01285 \textcolor{comment}{  *            @arg TIM\_OCPreload\_Enable}
+01286 \textcolor{comment}{  *            @arg TIM\_OCPreload\_Disable}
+01287 \textcolor{comment}{  * @retval None}
+01288 \textcolor{comment}{  */}
+01289 \textcolor{keywordtype}{void} TIM_OC3PreloadConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCPreload)
+01290 \{
+01291   uint16\_t tmpccmr2 = 0;
+01292 
+01293   \textcolor{comment}{/* Check the parameters */}
+01294   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+01295   assert_param(IS\_TIM\_OCPRELOAD\_STATE(TIM\_OCPreload));
+01296 
+01297   tmpccmr2 = TIMx->CCMR2;
+01298 
+01299   \textcolor{comment}{/* Reset the OC3PE Bit */}
+01300   tmpccmr2 &= (uint16\_t)(~TIM_CCMR2_OC3PE);
+01301 
+01302   \textcolor{comment}{/* Enable or Disable the Output Compare Preload feature */}
+01303   tmpccmr2 |= TIM\_OCPreload;
+01304 
+01305   \textcolor{comment}{/* Write to TIMx CCMR2 register */}
+01306   TIMx->CCMR2 = tmpccmr2;
+01307 \}
+01308 
+01309 \textcolor{comment}{/**}
+01310 \textcolor{comment}{  * @brief  Enables or disables the TIMx peripheral Preload register on CCR4.}
+01311 \textcolor{comment}{  * @param  TIMx: where x can be  1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+01312 \textcolor{comment}{  * @param  TIM\_OCPreload: new state of the TIMx peripheral Preload register}
+01313 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01314 \textcolor{comment}{  *            @arg TIM\_OCPreload\_Enable}
+01315 \textcolor{comment}{  *            @arg TIM\_OCPreload\_Disable}
+01316 \textcolor{comment}{  * @retval None}
+01317 \textcolor{comment}{  */}
+01318 \textcolor{keywordtype}{void} TIM_OC4PreloadConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCPreload)
+01319 \{
+01320   uint16\_t tmpccmr2 = 0;
+01321 
+01322   \textcolor{comment}{/* Check the parameters */}
+01323   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+01324   assert_param(IS\_TIM\_OCPRELOAD\_STATE(TIM\_OCPreload));
+01325 
+01326   tmpccmr2 = TIMx->CCMR2;
+01327 
+01328   \textcolor{comment}{/* Reset the OC4PE Bit */}
+01329   tmpccmr2 &= (uint16\_t)(~TIM_CCMR2_OC4PE);
+01330 
+01331   \textcolor{comment}{/* Enable or Disable the Output Compare Preload feature */}
+01332   tmpccmr2 |= (uint16\_t)(TIM\_OCPreload << 8);
+01333 
+01334   \textcolor{comment}{/* Write to TIMx CCMR2 register */}
+01335   TIMx->CCMR2 = tmpccmr2;
+01336 \}
+01337 
+01338 \textcolor{comment}{/**}
+01339 \textcolor{comment}{  * @brief  Configures the TIMx Output Compare 1 Fast feature.}
+01340 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 except 6 and 7, to select the TIM peripheral.}
+01341 \textcolor{comment}{  * @param  TIM\_OCFast: new state of the Output Compare Fast Enable Bit.}
+01342 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01343 \textcolor{comment}{  *            @arg TIM\_OCFast\_Enable: TIM output compare fast enable}
+01344 \textcolor{comment}{  *            @arg TIM\_OCFast\_Disable: TIM output compare fast disable}
+01345 \textcolor{comment}{  * @retval None}
+01346 \textcolor{comment}{  */}
+01347 \textcolor{keywordtype}{void} TIM_OC1FastConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCFast)
+01348 \{
+01349   uint16\_t tmpccmr1 = 0;
+01350 
+01351   \textcolor{comment}{/* Check the parameters */}
+01352   assert_param(IS\_TIM\_LIST1\_PERIPH(TIMx));
+01353   assert_param(IS\_TIM\_OCFAST\_STATE(TIM\_OCFast));
+01354 
+01355   \textcolor{comment}{/* Get the TIMx CCMR1 register value */}
+01356   tmpccmr1 = TIMx->CCMR1;
+01357 
+01358   \textcolor{comment}{/* Reset the OC1FE Bit */}
+01359   tmpccmr1 &= (uint16\_t)~TIM_CCMR1_OC1FE;
+01360 
+01361   \textcolor{comment}{/* Enable or Disable the Output Compare Fast Bit */}
+01362   tmpccmr1 |= TIM\_OCFast;
+01363 
+01364   \textcolor{comment}{/* Write to TIMx CCMR1 */}
+01365   TIMx->CCMR1 = tmpccmr1;
+01366 \}
+01367 
+01368 \textcolor{comment}{/**}
+01369 \textcolor{comment}{  * @brief  Configures the TIMx Output Compare 2 Fast feature.}
+01370 \textcolor{comment}{  * @param  TIMx: where x can be  1, 2, 3, 4, 5, 8, 9 or 12 to select the TIM }
+01371 \textcolor{comment}{  *         peripheral.}
+01372 \textcolor{comment}{  * @param  TIM\_OCFast: new state of the Output Compare Fast Enable Bit.}
+01373 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01374 \textcolor{comment}{  *            @arg TIM\_OCFast\_Enable: TIM output compare fast enable}
+01375 \textcolor{comment}{  *            @arg TIM\_OCFast\_Disable: TIM output compare fast disable}
+01376 \textcolor{comment}{  * @retval None}
+01377 \textcolor{comment}{  */}
+01378 \textcolor{keywordtype}{void} TIM_OC2FastConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCFast)
+01379 \{
+01380   uint16\_t tmpccmr1 = 0;
+01381 
+01382   \textcolor{comment}{/* Check the parameters */}
+01383   assert_param(IS\_TIM\_LIST2\_PERIPH(TIMx));
+01384   assert_param(IS\_TIM\_OCFAST\_STATE(TIM\_OCFast));
+01385 
+01386   \textcolor{comment}{/* Get the TIMx CCMR1 register value */}
+01387   tmpccmr1 = TIMx->CCMR1;
+01388 
+01389   \textcolor{comment}{/* Reset the OC2FE Bit */}
+01390   tmpccmr1 &= (uint16\_t)(~TIM_CCMR1_OC2FE);
+01391 
+01392   \textcolor{comment}{/* Enable or Disable the Output Compare Fast Bit */}
+01393   tmpccmr1 |= (uint16\_t)(TIM\_OCFast << 8);
+01394 
+01395   \textcolor{comment}{/* Write to TIMx CCMR1 */}
+01396   TIMx->CCMR1 = tmpccmr1;
+01397 \}
+01398 
+01399 \textcolor{comment}{/**}
+01400 \textcolor{comment}{  * @brief  Configures the TIMx Output Compare 3 Fast feature.}
+01401 \textcolor{comment}{  * @param  TIMx: where x can be  1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+01402 \textcolor{comment}{  * @param  TIM\_OCFast: new state of the Output Compare Fast Enable Bit.}
+01403 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01404 \textcolor{comment}{  *            @arg TIM\_OCFast\_Enable: TIM output compare fast enable}
+01405 \textcolor{comment}{  *            @arg TIM\_OCFast\_Disable: TIM output compare fast disable}
+01406 \textcolor{comment}{  * @retval None}
+01407 \textcolor{comment}{  */}
+01408 \textcolor{keywordtype}{void} TIM_OC3FastConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCFast)
+01409 \{
+01410   uint16\_t tmpccmr2 = 0;
+01411 
+01412   \textcolor{comment}{/* Check the parameters */}
+01413   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+01414   assert_param(IS\_TIM\_OCFAST\_STATE(TIM\_OCFast));
+01415 
+01416   \textcolor{comment}{/* Get the TIMx CCMR2 register value */}
+01417   tmpccmr2 = TIMx->CCMR2;
+01418 
+01419   \textcolor{comment}{/* Reset the OC3FE Bit */}
+01420   tmpccmr2 &= (uint16\_t)~TIM_CCMR2_OC3FE;
+01421 
+01422   \textcolor{comment}{/* Enable or Disable the Output Compare Fast Bit */}
+01423   tmpccmr2 |= TIM\_OCFast;
+01424 
+01425   \textcolor{comment}{/* Write to TIMx CCMR2 */}
+01426   TIMx->CCMR2 = tmpccmr2;
+01427 \}
+01428 
+01429 \textcolor{comment}{/**}
+01430 \textcolor{comment}{  * @brief  Configures the TIMx Output Compare 4 Fast feature.}
+01431 \textcolor{comment}{  * @param  TIMx: where x can be  1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+01432 \textcolor{comment}{  * @param  TIM\_OCFast: new state of the Output Compare Fast Enable Bit.}
+01433 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01434 \textcolor{comment}{  *            @arg TIM\_OCFast\_Enable: TIM output compare fast enable}
+01435 \textcolor{comment}{  *            @arg TIM\_OCFast\_Disable: TIM output compare fast disable}
+01436 \textcolor{comment}{  * @retval None}
+01437 \textcolor{comment}{  */}
+01438 \textcolor{keywordtype}{void} TIM_OC4FastConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCFast)
+01439 \{
+01440   uint16\_t tmpccmr2 = 0;
+01441 
+01442   \textcolor{comment}{/* Check the parameters */}
+01443   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+01444   assert_param(IS\_TIM\_OCFAST\_STATE(TIM\_OCFast));
+01445 
+01446   \textcolor{comment}{/* Get the TIMx CCMR2 register value */}
+01447   tmpccmr2 = TIMx->CCMR2;
+01448 
+01449   \textcolor{comment}{/* Reset the OC4FE Bit */}
+01450   tmpccmr2 &= (uint16\_t)(~TIM_CCMR2_OC4FE);
+01451 
+01452   \textcolor{comment}{/* Enable or Disable the Output Compare Fast Bit */}
+01453   tmpccmr2 |= (uint16\_t)(TIM\_OCFast << 8);
+01454 
+01455   \textcolor{comment}{/* Write to TIMx CCMR2 */}
+01456   TIMx->CCMR2 = tmpccmr2;
+01457 \}
+01458 
+01459 \textcolor{comment}{/**}
+01460 \textcolor{comment}{  * @brief  Clears or safeguards the OCREF1 signal on an external event}
+01461 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 except 6 and 7, to select the TIM peripheral.}
+01462 \textcolor{comment}{  * @param  TIM\_OCClear: new state of the Output Compare Clear Enable Bit.}
+01463 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01464 \textcolor{comment}{  *            @arg TIM\_OCClear\_Enable: TIM Output clear enable}
+01465 \textcolor{comment}{  *            @arg TIM\_OCClear\_Disable: TIM Output clear disable}
+01466 \textcolor{comment}{  * @retval None}
+01467 \textcolor{comment}{  */}
+01468 \textcolor{keywordtype}{void} TIM_ClearOC1Ref(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCClear)
+01469 \{
+01470   uint16\_t tmpccmr1 = 0;
+01471 
+01472   \textcolor{comment}{/* Check the parameters */}
+01473   assert_param(IS\_TIM\_LIST1\_PERIPH(TIMx));
+01474   assert_param(IS\_TIM\_OCCLEAR\_STATE(TIM\_OCClear));
+01475 
+01476   tmpccmr1 = TIMx->CCMR1;
+01477 
+01478   \textcolor{comment}{/* Reset the OC1CE Bit */}
+01479   tmpccmr1 &= (uint16\_t)~TIM_CCMR1_OC1CE;
+01480 
+01481   \textcolor{comment}{/* Enable or Disable the Output Compare Clear Bit */}
+01482   tmpccmr1 |= TIM\_OCClear;
+01483 
+01484   \textcolor{comment}{/* Write to TIMx CCMR1 register */}
+01485   TIMx->CCMR1 = tmpccmr1;
+01486 \}
+01487 
+01488 \textcolor{comment}{/**}
+01489 \textcolor{comment}{  * @brief  Clears or safeguards the OCREF2 signal on an external event}
+01490 \textcolor{comment}{  * @param  TIMx: where x can be  1, 2, 3, 4, 5, 8, 9 or 12 to select the TIM }
+01491 \textcolor{comment}{  *         peripheral.}
+01492 \textcolor{comment}{  * @param  TIM\_OCClear: new state of the Output Compare Clear Enable Bit.}
+01493 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01494 \textcolor{comment}{  *            @arg TIM\_OCClear\_Enable: TIM Output clear enable}
+01495 \textcolor{comment}{  *            @arg TIM\_OCClear\_Disable: TIM Output clear disable}
+01496 \textcolor{comment}{  * @retval None}
+01497 \textcolor{comment}{  */}
+01498 \textcolor{keywordtype}{void} TIM_ClearOC2Ref(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCClear)
+01499 \{
+01500   uint16\_t tmpccmr1 = 0;
+01501 
+01502   \textcolor{comment}{/* Check the parameters */}
+01503   assert_param(IS\_TIM\_LIST2\_PERIPH(TIMx));
+01504   assert_param(IS\_TIM\_OCCLEAR\_STATE(TIM\_OCClear));
+01505 
+01506   tmpccmr1 = TIMx->CCMR1;
+01507 
+01508   \textcolor{comment}{/* Reset the OC2CE Bit */}
+01509   tmpccmr1 &= (uint16\_t)~TIM_CCMR1_OC2CE;
+01510 
+01511   \textcolor{comment}{/* Enable or Disable the Output Compare Clear Bit */}
+01512   tmpccmr1 |= (uint16\_t)(TIM\_OCClear << 8);
+01513 
+01514   \textcolor{comment}{/* Write to TIMx CCMR1 register */}
+01515   TIMx->CCMR1 = tmpccmr1;
+01516 \}
+01517 
+01518 \textcolor{comment}{/**}
+01519 \textcolor{comment}{  * @brief  Clears or safeguards the OCREF3 signal on an external event}
+01520 \textcolor{comment}{  * @param  TIMx: where x can be  1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+01521 \textcolor{comment}{  * @param  TIM\_OCClear: new state of the Output Compare Clear Enable Bit.}
+01522 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01523 \textcolor{comment}{  *            @arg TIM\_OCClear\_Enable: TIM Output clear enable}
+01524 \textcolor{comment}{  *            @arg TIM\_OCClear\_Disable: TIM Output clear disable}
+01525 \textcolor{comment}{  * @retval None}
+01526 \textcolor{comment}{  */}
+01527 \textcolor{keywordtype}{void} TIM_ClearOC3Ref(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCClear)
+01528 \{
+01529   uint16\_t tmpccmr2 = 0;
+01530 
+01531   \textcolor{comment}{/* Check the parameters */}
+01532   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+01533   assert_param(IS\_TIM\_OCCLEAR\_STATE(TIM\_OCClear));
+01534 
+01535   tmpccmr2 = TIMx->CCMR2;
+01536 
+01537   \textcolor{comment}{/* Reset the OC3CE Bit */}
+01538   tmpccmr2 &= (uint16\_t)~TIM_CCMR2_OC3CE;
+01539 
+01540   \textcolor{comment}{/* Enable or Disable the Output Compare Clear Bit */}
+01541   tmpccmr2 |= TIM\_OCClear;
+01542 
+01543   \textcolor{comment}{/* Write to TIMx CCMR2 register */}
+01544   TIMx->CCMR2 = tmpccmr2;
+01545 \}
+01546 
+01547 \textcolor{comment}{/**}
+01548 \textcolor{comment}{  * @brief  Clears or safeguards the OCREF4 signal on an external event}
+01549 \textcolor{comment}{  * @param  TIMx: where x can be  1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+01550 \textcolor{comment}{  * @param  TIM\_OCClear: new state of the Output Compare Clear Enable Bit.}
+01551 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01552 \textcolor{comment}{  *            @arg TIM\_OCClear\_Enable: TIM Output clear enable}
+01553 \textcolor{comment}{  *            @arg TIM\_OCClear\_Disable: TIM Output clear disable}
+01554 \textcolor{comment}{  * @retval None}
+01555 \textcolor{comment}{  */}
+01556 \textcolor{keywordtype}{void} TIM_ClearOC4Ref(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCClear)
+01557 \{
+01558   uint16\_t tmpccmr2 = 0;
+01559 
+01560   \textcolor{comment}{/* Check the parameters */}
+01561   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+01562   assert_param(IS\_TIM\_OCCLEAR\_STATE(TIM\_OCClear));
+01563 
+01564   tmpccmr2 = TIMx->CCMR2;
+01565 
+01566   \textcolor{comment}{/* Reset the OC4CE Bit */}
+01567   tmpccmr2 &= (uint16\_t)~TIM_CCMR2_OC4CE;
+01568 
+01569   \textcolor{comment}{/* Enable or Disable the Output Compare Clear Bit */}
+01570   tmpccmr2 |= (uint16\_t)(TIM\_OCClear << 8);
+01571 
+01572   \textcolor{comment}{/* Write to TIMx CCMR2 register */}
+01573   TIMx->CCMR2 = tmpccmr2;
+01574 \}
+01575 
+01576 \textcolor{comment}{/**}
+01577 \textcolor{comment}{  * @brief  Configures the TIMx channel 1 polarity.}
+01578 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 except 6 and 7, to select the TIM peripheral.}
+01579 \textcolor{comment}{  * @param  TIM\_OCPolarity: specifies the OC1 Polarity}
+01580 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01581 \textcolor{comment}{  *            @arg TIM\_OCPolarity\_High: Output Compare active high}
+01582 \textcolor{comment}{  *            @arg TIM\_OCPolarity\_Low: Output Compare active low}
+01583 \textcolor{comment}{  * @retval None}
+01584 \textcolor{comment}{  */}
+01585 \textcolor{keywordtype}{void} TIM_OC1PolarityConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCPolarity)
+01586 \{
+01587   uint16\_t tmpccer = 0;
+01588 
+01589   \textcolor{comment}{/* Check the parameters */}
+01590   assert_param(IS\_TIM\_LIST1\_PERIPH(TIMx));
+01591   assert_param(IS\_TIM\_OC\_POLARITY(TIM\_OCPolarity));
+01592 
+01593   tmpccer = TIMx->CCER;
+01594 
+01595   \textcolor{comment}{/* Set or Reset the CC1P Bit */}
+01596   tmpccer &= (uint16\_t)(~TIM_CCER_CC1P);
+01597   tmpccer |= TIM\_OCPolarity;
+01598 
+01599   \textcolor{comment}{/* Write to TIMx CCER register */}
+01600   TIMx->CCER = tmpccer;
+01601 \}
+01602 
+01603 \textcolor{comment}{/**}
+01604 \textcolor{comment}{  * @brief  Configures the TIMx Channel 1N polarity.}
+01605 \textcolor{comment}{  * @param  TIMx: where x can be 1 or 8 to select the TIM peripheral.}
+01606 \textcolor{comment}{  * @param  TIM\_OCNPolarity: specifies the OC1N Polarity}
+01607 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01608 \textcolor{comment}{  *            @arg TIM\_OCNPolarity\_High: Output Compare active high}
+01609 \textcolor{comment}{  *            @arg TIM\_OCNPolarity\_Low: Output Compare active low}
+01610 \textcolor{comment}{  * @retval None}
+01611 \textcolor{comment}{  */}
+01612 \textcolor{keywordtype}{void} TIM_OC1NPolarityConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCNPolarity)
+01613 \{
+01614   uint16\_t tmpccer = 0;
+01615   \textcolor{comment}{/* Check the parameters */}
+01616   assert_param(IS\_TIM\_LIST4\_PERIPH(TIMx));
+01617   assert_param(IS\_TIM\_OCN\_POLARITY(TIM\_OCNPolarity));
+01618 
+01619   tmpccer = TIMx->CCER;
+01620 
+01621   \textcolor{comment}{/* Set or Reset the CC1NP Bit */}
+01622   tmpccer &= (uint16\_t)~TIM_CCER_CC1NP;
+01623   tmpccer |= TIM\_OCNPolarity;
+01624 
+01625   \textcolor{comment}{/* Write to TIMx CCER register */}
+01626   TIMx->CCER = tmpccer;
+01627 \}
+01628 
+01629 \textcolor{comment}{/**}
+01630 \textcolor{comment}{  * @brief  Configures the TIMx channel 2 polarity.}
+01631 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5, 8, 9 or 12 to select the TIM }
+01632 \textcolor{comment}{  *         peripheral.}
+01633 \textcolor{comment}{  * @param  TIM\_OCPolarity: specifies the OC2 Polarity}
+01634 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01635 \textcolor{comment}{  *            @arg TIM\_OCPolarity\_High: Output Compare active high}
+01636 \textcolor{comment}{  *            @arg TIM\_OCPolarity\_Low: Output Compare active low}
+01637 \textcolor{comment}{  * @retval None}
+01638 \textcolor{comment}{  */}
+01639 \textcolor{keywordtype}{void} TIM_OC2PolarityConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCPolarity)
+01640 \{
+01641   uint16\_t tmpccer = 0;
+01642 
+01643   \textcolor{comment}{/* Check the parameters */}
+01644   assert_param(IS\_TIM\_LIST2\_PERIPH(TIMx));
+01645   assert_param(IS\_TIM\_OC\_POLARITY(TIM\_OCPolarity));
+01646 
+01647   tmpccer = TIMx->CCER;
+01648 
+01649   \textcolor{comment}{/* Set or Reset the CC2P Bit */}
+01650   tmpccer &= (uint16\_t)(~TIM_CCER_CC2P);
+01651   tmpccer |= (uint16\_t)(TIM\_OCPolarity << 4);
+01652 
+01653   \textcolor{comment}{/* Write to TIMx CCER register */}
+01654   TIMx->CCER = tmpccer;
+01655 \}
+01656 
+01657 \textcolor{comment}{/**}
+01658 \textcolor{comment}{  * @brief  Configures the TIMx Channel 2N polarity.}
+01659 \textcolor{comment}{  * @param  TIMx: where x can be 1 or 8 to select the TIM peripheral.}
+01660 \textcolor{comment}{  * @param  TIM\_OCNPolarity: specifies the OC2N Polarity}
+01661 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01662 \textcolor{comment}{  *            @arg TIM\_OCNPolarity\_High: Output Compare active high}
+01663 \textcolor{comment}{  *            @arg TIM\_OCNPolarity\_Low: Output Compare active low}
+01664 \textcolor{comment}{  * @retval None}
+01665 \textcolor{comment}{  */}
+01666 \textcolor{keywordtype}{void} TIM_OC2NPolarityConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCNPolarity)
+01667 \{
+01668   uint16\_t tmpccer = 0;
+01669 
+01670   \textcolor{comment}{/* Check the parameters */}
+01671   assert_param(IS\_TIM\_LIST4\_PERIPH(TIMx));
+01672   assert_param(IS\_TIM\_OCN\_POLARITY(TIM\_OCNPolarity));
+01673 
+01674   tmpccer = TIMx->CCER;
+01675 
+01676   \textcolor{comment}{/* Set or Reset the CC2NP Bit */}
+01677   tmpccer &= (uint16\_t)~TIM_CCER_CC2NP;
+01678   tmpccer |= (uint16\_t)(TIM\_OCNPolarity << 4);
+01679 
+01680   \textcolor{comment}{/* Write to TIMx CCER register */}
+01681   TIMx->CCER = tmpccer;
+01682 \}
+01683 
+01684 \textcolor{comment}{/**}
+01685 \textcolor{comment}{  * @brief  Configures the TIMx channel 3 polarity.}
+01686 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+01687 \textcolor{comment}{  * @param  TIM\_OCPolarity: specifies the OC3 Polarity}
+01688 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01689 \textcolor{comment}{  *            @arg TIM\_OCPolarity\_High: Output Compare active high}
+01690 \textcolor{comment}{  *            @arg TIM\_OCPolarity\_Low: Output Compare active low}
+01691 \textcolor{comment}{  * @retval None}
+01692 \textcolor{comment}{  */}
+01693 \textcolor{keywordtype}{void} TIM_OC3PolarityConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCPolarity)
+01694 \{
+01695   uint16\_t tmpccer = 0;
+01696 
+01697   \textcolor{comment}{/* Check the parameters */}
+01698   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+01699   assert_param(IS\_TIM\_OC\_POLARITY(TIM\_OCPolarity));
+01700 
+01701   tmpccer = TIMx->CCER;
+01702 
+01703   \textcolor{comment}{/* Set or Reset the CC3P Bit */}
+01704   tmpccer &= (uint16\_t)~TIM_CCER_CC3P;
+01705   tmpccer |= (uint16\_t)(TIM\_OCPolarity << 8);
+01706 
+01707   \textcolor{comment}{/* Write to TIMx CCER register */}
+01708   TIMx->CCER = tmpccer;
+01709 \}
+01710 
+01711 \textcolor{comment}{/**}
+01712 \textcolor{comment}{  * @brief  Configures the TIMx Channel 3N polarity.}
+01713 \textcolor{comment}{  * @param  TIMx: where x can be 1 or 8 to select the TIM peripheral.}
+01714 \textcolor{comment}{  * @param  TIM\_OCNPolarity: specifies the OC3N Polarity}
+01715 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01716 \textcolor{comment}{  *            @arg TIM\_OCNPolarity\_High: Output Compare active high}
+01717 \textcolor{comment}{  *            @arg TIM\_OCNPolarity\_Low: Output Compare active low}
+01718 \textcolor{comment}{  * @retval None}
+01719 \textcolor{comment}{  */}
+01720 \textcolor{keywordtype}{void} TIM_OC3NPolarityConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCNPolarity)
+01721 \{
+01722   uint16\_t tmpccer = 0;
+01723 
+01724   \textcolor{comment}{/* Check the parameters */}
+01725   assert_param(IS\_TIM\_LIST4\_PERIPH(TIMx));
+01726   assert_param(IS\_TIM\_OCN\_POLARITY(TIM\_OCNPolarity));
+01727 
+01728   tmpccer = TIMx->CCER;
+01729 
+01730   \textcolor{comment}{/* Set or Reset the CC3NP Bit */}
+01731   tmpccer &= (uint16\_t)~TIM_CCER_CC3NP;
+01732   tmpccer |= (uint16\_t)(TIM\_OCNPolarity << 8);
+01733 
+01734   \textcolor{comment}{/* Write to TIMx CCER register */}
+01735   TIMx->CCER = tmpccer;
+01736 \}
+01737 
+01738 \textcolor{comment}{/**}
+01739 \textcolor{comment}{  * @brief  Configures the TIMx channel 4 polarity.}
+01740 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+01741 \textcolor{comment}{  * @param  TIM\_OCPolarity: specifies the OC4 Polarity}
+01742 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01743 \textcolor{comment}{  *            @arg TIM\_OCPolarity\_High: Output Compare active high}
+01744 \textcolor{comment}{  *            @arg TIM\_OCPolarity\_Low: Output Compare active low}
+01745 \textcolor{comment}{  * @retval None}
+01746 \textcolor{comment}{  */}
+01747 \textcolor{keywordtype}{void} TIM_OC4PolarityConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCPolarity)
+01748 \{
+01749   uint16\_t tmpccer = 0;
+01750 
+01751   \textcolor{comment}{/* Check the parameters */}
+01752   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+01753   assert_param(IS\_TIM\_OC\_POLARITY(TIM\_OCPolarity));
+01754 
+01755   tmpccer = TIMx->CCER;
+01756 
+01757   \textcolor{comment}{/* Set or Reset the CC4P Bit */}
+01758   tmpccer &= (uint16\_t)~TIM_CCER_CC4P;
+01759   tmpccer |= (uint16\_t)(TIM\_OCPolarity << 12);
+01760 
+01761   \textcolor{comment}{/* Write to TIMx CCER register */}
+01762   TIMx->CCER = tmpccer;
+01763 \}
+01764 
+01765 \textcolor{comment}{/**}
+01766 \textcolor{comment}{  * @brief  Enables or disables the TIM Capture Compare Channel x.}
+01767 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 except 6 and 7, to select the TIM peripheral.}
+01768 \textcolor{comment}{  * @param  TIM\_Channel: specifies the TIM Channel}
+01769 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01770 \textcolor{comment}{  *            @arg TIM\_Channel\_1: TIM Channel 1}
+01771 \textcolor{comment}{  *            @arg TIM\_Channel\_2: TIM Channel 2}
+01772 \textcolor{comment}{  *            @arg TIM\_Channel\_3: TIM Channel 3}
+01773 \textcolor{comment}{  *            @arg TIM\_Channel\_4: TIM Channel 4}
+01774 \textcolor{comment}{  * @param  TIM\_CCx: specifies the TIM Channel CCxE bit new state.}
+01775 \textcolor{comment}{  *          This parameter can be: TIM\_CCx\_Enable or TIM\_CCx\_Disable. }
+01776 \textcolor{comment}{  * @retval None}
+01777 \textcolor{comment}{  */}
+01778 \textcolor{keywordtype}{void} TIM_CCxCmd(TIM\_TypeDef* TIMx, uint16\_t TIM\_Channel, uint16\_t TIM\_CCx)
+01779 \{
+01780   uint16\_t tmp = 0;
+01781 
+01782   \textcolor{comment}{/* Check the parameters */}
+01783   assert_param(IS\_TIM\_LIST1\_PERIPH(TIMx));
+01784   assert_param(IS\_TIM\_CHANNEL(TIM\_Channel));
+01785   assert_param(IS\_TIM\_CCX(TIM\_CCx));
+01786 
+01787   tmp = CCER_CCE_SET << TIM\_Channel;
+01788 
+01789   \textcolor{comment}{/* Reset the CCxE Bit */}
+01790   TIMx->CCER &= (uint16\_t)~ tmp;
+01791 
+01792   \textcolor{comment}{/* Set or reset the CCxE Bit */}
+01793   TIMx->CCER |=  (uint16\_t)(TIM\_CCx << TIM\_Channel);
+01794 \}
+01795 
+01796 \textcolor{comment}{/**}
+01797 \textcolor{comment}{  * @brief  Enables or disables the TIM Capture Compare Channel xN.}
+01798 \textcolor{comment}{  * @param  TIMx: where x can be 1 or 8 to select the TIM peripheral.}
+01799 \textcolor{comment}{  * @param  TIM\_Channel: specifies the TIM Channel}
+01800 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01801 \textcolor{comment}{  *            @arg TIM\_Channel\_1: TIM Channel 1}
+01802 \textcolor{comment}{  *            @arg TIM\_Channel\_2: TIM Channel 2}
+01803 \textcolor{comment}{  *            @arg TIM\_Channel\_3: TIM Channel 3}
+01804 \textcolor{comment}{  * @param  TIM\_CCxN: specifies the TIM Channel CCxNE bit new state.}
+01805 \textcolor{comment}{  *          This parameter can be: TIM\_CCxN\_Enable or TIM\_CCxN\_Disable. }
+01806 \textcolor{comment}{  * @retval None}
+01807 \textcolor{comment}{  */}
+01808 \textcolor{keywordtype}{void} TIM_CCxNCmd(TIM\_TypeDef* TIMx, uint16\_t TIM\_Channel, uint16\_t TIM\_CCxN)
+01809 \{
+01810   uint16\_t tmp = 0;
+01811 
+01812   \textcolor{comment}{/* Check the parameters */}
+01813   assert_param(IS\_TIM\_LIST4\_PERIPH(TIMx));
+01814   assert_param(IS\_TIM\_COMPLEMENTARY\_CHANNEL(TIM\_Channel));
+01815   assert_param(IS\_TIM\_CCXN(TIM\_CCxN));
+01816 
+01817   tmp = CCER_CCNE_SET << TIM\_Channel;
+01818 
+01819   \textcolor{comment}{/* Reset the CCxNE Bit */}
+01820   TIMx->CCER &= (uint16\_t) ~tmp;
+01821 
+01822   \textcolor{comment}{/* Set or reset the CCxNE Bit */}
+01823   TIMx->CCER |=  (uint16\_t)(TIM\_CCxN << TIM\_Channel);
+01824 \}
+01825 \textcolor{comment}{/**}
+01826 \textcolor{comment}{  * @\}}
+01827 \textcolor{comment}{  */}
+01828 
+01829 \textcolor{comment}{/** @defgroup TIM\_Group3 Input Capture management functions}
+01830 \textcolor{comment}{ *  @brief    Input Capture management functions }
+01831 \textcolor{comment}{ *}
+01832 \textcolor{comment}{@verbatim   }
+01833 \textcolor{comment}{ ===============================================================================}
+01834 \textcolor{comment}{                      Input Capture management functions}
+01835 \textcolor{comment}{ ===============================================================================  }
+01836 \textcolor{comment}{   }
+01837 \textcolor{comment}{       ===================================================================      }
+01838 \textcolor{comment}{              TIM Driver: how to use it in Input Capture Mode}
+01839 \textcolor{comment}{       =================================================================== }
+01840 \textcolor{comment}{       To use the Timer in Input Capture mode, the following steps are mandatory:}
+01841 \textcolor{comment}{       }
+01842 \textcolor{comment}{       1. Enable TIM clock using RCC\_APBxPeriphClockCmd(RCC\_APBxPeriph\_TIMx, ENABLE) function}
+01843 \textcolor{comment}{       }
+01844 \textcolor{comment}{       2. Configure the TIM pins by configuring the corresponding GPIO pins}
+01845 \textcolor{comment}{       }
+01846 \textcolor{comment}{       2. Configure the Time base unit as described in the first part of this driver,}
+01847 \textcolor{comment}{          if needed, else the Timer will run with the default configuration:}
+01848 \textcolor{comment}{          - Autoreload value = 0xFFFF}
+01849 \textcolor{comment}{          - Prescaler value = 0x0000}
+01850 \textcolor{comment}{          - Counter mode = Up counting}
+01851 \textcolor{comment}{          - Clock Division = TIM\_CKD\_DIV1}
+01852 \textcolor{comment}{          }
+01853 \textcolor{comment}{       3. Fill the TIM\_ICInitStruct with the desired parameters including:}
+01854 \textcolor{comment}{          - TIM Channel: TIM\_Channel}
+01855 \textcolor{comment}{          - TIM Input Capture polarity: TIM\_ICPolarity}
+01856 \textcolor{comment}{          - TIM Input Capture selection: TIM\_ICSelection}
+01857 \textcolor{comment}{          - TIM Input Capture Prescaler: TIM\_ICPrescaler}
+01858 \textcolor{comment}{          - TIM Input CApture filter value: TIM\_ICFilter}
+01859 \textcolor{comment}{       }
+01860 \textcolor{comment}{       4. Call TIM\_ICInit(TIMx, &TIM\_ICInitStruct) to configure the desired channel with the }
+01861 \textcolor{comment}{          corresponding configuration and to measure only frequency or duty cycle of the input signal,}
+01862 \textcolor{comment}{          or,}
+01863 \textcolor{comment}{          Call TIM\_PWMIConfig(TIMx, &TIM\_ICInitStruct) to configure the desired channels with the }
+01864 \textcolor{comment}{          corresponding configuration and to measure the frequency and the duty cycle of the input
+       signal}
+01865 \textcolor{comment}{          }
+01866 \textcolor{comment}{       5. Enable the NVIC or the DMA to read the measured frequency. }
+01867 \textcolor{comment}{          }
+01868 \textcolor{comment}{       6. Enable the corresponding interrupt (or DMA request) to read the Captured value,}
+01869 \textcolor{comment}{          using the function TIM\_ITConfig(TIMx, TIM\_IT\_CCx) (or TIM\_DMA\_Cmd(TIMx, TIM\_DMA\_CCx)) }
+01870 \textcolor{comment}{       }
+01871 \textcolor{comment}{       7. Call the TIM\_Cmd(ENABLE) function to enable the TIM counter.}
+01872 \textcolor{comment}{       }
+01873 \textcolor{comment}{       8. Use TIM\_GetCapturex(TIMx); to read the captured value.}
+01874 \textcolor{comment}{       }
+01875 \textcolor{comment}{       Note1: All other functions can be used separately to modify, if needed,}
+01876 \textcolor{comment}{              a specific feature of the Timer. }
+01877 \textcolor{comment}{}
+01878 \textcolor{comment}{@endverbatim}
+01879 \textcolor{comment}{  * @\{}
+01880 \textcolor{comment}{  */}
+01881 
+01882 \textcolor{comment}{/**}
+01883 \textcolor{comment}{  * @brief  Initializes the TIM peripheral according to the specified parameters}
+01884 \textcolor{comment}{  *         in the TIM\_ICInitStruct.}
+01885 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 except 6 and 7, to select the TIM peripheral.}
+01886 \textcolor{comment}{  * @param  TIM\_ICInitStruct: pointer to a TIM\_ICInitTypeDef structure that contains}
+01887 \textcolor{comment}{  *         the configuration information for the specified TIM peripheral.}
+01888 \textcolor{comment}{  * @retval None}
+01889 \textcolor{comment}{  */}
+01890 \textcolor{keywordtype}{void} TIM_ICInit(TIM\_TypeDef* TIMx, TIM\_ICInitTypeDef* TIM\_ICInitStruct)
+01891 \{
+01892   \textcolor{comment}{/* Check the parameters */}
+01893   assert_param(IS\_TIM\_LIST1\_PERIPH(TIMx));
+01894   assert_param(IS\_TIM\_IC\_POLARITY(TIM\_ICInitStruct->TIM\_ICPolarity));
+01895   assert_param(IS\_TIM\_IC\_SELECTION(TIM\_ICInitStruct->TIM\_ICSelection));
+01896   assert_param(IS\_TIM\_IC\_PRESCALER(TIM\_ICInitStruct->TIM\_ICPrescaler));
+01897   assert_param(IS\_TIM\_IC\_FILTER(TIM\_ICInitStruct->TIM\_ICFilter));
+01898 
+01899   \textcolor{keywordflow}{if} (TIM\_ICInitStruct->TIM_Channel == TIM_Channel_1)
+01900   \{
+01901     \textcolor{comment}{/* TI1 Configuration */}
+01902     TI1_Config(TIMx, TIM\_ICInitStruct->TIM_ICPolarity,
+01903                TIM\_ICInitStruct->TIM_ICSelection,
+01904                TIM\_ICInitStruct->TIM_ICFilter);
+01905     \textcolor{comment}{/* Set the Input Capture Prescaler value */}
+01906     TIM_SetIC1Prescaler(TIMx, TIM\_ICInitStruct->TIM_ICPrescaler);
+01907   \}
+01908   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIM\_ICInitStruct->TIM_Channel == TIM_Channel_2)
+01909   \{
+01910     \textcolor{comment}{/* TI2 Configuration */}
+01911     assert_param(IS\_TIM\_LIST2\_PERIPH(TIMx));
+01912     TI2_Config(TIMx, TIM\_ICInitStruct->TIM_ICPolarity,
+01913                TIM\_ICInitStruct->TIM_ICSelection,
+01914                TIM\_ICInitStruct->TIM_ICFilter);
+01915     \textcolor{comment}{/* Set the Input Capture Prescaler value */}
+01916     TIM_SetIC2Prescaler(TIMx, TIM\_ICInitStruct->TIM_ICPrescaler);
+01917   \}
+01918   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIM\_ICInitStruct->TIM_Channel == TIM_Channel_3)
+01919   \{
+01920     \textcolor{comment}{/* TI3 Configuration */}
+01921     assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+01922     TI3_Config(TIMx,  TIM\_ICInitStruct->TIM_ICPolarity,
+01923                TIM\_ICInitStruct->TIM_ICSelection,
+01924                TIM\_ICInitStruct->TIM_ICFilter);
+01925     \textcolor{comment}{/* Set the Input Capture Prescaler value */}
+01926     TIM_SetIC3Prescaler(TIMx, TIM\_ICInitStruct->TIM_ICPrescaler);
+01927   \}
+01928   \textcolor{keywordflow}{else}
+01929   \{
+01930     \textcolor{comment}{/* TI4 Configuration */}
+01931     assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+01932     TI4_Config(TIMx, TIM\_ICInitStruct->TIM_ICPolarity,
+01933                TIM\_ICInitStruct->TIM_ICSelection,
+01934                TIM\_ICInitStruct->TIM_ICFilter);
+01935     \textcolor{comment}{/* Set the Input Capture Prescaler value */}
+01936     TIM_SetIC4Prescaler(TIMx, TIM\_ICInitStruct->TIM_ICPrescaler);
+01937   \}
+01938 \}
+01939 
+01940 \textcolor{comment}{/**}
+01941 \textcolor{comment}{  * @brief  Fills each TIM\_ICInitStruct member with its default value.}
+01942 \textcolor{comment}{  * @param  TIM\_ICInitStruct: pointer to a TIM\_ICInitTypeDef structure which will}
+01943 \textcolor{comment}{  *         be initialized.}
+01944 \textcolor{comment}{  * @retval None}
+01945 \textcolor{comment}{  */}
+01946 \textcolor{keywordtype}{void} TIM_ICStructInit(TIM\_ICInitTypeDef* TIM\_ICInitStruct)
+01947 \{
+01948   \textcolor{comment}{/* Set the default configuration */}
+01949   TIM\_ICInitStruct->TIM_Channel = TIM_Channel_1;
+01950   TIM\_ICInitStruct->TIM_ICPolarity = TIM_ICPolarity_Rising;
+01951   TIM\_ICInitStruct->TIM_ICSelection = TIM_ICSelection_DirectTI;
+01952   TIM\_ICInitStruct->TIM_ICPrescaler = TIM_ICPSC_DIV1;
+01953   TIM\_ICInitStruct->TIM_ICFilter = 0x00;
+01954 \}
+01955 
+01956 \textcolor{comment}{/**}
+01957 \textcolor{comment}{  * @brief  Configures the TIM peripheral according to the specified parameters}
+01958 \textcolor{comment}{  *         in the TIM\_ICInitStruct to measure an external PWM signal.}
+01959 \textcolor{comment}{  * @param  TIMx: where x can be  1, 2, 3, 4, 5,8, 9 or 12 to select the TIM }
+01960 \textcolor{comment}{  *         peripheral.}
+01961 \textcolor{comment}{  * @param  TIM\_ICInitStruct: pointer to a TIM\_ICInitTypeDef structure that contains}
+01962 \textcolor{comment}{  *         the configuration information for the specified TIM peripheral.}
+01963 \textcolor{comment}{  * @retval None}
+01964 \textcolor{comment}{  */}
+01965 \textcolor{keywordtype}{void} TIM_PWMIConfig(TIM\_TypeDef* TIMx, TIM\_ICInitTypeDef* TIM\_ICInitStruct)
+01966 \{
+01967   uint16\_t icoppositepolarity = TIM_ICPolarity_Rising;
+01968   uint16\_t icoppositeselection = TIM_ICSelection_DirectTI;
+01969 
+01970   \textcolor{comment}{/* Check the parameters */}
+01971   assert_param(IS\_TIM\_LIST2\_PERIPH(TIMx));
+01972 
+01973   \textcolor{comment}{/* Select the Opposite Input Polarity */}
+01974   \textcolor{keywordflow}{if} (TIM\_ICInitStruct->TIM_ICPolarity == TIM_ICPolarity_Rising)
+01975   \{
+01976     icoppositepolarity = TIM_ICPolarity_Falling;
+01977   \}
+01978   \textcolor{keywordflow}{else}
+01979   \{
+01980     icoppositepolarity = TIM_ICPolarity_Rising;
+01981   \}
+01982   \textcolor{comment}{/* Select the Opposite Input */}
+01983   \textcolor{keywordflow}{if} (TIM\_ICInitStruct->TIM_ICSelection == TIM_ICSelection_DirectTI)
+01984   \{
+01985     icoppositeselection = TIM_ICSelection_IndirectTI;
+01986   \}
+01987   \textcolor{keywordflow}{else}
+01988   \{
+01989     icoppositeselection = TIM_ICSelection_DirectTI;
+01990   \}
+01991   \textcolor{keywordflow}{if} (TIM\_ICInitStruct->TIM_Channel == TIM_Channel_1)
+01992   \{
+01993     \textcolor{comment}{/* TI1 Configuration */}
+01994     TI1_Config(TIMx, TIM\_ICInitStruct->TIM_ICPolarity, TIM\_ICInitStruct->
+      TIM_ICSelection,
+01995                TIM\_ICInitStruct->TIM_ICFilter);
+01996     \textcolor{comment}{/* Set the Input Capture Prescaler value */}
+01997     TIM_SetIC1Prescaler(TIMx, TIM\_ICInitStruct->TIM_ICPrescaler);
+01998     \textcolor{comment}{/* TI2 Configuration */}
+01999     TI2_Config(TIMx, icoppositepolarity, icoppositeselection, TIM\_ICInitStruct
+      ->TIM_ICFilter);
+02000     \textcolor{comment}{/* Set the Input Capture Prescaler value */}
+02001     TIM_SetIC2Prescaler(TIMx, TIM\_ICInitStruct->TIM_ICPrescaler);
+02002   \}
+02003   \textcolor{keywordflow}{else}
+02004   \{
+02005     \textcolor{comment}{/* TI2 Configuration */}
+02006     TI2_Config(TIMx, TIM\_ICInitStruct->TIM_ICPolarity, TIM\_ICInitStruct->
+      TIM_ICSelection,
+02007                TIM\_ICInitStruct->TIM_ICFilter);
+02008     \textcolor{comment}{/* Set the Input Capture Prescaler value */}
+02009     TIM_SetIC2Prescaler(TIMx, TIM\_ICInitStruct->TIM_ICPrescaler);
+02010     \textcolor{comment}{/* TI1 Configuration */}
+02011     TI1_Config(TIMx, icoppositepolarity, icoppositeselection, TIM\_ICInitStruct
+      ->TIM_ICFilter);
+02012     \textcolor{comment}{/* Set the Input Capture Prescaler value */}
+02013     TIM_SetIC1Prescaler(TIMx, TIM\_ICInitStruct->TIM_ICPrescaler);
+02014   \}
+02015 \}
+02016 
+02017 \textcolor{comment}{/**}
+02018 \textcolor{comment}{  * @brief  Gets the TIMx Input Capture 1 value.}
+02019 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 except 6 and 7, to select the TIM peripheral.}
+02020 \textcolor{comment}{  * @retval Capture Compare 1 Register value.}
+02021 \textcolor{comment}{  */}
+02022 uint32\_t TIM_GetCapture1(TIM\_TypeDef* TIMx)
+02023 \{
+02024   \textcolor{comment}{/* Check the parameters */}
+02025   assert_param(IS\_TIM\_LIST1\_PERIPH(TIMx));
+02026 
+02027   \textcolor{comment}{/* Get the Capture 1 Register value */}
+02028   \textcolor{keywordflow}{return} TIMx->CCR1;
+02029 \}
+02030 
+02031 \textcolor{comment}{/**}
+02032 \textcolor{comment}{  * @brief  Gets the TIMx Input Capture 2 value.}
+02033 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5, 8, 9 or 12 to select the TIM }
+02034 \textcolor{comment}{  *         peripheral.}
+02035 \textcolor{comment}{  * @retval Capture Compare 2 Register value.}
+02036 \textcolor{comment}{  */}
+02037 uint32\_t TIM_GetCapture2(TIM\_TypeDef* TIMx)
+02038 \{
+02039   \textcolor{comment}{/* Check the parameters */}
+02040   assert_param(IS\_TIM\_LIST2\_PERIPH(TIMx));
+02041 
+02042   \textcolor{comment}{/* Get the Capture 2 Register value */}
+02043   \textcolor{keywordflow}{return} TIMx->CCR2;
+02044 \}
+02045 
+02046 \textcolor{comment}{/**}
+02047 \textcolor{comment}{  * @brief  Gets the TIMx Input Capture 3 value.}
+02048 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+02049 \textcolor{comment}{  * @retval Capture Compare 3 Register value.}
+02050 \textcolor{comment}{  */}
+02051 uint32\_t TIM_GetCapture3(TIM\_TypeDef* TIMx)
+02052 \{
+02053   \textcolor{comment}{/* Check the parameters */}
+02054   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+02055 
+02056   \textcolor{comment}{/* Get the Capture 3 Register value */}
+02057   \textcolor{keywordflow}{return} TIMx->CCR3;
+02058 \}
+02059 
+02060 \textcolor{comment}{/**}
+02061 \textcolor{comment}{  * @brief  Gets the TIMx Input Capture 4 value.}
+02062 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+02063 \textcolor{comment}{  * @retval Capture Compare 4 Register value.}
+02064 \textcolor{comment}{  */}
+02065 uint32\_t TIM_GetCapture4(TIM\_TypeDef* TIMx)
+02066 \{
+02067   \textcolor{comment}{/* Check the parameters */}
+02068   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+02069 
+02070   \textcolor{comment}{/* Get the Capture 4 Register value */}
+02071   \textcolor{keywordflow}{return} TIMx->CCR4;
+02072 \}
+02073 
+02074 \textcolor{comment}{/**}
+02075 \textcolor{comment}{  * @brief  Sets the TIMx Input Capture 1 prescaler.}
+02076 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 except 6 and 7, to select the TIM peripheral.}
+02077 \textcolor{comment}{  * @param  TIM\_ICPSC: specifies the Input Capture1 prescaler new value.}
+02078 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02079 \textcolor{comment}{  *            @arg TIM\_ICPSC\_DIV1: no prescaler}
+02080 \textcolor{comment}{  *            @arg TIM\_ICPSC\_DIV2: capture is done once every 2 events}
+02081 \textcolor{comment}{  *            @arg TIM\_ICPSC\_DIV4: capture is done once every 4 events}
+02082 \textcolor{comment}{  *            @arg TIM\_ICPSC\_DIV8: capture is done once every 8 events}
+02083 \textcolor{comment}{  * @retval None}
+02084 \textcolor{comment}{  */}
+02085 \textcolor{keywordtype}{void} TIM_SetIC1Prescaler(TIM\_TypeDef* TIMx, uint16\_t TIM\_ICPSC)
+02086 \{
+02087   \textcolor{comment}{/* Check the parameters */}
+02088   assert_param(IS\_TIM\_LIST1\_PERIPH(TIMx));
+02089   assert_param(IS\_TIM\_IC\_PRESCALER(TIM\_ICPSC));
+02090 
+02091   \textcolor{comment}{/* Reset the IC1PSC Bits */}
+02092   TIMx->CCMR1 &= (uint16\_t)~TIM_CCMR1_IC1PSC;
+02093 
+02094   \textcolor{comment}{/* Set the IC1PSC value */}
+02095   TIMx->CCMR1 |= TIM\_ICPSC;
+02096 \}
+02097 
+02098 \textcolor{comment}{/**}
+02099 \textcolor{comment}{  * @brief  Sets the TIMx Input Capture 2 prescaler.}
+02100 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5, 8, 9 or 12 to select the TIM }
+02101 \textcolor{comment}{  *         peripheral.}
+02102 \textcolor{comment}{  * @param  TIM\_ICPSC: specifies the Input Capture2 prescaler new value.}
+02103 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02104 \textcolor{comment}{  *            @arg TIM\_ICPSC\_DIV1: no prescaler}
+02105 \textcolor{comment}{  *            @arg TIM\_ICPSC\_DIV2: capture is done once every 2 events}
+02106 \textcolor{comment}{  *            @arg TIM\_ICPSC\_DIV4: capture is done once every 4 events}
+02107 \textcolor{comment}{  *            @arg TIM\_ICPSC\_DIV8: capture is done once every 8 events}
+02108 \textcolor{comment}{  * @retval None}
+02109 \textcolor{comment}{  */}
+02110 \textcolor{keywordtype}{void} TIM_SetIC2Prescaler(TIM\_TypeDef* TIMx, uint16\_t TIM\_ICPSC)
+02111 \{
+02112   \textcolor{comment}{/* Check the parameters */}
+02113   assert_param(IS\_TIM\_LIST2\_PERIPH(TIMx));
+02114   assert_param(IS\_TIM\_IC\_PRESCALER(TIM\_ICPSC));
+02115 
+02116   \textcolor{comment}{/* Reset the IC2PSC Bits */}
+02117   TIMx->CCMR1 &= (uint16\_t)~TIM_CCMR1_IC2PSC;
+02118 
+02119   \textcolor{comment}{/* Set the IC2PSC value */}
+02120   TIMx->CCMR1 |= (uint16\_t)(TIM\_ICPSC << 8);
+02121 \}
+02122 
+02123 \textcolor{comment}{/**}
+02124 \textcolor{comment}{  * @brief  Sets the TIMx Input Capture 3 prescaler.}
+02125 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+02126 \textcolor{comment}{  * @param  TIM\_ICPSC: specifies the Input Capture3 prescaler new value.}
+02127 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02128 \textcolor{comment}{  *            @arg TIM\_ICPSC\_DIV1: no prescaler}
+02129 \textcolor{comment}{  *            @arg TIM\_ICPSC\_DIV2: capture is done once every 2 events}
+02130 \textcolor{comment}{  *            @arg TIM\_ICPSC\_DIV4: capture is done once every 4 events}
+02131 \textcolor{comment}{  *            @arg TIM\_ICPSC\_DIV8: capture is done once every 8 events}
+02132 \textcolor{comment}{  * @retval None}
+02133 \textcolor{comment}{  */}
+02134 \textcolor{keywordtype}{void} TIM_SetIC3Prescaler(TIM\_TypeDef* TIMx, uint16\_t TIM\_ICPSC)
+02135 \{
+02136   \textcolor{comment}{/* Check the parameters */}
+02137   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+02138   assert_param(IS\_TIM\_IC\_PRESCALER(TIM\_ICPSC));
+02139 
+02140   \textcolor{comment}{/* Reset the IC3PSC Bits */}
+02141   TIMx->CCMR2 &= (uint16\_t)~TIM_CCMR2_IC3PSC;
+02142 
+02143   \textcolor{comment}{/* Set the IC3PSC value */}
+02144   TIMx->CCMR2 |= TIM\_ICPSC;
+02145 \}
+02146 
+02147 \textcolor{comment}{/**}
+02148 \textcolor{comment}{  * @brief  Sets the TIMx Input Capture 4 prescaler.}
+02149 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+02150 \textcolor{comment}{  * @param  TIM\_ICPSC: specifies the Input Capture4 prescaler new value.}
+02151 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02152 \textcolor{comment}{  *            @arg TIM\_ICPSC\_DIV1: no prescaler}
+02153 \textcolor{comment}{  *            @arg TIM\_ICPSC\_DIV2: capture is done once every 2 events}
+02154 \textcolor{comment}{  *            @arg TIM\_ICPSC\_DIV4: capture is done once every 4 events}
+02155 \textcolor{comment}{  *            @arg TIM\_ICPSC\_DIV8: capture is done once every 8 events}
+02156 \textcolor{comment}{  * @retval None}
+02157 \textcolor{comment}{  */}
+02158 \textcolor{keywordtype}{void} TIM_SetIC4Prescaler(TIM\_TypeDef* TIMx, uint16\_t TIM\_ICPSC)
+02159 \{
+02160   \textcolor{comment}{/* Check the parameters */}
+02161   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+02162   assert_param(IS\_TIM\_IC\_PRESCALER(TIM\_ICPSC));
+02163 
+02164   \textcolor{comment}{/* Reset the IC4PSC Bits */}
+02165   TIMx->CCMR2 &= (uint16\_t)~TIM_CCMR2_IC4PSC;
+02166 
+02167   \textcolor{comment}{/* Set the IC4PSC value */}
+02168   TIMx->CCMR2 |= (uint16\_t)(TIM\_ICPSC << 8);
+02169 \}
+02170 \textcolor{comment}{/**}
+02171 \textcolor{comment}{  * @\}}
+02172 \textcolor{comment}{  */}
+02173 
+02174 \textcolor{comment}{/** @defgroup TIM\_Group4 Advanced-control timers (TIM1 and TIM8) specific features}
+02175 \textcolor{comment}{ *  @brief   Advanced-control timers (TIM1 and TIM8) specific features}
+02176 \textcolor{comment}{ *}
+02177 \textcolor{comment}{@verbatim   }
+02178 \textcolor{comment}{ ===============================================================================}
+02179 \textcolor{comment}{          Advanced-control timers (TIM1 and TIM8) specific features}
+02180 \textcolor{comment}{ ===============================================================================  }
+02181 \textcolor{comment}{  }
+02182 \textcolor{comment}{       ===================================================================      }
+02183 \textcolor{comment}{              TIM Driver: how to use the Break feature}
+02184 \textcolor{comment}{       =================================================================== }
+02185 \textcolor{comment}{       After configuring the Timer channel(s) in the appropriate Output Compare mode: }
+02186 \textcolor{comment}{                         }
+02187 \textcolor{comment}{       1. Fill the TIM\_BDTRInitStruct with the desired parameters for the Timer}
+02188 \textcolor{comment}{          Break Polarity, dead time, Lock level, the OSSI/OSSR State and the }
+02189 \textcolor{comment}{          AOE(automatic output enable).}
+02190 \textcolor{comment}{               }
+02191 \textcolor{comment}{       2. Call TIM\_BDTRConfig(TIMx, &TIM\_BDTRInitStruct) to configure the Timer}
+02192 \textcolor{comment}{          }
+02193 \textcolor{comment}{       3. Enable the Main Output using TIM\_CtrlPWMOutputs(TIM1, ENABLE) }
+02194 \textcolor{comment}{          }
+02195 \textcolor{comment}{       4. Once the break even occurs, the Timer's output signals are put in reset}
+02196 \textcolor{comment}{          state or in a known state (according to the configuration made in}
+02197 \textcolor{comment}{          TIM\_BDTRConfig() function).}
+02198 \textcolor{comment}{}
+02199 \textcolor{comment}{@endverbatim}
+02200 \textcolor{comment}{  * @\{}
+02201 \textcolor{comment}{  */}
+02202 
+02203 \textcolor{comment}{/**}
+02204 \textcolor{comment}{  * @brief  Configures the Break feature, dead time, Lock level, OSSI/OSSR State}
+02205 \textcolor{comment}{  *         and the AOE(automatic output enable).}
+02206 \textcolor{comment}{  * @param  TIMx: where x can be  1 or 8 to select the TIM }
+02207 \textcolor{comment}{  * @param  TIM\_BDTRInitStruct: pointer to a TIM\_BDTRInitTypeDef structure that}
+02208 \textcolor{comment}{  *         contains the BDTR Register configuration  information for the TIM peripheral.}
+02209 \textcolor{comment}{  * @retval None}
+02210 \textcolor{comment}{  */}
+02211 \textcolor{keywordtype}{void} TIM_BDTRConfig(TIM\_TypeDef* TIMx, TIM\_BDTRInitTypeDef *TIM\_BDTRInitStruct)
+02212 \{
+02213   \textcolor{comment}{/* Check the parameters */}
+02214   assert_param(IS\_TIM\_LIST4\_PERIPH(TIMx));
+02215   assert_param(IS\_TIM\_OSSR\_STATE(TIM\_BDTRInitStruct->TIM\_OSSRState));
+02216   assert_param(IS\_TIM\_OSSI\_STATE(TIM\_BDTRInitStruct->TIM\_OSSIState));
+02217   assert_param(IS\_TIM\_LOCK\_LEVEL(TIM\_BDTRInitStruct->TIM\_LOCKLevel));
+02218   assert_param(IS\_TIM\_BREAK\_STATE(TIM\_BDTRInitStruct->TIM\_Break));
+02219   assert_param(IS\_TIM\_BREAK\_POLARITY(TIM\_BDTRInitStruct->TIM\_BreakPolarity));
+02220   assert_param(IS\_TIM\_AUTOMATIC\_OUTPUT\_STATE(TIM\_BDTRInitStruct->TIM\_AutomaticOutput));
+02221 
+02222   \textcolor{comment}{/* Set the Lock level, the Break enable Bit and the Polarity, the OSSR State,}
+02223 \textcolor{comment}{     the OSSI State, the dead time value and the Automatic Output Enable Bit */}
+02224   TIMx->BDTR = (uint32\_t)TIM\_BDTRInitStruct->TIM\_OSSRState | TIM\_BDTRInitStruct->TIM\_OSSIState |
+02225              TIM\_BDTRInitStruct->TIM\_LOCKLevel | TIM\_BDTRInitStruct->TIM\_DeadTime |
+02226              TIM\_BDTRInitStruct->TIM\_Break | TIM\_BDTRInitStruct->TIM\_BreakPolarity |
+02227              TIM\_BDTRInitStruct->TIM\_AutomaticOutput;
+02228 \}
+02229 
+02230 \textcolor{comment}{/**}
+02231 \textcolor{comment}{  * @brief  Fills each TIM\_BDTRInitStruct member with its default value.}
+02232 \textcolor{comment}{  * @param  TIM\_BDTRInitStruct: pointer to a TIM\_BDTRInitTypeDef structure which}
+02233 \textcolor{comment}{  *         will be initialized.}
+02234 \textcolor{comment}{  * @retval None}
+02235 \textcolor{comment}{  */}
+02236 \textcolor{keywordtype}{void} TIM_BDTRStructInit(TIM\_BDTRInitTypeDef* TIM\_BDTRInitStruct)
+02237 \{
+02238   \textcolor{comment}{/* Set the default configuration */}
+02239   TIM\_BDTRInitStruct->TIM_OSSRState = TIM_OSSRState_Disable;
+02240   TIM\_BDTRInitStruct->TIM_OSSIState = TIM_OSSIState_Disable;
+02241   TIM\_BDTRInitStruct->TIM_LOCKLevel = TIM_LOCKLevel_OFF;
+02242   TIM\_BDTRInitStruct->TIM_DeadTime = 0x00;
+02243   TIM\_BDTRInitStruct->TIM_Break = TIM_Break_Disable;
+02244   TIM\_BDTRInitStruct->TIM_BreakPolarity = TIM_BreakPolarity_Low;
+02245   TIM\_BDTRInitStruct->TIM_AutomaticOutput = TIM_AutomaticOutput_Disable;
+02246 \}
+02247 
+02248 \textcolor{comment}{/**}
+02249 \textcolor{comment}{  * @brief  Enables or disables the TIM peripheral Main Outputs.}
+02250 \textcolor{comment}{  * @param  TIMx: where x can be 1 or 8 to select the TIMx peripheral.}
+02251 \textcolor{comment}{  * @param  NewState: new state of the TIM peripheral Main Outputs.}
+02252 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+02253 \textcolor{comment}{  * @retval None}
+02254 \textcolor{comment}{  */}
+02255 \textcolor{keywordtype}{void} TIM_CtrlPWMOutputs(TIM\_TypeDef* TIMx, FunctionalState NewState)
+02256 \{
+02257   \textcolor{comment}{/* Check the parameters */}
+02258   assert_param(IS\_TIM\_LIST4\_PERIPH(TIMx));
+02259   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+02260 
+02261   \textcolor{keywordflow}{if} (NewState != DISABLE)
+02262   \{
+02263     \textcolor{comment}{/* Enable the TIM Main Output */}
+02264     TIMx->BDTR |= TIM_BDTR_MOE;
+02265   \}
+02266   \textcolor{keywordflow}{else}
+02267   \{
+02268     \textcolor{comment}{/* Disable the TIM Main Output */}
+02269     TIMx->BDTR &= (uint16\_t)~TIM_BDTR_MOE;
+02270   \}
+02271 \}
+02272 
+02273 \textcolor{comment}{/**}
+02274 \textcolor{comment}{  * @brief  Selects the TIM peripheral Commutation event.}
+02275 \textcolor{comment}{  * @param  TIMx: where x can be  1 or 8 to select the TIMx peripheral}
+02276 \textcolor{comment}{  * @param  NewState: new state of the Commutation event.}
+02277 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+02278 \textcolor{comment}{  * @retval None}
+02279 \textcolor{comment}{  */}
+02280 \textcolor{keywordtype}{void} TIM_SelectCOM(TIM\_TypeDef* TIMx, FunctionalState NewState)
+02281 \{
+02282   \textcolor{comment}{/* Check the parameters */}
+02283   assert_param(IS\_TIM\_LIST4\_PERIPH(TIMx));
+02284   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+02285 
+02286   \textcolor{keywordflow}{if} (NewState != DISABLE)
+02287   \{
+02288     \textcolor{comment}{/* Set the COM Bit */}
+02289     TIMx->CR2 |= TIM_CR2_CCUS;
+02290   \}
+02291   \textcolor{keywordflow}{else}
+02292   \{
+02293     \textcolor{comment}{/* Reset the COM Bit */}
+02294     TIMx->CR2 &= (uint16\_t)~TIM_CR2_CCUS;
+02295   \}
+02296 \}
+02297 
+02298 \textcolor{comment}{/**}
+02299 \textcolor{comment}{  * @brief  Sets or Resets the TIM peripheral Capture Compare Preload Control bit.}
+02300 \textcolor{comment}{  * @param  TIMx: where x can be  1 or 8 to select the TIMx peripheral}
+02301 \textcolor{comment}{  * @param  NewState: new state of the Capture Compare Preload Control bit}
+02302 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+02303 \textcolor{comment}{  * @retval None}
+02304 \textcolor{comment}{  */}
+02305 \textcolor{keywordtype}{void} TIM_CCPreloadControl(TIM\_TypeDef* TIMx, FunctionalState NewState)
+02306 \{
+02307   \textcolor{comment}{/* Check the parameters */}
+02308   assert_param(IS\_TIM\_LIST4\_PERIPH(TIMx));
+02309   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+02310   \textcolor{keywordflow}{if} (NewState != DISABLE)
+02311   \{
+02312     \textcolor{comment}{/* Set the CCPC Bit */}
+02313     TIMx->CR2 |= TIM_CR2_CCPC;
+02314   \}
+02315   \textcolor{keywordflow}{else}
+02316   \{
+02317     \textcolor{comment}{/* Reset the CCPC Bit */}
+02318     TIMx->CR2 &= (uint16\_t)~TIM_CR2_CCPC;
+02319   \}
+02320 \}
+02321 \textcolor{comment}{/**}
+02322 \textcolor{comment}{  * @\}}
+02323 \textcolor{comment}{  */}
+02324 
+02325 \textcolor{comment}{/** @defgroup TIM\_Group5 Interrupts DMA and flags management functions}
+02326 \textcolor{comment}{ *  @brief    Interrupts, DMA and flags management functions }
+02327 \textcolor{comment}{ *}
+02328 \textcolor{comment}{@verbatim   }
+02329 \textcolor{comment}{ ===============================================================================}
+02330 \textcolor{comment}{                 Interrupts, DMA and flags management functions}
+02331 \textcolor{comment}{ ===============================================================================  }
+02332 \textcolor{comment}{}
+02333 \textcolor{comment}{@endverbatim}
+02334 \textcolor{comment}{  * @\{}
+02335 \textcolor{comment}{  */}
+02336 
+02337 \textcolor{comment}{/**}
+02338 \textcolor{comment}{  * @brief  Enables or disables the specified TIM interrupts.}
+02339 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 to select the TIMx peripheral.}
+02340 \textcolor{comment}{  * @param  TIM\_IT: specifies the TIM interrupts sources to be enabled or disabled.}
+02341 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+02342 \textcolor{comment}{  *            @arg TIM\_IT\_Update: TIM update Interrupt source}
+02343 \textcolor{comment}{  *            @arg TIM\_IT\_CC1: TIM Capture Compare 1 Interrupt source}
+02344 \textcolor{comment}{  *            @arg TIM\_IT\_CC2: TIM Capture Compare 2 Interrupt source}
+02345 \textcolor{comment}{  *            @arg TIM\_IT\_CC3: TIM Capture Compare 3 Interrupt source}
+02346 \textcolor{comment}{  *            @arg TIM\_IT\_CC4: TIM Capture Compare 4 Interrupt source}
+02347 \textcolor{comment}{  *            @arg TIM\_IT\_COM: TIM Commutation Interrupt source}
+02348 \textcolor{comment}{  *            @arg TIM\_IT\_Trigger: TIM Trigger Interrupt source}
+02349 \textcolor{comment}{  *            @arg TIM\_IT\_Break: TIM Break Interrupt source}
+02350 \textcolor{comment}{  *  }
+02351 \textcolor{comment}{  * @note   For TIM6 and TIM7 only the parameter TIM\_IT\_Update can be used}
+02352 \textcolor{comment}{  * @note   For TIM9 and TIM12 only one of the following parameters can be used: TIM\_IT\_Update,}
+02353 \textcolor{comment}{  *          TIM\_IT\_CC1, TIM\_IT\_CC2 or TIM\_IT\_Trigger. }
+02354 \textcolor{comment}{  * @note   For TIM10, TIM11, TIM13 and TIM14 only one of the following parameters can}
+02355 \textcolor{comment}{  *          be used: TIM\_IT\_Update or TIM\_IT\_CC1   }
+02356 \textcolor{comment}{  * @note   TIM\_IT\_COM and TIM\_IT\_Break can be used only with TIM1 and TIM8 }
+02357 \textcolor{comment}{  *        }
+02358 \textcolor{comment}{  * @param  NewState: new state of the TIM interrupts.}
+02359 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+02360 \textcolor{comment}{  * @retval None}
+02361 \textcolor{comment}{  */}
+02362 \textcolor{keywordtype}{void} TIM_ITConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_IT, FunctionalState NewState)
+02363 \{
+02364   \textcolor{comment}{/* Check the parameters */}
+02365   assert_param(IS\_TIM\_ALL\_PERIPH(TIMx));
+02366   assert_param(IS\_TIM\_IT(TIM\_IT));
+02367   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+02368 
+02369   \textcolor{keywordflow}{if} (NewState != DISABLE)
+02370   \{
+02371     \textcolor{comment}{/* Enable the Interrupt sources */}
+02372     TIMx->DIER |= TIM\_IT;
+02373   \}
+02374   \textcolor{keywordflow}{else}
+02375   \{
+02376     \textcolor{comment}{/* Disable the Interrupt sources */}
+02377     TIMx->DIER &= (uint16\_t)~TIM\_IT;
+02378   \}
+02379 \}
+02380 
+02381 \textcolor{comment}{/**}
+02382 \textcolor{comment}{  * @brief  Configures the TIMx event to be generate by software.}
+02383 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 to select the TIM peripheral.}
+02384 \textcolor{comment}{  * @param  TIM\_EventSource: specifies the event source.}
+02385 \textcolor{comment}{  *          This parameter can be one or more of the following values:    }
+02386 \textcolor{comment}{  *            @arg TIM\_EventSource\_Update: Timer update Event source}
+02387 \textcolor{comment}{  *            @arg TIM\_EventSource\_CC1: Timer Capture Compare 1 Event source}
+02388 \textcolor{comment}{  *            @arg TIM\_EventSource\_CC2: Timer Capture Compare 2 Event source}
+02389 \textcolor{comment}{  *            @arg TIM\_EventSource\_CC3: Timer Capture Compare 3 Event source}
+02390 \textcolor{comment}{  *            @arg TIM\_EventSource\_CC4: Timer Capture Compare 4 Event source}
+02391 \textcolor{comment}{  *            @arg TIM\_EventSource\_COM: Timer COM event source  }
+02392 \textcolor{comment}{  *            @arg TIM\_EventSource\_Trigger: Timer Trigger Event source}
+02393 \textcolor{comment}{  *            @arg TIM\_EventSource\_Break: Timer Break event source}
+02394 \textcolor{comment}{  * }
+02395 \textcolor{comment}{  * @note   TIM6 and TIM7 can only generate an update event. }
+02396 \textcolor{comment}{  * @note   TIM\_EventSource\_COM and TIM\_EventSource\_Break are used only with TIM1 and TIM8.}
+02397 \textcolor{comment}{  *        }
+02398 \textcolor{comment}{  * @retval None}
+02399 \textcolor{comment}{  */}
+02400 \textcolor{keywordtype}{void} TIM_GenerateEvent(TIM\_TypeDef* TIMx, uint16\_t TIM\_EventSource)
+02401 \{
+02402   \textcolor{comment}{/* Check the parameters */}
+02403   assert_param(IS\_TIM\_ALL\_PERIPH(TIMx));
+02404   assert_param(IS\_TIM\_EVENT\_SOURCE(TIM\_EventSource));
+02405 
+02406   \textcolor{comment}{/* Set the event sources */}
+02407   TIMx->EGR = TIM\_EventSource;
+02408 \}
+02409 
+02410 \textcolor{comment}{/**}
+02411 \textcolor{comment}{  * @brief  Checks whether the specified TIM flag is set or not.}
+02412 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 to select the TIM peripheral.}
+02413 \textcolor{comment}{  * @param  TIM\_FLAG: specifies the flag to check.}
+02414 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02415 \textcolor{comment}{  *            @arg TIM\_FLAG\_Update: TIM update Flag}
+02416 \textcolor{comment}{  *            @arg TIM\_FLAG\_CC1: TIM Capture Compare 1 Flag}
+02417 \textcolor{comment}{  *            @arg TIM\_FLAG\_CC2: TIM Capture Compare 2 Flag}
+02418 \textcolor{comment}{  *            @arg TIM\_FLAG\_CC3: TIM Capture Compare 3 Flag}
+02419 \textcolor{comment}{  *            @arg TIM\_FLAG\_CC4: TIM Capture Compare 4 Flag}
+02420 \textcolor{comment}{  *            @arg TIM\_FLAG\_COM: TIM Commutation Flag}
+02421 \textcolor{comment}{  *            @arg TIM\_FLAG\_Trigger: TIM Trigger Flag}
+02422 \textcolor{comment}{  *            @arg TIM\_FLAG\_Break: TIM Break Flag}
+02423 \textcolor{comment}{  *            @arg TIM\_FLAG\_CC1OF: TIM Capture Compare 1 over capture Flag}
+02424 \textcolor{comment}{  *            @arg TIM\_FLAG\_CC2OF: TIM Capture Compare 2 over capture Flag}
+02425 \textcolor{comment}{  *            @arg TIM\_FLAG\_CC3OF: TIM Capture Compare 3 over capture Flag}
+02426 \textcolor{comment}{  *            @arg TIM\_FLAG\_CC4OF: TIM Capture Compare 4 over capture Flag}
+02427 \textcolor{comment}{  *}
+02428 \textcolor{comment}{  * @note   TIM6 and TIM7 can have only one update flag. }
+02429 \textcolor{comment}{  * @note   TIM\_FLAG\_COM and TIM\_FLAG\_Break are used only with TIM1 and TIM8.    }
+02430 \textcolor{comment}{  *}
+02431 \textcolor{comment}{  * @retval The new state of TIM\_FLAG (SET or RESET).}
+02432 \textcolor{comment}{  */}
+02433 FlagStatus TIM_GetFlagStatus(TIM\_TypeDef* TIMx, uint16\_t TIM\_FLAG)
+02434 \{
+02435   ITStatus bitstatus = RESET;
+02436   \textcolor{comment}{/* Check the parameters */}
+02437   assert_param(IS\_TIM\_ALL\_PERIPH(TIMx));
+02438   assert_param(IS\_TIM\_GET\_FLAG(TIM\_FLAG));
+02439 
+02440 
+02441   \textcolor{keywordflow}{if} ((TIMx->SR & TIM\_FLAG) != (uint16\_t)RESET)
+02442   \{
+02443     bitstatus = SET;
+02444   \}
+02445   \textcolor{keywordflow}{else}
+02446   \{
+02447     bitstatus = RESET;
+02448   \}
+02449   \textcolor{keywordflow}{return} bitstatus;
+02450 \}
+02451 
+02452 \textcolor{comment}{/**}
+02453 \textcolor{comment}{  * @brief  Clears the TIMx's pending flags.}
+02454 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 to select the TIM peripheral.}
+02455 \textcolor{comment}{  * @param  TIM\_FLAG: specifies the flag bit to clear.}
+02456 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+02457 \textcolor{comment}{  *            @arg TIM\_FLAG\_Update: TIM update Flag}
+02458 \textcolor{comment}{  *            @arg TIM\_FLAG\_CC1: TIM Capture Compare 1 Flag}
+02459 \textcolor{comment}{  *            @arg TIM\_FLAG\_CC2: TIM Capture Compare 2 Flag}
+02460 \textcolor{comment}{  *            @arg TIM\_FLAG\_CC3: TIM Capture Compare 3 Flag}
+02461 \textcolor{comment}{  *            @arg TIM\_FLAG\_CC4: TIM Capture Compare 4 Flag}
+02462 \textcolor{comment}{  *            @arg TIM\_FLAG\_COM: TIM Commutation Flag}
+02463 \textcolor{comment}{  *            @arg TIM\_FLAG\_Trigger: TIM Trigger Flag}
+02464 \textcolor{comment}{  *            @arg TIM\_FLAG\_Break: TIM Break Flag}
+02465 \textcolor{comment}{  *            @arg TIM\_FLAG\_CC1OF: TIM Capture Compare 1 over capture Flag}
+02466 \textcolor{comment}{  *            @arg TIM\_FLAG\_CC2OF: TIM Capture Compare 2 over capture Flag}
+02467 \textcolor{comment}{  *            @arg TIM\_FLAG\_CC3OF: TIM Capture Compare 3 over capture Flag}
+02468 \textcolor{comment}{  *            @arg TIM\_FLAG\_CC4OF: TIM Capture Compare 4 over capture Flag}
+02469 \textcolor{comment}{  *}
+02470 \textcolor{comment}{  * @note   TIM6 and TIM7 can have only one update flag. }
+02471 \textcolor{comment}{  * @note   TIM\_FLAG\_COM and TIM\_FLAG\_Break are used only with TIM1 and TIM8.}
+02472 \textcolor{comment}{  *    }
+02473 \textcolor{comment}{  * @retval None}
+02474 \textcolor{comment}{  */}
+02475 \textcolor{keywordtype}{void} TIM_ClearFlag(TIM\_TypeDef* TIMx, uint16\_t TIM\_FLAG)
+02476 \{
+02477   \textcolor{comment}{/* Check the parameters */}
+02478   assert_param(IS\_TIM\_ALL\_PERIPH(TIMx));
+02479 
+02480   \textcolor{comment}{/* Clear the flags */}
+02481   TIMx->SR = (uint16\_t)~TIM\_FLAG;
+02482 \}
+02483 
+02484 \textcolor{comment}{/**}
+02485 \textcolor{comment}{  * @brief  Checks whether the TIM interrupt has occurred or not.}
+02486 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 to select the TIM peripheral.}
+02487 \textcolor{comment}{  * @param  TIM\_IT: specifies the TIM interrupt source to check.}
+02488 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02489 \textcolor{comment}{  *            @arg TIM\_IT\_Update: TIM update Interrupt source}
+02490 \textcolor{comment}{  *            @arg TIM\_IT\_CC1: TIM Capture Compare 1 Interrupt source}
+02491 \textcolor{comment}{  *            @arg TIM\_IT\_CC2: TIM Capture Compare 2 Interrupt source}
+02492 \textcolor{comment}{  *            @arg TIM\_IT\_CC3: TIM Capture Compare 3 Interrupt source}
+02493 \textcolor{comment}{  *            @arg TIM\_IT\_CC4: TIM Capture Compare 4 Interrupt source}
+02494 \textcolor{comment}{  *            @arg TIM\_IT\_COM: TIM Commutation Interrupt source}
+02495 \textcolor{comment}{  *            @arg TIM\_IT\_Trigger: TIM Trigger Interrupt source}
+02496 \textcolor{comment}{  *            @arg TIM\_IT\_Break: TIM Break Interrupt source}
+02497 \textcolor{comment}{  *}
+02498 \textcolor{comment}{  * @note   TIM6 and TIM7 can generate only an update interrupt.}
+02499 \textcolor{comment}{  * @note   TIM\_IT\_COM and TIM\_IT\_Break are used only with TIM1 and TIM8.}
+02500 \textcolor{comment}{  *     }
+02501 \textcolor{comment}{  * @retval The new state of the TIM\_IT(SET or RESET).}
+02502 \textcolor{comment}{  */}
+02503 ITStatus TIM_GetITStatus(TIM\_TypeDef* TIMx, uint16\_t TIM\_IT)
+02504 \{
+02505   ITStatus bitstatus = RESET;
+02506   uint16\_t itstatus = 0x0, itenable = 0x0;
+02507   \textcolor{comment}{/* Check the parameters */}
+02508   assert_param(IS\_TIM\_ALL\_PERIPH(TIMx));
+02509   assert_param(IS\_TIM\_GET\_IT(TIM\_IT));
+02510 
+02511   itstatus = TIMx->SR & TIM\_IT;
+02512 
+02513   itenable = TIMx->DIER & TIM\_IT;
+02514   \textcolor{keywordflow}{if} ((itstatus != (uint16\_t)RESET) && (itenable != (uint16\_t)RESET))
+02515   \{
+02516     bitstatus = SET;
+02517   \}
+02518   \textcolor{keywordflow}{else}
+02519   \{
+02520     bitstatus = RESET;
+02521   \}
+02522   \textcolor{keywordflow}{return} bitstatus;
+02523 \}
+02524 
+02525 \textcolor{comment}{/**}
+02526 \textcolor{comment}{  * @brief  Clears the TIMx's interrupt pending bits.}
+02527 \textcolor{comment}{  * @param  TIMx: where x can be 1 to 14 to select the TIM peripheral.}
+02528 \textcolor{comment}{  * @param  TIM\_IT: specifies the pending bit to clear.}
+02529 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+02530 \textcolor{comment}{  *            @arg TIM\_IT\_Update: TIM1 update Interrupt source}
+02531 \textcolor{comment}{  *            @arg TIM\_IT\_CC1: TIM Capture Compare 1 Interrupt source}
+02532 \textcolor{comment}{  *            @arg TIM\_IT\_CC2: TIM Capture Compare 2 Interrupt source}
+02533 \textcolor{comment}{  *            @arg TIM\_IT\_CC3: TIM Capture Compare 3 Interrupt source}
+02534 \textcolor{comment}{  *            @arg TIM\_IT\_CC4: TIM Capture Compare 4 Interrupt source}
+02535 \textcolor{comment}{  *            @arg TIM\_IT\_COM: TIM Commutation Interrupt source}
+02536 \textcolor{comment}{  *            @arg TIM\_IT\_Trigger: TIM Trigger Interrupt source}
+02537 \textcolor{comment}{  *            @arg TIM\_IT\_Break: TIM Break Interrupt source}
+02538 \textcolor{comment}{  *}
+02539 \textcolor{comment}{  * @note   TIM6 and TIM7 can generate only an update interrupt.}
+02540 \textcolor{comment}{  * @note   TIM\_IT\_COM and TIM\_IT\_Break are used only with TIM1 and TIM8.}
+02541 \textcolor{comment}{  *      }
+02542 \textcolor{comment}{  * @retval None}
+02543 \textcolor{comment}{  */}
+02544 \textcolor{keywordtype}{void} TIM_ClearITPendingBit(TIM\_TypeDef* TIMx, uint16\_t TIM\_IT)
+02545 \{
+02546   \textcolor{comment}{/* Check the parameters */}
+02547   assert_param(IS\_TIM\_ALL\_PERIPH(TIMx));
+02548 
+02549   \textcolor{comment}{/* Clear the IT pending Bit */}
+02550   TIMx->SR = (uint16\_t)~TIM\_IT;
+02551 \}
+02552 
+02553 \textcolor{comment}{/**}
+02554 \textcolor{comment}{  * @brief  Configures the TIMx's DMA interface.}
+02555 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+02556 \textcolor{comment}{  * @param  TIM\_DMABase: DMA Base address.}
+02557 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02558 \textcolor{comment}{  *            @arg TIM\_DMABase\_CR1  }
+02559 \textcolor{comment}{  *            @arg TIM\_DMABase\_CR2}
+02560 \textcolor{comment}{  *            @arg TIM\_DMABase\_SMCR}
+02561 \textcolor{comment}{  *            @arg TIM\_DMABase\_DIER}
+02562 \textcolor{comment}{  *            @arg TIM1\_DMABase\_SR}
+02563 \textcolor{comment}{  *            @arg TIM\_DMABase\_EGR}
+02564 \textcolor{comment}{  *            @arg TIM\_DMABase\_CCMR1}
+02565 \textcolor{comment}{  *            @arg TIM\_DMABase\_CCMR2}
+02566 \textcolor{comment}{  *            @arg TIM\_DMABase\_CCER}
+02567 \textcolor{comment}{  *            @arg TIM\_DMABase\_CNT   }
+02568 \textcolor{comment}{  *            @arg TIM\_DMABase\_PSC   }
+02569 \textcolor{comment}{  *            @arg TIM\_DMABase\_ARR}
+02570 \textcolor{comment}{  *            @arg TIM\_DMABase\_RCR}
+02571 \textcolor{comment}{  *            @arg TIM\_DMABase\_CCR1}
+02572 \textcolor{comment}{  *            @arg TIM\_DMABase\_CCR2}
+02573 \textcolor{comment}{  *            @arg TIM\_DMABase\_CCR3  }
+02574 \textcolor{comment}{  *            @arg TIM\_DMABase\_CCR4}
+02575 \textcolor{comment}{  *            @arg TIM\_DMABase\_BDTR}
+02576 \textcolor{comment}{  *            @arg TIM\_DMABase\_DCR}
+02577 \textcolor{comment}{  * @param  TIM\_DMABurstLength: DMA Burst length. This parameter can be one value}
+02578 \textcolor{comment}{  *         between: TIM\_DMABurstLength\_1Transfer and TIM\_DMABurstLength\_18Transfers.}
+02579 \textcolor{comment}{  * @retval None}
+02580 \textcolor{comment}{  */}
+02581 \textcolor{keywordtype}{void} TIM_DMAConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_DMABase, uint16\_t TIM\_DMABurstLength)
+02582 \{
+02583   \textcolor{comment}{/* Check the parameters */}
+02584   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+02585   assert_param(IS\_TIM\_DMA\_BASE(TIM\_DMABase));
+02586   assert_param(IS\_TIM\_DMA\_LENGTH(TIM\_DMABurstLength));
+02587 
+02588   \textcolor{comment}{/* Set the DMA Base and the DMA Burst Length */}
+02589   TIMx->DCR = TIM\_DMABase | TIM\_DMABurstLength;
+02590 \}
+02591 
+02592 \textcolor{comment}{/**}
+02593 \textcolor{comment}{  * @brief  Enables or disables the TIMx's DMA Requests.}
+02594 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5, 6, 7 or 8 to select the TIM peripheral.}
+02595 \textcolor{comment}{  * @param  TIM\_DMASource: specifies the DMA Request sources.}
+02596 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+02597 \textcolor{comment}{  *            @arg TIM\_DMA\_Update: TIM update Interrupt source}
+02598 \textcolor{comment}{  *            @arg TIM\_DMA\_CC1: TIM Capture Compare 1 DMA source}
+02599 \textcolor{comment}{  *            @arg TIM\_DMA\_CC2: TIM Capture Compare 2 DMA source}
+02600 \textcolor{comment}{  *            @arg TIM\_DMA\_CC3: TIM Capture Compare 3 DMA source}
+02601 \textcolor{comment}{  *            @arg TIM\_DMA\_CC4: TIM Capture Compare 4 DMA source}
+02602 \textcolor{comment}{  *            @arg TIM\_DMA\_COM: TIM Commutation DMA source}
+02603 \textcolor{comment}{  *            @arg TIM\_DMA\_Trigger: TIM Trigger DMA source}
+02604 \textcolor{comment}{  * @param  NewState: new state of the DMA Request sources.}
+02605 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+02606 \textcolor{comment}{  * @retval None}
+02607 \textcolor{comment}{  */}
+02608 \textcolor{keywordtype}{void} TIM_DMACmd(TIM\_TypeDef* TIMx, uint16\_t TIM\_DMASource, FunctionalState NewState)
+02609 \{
+02610   \textcolor{comment}{/* Check the parameters */}
+02611   assert_param(IS\_TIM\_LIST5\_PERIPH(TIMx));
+02612   assert_param(IS\_TIM\_DMA\_SOURCE(TIM\_DMASource));
+02613   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+02614 
+02615   \textcolor{keywordflow}{if} (NewState != DISABLE)
+02616   \{
+02617     \textcolor{comment}{/* Enable the DMA sources */}
+02618     TIMx->DIER |= TIM\_DMASource;
+02619   \}
+02620   \textcolor{keywordflow}{else}
+02621   \{
+02622     \textcolor{comment}{/* Disable the DMA sources */}
+02623     TIMx->DIER &= (uint16\_t)~TIM\_DMASource;
+02624   \}
+02625 \}
+02626 
+02627 \textcolor{comment}{/**}
+02628 \textcolor{comment}{  * @brief  Selects the TIMx peripheral Capture Compare DMA source.}
+02629 \textcolor{comment}{  * @param  TIMx: where x can be  1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+02630 \textcolor{comment}{  * @param  NewState: new state of the Capture Compare DMA source}
+02631 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+02632 \textcolor{comment}{  * @retval None}
+02633 \textcolor{comment}{  */}
+02634 \textcolor{keywordtype}{void} TIM_SelectCCDMA(TIM\_TypeDef* TIMx, FunctionalState NewState)
+02635 \{
+02636   \textcolor{comment}{/* Check the parameters */}
+02637   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+02638   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+02639 
+02640   \textcolor{keywordflow}{if} (NewState != DISABLE)
+02641   \{
+02642     \textcolor{comment}{/* Set the CCDS Bit */}
+02643     TIMx->CR2 |= TIM_CR2_CCDS;
+02644   \}
+02645   \textcolor{keywordflow}{else}
+02646   \{
+02647     \textcolor{comment}{/* Reset the CCDS Bit */}
+02648     TIMx->CR2 &= (uint16\_t)~TIM_CR2_CCDS;
+02649   \}
+02650 \}
+02651 \textcolor{comment}{/**}
+02652 \textcolor{comment}{  * @\}}
+02653 \textcolor{comment}{  */}
+02654 
+02655 \textcolor{comment}{/** @defgroup TIM\_Group6 Clocks management functions}
+02656 \textcolor{comment}{ *  @brief    Clocks management functions}
+02657 \textcolor{comment}{ *}
+02658 \textcolor{comment}{@verbatim   }
+02659 \textcolor{comment}{ ===============================================================================}
+02660 \textcolor{comment}{                         Clocks management functions}
+02661 \textcolor{comment}{ ===============================================================================  }
+02662 \textcolor{comment}{}
+02663 \textcolor{comment}{@endverbatim}
+02664 \textcolor{comment}{  * @\{}
+02665 \textcolor{comment}{  */}
+02666 
+02667 \textcolor{comment}{/**}
+02668 \textcolor{comment}{  * @brief  Configures the TIMx internal Clock}
+02669 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5, 8, 9 or 12 to select the TIM }
+02670 \textcolor{comment}{  *         peripheral.}
+02671 \textcolor{comment}{  * @retval None}
+02672 \textcolor{comment}{  */}
+02673 \textcolor{keywordtype}{void} TIM_InternalClockConfig(TIM\_TypeDef* TIMx)
+02674 \{
+02675   \textcolor{comment}{/* Check the parameters */}
+02676   assert_param(IS\_TIM\_LIST2\_PERIPH(TIMx));
+02677 
+02678   \textcolor{comment}{/* Disable slave mode to clock the prescaler directly with the internal clock */}
+02679   TIMx->SMCR &=  (uint16\_t)~TIM_SMCR_SMS;
+02680 \}
+02681 
+02682 \textcolor{comment}{/**}
+02683 \textcolor{comment}{  * @brief  Configures the TIMx Internal Trigger as External Clock}
+02684 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5, 8, 9 or 12 to select the TIM }
+02685 \textcolor{comment}{  *         peripheral.}
+02686 \textcolor{comment}{  * @param  TIM\_InputTriggerSource: Trigger source.}
+02687 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02688 \textcolor{comment}{  *            @arg TIM\_TS\_ITR0: Internal Trigger 0}
+02689 \textcolor{comment}{  *            @arg TIM\_TS\_ITR1: Internal Trigger 1}
+02690 \textcolor{comment}{  *            @arg TIM\_TS\_ITR2: Internal Trigger 2}
+02691 \textcolor{comment}{  *            @arg TIM\_TS\_ITR3: Internal Trigger 3}
+02692 \textcolor{comment}{  * @retval None}
+02693 \textcolor{comment}{  */}
+02694 \textcolor{keywordtype}{void} TIM_ITRxExternalClockConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_InputTriggerSource)
+02695 \{
+02696   \textcolor{comment}{/* Check the parameters */}
+02697   assert_param(IS\_TIM\_LIST2\_PERIPH(TIMx));
+02698   assert_param(IS\_TIM\_INTERNAL\_TRIGGER\_SELECTION(TIM\_InputTriggerSource));
+02699 
+02700   \textcolor{comment}{/* Select the Internal Trigger */}
+02701   TIM_SelectInputTrigger(TIMx, TIM\_InputTriggerSource);
+02702 
+02703   \textcolor{comment}{/* Select the External clock mode1 */}
+02704   TIMx->SMCR |= TIM_SlaveMode_External1;
+02705 \}
+02706 
+02707 \textcolor{comment}{/**}
+02708 \textcolor{comment}{  * @brief  Configures the TIMx Trigger as External Clock}
+02709 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13 or 14  }
+02710 \textcolor{comment}{  *         to select the TIM peripheral.}
+02711 \textcolor{comment}{  * @param  TIM\_TIxExternalCLKSource: Trigger source.}
+02712 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02713 \textcolor{comment}{  *            @arg TIM\_TIxExternalCLK1Source\_TI1ED: TI1 Edge Detector}
+02714 \textcolor{comment}{  *            @arg TIM\_TIxExternalCLK1Source\_TI1: Filtered Timer Input 1}
+02715 \textcolor{comment}{  *            @arg TIM\_TIxExternalCLK1Source\_TI2: Filtered Timer Input 2}
+02716 \textcolor{comment}{  * @param  TIM\_ICPolarity: specifies the TIx Polarity.}
+02717 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02718 \textcolor{comment}{  *            @arg TIM\_ICPolarity\_Rising}
+02719 \textcolor{comment}{  *            @arg TIM\_ICPolarity\_Falling}
+02720 \textcolor{comment}{  * @param  ICFilter: specifies the filter value.}
+02721 \textcolor{comment}{  *          This parameter must be a value between 0x0 and 0xF.}
+02722 \textcolor{comment}{  * @retval None}
+02723 \textcolor{comment}{  */}
+02724 \textcolor{keywordtype}{void} TIM_TIxExternalClockConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_TIxExternalCLKSource,
+02725                                 uint16\_t TIM\_ICPolarity, uint16\_t ICFilter)
+02726 \{
+02727   \textcolor{comment}{/* Check the parameters */}
+02728   assert_param(IS\_TIM\_LIST1\_PERIPH(TIMx));
+02729   assert_param(IS\_TIM\_IC\_POLARITY(TIM\_ICPolarity));
+02730   assert_param(IS\_TIM\_IC\_FILTER(ICFilter));
+02731 
+02732   \textcolor{comment}{/* Configure the Timer Input Clock Source */}
+02733   \textcolor{keywordflow}{if} (TIM\_TIxExternalCLKSource == TIM_TIxExternalCLK1Source_TI2)
+02734   \{
+02735     TI2_Config(TIMx, TIM\_ICPolarity, TIM_ICSelection_DirectTI, ICFilter);
+02736   \}
+02737   \textcolor{keywordflow}{else}
+02738   \{
+02739     TI1_Config(TIMx, TIM\_ICPolarity, TIM_ICSelection_DirectTI, ICFilter);
+02740   \}
+02741   \textcolor{comment}{/* Select the Trigger source */}
+02742   TIM_SelectInputTrigger(TIMx, TIM\_TIxExternalCLKSource);
+02743   \textcolor{comment}{/* Select the External clock mode1 */}
+02744   TIMx->SMCR |= TIM_SlaveMode_External1;
+02745 \}
+02746 
+02747 \textcolor{comment}{/**}
+02748 \textcolor{comment}{  * @brief  Configures the External clock Mode1}
+02749 \textcolor{comment}{  * @param  TIMx: where x can be  1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+02750 \textcolor{comment}{  * @param  TIM\_ExtTRGPrescaler: The external Trigger Prescaler.}
+02751 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02752 \textcolor{comment}{  *            @arg TIM\_ExtTRGPSC\_OFF: ETRP Prescaler OFF.}
+02753 \textcolor{comment}{  *            @arg TIM\_ExtTRGPSC\_DIV2: ETRP frequency divided by 2.}
+02754 \textcolor{comment}{  *            @arg TIM\_ExtTRGPSC\_DIV4: ETRP frequency divided by 4.}
+02755 \textcolor{comment}{  *            @arg TIM\_ExtTRGPSC\_DIV8: ETRP frequency divided by 8.}
+02756 \textcolor{comment}{  * @param  TIM\_ExtTRGPolarity: The external Trigger Polarity.}
+02757 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02758 \textcolor{comment}{  *            @arg TIM\_ExtTRGPolarity\_Inverted: active low or falling edge active.}
+02759 \textcolor{comment}{  *            @arg TIM\_ExtTRGPolarity\_NonInverted: active high or rising edge active.}
+02760 \textcolor{comment}{  * @param  ExtTRGFilter: External Trigger Filter.}
+02761 \textcolor{comment}{  *          This parameter must be a value between 0x00 and 0x0F}
+02762 \textcolor{comment}{  * @retval None}
+02763 \textcolor{comment}{  */}
+02764 \textcolor{keywordtype}{void} TIM_ETRClockMode1Config(TIM\_TypeDef* TIMx, uint16\_t TIM\_ExtTRGPrescaler,
+02765                             uint16\_t TIM\_ExtTRGPolarity, uint16\_t ExtTRGFilter)
+02766 \{
+02767   uint16\_t tmpsmcr = 0;
+02768 
+02769   \textcolor{comment}{/* Check the parameters */}
+02770   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+02771   assert_param(IS\_TIM\_EXT\_PRESCALER(TIM\_ExtTRGPrescaler));
+02772   assert_param(IS\_TIM\_EXT\_POLARITY(TIM\_ExtTRGPolarity));
+02773   assert_param(IS\_TIM\_EXT\_FILTER(ExtTRGFilter));
+02774   \textcolor{comment}{/* Configure the ETR Clock source */}
+02775   TIM_ETRConfig(TIMx, TIM\_ExtTRGPrescaler, TIM\_ExtTRGPolarity, ExtTRGFilter
+      );
+02776 
+02777   \textcolor{comment}{/* Get the TIMx SMCR register value */}
+02778   tmpsmcr = TIMx->SMCR;
+02779 
+02780   \textcolor{comment}{/* Reset the SMS Bits */}
+02781   tmpsmcr &= (uint16\_t)~TIM_SMCR_SMS;
+02782 
+02783   \textcolor{comment}{/* Select the External clock mode1 */}
+02784   tmpsmcr |= TIM_SlaveMode_External1;
+02785 
+02786   \textcolor{comment}{/* Select the Trigger selection : ETRF */}
+02787   tmpsmcr &= (uint16\_t)~TIM_SMCR_TS;
+02788   tmpsmcr |= TIM_TS_ETRF;
+02789 
+02790   \textcolor{comment}{/* Write to TIMx SMCR */}
+02791   TIMx->SMCR = tmpsmcr;
+02792 \}
+02793 
+02794 \textcolor{comment}{/**}
+02795 \textcolor{comment}{  * @brief  Configures the External clock Mode2}
+02796 \textcolor{comment}{  * @param  TIMx: where x can be  1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+02797 \textcolor{comment}{  * @param  TIM\_ExtTRGPrescaler: The external Trigger Prescaler.}
+02798 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02799 \textcolor{comment}{  *            @arg TIM\_ExtTRGPSC\_OFF: ETRP Prescaler OFF.}
+02800 \textcolor{comment}{  *            @arg TIM\_ExtTRGPSC\_DIV2: ETRP frequency divided by 2.}
+02801 \textcolor{comment}{  *            @arg TIM\_ExtTRGPSC\_DIV4: ETRP frequency divided by 4.}
+02802 \textcolor{comment}{  *            @arg TIM\_ExtTRGPSC\_DIV8: ETRP frequency divided by 8.}
+02803 \textcolor{comment}{  * @param  TIM\_ExtTRGPolarity: The external Trigger Polarity.}
+02804 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02805 \textcolor{comment}{  *            @arg TIM\_ExtTRGPolarity\_Inverted: active low or falling edge active.}
+02806 \textcolor{comment}{  *            @arg TIM\_ExtTRGPolarity\_NonInverted: active high or rising edge active.}
+02807 \textcolor{comment}{  * @param  ExtTRGFilter: External Trigger Filter.}
+02808 \textcolor{comment}{  *          This parameter must be a value between 0x00 and 0x0F}
+02809 \textcolor{comment}{  * @retval None}
+02810 \textcolor{comment}{  */}
+02811 \textcolor{keywordtype}{void} TIM_ETRClockMode2Config(TIM\_TypeDef* TIMx, uint16\_t TIM\_ExtTRGPrescaler,
+02812                              uint16\_t TIM\_ExtTRGPolarity, uint16\_t ExtTRGFilter)
+02813 \{
+02814   \textcolor{comment}{/* Check the parameters */}
+02815   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+02816   assert_param(IS\_TIM\_EXT\_PRESCALER(TIM\_ExtTRGPrescaler));
+02817   assert_param(IS\_TIM\_EXT\_POLARITY(TIM\_ExtTRGPolarity));
+02818   assert_param(IS\_TIM\_EXT\_FILTER(ExtTRGFilter));
+02819 
+02820   \textcolor{comment}{/* Configure the ETR Clock source */}
+02821   TIM_ETRConfig(TIMx, TIM\_ExtTRGPrescaler, TIM\_ExtTRGPolarity, ExtTRGFilter
+      );
+02822 
+02823   \textcolor{comment}{/* Enable the External clock mode2 */}
+02824   TIMx->SMCR |= TIM_SMCR_ECE;
+02825 \}
+02826 \textcolor{comment}{/**}
+02827 \textcolor{comment}{  * @\}}
+02828 \textcolor{comment}{  */}
+02829 
+02830 \textcolor{comment}{/** @defgroup TIM\_Group7 Synchronization management functions}
+02831 \textcolor{comment}{ *  @brief    Synchronization management functions }
+02832 \textcolor{comment}{ *}
+02833 \textcolor{comment}{@verbatim   }
+02834 \textcolor{comment}{ ===============================================================================}
+02835 \textcolor{comment}{                       Synchronization management functions}
+02836 \textcolor{comment}{ ===============================================================================  }
+02837 \textcolor{comment}{                   }
+02838 \textcolor{comment}{       ===================================================================      }
+02839 \textcolor{comment}{              TIM Driver: how to use it in synchronization Mode}
+02840 \textcolor{comment}{       =================================================================== }
+02841 \textcolor{comment}{       Case of two/several Timers}
+02842 \textcolor{comment}{       **************************}
+02843 \textcolor{comment}{       1. Configure the Master Timers using the following functions:}
+02844 \textcolor{comment}{          - void TIM\_SelectOutputTrigger(TIM\_TypeDef* TIMx, uint16\_t TIM\_TRGOSource); }
+02845 \textcolor{comment}{          - void TIM\_SelectMasterSlaveMode(TIM\_TypeDef* TIMx, uint16\_t TIM\_MasterSlaveMode);  }
+02846 \textcolor{comment}{       2. Configure the Slave Timers using the following functions: }
+02847 \textcolor{comment}{          - void TIM\_SelectInputTrigger(TIM\_TypeDef* TIMx, uint16\_t TIM\_InputTriggerSource);  }
+02848 \textcolor{comment}{          - void TIM\_SelectSlaveMode(TIM\_TypeDef* TIMx, uint16\_t TIM\_SlaveMode); }
+02849 \textcolor{comment}{          }
+02850 \textcolor{comment}{       Case of Timers and external trigger(ETR pin)}
+02851 \textcolor{comment}{       ********************************************       }
+02852 \textcolor{comment}{       1. Configure the External trigger using this function:}
+02853 \textcolor{comment}{          - void TIM\_ETRConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_ExtTRGPrescaler, uint16\_t
+       TIM\_ExtTRGPolarity,}
+02854 \textcolor{comment}{                               uint16\_t ExtTRGFilter);}
+02855 \textcolor{comment}{       2. Configure the Slave Timers using the following functions: }
+02856 \textcolor{comment}{          - void TIM\_SelectInputTrigger(TIM\_TypeDef* TIMx, uint16\_t TIM\_InputTriggerSource);  }
+02857 \textcolor{comment}{          - void TIM\_SelectSlaveMode(TIM\_TypeDef* TIMx, uint16\_t TIM\_SlaveMode); }
+02858 \textcolor{comment}{}
+02859 \textcolor{comment}{@endverbatim}
+02860 \textcolor{comment}{  * @\{}
+02861 \textcolor{comment}{  */}
+02862 
+02863 \textcolor{comment}{/**}
+02864 \textcolor{comment}{  * @brief  Selects the Input Trigger source}
+02865 \textcolor{comment}{  * @param  TIMx: where x can be  1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13 or 14  }
+02866 \textcolor{comment}{  *         to select the TIM peripheral.}
+02867 \textcolor{comment}{  * @param  TIM\_InputTriggerSource: The Input Trigger source.}
+02868 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02869 \textcolor{comment}{  *            @arg TIM\_TS\_ITR0: Internal Trigger 0}
+02870 \textcolor{comment}{  *            @arg TIM\_TS\_ITR1: Internal Trigger 1}
+02871 \textcolor{comment}{  *            @arg TIM\_TS\_ITR2: Internal Trigger 2}
+02872 \textcolor{comment}{  *            @arg TIM\_TS\_ITR3: Internal Trigger 3}
+02873 \textcolor{comment}{  *            @arg TIM\_TS\_TI1F\_ED: TI1 Edge Detector}
+02874 \textcolor{comment}{  *            @arg TIM\_TS\_TI1FP1: Filtered Timer Input 1}
+02875 \textcolor{comment}{  *            @arg TIM\_TS\_TI2FP2: Filtered Timer Input 2}
+02876 \textcolor{comment}{  *            @arg TIM\_TS\_ETRF: External Trigger input}
+02877 \textcolor{comment}{  * @retval None}
+02878 \textcolor{comment}{  */}
+02879 \textcolor{keywordtype}{void} TIM_SelectInputTrigger(TIM\_TypeDef* TIMx, uint16\_t TIM\_InputTriggerSource)
+02880 \{
+02881   uint16\_t tmpsmcr = 0;
+02882 
+02883   \textcolor{comment}{/* Check the parameters */}
+02884   assert_param(IS\_TIM\_LIST1\_PERIPH(TIMx));
+02885   assert_param(IS\_TIM\_TRIGGER\_SELECTION(TIM\_InputTriggerSource));
+02886 
+02887   \textcolor{comment}{/* Get the TIMx SMCR register value */}
+02888   tmpsmcr = TIMx->SMCR;
+02889 
+02890   \textcolor{comment}{/* Reset the TS Bits */}
+02891   tmpsmcr &= (uint16\_t)~TIM_SMCR_TS;
+02892 
+02893   \textcolor{comment}{/* Set the Input Trigger source */}
+02894   tmpsmcr |= TIM\_InputTriggerSource;
+02895 
+02896   \textcolor{comment}{/* Write to TIMx SMCR */}
+02897   TIMx->SMCR = tmpsmcr;
+02898 \}
+02899 
+02900 \textcolor{comment}{/**}
+02901 \textcolor{comment}{  * @brief  Selects the TIMx Trigger Output Mode.}
+02902 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5, 6, 7 or 8 to select the TIM peripheral.}
+02903 \textcolor{comment}{  *     }
+02904 \textcolor{comment}{  * @param  TIM\_TRGOSource: specifies the Trigger Output source.}
+02905 \textcolor{comment}{  *   This parameter can be one of the following values:}
+02906 \textcolor{comment}{  *}
+02907 \textcolor{comment}{  *  - For all TIMx}
+02908 \textcolor{comment}{  *            @arg TIM\_TRGOSource\_Reset:  The UG bit in the TIM\_EGR register is used as the trigger
+       output(TRGO)}
+02909 \textcolor{comment}{  *            @arg TIM\_TRGOSource\_Enable: The Counter Enable CEN is used as the trigger output(TRGO)}
+02910 \textcolor{comment}{  *            @arg TIM\_TRGOSource\_Update: The update event is selected as the trigger output(TRGO)}
+02911 \textcolor{comment}{  *}
+02912 \textcolor{comment}{  *  - For all TIMx except TIM6 and TIM7}
+02913 \textcolor{comment}{  *            @arg TIM\_TRGOSource\_OC1: The trigger output sends a positive pulse when the CC1IF flag}
+02914 \textcolor{comment}{  *                                     is to be set, as soon as a capture or compare match
+       occurs(TRGO)}
+02915 \textcolor{comment}{  *            @arg TIM\_TRGOSource\_OC1Ref: OC1REF signal is used as the trigger output(TRGO)}
+02916 \textcolor{comment}{  *            @arg TIM\_TRGOSource\_OC2Ref: OC2REF signal is used as the trigger output(TRGO)}
+02917 \textcolor{comment}{  *            @arg TIM\_TRGOSource\_OC3Ref: OC3REF signal is used as the trigger output(TRGO)}
+02918 \textcolor{comment}{  *            @arg TIM\_TRGOSource\_OC4Ref: OC4REF signal is used as the trigger output(TRGO)}
+02919 \textcolor{comment}{  *}
+02920 \textcolor{comment}{  * @retval None}
+02921 \textcolor{comment}{  */}
+02922 \textcolor{keywordtype}{void} TIM_SelectOutputTrigger(TIM\_TypeDef* TIMx, uint16\_t TIM\_TRGOSource)
+02923 \{
+02924   \textcolor{comment}{/* Check the parameters */}
+02925   assert_param(IS\_TIM\_LIST5\_PERIPH(TIMx));
+02926   assert_param(IS\_TIM\_TRGO\_SOURCE(TIM\_TRGOSource));
+02927 
+02928   \textcolor{comment}{/* Reset the MMS Bits */}
+02929   TIMx->CR2 &= (uint16\_t)~TIM_CR2_MMS;
+02930   \textcolor{comment}{/* Select the TRGO source */}
+02931   TIMx->CR2 |=  TIM\_TRGOSource;
+02932 \}
+02933 
+02934 \textcolor{comment}{/**}
+02935 \textcolor{comment}{  * @brief  Selects the TIMx Slave Mode.}
+02936 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5, 8, 9 or 12 to select the TIM peripheral.}
+02937 \textcolor{comment}{  * @param  TIM\_SlaveMode: specifies the Timer Slave Mode.}
+02938 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02939 \textcolor{comment}{  *            @arg TIM\_SlaveMode\_Reset: Rising edge of the selected trigger signal(TRGI) reinitialize
+       }
+02940 \textcolor{comment}{  *                                      the counter and triggers an update of the registers}
+02941 \textcolor{comment}{  *            @arg TIM\_SlaveMode\_Gated:     The counter clock is enabled when the trigger signal
+       (TRGI) is high}
+02942 \textcolor{comment}{  *            @arg TIM\_SlaveMode\_Trigger:   The counter starts at a rising edge of the trigger TRGI}
+02943 \textcolor{comment}{  *            @arg TIM\_SlaveMode\_External1: Rising edges of the selected trigger (TRGI) clock the
+       counter}
+02944 \textcolor{comment}{  * @retval None}
+02945 \textcolor{comment}{  */}
+02946 \textcolor{keywordtype}{void} TIM_SelectSlaveMode(TIM\_TypeDef* TIMx, uint16\_t TIM\_SlaveMode)
+02947 \{
+02948   \textcolor{comment}{/* Check the parameters */}
+02949   assert_param(IS\_TIM\_LIST2\_PERIPH(TIMx));
+02950   assert_param(IS\_TIM\_SLAVE\_MODE(TIM\_SlaveMode));
+02951 
+02952   \textcolor{comment}{/* Reset the SMS Bits */}
+02953   TIMx->SMCR &= (uint16\_t)~TIM_SMCR_SMS;
+02954 
+02955   \textcolor{comment}{/* Select the Slave Mode */}
+02956   TIMx->SMCR |= TIM\_SlaveMode;
+02957 \}
+02958 
+02959 \textcolor{comment}{/**}
+02960 \textcolor{comment}{  * @brief  Sets or Resets the TIMx Master/Slave Mode.}
+02961 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5, 8, 9 or 12 to select the TIM peripheral.}
+02962 \textcolor{comment}{  * @param  TIM\_MasterSlaveMode: specifies the Timer Master Slave Mode.}
+02963 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02964 \textcolor{comment}{  *            @arg TIM\_MasterSlaveMode\_Enable: synchronization between the current timer}
+02965 \textcolor{comment}{  *                                             and its slaves (through TRGO)}
+02966 \textcolor{comment}{  *            @arg TIM\_MasterSlaveMode\_Disable: No action}
+02967 \textcolor{comment}{  * @retval None}
+02968 \textcolor{comment}{  */}
+02969 \textcolor{keywordtype}{void} TIM_SelectMasterSlaveMode(TIM\_TypeDef* TIMx, uint16\_t TIM\_MasterSlaveMode)
+02970 \{
+02971   \textcolor{comment}{/* Check the parameters */}
+02972   assert_param(IS\_TIM\_LIST2\_PERIPH(TIMx));
+02973   assert_param(IS\_TIM\_MSM\_STATE(TIM\_MasterSlaveMode));
+02974 
+02975   \textcolor{comment}{/* Reset the MSM Bit */}
+02976   TIMx->SMCR &= (uint16\_t)~TIM_SMCR_MSM;
+02977 
+02978   \textcolor{comment}{/* Set or Reset the MSM Bit */}
+02979   TIMx->SMCR |= TIM\_MasterSlaveMode;
+02980 \}
+02981 
+02982 \textcolor{comment}{/**}
+02983 \textcolor{comment}{  * @brief  Configures the TIMx External Trigger (ETR).}
+02984 \textcolor{comment}{  * @param  TIMx: where x can be  1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+02985 \textcolor{comment}{  * @param  TIM\_ExtTRGPrescaler: The external Trigger Prescaler.}
+02986 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02987 \textcolor{comment}{  *            @arg TIM\_ExtTRGPSC\_OFF: ETRP Prescaler OFF.}
+02988 \textcolor{comment}{  *            @arg TIM\_ExtTRGPSC\_DIV2: ETRP frequency divided by 2.}
+02989 \textcolor{comment}{  *            @arg TIM\_ExtTRGPSC\_DIV4: ETRP frequency divided by 4.}
+02990 \textcolor{comment}{  *            @arg TIM\_ExtTRGPSC\_DIV8: ETRP frequency divided by 8.}
+02991 \textcolor{comment}{  * @param  TIM\_ExtTRGPolarity: The external Trigger Polarity.}
+02992 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02993 \textcolor{comment}{  *            @arg TIM\_ExtTRGPolarity\_Inverted: active low or falling edge active.}
+02994 \textcolor{comment}{  *            @arg TIM\_ExtTRGPolarity\_NonInverted: active high or rising edge active.}
+02995 \textcolor{comment}{  * @param  ExtTRGFilter: External Trigger Filter.}
+02996 \textcolor{comment}{  *          This parameter must be a value between 0x00 and 0x0F}
+02997 \textcolor{comment}{  * @retval None}
+02998 \textcolor{comment}{  */}
+02999 \textcolor{keywordtype}{void} TIM_ETRConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_ExtTRGPrescaler,
+03000                    uint16\_t TIM\_ExtTRGPolarity, uint16\_t ExtTRGFilter)
+03001 \{
+03002   uint16\_t tmpsmcr = 0;
+03003 
+03004   \textcolor{comment}{/* Check the parameters */}
+03005   assert_param(IS\_TIM\_LIST3\_PERIPH(TIMx));
+03006   assert_param(IS\_TIM\_EXT\_PRESCALER(TIM\_ExtTRGPrescaler));
+03007   assert_param(IS\_TIM\_EXT\_POLARITY(TIM\_ExtTRGPolarity));
+03008   assert_param(IS\_TIM\_EXT\_FILTER(ExtTRGFilter));
+03009 
+03010   tmpsmcr = TIMx->SMCR;
+03011 
+03012   \textcolor{comment}{/* Reset the ETR Bits */}
+03013   tmpsmcr &= SMCR_ETR_MASK;
+03014 
+03015   \textcolor{comment}{/* Set the Prescaler, the Filter value and the Polarity */}
+03016   tmpsmcr |= (uint16\_t)(TIM\_ExtTRGPrescaler | (uint16\_t)(TIM\_ExtTRGPolarity | (uint16\_t)(ExtTRGFilter 
+      << (uint16\_t)8)));
+03017 
+03018   \textcolor{comment}{/* Write to TIMx SMCR */}
+03019   TIMx->SMCR = tmpsmcr;
+03020 \}
+03021 \textcolor{comment}{/**}
+03022 \textcolor{comment}{  * @\}}
+03023 \textcolor{comment}{  */}
+03024 
+03025 \textcolor{comment}{/** @defgroup TIM\_Group8 Specific interface management functions}
+03026 \textcolor{comment}{ *  @brief    Specific interface management functions }
+03027 \textcolor{comment}{ *}
+03028 \textcolor{comment}{@verbatim   }
+03029 \textcolor{comment}{ ===============================================================================}
+03030 \textcolor{comment}{                    Specific interface management functions}
+03031 \textcolor{comment}{ ===============================================================================  }
+03032 \textcolor{comment}{}
+03033 \textcolor{comment}{@endverbatim}
+03034 \textcolor{comment}{  * @\{}
+03035 \textcolor{comment}{  */}
+03036 
+03037 \textcolor{comment}{/**}
+03038 \textcolor{comment}{  * @brief  Configures the TIMx Encoder Interface.}
+03039 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5, 8, 9 or 12 to select the TIM }
+03040 \textcolor{comment}{  *         peripheral.}
+03041 \textcolor{comment}{  * @param  TIM\_EncoderMode: specifies the TIMx Encoder Mode.}
+03042 \textcolor{comment}{  *          This parameter can be one of the following values:}
+03043 \textcolor{comment}{  *            @arg TIM\_EncoderMode\_TI1: Counter counts on TI1FP1 edge depending on TI2FP2 level.}
+03044 \textcolor{comment}{  *            @arg TIM\_EncoderMode\_TI2: Counter counts on TI2FP2 edge depending on TI1FP1 level.}
+03045 \textcolor{comment}{  *            @arg TIM\_EncoderMode\_TI12: Counter counts on both TI1FP1 and TI2FP2 edges depending}
+03046 \textcolor{comment}{  *                                       on the level of the other input.}
+03047 \textcolor{comment}{  * @param  TIM\_IC1Polarity: specifies the IC1 Polarity}
+03048 \textcolor{comment}{  *          This parameter can be one of the following values:}
+03049 \textcolor{comment}{  *            @arg TIM\_ICPolarity\_Falling: IC Falling edge.}
+03050 \textcolor{comment}{  *            @arg TIM\_ICPolarity\_Rising: IC Rising edge.}
+03051 \textcolor{comment}{  * @param  TIM\_IC2Polarity: specifies the IC2 Polarity}
+03052 \textcolor{comment}{  *          This parameter can be one of the following values:}
+03053 \textcolor{comment}{  *            @arg TIM\_ICPolarity\_Falling: IC Falling edge.}
+03054 \textcolor{comment}{  *            @arg TIM\_ICPolarity\_Rising: IC Rising edge.}
+03055 \textcolor{comment}{  * @retval None}
+03056 \textcolor{comment}{  */}
+03057 \textcolor{keywordtype}{void} TIM_EncoderInterfaceConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_EncoderMode,
+03058                                 uint16\_t TIM\_IC1Polarity, uint16\_t TIM\_IC2Polarity)
+03059 \{
+03060   uint16\_t tmpsmcr = 0;
+03061   uint16\_t tmpccmr1 = 0;
+03062   uint16\_t tmpccer = 0;
+03063 
+03064   \textcolor{comment}{/* Check the parameters */}
+03065   assert_param(IS\_TIM\_LIST2\_PERIPH(TIMx));
+03066   assert_param(IS\_TIM\_ENCODER\_MODE(TIM\_EncoderMode));
+03067   assert_param(IS\_TIM\_IC\_POLARITY(TIM\_IC1Polarity));
+03068   assert_param(IS\_TIM\_IC\_POLARITY(TIM\_IC2Polarity));
+03069 
+03070   \textcolor{comment}{/* Get the TIMx SMCR register value */}
+03071   tmpsmcr = TIMx->SMCR;
+03072 
+03073   \textcolor{comment}{/* Get the TIMx CCMR1 register value */}
+03074   tmpccmr1 = TIMx->CCMR1;
+03075 
+03076   \textcolor{comment}{/* Get the TIMx CCER register value */}
+03077   tmpccer = TIMx->CCER;
+03078 
+03079   \textcolor{comment}{/* Set the encoder Mode */}
+03080   tmpsmcr &= (uint16\_t)~TIM_SMCR_SMS;
+03081   tmpsmcr |= TIM\_EncoderMode;
+03082 
+03083   \textcolor{comment}{/* Select the Capture Compare 1 and the Capture Compare 2 as input */}
+03084   tmpccmr1 &= ((uint16\_t)~TIM_CCMR1_CC1S) & ((uint16\_t)~TIM_CCMR1_CC2S);
+03085   tmpccmr1 |= TIM_CCMR1_CC1S_0 | TIM_CCMR1_CC2S_0;
+03086 
+03087   \textcolor{comment}{/* Set the TI1 and the TI2 Polarities */}
+03088   tmpccer &= ((uint16\_t)~TIM_CCER_CC1P) & ((uint16\_t)~TIM_CCER_CC2P);
+03089   tmpccer |= (uint16\_t)(TIM\_IC1Polarity | (uint16\_t)(TIM\_IC2Polarity << (uint16\_t)4));
+03090 
+03091   \textcolor{comment}{/* Write to TIMx SMCR */}
+03092   TIMx->SMCR = tmpsmcr;
+03093 
+03094   \textcolor{comment}{/* Write to TIMx CCMR1 */}
+03095   TIMx->CCMR1 = tmpccmr1;
+03096 
+03097   \textcolor{comment}{/* Write to TIMx CCER */}
+03098   TIMx->CCER = tmpccer;
+03099 \}
+03100 
+03101 \textcolor{comment}{/**}
+03102 \textcolor{comment}{  * @brief  Enables or disables the TIMx's Hall sensor interface.}
+03103 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5, 8, 9 or 12 to select the TIM }
+03104 \textcolor{comment}{  *         peripheral.}
+03105 \textcolor{comment}{  * @param  NewState: new state of the TIMx Hall sensor interface.}
+03106 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+03107 \textcolor{comment}{  * @retval None}
+03108 \textcolor{comment}{  */}
+03109 \textcolor{keywordtype}{void} TIM_SelectHallSensor(TIM\_TypeDef* TIMx, FunctionalState NewState)
+03110 \{
+03111   \textcolor{comment}{/* Check the parameters */}
+03112   assert_param(IS\_TIM\_LIST2\_PERIPH(TIMx));
+03113   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+03114 
+03115   \textcolor{keywordflow}{if} (NewState != DISABLE)
+03116   \{
+03117     \textcolor{comment}{/* Set the TI1S Bit */}
+03118     TIMx->CR2 |= TIM_CR2_TI1S;
+03119   \}
+03120   \textcolor{keywordflow}{else}
+03121   \{
+03122     \textcolor{comment}{/* Reset the TI1S Bit */}
+03123     TIMx->CR2 &= (uint16\_t)~TIM_CR2_TI1S;
+03124   \}
+03125 \}
+03126 \textcolor{comment}{/**}
+03127 \textcolor{comment}{  * @\}}
+03128 \textcolor{comment}{  */}
+03129 
+03130 \textcolor{comment}{/** @defgroup TIM\_Group9 Specific remapping management function}
+03131 \textcolor{comment}{ *  @brief   Specific remapping management function}
+03132 \textcolor{comment}{ *}
+03133 \textcolor{comment}{@verbatim   }
+03134 \textcolor{comment}{ ===============================================================================}
+03135 \textcolor{comment}{                     Specific remapping management function}
+03136 \textcolor{comment}{ ===============================================================================  }
+03137 \textcolor{comment}{}
+03138 \textcolor{comment}{@endverbatim}
+03139 \textcolor{comment}{  * @\{}
+03140 \textcolor{comment}{  */}
+03141 
+03142 \textcolor{comment}{/**}
+03143 \textcolor{comment}{  * @brief  Configures the TIM2, TIM5 and TIM11 Remapping input capabilities.}
+03144 \textcolor{comment}{  * @param  TIMx: where x can be 2, 5 or 11 to select the TIM peripheral.}
+03145 \textcolor{comment}{  * @param  TIM\_Remap: specifies the TIM input remapping source.}
+03146 \textcolor{comment}{  *          This parameter can be one of the following values:}
+03147 \textcolor{comment}{  *            @arg TIM2\_TIM8\_TRGO: TIM2 ITR1 input is connected to TIM8 Trigger output(default)}
+03148 \textcolor{comment}{  *            @arg TIM2\_ETH\_PTP:   TIM2 ITR1 input is connected to ETH PTP trogger output.}
+03149 \textcolor{comment}{  *            @arg TIM2\_USBFS\_SOF: TIM2 ITR1 input is connected to USB FS SOF. }
+03150 \textcolor{comment}{  *            @arg TIM2\_USBHS\_SOF: TIM2 ITR1 input is connected to USB HS SOF. }
+03151 \textcolor{comment}{  *            @arg TIM5\_GPIO:      TIM5 CH4 input is connected to dedicated Timer pin(default)}
+03152 \textcolor{comment}{  *            @arg TIM5\_LSI:       TIM5 CH4 input is connected to LSI clock.}
+03153 \textcolor{comment}{  *            @arg TIM5\_LSE:       TIM5 CH4 input is connected to LSE clock.}
+03154 \textcolor{comment}{  *            @arg TIM5\_RTC:       TIM5 CH4 input is connected to RTC Output event.}
+03155 \textcolor{comment}{  *            @arg TIM11\_GPIO:     TIM11 CH4 input is connected to dedicated Timer pin(default) }
+03156 \textcolor{comment}{  *            @arg TIM11\_HSE:      TIM11 CH4 input is connected to HSE\_RTC clock}
+03157 \textcolor{comment}{  *                                 (HSE divided by a programmable prescaler)  }
+03158 \textcolor{comment}{  * @retval None}
+03159 \textcolor{comment}{  */}
+03160 \textcolor{keywordtype}{void} TIM_RemapConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_Remap)
+03161 \{
+03162  \textcolor{comment}{/* Check the parameters */}
+03163   assert_param(IS\_TIM\_LIST6\_PERIPH(TIMx));
+03164   assert_param(IS\_TIM\_REMAP(TIM\_Remap));
+03165 
+03166   \textcolor{comment}{/* Set the Timer remapping configuration */}
+03167   TIMx->OR =  TIM\_Remap;
+03168 \}
+03169 \textcolor{comment}{/**}
+03170 \textcolor{comment}{  * @\}}
+03171 \textcolor{comment}{  */}
+03172 
+03173 \textcolor{comment}{/**}
+03174 \textcolor{comment}{  * @brief  Configure the TI1 as Input.}
+03175 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13 or 14 }
+03176 \textcolor{comment}{  *         to select the TIM peripheral.}
+03177 \textcolor{comment}{  * @param  TIM\_ICPolarity : The Input Polarity.}
+03178 \textcolor{comment}{  *          This parameter can be one of the following values:}
+03179 \textcolor{comment}{  *            @arg TIM\_ICPolarity\_Rising}
+03180 \textcolor{comment}{  *            @arg TIM\_ICPolarity\_Falling}
+03181 \textcolor{comment}{  *            @arg TIM\_ICPolarity\_BothEdge  }
+03182 \textcolor{comment}{  * @param  TIM\_ICSelection: specifies the input to be used.}
+03183 \textcolor{comment}{  *          This parameter can be one of the following values:}
+03184 \textcolor{comment}{  *            @arg TIM\_ICSelection\_DirectTI: TIM Input 1 is selected to be connected to IC1.}
+03185 \textcolor{comment}{  *            @arg TIM\_ICSelection\_IndirectTI: TIM Input 1 is selected to be connected to IC2.}
+03186 \textcolor{comment}{  *            @arg TIM\_ICSelection\_TRC: TIM Input 1 is selected to be connected to TRC.}
+03187 \textcolor{comment}{  * @param  TIM\_ICFilter: Specifies the Input Capture Filter.}
+03188 \textcolor{comment}{  *          This parameter must be a value between 0x00 and 0x0F.}
+03189 \textcolor{comment}{  * @retval None}
+03190 \textcolor{comment}{  */}
+03191 \textcolor{keyword}{static} \textcolor{keywordtype}{void} TI1_Config(TIM\_TypeDef* TIMx, uint16\_t TIM\_ICPolarity, uint16\_t TIM\_ICSelection,
+03192                        uint16\_t TIM\_ICFilter)
+03193 \{
+03194   uint16\_t tmpccmr1 = 0, tmpccer = 0;
+03195 
+03196   \textcolor{comment}{/* Disable the Channel 1: Reset the CC1E Bit */}
+03197   TIMx->CCER &= (uint16\_t)~TIM_CCER_CC1E;
+03198   tmpccmr1 = TIMx->CCMR1;
+03199   tmpccer = TIMx->CCER;
+03200 
+03201   \textcolor{comment}{/* Select the Input and set the filter */}
+03202   tmpccmr1 &= ((uint16\_t)~TIM_CCMR1_CC1S) & ((uint16\_t)~TIM_CCMR1_IC1F);
+03203   tmpccmr1 |= (uint16\_t)(TIM\_ICSelection | (uint16\_t)(TIM\_ICFilter << (uint16\_t)4));
+03204 
+03205   \textcolor{comment}{/* Select the Polarity and set the CC1E Bit */}
+03206   tmpccer &= (uint16\_t)~(TIM_CCER_CC1P | TIM_CCER_CC1NP);
+03207   tmpccer |= (uint16\_t)(TIM\_ICPolarity | (uint16\_t)TIM_CCER_CC1E);
+03208 
+03209   \textcolor{comment}{/* Write to TIMx CCMR1 and CCER registers */}
+03210   TIMx->CCMR1 = tmpccmr1;
+03211   TIMx->CCER = tmpccer;
+03212 \}
+03213 
+03214 \textcolor{comment}{/**}
+03215 \textcolor{comment}{  * @brief  Configure the TI2 as Input.}
+03216 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5, 8, 9 or 12 to select the TIM }
+03217 \textcolor{comment}{  *         peripheral.}
+03218 \textcolor{comment}{  * @param  TIM\_ICPolarity : The Input Polarity.}
+03219 \textcolor{comment}{  *          This parameter can be one of the following values:}
+03220 \textcolor{comment}{  *            @arg TIM\_ICPolarity\_Rising}
+03221 \textcolor{comment}{  *            @arg TIM\_ICPolarity\_Falling}
+03222 \textcolor{comment}{  *            @arg TIM\_ICPolarity\_BothEdge   }
+03223 \textcolor{comment}{  * @param  TIM\_ICSelection: specifies the input to be used.}
+03224 \textcolor{comment}{  *          This parameter can be one of the following values:}
+03225 \textcolor{comment}{  *            @arg TIM\_ICSelection\_DirectTI: TIM Input 2 is selected to be connected to IC2.}
+03226 \textcolor{comment}{  *            @arg TIM\_ICSelection\_IndirectTI: TIM Input 2 is selected to be connected to IC1.}
+03227 \textcolor{comment}{  *            @arg TIM\_ICSelection\_TRC: TIM Input 2 is selected to be connected to TRC.}
+03228 \textcolor{comment}{  * @param  TIM\_ICFilter: Specifies the Input Capture Filter.}
+03229 \textcolor{comment}{  *          This parameter must be a value between 0x00 and 0x0F.}
+03230 \textcolor{comment}{  * @retval None}
+03231 \textcolor{comment}{  */}
+03232 \textcolor{keyword}{static} \textcolor{keywordtype}{void} TI2_Config(TIM\_TypeDef* TIMx, uint16\_t TIM\_ICPolarity, uint16\_t TIM\_ICSelection,
+03233                        uint16\_t TIM\_ICFilter)
+03234 \{
+03235   uint16\_t tmpccmr1 = 0, tmpccer = 0, tmp = 0;
+03236 
+03237   \textcolor{comment}{/* Disable the Channel 2: Reset the CC2E Bit */}
+03238   TIMx->CCER &= (uint16\_t)~TIM_CCER_CC2E;
+03239   tmpccmr1 = TIMx->CCMR1;
+03240   tmpccer = TIMx->CCER;
+03241   tmp = (uint16\_t)(TIM\_ICPolarity << 4);
+03242 
+03243   \textcolor{comment}{/* Select the Input and set the filter */}
+03244   tmpccmr1 &= ((uint16\_t)~TIM_CCMR1_CC2S) & ((uint16\_t)~TIM_CCMR1_IC2F);
+03245   tmpccmr1 |= (uint16\_t)(TIM\_ICFilter << 12);
+03246   tmpccmr1 |= (uint16\_t)(TIM\_ICSelection << 8);
+03247 
+03248   \textcolor{comment}{/* Select the Polarity and set the CC2E Bit */}
+03249   tmpccer &= (uint16\_t)~(TIM_CCER_CC2P | TIM_CCER_CC2NP);
+03250   tmpccer |=  (uint16\_t)(tmp | (uint16\_t)TIM_CCER_CC2E);
+03251 
+03252   \textcolor{comment}{/* Write to TIMx CCMR1 and CCER registers */}
+03253   TIMx->CCMR1 = tmpccmr1 ;
+03254   TIMx->CCER = tmpccer;
+03255 \}
+03256 
+03257 \textcolor{comment}{/**}
+03258 \textcolor{comment}{  * @brief  Configure the TI3 as Input.}
+03259 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+03260 \textcolor{comment}{  * @param  TIM\_ICPolarity : The Input Polarity.}
+03261 \textcolor{comment}{  *          This parameter can be one of the following values:}
+03262 \textcolor{comment}{  *            @arg TIM\_ICPolarity\_Rising}
+03263 \textcolor{comment}{  *            @arg TIM\_ICPolarity\_Falling}
+03264 \textcolor{comment}{  *            @arg TIM\_ICPolarity\_BothEdge         }
+03265 \textcolor{comment}{  * @param  TIM\_ICSelection: specifies the input to be used.}
+03266 \textcolor{comment}{  *          This parameter can be one of the following values:}
+03267 \textcolor{comment}{  *            @arg TIM\_ICSelection\_DirectTI: TIM Input 3 is selected to be connected to IC3.}
+03268 \textcolor{comment}{  *            @arg TIM\_ICSelection\_IndirectTI: TIM Input 3 is selected to be connected to IC4.}
+03269 \textcolor{comment}{  *            @arg TIM\_ICSelection\_TRC: TIM Input 3 is selected to be connected to TRC.}
+03270 \textcolor{comment}{  * @param  TIM\_ICFilter: Specifies the Input Capture Filter.}
+03271 \textcolor{comment}{  *          This parameter must be a value between 0x00 and 0x0F.}
+03272 \textcolor{comment}{  * @retval None}
+03273 \textcolor{comment}{  */}
+03274 \textcolor{keyword}{static} \textcolor{keywordtype}{void} TI3_Config(TIM\_TypeDef* TIMx, uint16\_t TIM\_ICPolarity, uint16\_t TIM\_ICSelection,
+03275                        uint16\_t TIM\_ICFilter)
+03276 \{
+03277   uint16\_t tmpccmr2 = 0, tmpccer = 0, tmp = 0;
+03278 
+03279   \textcolor{comment}{/* Disable the Channel 3: Reset the CC3E Bit */}
+03280   TIMx->CCER &= (uint16\_t)~TIM_CCER_CC3E;
+03281   tmpccmr2 = TIMx->CCMR2;
+03282   tmpccer = TIMx->CCER;
+03283   tmp = (uint16\_t)(TIM\_ICPolarity << 8);
+03284 
+03285   \textcolor{comment}{/* Select the Input and set the filter */}
+03286   tmpccmr2 &= ((uint16\_t)~TIM_CCMR1_CC1S) & ((uint16\_t)~TIM_CCMR2_IC3F);
+03287   tmpccmr2 |= (uint16\_t)(TIM\_ICSelection | (uint16\_t)(TIM\_ICFilter << (uint16\_t)4));
+03288 
+03289   \textcolor{comment}{/* Select the Polarity and set the CC3E Bit */}
+03290   tmpccer &= (uint16\_t)~(TIM_CCER_CC3P | TIM_CCER_CC3NP);
+03291   tmpccer |= (uint16\_t)(tmp | (uint16\_t)TIM_CCER_CC3E);
+03292 
+03293   \textcolor{comment}{/* Write to TIMx CCMR2 and CCER registers */}
+03294   TIMx->CCMR2 = tmpccmr2;
+03295   TIMx->CCER = tmpccer;
+03296 \}
+03297 
+03298 \textcolor{comment}{/**}
+03299 \textcolor{comment}{  * @brief  Configure the TI4 as Input.}
+03300 \textcolor{comment}{  * @param  TIMx: where x can be 1, 2, 3, 4, 5 or 8 to select the TIM peripheral.}
+03301 \textcolor{comment}{  * @param  TIM\_ICPolarity : The Input Polarity.}
+03302 \textcolor{comment}{  *          This parameter can be one of the following values:}
+03303 \textcolor{comment}{  *            @arg TIM\_ICPolarity\_Rising}
+03304 \textcolor{comment}{  *            @arg TIM\_ICPolarity\_Falling}
+03305 \textcolor{comment}{  *            @arg TIM\_ICPolarity\_BothEdge     }
+03306 \textcolor{comment}{  * @param  TIM\_ICSelection: specifies the input to be used.}
+03307 \textcolor{comment}{  *          This parameter can be one of the following values:}
+03308 \textcolor{comment}{  *            @arg TIM\_ICSelection\_DirectTI: TIM Input 4 is selected to be connected to IC4.}
+03309 \textcolor{comment}{  *            @arg TIM\_ICSelection\_IndirectTI: TIM Input 4 is selected to be connected to IC3.}
+03310 \textcolor{comment}{  *            @arg TIM\_ICSelection\_TRC: TIM Input 4 is selected to be connected to TRC.}
+03311 \textcolor{comment}{  * @param  TIM\_ICFilter: Specifies the Input Capture Filter.}
+03312 \textcolor{comment}{  *          This parameter must be a value between 0x00 and 0x0F.}
+03313 \textcolor{comment}{  * @retval None}
+03314 \textcolor{comment}{  */}
+03315 \textcolor{keyword}{static} \textcolor{keywordtype}{void} TI4_Config(TIM\_TypeDef* TIMx, uint16\_t TIM\_ICPolarity, uint16\_t TIM\_ICSelection,
+03316                        uint16\_t TIM\_ICFilter)
+03317 \{
+03318   uint16\_t tmpccmr2 = 0, tmpccer = 0, tmp = 0;
+03319 
+03320   \textcolor{comment}{/* Disable the Channel 4: Reset the CC4E Bit */}
+03321   TIMx->CCER &= (uint16\_t)~TIM_CCER_CC4E;
+03322   tmpccmr2 = TIMx->CCMR2;
+03323   tmpccer = TIMx->CCER;
+03324   tmp = (uint16\_t)(TIM\_ICPolarity << 12);
+03325 
+03326   \textcolor{comment}{/* Select the Input and set the filter */}
+03327   tmpccmr2 &= ((uint16\_t)~TIM_CCMR1_CC2S) & ((uint16\_t)~TIM_CCMR1_IC2F);
+03328   tmpccmr2 |= (uint16\_t)(TIM\_ICSelection << 8);
+03329   tmpccmr2 |= (uint16\_t)(TIM\_ICFilter << 12);
+03330 
+03331   \textcolor{comment}{/* Select the Polarity and set the CC4E Bit */}
+03332   tmpccer &= (uint16\_t)~(TIM_CCER_CC4P | TIM_CCER_CC4NP);
+03333   tmpccer |= (uint16\_t)(tmp | (uint16\_t)TIM_CCER_CC4E);
+03334 
+03335   \textcolor{comment}{/* Write to TIMx CCMR2 and CCER registers */}
+03336   TIMx->CCMR2 = tmpccmr2;
+03337   TIMx->CCER = tmpccer ;
+03338 \}
+03339 
+03340 \textcolor{comment}{/**}
+03341 \textcolor{comment}{  * @\}}
+03342 \textcolor{comment}{  */}
+03343 
+03344 \textcolor{comment}{/**}
+03345 \textcolor{comment}{  * @\}}
+03346 \textcolor{comment}{  */}
+03347 
+03348 \textcolor{comment}{/**}
+03349 \textcolor{comment}{  * @\}}
+03350 \textcolor{comment}{  */}
+03351 
+03352 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

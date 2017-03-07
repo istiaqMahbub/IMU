@@ -1,0 +1,173 @@
+\section{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+can.c File Reference}
+\label{stm32f4xx__can_8c}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+can.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+can.\+c}}
+
+
+This file provides firmware functions to manage the following functionalities of the Controller area network (C\+AN) peripheral\+:  
+
+
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+can.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+rcc.\+h\char`\"{}}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ M\+C\+R\+\_\+\+D\+BF}~((uint32\+\_\+t)0x00010000) /$\ast$ software master reset $\ast$/
+\item 
+\#define \textbf{ T\+M\+I\+Dx\+R\+\_\+\+T\+X\+RQ}~((uint32\+\_\+t)0x00000001) /$\ast$ Transmit mailbox request $\ast$/
+\item 
+\#define \textbf{ F\+M\+R\+\_\+\+F\+I\+N\+IT}~((uint32\+\_\+t)0x00000001) /$\ast$ Filter init mode $\ast$/
+\item 
+\#define \textbf{ I\+N\+A\+K\+\_\+\+T\+I\+M\+E\+O\+UT}~((uint32\+\_\+t)0x0000\+F\+F\+F\+F)
+\item 
+\#define \textbf{ S\+L\+A\+K\+\_\+\+T\+I\+M\+E\+O\+UT}~((uint32\+\_\+t)0x0000\+F\+F\+F\+F)
+\item 
+\#define \textbf{ C\+A\+N\+\_\+\+F\+L\+A\+G\+S\+\_\+\+T\+SR}~((uint32\+\_\+t)0x08000000)
+\item 
+\#define \textbf{ C\+A\+N\+\_\+\+F\+L\+A\+G\+S\+\_\+\+R\+F1R}~((uint32\+\_\+t)0x04000000)
+\item 
+\#define \textbf{ C\+A\+N\+\_\+\+F\+L\+A\+G\+S\+\_\+\+R\+F0R}~((uint32\+\_\+t)0x02000000)
+\item 
+\#define \textbf{ C\+A\+N\+\_\+\+F\+L\+A\+G\+S\+\_\+\+M\+SR}~((uint32\+\_\+t)0x01000000)
+\item 
+\#define \textbf{ C\+A\+N\+\_\+\+F\+L\+A\+G\+S\+\_\+\+E\+SR}~((uint32\+\_\+t)0x00\+F00000)
+\item 
+\#define \textbf{ C\+A\+N\+\_\+\+T\+X\+M\+A\+I\+L\+B\+O\+X\+\_\+0}~((uint8\+\_\+t)0x00)
+\item 
+\#define \textbf{ C\+A\+N\+\_\+\+T\+X\+M\+A\+I\+L\+B\+O\+X\+\_\+1}~((uint8\+\_\+t)0x01)
+\item 
+\#define \textbf{ C\+A\+N\+\_\+\+T\+X\+M\+A\+I\+L\+B\+O\+X\+\_\+2}~((uint8\+\_\+t)0x02)
+\item 
+\#define \textbf{ C\+A\+N\+\_\+\+M\+O\+D\+E\+\_\+\+M\+A\+SK}~((uint32\+\_\+t) 0x00000003)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \textbf{ I\+T\+Status} \textbf{ Check\+I\+T\+Status} (uint32\+\_\+t C\+A\+N\+\_\+\+Reg, uint32\+\_\+t It\+\_\+\+Bit)
+\begin{DoxyCompactList}\small\item\em Checks whether the C\+AN interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ C\+A\+N\+\_\+\+De\+Init} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx)
+\begin{DoxyCompactList}\small\item\em Deinitializes the C\+AN peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ C\+A\+N\+\_\+\+Init} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, \textbf{ C\+A\+N\+\_\+\+Init\+Type\+Def} $\ast$C\+A\+N\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the C\+AN peripheral according to the specified parameters in the C\+A\+N\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ C\+A\+N\+\_\+\+Filter\+Init} (\textbf{ C\+A\+N\+\_\+\+Filter\+Init\+Type\+Def} $\ast$C\+A\+N\+\_\+\+Filter\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Configures the C\+AN reception filter according to the specified parameters in the C\+A\+N\+\_\+\+Filter\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ C\+A\+N\+\_\+\+Struct\+Init} (\textbf{ C\+A\+N\+\_\+\+Init\+Type\+Def} $\ast$C\+A\+N\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each C\+A\+N\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ C\+A\+N\+\_\+\+Slave\+Start\+Bank} (uint8\+\_\+t C\+A\+N\+\_\+\+Bank\+Number)
+\begin{DoxyCompactList}\small\item\em Select the start bank filter for slave C\+AN. \end{DoxyCompactList}\item 
+void \textbf{ C\+A\+N\+\_\+\+D\+B\+G\+Freeze} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the D\+BG Freeze for C\+AN. \end{DoxyCompactList}\item 
+void \textbf{ C\+A\+N\+\_\+\+T\+T\+Com\+Mode\+Cmd} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the C\+AN Time Trigger\+Operation communication mode. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ C\+A\+N\+\_\+\+Transmit} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, \textbf{ Can\+Tx\+Msg} $\ast$Tx\+Message)
+\begin{DoxyCompactList}\small\item\em Initiates and transmits a C\+AN frame message. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ C\+A\+N\+\_\+\+Transmit\+Status} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint8\+\_\+t Transmit\+Mailbox)
+\begin{DoxyCompactList}\small\item\em Checks the transmission status of a C\+AN Frame. \end{DoxyCompactList}\item 
+void \textbf{ C\+A\+N\+\_\+\+Cancel\+Transmit} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint8\+\_\+t Mailbox)
+\begin{DoxyCompactList}\small\item\em Cancels a transmit request. \end{DoxyCompactList}\item 
+void \textbf{ C\+A\+N\+\_\+\+Receive} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint8\+\_\+t F\+I\+F\+O\+Number, \textbf{ Can\+Rx\+Msg} $\ast$Rx\+Message)
+\begin{DoxyCompactList}\small\item\em Receives a correct C\+AN frame. \end{DoxyCompactList}\item 
+void \textbf{ C\+A\+N\+\_\+\+F\+I\+F\+O\+Release} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint8\+\_\+t F\+I\+F\+O\+Number)
+\begin{DoxyCompactList}\small\item\em Releases the specified receive F\+I\+FO. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ C\+A\+N\+\_\+\+Message\+Pending} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint8\+\_\+t F\+I\+F\+O\+Number)
+\begin{DoxyCompactList}\small\item\em Returns the number of pending received messages. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ C\+A\+N\+\_\+\+Operating\+Mode\+Request} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint8\+\_\+t C\+A\+N\+\_\+\+Operating\+Mode)
+\begin{DoxyCompactList}\small\item\em Selects the C\+AN Operation mode. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ C\+A\+N\+\_\+\+Sleep} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx)
+\begin{DoxyCompactList}\small\item\em Enters the Sleep (low power) mode. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ C\+A\+N\+\_\+\+Wake\+Up} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx)
+\begin{DoxyCompactList}\small\item\em Wakes up the C\+AN peripheral from sleep mode . \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ C\+A\+N\+\_\+\+Get\+Last\+Error\+Code} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx)
+\begin{DoxyCompactList}\small\item\em Returns the C\+A\+Nx\textquotesingle{}s last error code (L\+EC). \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ C\+A\+N\+\_\+\+Get\+Receive\+Error\+Counter} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx)
+\begin{DoxyCompactList}\small\item\em Returns the C\+A\+Nx Receive Error Counter (R\+EC). \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ C\+A\+N\+\_\+\+Get\+L\+S\+B\+Transmit\+Error\+Counter} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx)
+\begin{DoxyCompactList}\small\item\em Returns the L\+SB of the 9-\/bit C\+A\+Nx Transmit Error Counter(\+T\+E\+C). \end{DoxyCompactList}\item 
+void \textbf{ C\+A\+N\+\_\+\+I\+T\+Config} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint32\+\_\+t C\+A\+N\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified C\+A\+Nx interrupts. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ C\+A\+N\+\_\+\+Get\+Flag\+Status} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint32\+\_\+t C\+A\+N\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified C\+AN flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ C\+A\+N\+\_\+\+Clear\+Flag} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint32\+\_\+t C\+A\+N\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the C\+AN\textquotesingle{}s pending flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ C\+A\+N\+\_\+\+Get\+I\+T\+Status} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint32\+\_\+t C\+A\+N\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified C\+A\+Nx interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ C\+A\+N\+\_\+\+Clear\+I\+T\+Pending\+Bit} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint32\+\_\+t C\+A\+N\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the C\+A\+Nx\textquotesingle{}s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file provides firmware functions to manage the following functionalities of the Controller area network (C\+AN) peripheral\+: 
+
+\begin{DoxyAuthor}{Author}
+M\+CD Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\+0.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+30-\/\+September-\/2011
+\begin{DoxyItemize}
+\item Initialization and Configuration
+\item C\+AN Frames Transmission
+\item C\+AN Frames Reception
+\item Operation modes switch
+\item Error management
+\item Interrupts and flags
+\end{DoxyItemize}
+\end{DoxyDate}
+\begin{DoxyVerb}*                               
+*          ===================================================================      
+*                                   How to use this driver
+*          ===================================================================
+              
+*          1.  Enable the CAN controller interface clock using 
+*                  RCC_APB1PeriphClockCmd(RCC_APB1Periph_CAN1, ENABLE); for CAN1 
+*              and RCC_APB1PeriphClockCmd(RCC_APB1Periph_CAN2, ENABLE); for CAN2
+*  @note   In case you are using CAN2 only, you have to enable the CAN1 clock.
+*     
+*          2. CAN pins configuration
+*               - Enable the clock for the CAN GPIOs using the following function:
+*                   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOx, ENABLE);   
+*               - Connect the involved CAN pins to AF9 using the following function 
+*                   GPIO_PinAFConfig(GPIOx, GPIO_PinSourcex, GPIO_AF_CANx); 
+*                - Configure these CAN pins in alternate function mode by calling
+*                  the function  GPIO_Init();
+*    
+*          3.  Initialise and configure the CAN using CAN_Init() and 
+*               CAN_FilterInit() functions.   
+*               
+*          4.  Transmit the desired CAN frame using CAN_Transmit() function.
+*         
+*          5.  Check the transmission of a CAN frame using CAN_TransmitStatus()
+*              function.
+*               
+*          6.  Cancel the transmission of a CAN frame using CAN_CancelTransmit()
+*              function.  
+*            
+*          7.  Receive a CAN frame using CAN_Recieve() function.
+*         
+*          8.  Release the receive FIFOs using CAN_FIFORelease() function.
+*               
+*          9. Return the number of pending received frames using 
+*              CAN_MessagePending() function.            
+*                   
+*          10. To control CAN events you can use one of the following two methods:
+*               - Check on CAN flags using the CAN_GetFlagStatus() function.  
+*               - Use CAN interrupts through the function CAN_ITConfig() at 
+*                 initialization phase and CAN_GetITStatus() function into 
+*                 interrupt routines to check if the event has occurred or not.
+*             After checking on a flag you should clear it using CAN_ClearFlag()
+*             function. And after checking on an interrupt event you should 
+*             clear it using CAN_ClearITPendingBit() function.            
+*               
+*              
+*  \end{DoxyVerb}
+
+
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+T\+HE P\+R\+E\+S\+E\+NT F\+I\+R\+M\+W\+A\+RE W\+H\+I\+CH IS F\+OR G\+U\+I\+D\+A\+N\+CE O\+N\+LY A\+I\+MS AT P\+R\+O\+V\+I\+D\+I\+NG C\+U\+S\+T\+O\+M\+E\+RS W\+I\+TH C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON R\+E\+G\+A\+R\+D\+I\+NG T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS IN O\+R\+D\+ER F\+OR T\+H\+EM TO S\+A\+VE T\+I\+ME. AS A R\+E\+S\+U\+LT, S\+T\+M\+I\+C\+R\+O\+E\+L\+E\+C\+T\+R\+O\+N\+I\+CS S\+H\+A\+LL N\+OT BE H\+E\+LD L\+I\+A\+B\+LE F\+OR A\+NY D\+I\+R\+E\+CT, I\+N\+D\+I\+R\+E\+CT OR C\+O\+N\+S\+E\+Q\+U\+E\+N\+T\+I\+AL D\+A\+M\+A\+G\+ES W\+I\+TH R\+E\+S\+P\+E\+CT TO A\+NY C\+L\+A\+I\+MS A\+R\+I\+S\+I\+NG F\+R\+OM T\+HE C\+O\+N\+T\+E\+NT OF S\+U\+CH F\+I\+R\+M\+W\+A\+RE A\+N\+D/\+OR T\+HE U\+SE M\+A\+DE BY C\+U\+S\+T\+O\+M\+E\+RS OF T\+HE C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON C\+O\+N\+T\+A\+I\+N\+ED H\+E\+R\+E\+IN IN C\+O\+N\+N\+E\+C\+T\+I\+ON W\+I\+TH T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS.
+
+\subsubsection*{\begin{center}\copyright{} C\+O\+P\+Y\+R\+I\+G\+HT 2011 S\+T\+Microelectronics\end{center} }
+
+Definition in file \textbf{ stm32f4xx\+\_\+can.\+c}.
+

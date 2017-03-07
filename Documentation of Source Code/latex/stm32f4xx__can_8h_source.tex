@@ -1,0 +1,672 @@
+\section{stm32f4xx\+\_\+can.\+h}
+\label{stm32f4xx__can_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+can.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+can.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_can.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the CAN firmware }
+00008 \textcolor{comment}{  *          library.}
+00009 \textcolor{comment}{  ******************************************************************************}
+00010 \textcolor{comment}{  * @attention}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00013 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00014 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00015 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00016 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00017 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00020 \textcolor{comment}{  ******************************************************************************}
+00021 \textcolor{comment}{  */}
+00022 
+00023 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_CAN\_H}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_CAN\_H}
+00026 
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00028  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00033 
+00034 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00035 \textcolor{comment}{  * @\{}
+00036 \textcolor{comment}{  */}
+00037 
+00038 \textcolor{comment}{/** @addtogroup CAN}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00043 
+00044 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_ALL\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00045                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN2\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00046 
+00047 \textcolor{comment}{/** }
+00048 \textcolor{comment}{  * @brief  CAN init structure definition}
+00049 \textcolor{comment}{  */}
+00050 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00051 \{
+00052   uint16\_t CAN_Prescaler;   \textcolor{comment}{/*!< Specifies the length of a time quantum. }
+00053 \textcolor{comment}{                                 It ranges from 1 to 1024. */}
+00054 
+00055   uint8\_t CAN_Mode;         \textcolor{comment}{/*!< Specifies the CAN operating mode.}
+00056 \textcolor{comment}{                                 This parameter can be a value of @ref CAN\_operating\_mode */}
+00057 
+00058   uint8\_t CAN_SJW;          \textcolor{comment}{/*!< Specifies the maximum number of time quanta }
+00059 \textcolor{comment}{                                 the CAN hardware is allowed to lengthen or }
+00060 \textcolor{comment}{                                 shorten a bit to perform resynchronization.}
+00061 \textcolor{comment}{                                 This parameter can be a value of @ref CAN\_synchronisation\_jump\_width
+       */}
+00062 
+00063   uint8\_t CAN_BS1;          \textcolor{comment}{/*!< Specifies the number of time quanta in Bit }
+00064 \textcolor{comment}{                                 Segment 1. This parameter can be a value of }
+00065 \textcolor{comment}{                                 @ref CAN\_time\_quantum\_in\_bit\_segment\_1 */}
+00066 
+00067   uint8\_t CAN_BS2;          \textcolor{comment}{/*!< Specifies the number of time quanta in Bit Segment 2.}
+00068 \textcolor{comment}{                                 This parameter can be a value of @ref
+       CAN\_time\_quantum\_in\_bit\_segment\_2 */}
+00069 
+00070   FunctionalState CAN_TTCM; \textcolor{comment}{/*!< Enable or disable the time triggered communication mode.}
+00071 \textcolor{comment}{                                This parameter can be set either to ENABLE or DISABLE. */}
+00072 
+00073   FunctionalState CAN_ABOM;  \textcolor{comment}{/*!< Enable or disable the automatic bus-off management.}
+00074 \textcolor{comment}{                                  This parameter can be set either to ENABLE or DISABLE. */}
+00075 
+00076   FunctionalState CAN_AWUM;  \textcolor{comment}{/*!< Enable or disable the automatic wake-up mode. }
+00077 \textcolor{comment}{                                  This parameter can be set either to ENABLE or DISABLE. */}
+00078 
+00079   FunctionalState CAN_NART;  \textcolor{comment}{/*!< Enable or disable the non-automatic retransmission mode.}
+00080 \textcolor{comment}{                                  This parameter can be set either to ENABLE or DISABLE. */}
+00081 
+00082   FunctionalState CAN_RFLM;  \textcolor{comment}{/*!< Enable or disable the Receive FIFO Locked mode.}
+00083 \textcolor{comment}{                                  This parameter can be set either to ENABLE or DISABLE. */}
+00084 
+00085   FunctionalState CAN_TXFP;  \textcolor{comment}{/*!< Enable or disable the transmit FIFO priority.}
+00086 \textcolor{comment}{                                  This parameter can be set either to ENABLE or DISABLE. */}
+00087 \} CAN\_InitTypeDef;
+00088 
+00089 \textcolor{comment}{/** }
+00090 \textcolor{comment}{  * @brief  CAN filter init structure definition}
+00091 \textcolor{comment}{  */}
+00092 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00093 \{
+00094   uint16\_t CAN_FilterIdHigh;         \textcolor{comment}{/*!< Specifies the filter identification number (MSBs for a
+       32-bit}
+00095 \textcolor{comment}{                                              configuration, first one for a 16-bit configuration).}
+00096 \textcolor{comment}{                                              This parameter can be a value between 0x0000 and 0xFFFF
+       */}
+00097 
+00098   uint16\_t CAN_FilterIdLow;          \textcolor{comment}{/*!< Specifies the filter identification number (LSBs for a
+       32-bit}
+00099 \textcolor{comment}{                                              configuration, second one for a 16-bit configuration).}
+00100 \textcolor{comment}{                                              This parameter can be a value between 0x0000 and 0xFFFF
+       */}
+00101 
+00102   uint16\_t CAN_FilterMaskIdHigh;     \textcolor{comment}{/*!< Specifies the filter mask number or identification number,}
+00103 \textcolor{comment}{                                              according to the mode (MSBs for a 32-bit configuration,}
+00104 \textcolor{comment}{                                              first one for a 16-bit configuration).}
+00105 \textcolor{comment}{                                              This parameter can be a value between 0x0000 and 0xFFFF
+       */}
+00106 
+00107   uint16\_t CAN_FilterMaskIdLow;      \textcolor{comment}{/*!< Specifies the filter mask number or identification number,}
+00108 \textcolor{comment}{                                              according to the mode (LSBs for a 32-bit configuration,}
+00109 \textcolor{comment}{                                              second one for a 16-bit configuration).}
+00110 \textcolor{comment}{                                              This parameter can be a value between 0x0000 and 0xFFFF
+       */}
+00111 
+00112   uint16\_t CAN_FilterFIFOAssignment; \textcolor{comment}{/*!< Specifies the FIFO (0 or 1) which will be assigned to the
+       filter.}
+00113 \textcolor{comment}{                                              This parameter can be a value of @ref CAN\_filter\_FIFO */}
+00114 
+00115   uint8\_t CAN_FilterNumber;          \textcolor{comment}{/*!< Specifies the filter which will be initialized. It ranges
+       from 0 to 13. */}
+00116 
+00117   uint8\_t CAN_FilterMode;            \textcolor{comment}{/*!< Specifies the filter mode to be initialized.}
+00118 \textcolor{comment}{                                              This parameter can be a value of @ref CAN\_filter\_mode */}
+00119 
+00120   uint8\_t CAN_FilterScale;           \textcolor{comment}{/*!< Specifies the filter scale.}
+00121 \textcolor{comment}{                                              This parameter can be a value of @ref CAN\_filter\_scale
+       */}
+00122 
+00123   FunctionalState CAN_FilterActivation; \textcolor{comment}{/*!< Enable or disable the filter.}
+00124 \textcolor{comment}{                                              This parameter can be set either to ENABLE or DISABLE.
+       */}
+00125 \} CAN\_FilterInitTypeDef;
+00126 
+00127 \textcolor{comment}{/** }
+00128 \textcolor{comment}{  * @brief  CAN Tx message structure definition  }
+00129 \textcolor{comment}{  */}
+00130 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00131 \{
+00132   uint32\_t StdId;  \textcolor{comment}{/*!< Specifies the standard identifier.}
+00133 \textcolor{comment}{                        This parameter can be a value between 0 to 0x7FF. */}
+00134 
+00135   uint32\_t ExtId;  \textcolor{comment}{/*!< Specifies the extended identifier.}
+00136 \textcolor{comment}{                        This parameter can be a value between 0 to 0x1FFFFFFF. */}
+00137 
+00138   uint8\_t IDE;     \textcolor{comment}{/*!< Specifies the type of identifier for the message that }
+00139 \textcolor{comment}{                        will be transmitted. This parameter can be a value }
+00140 \textcolor{comment}{                        of @ref CAN\_identifier\_type */}
+00141 
+00142   uint8\_t RTR;     \textcolor{comment}{/*!< Specifies the type of frame for the message that will }
+00143 \textcolor{comment}{                        be transmitted. This parameter can be a value of }
+00144 \textcolor{comment}{                        @ref CAN\_remote\_transmission\_request */}
+00145 
+00146   uint8\_t DLC;     \textcolor{comment}{/*!< Specifies the length of the frame that will be }
+00147 \textcolor{comment}{                        transmitted. This parameter can be a value between }
+00148 \textcolor{comment}{                        0 to 8 */}
+00149 
+00150   uint8\_t Data[8]; \textcolor{comment}{/*!< Contains the data to be transmitted. It ranges from 0 }
+00151 \textcolor{comment}{                        to 0xFF. */}
+00152 \} CanTxMsg;
+00153 
+00154 \textcolor{comment}{/** }
+00155 \textcolor{comment}{  * @brief  CAN Rx message structure definition  }
+00156 \textcolor{comment}{  */}
+00157 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00158 \{
+00159   uint32\_t StdId;  \textcolor{comment}{/*!< Specifies the standard identifier.}
+00160 \textcolor{comment}{                        This parameter can be a value between 0 to 0x7FF. */}
+00161 
+00162   uint32\_t ExtId;  \textcolor{comment}{/*!< Specifies the extended identifier.}
+00163 \textcolor{comment}{                        This parameter can be a value between 0 to 0x1FFFFFFF. */}
+00164 
+00165   uint8\_t IDE;     \textcolor{comment}{/*!< Specifies the type of identifier for the message that }
+00166 \textcolor{comment}{                        will be received. This parameter can be a value of }
+00167 \textcolor{comment}{                        @ref CAN\_identifier\_type */}
+00168 
+00169   uint8\_t RTR;     \textcolor{comment}{/*!< Specifies the type of frame for the received message.}
+00170 \textcolor{comment}{                        This parameter can be a value of }
+00171 \textcolor{comment}{                        @ref CAN\_remote\_transmission\_request */}
+00172 
+00173   uint8\_t DLC;     \textcolor{comment}{/*!< Specifies the length of the frame that will be received.}
+00174 \textcolor{comment}{                        This parameter can be a value between 0 to 8 */}
+00175 
+00176   uint8\_t Data[8]; \textcolor{comment}{/*!< Contains the data to be received. It ranges from 0 to }
+00177 \textcolor{comment}{                        0xFF. */}
+00178 
+00179   uint8\_t FMI;     \textcolor{comment}{/*!< Specifies the index of the filter the message stored in }
+00180 \textcolor{comment}{                        the mailbox passes through. This parameter can be a }
+00181 \textcolor{comment}{                        value between 0 to 0xFF */}
+00182 \} CanRxMsg;
+00183 
+00184 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00185 
+00186 \textcolor{comment}{/** @defgroup CAN\_Exported\_Constants}
+00187 \textcolor{comment}{  * @\{}
+00188 \textcolor{comment}{  */}
+00189 
+00190 \textcolor{comment}{/** @defgroup CAN\_InitStatus }
+00191 \textcolor{comment}{  * @\{}
+00192 \textcolor{comment}{  */}
+00193 
+00194 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_InitStatus\_Failed}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)} \textcolor{comment}{/*!< CAN initialization failed */}
+00195 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_InitStatus\_Success}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)} \textcolor{comment}{/*!< CAN initialization OK */}
+00196 
+00197 
+00198 \textcolor{comment}{/* Legacy defines */}
+00199 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CANINITFAILED}    CAN_InitStatus_Failed
+00200 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CANINITOK}        CAN_InitStatus_Success
+00201 \textcolor{comment}{/**}
+00202 \textcolor{comment}{  * @\}}
+00203 \textcolor{comment}{  */}
+00204 
+00205 \textcolor{comment}{/** @defgroup CAN\_operating\_mode }
+00206 \textcolor{comment}{  * @\{}
+00207 \textcolor{comment}{  */}
+00208 
+00209 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_Mode\_Normal}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< normal mode */}
+00210 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_Mode\_LoopBack}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< loopback mode */}
+00211 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_Mode\_Silent}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< silent mode */}
+00212 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_Mode\_Silent\_LoopBack}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x03\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< loopback combined with silent mode */}
+00213 
+00214 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_Mode_Normal\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00215                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_Mode_LoopBack\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00216                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_Mode_Silent\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00217                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_Mode_Silent_LoopBack\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00218 \textcolor{comment}{/**}
+00219 \textcolor{comment}{  * @\}}
+00220 \textcolor{comment}{  */}
+00221 
+00222 
+00223  \textcolor{comment}{/**}
+00224 \textcolor{comment}{  * @defgroup CAN\_operating\_mode }
+00225 \textcolor{comment}{  * @\{}
+00226 \textcolor{comment}{  */}
+00227 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_OperatingMode\_Initialization}  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Initialization mode */}
+00228 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_OperatingMode\_Normal}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Normal mode */}
+00229 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_OperatingMode\_Sleep}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)} \textcolor{comment}{/*!< sleep mode */}
+00230 
+00231 
+00232 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_OPERATING\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      CAN_OperatingMode_Initialization\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00233                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_OperatingMode_Normal\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00234                                                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      CAN_OperatingMode_Sleep\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00235 \textcolor{comment}{/**}
+00236 \textcolor{comment}{  * @\}}
+00237 \textcolor{comment}{  */}
+00238 
+00239 \textcolor{comment}{/**}
+00240 \textcolor{comment}{  * @defgroup CAN\_operating\_mode\_status}
+00241 \textcolor{comment}{  * @\{}
+00242 \textcolor{comment}{  */}
+00243 
+00244 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_ModeStatus\_Failed}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}                \textcolor{comment}{/*!< CAN entering the specific mode
+       failed */}
+00245 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_ModeStatus\_Success}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{!}CAN_ModeStatus_Failed\textcolor{preprocessor}{)}   \textcolor{comment}{/*!< CAN entering the specific
+       mode Succeed */}
+00246 \textcolor{comment}{/**}
+00247 \textcolor{comment}{  * @\}}
+00248 \textcolor{comment}{  */}
+00249 
+00250 \textcolor{comment}{/** @defgroup CAN\_synchronisation\_jump\_width }
+00251 \textcolor{comment}{  * @\{}
+00252 \textcolor{comment}{  */}
+00253 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_SJW\_1tq}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 1 time quantum */}
+00254 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_SJW\_2tq}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 2 time quantum */}
+00255 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_SJW\_3tq}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 3 time quantum */}
+00256 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_SJW\_4tq}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x03\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 4 time quantum */}
+00257 
+00258 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_SJW}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SJW}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SJW}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_SJW_1tq\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SJW}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_SJW_2tq\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00259                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SJW}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_SJW_3tq\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SJW}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_SJW_4tq\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00260 \textcolor{comment}{/**}
+00261 \textcolor{comment}{  * @\}}
+00262 \textcolor{comment}{  */}
+00263 
+00264 \textcolor{comment}{/** @defgroup CAN\_time\_quantum\_in\_bit\_segment\_1 }
+00265 \textcolor{comment}{  * @\{}
+00266 \textcolor{comment}{  */}
+00267 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS1\_1tq}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 1 time quantum */}
+00268 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS1\_2tq}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 2 time quantum */}
+00269 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS1\_3tq}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 3 time quantum */}
+00270 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS1\_4tq}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x03\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 4 time quantum */}
+00271 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS1\_5tq}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x04\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 5 time quantum */}
+00272 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS1\_6tq}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x05\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 6 time quantum */}
+00273 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS1\_7tq}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x06\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 7 time quantum */}
+00274 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS1\_8tq}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x07\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 8 time quantum */}
+00275 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS1\_9tq}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x08\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 9 time quantum */}
+00276 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS1\_10tq}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x09\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 10 time quantum */}
+00277 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS1\_11tq}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0A\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 11 time quantum */}
+00278 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS1\_12tq}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0B\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 12 time quantum */}
+00279 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS1\_13tq}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0C\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 13 time quantum */}
+00280 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS1\_14tq}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0D\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 14 time quantum */}
+00281 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS1\_15tq}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0E\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 15 time quantum */}
+00282 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS1\_16tq}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0F\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 16 time quantum */}
+00283 
+00284 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_BS1}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BS1}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BS1}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} CAN_BS1_16tq\textcolor{preprocessor}{)}
+00285 \textcolor{comment}{/**}
+00286 \textcolor{comment}{  * @\}}
+00287 \textcolor{comment}{  */}
+00288 
+00289 \textcolor{comment}{/** @defgroup CAN\_time\_quantum\_in\_bit\_segment\_2 }
+00290 \textcolor{comment}{  * @\{}
+00291 \textcolor{comment}{  */}
+00292 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS2\_1tq}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 1 time quantum */}
+00293 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS2\_2tq}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 2 time quantum */}
+00294 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS2\_3tq}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 3 time quantum */}
+00295 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS2\_4tq}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x03\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 4 time quantum */}
+00296 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS2\_5tq}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x04\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 5 time quantum */}
+00297 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS2\_6tq}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x05\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 6 time quantum */}
+00298 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS2\_7tq}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x06\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 7 time quantum */}
+00299 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_BS2\_8tq}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x07\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 8 time quantum */}
+00300 
+00301 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_BS2}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BS2}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BS2}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} CAN_BS2_8tq\textcolor{preprocessor}{)}
+00302 \textcolor{comment}{/**}
+00303 \textcolor{comment}{  * @\}}
+00304 \textcolor{comment}{  */}
+00305 
+00306 \textcolor{comment}{/** @defgroup CAN\_clock\_prescaler }
+00307 \textcolor{comment}{  * @\{}
+00308 \textcolor{comment}{  */}
+00309 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_PRESCALER}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{>=} 1\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 1024\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00310 \textcolor{comment}{/**}
+00311 \textcolor{comment}{  * @\}}
+00312 \textcolor{comment}{  */}
+00313 
+00314 \textcolor{comment}{/** @defgroup CAN\_filter\_number }
+00315 \textcolor{comment}{  * @\{}
+00316 \textcolor{comment}{  */}
+00317 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_FILTER\_NUMBER}\textcolor{preprocessor}{(}\textcolor{preprocessor}{NUMBER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{NUMBER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 27\textcolor{preprocessor}{)}
+00318 \textcolor{comment}{/**}
+00319 \textcolor{comment}{  * @\}}
+00320 \textcolor{comment}{  */}
+00321 
+00322 \textcolor{comment}{/** @defgroup CAN\_filter\_mode }
+00323 \textcolor{comment}{  * @\{}
+00324 \textcolor{comment}{  */}
+00325 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FilterMode\_IdMask}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< identifier/mask mode */}
+00326 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FilterMode\_IdList}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< identifier list mode */}
+00327 
+00328 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_FILTER\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_FilterMode_IdMask\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00329                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_FilterMode_IdList\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00330 \textcolor{comment}{/**}
+00331 \textcolor{comment}{  * @\}}
+00332 \textcolor{comment}{  */}
+00333 
+00334 \textcolor{comment}{/** @defgroup CAN\_filter\_scale }
+00335 \textcolor{comment}{  * @\{}
+00336 \textcolor{comment}{  */}
+00337 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FilterScale\_16bit}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Two 16-bit filters */}
+00338 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FilterScale\_32bit}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)} \textcolor{comment}{/*!< One 32-bit filter */}
+00339 
+00340 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_FILTER\_SCALE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SCALE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SCALE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_FilterScale_16bit\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00341                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SCALE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_FilterScale_32bit\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00342 \textcolor{comment}{/**}
+00343 \textcolor{comment}{  * @\}}
+00344 \textcolor{comment}{  */}
+00345 
+00346 \textcolor{comment}{/** @defgroup CAN\_filter\_FIFO}
+00347 \textcolor{comment}{  * @\{}
+00348 \textcolor{comment}{  */}
+00349 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_Filter\_FIFO0}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Filter FIFO 0 assignment for filter x */}
+00350 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_Filter\_FIFO1}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Filter FIFO 1 assignment for filter x */}
+00351 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_FILTER\_FIFO}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FIFO}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FIFO}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_FilterFIFO0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00352                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FIFO}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_FilterFIFO1\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00353 
+00354 \textcolor{comment}{/* Legacy defines */}
+00355 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FilterFIFO0}  CAN_Filter_FIFO0
+00356 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FilterFIFO1}  CAN_Filter_FIFO1
+00357 \textcolor{comment}{/**}
+00358 \textcolor{comment}{  * @\}}
+00359 \textcolor{comment}{  */}
+00360 
+00361 \textcolor{comment}{/** @defgroup CAN\_Start\_bank\_filter\_for\_slave\_CAN }
+00362 \textcolor{comment}{  * @\{}
+00363 \textcolor{comment}{  */}
+00364 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_BANKNUMBER}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BANKNUMBER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BANKNUMBER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{>=} 1\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BANKNUMBER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 27\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00365 \textcolor{comment}{/**}
+00366 \textcolor{comment}{  * @\}}
+00367 \textcolor{comment}{  */}
+00368 
+00369 \textcolor{comment}{/** @defgroup CAN\_Tx }
+00370 \textcolor{comment}{  * @\{}
+00371 \textcolor{comment}{  */}
+00372 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_TRANSMITMAILBOX}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TRANSMITMAILBOX}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TRANSMITMAILBOX}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00373 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_STDID}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STDID}\textcolor{preprocessor}{)}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STDID}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x7FF\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00374 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_EXTID}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EXTID}\textcolor{preprocessor}{)}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EXTID}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x1FFFFFFF\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00375 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_DLC}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DLC}\textcolor{preprocessor}{)}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DLC}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x08\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00376 \textcolor{comment}{/**}
+00377 \textcolor{comment}{  * @\}}
+00378 \textcolor{comment}{  */}
+00379 
+00380 \textcolor{comment}{/** @defgroup CAN\_identifier\_type }
+00381 \textcolor{comment}{  * @\{}
+00382 \textcolor{comment}{  */}
+00383 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_Id\_Standard}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Standard Id */}
+00384 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_Id\_Extended}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Extended Id */}
+00385 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_IDTYPE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IDTYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IDTYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_Id_Standard\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00386                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IDTYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_Id_Extended\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00387 
+00388 \textcolor{comment}{/* Legacy defines */}
+00389 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_ID\_STD}      CAN_Id_Standard
+00390 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_ID\_EXT}      CAN_Id_Extended
+00391 \textcolor{comment}{/**}
+00392 \textcolor{comment}{  * @\}}
+00393 \textcolor{comment}{  */}
+00394 
+00395 \textcolor{comment}{/** @defgroup CAN\_remote\_transmission\_request }
+00396 \textcolor{comment}{  * @\{}
+00397 \textcolor{comment}{  */}
+00398 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_RTR\_Data}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Data frame */}
+00399 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_RTR\_Remote}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Remote frame */}
+00400 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_RTR}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RTR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RTR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_RTR_Data\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RTR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      CAN_RTR_Remote\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00401 
+00402 \textcolor{comment}{/* Legacy defines */}
+00403 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_RTR\_DATA}     CAN_RTR_Data
+00404 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_RTR\_REMOTE}   CAN_RTR_Remote
+00405 \textcolor{comment}{/**}
+00406 \textcolor{comment}{  * @\}}
+00407 \textcolor{comment}{  */}
+00408 
+00409 \textcolor{comment}{/** @defgroup CAN\_transmit\_constants }
+00410 \textcolor{comment}{  * @\{}
+00411 \textcolor{comment}{  */}
+00412 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_TxStatus\_Failed}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}\textcolor{comment}{/*!< CAN transmission failed */}
+00413 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_TxStatus\_Ok}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)} \textcolor{comment}{/*!< CAN transmission succeeded */}
+00414 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_TxStatus\_Pending}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)} \textcolor{comment}{/*!< CAN transmission pending */}
+00415 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_TxStatus\_NoMailBox}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x04\textcolor{preprocessor}{)} \textcolor{comment}{/*!< CAN cell did not provide }
+00416 \textcolor{comment}{                                                         an empty mailbox */}
+00417 \textcolor{comment}{/* Legacy defines */}
+00418 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CANTXFAILED}                  CAN_TxStatus_Failed
+00419 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CANTXOK}                      CAN_TxStatus_Ok
+00420 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CANTXPENDING}                 CAN_TxStatus_Pending
+00421 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_NO\_MB}                    CAN_TxStatus_NoMailBox
+00422 \textcolor{comment}{/**}
+00423 \textcolor{comment}{  * @\}}
+00424 \textcolor{comment}{  */}
+00425 
+00426 \textcolor{comment}{/** @defgroup CAN\_receive\_FIFO\_number\_constants }
+00427 \textcolor{comment}{  * @\{}
+00428 \textcolor{comment}{  */}
+00429 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FIFO0}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)} \textcolor{comment}{/*!< CAN FIFO 0 used to receive */}
+00430 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FIFO1}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)} \textcolor{comment}{/*!< CAN FIFO 1 used to receive */}
+00431 
+00432 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_FIFO}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FIFO}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FIFO}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_FIFO0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FIFO}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_FIFO1\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00433 \textcolor{comment}{/**}
+00434 \textcolor{comment}{  * @\}}
+00435 \textcolor{comment}{  */}
+00436 
+00437 \textcolor{comment}{/** @defgroup CAN\_sleep\_constants }
+00438 \textcolor{comment}{  * @\{}
+00439 \textcolor{comment}{  */}
+00440 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_Sleep\_Failed}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)} \textcolor{comment}{/*!< CAN did not enter the sleep mode */}
+00441 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_Sleep\_Ok}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)} \textcolor{comment}{/*!< CAN entered the sleep mode */}
+00442 
+00443 \textcolor{comment}{/* Legacy defines */}
+00444 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CANSLEEPFAILED}   CAN_Sleep_Failed
+00445 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CANSLEEPOK}       CAN_Sleep_Ok
+00446 \textcolor{comment}{/**}
+00447 \textcolor{comment}{  * @\}}
+00448 \textcolor{comment}{  */}
+00449 
+00450 \textcolor{comment}{/** @defgroup CAN\_wake\_up\_constants }
+00451 \textcolor{comment}{  * @\{}
+00452 \textcolor{comment}{  */}
+00453 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_WakeUp\_Failed}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)} \textcolor{comment}{/*!< CAN did not leave the sleep mode */}
+00454 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_WakeUp\_Ok}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)} \textcolor{comment}{/*!< CAN leaved the sleep mode */}
+00455 
+00456 \textcolor{comment}{/* Legacy defines */}
+00457 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CANWAKEUPFAILED}   CAN_WakeUp_Failed
+00458 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CANWAKEUPOK}       CAN_WakeUp_Ok
+00459 \textcolor{comment}{/**}
+00460 \textcolor{comment}{  * @\}}
+00461 \textcolor{comment}{  */}
+00462 
+00463 \textcolor{comment}{/**}
+00464 \textcolor{comment}{  * @defgroup CAN\_Error\_Code\_constants}
+00465 \textcolor{comment}{  * @\{}
+00466 \textcolor{comment}{  */}
+00467 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_ErrorCode\_NoErr}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)} \textcolor{comment}{/*!< No Error */}
+00468 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_ErrorCode\_StuffErr}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x10\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Stuff Error */}
+00469 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_ErrorCode\_FormErr}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x20\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Form Error */}
+00470 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_ErrorCode\_ACKErr}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x30\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Acknowledgment Error */}
+00471 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_ErrorCode\_BitRecessiveErr} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x40\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Bit Recessive Error */}
+00472 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_ErrorCode\_BitDominantErr}  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x50\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Bit Dominant Error */}
+00473 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_ErrorCode\_CRCErr}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x60\textcolor{preprocessor}{)} \textcolor{comment}{/*!< CRC Error  */}
+00474 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_ErrorCode\_SoftwareSetErr}  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x70\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Software Set Error */}
+00475 \textcolor{comment}{/**}
+00476 \textcolor{comment}{  * @\}}
+00477 \textcolor{comment}{  */}
+00478 
+00479 \textcolor{comment}{/** @defgroup CAN\_flags }
+00480 \textcolor{comment}{  * @\{}
+00481 \textcolor{comment}{  */}
+00482 \textcolor{comment}{/* If the flag is 0x3XXXXXXX, it means that it can be used with CAN\_GetFlagStatus()}
+00483 \textcolor{comment}{   and CAN\_ClearFlag() functions. */}
+00484 \textcolor{comment}{/* If the flag is 0x1XXXXXXX, it means that it can only be used with }
+00485 \textcolor{comment}{   CAN\_GetFlagStatus() function.  */}
+00486 
+00487 \textcolor{comment}{/* Transmit Flags */}
+00488 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FLAG\_RQCP0}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x38000001\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Request MailBox0 Flag */}
+00489 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FLAG\_RQCP1}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x38000100\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Request MailBox1 Flag */}
+00490 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FLAG\_RQCP2}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x38010000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Request MailBox2 Flag */}
+00491 
+00492 \textcolor{comment}{/* Receive Flags */}
+00493 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FLAG\_FMP0}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x12000003\textcolor{preprocessor}{)} \textcolor{comment}{/*!< FIFO 0 Message Pending Flag */}
+00494 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FLAG\_FF0}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x32000008\textcolor{preprocessor}{)} \textcolor{comment}{/*!< FIFO 0 Full Flag            */}
+00495 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FLAG\_FOV0}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x32000010\textcolor{preprocessor}{)} \textcolor{comment}{/*!< FIFO 0 Overrun Flag         */}
+00496 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FLAG\_FMP1}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x14000003\textcolor{preprocessor}{)} \textcolor{comment}{/*!< FIFO 1 Message Pending Flag */}
+00497 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FLAG\_FF1}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x34000008\textcolor{preprocessor}{)} \textcolor{comment}{/*!< FIFO 1 Full Flag            */}
+00498 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FLAG\_FOV1}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x34000010\textcolor{preprocessor}{)} \textcolor{comment}{/*!< FIFO 1 Overrun Flag         */}
+00499 
+00500 \textcolor{comment}{/* Operating Mode Flags */}
+00501 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FLAG\_WKU}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x31000008\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Wake up Flag */}
+00502 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FLAG\_SLAK}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x31000012\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Sleep acknowledge Flag */}
+00503 \textcolor{comment}{/* @note When SLAK interrupt is disabled (SLKIE=0), no polling on SLAKI is possible. }
+00504 \textcolor{comment}{         In this case the SLAK bit can be polled.*/}
+00505 
+00506 \textcolor{comment}{/* Error Flags */}
+00507 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FLAG\_EWG}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10F00001\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Error Warning Flag   */}
+00508 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FLAG\_EPV}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10F00002\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Error Passive Flag   */}
+00509 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FLAG\_BOF}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10F00004\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Bus-Off Flag         */}
+00510 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_FLAG\_LEC}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x30F00070\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Last error code Flag */}
+00511 
+00512 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_GET\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_FLAG_LEC\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      CAN_FLAG_BOF\textcolor{preprocessor}{)}   \textcolor{preprocessor}{||}
+00513                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_FLAG_EPV\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      CAN_FLAG_EWG\textcolor{preprocessor}{)}   \textcolor{preprocessor}{||}
+00514                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_FLAG_WKU\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      CAN_FLAG_FOV0\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00515                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_FLAG_FF0\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      CAN_FLAG_FMP0\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00516                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_FLAG_FOV1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      CAN_FLAG_FF1\textcolor{preprocessor}{)}   \textcolor{preprocessor}{||}
+00517                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_FLAG_FMP1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      CAN_FLAG_RQCP2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00518                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_FLAG_RQCP1\textcolor{preprocessor}{)}\textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      CAN_FLAG_RQCP0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00519                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_FLAG_SLAK \textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00520 
+00521 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_CLEAR\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_FLAG_LEC\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      CAN_FLAG_RQCP2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00522                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_FLAG_RQCP1\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      CAN_FLAG_RQCP0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00523                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_FLAG_FF0\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      CAN_FLAG_FOV0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00524                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_FLAG_FF1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      CAN_FLAG_FOV1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00525                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_FLAG_WKU\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      CAN_FLAG_SLAK\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00526 \textcolor{comment}{/**}
+00527 \textcolor{comment}{  * @\}}
+00528 \textcolor{comment}{  */}
+00529 
+00530 
+00531 \textcolor{comment}{/** @defgroup CAN\_interrupts }
+00532 \textcolor{comment}{  * @\{}
+00533 \textcolor{comment}{  */}
+00534 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_IT\_TME}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Transmit mailbox empty Interrupt*/}
+00535 
+00536 \textcolor{comment}{/* Receive Interrupts */}
+00537 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_IT\_FMP0}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)} \textcolor{comment}{/*!< FIFO 0 message pending Interrupt*/}
+00538 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_IT\_FF0}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)} \textcolor{comment}{/*!< FIFO 0 full Interrupt*/}
+00539 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_IT\_FOV0}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000008\textcolor{preprocessor}{)} \textcolor{comment}{/*!< FIFO 0 overrun Interrupt*/}
+00540 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_IT\_FMP1}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000010\textcolor{preprocessor}{)} \textcolor{comment}{/*!< FIFO 1 message pending Interrupt*/}
+00541 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_IT\_FF1}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000020\textcolor{preprocessor}{)} \textcolor{comment}{/*!< FIFO 1 full Interrupt*/}
+00542 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_IT\_FOV1}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000040\textcolor{preprocessor}{)} \textcolor{comment}{/*!< FIFO 1 overrun Interrupt*/}
+00543 
+00544 \textcolor{comment}{/* Operating Mode Interrupts */}
+00545 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_IT\_WKU}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00010000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Wake-up Interrupt*/}
+00546 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_IT\_SLK}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00020000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Sleep acknowledge Interrupt*/}
+00547 
+00548 \textcolor{comment}{/* Error Interrupts */}
+00549 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_IT\_EWG}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000100\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Error warning Interrupt*/}
+00550 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_IT\_EPV}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000200\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Error passive Interrupt*/}
+00551 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_IT\_BOF}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000400\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Bus-off Interrupt*/}
+00552 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_IT\_LEC}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000800\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Last error code Interrupt*/}
+00553 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_IT\_ERR}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00008000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Error Interrupt*/}
+00554 
+00555 \textcolor{comment}{/* Flags named as Interrupts : kept only for FW compatibility */}
+00556 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_IT\_RQCP0}   CAN_IT_TME
+00557 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_IT\_RQCP1}   CAN_IT_TME
+00558 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CAN\_IT\_RQCP2}   CAN_IT_TME
+00559 
+00560 
+00561 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_TME\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_FMP0\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00562                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_FF0\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_FOV0\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00563                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_FMP1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_FF1\textcolor{preprocessor}{)}   \textcolor{preprocessor}{||}
+00564                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_FOV1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_EWG\textcolor{preprocessor}{)}   \textcolor{preprocessor}{||}
+00565                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_EPV\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_BOF\textcolor{preprocessor}{)}   \textcolor{preprocessor}{||}
+00566                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_LEC\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_ERR\textcolor{preprocessor}{)}   \textcolor{preprocessor}{||}
+00567                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_WKU\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_SLK\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00568 
+00569 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_CAN\_CLEAR\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_TME\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_FF0\textcolor{preprocessor}{)}    \textcolor{preprocessor}{||}
+00570                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_FOV0\textcolor{preprocessor}{)}\textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_FF1\textcolor{preprocessor}{)}    \textcolor{preprocessor}{||}
+00571                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_FOV1\textcolor{preprocessor}{)}\textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_EWG\textcolor{preprocessor}{)}    \textcolor{preprocessor}{||}
+00572                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_EPV\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_BOF\textcolor{preprocessor}{)}    \textcolor{preprocessor}{||}
+00573                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_LEC\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_ERR\textcolor{preprocessor}{)}    \textcolor{preprocessor}{||}
+00574                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_WKU\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} CAN_IT_SLK\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00575 \textcolor{comment}{/**}
+00576 \textcolor{comment}{  * @\}}
+00577 \textcolor{comment}{  */}
+00578 
+00579 \textcolor{comment}{/**}
+00580 \textcolor{comment}{  * @\}}
+00581 \textcolor{comment}{  */}
+00582 
+00583 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00584 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00585 
+00586 \textcolor{comment}{/*  Function used to set the CAN configuration to the default reset state *****/}
+00587 \textcolor{keywordtype}{void} CAN_DeInit(CAN\_TypeDef* CANx);
+00588 
+00589 \textcolor{comment}{/* Initialization and Configuration functions *********************************/}
+00590 uint8\_t CAN_Init(CAN\_TypeDef* CANx, CAN\_InitTypeDef* CAN\_InitStruct);
+00591 \textcolor{keywordtype}{void} CAN_FilterInit(CAN\_FilterInitTypeDef* CAN\_FilterInitStruct);
+00592 \textcolor{keywordtype}{void} CAN_StructInit(CAN\_InitTypeDef* CAN\_InitStruct);
+00593 \textcolor{keywordtype}{void} CAN_SlaveStartBank(uint8\_t CAN\_BankNumber);
+00594 \textcolor{keywordtype}{void} CAN_DBGFreeze(CAN\_TypeDef* CANx, FunctionalState NewState);
+00595 \textcolor{keywordtype}{void} CAN_TTComModeCmd(CAN\_TypeDef* CANx, FunctionalState NewState);
+00596 
+00597 \textcolor{comment}{/* CAN Frames Transmission functions ******************************************/}
+00598 uint8\_t CAN_Transmit(CAN\_TypeDef* CANx, CanTxMsg* TxMessage);
+00599 uint8\_t CAN_TransmitStatus(CAN\_TypeDef* CANx, uint8\_t TransmitMailbox);
+00600 \textcolor{keywordtype}{void} CAN_CancelTransmit(CAN\_TypeDef* CANx, uint8\_t Mailbox);
+00601 
+00602 \textcolor{comment}{/* CAN Frames Reception functions *********************************************/}
+00603 \textcolor{keywordtype}{void} CAN_Receive(CAN\_TypeDef* CANx, uint8\_t FIFONumber, CanRxMsg* RxMessage);
+00604 \textcolor{keywordtype}{void} CAN_FIFORelease(CAN\_TypeDef* CANx, uint8\_t FIFONumber);
+00605 uint8\_t CAN_MessagePending(CAN\_TypeDef* CANx, uint8\_t FIFONumber);
+00606 
+00607 \textcolor{comment}{/* Operation modes functions **************************************************/}
+00608 uint8\_t CAN_OperatingModeRequest(CAN\_TypeDef* CANx, uint8\_t CAN\_OperatingMode);
+00609 uint8\_t CAN_Sleep(CAN\_TypeDef* CANx);
+00610 uint8\_t CAN_WakeUp(CAN\_TypeDef* CANx);
+00611 
+00612 \textcolor{comment}{/* CAN Bus Error management functions *****************************************/}
+00613 uint8\_t CAN_GetLastErrorCode(CAN\_TypeDef* CANx);
+00614 uint8\_t CAN_GetReceiveErrorCounter(CAN\_TypeDef* CANx);
+00615 uint8\_t CAN_GetLSBTransmitErrorCounter(CAN\_TypeDef* CANx);
+00616 
+00617 \textcolor{comment}{/* Interrupts and flags management functions **********************************/}
+00618 \textcolor{keywordtype}{void} CAN_ITConfig(CAN\_TypeDef* CANx, uint32\_t CAN\_IT, FunctionalState NewState);
+00619 FlagStatus CAN_GetFlagStatus(CAN\_TypeDef* CANx, uint32\_t CAN\_FLAG);
+00620 \textcolor{keywordtype}{void} CAN_ClearFlag(CAN\_TypeDef* CANx, uint32\_t CAN\_FLAG);
+00621 ITStatus CAN_GetITStatus(CAN\_TypeDef* CANx, uint32\_t CAN\_IT);
+00622 \textcolor{keywordtype}{void} CAN_ClearITPendingBit(CAN\_TypeDef* CANx, uint32\_t CAN\_IT);
+00623 
+00624 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00625 \}
+00626 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00627 
+00628 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/* \_\_STM32F4xx\_CAN\_H */}
+00629 
+00630 \textcolor{comment}{/**}
+00631 \textcolor{comment}{  * @\}}
+00632 \textcolor{comment}{  */}
+00633 
+00634 \textcolor{comment}{/**}
+00635 \textcolor{comment}{  * @\}}
+00636 \textcolor{comment}{  */}
+00637 
+00638 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

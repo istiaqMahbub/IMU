@@ -1,0 +1,76 @@
+\section{C\+A\+N\+\_\+\+Private\+\_\+\+Functions}
+\label{group__CAN__Private__Functions}\index{C\+A\+N\+\_\+\+Private\+\_\+\+Functions@{C\+A\+N\+\_\+\+Private\+\_\+\+Functions}}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ C\+A\+N Bus Error management functions}
+\begin{DoxyCompactList}\small\item\em C\+AN Bus Error management functions. \end{DoxyCompactList}\item 
+\textbf{ C\+A\+N Frames Reception functions}
+\begin{DoxyCompactList}\small\item\em C\+AN Frames Reception functions. \end{DoxyCompactList}\item 
+\textbf{ C\+A\+N Frames Transmission functions}
+\begin{DoxyCompactList}\small\item\em C\+AN Frames Transmission functions. \end{DoxyCompactList}\item 
+\textbf{ C\+A\+N Operation modes functions}
+\begin{DoxyCompactList}\small\item\em C\+AN Operation modes functions. \end{DoxyCompactList}\item 
+\textbf{ Initialization and Configuration functions}
+\begin{DoxyCompactList}\small\item\em Initialization and Configuration functions. \end{DoxyCompactList}\item 
+\textbf{ Interrupts and flags management functions}
+\begin{DoxyCompactList}\small\item\em Interrupts and flags management functions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \textbf{ I\+T\+Status} \textbf{ Check\+I\+T\+Status} (uint32\+\_\+t C\+A\+N\+\_\+\+Reg, uint32\+\_\+t It\+\_\+\+Bit)
+\begin{DoxyCompactList}\small\item\em Checks whether the C\+AN interrupt has occurred or not. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+\subsection{Function Documentation}
+\mbox{\label{group__CAN__Private__Functions_gaed56e0c694fbf4dc2fd3244d4e4e269a}} 
+\index{C\+A\+N\+\_\+\+Private\+\_\+\+Functions@{C\+A\+N\+\_\+\+Private\+\_\+\+Functions}!Check\+I\+T\+Status@{Check\+I\+T\+Status}}
+\index{Check\+I\+T\+Status@{Check\+I\+T\+Status}!C\+A\+N\+\_\+\+Private\+\_\+\+Functions@{C\+A\+N\+\_\+\+Private\+\_\+\+Functions}}
+\subsubsection{Check\+I\+T\+Status()}
+{\footnotesize\ttfamily static \textbf{ I\+T\+Status} Check\+I\+T\+Status (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{C\+A\+N\+\_\+\+Reg,  }\item[{uint32\+\_\+t}]{It\+\_\+\+Bit }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Checks whether the C\+AN interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+N\+\_\+\+Reg} & specifies the C\+AN interrupt register to check. \\
+\hline
+{\em It\+\_\+\+Bit} & specifies the interrupt source bit to check. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of the C\+AN Interrupt (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1669} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}, and \textbf{ S\+ET}.
+
+
+\begin{DoxyCode}
+01670 \{
+01671   ITStatus pendingbitstatus = RESET;
+01672   
+01673   \textcolor{keywordflow}{if} ((CAN\_Reg & It\_Bit) != (uint32\_t)RESET)
+01674   \{
+01675     \textcolor{comment}{/* CAN\_IT is set */}
+01676     pendingbitstatus = SET;
+01677   \}
+01678   \textcolor{keywordflow}{else}
+01679   \{
+01680     \textcolor{comment}{/* CAN\_IT is reset */}
+01681     pendingbitstatus = RESET;
+01682   \}
+01683   \textcolor{keywordflow}{return} pendingbitstatus;
+01684 \}
+\end{DoxyCode}

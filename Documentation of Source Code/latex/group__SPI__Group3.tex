@@ -1,0 +1,251 @@
+\section{Hardware C\+RC Calculation functions}
+\label{group__SPI__Group3}\index{Hardware C\+R\+C Calculation functions@{Hardware C\+R\+C Calculation functions}}
+
+
+Hardware C\+RC Calculation functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ S\+P\+I\+\_\+\+Calculate\+C\+RC} (\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$S\+P\+Ix, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the C\+RC value calculation of the transferred bytes. \end{DoxyCompactList}\item 
+void \textbf{ S\+P\+I\+\_\+\+Transmit\+C\+RC} (\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$S\+P\+Ix)
+\begin{DoxyCompactList}\small\item\em Transmit the S\+P\+Ix C\+RC value. \end{DoxyCompactList}\item 
+uint16\+\_\+t \textbf{ S\+P\+I\+\_\+\+Get\+C\+RC} (\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$S\+P\+Ix, uint8\+\_\+t S\+P\+I\+\_\+\+C\+RC)
+\begin{DoxyCompactList}\small\item\em Returns the transmit or the receive C\+RC register value for the specified S\+PI. \end{DoxyCompactList}\item 
+uint16\+\_\+t \textbf{ S\+P\+I\+\_\+\+Get\+C\+R\+C\+Polynomial} (\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$S\+P\+Ix)
+\begin{DoxyCompactList}\small\item\em Returns the C\+RC Polynomial register value for the specified S\+PI. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Hardware C\+RC Calculation functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                         Hardware CRC Calculation functions
+ ===============================================================================  
+
+  This section provides a set of functions allowing to manage the SPI CRC hardware 
+  calculation
+
+  SPI communication using CRC is possible through the following procedure:
+     1. Program the Data direction, Polarity, Phase, First Data, Baud Rate Prescaler, 
+        Slave Management, Peripheral Mode and CRC Polynomial values using the SPI_Init()
+        function.
+     2. Enable the CRC calculation using the SPI_CalculateCRC() function.
+     3. Enable the SPI using the SPI_Cmd() function
+     4. Before writing the last data to the TX buffer, set the CRCNext bit using the 
+      SPI_TransmitCRC() function to indicate that after transmission of the last 
+      data, the CRC should be transmitted.
+     5. After transmitting the last data, the SPI transmits the CRC. The SPI_CR1_CRCNEXT
+        bit is reset. The CRC is also received and compared against the SPI_RXCRCR 
+        value. 
+        If the value does not match, the SPI_FLAG_CRCERR flag is set and an interrupt
+        can be generated when the SPI_I2S_IT_ERR interrupt is enabled.
+
+@note It is advised not to read the calculated CRC values during the communication.
+
+@note When the SPI is in slave mode, be careful to enable CRC calculation only 
+      when the clock is stable, that is, when the clock is in the steady state. 
+      If not, a wrong CRC calculation may be done. In fact, the CRC is sensitive 
+      to the SCK slave input clock as soon as CRCEN is set, and this, whatever 
+      the value of the SPE bit.
+
+@note With high bitrate frequencies, be careful when transmitting the CRC.
+      As the number of used CPU cycles has to be as low as possible in the CRC 
+      transfer phase, it is forbidden to call software functions in the CRC 
+      transmission sequence to avoid errors in the last data and CRC reception. 
+      In fact, CRCNEXT bit has to be written before the end of the transmission/reception 
+      of the last data.
+
+@note For high bit rate frequencies, it is advised to use the DMA mode to avoid the
+      degradation of the SPI speed performance due to CPU accesses impacting the 
+      SPI bandwidth.
+
+@note When the STM32F4xx is configured as slave and the NSS hardware mode is 
+      used, the NSS pin needs to be kept low between the data phase and the CRC 
+      phase.
+
+@note When the SPI is configured in slave mode with the CRC feature enabled, CRC
+      calculation takes place even if a high level is applied on the NSS pin. 
+      This may happen for example in case of a multi-slave environment where the 
+      communication master addresses slaves alternately.
+
+@note Between a slave de-selection (high level on NSS) and a new slave selection 
+      (low level on NSS), the CRC value should be cleared on both master and slave
+      sides in order to resynchronize the master and slave for their respective 
+      CRC calculation.
+
+@note To clear the CRC, follow the procedure below:
+        1. Disable SPI using the SPI_Cmd() function
+        2. Disable the CRC calculation using the SPI_CalculateCRC() function.
+        3. Enable the CRC calculation using the SPI_CalculateCRC() function.
+        4. Enable SPI using the SPI_Cmd() function.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__SPI__Group3_ga64f7276d119e6cb58afc100f8832adb0}} 
+\index{Hardware C\+R\+C Calculation functions@{Hardware C\+R\+C Calculation functions}!S\+P\+I\+\_\+\+Calculate\+C\+RC@{S\+P\+I\+\_\+\+Calculate\+C\+RC}}
+\index{S\+P\+I\+\_\+\+Calculate\+C\+RC@{S\+P\+I\+\_\+\+Calculate\+C\+RC}!Hardware C\+R\+C Calculation functions@{Hardware C\+R\+C Calculation functions}}
+\subsubsection{S\+P\+I\+\_\+\+Calculate\+C\+R\+C()}
+{\footnotesize\ttfamily void S\+P\+I\+\_\+\+Calculate\+C\+RC (\begin{DoxyParamCaption}\item[{\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$}]{S\+P\+Ix,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the C\+RC value calculation of the transferred bytes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+P\+Ix} & where x can be 1, 2 or 3 to select the S\+PI peripheral. \\
+\hline
+{\em New\+State} & new state of the S\+P\+Ix C\+RC value calculation. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 880} of file \textbf{ stm32f4xx\+\_\+spi.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00881 \{
+00882   \textcolor{comment}{/* Check the parameters */}
+00883   assert_param(IS_SPI_ALL_PERIPH(SPIx));
+00884   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00885   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00886   \{
+00887     \textcolor{comment}{/* Enable the selected SPI CRC calculation */}
+00888     SPIx->CR1 |= SPI_CR1_CRCEN;
+00889   \}
+00890   \textcolor{keywordflow}{else}
+00891   \{
+00892     \textcolor{comment}{/* Disable the selected SPI CRC calculation */}
+00893     SPIx->CR1 &= (uint16\_t)~((uint16\_t)SPI_CR1_CRCEN);
+00894   \}
+00895 \}
+\end{DoxyCode}
+\mbox{\label{group__SPI__Group3_ga4c81c193516e82cf0a2fdc149ef20cc6}} 
+\index{Hardware C\+R\+C Calculation functions@{Hardware C\+R\+C Calculation functions}!S\+P\+I\+\_\+\+Get\+C\+RC@{S\+P\+I\+\_\+\+Get\+C\+RC}}
+\index{S\+P\+I\+\_\+\+Get\+C\+RC@{S\+P\+I\+\_\+\+Get\+C\+RC}!Hardware C\+R\+C Calculation functions@{Hardware C\+R\+C Calculation functions}}
+\subsubsection{S\+P\+I\+\_\+\+Get\+C\+R\+C()}
+{\footnotesize\ttfamily uint16\+\_\+t S\+P\+I\+\_\+\+Get\+C\+RC (\begin{DoxyParamCaption}\item[{\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$}]{S\+P\+Ix,  }\item[{uint8\+\_\+t}]{S\+P\+I\+\_\+\+C\+RC }\end{DoxyParamCaption})}
+
+
+
+Returns the transmit or the receive C\+RC register value for the specified S\+PI. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+P\+Ix} & where x can be 1, 2 or 3 to select the S\+PI peripheral. \\
+\hline
+{\em S\+P\+I\+\_\+\+C\+RC} & specifies the C\+RC register to be read. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item S\+P\+I\+\_\+\+C\+R\+C\+\_\+\+Tx\+: Selects Tx C\+RC register \item S\+P\+I\+\_\+\+C\+R\+C\+\_\+\+Rx\+: Selects Rx C\+RC register \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & selected C\+RC register value.. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 920} of file \textbf{ stm32f4xx\+\_\+spi.\+c}.
+
+
+\begin{DoxyCode}
+00921 \{
+00922   uint16\_t crcreg = 0;
+00923   \textcolor{comment}{/* Check the parameters */}
+00924   assert_param(IS_SPI_ALL_PERIPH(SPIx));
+00925   assert_param(IS_SPI_CRC(SPI\_CRC));
+00926   \textcolor{keywordflow}{if} (SPI\_CRC != SPI_CRC_Rx)
+00927   \{
+00928     \textcolor{comment}{/* Get the Tx CRC register */}
+00929     crcreg = SPIx->TXCRCR;
+00930   \}
+00931   \textcolor{keywordflow}{else}
+00932   \{
+00933     \textcolor{comment}{/* Get the Rx CRC register */}
+00934     crcreg = SPIx->RXCRCR;
+00935   \}
+00936   \textcolor{comment}{/* Return the selected CRC register */}
+00937   \textcolor{keywordflow}{return} crcreg;
+00938 \}
+\end{DoxyCode}
+\mbox{\label{group__SPI__Group3_ga80fb9374cfce670f29128bb78568353f}} 
+\index{Hardware C\+R\+C Calculation functions@{Hardware C\+R\+C Calculation functions}!S\+P\+I\+\_\+\+Get\+C\+R\+C\+Polynomial@{S\+P\+I\+\_\+\+Get\+C\+R\+C\+Polynomial}}
+\index{S\+P\+I\+\_\+\+Get\+C\+R\+C\+Polynomial@{S\+P\+I\+\_\+\+Get\+C\+R\+C\+Polynomial}!Hardware C\+R\+C Calculation functions@{Hardware C\+R\+C Calculation functions}}
+\subsubsection{S\+P\+I\+\_\+\+Get\+C\+R\+C\+Polynomial()}
+{\footnotesize\ttfamily uint16\+\_\+t S\+P\+I\+\_\+\+Get\+C\+R\+C\+Polynomial (\begin{DoxyParamCaption}\item[{\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$}]{S\+P\+Ix }\end{DoxyParamCaption})}
+
+
+
+Returns the C\+RC Polynomial register value for the specified S\+PI. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+P\+Ix} & where x can be 1, 2 or 3 to select the S\+PI peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & C\+RC Polynomial register value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 945} of file \textbf{ stm32f4xx\+\_\+spi.\+c}.
+
+
+\begin{DoxyCode}
+00946 \{
+00947   \textcolor{comment}{/* Check the parameters */}
+00948   assert_param(IS_SPI_ALL_PERIPH(SPIx));
+00949   
+00950   \textcolor{comment}{/* Return the CRC polynomial register */}
+00951   \textcolor{keywordflow}{return} SPIx->CRCPR;
+00952 \}
+\end{DoxyCode}
+\mbox{\label{group__SPI__Group3_gace8b1058e09bab150b0dbe5978810273}} 
+\index{Hardware C\+R\+C Calculation functions@{Hardware C\+R\+C Calculation functions}!S\+P\+I\+\_\+\+Transmit\+C\+RC@{S\+P\+I\+\_\+\+Transmit\+C\+RC}}
+\index{S\+P\+I\+\_\+\+Transmit\+C\+RC@{S\+P\+I\+\_\+\+Transmit\+C\+RC}!Hardware C\+R\+C Calculation functions@{Hardware C\+R\+C Calculation functions}}
+\subsubsection{S\+P\+I\+\_\+\+Transmit\+C\+R\+C()}
+{\footnotesize\ttfamily void S\+P\+I\+\_\+\+Transmit\+C\+RC (\begin{DoxyParamCaption}\item[{\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$}]{S\+P\+Ix }\end{DoxyParamCaption})}
+
+
+
+Transmit the S\+P\+Ix C\+RC value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+P\+Ix} & where x can be 1, 2 or 3 to select the S\+PI peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 902} of file \textbf{ stm32f4xx\+\_\+spi.\+c}.
+
+
+\begin{DoxyCode}
+00903 \{
+00904   \textcolor{comment}{/* Check the parameters */}
+00905   assert_param(IS_SPI_ALL_PERIPH(SPIx));
+00906   
+00907   \textcolor{comment}{/* Enable the selected SPI CRC transmission */}
+00908   SPIx->CR1 |= SPI_CR1_CRCNEXT;
+00909 \}
+\end{DoxyCode}

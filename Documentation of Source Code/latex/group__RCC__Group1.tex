@@ -1,0 +1,787 @@
+\section{Internal and external clocks, P\+LL, C\+SS and M\+CO configuration functions}
+\label{group__RCC__Group1}\index{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}}
+
+
+Internal and external clocks, P\+LL, C\+SS and M\+CO configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ R\+C\+C\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Resets the R\+CC clock configuration to the default reset state. \end{DoxyCompactList}\item 
+void \textbf{ R\+C\+C\+\_\+\+H\+S\+E\+Config} (uint8\+\_\+t R\+C\+C\+\_\+\+H\+SE)
+\begin{DoxyCompactList}\small\item\em Configures the External High Speed oscillator (H\+SE). \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+C\+C\+\_\+\+Wait\+For\+H\+S\+E\+Start\+Up} (void)
+\begin{DoxyCompactList}\small\item\em Waits for H\+SE start-\/up. \end{DoxyCompactList}\item 
+void \textbf{ R\+C\+C\+\_\+\+Adjust\+H\+S\+I\+Calibration\+Value} (uint8\+\_\+t H\+S\+I\+Calibration\+Value)
+\begin{DoxyCompactList}\small\item\em Adjusts the Internal High Speed oscillator (H\+SI) calibration value. \end{DoxyCompactList}\item 
+void \textbf{ R\+C\+C\+\_\+\+H\+S\+I\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Internal High Speed oscillator (H\+SI). \end{DoxyCompactList}\item 
+void \textbf{ R\+C\+C\+\_\+\+L\+S\+E\+Config} (uint8\+\_\+t R\+C\+C\+\_\+\+L\+SE)
+\begin{DoxyCompactList}\small\item\em Configures the External Low Speed oscillator (L\+SE). \end{DoxyCompactList}\item 
+void \textbf{ R\+C\+C\+\_\+\+L\+S\+I\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Internal Low Speed oscillator (L\+SI). \end{DoxyCompactList}\item 
+void \textbf{ R\+C\+C\+\_\+\+P\+L\+L\+Config} (uint32\+\_\+t R\+C\+C\+\_\+\+P\+L\+L\+Source, uint32\+\_\+t P\+L\+LM, uint32\+\_\+t P\+L\+LN, uint32\+\_\+t P\+L\+LP, uint32\+\_\+t P\+L\+LQ)
+\begin{DoxyCompactList}\small\item\em Configures the main P\+LL clock source, multiplication and division factors. \end{DoxyCompactList}\item 
+void \textbf{ R\+C\+C\+\_\+\+P\+L\+L\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the main P\+LL. \end{DoxyCompactList}\item 
+void \textbf{ R\+C\+C\+\_\+\+P\+L\+L\+I2\+S\+Config} (uint32\+\_\+t P\+L\+L\+I2\+SN, uint32\+\_\+t P\+L\+L\+I2\+SR)
+\begin{DoxyCompactList}\small\item\em Configures the P\+L\+L\+I2S clock multiplication and division factors. \end{DoxyCompactList}\item 
+void \textbf{ R\+C\+C\+\_\+\+P\+L\+L\+I2\+S\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the P\+L\+L\+I2S. \end{DoxyCompactList}\item 
+void \textbf{ R\+C\+C\+\_\+\+Clock\+Security\+System\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Clock Security System. \end{DoxyCompactList}\item 
+void \textbf{ R\+C\+C\+\_\+\+M\+C\+O1\+Config} (uint32\+\_\+t R\+C\+C\+\_\+\+M\+C\+O1\+Source, uint32\+\_\+t R\+C\+C\+\_\+\+M\+C\+O1\+Div)
+\begin{DoxyCompactList}\small\item\em Selects the clock source to output on M\+C\+O1 pin(\+P\+A8). \end{DoxyCompactList}\item 
+void \textbf{ R\+C\+C\+\_\+\+M\+C\+O2\+Config} (uint32\+\_\+t R\+C\+C\+\_\+\+M\+C\+O2\+Source, uint32\+\_\+t R\+C\+C\+\_\+\+M\+C\+O2\+Div)
+\begin{DoxyCompactList}\small\item\em Selects the clock source to output on M\+C\+O2 pin(\+P\+C9). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Internal and external clocks, P\+LL, C\+SS and M\+CO configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+      Internal/external clocks, PLL, CSS and MCO configuration functions
+ ===============================================================================  
+
+  This section provide functions allowing to configure the internal/external clocks,
+  PLLs, CSS and MCO pins.
+  
+  1. HSI (high-speed internal), 16 MHz factory-trimmed RC used directly or through
+     the PLL as System clock source.
+
+  2. LSI (low-speed internal), 32 KHz low consumption RC used as IWDG and/or RTC
+     clock source.
+
+  3. HSE (high-speed external), 4 to 26 MHz crystal oscillator used directly or
+     through the PLL as System clock source. Can be used also as RTC clock source.
+
+  4. LSE (low-speed external), 32 KHz oscillator used as RTC clock source.   
+
+  5. PLL (clocked by HSI or HSE), featuring two different output clocks:
+      - The first output is used to generate the high speed system clock (up to 168 MHz)
+      - The second output is used to generate the clock for the USB OTG FS (48 MHz),
+        the random analog generator (<=48 MHz) and the SDIO (<= 48 MHz).
+
+  6. PLLI2S (clocked by HSI or HSE), used to generate an accurate clock to achieve 
+     high-quality audio performance on the I2S interface.
+  
+  7. CSS (Clock security system), once enable and if a HSE clock failure occurs 
+     (HSE used directly or through PLL as System clock source), the System clock
+     is automatically switched to HSI and an interrupt is generated if enabled. 
+     The interrupt is linked to the Cortex-M4 NMI (Non-Maskable Interrupt) 
+     exception vector.   
+
+  8. MCO1 (microcontroller clock output), used to output HSI, LSE, HSE or PLL
+     clock (through a configurable prescaler) on PA8 pin.
+
+  9. MCO2 (microcontroller clock output), used to output HSE, PLL, SYSCLK or PLLI2S
+     clock (through a configurable prescaler) on PC9 pin.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__RCC__Group1_gaa2d6a35f5c2e0f86317c3beb222677fc}} 
+\index{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}!R\+C\+C\+\_\+\+Adjust\+H\+S\+I\+Calibration\+Value@{R\+C\+C\+\_\+\+Adjust\+H\+S\+I\+Calibration\+Value}}
+\index{R\+C\+C\+\_\+\+Adjust\+H\+S\+I\+Calibration\+Value@{R\+C\+C\+\_\+\+Adjust\+H\+S\+I\+Calibration\+Value}!Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}}
+\subsubsection{R\+C\+C\+\_\+\+Adjust\+H\+S\+I\+Calibration\+Value()}
+{\footnotesize\ttfamily void R\+C\+C\+\_\+\+Adjust\+H\+S\+I\+Calibration\+Value (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{H\+S\+I\+Calibration\+Value }\end{DoxyParamCaption})}
+
+
+
+Adjusts the Internal High Speed oscillator (H\+SI) calibration value. 
+
+\begin{DoxyNote}{Note}
+The calibration is used to compensate for the variations in voltage and temperature that influence the frequency of the internal H\+SI RC. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em H\+S\+I\+Calibration\+Value} & specifies the calibration trimming value. This parameter must be a number between 0 and 0x1F. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 292} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+\begin{DoxyCode}
+00293 \{
+00294   uint32\_t tmpreg = 0;
+00295   \textcolor{comment}{/* Check the parameters */}
+00296   assert_param(IS_RCC_CALIBRATION_VALUE(HSICalibrationValue));
+00297 
+00298   tmpreg = RCC->CR;
+00299 
+00300   \textcolor{comment}{/* Clear HSITRIM[4:0] bits */}
+00301   tmpreg &= ~RCC_CR_HSITRIM;
+00302 
+00303   \textcolor{comment}{/* Set the HSITRIM[4:0] bits according to HSICalibrationValue value */}
+00304   tmpreg |= (uint32\_t)HSICalibrationValue << 3;
+00305 
+00306   \textcolor{comment}{/* Store the new value */}
+00307   RCC->CR = tmpreg;
+00308 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group1_ga0ff1fd7b9a8a49cdda11b7d7261c3494}} 
+\index{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}!R\+C\+C\+\_\+\+Clock\+Security\+System\+Cmd@{R\+C\+C\+\_\+\+Clock\+Security\+System\+Cmd}}
+\index{R\+C\+C\+\_\+\+Clock\+Security\+System\+Cmd@{R\+C\+C\+\_\+\+Clock\+Security\+System\+Cmd}!Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}}
+\subsubsection{R\+C\+C\+\_\+\+Clock\+Security\+System\+Cmd()}
+{\footnotesize\ttfamily void R\+C\+C\+\_\+\+Clock\+Security\+System\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the Clock Security System. 
+
+\begin{DoxyNote}{Note}
+If a failure is detected on the H\+SE oscillator clock, this oscillator is automatically disabled and an interrupt is generated to inform the software about the failure (Clock Security System Interrupt, C\+S\+SI), allowing the M\+CU to perform rescue operations. The C\+S\+SI is linked to the Cortex-\/\+M4 N\+MI (Non-\/\+Maskable Interrupt) exception vector. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the Clock Security System. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 518} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+\begin{DoxyCode}
+00519 \{
+00520   \textcolor{comment}{/* Check the parameters */}
+00521   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00522   *(\_\_IO uint32\_t *) CR_CSSON_BB = (uint32\_t)NewState;
+00523 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group1_ga413f6422be11b1334abe60b3bff2e062}} 
+\index{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}!R\+C\+C\+\_\+\+De\+Init@{R\+C\+C\+\_\+\+De\+Init}}
+\index{R\+C\+C\+\_\+\+De\+Init@{R\+C\+C\+\_\+\+De\+Init}!Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}}
+\subsubsection{R\+C\+C\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void R\+C\+C\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Resets the R\+CC clock configuration to the default reset state. 
+
+\begin{DoxyNote}{Note}
+The default reset state of the clock configuration is given below\+:
+\begin{DoxyItemize}
+\item H\+SI ON and used as system clock source
+\item H\+SE, P\+LL and P\+L\+L\+I2S O\+FF
+\item A\+HB, A\+P\+B1 and A\+P\+B2 prescaler set to 1.
+\item C\+SS, M\+C\+O1 and M\+C\+O2 O\+FF
+\item All interrupts disabled 
+\end{DoxyItemize}
+
+This function doesn\textquotesingle{}t modify the configuration of the
+\begin{DoxyItemize}
+\item Peripheral clocks
+\item L\+SI, L\+SE and R\+TC clocks 
+\end{DoxyItemize}
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 196} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+\begin{DoxyCode}
+00197 \{
+00198   \textcolor{comment}{/* Set HSION bit */}
+00199   RCC->CR |= (uint32\_t)0x00000001;
+00200 
+00201   \textcolor{comment}{/* Reset CFGR register */}
+00202   RCC->CFGR = 0x00000000;
+00203 
+00204   \textcolor{comment}{/* Reset HSEON, CSSON and PLLON bits */}
+00205   RCC->CR &= (uint32\_t)0xFEF6FFFF;
+00206 
+00207   \textcolor{comment}{/* Reset PLLCFGR register */}
+00208   RCC->PLLCFGR = 0x24003010;
+00209 
+00210   \textcolor{comment}{/* Reset HSEBYP bit */}
+00211   RCC->CR &= (uint32\_t)0xFFFBFFFF;
+00212 
+00213   \textcolor{comment}{/* Disable all interrupts */}
+00214   RCC->CIR = 0x00000000;
+00215 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group1_ga523b06e73f6aa8a03e42299c855066a8}} 
+\index{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}!R\+C\+C\+\_\+\+H\+S\+E\+Config@{R\+C\+C\+\_\+\+H\+S\+E\+Config}}
+\index{R\+C\+C\+\_\+\+H\+S\+E\+Config@{R\+C\+C\+\_\+\+H\+S\+E\+Config}!Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}}
+\subsubsection{R\+C\+C\+\_\+\+H\+S\+E\+Config()}
+{\footnotesize\ttfamily void R\+C\+C\+\_\+\+H\+S\+E\+Config (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{R\+C\+C\+\_\+\+H\+SE }\end{DoxyParamCaption})}
+
+
+
+Configures the External High Speed oscillator (H\+SE). 
+
+\begin{DoxyNote}{Note}
+After enabling the H\+SE (R\+C\+C\+\_\+\+H\+S\+E\+\_\+\+ON or R\+C\+C\+\_\+\+H\+S\+E\+\_\+\+Bypass), the application software should wait on H\+S\+E\+R\+DY flag to be set indicating that H\+SE clock is stable and can be used to clock the P\+LL and/or system clock. 
+
+H\+SE state can not be changed if it is used directly or through the P\+LL as system clock. In this case, you have to select another source of the system clock then change the H\+SE state (ex. disable it). 
+
+The H\+SE is stopped by hardware when entering S\+T\+OP and S\+T\+A\+N\+D\+BY modes. 
+
+This function reset the C\+S\+S\+ON bit, so if the Clock security system(\+C\+S\+S) was previously enabled you have to enable it again after calling this function. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\+C\+C\+\_\+\+H\+SE} & specifies the new state of the H\+SE. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+C\+C\+\_\+\+H\+S\+E\+\_\+\+O\+FF\+: turn O\+FF the H\+SE oscillator, H\+S\+E\+R\+DY flag goes low after 6 H\+SE oscillator clock cycles. \item R\+C\+C\+\_\+\+H\+S\+E\+\_\+\+ON\+: turn ON the H\+SE oscillator \item R\+C\+C\+\_\+\+H\+S\+E\+\_\+\+Bypass\+: H\+SE oscillator bypassed with external clock \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 237} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+\begin{DoxyCode}
+00238 \{
+00239   \textcolor{comment}{/* Check the parameters */}
+00240   assert_param(IS_RCC_HSE(RCC\_HSE));
+00241 
+00242   \textcolor{comment}{/* Reset HSEON and HSEBYP bits before configuring the HSE ------------------*/}
+00243   *(\_\_IO uint8\_t *) CR_BYTE3_ADDRESS = RCC_HSE_OFF;
+00244 
+00245   \textcolor{comment}{/* Set the new HSE configuration -------------------------------------------*/}
+00246   *(\_\_IO uint8\_t *) CR_BYTE3_ADDRESS = RCC\_HSE;
+00247 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group1_ga0c6772a1e43765909495f57815ef69e2}} 
+\index{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}!R\+C\+C\+\_\+\+H\+S\+I\+Cmd@{R\+C\+C\+\_\+\+H\+S\+I\+Cmd}}
+\index{R\+C\+C\+\_\+\+H\+S\+I\+Cmd@{R\+C\+C\+\_\+\+H\+S\+I\+Cmd}!Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}}
+\subsubsection{R\+C\+C\+\_\+\+H\+S\+I\+Cmd()}
+{\footnotesize\ttfamily void R\+C\+C\+\_\+\+H\+S\+I\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the Internal High Speed oscillator (H\+SI). 
+
+\begin{DoxyNote}{Note}
+The H\+SI is stopped by hardware when entering S\+T\+OP and S\+T\+A\+N\+D\+BY modes. It is used (enabled by hardware) as system clock source after startup from Reset, wakeup from S\+T\+OP and S\+T\+A\+N\+D\+BY mode, or in case of failure of the H\+SE used directly or indirectly as system clock (if the Clock Security System C\+SS is enabled). 
+
+H\+SI can not be stopped if it is used as system clock source. In this case, you have to select another source of the system clock then stop the H\+SI. 
+
+After enabling the H\+SI, the application software should wait on H\+S\+I\+R\+DY flag to be set indicating that H\+SI clock is stable and can be used as system clock source. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the H\+SI. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+When the H\+SI is stopped, H\+S\+I\+R\+DY flag goes low after 6 H\+SI oscillator clock cycles. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 328} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+\begin{DoxyCode}
+00329 \{
+00330   \textcolor{comment}{/* Check the parameters */}
+00331   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00332 
+00333   *(\_\_IO uint32\_t *) CR_HSION_BB = (uint32\_t)NewState;
+00334 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group1_ga65209ab5c3589b249c7d70f978735ca6}} 
+\index{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}!R\+C\+C\+\_\+\+L\+S\+E\+Config@{R\+C\+C\+\_\+\+L\+S\+E\+Config}}
+\index{R\+C\+C\+\_\+\+L\+S\+E\+Config@{R\+C\+C\+\_\+\+L\+S\+E\+Config}!Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}}
+\subsubsection{R\+C\+C\+\_\+\+L\+S\+E\+Config()}
+{\footnotesize\ttfamily void R\+C\+C\+\_\+\+L\+S\+E\+Config (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{R\+C\+C\+\_\+\+L\+SE }\end{DoxyParamCaption})}
+
+
+
+Configures the External Low Speed oscillator (L\+SE). 
+
+\begin{DoxyNote}{Note}
+As the L\+SE is in the Backup domain and write access is denied to this domain after reset, you have to enable write access using P\+W\+R\+\_\+\+Backup\+Access\+Cmd(\+E\+N\+A\+B\+L\+E) function before to configure the L\+SE (to be done once after reset). 
+
+After enabling the L\+SE (R\+C\+C\+\_\+\+L\+S\+E\+\_\+\+ON or R\+C\+C\+\_\+\+L\+S\+E\+\_\+\+Bypass), the application software should wait on L\+S\+E\+R\+DY flag to be set indicating that L\+SE clock is stable and can be used to clock the R\+TC. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\+C\+C\+\_\+\+L\+SE} & specifies the new state of the L\+SE. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+C\+C\+\_\+\+L\+S\+E\+\_\+\+O\+FF\+: turn O\+FF the L\+SE oscillator, L\+S\+E\+R\+DY flag goes low after 6 L\+SE oscillator clock cycles. \item R\+C\+C\+\_\+\+L\+S\+E\+\_\+\+ON\+: turn ON the L\+SE oscillator \item R\+C\+C\+\_\+\+L\+S\+E\+\_\+\+Bypass\+: L\+SE oscillator bypassed with external clock \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 353} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+\begin{DoxyCode}
+00354 \{
+00355   \textcolor{comment}{/* Check the parameters */}
+00356   assert_param(IS_RCC_LSE(RCC\_LSE));
+00357 
+00358   \textcolor{comment}{/* Reset LSEON and LSEBYP bits before configuring the LSE ------------------*/}
+00359   \textcolor{comment}{/* Reset LSEON bit */}
+00360   *(\_\_IO uint8\_t *) BDCR_ADDRESS = RCC_LSE_OFF;
+00361 
+00362   \textcolor{comment}{/* Reset LSEBYP bit */}
+00363   *(\_\_IO uint8\_t *) BDCR_ADDRESS = RCC_LSE_OFF;
+00364 
+00365   \textcolor{comment}{/* Configure LSE (RCC\_LSE\_OFF is already covered by the code section above) */}
+00366   \textcolor{keywordflow}{switch} (RCC\_LSE)
+00367   \{
+00368     \textcolor{keywordflow}{case} RCC_LSE_ON:
+00369       \textcolor{comment}{/* Set LSEON bit */}
+00370       *(\_\_IO uint8\_t *) BDCR_ADDRESS = RCC_LSE_ON;
+00371       \textcolor{keywordflow}{break};
+00372     \textcolor{keywordflow}{case} RCC_LSE_Bypass:
+00373       \textcolor{comment}{/* Set LSEBYP and LSEON bits */}
+00374       *(\_\_IO uint8\_t *) BDCR_ADDRESS = RCC_LSE_Bypass | RCC_LSE_ON;
+00375       \textcolor{keywordflow}{break};
+00376     \textcolor{keywordflow}{default}:
+00377       \textcolor{keywordflow}{break};
+00378   \}
+00379 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group1_ga81e3ca29fd154ac2019bba6936d6d5ed}} 
+\index{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}!R\+C\+C\+\_\+\+L\+S\+I\+Cmd@{R\+C\+C\+\_\+\+L\+S\+I\+Cmd}}
+\index{R\+C\+C\+\_\+\+L\+S\+I\+Cmd@{R\+C\+C\+\_\+\+L\+S\+I\+Cmd}!Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}}
+\subsubsection{R\+C\+C\+\_\+\+L\+S\+I\+Cmd()}
+{\footnotesize\ttfamily void R\+C\+C\+\_\+\+L\+S\+I\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the Internal Low Speed oscillator (L\+SI). 
+
+\begin{DoxyNote}{Note}
+After enabling the L\+SI, the application software should wait on L\+S\+I\+R\+DY flag to be set indicating that L\+SI clock is stable and can be used to clock the I\+W\+DG and/or the R\+TC. 
+
+L\+SI can not be disabled if the I\+W\+DG is running. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the L\+SI. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+When the L\+SI is stopped, L\+S\+I\+R\+DY flag goes low after 6 L\+SI oscillator clock cycles. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 393} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+\begin{DoxyCode}
+00394 \{
+00395   \textcolor{comment}{/* Check the parameters */}
+00396   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00397 
+00398   *(\_\_IO uint32\_t *) CSR_LSION_BB = (uint32\_t)NewState;
+00399 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group1_ga15c9ecb6ef015ed008cb28e5b7a50531}} 
+\index{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}!R\+C\+C\+\_\+\+M\+C\+O1\+Config@{R\+C\+C\+\_\+\+M\+C\+O1\+Config}}
+\index{R\+C\+C\+\_\+\+M\+C\+O1\+Config@{R\+C\+C\+\_\+\+M\+C\+O1\+Config}!Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}}
+\subsubsection{R\+C\+C\+\_\+\+M\+C\+O1\+Config()}
+{\footnotesize\ttfamily void R\+C\+C\+\_\+\+M\+C\+O1\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+C\+C\+\_\+\+M\+C\+O1\+Source,  }\item[{uint32\+\_\+t}]{R\+C\+C\+\_\+\+M\+C\+O1\+Div }\end{DoxyParamCaption})}
+
+
+
+Selects the clock source to output on M\+C\+O1 pin(\+P\+A8). 
+
+\begin{DoxyNote}{Note}
+P\+A8 should be configured in alternate function mode. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\+C\+C\+\_\+\+M\+C\+O1\+Source} & specifies the clock source to output. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+C\+C\+\_\+\+M\+C\+O1\+Source\+\_\+\+H\+SI\+: H\+SI clock selected as M\+C\+O1 source \item R\+C\+C\+\_\+\+M\+C\+O1\+Source\+\_\+\+L\+SE\+: L\+SE clock selected as M\+C\+O1 source \item R\+C\+C\+\_\+\+M\+C\+O1\+Source\+\_\+\+H\+SE\+: H\+SE clock selected as M\+C\+O1 source \item R\+C\+C\+\_\+\+M\+C\+O1\+Source\+\_\+\+P\+L\+L\+C\+LK\+: main P\+LL clock selected as M\+C\+O1 source \end{DoxyItemize}
+\\
+\hline
+{\em R\+C\+C\+\_\+\+M\+C\+O1\+Div} & specifies the M\+C\+O1 prescaler. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+C\+C\+\_\+\+M\+C\+O1\+Div\+\_\+1\+: no division applied to M\+C\+O1 clock \item R\+C\+C\+\_\+\+M\+C\+O1\+Div\+\_\+2\+: division by 2 applied to M\+C\+O1 clock \item R\+C\+C\+\_\+\+M\+C\+O1\+Div\+\_\+3\+: division by 3 applied to M\+C\+O1 clock \item R\+C\+C\+\_\+\+M\+C\+O1\+Div\+\_\+4\+: division by 4 applied to M\+C\+O1 clock \item R\+C\+C\+\_\+\+M\+C\+O1\+Div\+\_\+5\+: division by 5 applied to M\+C\+O1 clock \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 543} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+\begin{DoxyCode}
+00544 \{
+00545   uint32\_t tmpreg = 0;
+00546   
+00547   \textcolor{comment}{/* Check the parameters */}
+00548   assert_param(IS_RCC_MCO1SOURCE(RCC\_MCO1Source));
+00549   assert_param(IS_RCC_MCO1DIV(RCC\_MCO1Div));  
+00550 
+00551   tmpreg = RCC->CFGR;
+00552 
+00553   \textcolor{comment}{/* Clear MCO1[1:0] and MCO1PRE[2:0] bits */}
+00554   tmpreg &= CFGR_MCO1_RESET_MASK;
+00555 
+00556   \textcolor{comment}{/* Select MCO1 clock source and prescaler */}
+00557   tmpreg |= RCC\_MCO1Source | RCC\_MCO1Div;
+00558 
+00559   \textcolor{comment}{/* Store the new value */}
+00560   RCC->CFGR = tmpreg;  
+00561 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group1_gaf50f10675b747de60c739e44e5c22aee}} 
+\index{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}!R\+C\+C\+\_\+\+M\+C\+O2\+Config@{R\+C\+C\+\_\+\+M\+C\+O2\+Config}}
+\index{R\+C\+C\+\_\+\+M\+C\+O2\+Config@{R\+C\+C\+\_\+\+M\+C\+O2\+Config}!Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}}
+\subsubsection{R\+C\+C\+\_\+\+M\+C\+O2\+Config()}
+{\footnotesize\ttfamily void R\+C\+C\+\_\+\+M\+C\+O2\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+C\+C\+\_\+\+M\+C\+O2\+Source,  }\item[{uint32\+\_\+t}]{R\+C\+C\+\_\+\+M\+C\+O2\+Div }\end{DoxyParamCaption})}
+
+
+
+Selects the clock source to output on M\+C\+O2 pin(\+P\+C9). 
+
+\begin{DoxyNote}{Note}
+P\+C9 should be configured in alternate function mode. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\+C\+C\+\_\+\+M\+C\+O2\+Source} & specifies the clock source to output. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+C\+C\+\_\+\+M\+C\+O2\+Source\+\_\+\+S\+Y\+S\+C\+LK\+: System clock (S\+Y\+S\+C\+LK) selected as M\+C\+O2 source \item R\+C\+C\+\_\+\+M\+C\+O2\+Source\+\_\+\+P\+L\+L\+I2\+S\+C\+LK\+: P\+L\+L\+I2S clock selected as M\+C\+O2 source \item R\+C\+C\+\_\+\+M\+C\+O2\+Source\+\_\+\+H\+SE\+: H\+SE clock selected as M\+C\+O2 source \item R\+C\+C\+\_\+\+M\+C\+O2\+Source\+\_\+\+P\+L\+L\+C\+LK\+: main P\+LL clock selected as M\+C\+O2 source \end{DoxyItemize}
+\\
+\hline
+{\em R\+C\+C\+\_\+\+M\+C\+O2\+Div} & specifies the M\+C\+O2 prescaler. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+C\+C\+\_\+\+M\+C\+O2\+Div\+\_\+1\+: no division applied to M\+C\+O2 clock \item R\+C\+C\+\_\+\+M\+C\+O2\+Div\+\_\+2\+: division by 2 applied to M\+C\+O2 clock \item R\+C\+C\+\_\+\+M\+C\+O2\+Div\+\_\+3\+: division by 3 applied to M\+C\+O2 clock \item R\+C\+C\+\_\+\+M\+C\+O2\+Div\+\_\+4\+: division by 4 applied to M\+C\+O2 clock \item R\+C\+C\+\_\+\+M\+C\+O2\+Div\+\_\+5\+: division by 5 applied to M\+C\+O2 clock \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 581} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+\begin{DoxyCode}
+00582 \{
+00583   uint32\_t tmpreg = 0;
+00584   
+00585   \textcolor{comment}{/* Check the parameters */}
+00586   assert_param(IS_RCC_MCO2SOURCE(RCC\_MCO2Source));
+00587   assert_param(IS_RCC_MCO2DIV(RCC\_MCO2Div));
+00588   
+00589   tmpreg = RCC->CFGR;
+00590   
+00591   \textcolor{comment}{/* Clear MCO2 and MCO2PRE[2:0] bits */}
+00592   tmpreg &= CFGR_MCO2_RESET_MASK;
+00593 
+00594   \textcolor{comment}{/* Select MCO2 clock source and prescaler */}
+00595   tmpreg |= RCC\_MCO2Source | RCC\_MCO2Div;
+00596 
+00597   \textcolor{comment}{/* Store the new value */}
+00598   RCC->CFGR = tmpreg;  
+00599 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group1_ga84dee53c75e58fdb53571716593c2272}} 
+\index{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}!R\+C\+C\+\_\+\+P\+L\+L\+Cmd@{R\+C\+C\+\_\+\+P\+L\+L\+Cmd}}
+\index{R\+C\+C\+\_\+\+P\+L\+L\+Cmd@{R\+C\+C\+\_\+\+P\+L\+L\+Cmd}!Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}}
+\subsubsection{R\+C\+C\+\_\+\+P\+L\+L\+Cmd()}
+{\footnotesize\ttfamily void R\+C\+C\+\_\+\+P\+L\+L\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the main P\+LL. 
+
+\begin{DoxyNote}{Note}
+After enabling the main P\+LL, the application software should wait on P\+L\+L\+R\+DY flag to be set indicating that P\+LL clock is stable and can be used as system clock source. 
+
+The main P\+LL can not be disabled if it is used as system clock source 
+
+The main P\+LL is disabled by hardware when entering S\+T\+OP and S\+T\+A\+N\+D\+BY modes. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the main P\+LL. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 459} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+\begin{DoxyCode}
+00460 \{
+00461   \textcolor{comment}{/* Check the parameters */}
+00462   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00463   *(\_\_IO uint32\_t *) CR_PLLON_BB = (uint32\_t)NewState;
+00464 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group1_ga154b93e90bfdede2a874244a1ff1002e}} 
+\index{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}!R\+C\+C\+\_\+\+P\+L\+L\+Config@{R\+C\+C\+\_\+\+P\+L\+L\+Config}}
+\index{R\+C\+C\+\_\+\+P\+L\+L\+Config@{R\+C\+C\+\_\+\+P\+L\+L\+Config}!Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}}
+\subsubsection{R\+C\+C\+\_\+\+P\+L\+L\+Config()}
+{\footnotesize\ttfamily void R\+C\+C\+\_\+\+P\+L\+L\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+C\+C\+\_\+\+P\+L\+L\+Source,  }\item[{uint32\+\_\+t}]{P\+L\+LM,  }\item[{uint32\+\_\+t}]{P\+L\+LN,  }\item[{uint32\+\_\+t}]{P\+L\+LP,  }\item[{uint32\+\_\+t}]{P\+L\+LQ }\end{DoxyParamCaption})}
+
+
+
+Configures the main P\+LL clock source, multiplication and division factors. 
+
+\begin{DoxyNote}{Note}
+This function must be used only when the main P\+LL is disabled.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\+C\+C\+\_\+\+P\+L\+L\+Source} & specifies the P\+LL entry clock source. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+C\+C\+\_\+\+P\+L\+L\+Source\+\_\+\+H\+SI\+: H\+SI oscillator clock selected as P\+LL clock entry \item R\+C\+C\+\_\+\+P\+L\+L\+Source\+\_\+\+H\+SE\+: H\+SE oscillator clock selected as P\+LL clock entry \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This clock source (R\+C\+C\+\_\+\+P\+L\+L\+Source) is common for the main P\+LL and P\+L\+L\+I2S.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em P\+L\+LM} & specifies the division factor for P\+LL V\+CO input clock This parameter must be a number between 0 and 63. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+You have to set the P\+L\+LM parameter correctly to ensure that the V\+CO input frequency ranges from 1 to 2 M\+Hz. It is recommended to select a frequency of 2 M\+Hz to limit P\+LL jitter.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em P\+L\+LN} & specifies the multiplication factor for P\+LL V\+CO output clock This parameter must be a number between 192 and 432. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+You have to set the P\+L\+LN parameter correctly to ensure that the V\+CO output frequency is between 192 and 432 M\+Hz.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em P\+L\+LP} & specifies the division factor for main system clock (S\+Y\+S\+C\+LK) This parameter must be a number in the range \{2, 4, 6, or 8\}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+You have to set the P\+L\+LP parameter correctly to not exceed 168 M\+Hz on the System clock frequency.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em P\+L\+LQ} & specifies the division factor for O\+TG FS, S\+D\+IO and R\+NG clocks This parameter must be a number between 4 and 15. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+If the U\+SB O\+TG FS is used in your application, you have to set the P\+L\+LQ parameter correctly to have 48 M\+Hz clock for the U\+SB. However, the S\+D\+IO and R\+NG need a frequency lower than or equal to 48 M\+Hz to work correctly.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 436} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+\begin{DoxyCode}
+00437 \{
+00438   \textcolor{comment}{/* Check the parameters */}
+00439   assert_param(IS_RCC_PLL_SOURCE(RCC\_PLLSource));
+00440   assert_param(IS_RCC_PLLM_VALUE(PLLM));
+00441   assert_param(IS_RCC_PLLN_VALUE(PLLN));
+00442   assert_param(IS_RCC_PLLP_VALUE(PLLP));
+00443   assert_param(IS_RCC_PLLQ_VALUE(PLLQ));
+00444 
+00445   RCC->PLLCFGR = PLLM | (PLLN << 6) | (((PLLP >> 1) -1) << 16) | (RCC\_PLLSource) |
+00446                  (PLLQ << 24);
+00447 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group1_ga2efe493a6337d5e0034bfcdfb0f541e4}} 
+\index{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}!R\+C\+C\+\_\+\+P\+L\+L\+I2\+S\+Cmd@{R\+C\+C\+\_\+\+P\+L\+L\+I2\+S\+Cmd}}
+\index{R\+C\+C\+\_\+\+P\+L\+L\+I2\+S\+Cmd@{R\+C\+C\+\_\+\+P\+L\+L\+I2\+S\+Cmd}!Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}}
+\subsubsection{R\+C\+C\+\_\+\+P\+L\+L\+I2\+S\+Cmd()}
+{\footnotesize\ttfamily void R\+C\+C\+\_\+\+P\+L\+L\+I2\+S\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the P\+L\+L\+I2S. 
+
+\begin{DoxyNote}{Note}
+The P\+L\+L\+I2S is disabled by hardware when entering S\+T\+OP and S\+T\+A\+N\+D\+BY modes. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the P\+L\+L\+I2S. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 500} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+\begin{DoxyCode}
+00501 \{
+00502   \textcolor{comment}{/* Check the parameters */}
+00503   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00504   *(\_\_IO uint32\_t *) CR_PLLI2SON_BB = (uint32\_t)NewState;
+00505 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group1_ga4c15157382939a693c15620a4867e6ad}} 
+\index{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}!R\+C\+C\+\_\+\+P\+L\+L\+I2\+S\+Config@{R\+C\+C\+\_\+\+P\+L\+L\+I2\+S\+Config}}
+\index{R\+C\+C\+\_\+\+P\+L\+L\+I2\+S\+Config@{R\+C\+C\+\_\+\+P\+L\+L\+I2\+S\+Config}!Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}}
+\subsubsection{R\+C\+C\+\_\+\+P\+L\+L\+I2\+S\+Config()}
+{\footnotesize\ttfamily void R\+C\+C\+\_\+\+P\+L\+L\+I2\+S\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{P\+L\+L\+I2\+SN,  }\item[{uint32\+\_\+t}]{P\+L\+L\+I2\+SR }\end{DoxyParamCaption})}
+
+
+
+Configures the P\+L\+L\+I2S clock multiplication and division factors. 
+
+\begin{DoxyNote}{Note}
+This function must be used only when the P\+L\+L\+I2S is disabled. 
+
+P\+L\+L\+I2S clock source is common with the main P\+LL (configured in R\+C\+C\+\_\+\+P\+L\+L\+Config function )
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em P\+L\+L\+I2\+SN} & specifies the multiplication factor for P\+L\+L\+I2S V\+CO output clock This parameter must be a number between 192 and 432. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+You have to set the P\+L\+L\+I2\+SN parameter correctly to ensure that the V\+CO output frequency is between 192 and 432 M\+Hz.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em P\+L\+L\+I2\+SR} & specifies the division factor for I2S clock This parameter must be a number between 2 and 7. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+You have to set the P\+L\+L\+I2\+SR parameter correctly to not exceed 192 M\+Hz on the I2S clock frequency.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 485} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+\begin{DoxyCode}
+00486 \{
+00487   \textcolor{comment}{/* Check the parameters */}
+00488   assert_param(IS_RCC_PLLI2SN_VALUE(PLLI2SN));
+00489   assert_param(IS_RCC_PLLI2SR_VALUE(PLLI2SR));
+00490 
+00491   RCC->PLLI2SCFGR = (PLLI2SN << 6) | (PLLI2SR << 28);
+00492 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group1_gae0f15692614dd048ee4110a056f001dc}} 
+\index{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}!R\+C\+C\+\_\+\+Wait\+For\+H\+S\+E\+Start\+Up@{R\+C\+C\+\_\+\+Wait\+For\+H\+S\+E\+Start\+Up}}
+\index{R\+C\+C\+\_\+\+Wait\+For\+H\+S\+E\+Start\+Up@{R\+C\+C\+\_\+\+Wait\+For\+H\+S\+E\+Start\+Up}!Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions@{Internal and external clocks, P\+L\+L, C\+S\+S and M\+C\+O configuration functions}}
+\subsubsection{R\+C\+C\+\_\+\+Wait\+For\+H\+S\+E\+Start\+Up()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+C\+C\+\_\+\+Wait\+For\+H\+S\+E\+Start\+Up (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Waits for H\+SE start-\/up. 
+
+\begin{DoxyNote}{Note}
+This functions waits on H\+S\+E\+R\+DY flag to be set and return S\+U\+C\+C\+E\+SS if this flag is set, otherwise returns E\+R\+R\+OR if the timeout is reached and this flag is not set. The timeout value is defined by the constant H\+S\+E\+\_\+\+S\+T\+A\+R\+T\+U\+P\+\_\+\+T\+I\+M\+E\+O\+UT in \doxyref{stm32f4xx.\+h}{p.}{stm32f4xx_8h} file. You can tailor it depending on the H\+SE crystal used in your application. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: H\+SE oscillator is stable and ready to use
+\item E\+R\+R\+OR\+: H\+SE oscillator not yet ready 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 261} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}, \textbf{ R\+C\+C\+\_\+\+Get\+Flag\+Status()}, \textbf{ R\+E\+S\+ET}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+00262 \{
+00263   \_\_IO uint32\_t startupcounter = 0;
+00264   ErrorStatus status = ERROR;
+00265   FlagStatus hsestatus = RESET;
+00266   \textcolor{comment}{/* Wait till HSE is ready and if Time out is reached exit */}
+00267   \textcolor{keywordflow}{do}
+00268   \{
+00269     hsestatus = RCC_GetFlagStatus(RCC_FLAG_HSERDY);
+00270     startupcounter++;
+00271   \} \textcolor{keywordflow}{while}((startupcounter != HSE_STARTUP_TIMEOUT) && (hsestatus == RESET));
+00272 
+00273   \textcolor{keywordflow}{if} (RCC_GetFlagStatus(RCC_FLAG_HSERDY) != RESET)
+00274   \{
+00275     status = SUCCESS;
+00276   \}
+00277   \textcolor{keywordflow}{else}
+00278   \{
+00279     status = ERROR;
+00280   \}
+00281   \textcolor{keywordflow}{return} (status);
+00282 \}
+\end{DoxyCode}

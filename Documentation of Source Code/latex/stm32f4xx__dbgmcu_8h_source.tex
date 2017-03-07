@@ -1,0 +1,108 @@
+\section{stm32f4xx\+\_\+dbgmcu.\+h}
+\label{stm32f4xx__dbgmcu_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+dbgmcu.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+dbgmcu.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_dbgmcu.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the DBGMCU firmware library.}
+00008 \textcolor{comment}{  ******************************************************************************}
+00009 \textcolor{comment}{  * @attention}
+00010 \textcolor{comment}{  *}
+00011 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00012 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00013 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00014 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00015 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00016 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00017 \textcolor{comment}{  *}
+00018 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00019 \textcolor{comment}{  ******************************************************************************}
+00020 \textcolor{comment}{  */}
+00021 
+00022 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00023 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_DBGMCU\_H}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_DBGMCU\_H}
+00025 
+00026 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00027  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00028 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00029 
+00030 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00031 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00032 
+00033 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00034 \textcolor{comment}{  * @\{}
+00035 \textcolor{comment}{  */}
+00036 
+00037 \textcolor{comment}{/** @addtogroup DBGMCU}
+00038 \textcolor{comment}{  * @\{}
+00039 \textcolor{comment}{  */}
+00040 
+00041 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00042 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00043 
+00044 \textcolor{comment}{/** @defgroup DBGMCU\_Exported\_Constants}
+00045 \textcolor{comment}{  * @\{}
+00046 \textcolor{comment}{  */}
+00047 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_SLEEP}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00048 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_STOP}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}
+00049 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_STANDBY}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)}
+00050 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DBGMCU\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0xFFFFFFF8\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00051 
+00052 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_TIM2\_STOP}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00053 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_TIM3\_STOP}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}
+00054 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_TIM4\_STOP}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)}
+00055 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_TIM5\_STOP}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000008\textcolor{preprocessor}{)}
+00056 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_TIM6\_STOP}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000010\textcolor{preprocessor}{)}
+00057 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_TIM7\_STOP}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000020\textcolor{preprocessor}{)}
+00058 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_TIM12\_STOP}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000040\textcolor{preprocessor}{)}
+00059 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_TIM13\_STOP}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000080\textcolor{preprocessor}{)}
+00060 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_TIM14\_STOP}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000100\textcolor{preprocessor}{)}
+00061 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_RTC\_STOP}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000400\textcolor{preprocessor}{)}
+00062 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_WWDG\_STOP}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000800\textcolor{preprocessor}{)}
+00063 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_IWDG\_STOP}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00001000\textcolor{preprocessor}{)}
+00064 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_I2C1\_SMBUS\_TIMEOUT}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00200000\textcolor{preprocessor}{)}
+00065 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_I2C2\_SMBUS\_TIMEOUT}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00400000\textcolor{preprocessor}{)}
+00066 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_I2C3\_SMBUS\_TIMEOUT}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00800000\textcolor{preprocessor}{)}
+00067 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_CAN1\_STOP}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x02000000\textcolor{preprocessor}{)}
+00068 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_CAN2\_STOP}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x04000000\textcolor{preprocessor}{)}
+00069 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DBGMCU\_APB1PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0xF91FE200\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00070 
+00071 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_TIM1\_STOP}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00072 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_TIM8\_STOP}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}
+00073 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_TIM9\_STOP}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00010000\textcolor{preprocessor}{)}
+00074 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_TIM10\_STOP}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00020000\textcolor{preprocessor}{)}
+00075 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DBGMCU\_TIM11\_STOP}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00040000\textcolor{preprocessor}{)}
+00076 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DBGMCU\_APB2PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0xFFF8FFFC\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00077 \textcolor{comment}{/**}
+00078 \textcolor{comment}{  * @\}}
+00079 \textcolor{comment}{  */}
+00080 
+00081 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00082 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00083 uint32\_t DBGMCU_GetREVID(\textcolor{keywordtype}{void});
+00084 uint32\_t DBGMCU_GetDEVID(\textcolor{keywordtype}{void});
+00085 \textcolor{keywordtype}{void} DBGMCU_Config(uint32\_t DBGMCU\_Periph, FunctionalState NewState);
+00086 \textcolor{keywordtype}{void} DBGMCU_APB1PeriphConfig(uint32\_t DBGMCU\_Periph, FunctionalState NewState);
+00087 \textcolor{keywordtype}{void} DBGMCU_APB2PeriphConfig(uint32\_t DBGMCU\_Periph, FunctionalState NewState);
+00088 
+00089 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00090 \}
+00091 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00092 
+00093 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/* \_\_STM32F4xx\_DBGMCU\_H */}
+00094 
+00095 \textcolor{comment}{/**}
+00096 \textcolor{comment}{  * @\}}
+00097 \textcolor{comment}{  */}
+00098 
+00099 \textcolor{comment}{/**}
+00100 \textcolor{comment}{  * @\}}
+00101 \textcolor{comment}{  */}
+00102 
+00103 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

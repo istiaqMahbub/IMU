@@ -1,0 +1,182 @@
+\section{L\+IN mode functions}
+\label{group__USART__Group4}\index{L\+I\+N mode functions@{L\+I\+N mode functions}}
+
+
+L\+IN mode functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Break\+Detect\+Length\+Config} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, uint16\+\_\+t U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Break\+Detect\+Length)
+\begin{DoxyCompactList}\small\item\em Sets the U\+S\+A\+RT L\+IN Break detection length. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Cmd} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\+S\+A\+RT\textquotesingle{}s L\+IN mode. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Send\+Break} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx})
+\begin{DoxyCompactList}\small\item\em Transmits break characters. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+L\+IN mode functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                                LIN mode functions
+ ===============================================================================  
+
+  This subsection provides a set of functions allowing to manage the USART LIN 
+  Mode communication.
+  
+  In LIN mode, 8-bit data format with 1 stop bit is required in accordance with 
+  the LIN standard.
+
+  Only this LIN Feature is supported by the USART IP:
+    - LIN Master Synchronous Break send capability and LIN slave break detection
+      capability :  13-bit break generation and 10/11 bit break detection
+
+
+  USART LIN Master transmitter communication is possible through the following procedure:
+     1. Program the Baud rate, Word length = 8bits, Stop bits = 1bit, Parity, 
+        Mode transmitter or Mode receiver and hardware flow control values using 
+        the USART_Init() function.
+     2. Enable the USART using the USART_Cmd() function.
+     3. Enable the LIN mode using the USART_LINCmd() function.
+     4. Send the break character using USART_SendBreak() function.
+
+  USART LIN Master receiver communication is possible through the following procedure:
+     1. Program the Baud rate, Word length = 8bits, Stop bits = 1bit, Parity, 
+        Mode transmitter or Mode receiver and hardware flow control values using 
+        the USART_Init() function.
+     2. Enable the USART using the USART_Cmd() function.
+     3. Configures the break detection length using the USART_LINBreakDetectLengthConfig()
+        function.
+     4. Enable the LIN mode using the USART_LINCmd() function.
+
+
+@note In LIN mode, the following bits must be kept cleared:
+        - CLKEN in the USART_CR2 register,
+        - STOP[1:0], SCEN, HDSEL and IREN in the USART_CR3 register.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__USART__Group4_ga7bc2d291831cbc5e53e73337308029b5}} 
+\index{L\+I\+N mode functions@{L\+I\+N mode functions}!U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Break\+Detect\+Length\+Config@{U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Break\+Detect\+Length\+Config}}
+\index{U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Break\+Detect\+Length\+Config@{U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Break\+Detect\+Length\+Config}!L\+I\+N mode functions@{L\+I\+N mode functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Break\+Detect\+Length\+Config()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Break\+Detect\+Length\+Config (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx,  }\item[{uint16\+\_\+t}]{U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Break\+Detect\+Length }\end{DoxyParamCaption})}
+
+
+
+Sets the U\+S\+A\+RT L\+IN Break detection length. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3, 4, 5 or 6 to select the U\+S\+A\+RT or U\+A\+RT peripheral. \\
+\hline
+{\em U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Break\+Detect\+Length} & specifies the L\+IN break detection length. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Break\+Detect\+Length\+\_\+10b\+: 10-\/bit break detection \item U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Break\+Detect\+Length\+\_\+11b\+: 11-\/bit break detection \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 721} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+\begin{DoxyCode}
+00722 \{
+00723   \textcolor{comment}{/* Check the parameters */}
+00724   assert_param(IS_USART_ALL_PERIPH(USARTx));
+00725   assert_param(IS_USART_LIN_BREAK_DETECT_LENGTH(USART\_LINBreakDetectLength));
+00726   
+00727   USARTx->CR2 &= (uint16\_t)~((uint16\_t)USART_CR2_LBDL);
+00728   USARTx->CR2 |= USART\_LINBreakDetectLength;  
+00729 \}
+\end{DoxyCode}
+\mbox{\label{group__USART__Group4_ga9fdd6296f4ca4acdfcbd58bf56bd4185}} 
+\index{L\+I\+N mode functions@{L\+I\+N mode functions}!U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Cmd@{U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Cmd}}
+\index{U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Cmd@{U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Cmd}!L\+I\+N mode functions@{L\+I\+N mode functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Cmd()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the U\+S\+A\+RT\textquotesingle{}s L\+IN mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3, 4, 5 or 6 to select the U\+S\+A\+RT or U\+A\+RT peripheral. \\
+\hline
+{\em New\+State} & new state of the U\+S\+A\+RT L\+IN mode. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 739} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00740 \{
+00741   \textcolor{comment}{/* Check the parameters */}
+00742   assert_param(IS_USART_ALL_PERIPH(USARTx));
+00743   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00744   
+00745   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00746   \{
+00747     \textcolor{comment}{/* Enable the LIN mode by setting the LINEN bit in the CR2 register */}
+00748     USARTx->CR2 |= USART_CR2_LINEN;
+00749   \}
+00750   \textcolor{keywordflow}{else}
+00751   \{
+00752     \textcolor{comment}{/* Disable the LIN mode by clearing the LINEN bit in the CR2 register */}
+00753     USARTx->CR2 &= (uint16\_t)~((uint16\_t)USART_CR2_LINEN);
+00754   \}
+00755 \}
+\end{DoxyCode}
+\mbox{\label{group__USART__Group4_ga39a3d33e23ee28529fa8f7259ce6811e}} 
+\index{L\+I\+N mode functions@{L\+I\+N mode functions}!U\+S\+A\+R\+T\+\_\+\+Send\+Break@{U\+S\+A\+R\+T\+\_\+\+Send\+Break}}
+\index{U\+S\+A\+R\+T\+\_\+\+Send\+Break@{U\+S\+A\+R\+T\+\_\+\+Send\+Break}!L\+I\+N mode functions@{L\+I\+N mode functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+Send\+Break()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+Send\+Break (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx }\end{DoxyParamCaption})}
+
+
+
+Transmits break characters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3, 4, 5 or 6 to select the U\+S\+A\+RT or U\+A\+RT peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 763} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+\begin{DoxyCode}
+00764 \{
+00765   \textcolor{comment}{/* Check the parameters */}
+00766   assert_param(IS_USART_ALL_PERIPH(USARTx));
+00767   
+00768   \textcolor{comment}{/* Send break characters */}
+00769   USARTx->CR1 |= USART_CR1_SBK;
+00770 \}
+\end{DoxyCode}

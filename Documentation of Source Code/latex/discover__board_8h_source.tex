@@ -1,0 +1,66 @@
+\section{discover\+\_\+board.\+h}
+\label{discover__board_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Device\+Support/src/discover\+\_\+board.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Device\+Support/src/discover\+\_\+board.\+h}}
+
+\begin{DoxyCode}
+00001  \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    discover\_board.h}
+00004 \textcolor{comment}{  * @author  Microcontroller Division}
+00005 \textcolor{comment}{  * @version V1.0.2}
+00006 \textcolor{comment}{  * @date    September-2011}
+00007 \textcolor{comment}{  * @brief   Input/Output defines}
+00008 \textcolor{comment}{  ******************************************************************************}
+00009 \textcolor{comment}{  * @copy}
+00010 \textcolor{comment}{  *}
+00011 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00012 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00013 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00014 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00015 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00016 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00017 \textcolor{comment}{  *}
+00018 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00019 \textcolor{comment}{  */}
+00020 
+00021 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00022 
+00023 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_DISCOVER\_BOARD\_H}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_DISCOVER\_BOARD\_H}
+00025 
+00026 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00028 
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{keywordtype}{bool} \textcolor{preprocessor}{\_Bool}
+00030 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FALSE} 0
+00031 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TRUE} \textcolor{preprocessor}{!}FALSE
+00032 
+00033 \textcolor{comment}{/* MACROs for SET, RESET or TOGGLE Output port */}
+00034 
+00035 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_HIGH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{a}\textcolor{preprocessor}{,}\textcolor{preprocessor}{b}\textcolor{preprocessor}{)}      \textcolor{preprocessor}{a}\textcolor{preprocessor}{->}\textcolor{preprocessor}{BSRRL} \textcolor{preprocessor}{=} \textcolor{preprocessor}{b}
+00036 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_LOW}\textcolor{preprocessor}{(}\textcolor{preprocessor}{a}\textcolor{preprocessor}{,}\textcolor{preprocessor}{b}\textcolor{preprocessor}{)}       \textcolor{preprocessor}{a}\textcolor{preprocessor}{->}\textcolor{preprocessor}{BSRRH} \textcolor{preprocessor}{=} \textcolor{preprocessor}{b}
+00037 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_TOGGLE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{a}\textcolor{preprocessor}{,}\textcolor{preprocessor}{b}\textcolor{preprocessor}{)}    \textcolor{preprocessor}{a}\textcolor{preprocessor}{->}\textcolor{preprocessor}{ODR} \textcolor{preprocessor}{^=} \textcolor{preprocessor}{b}
+00038 
+00039 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USERBUTTON\_GPIO\_PORT}    GPIOA
+00040 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USERBUTTON\_GPIO\_PIN}     \textcolor{preprocessor}{GPIO\_Pin\_0}
+00041 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USERBUTTON\_GPIO\_CLK}     \textcolor{preprocessor}{RCC\_AHBPeriph\_GPIOA}
+00042 
+00043 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{LD\_GPIO\_PORT}        GPIOB
+00044 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{LD\_GREEN\_GPIO\_PIN}       \textcolor{preprocessor}{GPIO\_Pin\_7}
+00045 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{LD\_BLUE\_GPIO\_PIN}             \textcolor{preprocessor}{GPIO\_Pin\_6}
+00046 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{LD\_GPIO\_PORT\_CLK}             \textcolor{preprocessor}{RCC\_AHBPeriph\_GPIOB}
+00047 
+00048 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CTN\_GPIO\_PORT}           GPIOC
+00049 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CTN\_CNTEN\_GPIO\_PIN}      \textcolor{preprocessor}{GPIO\_Pin\_13}
+00050 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CTN\_GPIO\_CLK}            \textcolor{preprocessor}{RCC\_AHBPeriph\_GPIOC}
+00051 
+00052 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{WAKEUP\_GPIO\_PORT}        GPIOA
+00053 
+00054 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IDD\_MEASURE\_PORT}    GPIOA
+00055 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IDD\_MEASURE}             \textcolor{preprocessor}{GPIO\_Pin\_4}
+00056 
+00057 
+00058 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00059 
+00060 
+00061 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

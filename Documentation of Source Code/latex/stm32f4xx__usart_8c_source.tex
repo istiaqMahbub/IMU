@@ -1,0 +1,1477 @@
+\section{stm32f4xx\+\_\+usart.\+c}
+\label{stm32f4xx__usart_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+usart.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+usart.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_usart.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides firmware functions to manage the following }
+00008 \textcolor{comment}{  *          functionalities of the Universal synchronous asynchronous receiver}
+00009 \textcolor{comment}{  *          transmitter (USART):           }
+00010 \textcolor{comment}{  *           - Initialization and Configuration}
+00011 \textcolor{comment}{  *           - Data transfers}
+00012 \textcolor{comment}{  *           - Multi-Processor Communication}
+00013 \textcolor{comment}{  *           - LIN mode}
+00014 \textcolor{comment}{  *           - Half-duplex mode}
+00015 \textcolor{comment}{  *           - Smartcard mode}
+00016 \textcolor{comment}{  *           - IrDA mode}
+00017 \textcolor{comment}{  *           - DMA transfers management}
+00018 \textcolor{comment}{  *           - Interrupts and flags management }
+00019 \textcolor{comment}{  *           }
+00020 \textcolor{comment}{  *  @verbatim}
+00021 \textcolor{comment}{  *      }
+00022 \textcolor{comment}{  *          ===================================================================}
+00023 \textcolor{comment}{  *                                 How to use this driver}
+00024 \textcolor{comment}{  *          ===================================================================}
+00025 \textcolor{comment}{  *          1. Enable peripheral clock using the follwoing functions}
+00026 \textcolor{comment}{  *             RCC\_APB2PeriphClockCmd(RCC\_APB2Periph\_USARTx, ENABLE) for USART1 and USART6 }
+00027 \textcolor{comment}{  *             RCC\_APB1PeriphClockCmd(RCC\_APB1Periph\_USARTx, ENABLE) for USART2, USART3, UART4 or
+       UART5.}
+00028 \textcolor{comment}{  *}
+00029 \textcolor{comment}{  *          2.  According to the USART mode, enable the GPIO clocks using }
+00030 \textcolor{comment}{  *              RCC\_AHB1PeriphClockCmd() function. (The I/O can be TX, RX, CTS, }
+00031 \textcolor{comment}{  *              or/and SCLK). }
+00032 \textcolor{comment}{  *}
+00033 \textcolor{comment}{  *          3. Peripheral's alternate function: }
+00034 \textcolor{comment}{  *                 - Connect the pin to the desired peripherals' Alternate }
+00035 \textcolor{comment}{  *                   Function (AF) using GPIO\_PinAFConfig() function}
+00036 \textcolor{comment}{  *                 - Configure the desired pin in alternate function by:}
+00037 \textcolor{comment}{  *                   GPIO\_InitStruct->GPIO\_Mode = GPIO\_Mode\_AF}
+00038 \textcolor{comment}{  *                 - Select the type, pull-up/pull-down and output speed via }
+00039 \textcolor{comment}{  *                   GPIO\_PuPd, GPIO\_OType and GPIO\_Speed members}
+00040 \textcolor{comment}{  *                 - Call GPIO\_Init() function}
+00041 \textcolor{comment}{  *        }
+00042 \textcolor{comment}{  *          4. Program the Baud Rate, Word Length , Stop Bit, Parity, Hardware }
+00043 \textcolor{comment}{  *             flow control and Mode(Receiver/Transmitter) using the USART\_Init()}
+00044 \textcolor{comment}{  *             function.}
+00045 \textcolor{comment}{  *}
+00046 \textcolor{comment}{  *          5. For synchronous mode, enable the clock and program the polarity,}
+00047 \textcolor{comment}{  *             phase and last bit using the USART\_ClockInit() function.}
+00048 \textcolor{comment}{  *}
+00049 \textcolor{comment}{  *          5. Enable the NVIC and the corresponding interrupt using the function }
+00050 \textcolor{comment}{  *             USART\_ITConfig() if you need to use interrupt mode. }
+00051 \textcolor{comment}{  *}
+00052 \textcolor{comment}{  *          6. When using the DMA mode }
+00053 \textcolor{comment}{  *                   - Configure the DMA using DMA\_Init() function}
+00054 \textcolor{comment}{  *                   - Active the needed channel Request using USART\_DMACmd() function}
+00055 \textcolor{comment}{  * }
+00056 \textcolor{comment}{  *          7. Enable the USART using the USART\_Cmd() function.}
+00057 \textcolor{comment}{  * }
+00058 \textcolor{comment}{  *          8. Enable the DMA using the DMA\_Cmd() function, when using DMA mode. }
+00059 \textcolor{comment}{  *}
+00060 \textcolor{comment}{  *          Refer to Multi-Processor, LIN, half-duplex, Smartcard, IrDA sub-sections}
+00061 \textcolor{comment}{  *          for more details}
+00062 \textcolor{comment}{  *          }
+00063 \textcolor{comment}{  *          In order to reach higher communication baudrates, it is possible to}
+00064 \textcolor{comment}{  *          enable the oversampling by 8 mode using the function USART\_OverSampling8Cmd().}
+00065 \textcolor{comment}{  *          This function should be called after enabling the USART clock (RCC\_APBxPeriphClockCmd())}
+00066 \textcolor{comment}{  *          and before calling the function USART\_Init().}
+00067 \textcolor{comment}{  *          }
+00068 \textcolor{comment}{  *  @endverbatim}
+00069 \textcolor{comment}{  *        }
+00070 \textcolor{comment}{  ******************************************************************************}
+00071 \textcolor{comment}{  * @attention}
+00072 \textcolor{comment}{  *}
+00073 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00074 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00075 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00076 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00077 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00078 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00079 \textcolor{comment}{  *}
+00080 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00081 \textcolor{comment}{  ******************************************************************************  }
+00082 \textcolor{comment}{  */}
+00083 
+00084 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00085 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_usart.h"
+00086 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rcc.h"
+00087 
+00088 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00089 \textcolor{comment}{  * @\{}
+00090 \textcolor{comment}{  */}
+00091 
+00092 \textcolor{comment}{/** @defgroup USART }
+00093 \textcolor{comment}{  * @brief USART driver modules}
+00094 \textcolor{comment}{  * @\{}
+00095 \textcolor{comment}{  */}
+00096 
+00097 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00098 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00099 
+00100 \textcolor{comment}{/*!< USART CR1 register clear Mask ((~(uint16\_t)0xE9F3)) */}
+00101 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR1\_CLEAR\_MASK}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}USART_CR1_M \textcolor{preprocessor}{|} USART_CR1_PCE \textcolor{preprocessor}{|}
+00102                                               USART_CR1_PS \textcolor{preprocessor}{|} USART_CR1_TE \textcolor{preprocessor}{|}
+00103                                               USART_CR1_RE\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00104 
+00105 \textcolor{comment}{/*!< USART CR2 register clock bits clear Mask ((~(uint16\_t)0xF0FF)) */}
+00106 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR2\_CLOCK\_CLEAR\_MASK}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}USART_CR2_CLKEN \textcolor{preprocessor}{|} 
+      USART_CR2_CPOL \textcolor{preprocessor}{|}
+00107                                               USART_CR2_CPHA \textcolor{preprocessor}{|} 
+      USART_CR2_LBCL\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00108 
+00109 \textcolor{comment}{/*!< USART CR3 register clear Mask ((~(uint16\_t)0xFCFF)) */}
+00110 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR3\_CLEAR\_MASK}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}USART_CR3_RTSE \textcolor{preprocessor}{|} 
+      USART_CR3_CTSE\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00111 
+00112 \textcolor{comment}{/*!< USART Interrupts mask */}
+00113 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IT\_MASK}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x001F\textcolor{preprocessor}{)}
+00114 
+00115 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00116 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00117 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00118 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00119 
+00120 \textcolor{comment}{/** @defgroup USART\_Private\_Functions}
+00121 \textcolor{comment}{  * @\{}
+00122 \textcolor{comment}{  */}
+00123 
+00124 \textcolor{comment}{/** @defgroup USART\_Group1 Initialization and Configuration functions}
+00125 \textcolor{comment}{ *  @brief   Initialization and Configuration functions }
+00126 \textcolor{comment}{ *}
+00127 \textcolor{comment}{@verbatim   }
+00128 \textcolor{comment}{ ===============================================================================}
+00129 \textcolor{comment}{                  Initialization and Configuration functions}
+00130 \textcolor{comment}{ ===============================================================================  }
+00131 \textcolor{comment}{}
+00132 \textcolor{comment}{  This subsection provides a set of functions allowing to initialize the USART }
+00133 \textcolor{comment}{  in asynchronous and in synchronous modes.}
+00134 \textcolor{comment}{   - For the asynchronous mode only these parameters can be configured: }
+00135 \textcolor{comment}{        - Baud Rate}
+00136 \textcolor{comment}{        - Word Length }
+00137 \textcolor{comment}{        - Stop Bit}
+00138 \textcolor{comment}{        - Parity: If the parity is enabled, then the MSB bit of the data written}
+00139 \textcolor{comment}{          in the data register is transmitted but is changed by the parity bit.}
+00140 \textcolor{comment}{          Depending on the frame length defined by the M bit (8-bits or 9-bits),}
+00141 \textcolor{comment}{          the possible USART frame formats are as listed in the following table:}
+00142 \textcolor{comment}{   +-------------------------------------------------------------+     }
+00143 \textcolor{comment}{   |   M bit |  PCE bit  |            USART frame                |}
+00144 \textcolor{comment}{   |---------------------|---------------------------------------|             }
+00145 \textcolor{comment}{   |    0    |    0      |    | SB | 8 bit data | STB |          |}
+00146 \textcolor{comment}{   |---------|-----------|---------------------------------------|  }
+00147 \textcolor{comment}{   |    0    |    1      |    | SB | 7 bit data | PB | STB |     |}
+00148 \textcolor{comment}{   |---------|-----------|---------------------------------------|  }
+00149 \textcolor{comment}{   |    1    |    0      |    | SB | 9 bit data | STB |          |}
+00150 \textcolor{comment}{   |---------|-----------|---------------------------------------|  }
+00151 \textcolor{comment}{   |    1    |    1      |    | SB | 8 bit data | PB | STB |     |}
+00152 \textcolor{comment}{   +-------------------------------------------------------------+            }
+00153 \textcolor{comment}{        - Hardware flow control}
+00154 \textcolor{comment}{        - Receiver/transmitter modes}
+00155 \textcolor{comment}{}
+00156 \textcolor{comment}{  The USART\_Init() function follows the USART  asynchronous configuration procedure}
+00157 \textcolor{comment}{  (details for the procedure are available in reference manual (RM0090)).}
+00158 \textcolor{comment}{}
+00159 \textcolor{comment}{  - For the synchronous mode in addition to the asynchronous mode parameters these }
+00160 \textcolor{comment}{    parameters should be also configured:}
+00161 \textcolor{comment}{        - USART Clock Enabled}
+00162 \textcolor{comment}{        - USART polarity}
+00163 \textcolor{comment}{        - USART phase}
+00164 \textcolor{comment}{        - USART LastBit}
+00165 \textcolor{comment}{  }
+00166 \textcolor{comment}{  These parameters can be configured using the USART\_ClockInit() function.}
+00167 \textcolor{comment}{}
+00168 \textcolor{comment}{@endverbatim}
+00169 \textcolor{comment}{  * @\{}
+00170 \textcolor{comment}{  */}
+00171 
+00172 \textcolor{comment}{/**}
+00173 \textcolor{comment}{  * @brief  Deinitializes the USARTx peripheral registers to their default reset values.}
+00174 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+00175 \textcolor{comment}{  *         UART peripheral.}
+00176 \textcolor{comment}{  * @retval None}
+00177 \textcolor{comment}{  */}
+00178 \textcolor{keywordtype}{void} USART_DeInit(USART\_TypeDef* USARTx)
+00179 \{
+00180   \textcolor{comment}{/* Check the parameters */}
+00181   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+00182 
+00183   \textcolor{keywordflow}{if} (USARTx == USART1)
+00184   \{
+00185     RCC_APB2PeriphResetCmd(RCC_APB2Periph_USART1, ENABLE);
+00186     RCC_APB2PeriphResetCmd(RCC_APB2Periph_USART1, DISABLE);
+00187   \}
+00188   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (USARTx == USART2)
+00189   \{
+00190     RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART2, ENABLE);
+00191     RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART2, DISABLE);
+00192   \}
+00193   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (USARTx == USART3)
+00194   \{
+00195     RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART3, ENABLE);
+00196     RCC_APB1PeriphResetCmd(RCC_APB1Periph_USART3, DISABLE);
+00197   \}
+00198   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (USARTx == UART4)
+00199   \{
+00200     RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART4, ENABLE);
+00201     RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART4, DISABLE);
+00202   \}
+00203   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (USARTx == UART5)
+00204   \{
+00205     RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART5, ENABLE);
+00206     RCC_APB1PeriphResetCmd(RCC_APB1Periph_UART5, DISABLE);
+00207   \}
+00208   \textcolor{keywordflow}{else}
+00209   \{
+00210     \textcolor{keywordflow}{if} (USARTx == USART6)
+00211     \{
+00212       RCC_APB2PeriphResetCmd(RCC_APB2Periph_USART6, ENABLE);
+00213       RCC_APB2PeriphResetCmd(RCC_APB2Periph_USART6, DISABLE);
+00214     \}
+00215   \}
+00216 \}
+00217 
+00218 \textcolor{comment}{/**}
+00219 \textcolor{comment}{  * @brief  Initializes the USARTx peripheral according to the specified}
+00220 \textcolor{comment}{  *         parameters in the USART\_InitStruct .}
+00221 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+00222 \textcolor{comment}{  *         UART peripheral.}
+00223 \textcolor{comment}{  * @param  USART\_InitStruct: pointer to a USART\_InitTypeDef structure that contains}
+00224 \textcolor{comment}{  *         the configuration information for the specified USART peripheral.}
+00225 \textcolor{comment}{  * @retval None}
+00226 \textcolor{comment}{  */}
+00227 \textcolor{keywordtype}{void} USART_Init(USART\_TypeDef* USARTx, USART\_InitTypeDef* USART\_InitStruct)
+00228 \{
+00229   uint32\_t tmpreg = 0x00, apbclock = 0x00;
+00230   uint32\_t integerdivider = 0x00;
+00231   uint32\_t fractionaldivider = 0x00;
+00232   RCC\_ClocksTypeDef RCC\_ClocksStatus;
+00233 
+00234   \textcolor{comment}{/* Check the parameters */}
+00235   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+00236   assert_param(IS\_USART\_BAUDRATE(USART\_InitStruct->USART\_BaudRate));
+00237   assert_param(IS\_USART\_WORD\_LENGTH(USART\_InitStruct->USART\_WordLength));
+00238   assert_param(IS\_USART\_STOPBITS(USART\_InitStruct->USART\_StopBits));
+00239   assert_param(IS\_USART\_PARITY(USART\_InitStruct->USART\_Parity));
+00240   assert_param(IS\_USART\_MODE(USART\_InitStruct->USART\_Mode));
+00241   assert_param(IS\_USART\_HARDWARE\_FLOW\_CONTROL(USART\_InitStruct->USART\_HardwareFlowControl));
+00242 
+00243   \textcolor{comment}{/* The hardware flow control is available only for USART1, USART2, USART3 and USART6 */}
+00244   \textcolor{keywordflow}{if} (USART\_InitStruct->USART_HardwareFlowControl != 
+      USART_HardwareFlowControl_None)
+00245   \{
+00246     assert_param(IS\_USART\_1236\_PERIPH(USARTx));
+00247   \}
+00248 
+00249 \textcolor{comment}{/*---------------------------- USART CR2 Configuration -----------------------*/}
+00250   tmpreg = USARTx->CR2;
+00251 
+00252   \textcolor{comment}{/* Clear STOP[13:12] bits */}
+00253   tmpreg &= (uint32\_t)~((uint32\_t)USART_CR2_STOP);
+00254 
+00255   \textcolor{comment}{/* Configure the USART Stop Bits, Clock, CPOL, CPHA and LastBit :}
+00256 \textcolor{comment}{      Set STOP[13:12] bits according to USART\_StopBits value */}
+00257   tmpreg |= (uint32\_t)USART\_InitStruct->USART_StopBits;
+00258 
+00259   \textcolor{comment}{/* Write to USART CR2 */}
+00260   USARTx->CR2 = (uint16\_t)tmpreg;
+00261 
+00262 \textcolor{comment}{/*---------------------------- USART CR1 Configuration -----------------------*/}
+00263   tmpreg = USARTx->CR1;
+00264 
+00265   \textcolor{comment}{/* Clear M, PCE, PS, TE and RE bits */}
+00266   tmpreg &= (uint32\_t)~((uint32\_t)CR1_CLEAR_MASK);
+00267 
+00268   \textcolor{comment}{/* Configure the USART Word Length, Parity and mode: }
+00269 \textcolor{comment}{     Set the M bits according to USART\_WordLength value }
+00270 \textcolor{comment}{     Set PCE and PS bits according to USART\_Parity value}
+00271 \textcolor{comment}{     Set TE and RE bits according to USART\_Mode value */}
+00272   tmpreg |= (uint32\_t)USART\_InitStruct->USART_WordLength | USART\_InitStruct
+      ->USART_Parity |
+00273             USART\_InitStruct->USART_Mode;
+00274 
+00275   \textcolor{comment}{/* Write to USART CR1 */}
+00276   USARTx->CR1 = (uint16\_t)tmpreg;
+00277 
+00278 \textcolor{comment}{/*---------------------------- USART CR3 Configuration -----------------------*/}
+00279   tmpreg = USARTx->CR3;
+00280 
+00281   \textcolor{comment}{/* Clear CTSE and RTSE bits */}
+00282   tmpreg &= (uint32\_t)~((uint32\_t)CR3_CLEAR_MASK);
+00283 
+00284   \textcolor{comment}{/* Configure the USART HFC : }
+00285 \textcolor{comment}{      Set CTSE and RTSE bits according to USART\_HardwareFlowControl value */}
+00286   tmpreg |= USART\_InitStruct->USART_HardwareFlowControl;
+00287 
+00288   \textcolor{comment}{/* Write to USART CR3 */}
+00289   USARTx->CR3 = (uint16\_t)tmpreg;
+00290 
+00291 \textcolor{comment}{/*---------------------------- USART BRR Configuration -----------------------*/}
+00292   \textcolor{comment}{/* Configure the USART Baud Rate */}
+00293   RCC_GetClocksFreq(&RCC\_ClocksStatus);
+00294 
+00295   \textcolor{keywordflow}{if} ((USARTx == USART1) || (USARTx == USART6))
+00296   \{
+00297     apbclock = RCC\_ClocksStatus.PCLK2_Frequency;
+00298   \}
+00299   \textcolor{keywordflow}{else}
+00300   \{
+00301     apbclock = RCC\_ClocksStatus.PCLK1_Frequency;
+00302   \}
+00303 
+00304   \textcolor{comment}{/* Determine the integer part */}
+00305   \textcolor{keywordflow}{if} ((USARTx->CR1 & USART_CR1_OVER8) != 0)
+00306   \{
+00307     \textcolor{comment}{/* Integer part computing in case Oversampling mode is 8 Samples */}
+00308     integerdivider = ((25 * apbclock) / (2 * (USART\_InitStruct->USART\_BaudRate)));
+00309   \}
+00310   \textcolor{keywordflow}{else} \textcolor{comment}{/* if ((USARTx->CR1 & USART\_CR1\_OVER8) == 0) */}
+00311   \{
+00312     \textcolor{comment}{/* Integer part computing in case Oversampling mode is 16 Samples */}
+00313     integerdivider = ((25 * apbclock) / (4 * (USART\_InitStruct->USART\_BaudRate)));
+00314   \}
+00315   tmpreg = (integerdivider / 100) << 4;
+00316 
+00317   \textcolor{comment}{/* Determine the fractional part */}
+00318   fractionaldivider = integerdivider - (100 * (tmpreg >> 4));
+00319 
+00320   \textcolor{comment}{/* Implement the fractional part in the register */}
+00321   \textcolor{keywordflow}{if} ((USARTx->CR1 & USART_CR1_OVER8) != 0)
+00322   \{
+00323     tmpreg |= ((((fractionaldivider * 8) + 50) / 100)) & ((uint8\_t)0x07);
+00324   \}
+00325   \textcolor{keywordflow}{else} \textcolor{comment}{/* if ((USARTx->CR1 & USART\_CR1\_OVER8) == 0) */}
+00326   \{
+00327     tmpreg |= ((((fractionaldivider * 16) + 50) / 100)) & ((uint8\_t)0x0F);
+00328   \}
+00329 
+00330   \textcolor{comment}{/* Write to USART BRR register */}
+00331   USARTx->BRR = (uint16\_t)tmpreg;
+00332 \}
+00333 
+00334 \textcolor{comment}{/**}
+00335 \textcolor{comment}{  * @brief  Fills each USART\_InitStruct member with its default value.}
+00336 \textcolor{comment}{  * @param  USART\_InitStruct: pointer to a USART\_InitTypeDef structure which will}
+00337 \textcolor{comment}{  *         be initialized.}
+00338 \textcolor{comment}{  * @retval None}
+00339 \textcolor{comment}{  */}
+00340 \textcolor{keywordtype}{void} USART_StructInit(USART\_InitTypeDef* USART\_InitStruct)
+00341 \{
+00342   \textcolor{comment}{/* USART\_InitStruct members default value */}
+00343   USART\_InitStruct->USART_BaudRate = 9600;
+00344   USART\_InitStruct->USART_WordLength = USART_WordLength_8b;
+00345   USART\_InitStruct->USART_StopBits = USART_StopBits_1;
+00346   USART\_InitStruct->USART_Parity = USART_Parity_No ;
+00347   USART\_InitStruct->USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+00348   USART\_InitStruct->USART_HardwareFlowControl = 
+      USART_HardwareFlowControl_None;
+00349 \}
+00350 
+00351 \textcolor{comment}{/**}
+00352 \textcolor{comment}{  * @brief  Initializes the USARTx peripheral Clock according to the }
+00353 \textcolor{comment}{  *         specified parameters in the USART\_ClockInitStruct .}
+00354 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3 or 6 to select the USART peripheral.}
+00355 \textcolor{comment}{  * @param  USART\_ClockInitStruct: pointer to a USART\_ClockInitTypeDef structure that}
+00356 \textcolor{comment}{  *         contains the configuration information for the specified  USART peripheral.}
+00357 \textcolor{comment}{  * @note   The Smart Card and Synchronous modes are not available for UART4 and UART5.    }
+00358 \textcolor{comment}{  * @retval None}
+00359 \textcolor{comment}{  */}
+00360 \textcolor{keywordtype}{void} USART_ClockInit(USART\_TypeDef* USARTx, USART\_ClockInitTypeDef* USART\_ClockInitStruct)
+00361 \{
+00362   uint32\_t tmpreg = 0x00;
+00363   \textcolor{comment}{/* Check the parameters */}
+00364   assert_param(IS\_USART\_1236\_PERIPH(USARTx));
+00365   assert_param(IS\_USART\_CLOCK(USART\_ClockInitStruct->USART\_Clock));
+00366   assert_param(IS\_USART\_CPOL(USART\_ClockInitStruct->USART\_CPOL));
+00367   assert_param(IS\_USART\_CPHA(USART\_ClockInitStruct->USART\_CPHA));
+00368   assert_param(IS\_USART\_LASTBIT(USART\_ClockInitStruct->USART\_LastBit));
+00369 
+00370 \textcolor{comment}{/*---------------------------- USART CR2 Configuration -----------------------*/}
+00371   tmpreg = USARTx->CR2;
+00372   \textcolor{comment}{/* Clear CLKEN, CPOL, CPHA and LBCL bits */}
+00373   tmpreg &= (uint32\_t)~((uint32\_t)CR2_CLOCK_CLEAR_MASK);
+00374   \textcolor{comment}{/* Configure the USART Clock, CPOL, CPHA and LastBit ------------*/}
+00375   \textcolor{comment}{/* Set CLKEN bit according to USART\_Clock value */}
+00376   \textcolor{comment}{/* Set CPOL bit according to USART\_CPOL value */}
+00377   \textcolor{comment}{/* Set CPHA bit according to USART\_CPHA value */}
+00378   \textcolor{comment}{/* Set LBCL bit according to USART\_LastBit value */}
+00379   tmpreg |= (uint32\_t)USART\_ClockInitStruct->USART_Clock | USART\_ClockInitStruct
+      ->USART_CPOL |
+00380                  USART\_ClockInitStruct->USART_CPHA | USART\_ClockInitStruct
+      ->USART_LastBit;
+00381   \textcolor{comment}{/* Write to USART CR2 */}
+00382   USARTx->CR2 = (uint16\_t)tmpreg;
+00383 \}
+00384 
+00385 \textcolor{comment}{/**}
+00386 \textcolor{comment}{  * @brief  Fills each USART\_ClockInitStruct member with its default value.}
+00387 \textcolor{comment}{  * @param  USART\_ClockInitStruct: pointer to a USART\_ClockInitTypeDef structure}
+00388 \textcolor{comment}{  *         which will be initialized.}
+00389 \textcolor{comment}{  * @retval None}
+00390 \textcolor{comment}{  */}
+00391 \textcolor{keywordtype}{void} USART_ClockStructInit(USART\_ClockInitTypeDef* USART\_ClockInitStruct)
+00392 \{
+00393   \textcolor{comment}{/* USART\_ClockInitStruct members default value */}
+00394   USART\_ClockInitStruct->USART_Clock = USART_Clock_Disable;
+00395   USART\_ClockInitStruct->USART_CPOL = USART_CPOL_Low;
+00396   USART\_ClockInitStruct->USART_CPHA = USART_CPHA_1Edge;
+00397   USART\_ClockInitStruct->USART_LastBit = USART_LastBit_Disable;
+00398 \}
+00399 
+00400 \textcolor{comment}{/**}
+00401 \textcolor{comment}{  * @brief  Enables or disables the specified USART peripheral.}
+00402 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+00403 \textcolor{comment}{  *         UART peripheral.}
+00404 \textcolor{comment}{  * @param  NewState: new state of the USARTx peripheral.}
+00405 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00406 \textcolor{comment}{  * @retval None}
+00407 \textcolor{comment}{  */}
+00408 \textcolor{keywordtype}{void} USART_Cmd(USART\_TypeDef* USARTx, FunctionalState NewState)
+00409 \{
+00410   \textcolor{comment}{/* Check the parameters */}
+00411   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+00412   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00413 
+00414   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00415   \{
+00416     \textcolor{comment}{/* Enable the selected USART by setting the UE bit in the CR1 register */}
+00417     USARTx->CR1 |= USART_CR1_UE;
+00418   \}
+00419   \textcolor{keywordflow}{else}
+00420   \{
+00421     \textcolor{comment}{/* Disable the selected USART by clearing the UE bit in the CR1 register */}
+00422     USARTx->CR1 &= (uint16\_t)~((uint16\_t)USART_CR1_UE);
+00423   \}
+00424 \}
+00425 
+00426 \textcolor{comment}{/**}
+00427 \textcolor{comment}{  * @brief  Sets the system clock prescaler.}
+00428 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+00429 \textcolor{comment}{  *         UART peripheral.}
+00430 \textcolor{comment}{  * @param  USART\_Prescaler: specifies the prescaler clock. }
+00431 \textcolor{comment}{  * @note   The function is used for IrDA mode with UART4 and UART5.   }
+00432 \textcolor{comment}{  * @retval None}
+00433 \textcolor{comment}{  */}
+00434 \textcolor{keywordtype}{void} USART_SetPrescaler(USART\_TypeDef* USARTx, uint8\_t USART\_Prescaler)
+00435 \{
+00436   \textcolor{comment}{/* Check the parameters */}
+00437   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+00438 
+00439   \textcolor{comment}{/* Clear the USART prescaler */}
+00440   USARTx->GTPR &= USART_GTPR_GT;
+00441   \textcolor{comment}{/* Set the USART prescaler */}
+00442   USARTx->GTPR |= USART\_Prescaler;
+00443 \}
+00444 
+00445 \textcolor{comment}{/**}
+00446 \textcolor{comment}{  * @brief  Enables or disables the USART's 8x oversampling mode.}
+00447 \textcolor{comment}{  * @note   This function has to be called before calling USART\_Init() function}
+00448 \textcolor{comment}{  *         in order to have correct baudrate Divider value.}
+00449 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+00450 \textcolor{comment}{  *         UART peripheral.}
+00451 \textcolor{comment}{  * @param  NewState: new state of the USART 8x oversampling mode.}
+00452 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00453 \textcolor{comment}{  * @retval None}
+00454 \textcolor{comment}{  */}
+00455 \textcolor{keywordtype}{void} USART_OverSampling8Cmd(USART\_TypeDef* USARTx, FunctionalState NewState)
+00456 \{
+00457   \textcolor{comment}{/* Check the parameters */}
+00458   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+00459   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00460 
+00461   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00462   \{
+00463     \textcolor{comment}{/* Enable the 8x Oversampling mode by setting the OVER8 bit in the CR1 register */}
+00464     USARTx->CR1 |= USART_CR1_OVER8;
+00465   \}
+00466   \textcolor{keywordflow}{else}
+00467   \{
+00468     \textcolor{comment}{/* Disable the 8x Oversampling mode by clearing the OVER8 bit in the CR1 register */}
+00469     USARTx->CR1 &= (uint16\_t)~((uint16\_t)USART_CR1_OVER8);
+00470   \}
+00471 \}
+00472 
+00473 \textcolor{comment}{/**}
+00474 \textcolor{comment}{  * @brief  Enables or disables the USART's one bit sampling method.}
+00475 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+00476 \textcolor{comment}{  *         UART peripheral.}
+00477 \textcolor{comment}{  * @param  NewState: new state of the USART one bit sampling method.}
+00478 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00479 \textcolor{comment}{  * @retval None}
+00480 \textcolor{comment}{  */}
+00481 \textcolor{keywordtype}{void} USART_OneBitMethodCmd(USART\_TypeDef* USARTx, FunctionalState NewState)
+00482 \{
+00483   \textcolor{comment}{/* Check the parameters */}
+00484   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+00485   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00486 
+00487   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00488   \{
+00489     \textcolor{comment}{/* Enable the one bit method by setting the ONEBITE bit in the CR3 register */}
+00490     USARTx->CR3 |= USART_CR3_ONEBIT;
+00491   \}
+00492   \textcolor{keywordflow}{else}
+00493   \{
+00494     \textcolor{comment}{/* Disable the one bit method by clearing the ONEBITE bit in the CR3 register */}
+00495     USARTx->CR3 &= (uint16\_t)~((uint16\_t)USART_CR3_ONEBIT);
+00496   \}
+00497 \}
+00498 
+00499 \textcolor{comment}{/**}
+00500 \textcolor{comment}{  * @\}}
+00501 \textcolor{comment}{  */}
+00502 
+00503 \textcolor{comment}{/** @defgroup USART\_Group2 Data transfers functions}
+00504 \textcolor{comment}{ *  @brief   Data transfers functions }
+00505 \textcolor{comment}{ *}
+00506 \textcolor{comment}{@verbatim   }
+00507 \textcolor{comment}{ ===============================================================================}
+00508 \textcolor{comment}{                            Data transfers functions}
+00509 \textcolor{comment}{ ===============================================================================  }
+00510 \textcolor{comment}{}
+00511 \textcolor{comment}{  This subsection provides a set of functions allowing to manage the USART data }
+00512 \textcolor{comment}{  transfers.}
+00513 \textcolor{comment}{  }
+00514 \textcolor{comment}{  During an USART reception, data shifts in least significant bit first through }
+00515 \textcolor{comment}{  the RX pin. In this mode, the USART\_DR register consists of a buffer (RDR) }
+00516 \textcolor{comment}{  between the internal bus and the received shift register.}
+00517 \textcolor{comment}{}
+00518 \textcolor{comment}{  When a transmission is taking place, a write instruction to the USART\_DR register }
+00519 \textcolor{comment}{  stores the data in the TDR register and which is copied in the shift register }
+00520 \textcolor{comment}{  at the end of the current transmission.}
+00521 \textcolor{comment}{}
+00522 \textcolor{comment}{  The read access of the USART\_DR register can be done using the USART\_ReceiveData()}
+00523 \textcolor{comment}{  function and returns the RDR buffered value. Whereas a write access to the USART\_DR }
+00524 \textcolor{comment}{  can be done using USART\_SendData() function and stores the written data into }
+00525 \textcolor{comment}{  TDR buffer.}
+00526 \textcolor{comment}{}
+00527 \textcolor{comment}{@endverbatim}
+00528 \textcolor{comment}{  * @\{}
+00529 \textcolor{comment}{  */}
+00530 
+00531 \textcolor{comment}{/**}
+00532 \textcolor{comment}{  * @brief  Transmits single data through the USARTx peripheral.}
+00533 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+00534 \textcolor{comment}{  *         UART peripheral.}
+00535 \textcolor{comment}{  * @param  Data: the data to transmit.}
+00536 \textcolor{comment}{  * @retval None}
+00537 \textcolor{comment}{  */}
+00538 \textcolor{keywordtype}{void} USART_SendData(USART\_TypeDef* USARTx, uint16\_t Data)
+00539 \{
+00540   \textcolor{comment}{/* Check the parameters */}
+00541   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+00542   assert_param(IS\_USART\_DATA(Data));
+00543 
+00544   \textcolor{comment}{/* Transmit Data */}
+00545   USARTx->DR = (Data & (uint16\_t)0x01FF);
+00546 \}
+00547 
+00548 \textcolor{comment}{/**}
+00549 \textcolor{comment}{  * @brief  Returns the most recent received data by the USARTx peripheral.}
+00550 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+00551 \textcolor{comment}{  *         UART peripheral.}
+00552 \textcolor{comment}{  * @retval The received data.}
+00553 \textcolor{comment}{  */}
+00554 uint16\_t USART_ReceiveData(USART\_TypeDef* USARTx)
+00555 \{
+00556   \textcolor{comment}{/* Check the parameters */}
+00557   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+00558 
+00559   \textcolor{comment}{/* Receive Data */}
+00560   \textcolor{keywordflow}{return} (uint16\_t)(USARTx->DR & (uint16\_t)0x01FF);
+00561 \}
+00562 
+00563 \textcolor{comment}{/**}
+00564 \textcolor{comment}{  * @\}}
+00565 \textcolor{comment}{  */}
+00566 
+00567 \textcolor{comment}{/** @defgroup USART\_Group3 MultiProcessor Communication functions}
+00568 \textcolor{comment}{ *  @brief   Multi-Processor Communication functions }
+00569 \textcolor{comment}{ *}
+00570 \textcolor{comment}{@verbatim   }
+00571 \textcolor{comment}{ ===============================================================================}
+00572 \textcolor{comment}{                    Multi-Processor Communication functions}
+00573 \textcolor{comment}{ ===============================================================================  }
+00574 \textcolor{comment}{}
+00575 \textcolor{comment}{  This subsection provides a set of functions allowing to manage the USART }
+00576 \textcolor{comment}{  multiprocessor communication.}
+00577 \textcolor{comment}{  }
+00578 \textcolor{comment}{  For instance one of the USARTs can be the master, its TX output is connected to }
+00579 \textcolor{comment}{  the RX input of the other USART. The others are slaves, their respective TX outputs }
+00580 \textcolor{comment}{  are logically ANDed together and connected to the RX input of the master.}
+00581 \textcolor{comment}{}
+00582 \textcolor{comment}{  USART multiprocessor communication is possible through the following procedure:}
+00583 \textcolor{comment}{     1. Program the Baud rate, Word length = 9 bits, Stop bits, Parity, Mode transmitter }
+00584 \textcolor{comment}{        or Mode receiver and hardware flow control values using the USART\_Init()}
+00585 \textcolor{comment}{        function.}
+00586 \textcolor{comment}{     2. Configures the USART address using the USART\_SetAddress() function.}
+00587 \textcolor{comment}{     3. Configures the wake up method (USART\_WakeUp\_IdleLine or USART\_WakeUp\_AddressMark)}
+00588 \textcolor{comment}{        using USART\_WakeUpConfig() function only for the slaves.}
+00589 \textcolor{comment}{     4. Enable the USART using the USART\_Cmd() function.}
+00590 \textcolor{comment}{     5. Enter the USART slaves in mute mode using USART\_ReceiverWakeUpCmd() function.}
+00591 \textcolor{comment}{}
+00592 \textcolor{comment}{  The USART Slave exit from mute mode when receive the wake up condition.}
+00593 \textcolor{comment}{}
+00594 \textcolor{comment}{@endverbatim}
+00595 \textcolor{comment}{  * @\{}
+00596 \textcolor{comment}{  */}
+00597 
+00598 \textcolor{comment}{/**}
+00599 \textcolor{comment}{  * @brief  Sets the address of the USART node.}
+00600 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+00601 \textcolor{comment}{  *         UART peripheral.}
+00602 \textcolor{comment}{  * @param  USART\_Address: Indicates the address of the USART node.}
+00603 \textcolor{comment}{  * @retval None}
+00604 \textcolor{comment}{  */}
+00605 \textcolor{keywordtype}{void} USART_SetAddress(USART\_TypeDef* USARTx, uint8\_t USART\_Address)
+00606 \{
+00607   \textcolor{comment}{/* Check the parameters */}
+00608   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+00609   assert_param(IS\_USART\_ADDRESS(USART\_Address));
+00610 
+00611   \textcolor{comment}{/* Clear the USART address */}
+00612   USARTx->CR2 &= (uint16\_t)~((uint16\_t)USART_CR2_ADD);
+00613   \textcolor{comment}{/* Set the USART address node */}
+00614   USARTx->CR2 |= USART\_Address;
+00615 \}
+00616 
+00617 \textcolor{comment}{/**}
+00618 \textcolor{comment}{  * @brief  Determines if the USART is in mute mode or not.}
+00619 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+00620 \textcolor{comment}{  *         UART peripheral.}
+00621 \textcolor{comment}{  * @param  NewState: new state of the USART mute mode.}
+00622 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00623 \textcolor{comment}{  * @retval None}
+00624 \textcolor{comment}{  */}
+00625 \textcolor{keywordtype}{void} USART_ReceiverWakeUpCmd(USART\_TypeDef* USARTx, FunctionalState NewState)
+00626 \{
+00627   \textcolor{comment}{/* Check the parameters */}
+00628   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+00629   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00630 
+00631   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00632   \{
+00633     \textcolor{comment}{/* Enable the USART mute mode  by setting the RWU bit in the CR1 register */}
+00634     USARTx->CR1 |= USART_CR1_RWU;
+00635   \}
+00636   \textcolor{keywordflow}{else}
+00637   \{
+00638     \textcolor{comment}{/* Disable the USART mute mode by clearing the RWU bit in the CR1 register */}
+00639     USARTx->CR1 &= (uint16\_t)~((uint16\_t)USART_CR1_RWU);
+00640   \}
+00641 \}
+00642 \textcolor{comment}{/**}
+00643 \textcolor{comment}{  * @brief  Selects the USART WakeUp method.}
+00644 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+00645 \textcolor{comment}{  *         UART peripheral.}
+00646 \textcolor{comment}{  * @param  USART\_WakeUp: specifies the USART wakeup method.}
+00647 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00648 \textcolor{comment}{  *            @arg USART\_WakeUp\_IdleLine: WakeUp by an idle line detection}
+00649 \textcolor{comment}{  *            @arg USART\_WakeUp\_AddressMark: WakeUp by an address mark}
+00650 \textcolor{comment}{  * @retval None}
+00651 \textcolor{comment}{  */}
+00652 \textcolor{keywordtype}{void} USART_WakeUpConfig(USART\_TypeDef* USARTx, uint16\_t USART\_WakeUp)
+00653 \{
+00654   \textcolor{comment}{/* Check the parameters */}
+00655   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+00656   assert_param(IS\_USART\_WAKEUP(USART\_WakeUp));
+00657 
+00658   USARTx->CR1 &= (uint16\_t)~((uint16\_t)USART_CR1_WAKE);
+00659   USARTx->CR1 |= USART\_WakeUp;
+00660 \}
+00661 
+00662 \textcolor{comment}{/**}
+00663 \textcolor{comment}{  * @\}}
+00664 \textcolor{comment}{  */}
+00665 
+00666 \textcolor{comment}{/** @defgroup USART\_Group4 LIN mode functions}
+00667 \textcolor{comment}{ *  @brief   LIN mode functions }
+00668 \textcolor{comment}{ *}
+00669 \textcolor{comment}{@verbatim   }
+00670 \textcolor{comment}{ ===============================================================================}
+00671 \textcolor{comment}{                                LIN mode functions}
+00672 \textcolor{comment}{ ===============================================================================  }
+00673 \textcolor{comment}{}
+00674 \textcolor{comment}{  This subsection provides a set of functions allowing to manage the USART LIN }
+00675 \textcolor{comment}{  Mode communication.}
+00676 \textcolor{comment}{  }
+00677 \textcolor{comment}{  In LIN mode, 8-bit data format with 1 stop bit is required in accordance with }
+00678 \textcolor{comment}{  the LIN standard.}
+00679 \textcolor{comment}{}
+00680 \textcolor{comment}{  Only this LIN Feature is supported by the USART IP:}
+00681 \textcolor{comment}{    - LIN Master Synchronous Break send capability and LIN slave break detection}
+00682 \textcolor{comment}{      capability :  13-bit break generation and 10/11 bit break detection}
+00683 \textcolor{comment}{}
+00684 \textcolor{comment}{}
+00685 \textcolor{comment}{  USART LIN Master transmitter communication is possible through the following procedure:}
+00686 \textcolor{comment}{     1. Program the Baud rate, Word length = 8bits, Stop bits = 1bit, Parity, }
+00687 \textcolor{comment}{        Mode transmitter or Mode receiver and hardware flow control values using }
+00688 \textcolor{comment}{        the USART\_Init() function.}
+00689 \textcolor{comment}{     2. Enable the USART using the USART\_Cmd() function.}
+00690 \textcolor{comment}{     3. Enable the LIN mode using the USART\_LINCmd() function.}
+00691 \textcolor{comment}{     4. Send the break character using USART\_SendBreak() function.}
+00692 \textcolor{comment}{}
+00693 \textcolor{comment}{  USART LIN Master receiver communication is possible through the following procedure:}
+00694 \textcolor{comment}{     1. Program the Baud rate, Word length = 8bits, Stop bits = 1bit, Parity, }
+00695 \textcolor{comment}{        Mode transmitter or Mode receiver and hardware flow control values using }
+00696 \textcolor{comment}{        the USART\_Init() function.}
+00697 \textcolor{comment}{     2. Enable the USART using the USART\_Cmd() function.}
+00698 \textcolor{comment}{     3. Configures the break detection length using the USART\_LINBreakDetectLengthConfig()}
+00699 \textcolor{comment}{        function.}
+00700 \textcolor{comment}{     4. Enable the LIN mode using the USART\_LINCmd() function.}
+00701 \textcolor{comment}{}
+00702 \textcolor{comment}{}
+00703 \textcolor{comment}{@note In LIN mode, the following bits must be kept cleared:}
+00704 \textcolor{comment}{        - CLKEN in the USART\_CR2 register,}
+00705 \textcolor{comment}{        - STOP[1:0], SCEN, HDSEL and IREN in the USART\_CR3 register.}
+00706 \textcolor{comment}{}
+00707 \textcolor{comment}{@endverbatim}
+00708 \textcolor{comment}{  * @\{}
+00709 \textcolor{comment}{  */}
+00710 
+00711 \textcolor{comment}{/**}
+00712 \textcolor{comment}{  * @brief  Sets the USART LIN Break detection length.}
+00713 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+00714 \textcolor{comment}{  *         UART peripheral.}
+00715 \textcolor{comment}{  * @param  USART\_LINBreakDetectLength: specifies the LIN break detection length.}
+00716 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00717 \textcolor{comment}{  *            @arg USART\_LINBreakDetectLength\_10b: 10-bit break detection}
+00718 \textcolor{comment}{  *            @arg USART\_LINBreakDetectLength\_11b: 11-bit break detection}
+00719 \textcolor{comment}{  * @retval None}
+00720 \textcolor{comment}{  */}
+00721 \textcolor{keywordtype}{void} USART_LINBreakDetectLengthConfig(USART\_TypeDef* USARTx, uint16\_t USART\_LINBreakDetectLength)
+00722 \{
+00723   \textcolor{comment}{/* Check the parameters */}
+00724   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+00725   assert_param(IS\_USART\_LIN\_BREAK\_DETECT\_LENGTH(USART\_LINBreakDetectLength));
+00726 
+00727   USARTx->CR2 &= (uint16\_t)~((uint16\_t)USART_CR2_LBDL);
+00728   USARTx->CR2 |= USART\_LINBreakDetectLength;
+00729 \}
+00730 
+00731 \textcolor{comment}{/**}
+00732 \textcolor{comment}{  * @brief  Enables or disables the USART's LIN mode.}
+00733 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+00734 \textcolor{comment}{  *         UART peripheral.}
+00735 \textcolor{comment}{  * @param  NewState: new state of the USART LIN mode.}
+00736 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00737 \textcolor{comment}{  * @retval None}
+00738 \textcolor{comment}{  */}
+00739 \textcolor{keywordtype}{void} USART_LINCmd(USART\_TypeDef* USARTx, FunctionalState NewState)
+00740 \{
+00741   \textcolor{comment}{/* Check the parameters */}
+00742   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+00743   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00744 
+00745   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00746   \{
+00747     \textcolor{comment}{/* Enable the LIN mode by setting the LINEN bit in the CR2 register */}
+00748     USARTx->CR2 |= USART_CR2_LINEN;
+00749   \}
+00750   \textcolor{keywordflow}{else}
+00751   \{
+00752     \textcolor{comment}{/* Disable the LIN mode by clearing the LINEN bit in the CR2 register */}
+00753     USARTx->CR2 &= (uint16\_t)~((uint16\_t)USART_CR2_LINEN);
+00754   \}
+00755 \}
+00756 
+00757 \textcolor{comment}{/**}
+00758 \textcolor{comment}{  * @brief  Transmits break characters.}
+00759 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+00760 \textcolor{comment}{  *         UART peripheral.}
+00761 \textcolor{comment}{  * @retval None}
+00762 \textcolor{comment}{  */}
+00763 \textcolor{keywordtype}{void} USART_SendBreak(USART\_TypeDef* USARTx)
+00764 \{
+00765   \textcolor{comment}{/* Check the parameters */}
+00766   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+00767 
+00768   \textcolor{comment}{/* Send break characters */}
+00769   USARTx->CR1 |= USART_CR1_SBK;
+00770 \}
+00771 
+00772 \textcolor{comment}{/**}
+00773 \textcolor{comment}{  * @\}}
+00774 \textcolor{comment}{  */}
+00775 
+00776 \textcolor{comment}{/** @defgroup USART\_Group5 Halfduplex mode function}
+00777 \textcolor{comment}{ *  @brief   Half-duplex mode function }
+00778 \textcolor{comment}{ *}
+00779 \textcolor{comment}{@verbatim   }
+00780 \textcolor{comment}{ ===============================================================================}
+00781 \textcolor{comment}{                         Half-duplex mode function}
+00782 \textcolor{comment}{ ===============================================================================  }
+00783 \textcolor{comment}{}
+00784 \textcolor{comment}{  This subsection provides a set of functions allowing to manage the USART }
+00785 \textcolor{comment}{  Half-duplex communication.}
+00786 \textcolor{comment}{  }
+00787 \textcolor{comment}{  The USART can be configured to follow a single-wire half-duplex protocol where }
+00788 \textcolor{comment}{  the TX and RX lines are internally connected.}
+00789 \textcolor{comment}{}
+00790 \textcolor{comment}{  USART Half duplex communication is possible through the following procedure:}
+00791 \textcolor{comment}{     1. Program the Baud rate, Word length, Stop bits, Parity, Mode transmitter }
+00792 \textcolor{comment}{        or Mode receiver and hardware flow control values using the USART\_Init()}
+00793 \textcolor{comment}{        function.}
+00794 \textcolor{comment}{     2. Configures the USART address using the USART\_SetAddress() function.}
+00795 \textcolor{comment}{     3. Enable the USART using the USART\_Cmd() function.}
+00796 \textcolor{comment}{     4. Enable the half duplex mode using USART\_HalfDuplexCmd() function.}
+00797 \textcolor{comment}{}
+00798 \textcolor{comment}{}
+00799 \textcolor{comment}{@note The RX pin is no longer used}
+00800 \textcolor{comment}{@note In Half-duplex mode the following bits must be kept cleared:}
+00801 \textcolor{comment}{        - LINEN and CLKEN bits in the USART\_CR2 register.}
+00802 \textcolor{comment}{        - SCEN and IREN bits in the USART\_CR3 register.}
+00803 \textcolor{comment}{}
+00804 \textcolor{comment}{@endverbatim}
+00805 \textcolor{comment}{  * @\{}
+00806 \textcolor{comment}{  */}
+00807 
+00808 \textcolor{comment}{/**}
+00809 \textcolor{comment}{  * @brief  Enables or disables the USART's Half Duplex communication.}
+00810 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+00811 \textcolor{comment}{  *         UART peripheral.}
+00812 \textcolor{comment}{  * @param  NewState: new state of the USART Communication.}
+00813 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00814 \textcolor{comment}{  * @retval None}
+00815 \textcolor{comment}{  */}
+00816 \textcolor{keywordtype}{void} USART_HalfDuplexCmd(USART\_TypeDef* USARTx, FunctionalState NewState)
+00817 \{
+00818   \textcolor{comment}{/* Check the parameters */}
+00819   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+00820   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00821 
+00822   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00823   \{
+00824     \textcolor{comment}{/* Enable the Half-Duplex mode by setting the HDSEL bit in the CR3 register */}
+00825     USARTx->CR3 |= USART_CR3_HDSEL;
+00826   \}
+00827   \textcolor{keywordflow}{else}
+00828   \{
+00829     \textcolor{comment}{/* Disable the Half-Duplex mode by clearing the HDSEL bit in the CR3 register */}
+00830     USARTx->CR3 &= (uint16\_t)~((uint16\_t)USART_CR3_HDSEL);
+00831   \}
+00832 \}
+00833 
+00834 \textcolor{comment}{/**}
+00835 \textcolor{comment}{  * @\}}
+00836 \textcolor{comment}{  */}
+00837 
+00838 
+00839 \textcolor{comment}{/** @defgroup USART\_Group6 Smartcard mode functions}
+00840 \textcolor{comment}{ *  @brief   Smartcard mode functions }
+00841 \textcolor{comment}{ *}
+00842 \textcolor{comment}{@verbatim   }
+00843 \textcolor{comment}{ ===============================================================================}
+00844 \textcolor{comment}{                               Smartcard mode functions}
+00845 \textcolor{comment}{ ===============================================================================  }
+00846 \textcolor{comment}{}
+00847 \textcolor{comment}{  This subsection provides a set of functions allowing to manage the USART }
+00848 \textcolor{comment}{  Smartcard communication.}
+00849 \textcolor{comment}{  }
+00850 \textcolor{comment}{  The Smartcard interface is designed to support asynchronous protocol Smartcards as}
+00851 \textcolor{comment}{  defined in the ISO 7816-3 standard.}
+00852 \textcolor{comment}{}
+00853 \textcolor{comment}{  The USART can provide a clock to the smartcard through the SCLK output.}
+00854 \textcolor{comment}{  In smartcard mode, SCLK is not associated to the communication but is simply derived }
+00855 \textcolor{comment}{  from the internal peripheral input clock through a 5-bit prescaler.}
+00856 \textcolor{comment}{}
+00857 \textcolor{comment}{  Smartcard communication is possible through the following procedure:}
+00858 \textcolor{comment}{     1. Configures the Smartcard Prescaler using the USART\_SetPrescaler() function.}
+00859 \textcolor{comment}{     2. Configures the Smartcard Guard Time using the USART\_SetGuardTime() function.}
+00860 \textcolor{comment}{     3. Program the USART clock using the USART\_ClockInit() function as following:}
+00861 \textcolor{comment}{        - USART Clock enabled}
+00862 \textcolor{comment}{        - USART CPOL Low}
+00863 \textcolor{comment}{        - USART CPHA on first edge}
+00864 \textcolor{comment}{        - USART Last Bit Clock Enabled}
+00865 \textcolor{comment}{     4. Program the Smartcard interface using the USART\_Init() function as following:}
+00866 \textcolor{comment}{        - Word Length = 9 Bits}
+00867 \textcolor{comment}{        - 1.5 Stop Bit}
+00868 \textcolor{comment}{        - Even parity}
+00869 \textcolor{comment}{        - BaudRate = 12096 baud}
+00870 \textcolor{comment}{        - Hardware flow control disabled (RTS and CTS signals)}
+00871 \textcolor{comment}{        - Tx and Rx enabled}
+00872 \textcolor{comment}{     5. Optionally you can enable the parity error interrupt using the USART\_ITConfig()}
+00873 \textcolor{comment}{        function}
+00874 \textcolor{comment}{     6. Enable the USART using the USART\_Cmd() function.}
+00875 \textcolor{comment}{     7. Enable the Smartcard NACK using the USART\_SmartCardNACKCmd() function.}
+00876 \textcolor{comment}{     8. Enable the Smartcard interface using the USART\_SmartCardCmd() function.}
+00877 \textcolor{comment}{}
+00878 \textcolor{comment}{  Please refer to the ISO 7816-3 specification for more details.}
+00879 \textcolor{comment}{}
+00880 \textcolor{comment}{}
+00881 \textcolor{comment}{@note It is also possible to choose 0.5 stop bit for receiving but it is recommended }
+00882 \textcolor{comment}{      to use 1.5 stop bits for both transmitting and receiving to avoid switching }
+00883 \textcolor{comment}{      between the two configurations.}
+00884 \textcolor{comment}{@note In smartcard mode, the following bits must be kept cleared:}
+00885 \textcolor{comment}{        - LINEN bit in the USART\_CR2 register.}
+00886 \textcolor{comment}{        - HDSEL and IREN bits in the USART\_CR3 register.}
+00887 \textcolor{comment}{@note Smartcard mode is available on USART peripherals only (not available on UART4 }
+00888 \textcolor{comment}{      and UART5 peripherals).}
+00889 \textcolor{comment}{}
+00890 \textcolor{comment}{@endverbatim}
+00891 \textcolor{comment}{  * @\{}
+00892 \textcolor{comment}{  */}
+00893 
+00894 \textcolor{comment}{/**}
+00895 \textcolor{comment}{  * @brief  Sets the specified USART guard time.}
+00896 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3 or 6 to select the USART or }
+00897 \textcolor{comment}{  *         UART peripheral.}
+00898 \textcolor{comment}{  * @param  USART\_GuardTime: specifies the guard time.   }
+00899 \textcolor{comment}{  * @retval None}
+00900 \textcolor{comment}{  */}
+00901 \textcolor{keywordtype}{void} USART_SetGuardTime(USART\_TypeDef* USARTx, uint8\_t USART\_GuardTime)
+00902 \{
+00903   \textcolor{comment}{/* Check the parameters */}
+00904   assert_param(IS\_USART\_1236\_PERIPH(USARTx));
+00905 
+00906   \textcolor{comment}{/* Clear the USART Guard time */}
+00907   USARTx->GTPR &= USART_GTPR_PSC;
+00908   \textcolor{comment}{/* Set the USART guard time */}
+00909   USARTx->GTPR |= (uint16\_t)((uint16\_t)USART\_GuardTime << 0x08);
+00910 \}
+00911 
+00912 \textcolor{comment}{/**}
+00913 \textcolor{comment}{  * @brief  Enables or disables the USART's Smart Card mode.}
+00914 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3 or 6 to select the USART or }
+00915 \textcolor{comment}{  *         UART peripheral.}
+00916 \textcolor{comment}{  * @param  NewState: new state of the Smart Card mode.}
+00917 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.      }
+00918 \textcolor{comment}{  * @retval None}
+00919 \textcolor{comment}{  */}
+00920 \textcolor{keywordtype}{void} USART_SmartCardCmd(USART\_TypeDef* USARTx, FunctionalState NewState)
+00921 \{
+00922   \textcolor{comment}{/* Check the parameters */}
+00923   assert_param(IS\_USART\_1236\_PERIPH(USARTx));
+00924   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00925   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00926   \{
+00927     \textcolor{comment}{/* Enable the SC mode by setting the SCEN bit in the CR3 register */}
+00928     USARTx->CR3 |= USART_CR3_SCEN;
+00929   \}
+00930   \textcolor{keywordflow}{else}
+00931   \{
+00932     \textcolor{comment}{/* Disable the SC mode by clearing the SCEN bit in the CR3 register */}
+00933     USARTx->CR3 &= (uint16\_t)~((uint16\_t)USART_CR3_SCEN);
+00934   \}
+00935 \}
+00936 
+00937 \textcolor{comment}{/**}
+00938 \textcolor{comment}{  * @brief  Enables or disables NACK transmission.}
+00939 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3 or 6 to select the USART or }
+00940 \textcolor{comment}{  *         UART peripheral.}
+00941 \textcolor{comment}{  * @param  NewState: new state of the NACK transmission.}
+00942 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.  }
+00943 \textcolor{comment}{  * @retval None}
+00944 \textcolor{comment}{  */}
+00945 \textcolor{keywordtype}{void} USART_SmartCardNACKCmd(USART\_TypeDef* USARTx, FunctionalState NewState)
+00946 \{
+00947   \textcolor{comment}{/* Check the parameters */}
+00948   assert_param(IS\_USART\_1236\_PERIPH(USARTx));
+00949   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00950   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00951   \{
+00952     \textcolor{comment}{/* Enable the NACK transmission by setting the NACK bit in the CR3 register */}
+00953     USARTx->CR3 |= USART_CR3_NACK;
+00954   \}
+00955   \textcolor{keywordflow}{else}
+00956   \{
+00957     \textcolor{comment}{/* Disable the NACK transmission by clearing the NACK bit in the CR3 register */}
+00958     USARTx->CR3 &= (uint16\_t)~((uint16\_t)USART_CR3_NACK);
+00959   \}
+00960 \}
+00961 
+00962 \textcolor{comment}{/**}
+00963 \textcolor{comment}{  * @\}}
+00964 \textcolor{comment}{  */}
+00965 
+00966 \textcolor{comment}{/** @defgroup USART\_Group7 IrDA mode functions}
+00967 \textcolor{comment}{ *  @brief   IrDA mode functions }
+00968 \textcolor{comment}{ *}
+00969 \textcolor{comment}{@verbatim   }
+00970 \textcolor{comment}{ ===============================================================================}
+00971 \textcolor{comment}{                                IrDA mode functions}
+00972 \textcolor{comment}{ ===============================================================================  }
+00973 \textcolor{comment}{}
+00974 \textcolor{comment}{  This subsection provides a set of functions allowing to manage the USART }
+00975 \textcolor{comment}{  IrDA communication.}
+00976 \textcolor{comment}{  }
+00977 \textcolor{comment}{  IrDA is a half duplex communication protocol. If the Transmitter is busy, any data}
+00978 \textcolor{comment}{  on the IrDA receive line will be ignored by the IrDA decoder and if the Receiver }
+00979 \textcolor{comment}{  is busy, data on the TX from the USART to IrDA will not be encoded by IrDA.}
+00980 \textcolor{comment}{  While receiving data, transmission should be avoided as the data to be transmitted}
+00981 \textcolor{comment}{  could be corrupted.}
+00982 \textcolor{comment}{}
+00983 \textcolor{comment}{  IrDA communication is possible through the following procedure:}
+00984 \textcolor{comment}{     1. Program the Baud rate, Word length = 8 bits, Stop bits, Parity, Transmitter/Receiver }
+00985 \textcolor{comment}{        modes and hardware flow control values using the USART\_Init() function.}
+00986 \textcolor{comment}{     2. Enable the USART using the USART\_Cmd() function.}
+00987 \textcolor{comment}{     3. Configures the IrDA pulse width by configuring the prescaler using  }
+00988 \textcolor{comment}{        the USART\_SetPrescaler() function.}
+00989 \textcolor{comment}{     4. Configures the IrDA  USART\_IrDAMode\_LowPower or USART\_IrDAMode\_Normal mode}
+00990 \textcolor{comment}{        using the USART\_IrDAConfig() function.}
+00991 \textcolor{comment}{     5. Enable the IrDA using the USART\_IrDACmd() function.}
+00992 \textcolor{comment}{}
+00993 \textcolor{comment}{@note A pulse of width less than two and greater than one PSC period(s) may or may}
+00994 \textcolor{comment}{      not be rejected.}
+00995 \textcolor{comment}{@note The receiver set up time should be managed by software. The IrDA physical layer}
+00996 \textcolor{comment}{      specification specifies a minimum of 10 ms delay between transmission and }
+00997 \textcolor{comment}{      reception (IrDA is a half duplex protocol).}
+00998 \textcolor{comment}{@note In IrDA mode, the following bits must be kept cleared:}
+00999 \textcolor{comment}{        - LINEN, STOP and CLKEN bits in the USART\_CR2 register.}
+01000 \textcolor{comment}{        - SCEN and HDSEL bits in the USART\_CR3 register.}
+01001 \textcolor{comment}{}
+01002 \textcolor{comment}{@endverbatim}
+01003 \textcolor{comment}{  * @\{}
+01004 \textcolor{comment}{  */}
+01005 
+01006 \textcolor{comment}{/**}
+01007 \textcolor{comment}{  * @brief  Configures the USART's IrDA interface.}
+01008 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+01009 \textcolor{comment}{  *         UART peripheral.}
+01010 \textcolor{comment}{  * @param  USART\_IrDAMode: specifies the IrDA mode.}
+01011 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01012 \textcolor{comment}{  *            @arg USART\_IrDAMode\_LowPower}
+01013 \textcolor{comment}{  *            @arg USART\_IrDAMode\_Normal}
+01014 \textcolor{comment}{  * @retval None}
+01015 \textcolor{comment}{  */}
+01016 \textcolor{keywordtype}{void} USART_IrDAConfig(USART\_TypeDef* USARTx, uint16\_t USART\_IrDAMode)
+01017 \{
+01018   \textcolor{comment}{/* Check the parameters */}
+01019   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+01020   assert_param(IS\_USART\_IRDA\_MODE(USART\_IrDAMode));
+01021 
+01022   USARTx->CR3 &= (uint16\_t)~((uint16\_t)USART_CR3_IRLP);
+01023   USARTx->CR3 |= USART\_IrDAMode;
+01024 \}
+01025 
+01026 \textcolor{comment}{/**}
+01027 \textcolor{comment}{  * @brief  Enables or disables the USART's IrDA interface.}
+01028 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+01029 \textcolor{comment}{  *         UART peripheral.}
+01030 \textcolor{comment}{  * @param  NewState: new state of the IrDA mode.}
+01031 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01032 \textcolor{comment}{  * @retval None}
+01033 \textcolor{comment}{  */}
+01034 \textcolor{keywordtype}{void} USART_IrDACmd(USART\_TypeDef* USARTx, FunctionalState NewState)
+01035 \{
+01036   \textcolor{comment}{/* Check the parameters */}
+01037   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+01038   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01039 
+01040   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01041   \{
+01042     \textcolor{comment}{/* Enable the IrDA mode by setting the IREN bit in the CR3 register */}
+01043     USARTx->CR3 |= USART_CR3_IREN;
+01044   \}
+01045   \textcolor{keywordflow}{else}
+01046   \{
+01047     \textcolor{comment}{/* Disable the IrDA mode by clearing the IREN bit in the CR3 register */}
+01048     USARTx->CR3 &= (uint16\_t)~((uint16\_t)USART_CR3_IREN);
+01049   \}
+01050 \}
+01051 
+01052 \textcolor{comment}{/**}
+01053 \textcolor{comment}{  * @\}}
+01054 \textcolor{comment}{  */}
+01055 
+01056 \textcolor{comment}{/** @defgroup USART\_Group8 DMA transfers management functions}
+01057 \textcolor{comment}{ *  @brief   DMA transfers management functions}
+01058 \textcolor{comment}{ *}
+01059 \textcolor{comment}{@verbatim   }
+01060 \textcolor{comment}{ ===============================================================================}
+01061 \textcolor{comment}{                      DMA transfers management functions}
+01062 \textcolor{comment}{ ===============================================================================  }
+01063 \textcolor{comment}{}
+01064 \textcolor{comment}{@endverbatim}
+01065 \textcolor{comment}{  * @\{}
+01066 \textcolor{comment}{  */}
+01067 
+01068 \textcolor{comment}{/**}
+01069 \textcolor{comment}{  * @brief  Enables or disables the USART's DMA interface.}
+01070 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+01071 \textcolor{comment}{  *         UART peripheral.}
+01072 \textcolor{comment}{  * @param  USART\_DMAReq: specifies the DMA request.}
+01073 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+01074 \textcolor{comment}{  *            @arg USART\_DMAReq\_Tx: USART DMA transmit request}
+01075 \textcolor{comment}{  *            @arg USART\_DMAReq\_Rx: USART DMA receive request}
+01076 \textcolor{comment}{  * @param  NewState: new state of the DMA Request sources.}
+01077 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.   }
+01078 \textcolor{comment}{  * @retval None}
+01079 \textcolor{comment}{  */}
+01080 \textcolor{keywordtype}{void} USART_DMACmd(USART\_TypeDef* USARTx, uint16\_t USART\_DMAReq, FunctionalState NewState)
+01081 \{
+01082   \textcolor{comment}{/* Check the parameters */}
+01083   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+01084   assert_param(IS\_USART\_DMAREQ(USART\_DMAReq));
+01085   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01086 
+01087   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01088   \{
+01089     \textcolor{comment}{/* Enable the DMA transfer for selected requests by setting the DMAT and/or}
+01090 \textcolor{comment}{       DMAR bits in the USART CR3 register */}
+01091     USARTx->CR3 |= USART\_DMAReq;
+01092   \}
+01093   \textcolor{keywordflow}{else}
+01094   \{
+01095     \textcolor{comment}{/* Disable the DMA transfer for selected requests by clearing the DMAT and/or}
+01096 \textcolor{comment}{       DMAR bits in the USART CR3 register */}
+01097     USARTx->CR3 &= (uint16\_t)~USART\_DMAReq;
+01098   \}
+01099 \}
+01100 
+01101 \textcolor{comment}{/**}
+01102 \textcolor{comment}{  * @\}}
+01103 \textcolor{comment}{  */}
+01104 
+01105 \textcolor{comment}{/** @defgroup USART\_Group9 Interrupts and flags management functions}
+01106 \textcolor{comment}{ *  @brief   Interrupts and flags management functions }
+01107 \textcolor{comment}{ *}
+01108 \textcolor{comment}{@verbatim   }
+01109 \textcolor{comment}{ ===============================================================================}
+01110 \textcolor{comment}{                   Interrupts and flags management functions}
+01111 \textcolor{comment}{ ===============================================================================  }
+01112 \textcolor{comment}{}
+01113 \textcolor{comment}{  This subsection provides a set of functions allowing to configure the USART }
+01114 \textcolor{comment}{  Interrupts sources, DMA channels requests and check or clear the flags or }
+01115 \textcolor{comment}{  pending bits status.}
+01116 \textcolor{comment}{  The user should identify which mode will be used in his application to manage }
+01117 \textcolor{comment}{  the communication: Polling mode, Interrupt mode or DMA mode. }
+01118 \textcolor{comment}{    }
+01119 \textcolor{comment}{  Polling Mode}
+01120 \textcolor{comment}{  =============}
+01121 \textcolor{comment}{  In Polling Mode, the SPI communication can be managed by 10 flags:}
+01122 \textcolor{comment}{     1. USART\_FLAG\_TXE : to indicate the status of the transmit buffer register}
+01123 \textcolor{comment}{     2. USART\_FLAG\_RXNE : to indicate the status of the receive buffer register}
+01124 \textcolor{comment}{     3. USART\_FLAG\_TC : to indicate the status of the transmit operation}
+01125 \textcolor{comment}{     4. USART\_FLAG\_IDLE : to indicate the status of the Idle Line             }
+01126 \textcolor{comment}{     5. USART\_FLAG\_CTS : to indicate the status of the nCTS input}
+01127 \textcolor{comment}{     6. USART\_FLAG\_LBD : to indicate the status of the LIN break detection}
+01128 \textcolor{comment}{     7. USART\_FLAG\_NE : to indicate if a noise error occur}
+01129 \textcolor{comment}{     8. USART\_FLAG\_FE : to indicate if a frame error occur}
+01130 \textcolor{comment}{     9. USART\_FLAG\_PE : to indicate if a parity error occur}
+01131 \textcolor{comment}{     10. USART\_FLAG\_ORE : to indicate if an Overrun error occur}
+01132 \textcolor{comment}{}
+01133 \textcolor{comment}{  In this Mode it is advised to use the following functions:}
+01134 \textcolor{comment}{      - FlagStatus USART\_GetFlagStatus(USART\_TypeDef* USARTx, uint16\_t USART\_FLAG);}
+01135 \textcolor{comment}{      - void USART\_ClearFlag(USART\_TypeDef* USARTx, uint16\_t USART\_FLAG);}
+01136 \textcolor{comment}{}
+01137 \textcolor{comment}{  Interrupt Mode}
+01138 \textcolor{comment}{  ===============}
+01139 \textcolor{comment}{  In Interrupt Mode, the USART communication can be managed by 8 interrupt sources}
+01140 \textcolor{comment}{  and 10 pending bits: }
+01141 \textcolor{comment}{}
+01142 \textcolor{comment}{  Pending Bits:}
+01143 \textcolor{comment}{  ------------- }
+01144 \textcolor{comment}{     1. USART\_IT\_TXE : to indicate the status of the transmit buffer register}
+01145 \textcolor{comment}{     2. USART\_IT\_RXNE : to indicate the status of the receive buffer register}
+01146 \textcolor{comment}{     3. USART\_IT\_TC : to indicate the status of the transmit operation}
+01147 \textcolor{comment}{     4. USART\_IT\_IDLE : to indicate the status of the Idle Line             }
+01148 \textcolor{comment}{     5. USART\_IT\_CTS : to indicate the status of the nCTS input}
+01149 \textcolor{comment}{     6. USART\_IT\_LBD : to indicate the status of the LIN break detection}
+01150 \textcolor{comment}{     7. USART\_IT\_NE : to indicate if a noise error occur}
+01151 \textcolor{comment}{     8. USART\_IT\_FE : to indicate if a frame error occur}
+01152 \textcolor{comment}{     9. USART\_IT\_PE : to indicate if a parity error occur}
+01153 \textcolor{comment}{     10. USART\_IT\_ORE : to indicate if an Overrun error occur}
+01154 \textcolor{comment}{}
+01155 \textcolor{comment}{  Interrupt Source:}
+01156 \textcolor{comment}{  -----------------}
+01157 \textcolor{comment}{     1. USART\_IT\_TXE : specifies the interrupt source for the Tx buffer empty }
+01158 \textcolor{comment}{                       interrupt. }
+01159 \textcolor{comment}{     2. USART\_IT\_RXNE : specifies the interrupt source for the Rx buffer not }
+01160 \textcolor{comment}{                        empty interrupt.}
+01161 \textcolor{comment}{     3. USART\_IT\_TC : specifies the interrupt source for the Transmit complete }
+01162 \textcolor{comment}{                       interrupt. }
+01163 \textcolor{comment}{     4. USART\_IT\_IDLE : specifies the interrupt source for the Idle Line interrupt.             }
+01164 \textcolor{comment}{     5. USART\_IT\_CTS : specifies the interrupt source for the CTS interrupt. }
+01165 \textcolor{comment}{     6. USART\_IT\_LBD : specifies the interrupt source for the LIN break detection}
+01166 \textcolor{comment}{                       interrupt. }
+01167 \textcolor{comment}{     7. USART\_IT\_PE : specifies the interrupt source for the parity error interrupt. }
+01168 \textcolor{comment}{     8. USART\_IT\_ERR :  specifies the interrupt source for the errors interrupt.}
+01169 \textcolor{comment}{}
+01170 \textcolor{comment}{@note Some parameters are coded in order to use them as interrupt source or as pending bits.}
+01171 \textcolor{comment}{}
+01172 \textcolor{comment}{  In this Mode it is advised to use the following functions:}
+01173 \textcolor{comment}{     - void USART\_ITConfig(USART\_TypeDef* USARTx, uint16\_t USART\_IT, FunctionalState NewState);}
+01174 \textcolor{comment}{     - ITStatus USART\_GetITStatus(USART\_TypeDef* USARTx, uint16\_t USART\_IT);}
+01175 \textcolor{comment}{     - void USART\_ClearITPendingBit(USART\_TypeDef* USARTx, uint16\_t USART\_IT);}
+01176 \textcolor{comment}{}
+01177 \textcolor{comment}{  DMA Mode}
+01178 \textcolor{comment}{  ========}
+01179 \textcolor{comment}{  In DMA Mode, the USART communication can be managed by 2 DMA Channel requests:}
+01180 \textcolor{comment}{     1. USART\_DMAReq\_Tx: specifies the Tx buffer DMA transfer request}
+01181 \textcolor{comment}{     2. USART\_DMAReq\_Rx: specifies the Rx buffer DMA transfer request}
+01182 \textcolor{comment}{}
+01183 \textcolor{comment}{  In this Mode it is advised to use the following function:}
+01184 \textcolor{comment}{     - void USART\_DMACmd(USART\_TypeDef* USARTx, uint16\_t USART\_DMAReq, FunctionalState NewState);}
+01185 \textcolor{comment}{}
+01186 \textcolor{comment}{@endverbatim}
+01187 \textcolor{comment}{  * @\{}
+01188 \textcolor{comment}{  */}
+01189 
+01190 \textcolor{comment}{/**}
+01191 \textcolor{comment}{  * @brief  Enables or disables the specified USART interrupts.}
+01192 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+01193 \textcolor{comment}{  *         UART peripheral.}
+01194 \textcolor{comment}{  * @param  USART\_IT: specifies the USART interrupt sources to be enabled or disabled.}
+01195 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01196 \textcolor{comment}{  *            @arg USART\_IT\_CTS:  CTS change interrupt}
+01197 \textcolor{comment}{  *            @arg USART\_IT\_LBD:  LIN Break detection interrupt}
+01198 \textcolor{comment}{  *            @arg USART\_IT\_TXE:  Transmit Data Register empty interrupt}
+01199 \textcolor{comment}{  *            @arg USART\_IT\_TC:   Transmission complete interrupt}
+01200 \textcolor{comment}{  *            @arg USART\_IT\_RXNE: Receive Data register not empty interrupt}
+01201 \textcolor{comment}{  *            @arg USART\_IT\_IDLE: Idle line detection interrupt}
+01202 \textcolor{comment}{  *            @arg USART\_IT\_PE:   Parity Error interrupt}
+01203 \textcolor{comment}{  *            @arg USART\_IT\_ERR:  Error interrupt(Frame error, noise error, overrun error)}
+01204 \textcolor{comment}{  * @param  NewState: new state of the specified USARTx interrupts.}
+01205 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01206 \textcolor{comment}{  * @retval None}
+01207 \textcolor{comment}{  */}
+01208 \textcolor{keywordtype}{void} USART_ITConfig(USART\_TypeDef* USARTx, uint16\_t USART\_IT, FunctionalState NewState)
+01209 \{
+01210   uint32\_t usartreg = 0x00, itpos = 0x00, itmask = 0x00;
+01211   uint32\_t usartxbase = 0x00;
+01212   \textcolor{comment}{/* Check the parameters */}
+01213   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+01214   assert_param(IS\_USART\_CONFIG\_IT(USART\_IT));
+01215   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01216 
+01217   \textcolor{comment}{/* The CTS interrupt is not available for UART4 and UART5 */}
+01218   \textcolor{keywordflow}{if} (USART\_IT == USART_IT_CTS)
+01219   \{
+01220     assert_param(IS\_USART\_1236\_PERIPH(USARTx));
+01221   \}
+01222 
+01223   usartxbase = (uint32\_t)USARTx;
+01224 
+01225   \textcolor{comment}{/* Get the USART register index */}
+01226   usartreg = (((uint8\_t)USART\_IT) >> 0x05);
+01227 
+01228   \textcolor{comment}{/* Get the interrupt position */}
+01229   itpos = USART\_IT & IT_MASK;
+01230   itmask = (((uint32\_t)0x01) << itpos);
+01231 
+01232   \textcolor{keywordflow}{if} (usartreg == 0x01) \textcolor{comment}{/* The IT is in CR1 register */}
+01233   \{
+01234     usartxbase += 0x0C;
+01235   \}
+01236   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (usartreg == 0x02) \textcolor{comment}{/* The IT is in CR2 register */}
+01237   \{
+01238     usartxbase += 0x10;
+01239   \}
+01240   \textcolor{keywordflow}{else} \textcolor{comment}{/* The IT is in CR3 register */}
+01241   \{
+01242     usartxbase += 0x14;
+01243   \}
+01244   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01245   \{
+01246     *(\_\_IO uint32\_t*)usartxbase  |= itmask;
+01247   \}
+01248   \textcolor{keywordflow}{else}
+01249   \{
+01250     *(\_\_IO uint32\_t*)usartxbase &= ~itmask;
+01251   \}
+01252 \}
+01253 
+01254 \textcolor{comment}{/**}
+01255 \textcolor{comment}{  * @brief  Checks whether the specified USART flag is set or not.}
+01256 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+01257 \textcolor{comment}{  *         UART peripheral.}
+01258 \textcolor{comment}{  * @param  USART\_FLAG: specifies the flag to check.}
+01259 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01260 \textcolor{comment}{  *            @arg USART\_FLAG\_CTS:  CTS Change flag (not available for UART4 and UART5)}
+01261 \textcolor{comment}{  *            @arg USART\_FLAG\_LBD:  LIN Break detection flag}
+01262 \textcolor{comment}{  *            @arg USART\_FLAG\_TXE:  Transmit data register empty flag}
+01263 \textcolor{comment}{  *            @arg USART\_FLAG\_TC:   Transmission Complete flag}
+01264 \textcolor{comment}{  *            @arg USART\_FLAG\_RXNE: Receive data register not empty flag}
+01265 \textcolor{comment}{  *            @arg USART\_FLAG\_IDLE: Idle Line detection flag}
+01266 \textcolor{comment}{  *            @arg USART\_FLAG\_ORE:  OverRun Error flag}
+01267 \textcolor{comment}{  *            @arg USART\_FLAG\_NE:   Noise Error flag}
+01268 \textcolor{comment}{  *            @arg USART\_FLAG\_FE:   Framing Error flag}
+01269 \textcolor{comment}{  *            @arg USART\_FLAG\_PE:   Parity Error flag}
+01270 \textcolor{comment}{  * @retval The new state of USART\_FLAG (SET or RESET).}
+01271 \textcolor{comment}{  */}
+01272 FlagStatus USART_GetFlagStatus(USART\_TypeDef* USARTx, uint16\_t USART\_FLAG)
+01273 \{
+01274   FlagStatus bitstatus = RESET;
+01275   \textcolor{comment}{/* Check the parameters */}
+01276   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+01277   assert_param(IS\_USART\_FLAG(USART\_FLAG));
+01278 
+01279   \textcolor{comment}{/* The CTS flag is not available for UART4 and UART5 */}
+01280   \textcolor{keywordflow}{if} (USART\_FLAG == USART_FLAG_CTS)
+01281   \{
+01282     assert_param(IS\_USART\_1236\_PERIPH(USARTx));
+01283   \}
+01284 
+01285   \textcolor{keywordflow}{if} ((USARTx->SR & USART\_FLAG) != (uint16\_t)RESET)
+01286   \{
+01287     bitstatus = SET;
+01288   \}
+01289   \textcolor{keywordflow}{else}
+01290   \{
+01291     bitstatus = RESET;
+01292   \}
+01293   \textcolor{keywordflow}{return} bitstatus;
+01294 \}
+01295 
+01296 \textcolor{comment}{/**}
+01297 \textcolor{comment}{  * @brief  Clears the USARTx's pending flags.}
+01298 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+01299 \textcolor{comment}{  *         UART peripheral.}
+01300 \textcolor{comment}{  * @param  USART\_FLAG: specifies the flag to clear.}
+01301 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+01302 \textcolor{comment}{  *            @arg USART\_FLAG\_CTS:  CTS Change flag (not available for UART4 and UART5).}
+01303 \textcolor{comment}{  *            @arg USART\_FLAG\_LBD:  LIN Break detection flag.}
+01304 \textcolor{comment}{  *            @arg USART\_FLAG\_TC:   Transmission Complete flag.}
+01305 \textcolor{comment}{  *            @arg USART\_FLAG\_RXNE: Receive data register not empty flag.}
+01306 \textcolor{comment}{  *   }
+01307 \textcolor{comment}{  * @note   PE (Parity error), FE (Framing error), NE (Noise error), ORE (OverRun }
+01308 \textcolor{comment}{  *          error) and IDLE (Idle line detected) flags are cleared by software }
+01309 \textcolor{comment}{  *          sequence: a read operation to USART\_SR register (USART\_GetFlagStatus()) }
+01310 \textcolor{comment}{  *          followed by a read operation to USART\_DR register (USART\_ReceiveData()).}
+01311 \textcolor{comment}{  * @note   RXNE flag can be also cleared by a read to the USART\_DR register }
+01312 \textcolor{comment}{  *          (USART\_ReceiveData()).}
+01313 \textcolor{comment}{  * @note   TC flag can be also cleared by software sequence: a read operation to }
+01314 \textcolor{comment}{  *          USART\_SR register (USART\_GetFlagStatus()) followed by a write operation}
+01315 \textcolor{comment}{  *          to USART\_DR register (USART\_SendData()).}
+01316 \textcolor{comment}{  * @note   TXE flag is cleared only by a write to the USART\_DR register }
+01317 \textcolor{comment}{  *          (USART\_SendData()).}
+01318 \textcolor{comment}{  *   }
+01319 \textcolor{comment}{  * @retval None}
+01320 \textcolor{comment}{  */}
+01321 \textcolor{keywordtype}{void} USART_ClearFlag(USART\_TypeDef* USARTx, uint16\_t USART\_FLAG)
+01322 \{
+01323   \textcolor{comment}{/* Check the parameters */}
+01324   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+01325   assert_param(IS\_USART\_CLEAR\_FLAG(USART\_FLAG));
+01326 
+01327   \textcolor{comment}{/* The CTS flag is not available for UART4 and UART5 */}
+01328   \textcolor{keywordflow}{if} ((USART\_FLAG & USART_FLAG_CTS) == USART_FLAG_CTS)
+01329   \{
+01330     assert_param(IS\_USART\_1236\_PERIPH(USARTx));
+01331   \}
+01332 
+01333   USARTx->SR = (uint16\_t)~USART\_FLAG;
+01334 \}
+01335 
+01336 \textcolor{comment}{/**}
+01337 \textcolor{comment}{  * @brief  Checks whether the specified USART interrupt has occurred or not.}
+01338 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+01339 \textcolor{comment}{  *         UART peripheral.}
+01340 \textcolor{comment}{  * @param  USART\_IT: specifies the USART interrupt source to check.}
+01341 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01342 \textcolor{comment}{  *            @arg USART\_IT\_CTS:  CTS change interrupt (not available for UART4 and UART5)}
+01343 \textcolor{comment}{  *            @arg USART\_IT\_LBD:  LIN Break detection interrupt}
+01344 \textcolor{comment}{  *            @arg USART\_IT\_TXE:  Transmit Data Register empty interrupt}
+01345 \textcolor{comment}{  *            @arg USART\_IT\_TC:   Transmission complete interrupt}
+01346 \textcolor{comment}{  *            @arg USART\_IT\_RXNE: Receive Data register not empty interrupt}
+01347 \textcolor{comment}{  *            @arg USART\_IT\_IDLE: Idle line detection interrupt}
+01348 \textcolor{comment}{  *            @arg USART\_IT\_ORE\_RX : OverRun Error interrupt if the RXNEIE bit is set}
+01349 \textcolor{comment}{  *            @arg USART\_IT\_ORE\_ER : OverRun Error interrupt if the EIE bit is set  }
+01350 \textcolor{comment}{  *            @arg USART\_IT\_NE:   Noise Error interrupt}
+01351 \textcolor{comment}{  *            @arg USART\_IT\_FE:   Framing Error interrupt}
+01352 \textcolor{comment}{  *            @arg USART\_IT\_PE:   Parity Error interrupt}
+01353 \textcolor{comment}{  * @retval The new state of USART\_IT (SET or RESET).}
+01354 \textcolor{comment}{  */}
+01355 ITStatus USART_GetITStatus(USART\_TypeDef* USARTx, uint16\_t USART\_IT)
+01356 \{
+01357   uint32\_t bitpos = 0x00, itmask = 0x00, usartreg = 0x00;
+01358   ITStatus bitstatus = RESET;
+01359   \textcolor{comment}{/* Check the parameters */}
+01360   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+01361   assert_param(IS\_USART\_GET\_IT(USART\_IT));
+01362 
+01363   \textcolor{comment}{/* The CTS interrupt is not available for UART4 and UART5 */}
+01364   \textcolor{keywordflow}{if} (USART\_IT == USART_IT_CTS)
+01365   \{
+01366     assert_param(IS\_USART\_1236\_PERIPH(USARTx));
+01367   \}
+01368 
+01369   \textcolor{comment}{/* Get the USART register index */}
+01370   usartreg = (((uint8\_t)USART\_IT) >> 0x05);
+01371   \textcolor{comment}{/* Get the interrupt position */}
+01372   itmask = USART\_IT & IT_MASK;
+01373   itmask = (uint32\_t)0x01 << itmask;
+01374 
+01375   \textcolor{keywordflow}{if} (usartreg == 0x01) \textcolor{comment}{/* The IT  is in CR1 register */}
+01376   \{
+01377     itmask &= USARTx->CR1;
+01378   \}
+01379   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (usartreg == 0x02) \textcolor{comment}{/* The IT  is in CR2 register */}
+01380   \{
+01381     itmask &= USARTx->CR2;
+01382   \}
+01383   \textcolor{keywordflow}{else} \textcolor{comment}{/* The IT  is in CR3 register */}
+01384   \{
+01385     itmask &= USARTx->CR3;
+01386   \}
+01387 
+01388   bitpos = USART\_IT >> 0x08;
+01389   bitpos = (uint32\_t)0x01 << bitpos;
+01390   bitpos &= USARTx->SR;
+01391   \textcolor{keywordflow}{if} ((itmask != (uint16\_t)RESET)&&(bitpos != (uint16\_t)RESET))
+01392   \{
+01393     bitstatus = SET;
+01394   \}
+01395   \textcolor{keywordflow}{else}
+01396   \{
+01397     bitstatus = RESET;
+01398   \}
+01399 
+01400   \textcolor{keywordflow}{return} bitstatus;
+01401 \}
+01402 
+01403 \textcolor{comment}{/**}
+01404 \textcolor{comment}{  * @brief  Clears the USARTx's interrupt pending bits.}
+01405 \textcolor{comment}{  * @param  USARTx: where x can be 1, 2, 3, 4, 5 or 6 to select the USART or }
+01406 \textcolor{comment}{  *         UART peripheral.}
+01407 \textcolor{comment}{  * @param  USART\_IT: specifies the interrupt pending bit to clear.}
+01408 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01409 \textcolor{comment}{  *            @arg USART\_IT\_CTS:  CTS change interrupt (not available for UART4 and UART5)}
+01410 \textcolor{comment}{  *            @arg USART\_IT\_LBD:  LIN Break detection interrupt}
+01411 \textcolor{comment}{  *            @arg USART\_IT\_TC:   Transmission complete interrupt. }
+01412 \textcolor{comment}{  *            @arg USART\_IT\_RXNE: Receive Data register not empty interrupt.}
+01413 \textcolor{comment}{  *}
+01414 \textcolor{comment}{  * @note   PE (Parity error), FE (Framing error), NE (Noise error), ORE (OverRun }
+01415 \textcolor{comment}{  *          error) and IDLE (Idle line detected) pending bits are cleared by }
+01416 \textcolor{comment}{  *          software sequence: a read operation to USART\_SR register }
+01417 \textcolor{comment}{  *          (USART\_GetITStatus()) followed by a read operation to USART\_DR register }
+01418 \textcolor{comment}{  *          (USART\_ReceiveData()).}
+01419 \textcolor{comment}{  * @note   RXNE pending bit can be also cleared by a read to the USART\_DR register }
+01420 \textcolor{comment}{  *          (USART\_ReceiveData()).}
+01421 \textcolor{comment}{  * @note   TC pending bit can be also cleared by software sequence: a read }
+01422 \textcolor{comment}{  *          operation to USART\_SR register (USART\_GetITStatus()) followed by a write }
+01423 \textcolor{comment}{  *          operation to USART\_DR register (USART\_SendData()).}
+01424 \textcolor{comment}{  * @note   TXE pending bit is cleared only by a write to the USART\_DR register }
+01425 \textcolor{comment}{  *          (USART\_SendData()).}
+01426 \textcolor{comment}{  *  }
+01427 \textcolor{comment}{  * @retval None}
+01428 \textcolor{comment}{  */}
+01429 \textcolor{keywordtype}{void} USART_ClearITPendingBit(USART\_TypeDef* USARTx, uint16\_t USART\_IT)
+01430 \{
+01431   uint16\_t bitpos = 0x00, itmask = 0x00;
+01432   \textcolor{comment}{/* Check the parameters */}
+01433   assert_param(IS\_USART\_ALL\_PERIPH(USARTx));
+01434   assert_param(IS\_USART\_CLEAR\_IT(USART\_IT));
+01435 
+01436   \textcolor{comment}{/* The CTS interrupt is not available for UART4 and UART5 */}
+01437   \textcolor{keywordflow}{if} (USART\_IT == USART_IT_CTS)
+01438   \{
+01439     assert_param(IS\_USART\_1236\_PERIPH(USARTx));
+01440   \}
+01441 
+01442   bitpos = USART\_IT >> 0x08;
+01443   itmask = ((uint16\_t)0x01 << (uint16\_t)bitpos);
+01444   USARTx->SR = (uint16\_t)~itmask;
+01445 \}
+01446 
+01447 \textcolor{comment}{/**}
+01448 \textcolor{comment}{  * @\}}
+01449 \textcolor{comment}{  */}
+01450 
+01451 \textcolor{comment}{/**}
+01452 \textcolor{comment}{  * @\}}
+01453 \textcolor{comment}{  */}
+01454 
+01455 \textcolor{comment}{/**}
+01456 \textcolor{comment}{  * @\}}
+01457 \textcolor{comment}{  */}
+01458 
+01459 \textcolor{comment}{/**}
+01460 \textcolor{comment}{  * @\}}
+01461 \textcolor{comment}{  */}
+01462 
+01463 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

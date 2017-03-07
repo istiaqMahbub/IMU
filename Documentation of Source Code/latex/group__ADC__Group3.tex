@@ -1,0 +1,137 @@
+\section{Temperature Sensor, Vrefint (Voltage Reference internal)}
+\label{group__ADC__Group3}\index{Temperature Sensor, Vrefint (\+Voltage Reference internal)@{Temperature Sensor, Vrefint (\+Voltage Reference internal)}}
+
+
+Temperature Sensor, Vrefint and V\+B\+AT management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ A\+D\+C\+\_\+\+Temp\+Sensor\+Vrefint\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the temperature sensor and Vrefint channels. \end{DoxyCompactList}\item 
+void \textbf{ A\+D\+C\+\_\+\+V\+B\+A\+T\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the V\+B\+AT (Voltage Battery) channel. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Temperature Sensor, Vrefint and V\+B\+AT management functions. 
+
+and V\+B\+AT (Voltage B\+A\+Ttery) management functions \begin{DoxyVerb} ===============================================================================
+               Temperature Sensor, Vrefint and VBAT management functions
+ ===============================================================================  
+
+  This section provides functions allowing to enable/ disable the internal 
+  connections between the ADC and the Temperature Sensor, the Vrefint and the
+  Vbat sources.
+     
+  A typical configuration to get the Temperature sensor and Vrefint channels 
+  voltages is done following these steps :
+   1. Enable the internal connection of Temperature sensor and Vrefint sources 
+      with the ADC channels using ADC_TempSensorVrefintCmd() function. 
+   2. Select the ADC_Channel_TempSensor and/or ADC_Channel_Vrefint using 
+      ADC_RegularChannelConfig() or  ADC_InjectedChannelConfig() functions 
+   3. Get the voltage values, using ADC_GetConversionValue() or  
+      ADC_GetInjectedConversionValue().
+
+  A typical configuration to get the VBAT channel voltage is done following 
+  these steps :
+   1. Enable the internal connection of VBAT source with the ADC channel using 
+      ADC_VBATCmd() function. 
+   2. Select the ADC_Channel_Vbat using ADC_RegularChannelConfig() or  
+      ADC_InjectedChannelConfig() functions 
+   3. Get the voltage value, using ADC_GetConversionValue() or  
+      ADC_GetInjectedConversionValue().\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__ADC__Group3_ga848682e2d7d3de9f8cf03ffa4c11f0b5}} 
+\index{Temperature Sensor, Vrefint (\+Voltage Reference internal)@{Temperature Sensor, Vrefint (\+Voltage Reference internal)}!A\+D\+C\+\_\+\+Temp\+Sensor\+Vrefint\+Cmd@{A\+D\+C\+\_\+\+Temp\+Sensor\+Vrefint\+Cmd}}
+\index{A\+D\+C\+\_\+\+Temp\+Sensor\+Vrefint\+Cmd@{A\+D\+C\+\_\+\+Temp\+Sensor\+Vrefint\+Cmd}!Temperature Sensor, Vrefint (\+Voltage Reference internal)@{Temperature Sensor, Vrefint (\+Voltage Reference internal)}}
+\subsubsection{A\+D\+C\+\_\+\+Temp\+Sensor\+Vrefint\+Cmd()}
+{\footnotesize\ttfamily void A\+D\+C\+\_\+\+Temp\+Sensor\+Vrefint\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the temperature sensor and Vrefint channels. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the temperature sensor and Vrefint channels. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 585} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00586 \{
+00587   \textcolor{comment}{/* Check the parameters */}
+00588   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00589   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00590   \{
+00591     \textcolor{comment}{/* Enable the temperature sensor and Vrefint channel*/}
+00592     ADC->CCR |= (uint32\_t)ADC_CCR_TSVREFE;
+00593   \}
+00594   \textcolor{keywordflow}{else}
+00595   \{
+00596     \textcolor{comment}{/* Disable the temperature sensor and Vrefint channel*/}
+00597     ADC->CCR &= (uint32\_t)(~ADC_CCR_TSVREFE);
+00598   \}
+00599 \}
+\end{DoxyCode}
+\mbox{\label{group__ADC__Group3_ga17fc58510ddc80024e65d9738ad6e98c}} 
+\index{Temperature Sensor, Vrefint (\+Voltage Reference internal)@{Temperature Sensor, Vrefint (\+Voltage Reference internal)}!A\+D\+C\+\_\+\+V\+B\+A\+T\+Cmd@{A\+D\+C\+\_\+\+V\+B\+A\+T\+Cmd}}
+\index{A\+D\+C\+\_\+\+V\+B\+A\+T\+Cmd@{A\+D\+C\+\_\+\+V\+B\+A\+T\+Cmd}!Temperature Sensor, Vrefint (\+Voltage Reference internal)@{Temperature Sensor, Vrefint (\+Voltage Reference internal)}}
+\subsubsection{A\+D\+C\+\_\+\+V\+B\+A\+T\+Cmd()}
+{\footnotesize\ttfamily void A\+D\+C\+\_\+\+V\+B\+A\+T\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the V\+B\+AT (Voltage Battery) channel. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the V\+B\+AT channel. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 607} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00608 \{
+00609   \textcolor{comment}{/* Check the parameters */}
+00610   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00611   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00612   \{
+00613     \textcolor{comment}{/* Enable the VBAT channel*/}
+00614     ADC->CCR |= (uint32\_t)ADC_CCR_VBATE;
+00615   \}
+00616   \textcolor{keywordflow}{else}
+00617   \{
+00618     \textcolor{comment}{/* Disable the VBAT channel*/}
+00619     ADC->CCR &= (uint32\_t)(~ADC_CCR_VBATE);
+00620   \}
+00621 \}
+\end{DoxyCode}

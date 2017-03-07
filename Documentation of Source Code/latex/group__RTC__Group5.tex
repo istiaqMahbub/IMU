@@ -1,0 +1,112 @@
+\section{Daylight Saving configuration functions}
+\label{group__RTC__Group5}\index{Daylight Saving configuration functions@{Daylight Saving configuration functions}}
+
+
+Daylight Saving configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ R\+T\+C\+\_\+\+Day\+Light\+Saving\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Day\+Light\+Saving, uint32\+\_\+t R\+T\+C\+\_\+\+Store\+Operation)
+\begin{DoxyCompactList}\small\item\em Adds or substract one hour from the current time. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ R\+T\+C\+\_\+\+Get\+Store\+Operation} (void)
+\begin{DoxyCompactList}\small\item\em Returns the R\+TC Day Light Saving stored operation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Daylight Saving configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                    Daylight Saving configuration functions
+ ===============================================================================  
+
+  This section provide functions allowing to configure the RTC DayLight Saving.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__RTC__Group5_ga812feddea77990b5dc336a4989ae61b8}} 
+\index{Daylight Saving configuration functions@{Daylight Saving configuration functions}!R\+T\+C\+\_\+\+Day\+Light\+Saving\+Config@{R\+T\+C\+\_\+\+Day\+Light\+Saving\+Config}}
+\index{R\+T\+C\+\_\+\+Day\+Light\+Saving\+Config@{R\+T\+C\+\_\+\+Day\+Light\+Saving\+Config}!Daylight Saving configuration functions@{Daylight Saving configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Day\+Light\+Saving\+Config()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Day\+Light\+Saving\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Day\+Light\+Saving,  }\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Store\+Operation }\end{DoxyParamCaption})}
+
+
+
+Adds or substract one hour from the current time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Day\+Light\+Save\+Operation} & the value of hour adjustment. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Day\+Light\+Saving\+\_\+\+S\+U\+B1H\+: Substract one hour (winter time) \item R\+T\+C\+\_\+\+Day\+Light\+Saving\+\_\+\+A\+D\+D1H\+: Add one hour (summer time) \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Store\+Operation} & Specifies the value to be written in the B\+CK bit in CR register to store the operation. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Store\+Operation\+\_\+\+Reset\+: B\+CK Bit Reset \item R\+T\+C\+\_\+\+Store\+Operation\+\_\+\+Set\+: B\+CK Bit Set \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1604} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+01605 \{
+01606   \textcolor{comment}{/* Check the parameters */}
+01607   assert_param(IS_RTC_DAYLIGHT_SAVING(RTC\_DayLightSaving));
+01608   assert_param(IS_RTC_STORE_OPERATION(RTC\_StoreOperation));
+01609 
+01610   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01611   RTC->WPR = 0xCA;
+01612   RTC->WPR = 0x53;
+01613 
+01614   \textcolor{comment}{/* Clear the bits to be configured */}
+01615   RTC->CR &= (uint32\_t)~(RTC_CR_BCK);
+01616 
+01617   \textcolor{comment}{/* Configure the RTC\_CR register */}
+01618   RTC->CR |= (uint32\_t)(RTC\_DayLightSaving | RTC\_StoreOperation);
+01619 
+01620   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01621   RTC->WPR = 0xFF; 
+01622 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group5_gaba0c1361790203e9dca43846f0d9bc15}} 
+\index{Daylight Saving configuration functions@{Daylight Saving configuration functions}!R\+T\+C\+\_\+\+Get\+Store\+Operation@{R\+T\+C\+\_\+\+Get\+Store\+Operation}}
+\index{R\+T\+C\+\_\+\+Get\+Store\+Operation@{R\+T\+C\+\_\+\+Get\+Store\+Operation}!Daylight Saving configuration functions@{Daylight Saving configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Get\+Store\+Operation()}
+{\footnotesize\ttfamily uint32\+\_\+t R\+T\+C\+\_\+\+Get\+Store\+Operation (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns the R\+TC Day Light Saving stored operation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em R\+TC} & Day Light Saving stored operation.
+\begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Store\+Operation\+\_\+\+Reset
+\item R\+T\+C\+\_\+\+Store\+Operation\+\_\+\+Set 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1631} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+01632 \{
+01633   \textcolor{keywordflow}{return} (RTC->CR & RTC_CR_BCK);
+01634 \}
+\end{DoxyCode}

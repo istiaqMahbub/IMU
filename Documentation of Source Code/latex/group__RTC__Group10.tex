@@ -1,0 +1,105 @@
+\section{Backup Data Registers configuration functions}
+\label{group__RTC__Group10}\index{Backup Data Registers configuration functions@{Backup Data Registers configuration functions}}
+
+
+Backup Data Registers configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ R\+T\+C\+\_\+\+Write\+Backup\+Register} (uint32\+\_\+t R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+DR, uint32\+\_\+t Data)
+\begin{DoxyCompactList}\small\item\em Writes a data in a specified R\+TC Backup data register. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ R\+T\+C\+\_\+\+Read\+Backup\+Register} (uint32\+\_\+t R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+DR)
+\begin{DoxyCompactList}\small\item\em Reads data from the specified R\+TC Backup data Register. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Backup Data Registers configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                       Backup Data Registers configuration functions 
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__RTC__Group10_ga504489fd91a66e392beb82bb8230b37f}} 
+\index{Backup Data Registers configuration functions@{Backup Data Registers configuration functions}!R\+T\+C\+\_\+\+Read\+Backup\+Register@{R\+T\+C\+\_\+\+Read\+Backup\+Register}}
+\index{R\+T\+C\+\_\+\+Read\+Backup\+Register@{R\+T\+C\+\_\+\+Read\+Backup\+Register}!Backup Data Registers configuration functions@{Backup Data Registers configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Read\+Backup\+Register()}
+{\footnotesize\ttfamily uint32\+\_\+t R\+T\+C\+\_\+\+Read\+Backup\+Register (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+DR }\end{DoxyParamCaption})}
+
+
+
+Reads data from the specified R\+TC Backup data Register. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+DR} & R\+TC Backup data Register number. This parameter can be\+: R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+Rx where x can be from 0 to 19 to specify the register. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2297} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02298 \{
+02299   \_\_IO uint32\_t tmp = 0;
+02300   
+02301   \textcolor{comment}{/* Check the parameters */}
+02302   assert_param(IS_RTC_BKP(RTC\_BKP\_DR));
+02303 
+02304   tmp = RTC_BASE + 0x50;
+02305   tmp += (RTC\_BKP\_DR * 4);
+02306   
+02307   \textcolor{comment}{/* Read the specified register */}
+02308   \textcolor{keywordflow}{return} (*(\_\_IO uint32\_t *)tmp);
+02309 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group10_gaa1241e2b47d04acc116b50d7b031c3aa}} 
+\index{Backup Data Registers configuration functions@{Backup Data Registers configuration functions}!R\+T\+C\+\_\+\+Write\+Backup\+Register@{R\+T\+C\+\_\+\+Write\+Backup\+Register}}
+\index{R\+T\+C\+\_\+\+Write\+Backup\+Register@{R\+T\+C\+\_\+\+Write\+Backup\+Register}!Backup Data Registers configuration functions@{Backup Data Registers configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Write\+Backup\+Register()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Write\+Backup\+Register (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+DR,  }\item[{uint32\+\_\+t}]{Data }\end{DoxyParamCaption})}
+
+
+
+Writes a data in a specified R\+TC Backup data register. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+DR} & R\+TC Backup data Register number. This parameter can be\+: R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+Rx where x can be from 0 to 19 to specify the register. \\
+\hline
+{\em Data} & Data to be written in the specified R\+TC Backup data register. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2276} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02277 \{
+02278   \_\_IO uint32\_t tmp = 0;
+02279   
+02280   \textcolor{comment}{/* Check the parameters */}
+02281   assert_param(IS_RTC_BKP(RTC\_BKP\_DR));
+02282 
+02283   tmp = RTC_BASE + 0x50;
+02284   tmp += (RTC\_BKP\_DR * 4);
+02285 
+02286   \textcolor{comment}{/* Write the specified register */}
+02287   *(\_\_IO uint32\_t *)tmp = (uint32\_t)Data;
+02288 \}
+\end{DoxyCode}

@@ -1,0 +1,310 @@
+\section{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Peripheral/src/uart.c File Reference}
+\label{uart_8c}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Peripheral/src/uart.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Peripheral/src/uart.\+c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}uart.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+usart.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+gpio.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}misc.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+exti.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+rcc.\+h\char`\"{}}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ U\+S\+A\+R\+Tx}~\textbf{ U\+S\+A\+R\+T1}
+\item 
+\#define \textbf{ U\+S\+A\+R\+Tx\+\_\+\+C\+LK}~\textbf{ R\+C\+C\+\_\+\+A\+P\+B2\+Periph\+\_\+\+U\+S\+A\+R\+T1}
+\item 
+\#define \textbf{ U\+S\+A\+R\+Tx\+\_\+\+C\+L\+K\+\_\+\+I\+N\+IT}~\textbf{ R\+C\+C\+\_\+\+A\+P\+B2\+Periph\+Clock\+Cmd}
+\item 
+\#define \textbf{ U\+S\+A\+R\+Tx\+\_\+\+I\+R\+Qn}~\textbf{ U\+S\+A\+R\+T1\+\_\+\+I\+R\+Qn}
+\item 
+\#define \textbf{ U\+S\+A\+R\+Tx\+\_\+\+I\+R\+Q\+Handler}~U\+S\+A\+R\+T1\+\_\+\+I\+R\+Q\+Handler
+\item 
+\#define \textbf{ U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+P\+IN}~\textbf{ G\+P\+I\+O\+\_\+\+Pin\+\_\+9}
+\item 
+\#define \textbf{ U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT}~\textbf{ G\+P\+I\+OA}
+\item 
+\#define \textbf{ U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK}~\textbf{ R\+C\+C\+\_\+\+A\+H\+B1\+Periph\+\_\+\+G\+P\+I\+OA}
+\item 
+\#define \textbf{ U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+S\+O\+U\+R\+CE}~\textbf{ G\+P\+I\+O\+\_\+\+Pin\+Source9}
+\item 
+\#define \textbf{ U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+AF}~\textbf{ G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+U\+S\+A\+R\+T1}
+\item 
+\#define \textbf{ U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+P\+IN}~\textbf{ G\+P\+I\+O\+\_\+\+Pin\+\_\+10}
+\item 
+\#define \textbf{ U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT}~\textbf{ G\+P\+I\+OA}
+\item 
+\#define \textbf{ U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK}~\textbf{ R\+C\+C\+\_\+\+A\+H\+B1\+Periph\+\_\+\+G\+P\+I\+OA}
+\item 
+\#define \textbf{ U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+S\+O\+U\+R\+CE}~\textbf{ G\+P\+I\+O\+\_\+\+Pin\+Source10}
+\item 
+\#define \textbf{ U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+AF}~\textbf{ G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+U\+S\+A\+R\+T1}
+\item 
+\#define \textbf{ U\+S\+A\+R\+Tx\+\_\+\+D\+M\+Ax\+\_\+\+C\+LK}~R\+C\+C\+\_\+\+A\+H\+B\+Periph\+\_\+\+D\+M\+A1
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Config} (void)
+\item 
+int \textbf{ \+\_\+fputc} (int ch)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\label{uart_8c_aea29ff83910db519b6c575b4e5a1db98}} 
+\index{uart.\+c@{uart.\+c}!U\+S\+A\+R\+Tx@{U\+S\+A\+R\+Tx}}
+\index{U\+S\+A\+R\+Tx@{U\+S\+A\+R\+Tx}!uart.\+c@{uart.\+c}}
+\subsubsection{U\+S\+A\+R\+Tx}
+{\footnotesize\ttfamily \#define U\+S\+A\+R\+Tx~\textbf{ U\+S\+A\+R\+T1}}
+
+$\ast$$\ast$$\ast$$\ast$$\ast$$\ast$$\ast$$\ast$$\ast$$\ast$$\ast$$\ast$ Pin Defination of U\+S\+A\+R\+T1 
+
+Definition at line \textbf{ 37} of file \textbf{ uart.\+c}.
+
+\mbox{\label{uart_8c_a6e158a59c1028938cabdda084cbc7fbe}} 
+\index{uart.\+c@{uart.\+c}!U\+S\+A\+R\+Tx\+\_\+\+C\+LK@{U\+S\+A\+R\+Tx\+\_\+\+C\+LK}}
+\index{U\+S\+A\+R\+Tx\+\_\+\+C\+LK@{U\+S\+A\+R\+Tx\+\_\+\+C\+LK}!uart.\+c@{uart.\+c}}
+\subsubsection{U\+S\+A\+R\+Tx\+\_\+\+C\+LK}
+{\footnotesize\ttfamily \#define U\+S\+A\+R\+Tx\+\_\+\+C\+LK~\textbf{ R\+C\+C\+\_\+\+A\+P\+B2\+Periph\+\_\+\+U\+S\+A\+R\+T1}}
+
+
+
+Definition at line \textbf{ 38} of file \textbf{ uart.\+c}.
+
+\mbox{\label{uart_8c_a11f537ea0a554e2e30da6163b432edde}} 
+\index{uart.\+c@{uart.\+c}!U\+S\+A\+R\+Tx\+\_\+\+C\+L\+K\+\_\+\+I\+N\+IT@{U\+S\+A\+R\+Tx\+\_\+\+C\+L\+K\+\_\+\+I\+N\+IT}}
+\index{U\+S\+A\+R\+Tx\+\_\+\+C\+L\+K\+\_\+\+I\+N\+IT@{U\+S\+A\+R\+Tx\+\_\+\+C\+L\+K\+\_\+\+I\+N\+IT}!uart.\+c@{uart.\+c}}
+\subsubsection{U\+S\+A\+R\+Tx\+\_\+\+C\+L\+K\+\_\+\+I\+N\+IT}
+{\footnotesize\ttfamily \#define U\+S\+A\+R\+Tx\+\_\+\+C\+L\+K\+\_\+\+I\+N\+IT~\textbf{ R\+C\+C\+\_\+\+A\+P\+B2\+Periph\+Clock\+Cmd}}
+
+
+
+Definition at line \textbf{ 39} of file \textbf{ uart.\+c}.
+
+\mbox{\label{uart_8c_a08d8f92ddbe4e45d1980e1cc637625b7}} 
+\index{uart.\+c@{uart.\+c}!U\+S\+A\+R\+Tx\+\_\+\+D\+M\+Ax\+\_\+\+C\+LK@{U\+S\+A\+R\+Tx\+\_\+\+D\+M\+Ax\+\_\+\+C\+LK}}
+\index{U\+S\+A\+R\+Tx\+\_\+\+D\+M\+Ax\+\_\+\+C\+LK@{U\+S\+A\+R\+Tx\+\_\+\+D\+M\+Ax\+\_\+\+C\+LK}!uart.\+c@{uart.\+c}}
+\subsubsection{U\+S\+A\+R\+Tx\+\_\+\+D\+M\+Ax\+\_\+\+C\+LK}
+{\footnotesize\ttfamily \#define U\+S\+A\+R\+Tx\+\_\+\+D\+M\+Ax\+\_\+\+C\+LK~R\+C\+C\+\_\+\+A\+H\+B\+Periph\+\_\+\+D\+M\+A1}
+
+
+
+Definition at line \textbf{ 55} of file \textbf{ uart.\+c}.
+
+\mbox{\label{uart_8c_aac749637aecbd21c73e54b4e299bbe25}} 
+\index{uart.\+c@{uart.\+c}!U\+S\+A\+R\+Tx\+\_\+\+I\+R\+Q\+Handler@{U\+S\+A\+R\+Tx\+\_\+\+I\+R\+Q\+Handler}}
+\index{U\+S\+A\+R\+Tx\+\_\+\+I\+R\+Q\+Handler@{U\+S\+A\+R\+Tx\+\_\+\+I\+R\+Q\+Handler}!uart.\+c@{uart.\+c}}
+\subsubsection{U\+S\+A\+R\+Tx\+\_\+\+I\+R\+Q\+Handler}
+{\footnotesize\ttfamily \#define U\+S\+A\+R\+Tx\+\_\+\+I\+R\+Q\+Handler~U\+S\+A\+R\+T1\+\_\+\+I\+R\+Q\+Handler}
+
+
+
+Definition at line \textbf{ 41} of file \textbf{ uart.\+c}.
+
+\mbox{\label{uart_8c_a7c63afa5d65e4b8bfdbd43b68c491428}} 
+\index{uart.\+c@{uart.\+c}!U\+S\+A\+R\+Tx\+\_\+\+I\+R\+Qn@{U\+S\+A\+R\+Tx\+\_\+\+I\+R\+Qn}}
+\index{U\+S\+A\+R\+Tx\+\_\+\+I\+R\+Qn@{U\+S\+A\+R\+Tx\+\_\+\+I\+R\+Qn}!uart.\+c@{uart.\+c}}
+\subsubsection{U\+S\+A\+R\+Tx\+\_\+\+I\+R\+Qn}
+{\footnotesize\ttfamily \#define U\+S\+A\+R\+Tx\+\_\+\+I\+R\+Qn~\textbf{ U\+S\+A\+R\+T1\+\_\+\+I\+R\+Qn}}
+
+
+
+Definition at line \textbf{ 40} of file \textbf{ uart.\+c}.
+
+\mbox{\label{uart_8c_a8fe8e9b6f5881d7315bc580138ad1258}} 
+\index{uart.\+c@{uart.\+c}!U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+AF@{U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+AF}}
+\index{U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+AF@{U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+AF}!uart.\+c@{uart.\+c}}
+\subsubsection{U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+AF}
+{\footnotesize\ttfamily \#define U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+AF~\textbf{ G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+U\+S\+A\+R\+T1}}
+
+
+
+Definition at line \textbf{ 53} of file \textbf{ uart.\+c}.
+
+\mbox{\label{uart_8c_a4f980bd80901a7012f047757bd963df2}} 
+\index{uart.\+c@{uart.\+c}!U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK@{U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK}}
+\index{U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK@{U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK}!uart.\+c@{uart.\+c}}
+\subsubsection{U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK}
+{\footnotesize\ttfamily \#define U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK~\textbf{ R\+C\+C\+\_\+\+A\+H\+B1\+Periph\+\_\+\+G\+P\+I\+OA}}
+
+
+
+Definition at line \textbf{ 51} of file \textbf{ uart.\+c}.
+
+\mbox{\label{uart_8c_a1b5a54c22247b06ceefe42b9a2d5d174}} 
+\index{uart.\+c@{uart.\+c}!U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT@{U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT}}
+\index{U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT@{U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT}!uart.\+c@{uart.\+c}}
+\subsubsection{U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT}
+{\footnotesize\ttfamily \#define U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT~\textbf{ G\+P\+I\+OA}}
+
+
+
+Definition at line \textbf{ 50} of file \textbf{ uart.\+c}.
+
+\mbox{\label{uart_8c_aee941cfa9fadea92162c4915ee7f3a85}} 
+\index{uart.\+c@{uart.\+c}!U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+P\+IN@{U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+P\+IN}}
+\index{U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+P\+IN@{U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+P\+IN}!uart.\+c@{uart.\+c}}
+\subsubsection{U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+P\+IN}
+{\footnotesize\ttfamily \#define U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+P\+IN~\textbf{ G\+P\+I\+O\+\_\+\+Pin\+\_\+10}}
+
+
+
+Definition at line \textbf{ 49} of file \textbf{ uart.\+c}.
+
+\mbox{\label{uart_8c_a7305714ab6c0bc6f40fbe4f4b712c3f4}} 
+\index{uart.\+c@{uart.\+c}!U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+S\+O\+U\+R\+CE@{U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+S\+O\+U\+R\+CE}}
+\index{U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+S\+O\+U\+R\+CE@{U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+S\+O\+U\+R\+CE}!uart.\+c@{uart.\+c}}
+\subsubsection{U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+S\+O\+U\+R\+CE}
+{\footnotesize\ttfamily \#define U\+S\+A\+R\+Tx\+\_\+\+R\+X\+\_\+\+S\+O\+U\+R\+CE~\textbf{ G\+P\+I\+O\+\_\+\+Pin\+Source10}}
+
+
+
+Definition at line \textbf{ 52} of file \textbf{ uart.\+c}.
+
+\mbox{\label{uart_8c_ae4ff7d3e3f08756784e13d0d9d44eb11}} 
+\index{uart.\+c@{uart.\+c}!U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+AF@{U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+AF}}
+\index{U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+AF@{U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+AF}!uart.\+c@{uart.\+c}}
+\subsubsection{U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+AF}
+{\footnotesize\ttfamily \#define U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+AF~\textbf{ G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+U\+S\+A\+R\+T1}}
+
+
+
+Definition at line \textbf{ 47} of file \textbf{ uart.\+c}.
+
+\mbox{\label{uart_8c_a685995d81f984784f8f8ab017a5028fd}} 
+\index{uart.\+c@{uart.\+c}!U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK@{U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK}}
+\index{U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK@{U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK}!uart.\+c@{uart.\+c}}
+\subsubsection{U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK}
+{\footnotesize\ttfamily \#define U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK~\textbf{ R\+C\+C\+\_\+\+A\+H\+B1\+Periph\+\_\+\+G\+P\+I\+OA}}
+
+
+
+Definition at line \textbf{ 45} of file \textbf{ uart.\+c}.
+
+\mbox{\label{uart_8c_a634496204b64d0d9fd4d4e7b7be20842}} 
+\index{uart.\+c@{uart.\+c}!U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT@{U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT}}
+\index{U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT@{U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT}!uart.\+c@{uart.\+c}}
+\subsubsection{U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT}
+{\footnotesize\ttfamily \#define U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT~\textbf{ G\+P\+I\+OA}}
+
+
+
+Definition at line \textbf{ 44} of file \textbf{ uart.\+c}.
+
+\mbox{\label{uart_8c_a7597a102c72383ee6a40a5eb5e2f4ef1}} 
+\index{uart.\+c@{uart.\+c}!U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+P\+IN@{U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+P\+IN}}
+\index{U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+P\+IN@{U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+P\+IN}!uart.\+c@{uart.\+c}}
+\subsubsection{U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+P\+IN}
+{\footnotesize\ttfamily \#define U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+P\+IN~\textbf{ G\+P\+I\+O\+\_\+\+Pin\+\_\+9}}
+
+
+
+Definition at line \textbf{ 43} of file \textbf{ uart.\+c}.
+
+\mbox{\label{uart_8c_a0d30a30292c306a666a9d4342197dfc0}} 
+\index{uart.\+c@{uart.\+c}!U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+S\+O\+U\+R\+CE@{U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+S\+O\+U\+R\+CE}}
+\index{U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+S\+O\+U\+R\+CE@{U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+S\+O\+U\+R\+CE}!uart.\+c@{uart.\+c}}
+\subsubsection{U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+S\+O\+U\+R\+CE}
+{\footnotesize\ttfamily \#define U\+S\+A\+R\+Tx\+\_\+\+T\+X\+\_\+\+S\+O\+U\+R\+CE~\textbf{ G\+P\+I\+O\+\_\+\+Pin\+Source9}}
+
+
+
+Definition at line \textbf{ 46} of file \textbf{ uart.\+c}.
+
+
+
+\subsection{Function Documentation}
+\mbox{\label{uart_8c_a7aa3de78846f1479812044ae59014146}} 
+\index{uart.\+c@{uart.\+c}!\+\_\+fputc@{\+\_\+fputc}}
+\index{\+\_\+fputc@{\+\_\+fputc}!uart.\+c@{uart.\+c}}
+\subsubsection{\+\_\+fputc()}
+{\footnotesize\ttfamily int \+\_\+fputc (\begin{DoxyParamCaption}\item[{int}]{ch }\end{DoxyParamCaption})}
+
+
+
+Definition at line \textbf{ 106} of file \textbf{ uart.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Get\+Flag\+Status()}, and \textbf{ U\+S\+A\+R\+T\+\_\+\+Send\+Data()}.
+
+
+\begin{DoxyCode}
+00107 \{
+00108   \textcolor{comment}{//* Place your implementation of fputc here }
+00109   \textcolor{comment}{//* e.g. write a character to the USART }
+00110   USART_SendData(USARTx, (uint8\_t) ch);
+00111 
+00112   \textcolor{comment}{//* Loop until the end of transmission }
+00113   \textcolor{keywordflow}{while} (USART_GetFlagStatus(USARTx, USART_FLAG_TC) == RESET)
+00114   \{\}
+00115 
+00116   \textcolor{keywordflow}{return} ch;
+00117 \}
+\end{DoxyCode}
+\mbox{\label{uart_8c_ae9720bf2dbb461c28e0205b050f1a0bb}} 
+\index{uart.\+c@{uart.\+c}!U\+S\+A\+R\+T\+\_\+\+Config@{U\+S\+A\+R\+T\+\_\+\+Config}}
+\index{U\+S\+A\+R\+T\+\_\+\+Config@{U\+S\+A\+R\+T\+\_\+\+Config}!uart.\+c@{uart.\+c}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+Config()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+Config (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \textbf{ 61} of file \textbf{ uart.\+c}.
+
+
+
+References \textbf{ E\+N\+A\+B\+LE}, \textbf{ G\+P\+I\+O\+\_\+\+Init()}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Mode}, \textbf{ G\+P\+I\+O\+\_\+\+Mode\+\_\+\+AF}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+O\+Type}, \textbf{ G\+P\+I\+O\+\_\+\+O\+Type\+\_\+\+PP}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Pin}, \textbf{ G\+P\+I\+O\+\_\+\+Pin\+A\+F\+Config()}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Pu\+Pd}, \textbf{ G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+N\+O\+P\+U\+LL}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Speed}, \textbf{ G\+P\+I\+O\+\_\+\+Speed\+\_\+50\+M\+Hz}, \textbf{ R\+C\+C\+\_\+\+A\+H\+B1\+Periph\+Clock\+Cmd()}, \textbf{ R\+C\+C\+\_\+\+A\+P\+B2\+Periph\+Clock\+Cmd()}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+Baud\+Rate}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Cmd()}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+Hardware\+Flow\+Control}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Init()}, \textbf{ U\+S\+A\+R\+T\+\_\+\+I\+T\+Config()}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+Mode}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+Parity}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+Stop\+Bits}, and \textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def\+::\+U\+S\+A\+R\+T\+\_\+\+Word\+Length}.
+
+
+
+Referenced by \textbf{ board\+\_\+init()}.
+
+
+\begin{DoxyCode}
+00062 \{
+00063   USART_InitTypeDef USART\_InitStructure;
+00064   GPIO_InitTypeDef GPIO\_InitStructure;
+00065 
+00066   \textcolor{comment}{/* Peripheral Clock Enable -------------------------------------------------*/}
+00067   \textcolor{comment}{/* Enable GPIO clock */}
+00068   RCC_AHB1PeriphClockCmd(USARTx_TX_GPIO_CLK | USARTx_RX_GPIO_CLK, ENABLE);
+00069   
+00070   \textcolor{comment}{/* Enable USART clock */}
+00071   USARTx_CLK_INIT(USARTx_CLK, ENABLE);
+00072   
+00073   \textcolor{comment}{/* USARTx GPIO configuration -----------------------------------------------*/} 
+00074   \textcolor{comment}{/* Connect USART pins to AF7 */}
+00075   GPIO_PinAFConfig(USARTx_TX_GPIO_PORT, USARTx_TX_SOURCE, USARTx_TX_AF);
+00076   GPIO_PinAFConfig(USARTx_RX_GPIO_PORT, USARTx_RX_SOURCE, USARTx_RX_AF);
+00077   
+00078   \textcolor{comment}{/* Configure USART Tx and Rx as alternate function push-pull */}
+00079   GPIO\_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+00080   GPIO\_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+00081   GPIO\_InitStructure.GPIO_OType = GPIO_OType_PP;
+00082   GPIO\_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+00083   
+00084   GPIO\_InitStructure.GPIO_Pin = USARTx_TX_PIN | USARTx_RX_PIN;
+00085   GPIO_Init(GPIOA, &GPIO\_InitStructure);
+00086   
+00087   \textcolor{comment}{//GPIO\_InitStructure.GPIO\_Pin = USARTx\_TX\_PIN;}
+00088   \textcolor{comment}{//GPIO\_Init(USARTx\_TX\_GPIO\_PORT, &GPIO\_InitStructure);}
+00089   \textcolor{comment}{//GPIO\_InitStructure.GPIO\_Pin = USARTx\_RX\_PIN;}
+00090   \textcolor{comment}{//GPIO\_Init(USARTx\_RX\_GPIO\_PORT, &GPIO\_InitStructure);}
+00091  
+00092   USART\_InitStructure.USART_BaudRate =  115200;\textcolor{comment}{//115200;460800;}
+00093   USART\_InitStructure.USART_WordLength = USART_WordLength_8b;
+00094   USART\_InitStructure.USART_StopBits = USART_StopBits_1;
+00095   \textcolor{comment}{/* When using Parity the word length must be configured to 9 bits */}
+00096   USART\_InitStructure.USART_Parity = USART_Parity_No;
+00097   USART\_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+00098   USART\_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+00099   USART_Init(USARTx, &USART\_InitStructure);
+00100   USART_ITConfig(USARTx, USART_IT_RXNE, ENABLE);
+00101 
+00102   \textcolor{comment}{/* Enable USART */}
+00103   USART_Cmd(USARTx, ENABLE);
+00104 \}
+\end{DoxyCode}

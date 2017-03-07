@@ -1,0 +1,646 @@
+\section{Interrupts and flags management functions}
+\label{group__CAN__Group6}\index{Interrupts and flags management functions@{Interrupts and flags management functions}}
+
+
+Interrupts and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ C\+A\+N\+\_\+\+I\+T\+Config} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint32\+\_\+t C\+A\+N\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified C\+A\+Nx interrupts. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ C\+A\+N\+\_\+\+Get\+Flag\+Status} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint32\+\_\+t C\+A\+N\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified C\+AN flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ C\+A\+N\+\_\+\+Clear\+Flag} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint32\+\_\+t C\+A\+N\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the C\+AN\textquotesingle{}s pending flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ C\+A\+N\+\_\+\+Get\+I\+T\+Status} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint32\+\_\+t C\+A\+N\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified C\+A\+Nx interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ C\+A\+N\+\_\+\+Clear\+I\+T\+Pending\+Bit} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint32\+\_\+t C\+A\+N\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the C\+A\+Nx\textquotesingle{}s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts and flags management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                   Interrupts and flags management functions
+ ===============================================================================  
+
+  This section provides functions allowing to configure the CAN Interrupts and 
+  to get the status and clear flags and Interrupts pending bits.
+  
+  The CAN provides 14 Interrupts sources and 15 Flags:
+
+  ===============  
+      Flags :
+  ===============
+  The 15 flags can be divided on 4 groups: 
+
+   A. Transmit Flags
+  -----------------------
+        CAN_FLAG_RQCP0, 
+        CAN_FLAG_RQCP1, 
+        CAN_FLAG_RQCP2  : Request completed MailBoxes 0, 1 and 2  Flags
+                          Set when when the last request (transmit or abort) has 
+                          been performed. 
+
+  B. Receive Flags
+  -----------------------
+
+        CAN_FLAG_FMP0,
+        CAN_FLAG_FMP1   : FIFO 0 and 1 Message Pending Flags 
+                          set to signal that messages are pending in the receive 
+                          FIFO.
+                          These Flags are cleared only by hardware. 
+
+        CAN_FLAG_FF0,
+        CAN_FLAG_FF1    : FIFO 0 and 1 Full Flags
+                          set when three messages are stored in the selected 
+                          FIFO.                        
+
+        CAN_FLAG_FOV0              
+        CAN_FLAG_FOV1   : FIFO 0 and 1 Overrun Flags
+                          set when a new message has been received and passed 
+                          the filter while the FIFO was full.         
+
+  C. Operating Mode Flags
+  ----------------------- 
+        CAN_FLAG_WKU    : Wake up Flag
+                          set to signal that a SOF bit has been detected while 
+                          the CAN hardware was in Sleep mode. 
+        
+        CAN_FLAG_SLAK   : Sleep acknowledge Flag
+                          Set to signal that the CAN has entered Sleep Mode. 
+    
+  D. Error Flags
+  ----------------------- 
+        CAN_FLAG_EWG    : Error Warning Flag
+                          Set when the warning limit has been reached (Receive 
+                          Error Counter or Transmit Error Counter greater than 96). 
+                          This Flag is cleared only by hardware.
+                            
+        CAN_FLAG_EPV    : Error Passive Flag
+                          Set when the Error Passive limit has been reached 
+                          (Receive Error Counter or Transmit Error Counter 
+                          greater than 127).
+                          This Flag is cleared only by hardware.
+                             
+        CAN_FLAG_BOF    : Bus-Off Flag
+                          set when CAN enters the bus-off state. The bus-off 
+                          state is entered on TEC overflow, greater than 255.
+                          This Flag is cleared only by hardware.
+                                   
+        CAN_FLAG_LEC    : Last error code Flag
+                          set If a message has been transferred (reception or
+                          transmission) with error, and the error code is hold.              
+                          
+  ===============  
+   Interrupts :
+  ===============
+  The 14 interrupts can be divided on 4 groups: 
+  
+   A. Transmit interrupt
+  -----------------------   
+          CAN_IT_TME   :  Transmit mailbox empty Interrupt
+                          if enabled, this interrupt source is pending when 
+                          no transmit request are pending for Tx mailboxes.      
+
+   B. Receive Interrupts
+  -----------------------          
+        CAN_IT_FMP0,
+        CAN_IT_FMP1    :  FIFO 0 and FIFO1 message pending Interrupts
+                          if enabled, these interrupt sources are pending when 
+                          messages are pending in the receive FIFO.
+                          The corresponding interrupt pending bits are cleared 
+                          only by hardware.
+                
+        CAN_IT_FF0,              
+        CAN_IT_FF1     :  FIFO 0 and FIFO1 full Interrupts
+                          if enabled, these interrupt sources are pending when
+                          three messages are stored in the selected FIFO.
+        
+        CAN_IT_FOV0,        
+        CAN_IT_FOV1    :  FIFO 0 and FIFO1 overrun Interrupts        
+                          if enabled, these interrupt sources are pending when
+                          a new message has been received and passed the filter
+                          while the FIFO was full.
+
+   C. Operating Mode Interrupts
+  -------------------------------          
+        CAN_IT_WKU     :  Wake-up Interrupt
+                          if enabled, this interrupt source is pending when 
+                          a SOF bit has been detected while the CAN hardware was 
+                          in Sleep mode.
+                                  
+        CAN_IT_SLK     :  Sleep acknowledge Interrupt
+                          if enabled, this interrupt source is pending when 
+                          the CAN has entered Sleep Mode.       
+
+   D. Error Interrupts 
+  -----------------------         
+        CAN_IT_EWG     :  Error warning Interrupt 
+                          if enabled, this interrupt source is pending when
+                          the warning limit has been reached (Receive Error 
+                          Counter or Transmit Error Counter=96). 
+                               
+        CAN_IT_EPV     :  Error passive Interrupt        
+                          if enabled, this interrupt source is pending when
+                          the Error Passive limit has been reached (Receive 
+                          Error Counter or Transmit Error Counter>127).
+                          
+        CAN_IT_BOF     :  Bus-off Interrupt
+                          if enabled, this interrupt source is pending when
+                          CAN enters the bus-off state. The bus-off state is 
+                          entered on TEC overflow, greater than 255.
+                          This Flag is cleared only by hardware.
+                                  
+        CAN_IT_LEC     :  Last error code Interrupt        
+                          if enabled, this interrupt source is pending  when
+                          a message has been transferred (reception or
+                          transmission) with error, and the error code is hold.
+                          
+        CAN_IT_ERR     :  Error Interrupt
+                          if enabled, this interrupt source is pending when 
+                          an error condition is pending.      
+                      
+
+  Managing the CAN controller events :
+  ------------------------------------ 
+  The user should identify which mode will be used in his application to manage 
+  the CAN controller events: Polling mode or Interrupt mode.
+  
+  1.  In the Polling Mode it is advised to use the following functions:
+      - CAN_GetFlagStatus() : to check if flags events occur. 
+      - CAN_ClearFlag()     : to clear the flags events.
+  
+
+  
+  2.  In the Interrupt Mode it is advised to use the following functions:
+      - CAN_ITConfig()       : to enable or disable the interrupt source.
+      - CAN_GetITStatus()    : to check if Interrupt occurs.
+      - CAN_ClearITPendingBit() : to clear the Interrupt pending Bit (corresponding Flag).
+      @note  This function has no impact on CAN_IT_FMP0 and CAN_IT_FMP1 Interrupts 
+             pending bits since there are cleared only by hardware. \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__CAN__Group6_ga2c01646d5d3a2d7045e8dd71f58f8742}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!C\+A\+N\+\_\+\+Clear\+Flag@{C\+A\+N\+\_\+\+Clear\+Flag}}
+\index{C\+A\+N\+\_\+\+Clear\+Flag@{C\+A\+N\+\_\+\+Clear\+Flag}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{C\+A\+N\+\_\+\+Clear\+Flag()}
+{\footnotesize\ttfamily void C\+A\+N\+\_\+\+Clear\+Flag (\begin{DoxyParamCaption}\item[{\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$}]{C\+A\+Nx,  }\item[{uint32\+\_\+t}]{C\+A\+N\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Clears the C\+AN\textquotesingle{}s pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+Nx} & where x can be 1 or 2 to to select the C\+AN peripheral. \\
+\hline
+{\em C\+A\+N\+\_\+\+F\+L\+AG} & specifies the flag to clear. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+R\+Q\+C\+P0\+: Request Mail\+Box0 Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+R\+Q\+C\+P1\+: Request Mail\+Box1 Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+R\+Q\+C\+P2\+: Request Mail\+Box2 Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+F\+F0\+: F\+I\+FO 0 Full Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+F\+O\+V0\+: F\+I\+FO 0 Overrun Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+F\+F1\+: F\+I\+FO 1 Full Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+F\+O\+V1\+: F\+I\+FO 1 Overrun Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+W\+KU\+: Wake up Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+S\+L\+AK\+: Sleep acknowledge Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+L\+EC\+: Last error code Flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1427} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+01428 \{
+01429   uint32\_t flagtmp=0;
+01430   \textcolor{comment}{/* Check the parameters */}
+01431   assert_param(IS_CAN_ALL_PERIPH(CANx));
+01432   assert_param(IS_CAN_CLEAR_FLAG(CAN\_FLAG));
+01433   
+01434   \textcolor{keywordflow}{if} (CAN\_FLAG == CAN_FLAG_LEC) \textcolor{comment}{/* ESR register */}
+01435   \{
+01436     \textcolor{comment}{/* Clear the selected CAN flags */}
+01437     CANx->ESR = (uint32\_t)RESET;
+01438   \}
+01439   \textcolor{keywordflow}{else} \textcolor{comment}{/* MSR or TSR or RF0R or RF1R */}
+01440   \{
+01441     flagtmp = CAN\_FLAG & 0x000FFFFF;
+01442 
+01443     \textcolor{keywordflow}{if} ((CAN\_FLAG & CAN_FLAGS_RF0R)!=(uint32\_t)RESET)
+01444     \{
+01445       \textcolor{comment}{/* Receive Flags */}
+01446       CANx->RF0R = (uint32\_t)(flagtmp);
+01447     \}
+01448     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((CAN\_FLAG & CAN_FLAGS_RF1R)!=(uint32\_t)RESET)
+01449     \{
+01450       \textcolor{comment}{/* Receive Flags */}
+01451       CANx->RF1R = (uint32\_t)(flagtmp);
+01452     \}
+01453     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((CAN\_FLAG & CAN_FLAGS_TSR)!=(uint32\_t)RESET)
+01454     \{
+01455       \textcolor{comment}{/* Transmit Flags */}
+01456       CANx->TSR = (uint32\_t)(flagtmp);
+01457     \}
+01458     \textcolor{keywordflow}{else} \textcolor{comment}{/* If((CAN\_FLAG & CAN\_FLAGS\_MSR)!=(uint32\_t)RESET) */}
+01459     \{
+01460       \textcolor{comment}{/* Operating mode Flags */}
+01461       CANx->MSR = (uint32\_t)(flagtmp);
+01462     \}
+01463   \}
+01464 \}
+\end{DoxyCode}
+\mbox{\label{group__CAN__Group6_ga30bf7ac0c1793f6622a4a1adbb7dbc8a}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!C\+A\+N\+\_\+\+Clear\+I\+T\+Pending\+Bit@{C\+A\+N\+\_\+\+Clear\+I\+T\+Pending\+Bit}}
+\index{C\+A\+N\+\_\+\+Clear\+I\+T\+Pending\+Bit@{C\+A\+N\+\_\+\+Clear\+I\+T\+Pending\+Bit}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{C\+A\+N\+\_\+\+Clear\+I\+T\+Pending\+Bit()}
+{\footnotesize\ttfamily void C\+A\+N\+\_\+\+Clear\+I\+T\+Pending\+Bit (\begin{DoxyParamCaption}\item[{\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$}]{C\+A\+Nx,  }\item[{uint32\+\_\+t}]{C\+A\+N\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Clears the C\+A\+Nx\textquotesingle{}s interrupt pending bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+Nx} & where x can be 1 or 2 to to select the C\+AN peripheral. \\
+\hline
+{\em C\+A\+N\+\_\+\+IT} & specifies the interrupt pending bit to clear. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item C\+A\+N\+\_\+\+I\+T\+\_\+\+T\+ME\+: Transmit mailbox empty Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+F\+F0\+: F\+I\+FO 0 full Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+F\+O\+V0\+: F\+I\+FO 0 overrun Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+F\+F1\+: F\+I\+FO 1 full Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+F\+O\+V1\+: F\+I\+FO 1 overrun Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+W\+KU\+: Wake-\/up Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+S\+LK\+: Sleep acknowledge Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+E\+WG\+: Error warning Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+E\+PV\+: Error passive Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+B\+OF\+: Bus-\/off Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+L\+EC\+: Last error code Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+E\+RR\+: Error Interrupt \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1591} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+\begin{DoxyCode}
+01592 \{
+01593   \textcolor{comment}{/* Check the parameters */}
+01594   assert_param(IS_CAN_ALL_PERIPH(CANx));
+01595   assert_param(IS_CAN_CLEAR_IT(CAN\_IT));
+01596 
+01597   \textcolor{keywordflow}{switch} (CAN\_IT)
+01598   \{
+01599     \textcolor{keywordflow}{case} CAN_IT_TME:
+01600       \textcolor{comment}{/* Clear CAN\_TSR\_RQCPx (rc\_w1)*/}
+01601       CANx->TSR = CAN_TSR_RQCP0|CAN_TSR_RQCP1|CAN_TSR_RQCP2;  
+01602       \textcolor{keywordflow}{break};
+01603     \textcolor{keywordflow}{case} CAN_IT_FF0:
+01604       \textcolor{comment}{/* Clear CAN\_RF0R\_FULL0 (rc\_w1)*/}
+01605       CANx->RF0R = CAN_RF0R_FULL0; 
+01606       \textcolor{keywordflow}{break};
+01607     \textcolor{keywordflow}{case} CAN_IT_FOV0:
+01608       \textcolor{comment}{/* Clear CAN\_RF0R\_FOVR0 (rc\_w1)*/}
+01609       CANx->RF0R = CAN_RF0R_FOVR0; 
+01610       \textcolor{keywordflow}{break};
+01611     \textcolor{keywordflow}{case} CAN_IT_FF1:
+01612       \textcolor{comment}{/* Clear CAN\_RF1R\_FULL1 (rc\_w1)*/}
+01613       CANx->RF1R = CAN_RF1R_FULL1;  
+01614       \textcolor{keywordflow}{break};
+01615     \textcolor{keywordflow}{case} CAN_IT_FOV1:
+01616       \textcolor{comment}{/* Clear CAN\_RF1R\_FOVR1 (rc\_w1)*/}
+01617       CANx->RF1R = CAN_RF1R_FOVR1; 
+01618       \textcolor{keywordflow}{break};
+01619     \textcolor{keywordflow}{case} CAN_IT_WKU:
+01620       \textcolor{comment}{/* Clear CAN\_MSR\_WKUI (rc\_w1)*/}
+01621       CANx->MSR = CAN_MSR_WKUI;  
+01622       \textcolor{keywordflow}{break};
+01623     \textcolor{keywordflow}{case} CAN_IT_SLK:
+01624       \textcolor{comment}{/* Clear CAN\_MSR\_SLAKI (rc\_w1)*/} 
+01625       CANx->MSR = CAN_MSR_SLAKI;   
+01626       \textcolor{keywordflow}{break};
+01627     \textcolor{keywordflow}{case} CAN_IT_EWG:
+01628       \textcolor{comment}{/* Clear CAN\_MSR\_ERRI (rc\_w1) */}
+01629       CANx->MSR = CAN_MSR_ERRI;
+01630        \textcolor{comment}{/* @note the corresponding Flag is cleared by hardware depending on the CAN Bus status*/} 
+01631       \textcolor{keywordflow}{break};
+01632     \textcolor{keywordflow}{case} CAN_IT_EPV:
+01633       \textcolor{comment}{/* Clear CAN\_MSR\_ERRI (rc\_w1) */}
+01634       CANx->MSR = CAN_MSR_ERRI; 
+01635        \textcolor{comment}{/* @note the corresponding Flag is cleared by hardware depending on the CAN Bus status*/}
+01636       \textcolor{keywordflow}{break};
+01637     \textcolor{keywordflow}{case} CAN_IT_BOF:
+01638       \textcolor{comment}{/* Clear CAN\_MSR\_ERRI (rc\_w1) */} 
+01639       CANx->MSR = CAN_MSR_ERRI; 
+01640        \textcolor{comment}{/* @note the corresponding Flag is cleared by hardware depending on the CAN Bus status*/}
+01641        \textcolor{keywordflow}{break};
+01642     \textcolor{keywordflow}{case} CAN_IT_LEC:
+01643       \textcolor{comment}{/*  Clear LEC bits */}
+01644       CANx->ESR = RESET; 
+01645       \textcolor{comment}{/* Clear CAN\_MSR\_ERRI (rc\_w1) */}
+01646       CANx->MSR = CAN_MSR_ERRI; 
+01647       \textcolor{keywordflow}{break};
+01648     \textcolor{keywordflow}{case} CAN_IT_ERR:
+01649       \textcolor{comment}{/*Clear LEC bits */}
+01650       CANx->ESR = RESET; 
+01651       \textcolor{comment}{/* Clear CAN\_MSR\_ERRI (rc\_w1) */}
+01652       CANx->MSR = CAN_MSR_ERRI; 
+01653        \textcolor{comment}{/* @note BOFF, EPVF and EWGF Flags are cleared by hardware depending on the CAN Bus status*/}
+01654        \textcolor{keywordflow}{break};
+01655     \textcolor{keywordflow}{default}:
+01656        \textcolor{keywordflow}{break};
+01657    \}
+01658 \}
+\end{DoxyCode}
+\mbox{\label{group__CAN__Group6_ga2faad96caf823ef463cc5b5b25c480bb}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!C\+A\+N\+\_\+\+Get\+Flag\+Status@{C\+A\+N\+\_\+\+Get\+Flag\+Status}}
+\index{C\+A\+N\+\_\+\+Get\+Flag\+Status@{C\+A\+N\+\_\+\+Get\+Flag\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{C\+A\+N\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} C\+A\+N\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$}]{C\+A\+Nx,  }\item[{uint32\+\_\+t}]{C\+A\+N\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified C\+AN flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+Nx} & where x can be 1 or 2 to to select the C\+AN peripheral. \\
+\hline
+{\em C\+A\+N\+\_\+\+F\+L\+AG} & specifies the flag to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+R\+Q\+C\+P0\+: Request Mail\+Box0 Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+R\+Q\+C\+P1\+: Request Mail\+Box1 Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+R\+Q\+C\+P2\+: Request Mail\+Box2 Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+F\+M\+P0\+: F\+I\+FO 0 Message Pending Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+F\+F0\+: F\+I\+FO 0 Full Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+F\+O\+V0\+: F\+I\+FO 0 Overrun Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+F\+M\+P1\+: F\+I\+FO 1 Message Pending Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+F\+F1\+: F\+I\+FO 1 Full Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+F\+O\+V1\+: F\+I\+FO 1 Overrun Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+W\+KU\+: Wake up Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+S\+L\+AK\+: Sleep acknowledge Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+E\+WG\+: Error Warning Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+E\+PV\+: Error Passive Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+B\+OF\+: Bus-\/\+Off Flag \item C\+A\+N\+\_\+\+F\+L\+A\+G\+\_\+\+L\+EC\+: Last error code Flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of C\+A\+N\+\_\+\+F\+L\+AG (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1327} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+01328 \{
+01329   FlagStatus bitstatus = RESET;
+01330   
+01331   \textcolor{comment}{/* Check the parameters */}
+01332   assert_param(IS_CAN_ALL_PERIPH(CANx));
+01333   assert_param(IS_CAN_GET_FLAG(CAN\_FLAG));
+01334   
+01335 
+01336   \textcolor{keywordflow}{if}((CAN\_FLAG & CAN_FLAGS_ESR) != (uint32\_t)RESET)
+01337   \{ 
+01338     \textcolor{comment}{/* Check the status of the specified CAN flag */}
+01339     \textcolor{keywordflow}{if} ((CANx->ESR & (CAN\_FLAG & 0x000FFFFF)) != (uint32\_t)RESET)
+01340     \{ 
+01341       \textcolor{comment}{/* CAN\_FLAG is set */}
+01342       bitstatus = SET;
+01343     \}
+01344     \textcolor{keywordflow}{else}
+01345     \{ 
+01346       \textcolor{comment}{/* CAN\_FLAG is reset */}
+01347       bitstatus = RESET;
+01348     \}
+01349   \}
+01350   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}((CAN\_FLAG & CAN_FLAGS_MSR) != (uint32\_t)RESET)
+01351   \{ 
+01352     \textcolor{comment}{/* Check the status of the specified CAN flag */}
+01353     \textcolor{keywordflow}{if} ((CANx->MSR & (CAN\_FLAG & 0x000FFFFF)) != (uint32\_t)RESET)
+01354     \{ 
+01355       \textcolor{comment}{/* CAN\_FLAG is set */}
+01356       bitstatus = SET;
+01357     \}
+01358     \textcolor{keywordflow}{else}
+01359     \{ 
+01360       \textcolor{comment}{/* CAN\_FLAG is reset */}
+01361       bitstatus = RESET;
+01362     \}
+01363   \}
+01364   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}((CAN\_FLAG & CAN_FLAGS_TSR) != (uint32\_t)RESET)
+01365   \{ 
+01366     \textcolor{comment}{/* Check the status of the specified CAN flag */}
+01367     \textcolor{keywordflow}{if} ((CANx->TSR & (CAN\_FLAG & 0x000FFFFF)) != (uint32\_t)RESET)
+01368     \{ 
+01369       \textcolor{comment}{/* CAN\_FLAG is set */}
+01370       bitstatus = SET;
+01371     \}
+01372     \textcolor{keywordflow}{else}
+01373     \{ 
+01374       \textcolor{comment}{/* CAN\_FLAG is reset */}
+01375       bitstatus = RESET;
+01376     \}
+01377   \}
+01378   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}((CAN\_FLAG & CAN_FLAGS_RF0R) != (uint32\_t)RESET)
+01379   \{ 
+01380     \textcolor{comment}{/* Check the status of the specified CAN flag */}
+01381     \textcolor{keywordflow}{if} ((CANx->RF0R & (CAN\_FLAG & 0x000FFFFF)) != (uint32\_t)RESET)
+01382     \{ 
+01383       \textcolor{comment}{/* CAN\_FLAG is set */}
+01384       bitstatus = SET;
+01385     \}
+01386     \textcolor{keywordflow}{else}
+01387     \{ 
+01388       \textcolor{comment}{/* CAN\_FLAG is reset */}
+01389       bitstatus = RESET;
+01390     \}
+01391   \}
+01392   \textcolor{keywordflow}{else} \textcolor{comment}{/* If(CAN\_FLAG & CAN\_FLAGS\_RF1R != (uint32\_t)RESET) */}
+01393   \{ 
+01394     \textcolor{comment}{/* Check the status of the specified CAN flag */}
+01395     \textcolor{keywordflow}{if} ((uint32\_t)(CANx->RF1R & (CAN\_FLAG & 0x000FFFFF)) != (uint32\_t)RESET)
+01396     \{ 
+01397       \textcolor{comment}{/* CAN\_FLAG is set */}
+01398       bitstatus = SET;
+01399     \}
+01400     \textcolor{keywordflow}{else}
+01401     \{ 
+01402       \textcolor{comment}{/* CAN\_FLAG is reset */}
+01403       bitstatus = RESET;
+01404     \}
+01405   \}
+01406   \textcolor{comment}{/* Return the CAN\_FLAG status */}
+01407   \textcolor{keywordflow}{return}  bitstatus;
+01408 \}
+\end{DoxyCode}
+\mbox{\label{group__CAN__Group6_ga9aca05b3013e1b3438f3559f80b33c82}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!C\+A\+N\+\_\+\+Get\+I\+T\+Status@{C\+A\+N\+\_\+\+Get\+I\+T\+Status}}
+\index{C\+A\+N\+\_\+\+Get\+I\+T\+Status@{C\+A\+N\+\_\+\+Get\+I\+T\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{C\+A\+N\+\_\+\+Get\+I\+T\+Status()}
+{\footnotesize\ttfamily \textbf{ I\+T\+Status} C\+A\+N\+\_\+\+Get\+I\+T\+Status (\begin{DoxyParamCaption}\item[{\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$}]{C\+A\+Nx,  }\item[{uint32\+\_\+t}]{C\+A\+N\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified C\+A\+Nx interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+Nx} & where x can be 1 or 2 to to select the C\+AN peripheral. \\
+\hline
+{\em C\+A\+N\+\_\+\+IT} & specifies the C\+AN interrupt source to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item C\+A\+N\+\_\+\+I\+T\+\_\+\+T\+ME\+: Transmit mailbox empty Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+F\+M\+P0\+: F\+I\+FO 0 message pending Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+F\+F0\+: F\+I\+FO 0 full Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+F\+O\+V0\+: F\+I\+FO 0 overrun Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+F\+M\+P1\+: F\+I\+FO 1 message pending Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+F\+F1\+: F\+I\+FO 1 full Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+F\+O\+V1\+: F\+I\+FO 1 overrun Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+W\+KU\+: Wake-\/up Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+S\+LK\+: Sleep acknowledge Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+E\+WG\+: Error warning Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+E\+PV\+: Error passive Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+B\+OF\+: Bus-\/off Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+L\+EC\+: Last error code Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+E\+RR\+: Error Interrupt \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & current state of C\+A\+N\+\_\+\+IT (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1487} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+01488 \{
+01489   ITStatus itstatus = RESET;
+01490   \textcolor{comment}{/* Check the parameters */}
+01491   assert_param(IS_CAN_ALL_PERIPH(CANx));
+01492   assert_param(IS_CAN_IT(CAN\_IT));
+01493   
+01494   \textcolor{comment}{/* check the interrupt enable bit */}
+01495  \textcolor{keywordflow}{if}((CANx->IER & CAN\_IT) != RESET)
+01496  \{
+01497    \textcolor{comment}{/* in case the Interrupt is enabled, .... */}
+01498     \textcolor{keywordflow}{switch} (CAN\_IT)
+01499     \{
+01500       \textcolor{keywordflow}{case} CAN_IT_TME:
+01501         \textcolor{comment}{/* Check CAN\_TSR\_RQCPx bits */}
+01502         itstatus = CheckITStatus(CANx->TSR, CAN_TSR_RQCP0|CAN_TSR_RQCP1|
+      CAN_TSR_RQCP2);  
+01503         \textcolor{keywordflow}{break};
+01504       \textcolor{keywordflow}{case} CAN_IT_FMP0:
+01505         \textcolor{comment}{/* Check CAN\_RF0R\_FMP0 bit */}
+01506         itstatus = CheckITStatus(CANx->RF0R, CAN_RF0R_FMP0);  
+01507         \textcolor{keywordflow}{break};
+01508       \textcolor{keywordflow}{case} CAN_IT_FF0:
+01509         \textcolor{comment}{/* Check CAN\_RF0R\_FULL0 bit */}
+01510         itstatus = CheckITStatus(CANx->RF0R, CAN_RF0R_FULL0);  
+01511         \textcolor{keywordflow}{break};
+01512       \textcolor{keywordflow}{case} CAN_IT_FOV0:
+01513         \textcolor{comment}{/* Check CAN\_RF0R\_FOVR0 bit */}
+01514         itstatus = CheckITStatus(CANx->RF0R, CAN_RF0R_FOVR0);  
+01515         \textcolor{keywordflow}{break};
+01516       \textcolor{keywordflow}{case} CAN_IT_FMP1:
+01517         \textcolor{comment}{/* Check CAN\_RF1R\_FMP1 bit */}
+01518         itstatus = CheckITStatus(CANx->RF1R, CAN_RF1R_FMP1);  
+01519         \textcolor{keywordflow}{break};
+01520       \textcolor{keywordflow}{case} CAN_IT_FF1:
+01521         \textcolor{comment}{/* Check CAN\_RF1R\_FULL1 bit */}
+01522         itstatus = CheckITStatus(CANx->RF1R, CAN_RF1R_FULL1);  
+01523         \textcolor{keywordflow}{break};
+01524       \textcolor{keywordflow}{case} CAN_IT_FOV1:
+01525         \textcolor{comment}{/* Check CAN\_RF1R\_FOVR1 bit */}
+01526         itstatus = CheckITStatus(CANx->RF1R, CAN_RF1R_FOVR1);  
+01527         \textcolor{keywordflow}{break};
+01528       \textcolor{keywordflow}{case} CAN_IT_WKU:
+01529         \textcolor{comment}{/* Check CAN\_MSR\_WKUI bit */}
+01530         itstatus = CheckITStatus(CANx->MSR, CAN_MSR_WKUI);  
+01531         \textcolor{keywordflow}{break};
+01532       \textcolor{keywordflow}{case} CAN_IT_SLK:
+01533         \textcolor{comment}{/* Check CAN\_MSR\_SLAKI bit */}
+01534         itstatus = CheckITStatus(CANx->MSR, CAN_MSR_SLAKI);  
+01535         \textcolor{keywordflow}{break};
+01536       \textcolor{keywordflow}{case} CAN_IT_EWG:
+01537         \textcolor{comment}{/* Check CAN\_ESR\_EWGF bit */}
+01538         itstatus = CheckITStatus(CANx->ESR, CAN_ESR_EWGF);  
+01539         \textcolor{keywordflow}{break};
+01540       \textcolor{keywordflow}{case} CAN_IT_EPV:
+01541         \textcolor{comment}{/* Check CAN\_ESR\_EPVF bit */}
+01542         itstatus = CheckITStatus(CANx->ESR, CAN_ESR_EPVF);  
+01543         \textcolor{keywordflow}{break};
+01544       \textcolor{keywordflow}{case} CAN_IT_BOF:
+01545         \textcolor{comment}{/* Check CAN\_ESR\_BOFF bit */}
+01546         itstatus = CheckITStatus(CANx->ESR, CAN_ESR_BOFF);  
+01547         \textcolor{keywordflow}{break};
+01548       \textcolor{keywordflow}{case} CAN_IT_LEC:
+01549         \textcolor{comment}{/* Check CAN\_ESR\_LEC bit */}
+01550         itstatus = CheckITStatus(CANx->ESR, CAN_ESR_LEC);  
+01551         \textcolor{keywordflow}{break};
+01552       \textcolor{keywordflow}{case} CAN_IT_ERR:
+01553         \textcolor{comment}{/* Check CAN\_MSR\_ERRI bit */} 
+01554         itstatus = CheckITStatus(CANx->MSR, CAN_MSR_ERRI); 
+01555         \textcolor{keywordflow}{break};
+01556       \textcolor{keywordflow}{default}:
+01557         \textcolor{comment}{/* in case of error, return RESET */}
+01558         itstatus = RESET;
+01559         \textcolor{keywordflow}{break};
+01560     \}
+01561   \}
+01562   \textcolor{keywordflow}{else}
+01563   \{
+01564    \textcolor{comment}{/* in case the Interrupt is not enabled, return RESET */}
+01565     itstatus  = RESET;
+01566   \}
+01567   
+01568   \textcolor{comment}{/* Return the CAN\_IT status */}
+01569   \textcolor{keywordflow}{return}  itstatus;
+01570 \}
+\end{DoxyCode}
+\mbox{\label{group__CAN__Group6_gad1a8b2499a780b5bfa4accb3597b02f4}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!C\+A\+N\+\_\+\+I\+T\+Config@{C\+A\+N\+\_\+\+I\+T\+Config}}
+\index{C\+A\+N\+\_\+\+I\+T\+Config@{C\+A\+N\+\_\+\+I\+T\+Config}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{C\+A\+N\+\_\+\+I\+T\+Config()}
+{\footnotesize\ttfamily void C\+A\+N\+\_\+\+I\+T\+Config (\begin{DoxyParamCaption}\item[{\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$}]{C\+A\+Nx,  }\item[{uint32\+\_\+t}]{C\+A\+N\+\_\+\+IT,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified C\+A\+Nx interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+Nx} & where x can be 1 or 2 to to select the C\+AN peripheral. \\
+\hline
+{\em C\+A\+N\+\_\+\+IT} & specifies the C\+AN interrupt sources to be enabled or disabled. This parameter can be\+: \begin{DoxyItemize}
+\item C\+A\+N\+\_\+\+I\+T\+\_\+\+T\+ME\+: Transmit mailbox empty Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+F\+M\+P0\+: F\+I\+FO 0 message pending Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+F\+F0\+: F\+I\+FO 0 full Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+F\+O\+V0\+: F\+I\+FO 0 overrun Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+F\+M\+P1\+: F\+I\+FO 1 message pending Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+F\+F1\+: F\+I\+FO 1 full Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+F\+O\+V1\+: F\+I\+FO 1 overrun Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+W\+KU\+: Wake-\/up Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+S\+LK\+: Sleep acknowledge Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+E\+WG\+: Error warning Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+E\+PV\+: Error passive Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+B\+OF\+: Bus-\/off Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+L\+EC\+: Last error code Interrupt \item C\+A\+N\+\_\+\+I\+T\+\_\+\+E\+RR\+: Error Interrupt \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the C\+AN interrupts. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1287} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+01288 \{
+01289   \textcolor{comment}{/* Check the parameters */}
+01290   assert_param(IS_CAN_ALL_PERIPH(CANx));
+01291   assert_param(IS_CAN_IT(CAN\_IT));
+01292   assert_param(IS_FUNCTIONAL_STATE(NewState));
+01293 
+01294   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01295   \{
+01296     \textcolor{comment}{/* Enable the selected CANx interrupt */}
+01297     CANx->IER |= CAN\_IT;
+01298   \}
+01299   \textcolor{keywordflow}{else}
+01300   \{
+01301     \textcolor{comment}{/* Disable the selected CANx interrupt */}
+01302     CANx->IER &= ~CAN\_IT;
+01303   \}
+01304 \}
+\end{DoxyCode}

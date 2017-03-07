@@ -1,0 +1,306 @@
+\section{Interrupts and flags management functions}
+\label{group__DAC__Group3}\index{Interrupts and flags management functions@{Interrupts and flags management functions}}
+
+
+Interrupts and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ D\+A\+C\+\_\+\+I\+T\+Config} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel, uint32\+\_\+t D\+A\+C\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified D\+AC interrupts. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ D\+A\+C\+\_\+\+Get\+Flag\+Status} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel, uint32\+\_\+t D\+A\+C\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified D\+AC flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Clear\+Flag} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel, uint32\+\_\+t D\+A\+C\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the D\+AC channel\textquotesingle{}s pending flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ D\+A\+C\+\_\+\+Get\+I\+T\+Status} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel, uint32\+\_\+t D\+A\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified D\+AC interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel, uint32\+\_\+t D\+A\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the D\+AC channel\textquotesingle{}s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts and flags management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                   Interrupts and flags management functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__DAC__Group3_ga49543c52786d70d6b6311f3fee856d37}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\+A\+C\+\_\+\+Clear\+Flag@{D\+A\+C\+\_\+\+Clear\+Flag}}
+\index{D\+A\+C\+\_\+\+Clear\+Flag@{D\+A\+C\+\_\+\+Clear\+Flag}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{D\+A\+C\+\_\+\+Clear\+Flag()}
+{\footnotesize\ttfamily void D\+A\+C\+\_\+\+Clear\+Flag (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{D\+A\+C\+\_\+\+Channel,  }\item[{uint32\+\_\+t}]{D\+A\+C\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Clears the D\+AC channel\textquotesingle{}s pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+A\+C\+\_\+\+Channel} & The selected D\+AC channel. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item D\+A\+C\+\_\+\+Channel\+\_\+1\+: D\+AC Channel1 selected \item D\+A\+C\+\_\+\+Channel\+\_\+2\+: D\+AC Channel2 selected \end{DoxyItemize}
+\\
+\hline
+{\em D\+A\+C\+\_\+\+F\+L\+AG} & specifies the flag to clear. This parameter can be of the following value\+: \begin{DoxyItemize}
+\item D\+A\+C\+\_\+\+F\+L\+A\+G\+\_\+\+D\+M\+A\+U\+DR\+: D\+MA underrun flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The D\+MA underrun occurs when a second external trigger arrives before the acknowledgement for the first external trigger is received (first request). 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 612} of file \textbf{ stm32f4xx\+\_\+dac.\+c}.
+
+
+\begin{DoxyCode}
+00613 \{
+00614   \textcolor{comment}{/* Check the parameters */}
+00615   assert_param(IS_DAC_CHANNEL(DAC\_Channel));
+00616   assert_param(IS_DAC_FLAG(DAC\_FLAG));
+00617 
+00618   \textcolor{comment}{/* Clear the selected DAC flags */}
+00619   DAC->SR = (DAC\_FLAG << DAC\_Channel);
+00620 \}
+\end{DoxyCode}
+\mbox{\label{group__DAC__Group3_ga12d90e69a2642997136b23224d180641}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\+A\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit@{D\+A\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit}}
+\index{D\+A\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit@{D\+A\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{D\+A\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit()}
+{\footnotesize\ttfamily void D\+A\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{D\+A\+C\+\_\+\+Channel,  }\item[{uint32\+\_\+t}]{D\+A\+C\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Clears the D\+AC channel\textquotesingle{}s interrupt pending bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+A\+C\+\_\+\+Channel} & The selected D\+AC channel. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item D\+A\+C\+\_\+\+Channel\+\_\+1\+: D\+AC Channel1 selected \item D\+A\+C\+\_\+\+Channel\+\_\+2\+: D\+AC Channel2 selected \end{DoxyItemize}
+\\
+\hline
+{\em D\+A\+C\+\_\+\+IT} & specifies the D\+AC interrupt pending bit to clear. This parameter can be the following values\+: \begin{DoxyItemize}
+\item D\+A\+C\+\_\+\+I\+T\+\_\+\+D\+M\+A\+U\+DR\+: D\+MA underrun interrupt mask \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The D\+MA underrun occurs when a second external trigger arrives before the acknowledgement for the first external trigger is received (first request). 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 675} of file \textbf{ stm32f4xx\+\_\+dac.\+c}.
+
+
+\begin{DoxyCode}
+00676 \{
+00677   \textcolor{comment}{/* Check the parameters */}
+00678   assert_param(IS_DAC_CHANNEL(DAC\_Channel));
+00679   assert_param(IS_DAC_IT(DAC\_IT)); 
+00680 
+00681   \textcolor{comment}{/* Clear the selected DAC interrupt pending bits */}
+00682   DAC->SR = (DAC\_IT << DAC\_Channel);
+00683 \}
+\end{DoxyCode}
+\mbox{\label{group__DAC__Group3_ga9ee60b78f0ccd23bfbe54bce2a2f909b}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\+A\+C\+\_\+\+Get\+Flag\+Status@{D\+A\+C\+\_\+\+Get\+Flag\+Status}}
+\index{D\+A\+C\+\_\+\+Get\+Flag\+Status@{D\+A\+C\+\_\+\+Get\+Flag\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{D\+A\+C\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} D\+A\+C\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{D\+A\+C\+\_\+\+Channel,  }\item[{uint32\+\_\+t}]{D\+A\+C\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified D\+AC flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+A\+C\+\_\+\+Channel} & The selected D\+AC channel. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item D\+A\+C\+\_\+\+Channel\+\_\+1\+: D\+AC Channel1 selected \item D\+A\+C\+\_\+\+Channel\+\_\+2\+: D\+AC Channel2 selected \end{DoxyItemize}
+\\
+\hline
+{\em D\+A\+C\+\_\+\+F\+L\+AG} & specifies the flag to check. This parameter can be only of the following value\+: \begin{DoxyItemize}
+\item D\+A\+C\+\_\+\+F\+L\+A\+G\+\_\+\+D\+M\+A\+U\+DR\+: D\+MA underrun flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The D\+MA underrun occurs when a second external trigger arrives before the acknowledgement for the first external trigger is received (first request). 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of D\+A\+C\+\_\+\+F\+L\+AG (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 577} of file \textbf{ stm32f4xx\+\_\+dac.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00578 \{
+00579   FlagStatus bitstatus = RESET;
+00580   \textcolor{comment}{/* Check the parameters */}
+00581   assert_param(IS_DAC_CHANNEL(DAC\_Channel));
+00582   assert_param(IS_DAC_FLAG(DAC\_FLAG));
+00583 
+00584   \textcolor{comment}{/* Check the status of the specified DAC flag */}
+00585   \textcolor{keywordflow}{if} ((DAC->SR & (DAC\_FLAG << DAC\_Channel)) != (uint8\_t)RESET)
+00586   \{
+00587     \textcolor{comment}{/* DAC\_FLAG is set */}
+00588     bitstatus = SET;
+00589   \}
+00590   \textcolor{keywordflow}{else}
+00591   \{
+00592     \textcolor{comment}{/* DAC\_FLAG is reset */}
+00593     bitstatus = RESET;
+00594   \}
+00595   \textcolor{comment}{/* Return the DAC\_FLAG status */}
+00596   \textcolor{keywordflow}{return}  bitstatus;
+00597 \}
+\end{DoxyCode}
+\mbox{\label{group__DAC__Group3_ga541aac3b50db3a8a806ec5ef30679aca}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\+A\+C\+\_\+\+Get\+I\+T\+Status@{D\+A\+C\+\_\+\+Get\+I\+T\+Status}}
+\index{D\+A\+C\+\_\+\+Get\+I\+T\+Status@{D\+A\+C\+\_\+\+Get\+I\+T\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{D\+A\+C\+\_\+\+Get\+I\+T\+Status()}
+{\footnotesize\ttfamily \textbf{ I\+T\+Status} D\+A\+C\+\_\+\+Get\+I\+T\+Status (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{D\+A\+C\+\_\+\+Channel,  }\item[{uint32\+\_\+t}]{D\+A\+C\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified D\+AC interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+A\+C\+\_\+\+Channel} & The selected D\+AC channel. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item D\+A\+C\+\_\+\+Channel\+\_\+1\+: D\+AC Channel1 selected \item D\+A\+C\+\_\+\+Channel\+\_\+2\+: D\+AC Channel2 selected \end{DoxyItemize}
+\\
+\hline
+{\em D\+A\+C\+\_\+\+IT} & specifies the D\+AC interrupt source to check. This parameter can be the following values\+: \begin{DoxyItemize}
+\item D\+A\+C\+\_\+\+I\+T\+\_\+\+D\+M\+A\+U\+DR\+: D\+MA underrun interrupt mask \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The D\+MA underrun occurs when a second external trigger arrives before the acknowledgement for the first external trigger is received (first request). 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of D\+A\+C\+\_\+\+IT (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 635} of file \textbf{ stm32f4xx\+\_\+dac.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00636 \{
+00637   ITStatus bitstatus = RESET;
+00638   uint32\_t enablestatus = 0;
+00639   
+00640   \textcolor{comment}{/* Check the parameters */}
+00641   assert_param(IS_DAC_CHANNEL(DAC\_Channel));
+00642   assert_param(IS_DAC_IT(DAC\_IT));
+00643 
+00644   \textcolor{comment}{/* Get the DAC\_IT enable bit status */}
+00645   enablestatus = (DAC->CR & (DAC\_IT << DAC\_Channel)) ;
+00646   
+00647   \textcolor{comment}{/* Check the status of the specified DAC interrupt */}
+00648   \textcolor{keywordflow}{if} (((DAC->SR & (DAC\_IT << DAC\_Channel)) != (uint32\_t)RESET) && enablestatus)
+00649   \{
+00650     \textcolor{comment}{/* DAC\_IT is set */}
+00651     bitstatus = SET;
+00652   \}
+00653   \textcolor{keywordflow}{else}
+00654   \{
+00655     \textcolor{comment}{/* DAC\_IT is reset */}
+00656     bitstatus = RESET;
+00657   \}
+00658   \textcolor{comment}{/* Return the DAC\_IT status */}
+00659   \textcolor{keywordflow}{return}  bitstatus;
+00660 \}
+\end{DoxyCode}
+\mbox{\label{group__DAC__Group3_ga12d7495b30eae40c2570118cabbda1c3}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\+A\+C\+\_\+\+I\+T\+Config@{D\+A\+C\+\_\+\+I\+T\+Config}}
+\index{D\+A\+C\+\_\+\+I\+T\+Config@{D\+A\+C\+\_\+\+I\+T\+Config}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{D\+A\+C\+\_\+\+I\+T\+Config()}
+{\footnotesize\ttfamily void D\+A\+C\+\_\+\+I\+T\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{D\+A\+C\+\_\+\+Channel,  }\item[{uint32\+\_\+t}]{D\+A\+C\+\_\+\+IT,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified D\+AC interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+A\+C\+\_\+\+Channel} & The selected D\+AC channel. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item D\+A\+C\+\_\+\+Channel\+\_\+1\+: D\+AC Channel1 selected \item D\+A\+C\+\_\+\+Channel\+\_\+2\+: D\+AC Channel2 selected \end{DoxyItemize}
+\\
+\hline
+{\em D\+A\+C\+\_\+\+IT} & specifies the D\+AC interrupt sources to be enabled or disabled. This parameter can be the following values\+: \begin{DoxyItemize}
+\item D\+A\+C\+\_\+\+I\+T\+\_\+\+D\+M\+A\+U\+DR\+: D\+MA underrun interrupt mask \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The D\+MA underrun occurs when a second external trigger arrives before the acknowledgement for the first external trigger is received (first request). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the specified D\+AC interrupts. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 545} of file \textbf{ stm32f4xx\+\_\+dac.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00546 \{
+00547   \textcolor{comment}{/* Check the parameters */}
+00548   assert_param(IS_DAC_CHANNEL(DAC\_Channel));
+00549   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00550   assert_param(IS_DAC_IT(DAC\_IT)); 
+00551 
+00552   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00553   \{
+00554     \textcolor{comment}{/* Enable the selected DAC interrupts */}
+00555     DAC->CR |=  (DAC\_IT << DAC\_Channel);
+00556   \}
+00557   \textcolor{keywordflow}{else}
+00558   \{
+00559     \textcolor{comment}{/* Disable the selected DAC interrupts */}
+00560     DAC->CR &= (~(uint32\_t)(DAC\_IT << DAC\_Channel));
+00561   \}
+00562 \}
+\end{DoxyCode}

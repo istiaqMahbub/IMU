@@ -1,0 +1,356 @@
+\section{Interrupts and flags management functions}
+\label{group__ADC__Group7}\index{Interrupts and flags management functions@{Interrupts and flags management functions}}
+
+
+Interrupts and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ A\+D\+C\+\_\+\+I\+T\+Config} (\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$A\+D\+Cx, uint16\+\_\+t A\+D\+C\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified A\+DC interrupts. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ A\+D\+C\+\_\+\+Get\+Flag\+Status} (\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$A\+D\+Cx, uint8\+\_\+t A\+D\+C\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified A\+DC flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ A\+D\+C\+\_\+\+Clear\+Flag} (\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$A\+D\+Cx, uint8\+\_\+t A\+D\+C\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the A\+D\+Cx\textquotesingle{}s pending flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ A\+D\+C\+\_\+\+Get\+I\+T\+Status} (\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$A\+D\+Cx, uint16\+\_\+t A\+D\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified A\+DC interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ A\+D\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit} (\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$A\+D\+Cx, uint16\+\_\+t A\+D\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the A\+D\+Cx\textquotesingle{}s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts and flags management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                   Interrupts and flags management functions
+ ===============================================================================  
+
+  This section provides functions allowing to configure the ADC Interrupts and 
+  to get the status and clear flags and Interrupts pending bits.
+  
+  Each ADC provides 4 Interrupts sources and 6 Flags which can be divided into 
+  3 groups:
+  
+  I. Flags and Interrupts for ADC regular channels
+  =================================================
+  Flags :
+  ---------- 
+     1. ADC_FLAG_OVR : Overrun detection when regular converted data are lost
+
+     2. ADC_FLAG_EOC : Regular channel end of conversion ==> to indicate (depending 
+              on EOCS bit, managed by ADC_EOCOnEachRegularChannelCmd() ) the end of:
+               ==> a regular CHANNEL conversion 
+               ==> sequence of regular GROUP conversions .
+
+     3. ADC_FLAG_STRT: Regular channel start ==> to indicate when regular CHANNEL 
+              conversion starts.
+
+  Interrupts :
+  ------------
+     1. ADC_IT_OVR : specifies the interrupt source for Overrun detection event.  
+     2. ADC_IT_EOC : specifies the interrupt source for Regular channel end of 
+                     conversion event.
+  
+  
+  II. Flags and Interrupts for ADC Injected channels
+  =================================================
+  Flags :
+  ---------- 
+     1. ADC_FLAG_JEOC : Injected channel end of conversion ==> to indicate at 
+               the end of injected GROUP conversion  
+              
+     2. ADC_FLAG_JSTRT: Injected channel start ==> to indicate hardware when 
+               injected GROUP conversion starts.
+
+  Interrupts :
+  ------------
+     1. ADC_IT_JEOC : specifies the interrupt source for Injected channel end of 
+                      conversion event.     
+
+  III. General Flags and Interrupts for the ADC
+  ================================================= 
+  Flags :
+  ---------- 
+     1. ADC_FLAG_AWD: Analog watchdog ==> to indicate if the converted voltage 
+              crosses the programmed thresholds values.
+              
+  Interrupts :
+  ------------
+     1. ADC_IT_AWD : specifies the interrupt source for Analog watchdog event. 
+
+  
+  The user should identify which mode will be used in his application to manage 
+  the ADC controller events: Polling mode or Interrupt mode.
+  
+  In the Polling Mode it is advised to use the following functions:
+      - ADC_GetFlagStatus() : to check if flags events occur. 
+      - ADC_ClearFlag()     : to clear the flags events.
+      
+  In the Interrupt Mode it is advised to use the following functions:
+     - ADC_ITConfig()          : to enable or disable the interrupt source.
+     - ADC_GetITStatus()       : to check if Interrupt occurs.
+     - ADC_ClearITPendingBit() : to clear the Interrupt pending Bit 
+                                 (corresponding Flag). 
+\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__ADC__Group7_gaf34f36798f811b4a41321ea2d12118d4}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!A\+D\+C\+\_\+\+Clear\+Flag@{A\+D\+C\+\_\+\+Clear\+Flag}}
+\index{A\+D\+C\+\_\+\+Clear\+Flag@{A\+D\+C\+\_\+\+Clear\+Flag}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{A\+D\+C\+\_\+\+Clear\+Flag()}
+{\footnotesize\ttfamily void A\+D\+C\+\_\+\+Clear\+Flag (\begin{DoxyParamCaption}\item[{\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$}]{A\+D\+Cx,  }\item[{uint8\+\_\+t}]{A\+D\+C\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Clears the A\+D\+Cx\textquotesingle{}s pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+Cx} & where x can be 1, 2 or 3 to select the A\+DC peripheral. \\
+\hline
+{\em A\+D\+C\+\_\+\+F\+L\+AG} & specifies the flag to clear. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item A\+D\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+WD\+: Analog watchdog flag \item A\+D\+C\+\_\+\+F\+L\+A\+G\+\_\+\+E\+OC\+: End of conversion flag \item A\+D\+C\+\_\+\+F\+L\+A\+G\+\_\+\+J\+E\+OC\+: End of injected group conversion flag \item A\+D\+C\+\_\+\+F\+L\+A\+G\+\_\+\+J\+S\+T\+RT\+: Start of injected group conversion flag \item A\+D\+C\+\_\+\+F\+L\+A\+G\+\_\+\+S\+T\+RT\+: Start of regular group conversion flag \item A\+D\+C\+\_\+\+F\+L\+A\+G\+\_\+\+O\+VR\+: Overrun flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1653} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+\begin{DoxyCode}
+01654 \{
+01655   \textcolor{comment}{/* Check the parameters */}
+01656   assert_param(IS_ADC_ALL_PERIPH(ADCx));
+01657   assert_param(IS_ADC_CLEAR_FLAG(ADC\_FLAG));
+01658 
+01659   \textcolor{comment}{/* Clear the selected ADC flags */}
+01660   ADCx->SR = ~(uint32\_t)ADC\_FLAG;
+01661 \}
+\end{DoxyCode}
+\mbox{\label{group__ADC__Group7_ga601c6a67bd883eb631ecc7aa5e999b9c}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!A\+D\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit@{A\+D\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit}}
+\index{A\+D\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit@{A\+D\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{A\+D\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit()}
+{\footnotesize\ttfamily void A\+D\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit (\begin{DoxyParamCaption}\item[{\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$}]{A\+D\+Cx,  }\item[{uint16\+\_\+t}]{A\+D\+C\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Clears the A\+D\+Cx\textquotesingle{}s interrupt pending bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+Cx} & where x can be 1, 2 or 3 to select the A\+DC peripheral. \\
+\hline
+{\em A\+D\+C\+\_\+\+IT} & specifies the A\+DC interrupt pending bit to clear. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item A\+D\+C\+\_\+\+I\+T\+\_\+\+E\+OC\+: End of conversion interrupt mask \item A\+D\+C\+\_\+\+I\+T\+\_\+\+A\+WD\+: Analog watchdog interrupt mask \item A\+D\+C\+\_\+\+I\+T\+\_\+\+J\+E\+OC\+: End of injected conversion interrupt mask \item A\+D\+C\+\_\+\+I\+T\+\_\+\+O\+VR\+: Overrun interrupt mask \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1715} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+\begin{DoxyCode}
+01716 \{
+01717   uint8\_t itmask = 0;
+01718   \textcolor{comment}{/* Check the parameters */}
+01719   assert_param(IS_ADC_ALL_PERIPH(ADCx));
+01720   assert_param(IS_ADC_IT(ADC\_IT)); 
+01721   \textcolor{comment}{/* Get the ADC IT index */}
+01722   itmask = (uint8\_t)(ADC\_IT >> 8);
+01723   \textcolor{comment}{/* Clear the selected ADC interrupt pending bits */}
+01724   ADCx->SR = ~(uint32\_t)itmask;
+01725 \}                    
+\end{DoxyCode}
+\mbox{\label{group__ADC__Group7_gaa12546e51ec905c90a3aada432bd4633}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!A\+D\+C\+\_\+\+Get\+Flag\+Status@{A\+D\+C\+\_\+\+Get\+Flag\+Status}}
+\index{A\+D\+C\+\_\+\+Get\+Flag\+Status@{A\+D\+C\+\_\+\+Get\+Flag\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{A\+D\+C\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} A\+D\+C\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$}]{A\+D\+Cx,  }\item[{uint8\+\_\+t}]{A\+D\+C\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified A\+DC flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+Cx} & where x can be 1, 2 or 3 to select the A\+DC peripheral. \\
+\hline
+{\em A\+D\+C\+\_\+\+F\+L\+AG} & specifies the flag to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item A\+D\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+WD\+: Analog watchdog flag \item A\+D\+C\+\_\+\+F\+L\+A\+G\+\_\+\+E\+OC\+: End of conversion flag \item A\+D\+C\+\_\+\+F\+L\+A\+G\+\_\+\+J\+E\+OC\+: End of injected group conversion flag \item A\+D\+C\+\_\+\+F\+L\+A\+G\+\_\+\+J\+S\+T\+RT\+: Start of injected group conversion flag \item A\+D\+C\+\_\+\+F\+L\+A\+G\+\_\+\+S\+T\+RT\+: Start of regular group conversion flag \item A\+D\+C\+\_\+\+F\+L\+A\+G\+\_\+\+O\+VR\+: Overrun flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of A\+D\+C\+\_\+\+F\+L\+AG (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1618} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+01619 \{
+01620   FlagStatus bitstatus = RESET;
+01621   \textcolor{comment}{/* Check the parameters */}
+01622   assert_param(IS_ADC_ALL_PERIPH(ADCx));
+01623   assert_param(IS_ADC_GET_FLAG(ADC\_FLAG));
+01624 
+01625   \textcolor{comment}{/* Check the status of the specified ADC flag */}
+01626   \textcolor{keywordflow}{if} ((ADCx->SR & ADC\_FLAG) != (uint8\_t)RESET)
+01627   \{
+01628     \textcolor{comment}{/* ADC\_FLAG is set */}
+01629     bitstatus = SET;
+01630   \}
+01631   \textcolor{keywordflow}{else}
+01632   \{
+01633     \textcolor{comment}{/* ADC\_FLAG is reset */}
+01634     bitstatus = RESET;
+01635   \}
+01636   \textcolor{comment}{/* Return the ADC\_FLAG status */}
+01637   \textcolor{keywordflow}{return}  bitstatus;
+01638 \}
+\end{DoxyCode}
+\mbox{\label{group__ADC__Group7_gaa1d3b910a83dbf14d4f68c8eef058612}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!A\+D\+C\+\_\+\+Get\+I\+T\+Status@{A\+D\+C\+\_\+\+Get\+I\+T\+Status}}
+\index{A\+D\+C\+\_\+\+Get\+I\+T\+Status@{A\+D\+C\+\_\+\+Get\+I\+T\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{A\+D\+C\+\_\+\+Get\+I\+T\+Status()}
+{\footnotesize\ttfamily \textbf{ I\+T\+Status} A\+D\+C\+\_\+\+Get\+I\+T\+Status (\begin{DoxyParamCaption}\item[{\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$}]{A\+D\+Cx,  }\item[{uint16\+\_\+t}]{A\+D\+C\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified A\+DC interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+Cx} & where x can be 1, 2 or 3 to select the A\+DC peripheral. \\
+\hline
+{\em A\+D\+C\+\_\+\+IT} & specifies the A\+DC interrupt source to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item A\+D\+C\+\_\+\+I\+T\+\_\+\+E\+OC\+: End of conversion interrupt mask \item A\+D\+C\+\_\+\+I\+T\+\_\+\+A\+WD\+: Analog watchdog interrupt mask \item A\+D\+C\+\_\+\+I\+T\+\_\+\+J\+E\+OC\+: End of injected conversion interrupt mask \item A\+D\+C\+\_\+\+I\+T\+\_\+\+O\+VR\+: Overrun interrupt mask \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of A\+D\+C\+\_\+\+IT (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1674} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+01675 \{
+01676   ITStatus bitstatus = RESET;
+01677   uint32\_t itmask = 0, enablestatus = 0;
+01678 
+01679   \textcolor{comment}{/* Check the parameters */}
+01680   assert_param(IS_ADC_ALL_PERIPH(ADCx));
+01681   assert_param(IS_ADC_IT(ADC\_IT));
+01682 
+01683   \textcolor{comment}{/* Get the ADC IT index */}
+01684   itmask = ADC\_IT >> 8;
+01685 
+01686   \textcolor{comment}{/* Get the ADC\_IT enable bit status */}
+01687   enablestatus = (ADCx->CR1 & ((uint32\_t)0x01 << (uint8\_t)ADC\_IT)) ;
+01688 
+01689   \textcolor{comment}{/* Check the status of the specified ADC interrupt */}
+01690   \textcolor{keywordflow}{if} (((ADCx->SR & itmask) != (uint32\_t)RESET) && enablestatus)
+01691   \{
+01692     \textcolor{comment}{/* ADC\_IT is set */}
+01693     bitstatus = SET;
+01694   \}
+01695   \textcolor{keywordflow}{else}
+01696   \{
+01697     \textcolor{comment}{/* ADC\_IT is reset */}
+01698     bitstatus = RESET;
+01699   \}
+01700   \textcolor{comment}{/* Return the ADC\_IT status */}
+01701   \textcolor{keywordflow}{return}  bitstatus;
+01702 \}
+\end{DoxyCode}
+\mbox{\label{group__ADC__Group7_gad4c84b54b539944f555488bf979f82b6}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!A\+D\+C\+\_\+\+I\+T\+Config@{A\+D\+C\+\_\+\+I\+T\+Config}}
+\index{A\+D\+C\+\_\+\+I\+T\+Config@{A\+D\+C\+\_\+\+I\+T\+Config}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{A\+D\+C\+\_\+\+I\+T\+Config()}
+{\footnotesize\ttfamily void A\+D\+C\+\_\+\+I\+T\+Config (\begin{DoxyParamCaption}\item[{\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$}]{A\+D\+Cx,  }\item[{uint16\+\_\+t}]{A\+D\+C\+\_\+\+IT,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified A\+DC interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+Cx} & where x can be 1, 2 or 3 to select the A\+DC peripheral. \\
+\hline
+{\em A\+D\+C\+\_\+\+IT} & specifies the A\+DC interrupt sources to be enabled or disabled. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item A\+D\+C\+\_\+\+I\+T\+\_\+\+E\+OC\+: End of conversion interrupt mask \item A\+D\+C\+\_\+\+I\+T\+\_\+\+A\+WD\+: Analog watchdog interrupt mask \item A\+D\+C\+\_\+\+I\+T\+\_\+\+J\+E\+OC\+: End of injected conversion interrupt mask \item A\+D\+C\+\_\+\+I\+T\+\_\+\+O\+VR\+: Overrun interrupt enable \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the specified A\+DC interrupts. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1581} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+01582 \{
+01583   uint32\_t itmask = 0;
+01584   \textcolor{comment}{/* Check the parameters */}
+01585   assert_param(IS_ADC_ALL_PERIPH(ADCx));
+01586   assert_param(IS_FUNCTIONAL_STATE(NewState));
+01587   assert_param(IS_ADC_IT(ADC\_IT)); 
+01588 
+01589   \textcolor{comment}{/* Get the ADC IT index */}
+01590   itmask = (uint8\_t)ADC\_IT;
+01591   itmask = (uint32\_t)0x01 << itmask;    
+01592 
+01593   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01594   \{
+01595     \textcolor{comment}{/* Enable the selected ADC interrupts */}
+01596     ADCx->CR1 |= itmask;
+01597   \}
+01598   \textcolor{keywordflow}{else}
+01599   \{
+01600     \textcolor{comment}{/* Disable the selected ADC interrupts */}
+01601     ADCx->CR1 &= (~(uint32\_t)itmask);
+01602   \}
+01603 \}
+\end{DoxyCode}

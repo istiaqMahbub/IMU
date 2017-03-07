@@ -1,0 +1,92 @@
+\section{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/misc.c File Reference}
+\label{misc_8c}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/misc.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/misc.\+c}}
+
+
+This file provides all the miscellaneous firmware functions (add-\/on to C\+M\+S\+IS functions).  
+
+
+{\ttfamily \#include \char`\"{}misc.\+h\char`\"{}}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ A\+I\+R\+C\+R\+\_\+\+V\+E\+C\+T\+K\+E\+Y\+\_\+\+M\+A\+SK}~((uint32\+\_\+t)0x05\+F\+A0000)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ N\+V\+I\+C\+\_\+\+Priority\+Group\+Config} (uint32\+\_\+t N\+V\+I\+C\+\_\+\+Priority\+Group)
+\begin{DoxyCompactList}\small\item\em Configures the priority grouping\+: pre-\/emption priority and subpriority. \end{DoxyCompactList}\item 
+void \textbf{ N\+V\+I\+C\+\_\+\+Init} (\textbf{ N\+V\+I\+C\+\_\+\+Init\+Type\+Def} $\ast$N\+V\+I\+C\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the N\+V\+IC peripheral according to the specified parameters in the N\+V\+I\+C\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ N\+V\+I\+C\+\_\+\+Set\+Vector\+Table} (uint32\+\_\+t N\+V\+I\+C\+\_\+\+Vect\+Tab, uint32\+\_\+t Offset)
+\begin{DoxyCompactList}\small\item\em Sets the vector table location and Offset. \end{DoxyCompactList}\item 
+void \textbf{ N\+V\+I\+C\+\_\+\+System\+L\+P\+Config} (uint8\+\_\+t Low\+Power\+Mode, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Selects the condition for the system to enter low power mode. \end{DoxyCompactList}\item 
+void \textbf{ Sys\+Tick\+\_\+\+C\+L\+K\+Source\+Config} (uint32\+\_\+t Sys\+Tick\+\_\+\+C\+L\+K\+Source)
+\begin{DoxyCompactList}\small\item\em Configures the Sys\+Tick clock source. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file provides all the miscellaneous firmware functions (add-\/on to C\+M\+S\+IS functions). 
+
+\begin{DoxyAuthor}{Author}
+M\+CD Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\+0.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+30-\/\+September-\/2011 \begin{DoxyVerb}*                               
+*          ===================================================================      
+*                        How to configure Interrupts using driver 
+*          ===================================================================      
+* 
+*            This section provide functions allowing to configure the NVIC interrupts (IRQ).
+*            The Cortex-M4 exceptions are managed by CMSIS functions.
+*
+*            1. Configure the NVIC Priority Grouping using NVIC_PriorityGroupConfig()
+*                function according to the following table.
+
+*  The table below gives the allowed values of the pre-emption priority and subpriority according
+*  to the Priority Grouping configuration performed by NVIC_PriorityGroupConfig function
+*    ==========================================================================================================================
+*      NVIC_PriorityGroup   | NVIC_IRQChannelPreemptionPriority | NVIC_IRQChannelSubPriority  |       Description
+*    ==========================================================================================================================
+*     NVIC_PriorityGroup_0  |                0                  |            0-15             | 0 bits for pre-emption priority
+*                           |                                   |                             | 4 bits for subpriority
+*    --------------------------------------------------------------------------------------------------------------------------
+*     NVIC_PriorityGroup_1  |                0-1                |            0-7              | 1 bits for pre-emption priority
+*                           |                                   |                             | 3 bits for subpriority
+*    --------------------------------------------------------------------------------------------------------------------------    
+*     NVIC_PriorityGroup_2  |                0-3                |            0-3              | 2 bits for pre-emption priority
+*                           |                                   |                             | 2 bits for subpriority
+*    --------------------------------------------------------------------------------------------------------------------------    
+*     NVIC_PriorityGroup_3  |                0-7                |            0-1              | 3 bits for pre-emption priority
+*                           |                                   |                             | 1 bits for subpriority
+*    --------------------------------------------------------------------------------------------------------------------------    
+*     NVIC_PriorityGroup_4  |                0-15               |            0                | 4 bits for pre-emption priority
+*                           |                                   |                             | 0 bits for subpriority                       
+*    ==========================================================================================================================     
+*
+*            2. Enable and Configure the priority of the selected IRQ Channels using NVIC_Init()  
+*
+* @note  When the NVIC_PriorityGroup_0 is selected, IRQ pre-emption is no more possible. 
+*        The pending IRQ priority will be managed only by the subpriority.
+*
+* @note  IRQ priority order (sorted by highest to lowest priority):
+*         - Lowest pre-emption priority
+*         - Lowest subpriority
+*         - Lowest hardware priority (IRQ number)
+*
+*  \end{DoxyVerb}
+
+\end{DoxyDate}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+T\+HE P\+R\+E\+S\+E\+NT F\+I\+R\+M\+W\+A\+RE W\+H\+I\+CH IS F\+OR G\+U\+I\+D\+A\+N\+CE O\+N\+LY A\+I\+MS AT P\+R\+O\+V\+I\+D\+I\+NG C\+U\+S\+T\+O\+M\+E\+RS W\+I\+TH C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON R\+E\+G\+A\+R\+D\+I\+NG T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS IN O\+R\+D\+ER F\+OR T\+H\+EM TO S\+A\+VE T\+I\+ME. AS A R\+E\+S\+U\+LT, S\+T\+M\+I\+C\+R\+O\+E\+L\+E\+C\+T\+R\+O\+N\+I\+CS S\+H\+A\+LL N\+OT BE H\+E\+LD L\+I\+A\+B\+LE F\+OR A\+NY D\+I\+R\+E\+CT, I\+N\+D\+I\+R\+E\+CT OR C\+O\+N\+S\+E\+Q\+U\+E\+N\+T\+I\+AL D\+A\+M\+A\+G\+ES W\+I\+TH R\+E\+S\+P\+E\+CT TO A\+NY C\+L\+A\+I\+MS A\+R\+I\+S\+I\+NG F\+R\+OM T\+HE C\+O\+N\+T\+E\+NT OF S\+U\+CH F\+I\+R\+M\+W\+A\+RE A\+N\+D/\+OR T\+HE U\+SE M\+A\+DE BY C\+U\+S\+T\+O\+M\+E\+RS OF T\+HE C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON C\+O\+N\+T\+A\+I\+N\+ED H\+E\+R\+E\+IN IN C\+O\+N\+N\+E\+C\+T\+I\+ON W\+I\+TH T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS.
+
+\subsubsection*{\begin{center}\copyright{} C\+O\+P\+Y\+R\+I\+G\+HT 2011 S\+T\+Microelectronics\end{center} }
+
+Definition in file \textbf{ misc.\+c}.
+

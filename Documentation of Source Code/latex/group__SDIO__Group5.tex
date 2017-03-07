@@ -1,0 +1,128 @@
+\section{C\+E-\/\+A\+TA mode management functions}
+\label{group__SDIO__Group5}\index{C\+E-\/\+A\+T\+A mode management functions@{C\+E-\/\+A\+T\+A mode management functions}}
+
+
+C\+E-\/\+A\+TA mode management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Command\+Completion\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the command completion signal. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+C\+E\+A\+T\+A\+I\+T\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the C\+E-\/\+A\+TA interrupt. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Send\+C\+E\+A\+T\+A\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Sends C\+E-\/\+A\+TA command (C\+M\+D61). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+C\+E-\/\+A\+TA mode management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+              CE-ATA mode management functions
+ ===============================================================================  
+
+  This section provide functions allowing to program and read the CE-ATA card.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__SDIO__Group5_gab44b8cbc21be000a291563076159503b}} 
+\index{C\+E-\/\+A\+T\+A mode management functions@{C\+E-\/\+A\+T\+A mode management functions}!S\+D\+I\+O\+\_\+\+C\+E\+A\+T\+A\+I\+T\+Cmd@{S\+D\+I\+O\+\_\+\+C\+E\+A\+T\+A\+I\+T\+Cmd}}
+\index{S\+D\+I\+O\+\_\+\+C\+E\+A\+T\+A\+I\+T\+Cmd@{S\+D\+I\+O\+\_\+\+C\+E\+A\+T\+A\+I\+T\+Cmd}!C\+E-\/\+A\+T\+A mode management functions@{C\+E-\/\+A\+T\+A mode management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+C\+E\+A\+T\+A\+I\+T\+Cmd()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+C\+E\+A\+T\+A\+I\+T\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the C\+E-\/\+A\+TA interrupt. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of C\+E-\/\+A\+TA interrupt. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 716} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00717 \{ 
+00718   \textcolor{comment}{/* Check the parameters */}
+00719   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00720   
+00721   *(\_\_IO uint32\_t *) CMD_NIEN_BB = (uint32\_t)((~((uint32\_t)NewState)) & ((uint32\_t)0x1));
+00722 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group5_ga1bbe98c629812bc62121d9c8b2c5e21b}} 
+\index{C\+E-\/\+A\+T\+A mode management functions@{C\+E-\/\+A\+T\+A mode management functions}!S\+D\+I\+O\+\_\+\+Command\+Completion\+Cmd@{S\+D\+I\+O\+\_\+\+Command\+Completion\+Cmd}}
+\index{S\+D\+I\+O\+\_\+\+Command\+Completion\+Cmd@{S\+D\+I\+O\+\_\+\+Command\+Completion\+Cmd}!C\+E-\/\+A\+T\+A mode management functions@{C\+E-\/\+A\+T\+A mode management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Command\+Completion\+Cmd()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Command\+Completion\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the command completion signal. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of command completion signal. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 702} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00703 \{ 
+00704   \textcolor{comment}{/* Check the parameters */}
+00705   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00706   
+00707   *(\_\_IO uint32\_t *) CMD_ENCMDCOMPL_BB = (uint32\_t)NewState;
+00708 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group5_ga8dc7f17804bdb745b42f6647c8487b4c}} 
+\index{C\+E-\/\+A\+T\+A mode management functions@{C\+E-\/\+A\+T\+A mode management functions}!S\+D\+I\+O\+\_\+\+Send\+C\+E\+A\+T\+A\+Cmd@{S\+D\+I\+O\+\_\+\+Send\+C\+E\+A\+T\+A\+Cmd}}
+\index{S\+D\+I\+O\+\_\+\+Send\+C\+E\+A\+T\+A\+Cmd@{S\+D\+I\+O\+\_\+\+Send\+C\+E\+A\+T\+A\+Cmd}!C\+E-\/\+A\+T\+A mode management functions@{C\+E-\/\+A\+T\+A mode management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Send\+C\+E\+A\+T\+A\+Cmd()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Send\+C\+E\+A\+T\+A\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Sends C\+E-\/\+A\+TA command (C\+M\+D61). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of C\+E-\/\+A\+TA command. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 730} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00731 \{ 
+00732   \textcolor{comment}{/* Check the parameters */}
+00733   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00734   
+00735   *(\_\_IO uint32\_t *) CMD_ATACMD_BB = (uint32\_t)NewState;
+00736 \}
+\end{DoxyCode}

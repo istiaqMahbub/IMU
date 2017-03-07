@@ -1,0 +1,132 @@
+\section{stm32f4xx\+\_\+crc.\+c}
+\label{stm32f4xx__crc_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+crc.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+crc.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_crc.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides all the CRC firmware functions.}
+00008 \textcolor{comment}{  ******************************************************************************}
+00009 \textcolor{comment}{  * @attention}
+00010 \textcolor{comment}{  *}
+00011 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00012 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00013 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00014 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00015 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00016 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00017 \textcolor{comment}{  *}
+00018 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00019 \textcolor{comment}{  ******************************************************************************}
+00020 \textcolor{comment}{  */}
+00021 
+00022 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00023 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_crc.h"
+00024 
+00025 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00026 \textcolor{comment}{  * @\{}
+00027 \textcolor{comment}{  */}
+00028 
+00029 \textcolor{comment}{/** @defgroup CRC }
+00030 \textcolor{comment}{  * @brief CRC driver modules}
+00031 \textcolor{comment}{  * @\{}
+00032 \textcolor{comment}{  */}
+00033 
+00034 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00035 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00036 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00037 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00038 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00039 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00040 
+00041 \textcolor{comment}{/** @defgroup CRC\_Private\_Functions}
+00042 \textcolor{comment}{  * @\{}
+00043 \textcolor{comment}{  */}
+00044 
+00045 \textcolor{comment}{/**}
+00046 \textcolor{comment}{  * @brief  Resets the CRC Data register (DR).}
+00047 \textcolor{comment}{  * @param  None}
+00048 \textcolor{comment}{  * @retval None}
+00049 \textcolor{comment}{  */}
+00050 \textcolor{keywordtype}{void} CRC_ResetDR(\textcolor{keywordtype}{void})
+00051 \{
+00052   \textcolor{comment}{/* Reset CRC generator */}
+00053   CRC->CR = CRC_CR_RESET;
+00054 \}
+00055 
+00056 \textcolor{comment}{/**}
+00057 \textcolor{comment}{  * @brief  Computes the 32-bit CRC of a given data word(32-bit).}
+00058 \textcolor{comment}{  * @param  Data: data word(32-bit) to compute its CRC}
+00059 \textcolor{comment}{  * @retval 32-bit CRC}
+00060 \textcolor{comment}{  */}
+00061 uint32\_t CRC_CalcCRC(uint32\_t Data)
+00062 \{
+00063   CRC->DR = Data;
+00064 
+00065   \textcolor{keywordflow}{return} (CRC->DR);
+00066 \}
+00067 
+00068 \textcolor{comment}{/**}
+00069 \textcolor{comment}{  * @brief  Computes the 32-bit CRC of a given buffer of data word(32-bit).}
+00070 \textcolor{comment}{  * @param  pBuffer: pointer to the buffer containing the data to be computed}
+00071 \textcolor{comment}{  * @param  BufferLength: length of the buffer to be computed                   }
+00072 \textcolor{comment}{  * @retval 32-bit CRC}
+00073 \textcolor{comment}{  */}
+00074 uint32\_t CRC_CalcBlockCRC(uint32\_t pBuffer[], uint32\_t BufferLength)
+00075 \{
+00076   uint32\_t index = 0;
+00077 
+00078   \textcolor{keywordflow}{for}(index = 0; index < BufferLength; index++)
+00079   \{
+00080     CRC->DR = pBuffer[index];
+00081   \}
+00082   \textcolor{keywordflow}{return} (CRC->DR);
+00083 \}
+00084 
+00085 \textcolor{comment}{/**}
+00086 \textcolor{comment}{  * @brief  Returns the current CRC value.}
+00087 \textcolor{comment}{  * @param  None}
+00088 \textcolor{comment}{  * @retval 32-bit CRC}
+00089 \textcolor{comment}{  */}
+00090 uint32\_t CRC_GetCRC(\textcolor{keywordtype}{void})
+00091 \{
+00092   \textcolor{keywordflow}{return} (CRC->DR);
+00093 \}
+00094 
+00095 \textcolor{comment}{/**}
+00096 \textcolor{comment}{  * @brief  Stores a 8-bit data in the Independent Data(ID) register.}
+00097 \textcolor{comment}{  * @param  IDValue: 8-bit value to be stored in the ID register                    }
+00098 \textcolor{comment}{  * @retval None}
+00099 \textcolor{comment}{  */}
+00100 \textcolor{keywordtype}{void} CRC_SetIDRegister(uint8\_t IDValue)
+00101 \{
+00102   CRC->IDR = IDValue;
+00103 \}
+00104 
+00105 \textcolor{comment}{/**}
+00106 \textcolor{comment}{  * @brief  Returns the 8-bit data stored in the Independent Data(ID) register}
+00107 \textcolor{comment}{  * @param  None}
+00108 \textcolor{comment}{  * @retval 8-bit value of the ID register }
+00109 \textcolor{comment}{  */}
+00110 uint8\_t CRC_GetIDRegister(\textcolor{keywordtype}{void})
+00111 \{
+00112   \textcolor{keywordflow}{return} (CRC->IDR);
+00113 \}
+00114 
+00115 \textcolor{comment}{/**}
+00116 \textcolor{comment}{  * @\}}
+00117 \textcolor{comment}{  */}
+00118 
+00119 \textcolor{comment}{/**}
+00120 \textcolor{comment}{  * @\}}
+00121 \textcolor{comment}{  */}
+00122 
+00123 \textcolor{comment}{/**}
+00124 \textcolor{comment}{  * @\}}
+00125 \textcolor{comment}{  */}
+00126 
+00127 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

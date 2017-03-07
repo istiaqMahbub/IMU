@@ -1,0 +1,322 @@
+\section{Interrupts and flags management functions}
+\label{group__RNG__Group3}\index{Interrupts and flags management functions@{Interrupts and flags management functions}}
+
+
+Interrupts and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ R\+N\+G\+\_\+\+I\+T\+Config} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the R\+NG interrupt. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ R\+N\+G\+\_\+\+Get\+Flag\+Status} (uint8\+\_\+t R\+N\+G\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified R\+NG flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ R\+N\+G\+\_\+\+Clear\+Flag} (uint8\+\_\+t R\+N\+G\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the R\+NG flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ R\+N\+G\+\_\+\+Get\+I\+T\+Status} (uint8\+\_\+t R\+N\+G\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified R\+NG interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ R\+N\+G\+\_\+\+Clear\+I\+T\+Pending\+Bit} (uint8\+\_\+t R\+N\+G\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the R\+NG interrupt pending bit(s). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts and flags management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                   Interrupts and flags management functions
+ ===============================================================================  
+
+  This section provides functions allowing to configure the RNG Interrupts and 
+  to get the status and clear flags and Interrupts pending bits.
+  
+  The RNG provides 3 Interrupts sources and 3 Flags:
+  
+  Flags :
+  ---------- 
+     1. RNG_FLAG_DRDY :  In the case of the RNG_DR register contains valid 
+                         random data. it is cleared by reading the valid data 
+                         (using RNG_GetRandomNumber() function).
+
+     2. RNG_FLAG_CECS : In the case of a seed error detection. 
+      
+     3. RNG_FLAG_SECS : In the case of a clock error detection.
+              
+
+  Interrupts :
+  ------------
+   if enabled, an RNG interrupt is pending :
+    
+   1.  In the case of the RNG_DR register contains valid random data. 
+       This interrupt source is cleared once the RNG_DR register has been read 
+       (using RNG_GetRandomNumber() function) until a new valid value is 
+       computed. 
+   
+   or 
+   2. In the case of a seed error : One of the following faulty sequences has 
+      been detected:
+      - More than 64 consecutive bits at the same value (0 or 1)
+      - More than 32 consecutive alternance of 0 and 1 (0101010101...01)
+      This interrupt source is cleared using RNG_ClearITPendingBit(RNG_IT_SEI)
+      function.
+   
+   or
+   3. In the case of a clock error : the PLL48CLK (RNG peripheral clock source) 
+      was not correctly detected (fPLL48CLK< fHCLK/16).
+      This interrupt source is cleared using RNG_ClearITPendingBit(RNG_IT_CEI)
+      function.
+      @note In this case, User have to check that the clock controller is 
+            correctly configured to provide the RNG clock. 
+
+  Managing the RNG controller events :
+  ------------------------------------ 
+  The user should identify which mode will be used in his application to manage 
+  the RNG controller events: Polling mode or Interrupt mode.
+  
+  1.  In the Polling Mode it is advised to use the following functions:
+      - RNG_GetFlagStatus() : to check if flags events occur. 
+      - RNG_ClearFlag()     : to clear the flags events.
+  
+  @note RNG_FLAG_DRDY can not be cleared by RNG_ClearFlag(). it is cleared only 
+        by reading the Random number data.      
+  
+  2.  In the Interrupt Mode it is advised to use the following functions:
+      - RNG_ITConfig()       : to enable or disable the interrupt source.
+      - RNG_GetITStatus()    : to check if Interrupt occurs.
+      - RNG_ClearITPendingBit() : to clear the Interrupt pending Bit 
+                                (corresponding Flag). \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__RNG__Group3_gac3c67fe6bacdc4529f1707025224f954}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!R\+N\+G\+\_\+\+Clear\+Flag@{R\+N\+G\+\_\+\+Clear\+Flag}}
+\index{R\+N\+G\+\_\+\+Clear\+Flag@{R\+N\+G\+\_\+\+Clear\+Flag}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{R\+N\+G\+\_\+\+Clear\+Flag()}
+{\footnotesize\ttfamily void R\+N\+G\+\_\+\+Clear\+Flag (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{R\+N\+G\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Clears the R\+NG flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+N\+G\+\_\+\+F\+L\+AG} & specifies the flag to clear. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item R\+N\+G\+\_\+\+F\+L\+A\+G\+\_\+\+C\+E\+CS\+: Clock Error Current flag. \item R\+N\+G\+\_\+\+F\+L\+A\+G\+\_\+\+S\+E\+CS\+: Seed Error Current flag. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+R\+N\+G\+\_\+\+F\+L\+A\+G\+\_\+\+D\+R\+DY can not be cleared by \doxyref{R\+N\+G\+\_\+\+Clear\+Flag()}{p.}{group__RNG__Group3_gac3c67fe6bacdc4529f1707025224f954} function. This flag is cleared only by reading the Random number data (using \doxyref{R\+N\+G\+\_\+\+Get\+Random\+Number()}{p.}{group__RNG__Group2_ga2cead4780224fd74a3fc15543c98ed36} function). 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 327} of file \textbf{ stm32f4xx\+\_\+rng.\+c}.
+
+
+\begin{DoxyCode}
+00328 \{
+00329   \textcolor{comment}{/* Check the parameters */}
+00330   assert_param(IS_RNG_CLEAR_FLAG(RNG\_FLAG));
+00331   \textcolor{comment}{/* Clear the selected RNG flags */}
+00332   RNG->SR = ~(uint32\_t)(((uint32\_t)RNG\_FLAG) << 4);
+00333 \}
+\end{DoxyCode}
+\mbox{\label{group__RNG__Group3_ga2b1c78c003cd5c886e09fdbc2c89cacb}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!R\+N\+G\+\_\+\+Clear\+I\+T\+Pending\+Bit@{R\+N\+G\+\_\+\+Clear\+I\+T\+Pending\+Bit}}
+\index{R\+N\+G\+\_\+\+Clear\+I\+T\+Pending\+Bit@{R\+N\+G\+\_\+\+Clear\+I\+T\+Pending\+Bit}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{R\+N\+G\+\_\+\+Clear\+I\+T\+Pending\+Bit()}
+{\footnotesize\ttfamily void R\+N\+G\+\_\+\+Clear\+I\+T\+Pending\+Bit (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{R\+N\+G\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Clears the R\+NG interrupt pending bit(s). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+N\+G\+\_\+\+IT} & specifies the R\+NG interrupt pending bit(s) to clear. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item R\+N\+G\+\_\+\+I\+T\+\_\+\+C\+EI\+: Clock Error Interrupt. \item R\+N\+G\+\_\+\+I\+T\+\_\+\+S\+EI\+: Seed Error Interrupt. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 373} of file \textbf{ stm32f4xx\+\_\+rng.\+c}.
+
+
+\begin{DoxyCode}
+00374 \{
+00375   \textcolor{comment}{/* Check the parameters */}
+00376   assert_param(IS_RNG_IT(RNG\_IT));
+00377 
+00378   \textcolor{comment}{/* Clear the selected RNG interrupt pending bit */}
+00379   RNG->SR = (uint8\_t)~RNG\_IT;
+00380 \}
+\end{DoxyCode}
+\mbox{\label{group__RNG__Group3_gab70d6cc7d943dfb8eac15ccecf6cd7b3}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!R\+N\+G\+\_\+\+Get\+Flag\+Status@{R\+N\+G\+\_\+\+Get\+Flag\+Status}}
+\index{R\+N\+G\+\_\+\+Get\+Flag\+Status@{R\+N\+G\+\_\+\+Get\+Flag\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{R\+N\+G\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} R\+N\+G\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{R\+N\+G\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified R\+NG flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+N\+G\+\_\+\+F\+L\+AG} & specifies the R\+NG flag to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+N\+G\+\_\+\+F\+L\+A\+G\+\_\+\+D\+R\+DY\+: Data Ready flag. \item R\+N\+G\+\_\+\+F\+L\+A\+G\+\_\+\+C\+E\+CS\+: Clock Error Current flag. \item R\+N\+G\+\_\+\+F\+L\+A\+G\+\_\+\+S\+E\+CS\+: Seed Error Current flag. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of R\+N\+G\+\_\+\+F\+L\+AG (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 294} of file \textbf{ stm32f4xx\+\_\+rng.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00295 \{
+00296   FlagStatus bitstatus = RESET;
+00297   \textcolor{comment}{/* Check the parameters */}
+00298   assert_param(IS_RNG_GET_FLAG(RNG\_FLAG));
+00299 
+00300   \textcolor{comment}{/* Check the status of the specified RNG flag */}
+00301   \textcolor{keywordflow}{if} ((RNG->SR & RNG\_FLAG) != (uint8\_t)RESET)
+00302   \{
+00303     \textcolor{comment}{/* RNG\_FLAG is set */}
+00304     bitstatus = SET;
+00305   \}
+00306   \textcolor{keywordflow}{else}
+00307   \{
+00308     \textcolor{comment}{/* RNG\_FLAG is reset */}
+00309     bitstatus = RESET;
+00310   \}
+00311   \textcolor{comment}{/* Return the RNG\_FLAG status */}
+00312   \textcolor{keywordflow}{return}  bitstatus;
+00313 \}
+\end{DoxyCode}
+\mbox{\label{group__RNG__Group3_gab58eaab67698770d9ea9775fb280271f}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!R\+N\+G\+\_\+\+Get\+I\+T\+Status@{R\+N\+G\+\_\+\+Get\+I\+T\+Status}}
+\index{R\+N\+G\+\_\+\+Get\+I\+T\+Status@{R\+N\+G\+\_\+\+Get\+I\+T\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{R\+N\+G\+\_\+\+Get\+I\+T\+Status()}
+{\footnotesize\ttfamily \textbf{ I\+T\+Status} R\+N\+G\+\_\+\+Get\+I\+T\+Status (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{R\+N\+G\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified R\+NG interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+N\+G\+\_\+\+IT} & specifies the R\+NG interrupt source to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+N\+G\+\_\+\+I\+T\+\_\+\+C\+EI\+: Clock Error Interrupt. \item R\+N\+G\+\_\+\+I\+T\+\_\+\+S\+EI\+: Seed Error Interrupt. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of R\+N\+G\+\_\+\+IT (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 343} of file \textbf{ stm32f4xx\+\_\+rng.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00344 \{
+00345   ITStatus bitstatus = RESET;
+00346   \textcolor{comment}{/* Check the parameters */}
+00347   assert_param(IS_RNG_GET_IT(RNG\_IT));
+00348 
+00349   \textcolor{comment}{/* Check the status of the specified RNG interrupt */}
+00350   \textcolor{keywordflow}{if} ((RNG->SR & RNG\_IT) != (uint8\_t)RESET)
+00351   \{
+00352     \textcolor{comment}{/* RNG\_IT is set */}
+00353     bitstatus = SET;
+00354   \}
+00355   \textcolor{keywordflow}{else}
+00356   \{
+00357     \textcolor{comment}{/* RNG\_IT is reset */}
+00358     bitstatus = RESET;
+00359   \}
+00360   \textcolor{comment}{/* Return the RNG\_IT status */}
+00361   \textcolor{keywordflow}{return} bitstatus;
+00362 \}
+\end{DoxyCode}
+\mbox{\label{group__RNG__Group3_ga41d9be4c303ba0875a82c62dc7085f08}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!R\+N\+G\+\_\+\+I\+T\+Config@{R\+N\+G\+\_\+\+I\+T\+Config}}
+\index{R\+N\+G\+\_\+\+I\+T\+Config@{R\+N\+G\+\_\+\+I\+T\+Config}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{R\+N\+G\+\_\+\+I\+T\+Config()}
+{\footnotesize\ttfamily void R\+N\+G\+\_\+\+I\+T\+Config (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the R\+NG interrupt. 
+
+\begin{DoxyNote}{Note}
+The R\+NG provides 3 interrupt sources,
+\begin{DoxyItemize}
+\item Computed data is ready event (D\+R\+DY), and
+\item Seed error Interrupt (S\+EI) and
+\item Clock error Interrupt (C\+EI), all these interrupts sources are enabled by setting the IE bit in CR register. However, each interrupt have its specific status bit (see \doxyref{R\+N\+G\+\_\+\+Get\+I\+T\+Status()}{p.}{group__RNG__Group3_gab58eaab67698770d9ea9775fb280271f} function) and clear bit except the D\+R\+DY event (see \doxyref{R\+N\+G\+\_\+\+Clear\+I\+T\+Pending\+Bit()}{p.}{group__RNG__Group3_ga2b1c78c003cd5c886e09fdbc2c89cacb} function). 
+\end{DoxyItemize}
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the R\+NG interrupt. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 268} of file \textbf{ stm32f4xx\+\_\+rng.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00269 \{
+00270   \textcolor{comment}{/* Check the parameters */}
+00271   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00272 
+00273   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00274   \{
+00275     \textcolor{comment}{/* Enable the RNG interrupt */}
+00276     RNG->CR |= RNG_CR_IE;
+00277   \}
+00278   \textcolor{keywordflow}{else}
+00279   \{
+00280     \textcolor{comment}{/* Disable the RNG interrupt */}
+00281     RNG->CR &= ~RNG_CR_IE;
+00282   \}
+00283 \}
+\end{DoxyCode}

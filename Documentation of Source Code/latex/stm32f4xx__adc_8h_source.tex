@@ -1,0 +1,714 @@
+\section{stm32f4xx\+\_\+adc.\+h}
+\label{stm32f4xx__adc_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+adc.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+adc.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_adc.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the ADC firmware }
+00008 \textcolor{comment}{  *          library.}
+00009 \textcolor{comment}{  ******************************************************************************}
+00010 \textcolor{comment}{  * @attention}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00013 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00014 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00015 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00016 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00017 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00020 \textcolor{comment}{  ******************************************************************************}
+00021 \textcolor{comment}{  */}
+00022 
+00023 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_ADC\_H}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_ADC\_H}
+00026 
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00028  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00033 
+00034 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00035 \textcolor{comment}{  * @\{}
+00036 \textcolor{comment}{  */}
+00037 
+00038 \textcolor{comment}{/** @addtogroup ADC}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00043 
+00044 \textcolor{comment}{/** }
+00045 \textcolor{comment}{  * @brief   ADC Init structure definition  }
+00046 \textcolor{comment}{  */}
+00047 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00048 \{
+00049   uint32\_t ADC_Resolution;                \textcolor{comment}{/*!< Configures the ADC resolution dual mode. }
+00050 \textcolor{comment}{                                               This parameter can be a value of @ref ADC\_resolution */}
+00051   FunctionalState ADC_ScanConvMode;       \textcolor{comment}{/*!< Specifies whether the conversion }
+00052 \textcolor{comment}{                                               is performed in Scan (multichannels) }
+00053 \textcolor{comment}{                                               or Single (one channel) mode.}
+00054 \textcolor{comment}{                                               This parameter can be set to ENABLE or DISABLE */}
+00055   FunctionalState ADC_ContinuousConvMode; \textcolor{comment}{/*!< Specifies whether the conversion }
+00056 \textcolor{comment}{                                               is performed in Continuous or Single mode.}
+00057 \textcolor{comment}{                                               This parameter can be set to ENABLE or DISABLE. */}
+00058   uint32\_t ADC_ExternalTrigConvEdge;      \textcolor{comment}{/*!< Select the external trigger edge and}
+00059 \textcolor{comment}{                                               enable the trigger of a regular group. }
+00060 \textcolor{comment}{                                               This parameter can be a value of }
+00061 \textcolor{comment}{                                               @ref
+       ADC\_external\_trigger\_edge\_for\_regular\_channels\_conversion */}
+00062   uint32\_t ADC_ExternalTrigConv;          \textcolor{comment}{/*!< Select the external event used to trigger }
+00063 \textcolor{comment}{                                               the start of conversion of a regular group.}
+00064 \textcolor{comment}{                                               This parameter can be a value of }
+00065 \textcolor{comment}{                                               @ref
+       ADC\_extrenal\_trigger\_sources\_for\_regular\_channels\_conversion */}
+00066   uint32\_t ADC_DataAlign;                 \textcolor{comment}{/*!< Specifies whether the ADC data  alignment}
+00067 \textcolor{comment}{                                               is left or right. This parameter can be }
+00068 \textcolor{comment}{                                               a value of @ref ADC\_data\_align */}
+00069   uint8\_t  ADC_NbrOfConversion;           \textcolor{comment}{/*!< Specifies the number of ADC conversions}
+00070 \textcolor{comment}{                                               that will be done using the sequencer for}
+00071 \textcolor{comment}{                                               regular channel group.}
+00072 \textcolor{comment}{                                               This parameter must range from 1 to 16. */}
+00073 \}ADC\_InitTypeDef;
+00074 
+00075 \textcolor{comment}{/** }
+00076 \textcolor{comment}{  * @brief   ADC Common Init structure definition  }
+00077 \textcolor{comment}{  */}
+00078 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00079 \{
+00080   uint32\_t ADC_Mode;                      \textcolor{comment}{/*!< Configures the ADC to operate in }
+00081 \textcolor{comment}{                                               independent or multi mode. }
+00082 \textcolor{comment}{                                               This parameter can be a value of @ref ADC\_Common\_mode
+       */}
+00083   uint32\_t ADC_Prescaler;                 \textcolor{comment}{/*!< Select the frequency of the clock }
+00084 \textcolor{comment}{                                               to the ADC. The clock is common for all the ADCs.}
+00085 \textcolor{comment}{                                               This parameter can be a value of @ref ADC\_Prescaler */}
+00086   uint32\_t ADC_DMAAccessMode;             \textcolor{comment}{/*!< Configures the Direct memory access }
+00087 \textcolor{comment}{                                              mode for multi ADC mode.}
+00088 \textcolor{comment}{                                               This parameter can be a value of }
+00089 \textcolor{comment}{                                               @ref ADC\_Direct\_memory\_access\_mode\_for\_multi\_mode */}
+00090   uint32\_t ADC_TwoSamplingDelay;          \textcolor{comment}{/*!< Configures the Delay between 2 sampling phases.}
+00091 \textcolor{comment}{                                               This parameter can be a value of }
+00092 \textcolor{comment}{                                               @ref ADC\_delay\_between\_2\_sampling\_phases */}
+00093 
+00094 \}ADC\_CommonInitTypeDef;
+00095 
+00096 
+00097 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00098 
+00099 \textcolor{comment}{/** @defgroup ADC\_Exported\_Constants}
+00100 \textcolor{comment}{  * @\{}
+00101 \textcolor{comment}{  */}
+00102 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_ALL\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00103                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00104                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC3\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00105 
+00106 \textcolor{comment}{/** @defgroup ADC\_Common\_mode }
+00107 \textcolor{comment}{  * @\{}
+00108 \textcolor{comment}{  */}
+00109 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Mode\_Independent}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00110 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_DualMode\_RegSimult\_InjecSimult}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00111 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_DualMode\_RegSimult\_AlterTrig}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}
+00112 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_DualMode\_InjecSimult}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000005\textcolor{preprocessor}{)}
+00113 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_DualMode\_RegSimult}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000006\textcolor{preprocessor}{)}
+00114 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_DualMode\_Interl}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000007\textcolor{preprocessor}{)}
+00115 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_DualMode\_AlterTrig}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000009\textcolor{preprocessor}{)}
+00116 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TripleMode\_RegSimult\_InjecSimult}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000011\textcolor{preprocessor}{)}
+00117 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TripleMode\_RegSimult\_AlterTrig}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000012\textcolor{preprocessor}{)}
+00118 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TripleMode\_InjecSimult}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000015\textcolor{preprocessor}{)}
+00119 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TripleMode\_RegSimult}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000016\textcolor{preprocessor}{)}
+00120 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TripleMode\_Interl}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000017\textcolor{preprocessor}{)}
+00121 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TripleMode\_AlterTrig}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000019\textcolor{preprocessor}{)}
+00122 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Mode_Independent\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00123                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_DualMode_RegSimult_InjecSimult\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00124                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_DualMode_RegSimult_AlterTrig\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00125                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_DualMode_InjecSimult\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00126                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_DualMode_RegSimult\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00127                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_DualMode_Interl\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00128                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_DualMode_AlterTrig\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00129                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_TripleMode_RegSimult_InjecSimult\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00130                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_TripleMode_RegSimult_AlterTrig\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00131                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_TripleMode_InjecSimult\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00132                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_TripleMode_RegSimult\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00133                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_TripleMode_Interl\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00134                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_TripleMode_AlterTrig\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00135 \textcolor{comment}{/**}
+00136 \textcolor{comment}{  * @\}}
+00137 \textcolor{comment}{  */}
+00138 
+00139 
+00140 \textcolor{comment}{/** @defgroup ADC\_Prescaler }
+00141 \textcolor{comment}{  * @\{}
+00142 \textcolor{comment}{  */}
+00143 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Prescaler\_Div2}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00144 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Prescaler\_Div4}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00010000\textcolor{preprocessor}{)}
+00145 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Prescaler\_Div6}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00020000\textcolor{preprocessor}{)}
+00146 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Prescaler\_Div8}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00030000\textcolor{preprocessor}{)}
+00147 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_PRESCALER}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Prescaler_Div2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00148                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Prescaler_Div4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00149                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Prescaler_Div6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00150                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Prescaler_Div8\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00151 \textcolor{comment}{/**}
+00152 \textcolor{comment}{  * @\}}
+00153 \textcolor{comment}{  */}
+00154 
+00155 
+00156 \textcolor{comment}{/** @defgroup ADC\_Direct\_memory\_access\_mode\_for\_multi\_mode }
+00157 \textcolor{comment}{  * @\{}
+00158 \textcolor{comment}{  */}
+00159 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_DMAAccessMode\_Disabled}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}     \textcolor{comment}{/* DMA mode disabled */}
+00160 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_DMAAccessMode\_1}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00004000\textcolor{preprocessor}{)}     \textcolor{comment}{/* DMA mode 1 enabled (2 / 3
+       half-words one by one - 1 then 2 then 3)*/}
+00161 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_DMAAccessMode\_2}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00008000\textcolor{preprocessor}{)}     \textcolor{comment}{/* DMA mode 2 enabled (2 / 3
+       half-words by pairs - 2&1 then 1&3 then 3&2)*/}
+00162 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_DMAAccessMode\_3}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0000C000\textcolor{preprocessor}{)}     \textcolor{comment}{/* DMA mode 3 enabled (2 / 3 bytes
+       by pairs - 2&1 then 1&3 then 3&2) */}
+00163 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_DMA\_ACCESS\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_DMAAccessMode_Disabled\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00164                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_DMAAccessMode_1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00165                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_DMAAccessMode_2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00166                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_DMAAccessMode_3\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00167 
+00168 \textcolor{comment}{/**}
+00169 \textcolor{comment}{  * @\}}
+00170 \textcolor{comment}{  */}
+00171 
+00172 
+00173 \textcolor{comment}{/** @defgroup ADC\_delay\_between\_2\_sampling\_phases }
+00174 \textcolor{comment}{  * @\{}
+00175 \textcolor{comment}{  */}
+00176 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TwoSamplingDelay\_5Cycles}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00177 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TwoSamplingDelay\_6Cycles}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000100\textcolor{preprocessor}{)}
+00178 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TwoSamplingDelay\_7Cycles}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000200\textcolor{preprocessor}{)}
+00179 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TwoSamplingDelay\_8Cycles}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000300\textcolor{preprocessor}{)}
+00180 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TwoSamplingDelay\_9Cycles}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000400\textcolor{preprocessor}{)}
+00181 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TwoSamplingDelay\_10Cycles}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000500\textcolor{preprocessor}{)}
+00182 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TwoSamplingDelay\_11Cycles}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000600\textcolor{preprocessor}{)}
+00183 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TwoSamplingDelay\_12Cycles}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000700\textcolor{preprocessor}{)}
+00184 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TwoSamplingDelay\_13Cycles}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000800\textcolor{preprocessor}{)}
+00185 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TwoSamplingDelay\_14Cycles}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000900\textcolor{preprocessor}{)}
+00186 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TwoSamplingDelay\_15Cycles}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000A00\textcolor{preprocessor}{)}
+00187 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TwoSamplingDelay\_16Cycles}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000B00\textcolor{preprocessor}{)}
+00188 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TwoSamplingDelay\_17Cycles}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000C00\textcolor{preprocessor}{)}
+00189 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TwoSamplingDelay\_18Cycles}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000D00\textcolor{preprocessor}{)}
+00190 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TwoSamplingDelay\_19Cycles}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000E00\textcolor{preprocessor}{)}
+00191 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_TwoSamplingDelay\_20Cycles}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000F00\textcolor{preprocessor}{)}
+00192 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_SAMPLING\_DELAY}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DELAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DELAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_TwoSamplingDelay_5Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00193                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DELAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_TwoSamplingDelay_6Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00194                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DELAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_TwoSamplingDelay_7Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00195                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DELAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_TwoSamplingDelay_8Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00196                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DELAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_TwoSamplingDelay_9Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00197                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DELAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_TwoSamplingDelay_10Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00198                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DELAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_TwoSamplingDelay_11Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00199                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DELAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_TwoSamplingDelay_12Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00200                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DELAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_TwoSamplingDelay_13Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00201                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DELAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_TwoSamplingDelay_14Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00202                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DELAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_TwoSamplingDelay_15Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00203                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DELAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_TwoSamplingDelay_16Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00204                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DELAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_TwoSamplingDelay_17Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00205                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DELAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_TwoSamplingDelay_18Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00206                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DELAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_TwoSamplingDelay_19Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00207                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DELAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_TwoSamplingDelay_20Cycles\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00208 
+00209 \textcolor{comment}{/**}
+00210 \textcolor{comment}{  * @\}}
+00211 \textcolor{comment}{  */}
+00212 
+00213 
+00214 \textcolor{comment}{/** @defgroup ADC\_resolution }
+00215 \textcolor{comment}{  * @\{}
+00216 \textcolor{comment}{  */}
+00217 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Resolution\_12b}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00218 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Resolution\_10b}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x01000000\textcolor{preprocessor}{)}
+00219 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Resolution\_8b}                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x02000000\textcolor{preprocessor}{)}
+00220 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Resolution\_6b}                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x03000000\textcolor{preprocessor}{)}
+00221 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_RESOLUTION}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RESOLUTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RESOLUTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Resolution_12b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00222                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RESOLUTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Resolution_10b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00223                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RESOLUTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Resolution_8b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00224                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RESOLUTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Resolution_6b\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00225 
+00226 \textcolor{comment}{/**}
+00227 \textcolor{comment}{  * @\}}
+00228 \textcolor{comment}{  */}
+00229 
+00230 
+00231 \textcolor{comment}{/** @defgroup ADC\_external\_trigger\_edge\_for\_regular\_channels\_conversion }
+00232 \textcolor{comment}{  * @\{}
+00233 \textcolor{comment}{  */}
+00234 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigConvEdge\_None}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00235 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigConvEdge\_Rising}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000000\textcolor{preprocessor}{)}
+00236 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigConvEdge\_Falling}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000000\textcolor{preprocessor}{)}
+00237 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigConvEdge\_RisingFalling} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x30000000\textcolor{preprocessor}{)}
+00238 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_EXT\_TRIG\_EDGE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EDGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EDGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigConvEdge_None\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00239                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EDGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_ExternalTrigConvEdge_Rising\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00240                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EDGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_ExternalTrigConvEdge_Falling\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00241                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EDGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigConvEdge_RisingFalling\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00242 \textcolor{comment}{/**}
+00243 \textcolor{comment}{  * @\}}
+00244 \textcolor{comment}{  */}
+00245 
+00246 
+00247 \textcolor{comment}{/** @defgroup ADC\_extrenal\_trigger\_sources\_for\_regular\_channels\_conversion }
+00248 \textcolor{comment}{  * @\{}
+00249 \textcolor{comment}{  */}
+00250 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigConv\_T1\_CC1}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00251 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigConv\_T1\_CC2}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x01000000\textcolor{preprocessor}{)}
+00252 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigConv\_T1\_CC3}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x02000000\textcolor{preprocessor}{)}
+00253 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigConv\_T2\_CC2}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x03000000\textcolor{preprocessor}{)}
+00254 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigConv\_T2\_CC3}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x04000000\textcolor{preprocessor}{)}
+00255 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigConv\_T2\_CC4}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x05000000\textcolor{preprocessor}{)}
+00256 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigConv\_T2\_TRGO}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x06000000\textcolor{preprocessor}{)}
+00257 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigConv\_T3\_CC1}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x07000000\textcolor{preprocessor}{)}
+00258 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigConv\_T3\_TRGO}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x08000000\textcolor{preprocessor}{)}
+00259 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigConv\_T4\_CC4}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x09000000\textcolor{preprocessor}{)}
+00260 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigConv\_T5\_CC1}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0A000000\textcolor{preprocessor}{)}
+00261 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigConv\_T5\_CC2}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0B000000\textcolor{preprocessor}{)}
+00262 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigConv\_T5\_CC3}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0C000000\textcolor{preprocessor}{)}
+00263 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigConv\_T8\_CC1}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0D000000\textcolor{preprocessor}{)}
+00264 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigConv\_T8\_TRGO}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0E000000\textcolor{preprocessor}{)}
+00265 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigConv\_Ext\_IT11}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0F000000\textcolor{preprocessor}{)}
+00266 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_EXT\_TRIG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_ExternalTrigConv_T1_CC1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00267                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_ExternalTrigConv_T1_CC2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00268                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_ExternalTrigConv_T1_CC3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00269                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_ExternalTrigConv_T2_CC2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00270                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_ExternalTrigConv_T2_CC3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00271                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_ExternalTrigConv_T2_CC4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00272                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigConv_T2_TRGO\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00273                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_ExternalTrigConv_T3_CC1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00274                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigConv_T3_TRGO\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00275                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_ExternalTrigConv_T4_CC4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00276                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_ExternalTrigConv_T5_CC1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00277                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_ExternalTrigConv_T5_CC2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00278                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_ExternalTrigConv_T5_CC3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00279                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_ExternalTrigConv_T8_CC1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00280                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigConv_T8_TRGO\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00281                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigConv_Ext_IT11\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00282 \textcolor{comment}{/**}
+00283 \textcolor{comment}{  * @\}}
+00284 \textcolor{comment}{  */}
+00285 
+00286 
+00287 \textcolor{comment}{/** @defgroup ADC\_data\_align }
+00288 \textcolor{comment}{  * @\{}
+00289 \textcolor{comment}{  */}
+00290 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_DataAlign\_Right}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00291 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_DataAlign\_Left}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000800\textcolor{preprocessor}{)}
+00292 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_DATA\_ALIGN}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALIGN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALIGN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_DataAlign_Right\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00293                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALIGN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_DataAlign_Left\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00294 \textcolor{comment}{/**}
+00295 \textcolor{comment}{  * @\}}
+00296 \textcolor{comment}{  */}
+00297 
+00298 
+00299 \textcolor{comment}{/** @defgroup ADC\_channels }
+00300 \textcolor{comment}{  * @\{}
+00301 \textcolor{comment}{  */}
+00302 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_0}                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}
+00303 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_1}                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}
+00304 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_2}                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}
+00305 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_3}                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x03\textcolor{preprocessor}{)}
+00306 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_4}                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x04\textcolor{preprocessor}{)}
+00307 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_5}                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x05\textcolor{preprocessor}{)}
+00308 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_6}                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x06\textcolor{preprocessor}{)}
+00309 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_7}                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x07\textcolor{preprocessor}{)}
+00310 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_8}                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x08\textcolor{preprocessor}{)}
+00311 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_9}                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x09\textcolor{preprocessor}{)}
+00312 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_10}                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0A\textcolor{preprocessor}{)}
+00313 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_11}                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0B\textcolor{preprocessor}{)}
+00314 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_12}                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0C\textcolor{preprocessor}{)}
+00315 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_13}                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0D\textcolor{preprocessor}{)}
+00316 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_14}                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0E\textcolor{preprocessor}{)}
+00317 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_15}                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0F\textcolor{preprocessor}{)}
+00318 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_16}                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x10\textcolor{preprocessor}{)}
+00319 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_17}                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x11\textcolor{preprocessor}{)}
+00320 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_18}                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x12\textcolor{preprocessor}{)}
+00321 
+00322 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_TempSensor}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}
+      ADC_Channel_16\textcolor{preprocessor}{)}
+00323 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_Vrefint}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}
+      ADC_Channel_17\textcolor{preprocessor}{)}
+00324 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_Channel\_Vbat}                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}
+      ADC_Channel_18\textcolor{preprocessor}{)}
+00325 
+00326 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_CHANNEL}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Channel_0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00327                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Channel_1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00328                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Channel_2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00329                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Channel_3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00330                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Channel_4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00331                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Channel_5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00332                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Channel_6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00333                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Channel_7\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00334                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Channel_8\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00335                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Channel_9\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00336                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Channel_10\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00337                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Channel_11\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00338                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Channel_12\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00339                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Channel_13\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00340                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Channel_14\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00341                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Channel_15\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00342                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Channel_16\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00343                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Channel_17\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00344                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_Channel_18\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00345 \textcolor{comment}{/**}
+00346 \textcolor{comment}{  * @\}}
+00347 \textcolor{comment}{  */}
+00348 
+00349 
+00350 \textcolor{comment}{/** @defgroup ADC\_sampling\_times }
+00351 \textcolor{comment}{  * @\{}
+00352 \textcolor{comment}{  */}
+00353 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_SampleTime\_3Cycles}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}
+00354 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_SampleTime\_15Cycles}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}
+00355 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_SampleTime\_28Cycles}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}
+00356 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_SampleTime\_56Cycles}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x03\textcolor{preprocessor}{)}
+00357 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_SampleTime\_84Cycles}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x04\textcolor{preprocessor}{)}
+00358 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_SampleTime\_112Cycles}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x05\textcolor{preprocessor}{)}
+00359 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_SampleTime\_144Cycles}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x06\textcolor{preprocessor}{)}
+00360 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_SampleTime\_480Cycles}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x07\textcolor{preprocessor}{)}
+00361 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_SAMPLE\_TIME}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_SampleTime_3Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00362                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_SampleTime_15Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00363                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_SampleTime_28Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00364                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_SampleTime_56Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00365                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_SampleTime_84Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00366                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_SampleTime_112Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00367                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_SampleTime_144Cycles\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00368                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_SampleTime_480Cycles\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00369 \textcolor{comment}{/**}
+00370 \textcolor{comment}{  * @\}}
+00371 \textcolor{comment}{  */}
+00372 
+00373 
+00374 \textcolor{comment}{/** @defgroup ADC\_external\_trigger\_edge\_for\_injected\_channels\_conversion }
+00375 \textcolor{comment}{  * @\{}
+00376 \textcolor{comment}{  */}
+00377 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigInjecConvEdge\_None}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00378 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigInjecConvEdge\_Rising}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00100000\textcolor{preprocessor}{)}
+00379 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigInjecConvEdge\_Falling}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00200000\textcolor{preprocessor}{)}
+00380 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigInjecConvEdge\_RisingFalling} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00300000\textcolor{preprocessor}{)}
+00381 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_EXT\_INJEC\_TRIG\_EDGE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EDGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EDGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigInjecConvEdge_None\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00382                                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EDGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigInjecConvEdge_Rising\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00383                                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EDGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigInjecConvEdge_Falling\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00384                                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EDGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigInjecConvEdge_RisingFalling\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00385 
+00386 \textcolor{comment}{/**}
+00387 \textcolor{comment}{  * @\}}
+00388 \textcolor{comment}{  */}
+00389 
+00390 
+00391 \textcolor{comment}{/** @defgroup ADC\_extrenal\_trigger\_sources\_for\_injected\_channels\_conversion }
+00392 \textcolor{comment}{  * @\{}
+00393 \textcolor{comment}{  */}
+00394 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigInjecConv\_T1\_CC4}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00395 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigInjecConv\_T1\_TRGO}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00010000\textcolor{preprocessor}{)}
+00396 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigInjecConv\_T2\_CC1}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00020000\textcolor{preprocessor}{)}
+00397 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigInjecConv\_T2\_TRGO}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00030000\textcolor{preprocessor}{)}
+00398 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigInjecConv\_T3\_CC2}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00040000\textcolor{preprocessor}{)}
+00399 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigInjecConv\_T3\_CC4}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00050000\textcolor{preprocessor}{)}
+00400 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigInjecConv\_T4\_CC1}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00060000\textcolor{preprocessor}{)}
+00401 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigInjecConv\_T4\_CC2}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00070000\textcolor{preprocessor}{)}
+00402 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigInjecConv\_T4\_CC3}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00080000\textcolor{preprocessor}{)}
+00403 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigInjecConv\_T4\_TRGO}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00090000\textcolor{preprocessor}{)}
+00404 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigInjecConv\_T5\_CC4}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000A0000\textcolor{preprocessor}{)}
+00405 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigInjecConv\_T5\_TRGO}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000B0000\textcolor{preprocessor}{)}
+00406 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigInjecConv\_T8\_CC2}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000C0000\textcolor{preprocessor}{)}
+00407 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigInjecConv\_T8\_CC3}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000D0000\textcolor{preprocessor}{)}
+00408 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigInjecConv\_T8\_CC4}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000E0000\textcolor{preprocessor}{)}
+00409 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_ExternalTrigInjecConv\_Ext\_IT15}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000F0000\textcolor{preprocessor}{)}
+00410 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_EXT\_INJEC\_TRIG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INJTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INJTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigInjecConv_T1_CC4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00411                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INJTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigInjecConv_T1_TRGO\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00412                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INJTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigInjecConv_T2_CC1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00413                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INJTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigInjecConv_T2_TRGO\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00414                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INJTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigInjecConv_T3_CC2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00415                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INJTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigInjecConv_T3_CC4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00416                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INJTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigInjecConv_T4_CC1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00417                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INJTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigInjecConv_T4_CC2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00418                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INJTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigInjecConv_T4_CC3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00419                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INJTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigInjecConv_T4_TRGO\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00420                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INJTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigInjecConv_T5_CC4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00421                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INJTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigInjecConv_T5_TRGO\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00422                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INJTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigInjecConv_T8_CC2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00423                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INJTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigInjecConv_T8_CC3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00424                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INJTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigInjecConv_T8_CC4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00425                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INJTRIG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_ExternalTrigInjecConv_Ext_IT15\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00426 \textcolor{comment}{/**}
+00427 \textcolor{comment}{  * @\}}
+00428 \textcolor{comment}{  */}
+00429 
+00430 
+00431 \textcolor{comment}{/** @defgroup ADC\_injected\_channel\_selection }
+00432 \textcolor{comment}{  * @\{}
+00433 \textcolor{comment}{  */}
+00434 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_InjectedChannel\_1}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x14\textcolor{preprocessor}{)}
+00435 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_InjectedChannel\_2}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x18\textcolor{preprocessor}{)}
+00436 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_InjectedChannel\_3}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x1C\textcolor{preprocessor}{)}
+00437 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_InjectedChannel\_4}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x20\textcolor{preprocessor}{)}
+00438 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_INJECTED\_CHANNEL}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_InjectedChannel_1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00439                                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_InjectedChannel_2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00440                                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_InjectedChannel_3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00441                                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_InjectedChannel_4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00442 \textcolor{comment}{/**}
+00443 \textcolor{comment}{  * @\}}
+00444 \textcolor{comment}{  */}
+00445 
+00446 
+00447 \textcolor{comment}{/** @defgroup ADC\_analog\_watchdog\_selection }
+00448 \textcolor{comment}{  * @\{}
+00449 \textcolor{comment}{  */}
+00450 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_AnalogWatchdog\_SingleRegEnable}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00800200\textcolor{preprocessor}{)}
+00451 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_AnalogWatchdog\_SingleInjecEnable}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00400200\textcolor{preprocessor}{)}
+00452 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_AnalogWatchdog\_SingleRegOrInjecEnable}  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00C00200\textcolor{preprocessor}{)}
+00453 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_AnalogWatchdog\_AllRegEnable}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00800000\textcolor{preprocessor}{)}
+00454 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_AnalogWatchdog\_AllInjecEnable}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00400000\textcolor{preprocessor}{)}
+00455 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_AnalogWatchdog\_AllRegAllInjecEnable}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00C00000\textcolor{preprocessor}{)}
+00456 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_AnalogWatchdog\_None}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00457 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_ANALOG\_WATCHDOG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WATCHDOG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WATCHDOG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_AnalogWatchdog_SingleRegEnable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00458                                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WATCHDOG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_AnalogWatchdog_SingleInjecEnable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00459                                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WATCHDOG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_AnalogWatchdog_SingleRegOrInjecEnable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00460                                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WATCHDOG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_AnalogWatchdog_AllRegEnable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00461                                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WATCHDOG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_AnalogWatchdog_AllInjecEnable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00462                                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WATCHDOG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_AnalogWatchdog_AllRegAllInjecEnable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00463                                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WATCHDOG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      ADC_AnalogWatchdog_None\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00464 \textcolor{comment}{/**}
+00465 \textcolor{comment}{  * @\}}
+00466 \textcolor{comment}{  */}
+00467 
+00468 
+00469 \textcolor{comment}{/** @defgroup ADC\_interrupts\_definition }
+00470 \textcolor{comment}{  * @\{}
+00471 \textcolor{comment}{  */}
+00472 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_IT\_EOC}                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0205\textcolor{preprocessor}{)}
+00473 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_IT\_AWD}                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0106\textcolor{preprocessor}{)}
+00474 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_IT\_JEOC}                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0407\textcolor{preprocessor}{)}
+00475 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_IT\_OVR}                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x201A\textcolor{preprocessor}{)}
+00476 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_IT_EOC\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_IT_AWD\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00477                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_IT_JEOC\textcolor{preprocessor}{)}\textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_IT_OVR\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00478 \textcolor{comment}{/**}
+00479 \textcolor{comment}{  * @\}}
+00480 \textcolor{comment}{  */}
+00481 
+00482 
+00483 \textcolor{comment}{/** @defgroup ADC\_flags\_definition }
+00484 \textcolor{comment}{  * @\{}
+00485 \textcolor{comment}{  */}
+00486 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_FLAG\_AWD}                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}
+00487 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_FLAG\_EOC}                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}
+00488 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_FLAG\_JEOC}                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x04\textcolor{preprocessor}{)}
+00489 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_FLAG\_JSTRT}                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x08\textcolor{preprocessor}{)}
+00490 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_FLAG\_STRT}                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x10\textcolor{preprocessor}{)}
+00491 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ADC\_FLAG\_OVR}                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x20\textcolor{preprocessor}{)}
+00492 
+00493 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_CLEAR\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0xC0\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00494 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_GET\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_FLAG_AWD\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00495                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_FLAG_EOC\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00496                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_FLAG_JEOC\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00497                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}\textcolor{preprocessor}{==} ADC_FLAG_JSTRT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00498                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} ADC_FLAG_STRT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00499                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}\textcolor{preprocessor}{==} ADC_FLAG_OVR\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00500 \textcolor{comment}{/**}
+00501 \textcolor{comment}{  * @\}}
+00502 \textcolor{comment}{  */}
+00503 
+00504 
+00505 \textcolor{comment}{/** @defgroup ADC\_thresholds }
+00506 \textcolor{comment}{  * @\{}
+00507 \textcolor{comment}{  */}
+00508 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_THRESHOLD}\textcolor{preprocessor}{(}\textcolor{preprocessor}{THRESHOLD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{THRESHOLD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0xFFF\textcolor{preprocessor}{)}
+00509 \textcolor{comment}{/**}
+00510 \textcolor{comment}{  * @\}}
+00511 \textcolor{comment}{  */}
+00512 
+00513 
+00514 \textcolor{comment}{/** @defgroup ADC\_injected\_offset }
+00515 \textcolor{comment}{  * @\{}
+00516 \textcolor{comment}{  */}
+00517 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_OFFSET}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OFFSET}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OFFSET}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0xFFF\textcolor{preprocessor}{)}
+00518 \textcolor{comment}{/**}
+00519 \textcolor{comment}{  * @\}}
+00520 \textcolor{comment}{  */}
+00521 
+00522 
+00523 \textcolor{comment}{/** @defgroup ADC\_injected\_length }
+00524 \textcolor{comment}{  * @\{}
+00525 \textcolor{comment}{  */}
+00526 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_INJECTED\_LENGTH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{>=} 0x1\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0x4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00527 \textcolor{comment}{/**}
+00528 \textcolor{comment}{  * @\}}
+00529 \textcolor{comment}{  */}
+00530 
+00531 
+00532 \textcolor{comment}{/** @defgroup ADC\_injected\_rank }
+00533 \textcolor{comment}{  * @\{}
+00534 \textcolor{comment}{  */}
+00535 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_INJECTED\_RANK}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{>=} 0x1\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0x4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00536 \textcolor{comment}{/**}
+00537 \textcolor{comment}{  * @\}}
+00538 \textcolor{comment}{  */}
+00539 
+00540 
+00541 \textcolor{comment}{/** @defgroup ADC\_regular\_length }
+00542 \textcolor{comment}{  * @\{}
+00543 \textcolor{comment}{  */}
+00544 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_REGULAR\_LENGTH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{>=} 0x1\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0x10\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00545 \textcolor{comment}{/**}
+00546 \textcolor{comment}{  * @\}}
+00547 \textcolor{comment}{  */}
+00548 
+00549 
+00550 \textcolor{comment}{/** @defgroup ADC\_regular\_rank }
+00551 \textcolor{comment}{  * @\{}
+00552 \textcolor{comment}{  */}
+00553 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_REGULAR\_RANK}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{>=} 0x1\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0x10\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00554 \textcolor{comment}{/**}
+00555 \textcolor{comment}{  * @\}}
+00556 \textcolor{comment}{  */}
+00557 
+00558 
+00559 \textcolor{comment}{/** @defgroup ADC\_regular\_discontinuous\_mode\_number }
+00560 \textcolor{comment}{  * @\{}
+00561 \textcolor{comment}{  */}
+00562 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ADC\_REGULAR\_DISC\_NUMBER}\textcolor{preprocessor}{(}\textcolor{preprocessor}{NUMBER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{NUMBER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{>=} 0x1\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{NUMBER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0x8\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00563 \textcolor{comment}{/**}
+00564 \textcolor{comment}{  * @\}}
+00565 \textcolor{comment}{  */}
+00566 
+00567 
+00568 \textcolor{comment}{/**}
+00569 \textcolor{comment}{  * @\}}
+00570 \textcolor{comment}{  */}
+00571 
+00572 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00573 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00574 
+00575 \textcolor{comment}{/*  Function used to set the ADC configuration to the default reset state *****/}
+00576 \textcolor{keywordtype}{void} ADC_DeInit(\textcolor{keywordtype}{void});
+00577 
+00578 \textcolor{comment}{/* Initialization and Configuration functions *********************************/}
+00579 \textcolor{keywordtype}{void} ADC_Init(ADC\_TypeDef* ADCx, ADC\_InitTypeDef* ADC\_InitStruct);
+00580 \textcolor{keywordtype}{void} ADC_StructInit(ADC\_InitTypeDef* ADC\_InitStruct);
+00581 \textcolor{keywordtype}{void} ADC_CommonInit(ADC\_CommonInitTypeDef* ADC\_CommonInitStruct);
+00582 \textcolor{keywordtype}{void} ADC_CommonStructInit(ADC\_CommonInitTypeDef* ADC\_CommonInitStruct);
+00583 \textcolor{keywordtype}{void} ADC_Cmd(ADC\_TypeDef* ADCx, FunctionalState NewState);
+00584 
+00585 \textcolor{comment}{/* Analog Watchdog configuration functions ************************************/}
+00586 \textcolor{keywordtype}{void} ADC_AnalogWatchdogCmd(ADC\_TypeDef* ADCx, uint32\_t ADC\_AnalogWatchdog);
+00587 \textcolor{keywordtype}{void} ADC_AnalogWatchdogThresholdsConfig(ADC\_TypeDef* ADCx, uint16\_t HighThreshold,uint16\_t 
+      LowThreshold);
+00588 \textcolor{keywordtype}{void} ADC_AnalogWatchdogSingleChannelConfig(ADC\_TypeDef* ADCx, uint8\_t ADC\_Channel);
+00589 
+00590 \textcolor{comment}{/* Temperature Sensor, Vrefint and VBAT management functions ******************/}
+00591 \textcolor{keywordtype}{void} ADC_TempSensorVrefintCmd(FunctionalState NewState);
+00592 \textcolor{keywordtype}{void} ADC_VBATCmd(FunctionalState NewState);
+00593 
+00594 \textcolor{comment}{/* Regular Channels Configuration functions ***********************************/}
+00595 \textcolor{keywordtype}{void} ADC_RegularChannelConfig(ADC\_TypeDef* ADCx, uint8\_t ADC\_Channel, uint8\_t Rank, uint8\_t 
+      ADC\_SampleTime);
+00596 \textcolor{keywordtype}{void} ADC_SoftwareStartConv(ADC\_TypeDef* ADCx);
+00597 FlagStatus ADC_GetSoftwareStartConvStatus(ADC\_TypeDef* ADCx);
+00598 \textcolor{keywordtype}{void} ADC_EOCOnEachRegularChannelCmd(ADC\_TypeDef* ADCx, FunctionalState NewState);
+00599 \textcolor{keywordtype}{void} ADC_ContinuousModeCmd(ADC\_TypeDef* ADCx, FunctionalState NewState);
+00600 \textcolor{keywordtype}{void} ADC_DiscModeChannelCountConfig(ADC\_TypeDef* ADCx, uint8\_t Number);
+00601 \textcolor{keywordtype}{void} ADC_DiscModeCmd(ADC\_TypeDef* ADCx, FunctionalState NewState);
+00602 uint16\_t ADC_GetConversionValue(ADC\_TypeDef* ADCx);
+00603 uint32\_t ADC_GetMultiModeConversionValue(\textcolor{keywordtype}{void});
+00604 
+00605 \textcolor{comment}{/* Regular Channels DMA Configuration functions *******************************/}
+00606 \textcolor{keywordtype}{void} ADC_DMACmd(ADC\_TypeDef* ADCx, FunctionalState NewState);
+00607 \textcolor{keywordtype}{void} ADC_DMARequestAfterLastTransferCmd(ADC\_TypeDef* ADCx, FunctionalState NewState);
+00608 \textcolor{keywordtype}{void} ADC_MultiModeDMARequestAfterLastTransferCmd(FunctionalState NewState);
+00609 
+00610 \textcolor{comment}{/* Injected channels Configuration functions **********************************/}
+00611 \textcolor{keywordtype}{void} ADC_InjectedChannelConfig(ADC\_TypeDef* ADCx, uint8\_t ADC\_Channel, uint8\_t Rank, uint8\_t 
+      ADC\_SampleTime);
+00612 \textcolor{keywordtype}{void} ADC_InjectedSequencerLengthConfig(ADC\_TypeDef* ADCx, uint8\_t Length);
+00613 \textcolor{keywordtype}{void} ADC_SetInjectedOffset(ADC\_TypeDef* ADCx, uint8\_t ADC\_InjectedChannel, uint16\_t Offset);
+00614 \textcolor{keywordtype}{void} ADC_ExternalTrigInjectedConvConfig(ADC\_TypeDef* ADCx, uint32\_t ADC\_ExternalTrigInjecConv);
+00615 \textcolor{keywordtype}{void} ADC_ExternalTrigInjectedConvEdgeConfig(ADC\_TypeDef* ADCx, uint32\_t ADC\_ExternalTrigInjecConvEdge)
+      ;
+00616 \textcolor{keywordtype}{void} ADC_SoftwareStartInjectedConv(ADC\_TypeDef* ADCx);
+00617 FlagStatus ADC_GetSoftwareStartInjectedConvCmdStatus(ADC\_TypeDef* ADCx);
+00618 \textcolor{keywordtype}{void} ADC_AutoInjectedConvCmd(ADC\_TypeDef* ADCx, FunctionalState NewState);
+00619 \textcolor{keywordtype}{void} ADC_InjectedDiscModeCmd(ADC\_TypeDef* ADCx, FunctionalState NewState);
+00620 uint16\_t ADC_GetInjectedConversionValue(ADC\_TypeDef* ADCx, uint8\_t ADC\_InjectedChannel);
+00621 
+00622 \textcolor{comment}{/* Interrupts and flags management functions **********************************/}
+00623 \textcolor{keywordtype}{void} ADC_ITConfig(ADC\_TypeDef* ADCx, uint16\_t ADC\_IT, FunctionalState NewState);
+00624 FlagStatus ADC_GetFlagStatus(ADC\_TypeDef* ADCx, uint8\_t ADC\_FLAG);
+00625 \textcolor{keywordtype}{void} ADC_ClearFlag(ADC\_TypeDef* ADCx, uint8\_t ADC\_FLAG);
+00626 ITStatus ADC_GetITStatus(ADC\_TypeDef* ADCx, uint16\_t ADC\_IT);
+00627 \textcolor{keywordtype}{void} ADC_ClearITPendingBit(ADC\_TypeDef* ADCx, uint16\_t ADC\_IT);
+00628 
+00629 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00630 \}
+00631 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00632 
+00633 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/*\_\_STM32F4xx\_ADC\_H */}
+00634 
+00635 \textcolor{comment}{/**}
+00636 \textcolor{comment}{  * @\}}
+00637 \textcolor{comment}{  */}
+00638 
+00639 \textcolor{comment}{/**}
+00640 \textcolor{comment}{  * @\}}
+00641 \textcolor{comment}{  */}
+00642 
+00643 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

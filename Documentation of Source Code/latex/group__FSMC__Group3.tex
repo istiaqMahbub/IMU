@@ -1,0 +1,279 @@
+\section{P\+C\+C\+A\+RD Controller functions}
+\label{group__FSMC__Group3}\index{P\+C\+C\+A\+R\+D Controller functions@{P\+C\+C\+A\+R\+D Controller functions}}
+
+
+P\+C\+C\+A\+RD Controller functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the F\+S\+MC P\+C\+C\+A\+RD Bank registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init} (\textbf{ F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Type\+Def} $\ast$F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the F\+S\+MC P\+C\+C\+A\+RD Bank according to the specified parameters in the F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Struct\+Init} (\textbf{ F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Type\+Def} $\ast$F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the P\+C\+C\+A\+RD Memory Bank. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+P\+C\+C\+A\+RD Controller functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                    PCCARD Controller functions
+ ===============================================================================  
+
+ The following sequence should be followed to configure the FSMC to interface with
+ 16-bit PC Card compatible memory connected to the PCCARD Bank:
+ 
+   1. Enable the clock for the FSMC and associated GPIOs using the following functions:
+          RCC_AHB3PeriphClockCmd(RCC_AHB3Periph_FSMC, ENABLE);
+          RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOx, ENABLE);
+
+   2. FSMC pins configuration 
+       - Connect the involved FSMC pins to AF12 using the following function 
+          GPIO_PinAFConfig(GPIOx, GPIO_PinSourcex, GPIO_AF_FSMC); 
+       - Configure these FSMC pins in alternate function mode by calling the function
+          GPIO_Init();    
+       
+   3. Declare a FSMC_PCCARDInitTypeDef structure, for example:
+          FSMC_PCCARDInitTypeDef  FSMC_PCCARDInitStructure;
+      and fill the FSMC_PCCARDInitStructure variable with the allowed values of
+      the structure member.
+      
+   4. Initialize the PCCARD Controller by calling the function
+          FSMC_PCCARDInit(&FSMC_PCCARDInitStructure); 
+
+   5. Then enable the PCCARD Bank:
+          FSMC_PCCARDCmd(ENABLE);  
+
+   6. At this stage you can read/write from/to the memory connected to the PCCARD Bank. \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__FSMC__Group3_ga2d410151ceb3428c6a1bf374a0472cde}} 
+\index{P\+C\+C\+A\+R\+D Controller functions@{P\+C\+C\+A\+R\+D Controller functions}!F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Cmd@{F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Cmd}}
+\index{F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Cmd@{F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Cmd}!P\+C\+C\+A\+R\+D Controller functions@{P\+C\+C\+A\+R\+D Controller functions}}
+\subsubsection{F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Cmd()}
+{\footnotesize\ttfamily void F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the P\+C\+C\+A\+RD Memory Bank. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the P\+C\+C\+A\+RD Memory Bank. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 702} of file \textbf{ stm32f4xx\+\_\+fsmc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00703 \{
+00704   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00705   
+00706   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00707   \{
+00708     \textcolor{comment}{/* Enable the PCCARD Bank by setting the PBKEN bit in the PCR4 register */}
+00709     FSMC_Bank4->PCR4 |= PCR_PBKEN_SET;
+00710   \}
+00711   \textcolor{keywordflow}{else}
+00712   \{
+00713     \textcolor{comment}{/* Disable the PCCARD Bank by clearing the PBKEN bit in the PCR4 register */}
+00714     FSMC_Bank4->PCR4 &= PCR_PBKEN_RESET;
+00715   \}
+00716 \}
+\end{DoxyCode}
+\mbox{\label{group__FSMC__Group3_ga2f53ccf3a4f3c80a5a56fb47ccd47ccd}} 
+\index{P\+C\+C\+A\+R\+D Controller functions@{P\+C\+C\+A\+R\+D Controller functions}!F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+De\+Init@{F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+De\+Init}}
+\index{F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+De\+Init@{F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+De\+Init}!P\+C\+C\+A\+R\+D Controller functions@{P\+C\+C\+A\+R\+D Controller functions}}
+\subsubsection{F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+De\+Init()}
+{\footnotesize\ttfamily void F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+De\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the F\+S\+MC P\+C\+C\+A\+RD Bank registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 607} of file \textbf{ stm32f4xx\+\_\+fsmc.\+c}.
+
+
+\begin{DoxyCode}
+00608 \{
+00609   \textcolor{comment}{/* Set the FSMC\_Bank4 registers to their reset values */}
+00610   FSMC_Bank4->PCR4 = 0x00000018; 
+00611   FSMC_Bank4->SR4 = 0x00000000; 
+00612   FSMC_Bank4->PMEM4 = 0xFCFCFCFC;
+00613   FSMC_Bank4->PATT4 = 0xFCFCFCFC;
+00614   FSMC_Bank4->PIO4 = 0xFCFCFCFC;
+00615 \}
+\end{DoxyCode}
+\mbox{\label{group__FSMC__Group3_gacee1351363e7700a296faa1734a910aa}} 
+\index{P\+C\+C\+A\+R\+D Controller functions@{P\+C\+C\+A\+R\+D Controller functions}!F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init@{F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init}}
+\index{F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init@{F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init}!P\+C\+C\+A\+R\+D Controller functions@{P\+C\+C\+A\+R\+D Controller functions}}
+\subsubsection{F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init()}
+{\footnotesize\ttfamily void F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init (\begin{DoxyParamCaption}\item[{\textbf{ F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Type\+Def} $\ast$}]{F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the F\+S\+MC P\+C\+C\+A\+RD Bank according to the specified parameters in the F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Struct} & \+: pointer to a \doxyref{F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Type\+Def}{p.}{structFSMC__PCCARDInitTypeDef} structure that contains the configuration information for the F\+S\+MC P\+C\+C\+A\+RD Bank. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 624} of file \textbf{ stm32f4xx\+\_\+fsmc.\+c}.
+
+
+\begin{DoxyCode}
+00625 \{
+00626   \textcolor{comment}{/* Check the parameters */}
+00627   assert_param(IS_FSMC_WAIT_FEATURE(FSMC\_PCCARDInitStruct->FSMC_Waitfeature));
+00628   assert_param(IS_FSMC_TCLR_TIME(FSMC\_PCCARDInitStruct->FSMC_TCLRSetupTime));
+00629   assert_param(IS_FSMC_TAR_TIME(FSMC\_PCCARDInitStruct->FSMC_TARSetupTime));
+00630  
+00631   assert_param(IS_FSMC_SETUP_TIME(FSMC\_PCCARDInitStruct->
+      FSMC_CommonSpaceTimingStruct->FSMC_SetupTime));
+00632   assert_param(IS_FSMC_WAIT_TIME(FSMC\_PCCARDInitStruct->
+      FSMC_CommonSpaceTimingStruct->FSMC_WaitSetupTime));
+00633   assert_param(IS_FSMC_HOLD_TIME(FSMC\_PCCARDInitStruct->
+      FSMC_CommonSpaceTimingStruct->FSMC_HoldSetupTime));
+00634   assert_param(IS_FSMC_HIZ_TIME(FSMC\_PCCARDInitStruct->
+      FSMC_CommonSpaceTimingStruct->FSMC_HiZSetupTime));
+00635   
+00636   assert_param(IS_FSMC_SETUP_TIME(FSMC\_PCCARDInitStruct->
+      FSMC_AttributeSpaceTimingStruct->FSMC_SetupTime));
+00637   assert_param(IS_FSMC_WAIT_TIME(FSMC\_PCCARDInitStruct->
+      FSMC_AttributeSpaceTimingStruct->FSMC_WaitSetupTime));
+00638   assert_param(IS_FSMC_HOLD_TIME(FSMC\_PCCARDInitStruct->
+      FSMC_AttributeSpaceTimingStruct->FSMC_HoldSetupTime));
+00639   assert_param(IS_FSMC_HIZ_TIME(FSMC\_PCCARDInitStruct->
+      FSMC_AttributeSpaceTimingStruct->FSMC_HiZSetupTime));
+00640   assert_param(IS_FSMC_SETUP_TIME(FSMC\_PCCARDInitStruct->
+      FSMC_IOSpaceTimingStruct->FSMC_SetupTime));
+00641   assert_param(IS_FSMC_WAIT_TIME(FSMC\_PCCARDInitStruct->FSMC_IOSpaceTimingStruct->
+      FSMC_WaitSetupTime));
+00642   assert_param(IS_FSMC_HOLD_TIME(FSMC\_PCCARDInitStruct->FSMC_IOSpaceTimingStruct->
+      FSMC_HoldSetupTime));
+00643   assert_param(IS_FSMC_HIZ_TIME(FSMC\_PCCARDInitStruct->FSMC_IOSpaceTimingStruct->
+      FSMC_HiZSetupTime));
+00644   
+00645   \textcolor{comment}{/* Set the PCR4 register value according to FSMC\_PCCARDInitStruct parameters */}
+00646   FSMC_Bank4->PCR4 = (uint32\_t)FSMC\_PCCARDInitStruct->FSMC_Waitfeature |
+00647                      FSMC_MemoryDataWidth_16b |  
+00648                      (FSMC\_PCCARDInitStruct->FSMC_TCLRSetupTime << 9) |
+00649                      (FSMC\_PCCARDInitStruct->FSMC_TARSetupTime << 13);
+00650             
+00651   \textcolor{comment}{/* Set PMEM4 register value according to FSMC\_CommonSpaceTimingStructure parameters */}
+00652   FSMC_Bank4->PMEM4 = (uint32\_t)FSMC\_PCCARDInitStruct->
+      FSMC_CommonSpaceTimingStruct->FSMC_SetupTime |
+00653                       (FSMC\_PCCARDInitStruct->FSMC_CommonSpaceTimingStruct->
+      FSMC_WaitSetupTime << 8) |
+00654                       (FSMC\_PCCARDInitStruct->FSMC_CommonSpaceTimingStruct->
+      FSMC_HoldSetupTime << 16)|
+00655                       (FSMC\_PCCARDInitStruct->FSMC_CommonSpaceTimingStruct->
+      FSMC_HiZSetupTime << 24); 
+00656             
+00657   \textcolor{comment}{/* Set PATT4 register value according to FSMC\_AttributeSpaceTimingStructure parameters */}
+00658   FSMC_Bank4->PATT4 = (uint32\_t)FSMC\_PCCARDInitStruct->
+      FSMC_AttributeSpaceTimingStruct->FSMC_SetupTime |
+00659                       (FSMC\_PCCARDInitStruct->FSMC_AttributeSpaceTimingStruct->
+      FSMC_WaitSetupTime << 8) |
+00660                       (FSMC\_PCCARDInitStruct->FSMC_AttributeSpaceTimingStruct->
+      FSMC_HoldSetupTime << 16)|
+00661                       (FSMC\_PCCARDInitStruct->FSMC_AttributeSpaceTimingStruct->
+      FSMC_HiZSetupTime << 24);   
+00662             
+00663   \textcolor{comment}{/* Set PIO4 register value according to FSMC\_IOSpaceTimingStructure parameters */}
+00664   FSMC_Bank4->PIO4 = (uint32\_t)FSMC\_PCCARDInitStruct->FSMC_IOSpaceTimingStruct->
+      FSMC_SetupTime |
+00665                      (FSMC\_PCCARDInitStruct->FSMC_IOSpaceTimingStruct->
+      FSMC_WaitSetupTime << 8) |
+00666                      (FSMC\_PCCARDInitStruct->FSMC_IOSpaceTimingStruct->
+      FSMC_HoldSetupTime << 16)|
+00667                      (FSMC\_PCCARDInitStruct->FSMC_IOSpaceTimingStruct->
+      FSMC_HiZSetupTime << 24);             
+00668 \}
+\end{DoxyCode}
+\mbox{\label{group__FSMC__Group3_ga7a64ba0e0545b3f1913c9d1d28c05e62}} 
+\index{P\+C\+C\+A\+R\+D Controller functions@{P\+C\+C\+A\+R\+D Controller functions}!F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Struct\+Init@{F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Struct\+Init}}
+\index{F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Struct\+Init@{F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Struct\+Init}!P\+C\+C\+A\+R\+D Controller functions@{P\+C\+C\+A\+R\+D Controller functions}}
+\subsubsection{F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Struct\+Init()}
+{\footnotesize\ttfamily void F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Type\+Def} $\ast$}]{F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Struct} & pointer to a \doxyref{F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Type\+Def}{p.}{structFSMC__PCCARDInitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 676} of file \textbf{ stm32f4xx\+\_\+fsmc.\+c}.
+
+
+
+References \textbf{ F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Attribute\+Space\+Timing\+Struct}, \textbf{ F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Common\+Space\+Timing\+Struct}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+\_\+\+P\+C\+C\+A\+R\+D\+Timing\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Hi\+Z\+Setup\+Time}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+\_\+\+P\+C\+C\+A\+R\+D\+Timing\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Hold\+Setup\+Time}, \textbf{ F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+I\+O\+Space\+Timing\+Struct}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+\_\+\+P\+C\+C\+A\+R\+D\+Timing\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Setup\+Time}, \textbf{ F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+T\+A\+R\+Setup\+Time}, \textbf{ F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+T\+C\+L\+R\+Setup\+Time}, \textbf{ F\+S\+M\+C\+\_\+\+P\+C\+C\+A\+R\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Waitfeature}, and \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+\_\+\+P\+C\+C\+A\+R\+D\+Timing\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Wait\+Setup\+Time}.
+
+
+\begin{DoxyCode}
+00677 \{
+00678   \textcolor{comment}{/* Reset PCCARD Init structure parameters values */}
+00679   FSMC\_PCCARDInitStruct->FSMC_Waitfeature = FSMC_Waitfeature_Disable;
+00680   FSMC\_PCCARDInitStruct->FSMC_TCLRSetupTime = 0x0;
+00681   FSMC\_PCCARDInitStruct->FSMC_TARSetupTime = 0x0;
+00682   FSMC\_PCCARDInitStruct->FSMC_CommonSpaceTimingStruct->FSMC_SetupTime = 0xFC;
+00683   FSMC\_PCCARDInitStruct->FSMC_CommonSpaceTimingStruct->FSMC_WaitSetupTime = 0xFC;
+00684   FSMC\_PCCARDInitStruct->FSMC_CommonSpaceTimingStruct->FSMC_HoldSetupTime = 0xFC;
+00685   FSMC\_PCCARDInitStruct->FSMC_CommonSpaceTimingStruct->FSMC_HiZSetupTime = 0xFC;
+00686   FSMC\_PCCARDInitStruct->FSMC_AttributeSpaceTimingStruct->FSMC_SetupTime = 0xFC;
+00687   FSMC\_PCCARDInitStruct->FSMC_AttributeSpaceTimingStruct->FSMC_WaitSetupTime = 0xFC;
+00688   FSMC\_PCCARDInitStruct->FSMC_AttributeSpaceTimingStruct->FSMC_HoldSetupTime = 0xFC;
+00689   FSMC\_PCCARDInitStruct->FSMC_AttributeSpaceTimingStruct->FSMC_HiZSetupTime = 0xFC; 
+00690   FSMC\_PCCARDInitStruct->FSMC_IOSpaceTimingStruct->FSMC_SetupTime = 0xFC;
+00691   FSMC\_PCCARDInitStruct->FSMC_IOSpaceTimingStruct->FSMC_WaitSetupTime = 0xFC;
+00692   FSMC\_PCCARDInitStruct->FSMC_IOSpaceTimingStruct->FSMC_HoldSetupTime = 0xFC;
+00693   FSMC\_PCCARDInitStruct->FSMC_IOSpaceTimingStruct->FSMC_HiZSetupTime = 0xFC;
+00694 \}
+\end{DoxyCode}

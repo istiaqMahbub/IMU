@@ -1,0 +1,149 @@
+\section{Image capture functions}
+\label{group__DCMI__Group2}\index{Image capture functions@{Image capture functions}}
+
+
+Image capture functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ D\+C\+M\+I\+\_\+\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the D\+C\+MI interface. \end{DoxyCompactList}\item 
+void \textbf{ D\+C\+M\+I\+\_\+\+Capture\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the D\+C\+MI Capture. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ D\+C\+M\+I\+\_\+\+Read\+Data} (void)
+\begin{DoxyCompactList}\small\item\em Reads the data stored in the DR register. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Image capture functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                                 Image capture functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__DCMI__Group2_gad00fb33497ffa337a5b2b77fc6aa8d74}} 
+\index{Image capture functions@{Image capture functions}!D\+C\+M\+I\+\_\+\+Capture\+Cmd@{D\+C\+M\+I\+\_\+\+Capture\+Cmd}}
+\index{D\+C\+M\+I\+\_\+\+Capture\+Cmd@{D\+C\+M\+I\+\_\+\+Capture\+Cmd}!Image capture functions@{Image capture functions}}
+\subsubsection{D\+C\+M\+I\+\_\+\+Capture\+Cmd()}
+{\footnotesize\ttfamily void D\+C\+M\+I\+\_\+\+Capture\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the D\+C\+MI Capture. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the D\+C\+MI capture. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 318} of file \textbf{ stm32f4xx\+\_\+dcmi.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00319 \{
+00320   \textcolor{comment}{/* Check the parameters */}
+00321   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00322     
+00323   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00324   \{
+00325     \textcolor{comment}{/* Enable the DCMI Capture */}
+00326     DCMI->CR |= (uint32\_t)DCMI_CR_CAPTURE;
+00327   \}
+00328   \textcolor{keywordflow}{else}
+00329   \{
+00330     \textcolor{comment}{/* Disable the DCMI Capture */}
+00331     DCMI->CR &= ~(uint32\_t)DCMI_CR_CAPTURE;
+00332   \}
+00333 \}
+\end{DoxyCode}
+\mbox{\label{group__DCMI__Group2_ga36bba54c40637b8071aea8ffea71fb84}} 
+\index{Image capture functions@{Image capture functions}!D\+C\+M\+I\+\_\+\+Cmd@{D\+C\+M\+I\+\_\+\+Cmd}}
+\index{D\+C\+M\+I\+\_\+\+Cmd@{D\+C\+M\+I\+\_\+\+Cmd}!Image capture functions@{Image capture functions}}
+\subsubsection{D\+C\+M\+I\+\_\+\+Cmd()}
+{\footnotesize\ttfamily void D\+C\+M\+I\+\_\+\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the D\+C\+MI interface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the D\+C\+MI interface. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 295} of file \textbf{ stm32f4xx\+\_\+dcmi.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00296 \{
+00297   \textcolor{comment}{/* Check the parameters */}
+00298   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00299   
+00300   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00301   \{
+00302     \textcolor{comment}{/* Enable the DCMI by setting ENABLE bit */}
+00303     DCMI->CR |= (uint32\_t)DCMI_CR_ENABLE;
+00304   \}
+00305   \textcolor{keywordflow}{else}
+00306   \{
+00307     \textcolor{comment}{/* Disable the DCMI by clearing ENABLE bit */}
+00308     DCMI->CR &= ~(uint32\_t)DCMI_CR_ENABLE;
+00309   \}
+00310 \}
+\end{DoxyCode}
+\mbox{\label{group__DCMI__Group2_ga475305bd8694e4cebefcb263c0a5b979}} 
+\index{Image capture functions@{Image capture functions}!D\+C\+M\+I\+\_\+\+Read\+Data@{D\+C\+M\+I\+\_\+\+Read\+Data}}
+\index{D\+C\+M\+I\+\_\+\+Read\+Data@{D\+C\+M\+I\+\_\+\+Read\+Data}!Image capture functions@{Image capture functions}}
+\subsubsection{D\+C\+M\+I\+\_\+\+Read\+Data()}
+{\footnotesize\ttfamily uint32\+\_\+t D\+C\+M\+I\+\_\+\+Read\+Data (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Reads the data stored in the DR register. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Data} & register value \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 340} of file \textbf{ stm32f4xx\+\_\+dcmi.\+c}.
+
+
+\begin{DoxyCode}
+00341 \{
+00342   \textcolor{keywordflow}{return} DCMI->DR;
+00343 \}
+\end{DoxyCode}

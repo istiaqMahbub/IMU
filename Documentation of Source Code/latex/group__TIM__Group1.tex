@@ -1,0 +1,806 @@
+\section{Time\+Base management functions}
+\label{group__TIM__Group1}\index{Time\+Base management functions@{Time\+Base management functions}}
+
+
+Time\+Base management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ T\+I\+M\+\_\+\+De\+Init} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx)
+\begin{DoxyCompactList}\small\item\em Deinitializes the T\+I\+Mx peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Time\+Base\+Init} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ T\+I\+M\+\_\+\+Time\+Base\+Init\+Type\+Def} $\ast$T\+I\+M\+\_\+\+Time\+Base\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\+I\+Mx Time Base Unit peripheral according to the specified parameters in the T\+I\+M\+\_\+\+Time\+Base\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Time\+Base\+Struct\+Init} (\textbf{ T\+I\+M\+\_\+\+Time\+Base\+Init\+Type\+Def} $\ast$T\+I\+M\+\_\+\+Time\+Base\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each T\+I\+M\+\_\+\+Time\+Base\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Prescaler\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t Prescaler, uint16\+\_\+t T\+I\+M\+\_\+\+P\+S\+C\+Reload\+Mode)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx Prescaler. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Counter\+Mode\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Counter\+Mode)
+\begin{DoxyCompactList}\small\item\em Specifies the T\+I\+Mx Counter Mode to be used. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Set\+Counter} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint32\+\_\+t Counter)
+\begin{DoxyCompactList}\small\item\em Sets the T\+I\+Mx Counter Register value. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Set\+Autoreload} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint32\+\_\+t Autoreload)
+\begin{DoxyCompactList}\small\item\em Sets the T\+I\+Mx Autoreload Register value. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ T\+I\+M\+\_\+\+Get\+Counter} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\+I\+Mx Counter value. \end{DoxyCompactList}\item 
+uint16\+\_\+t \textbf{ T\+I\+M\+\_\+\+Get\+Prescaler} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\+I\+Mx Prescaler value. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Update\+Disable\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the T\+I\+Mx Update event. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Update\+Request\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Update\+Source)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx Update Request Interrupt source. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+A\+R\+R\+Preload\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables T\+I\+Mx peripheral Preload register on A\+RR. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Select\+One\+Pulse\+Mode} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+O\+P\+Mode)
+\begin{DoxyCompactList}\small\item\em Selects the T\+I\+Mx\textquotesingle{}s One Pulse Mode. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Set\+Clock\+Division} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+C\+KD)
+\begin{DoxyCompactList}\small\item\em Sets the T\+I\+Mx Clock Division value. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Cmd} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified T\+IM peripheral. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Time\+Base management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                       TimeBase management functions
+ ===============================================================================  
+  
+       ===================================================================      
+              TIM Driver: how to use it in Timing(Time base) Mode
+       =================================================================== 
+       To use the Timer in Timing(Time base) mode, the following steps are mandatory:
+       
+       1. Enable TIM clock using RCC_APBxPeriphClockCmd(RCC_APBxPeriph_TIMx, ENABLE) function
+                    
+       2. Fill the TIM_TimeBaseInitStruct with the desired parameters.
+       
+       3. Call TIM_TimeBaseInit(TIMx, &TIM_TimeBaseInitStruct) to configure the Time Base unit
+          with the corresponding configuration
+          
+       4. Enable the NVIC if you need to generate the update interrupt. 
+          
+       5. Enable the corresponding interrupt using the function TIM_ITConfig(TIMx, TIM_IT_Update) 
+       
+       6. Call the TIM_Cmd(ENABLE) function to enable the TIM counter.
+             
+       Note1: All other functions can be used separately to modify, if needed,
+          a specific feature of the Timer. \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__TIM__Group1_ga42b44b9fc2b0798d733720dd6bac1ac0}} 
+\index{Time\+Base management functions@{Time\+Base management functions}!T\+I\+M\+\_\+\+A\+R\+R\+Preload\+Config@{T\+I\+M\+\_\+\+A\+R\+R\+Preload\+Config}}
+\index{T\+I\+M\+\_\+\+A\+R\+R\+Preload\+Config@{T\+I\+M\+\_\+\+A\+R\+R\+Preload\+Config}!Time\+Base management functions@{Time\+Base management functions}}
+\subsubsection{T\+I\+M\+\_\+\+A\+R\+R\+Preload\+Config()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+A\+R\+R\+Preload\+Config (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables T\+I\+Mx peripheral Preload register on A\+RR. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1 to 14 to select the T\+IM peripheral. \\
+\hline
+{\em New\+State} & new state of the T\+I\+Mx peripheral Preload register This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 516} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00517 \{
+00518   \textcolor{comment}{/* Check the parameters */}
+00519   assert_param(IS_TIM_ALL_PERIPH(TIMx));
+00520   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00521 
+00522   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00523   \{
+00524     \textcolor{comment}{/* Set the ARR Preload Bit */}
+00525     TIMx->CR1 |= TIM_CR1_ARPE;
+00526   \}
+00527   \textcolor{keywordflow}{else}
+00528   \{
+00529     \textcolor{comment}{/* Reset the ARR Preload Bit */}
+00530     TIMx->CR1 &= (uint16\_t)~TIM_CR1_ARPE;
+00531   \}
+00532 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group1_ga2bdc275bcbd2ce9d1ba632e6c89896b7}} 
+\index{Time\+Base management functions@{Time\+Base management functions}!T\+I\+M\+\_\+\+Cmd@{T\+I\+M\+\_\+\+Cmd}}
+\index{T\+I\+M\+\_\+\+Cmd@{T\+I\+M\+\_\+\+Cmd}!Time\+Base management functions@{Time\+Base management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Cmd()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified T\+IM peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1 to 14 to select the T\+I\+Mx peripheral. \\
+\hline
+{\em New\+State} & new state of the T\+I\+Mx peripheral. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 586} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00587 \{
+00588   \textcolor{comment}{/* Check the parameters */}
+00589   assert_param(IS_TIM_ALL_PERIPH(TIMx)); 
+00590   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00591   
+00592   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00593   \{
+00594     \textcolor{comment}{/* Enable the TIM Counter */}
+00595     TIMx->CR1 |= TIM_CR1_CEN;
+00596   \}
+00597   \textcolor{keywordflow}{else}
+00598   \{
+00599     \textcolor{comment}{/* Disable the TIM Counter */}
+00600     TIMx->CR1 &= (uint16\_t)~TIM_CR1_CEN;
+00601   \}
+00602 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group1_ga93941c1db20bf3794f377307df90a67b}} 
+\index{Time\+Base management functions@{Time\+Base management functions}!T\+I\+M\+\_\+\+Counter\+Mode\+Config@{T\+I\+M\+\_\+\+Counter\+Mode\+Config}}
+\index{T\+I\+M\+\_\+\+Counter\+Mode\+Config@{T\+I\+M\+\_\+\+Counter\+Mode\+Config}!Time\+Base management functions@{Time\+Base management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Counter\+Mode\+Config()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+Counter\+Mode\+Config (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{uint16\+\_\+t}]{T\+I\+M\+\_\+\+Counter\+Mode }\end{DoxyParamCaption})}
+
+
+
+Specifies the T\+I\+Mx Counter Mode to be used. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\+IM peripheral. \\
+\hline
+{\em T\+I\+M\+\_\+\+Counter\+Mode} & specifies the Counter Mode to be used This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+Counter\+Mode\+\_\+\+Up\+: T\+IM Up Counting Mode \item T\+I\+M\+\_\+\+Counter\+Mode\+\_\+\+Down\+: T\+IM Down Counting Mode \item T\+I\+M\+\_\+\+Counter\+Mode\+\_\+\+Center\+Aligned1\+: T\+IM Center Aligned Mode1 \item T\+I\+M\+\_\+\+Counter\+Mode\+\_\+\+Center\+Aligned2\+: T\+IM Center Aligned Mode2 \item T\+I\+M\+\_\+\+Counter\+Mode\+\_\+\+Center\+Aligned3\+: T\+IM Center Aligned Mode3 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 377} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+\begin{DoxyCode}
+00378 \{
+00379   uint16\_t tmpcr1 = 0;
+00380 
+00381   \textcolor{comment}{/* Check the parameters */}
+00382   assert_param(IS_TIM_LIST3_PERIPH(TIMx));
+00383   assert_param(IS_TIM_COUNTER_MODE(TIM\_CounterMode));
+00384 
+00385   tmpcr1 = TIMx->CR1;
+00386 
+00387   \textcolor{comment}{/* Reset the CMS and DIR Bits */}
+00388   tmpcr1 &= (uint16\_t)~(TIM_CR1_DIR | TIM_CR1_CMS);
+00389 
+00390   \textcolor{comment}{/* Set the Counter Mode */}
+00391   tmpcr1 |= TIM\_CounterMode;
+00392 
+00393   \textcolor{comment}{/* Write to TIMx CR1 register */}
+00394   TIMx->CR1 = tmpcr1;
+00395 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group1_ga1659cc0ce503ac151568e0c7c02b1ba5}} 
+\index{Time\+Base management functions@{Time\+Base management functions}!T\+I\+M\+\_\+\+De\+Init@{T\+I\+M\+\_\+\+De\+Init}}
+\index{T\+I\+M\+\_\+\+De\+Init@{T\+I\+M\+\_\+\+De\+Init}!Time\+Base management functions@{Time\+Base management functions}}
+\subsubsection{T\+I\+M\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the T\+I\+Mx peripheral registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1 to 14 to select the T\+IM peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 194} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, \textbf{ R\+C\+C\+\_\+\+A\+P\+B1\+Periph\+Reset\+Cmd()}, and \textbf{ R\+C\+C\+\_\+\+A\+P\+B2\+Periph\+Reset\+Cmd()}.
+
+
+\begin{DoxyCode}
+00195 \{
+00196   \textcolor{comment}{/* Check the parameters */}
+00197   assert_param(IS_TIM_ALL_PERIPH(TIMx)); 
+00198  
+00199   \textcolor{keywordflow}{if} (TIMx == TIM1)
+00200   \{
+00201     RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM1, ENABLE);
+00202     RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM1, DISABLE);  
+00203   \} 
+00204   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM2) 
+00205   \{     
+00206     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM2, ENABLE);
+00207     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM2, DISABLE);
+00208   \}  
+00209   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM3)
+00210   \{ 
+00211     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM3, ENABLE);
+00212     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM3, DISABLE);
+00213   \}  
+00214   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM4)
+00215   \{ 
+00216     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM4, ENABLE);
+00217     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM4, DISABLE);
+00218   \}  
+00219   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM5)
+00220   \{      
+00221     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM5, ENABLE);
+00222     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM5, DISABLE);
+00223   \}  
+00224   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM6)  
+00225   \{    
+00226     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM6, ENABLE);
+00227     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM6, DISABLE);
+00228   \}  
+00229   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM7)
+00230   \{      
+00231     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM7, ENABLE);
+00232     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM7, DISABLE);
+00233   \}  
+00234   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM8)
+00235   \{      
+00236     RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM8, ENABLE);
+00237     RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM8, DISABLE);  
+00238   \}  
+00239   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM9)
+00240   \{      
+00241     RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM9, ENABLE);
+00242     RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM9, DISABLE);  
+00243    \}  
+00244   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM10)
+00245   \{      
+00246     RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM10, ENABLE);
+00247     RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM10, DISABLE);  
+00248   \}  
+00249   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM11) 
+00250   \{     
+00251     RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM11, ENABLE);
+00252     RCC_APB2PeriphResetCmd(RCC_APB2Periph_TIM11, DISABLE);  
+00253   \}  
+00254   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM12)
+00255   \{      
+00256     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM12, ENABLE);
+00257     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM12, DISABLE);  
+00258   \}  
+00259   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIMx == TIM13) 
+00260   \{       
+00261     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM13, ENABLE);
+00262     RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM13, DISABLE);  
+00263   \}  
+00264   \textcolor{keywordflow}{else}
+00265   \{ 
+00266     \textcolor{keywordflow}{if} (TIMx == TIM14) 
+00267     \{     
+00268       RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM14, ENABLE);
+00269       RCC_APB1PeriphResetCmd(RCC_APB1Periph_TIM14, DISABLE); 
+00270     \}   
+00271   \}
+00272 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group1_ga53607976e0866ab424e294cda9f6036e}} 
+\index{Time\+Base management functions@{Time\+Base management functions}!T\+I\+M\+\_\+\+Get\+Counter@{T\+I\+M\+\_\+\+Get\+Counter}}
+\index{T\+I\+M\+\_\+\+Get\+Counter@{T\+I\+M\+\_\+\+Get\+Counter}!Time\+Base management functions@{Time\+Base management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Get\+Counter()}
+{\footnotesize\ttfamily uint32\+\_\+t T\+I\+M\+\_\+\+Get\+Counter (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx }\end{DoxyParamCaption})}
+
+
+
+Gets the T\+I\+Mx Counter value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1 to 14 to select the T\+IM peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Counter} & Register value \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 432} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+\begin{DoxyCode}
+00433 \{
+00434   \textcolor{comment}{/* Check the parameters */}
+00435   assert_param(IS_TIM_ALL_PERIPH(TIMx));
+00436 
+00437   \textcolor{comment}{/* Get the Counter Register value */}
+00438   \textcolor{keywordflow}{return} TIMx->CNT;
+00439 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group1_ga427eb6e533480e02a27cd0ca876183d6}} 
+\index{Time\+Base management functions@{Time\+Base management functions}!T\+I\+M\+\_\+\+Get\+Prescaler@{T\+I\+M\+\_\+\+Get\+Prescaler}}
+\index{T\+I\+M\+\_\+\+Get\+Prescaler@{T\+I\+M\+\_\+\+Get\+Prescaler}!Time\+Base management functions@{Time\+Base management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Get\+Prescaler()}
+{\footnotesize\ttfamily uint16\+\_\+t T\+I\+M\+\_\+\+Get\+Prescaler (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx }\end{DoxyParamCaption})}
+
+
+
+Gets the T\+I\+Mx Prescaler value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1 to 14 to select the T\+IM peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Prescaler} & Register value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 446} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+\begin{DoxyCode}
+00447 \{
+00448   \textcolor{comment}{/* Check the parameters */}
+00449   assert_param(IS_TIM_ALL_PERIPH(TIMx));
+00450 
+00451   \textcolor{comment}{/* Get the Prescaler Register value */}
+00452   \textcolor{keywordflow}{return} TIMx->PSC;
+00453 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group1_ga45c6fd9041baf7f64c121e0172f305c7}} 
+\index{Time\+Base management functions@{Time\+Base management functions}!T\+I\+M\+\_\+\+Prescaler\+Config@{T\+I\+M\+\_\+\+Prescaler\+Config}}
+\index{T\+I\+M\+\_\+\+Prescaler\+Config@{T\+I\+M\+\_\+\+Prescaler\+Config}!Time\+Base management functions@{Time\+Base management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Prescaler\+Config()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+Prescaler\+Config (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{uint16\+\_\+t}]{Prescaler,  }\item[{uint16\+\_\+t}]{T\+I\+M\+\_\+\+P\+S\+C\+Reload\+Mode }\end{DoxyParamCaption})}
+
+
+
+Configures the T\+I\+Mx Prescaler. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1 to 14 to select the T\+IM peripheral. \\
+\hline
+{\em Prescaler} & specifies the Prescaler Register value \\
+\hline
+{\em T\+I\+M\+\_\+\+P\+S\+C\+Reload\+Mode} & specifies the T\+IM Prescaler Reload mode This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+P\+S\+C\+Reload\+Mode\+\_\+\+Update\+: The Prescaler is loaded at the update event. \item T\+I\+M\+\_\+\+P\+S\+C\+Reload\+Mode\+\_\+\+Immediate\+: The Prescaler is loaded immediatly. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 354} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+\begin{DoxyCode}
+00355 \{
+00356   \textcolor{comment}{/* Check the parameters */}
+00357   assert_param(IS_TIM_ALL_PERIPH(TIMx));
+00358   assert_param(IS_TIM_PRESCALER_RELOAD(TIM\_PSCReloadMode));
+00359   \textcolor{comment}{/* Set the Prescaler value */}
+00360   TIMx->PSC = Prescaler;
+00361   \textcolor{comment}{/* Set or reset the UG Bit */}
+00362   TIMx->EGR = TIM\_PSCReloadMode;
+00363 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group1_gadd2cca5fac6c1291dc4339098d5c9562}} 
+\index{Time\+Base management functions@{Time\+Base management functions}!T\+I\+M\+\_\+\+Select\+One\+Pulse\+Mode@{T\+I\+M\+\_\+\+Select\+One\+Pulse\+Mode}}
+\index{T\+I\+M\+\_\+\+Select\+One\+Pulse\+Mode@{T\+I\+M\+\_\+\+Select\+One\+Pulse\+Mode}!Time\+Base management functions@{Time\+Base management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Select\+One\+Pulse\+Mode()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+Select\+One\+Pulse\+Mode (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{uint16\+\_\+t}]{T\+I\+M\+\_\+\+O\+P\+Mode }\end{DoxyParamCaption})}
+
+
+
+Selects the T\+I\+Mx\textquotesingle{}s One Pulse Mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1 to 14 to select the T\+IM peripheral. \\
+\hline
+{\em T\+I\+M\+\_\+\+O\+P\+Mode} & specifies the O\+PM Mode to be used. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+O\+P\+Mode\+\_\+\+Single \item T\+I\+M\+\_\+\+O\+P\+Mode\+\_\+\+Repetitive \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 543} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+\begin{DoxyCode}
+00544 \{
+00545   \textcolor{comment}{/* Check the parameters */}
+00546   assert_param(IS_TIM_ALL_PERIPH(TIMx));
+00547   assert_param(IS_TIM_OPM_MODE(TIM\_OPMode));
+00548 
+00549   \textcolor{comment}{/* Reset the OPM Bit */}
+00550   TIMx->CR1 &= (uint16\_t)~TIM_CR1_OPM;
+00551 
+00552   \textcolor{comment}{/* Configure the OPM Mode */}
+00553   TIMx->CR1 |= TIM\_OPMode;
+00554 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group1_gad6a388d498c7f299d00a9d0871943041}} 
+\index{Time\+Base management functions@{Time\+Base management functions}!T\+I\+M\+\_\+\+Set\+Autoreload@{T\+I\+M\+\_\+\+Set\+Autoreload}}
+\index{T\+I\+M\+\_\+\+Set\+Autoreload@{T\+I\+M\+\_\+\+Set\+Autoreload}!Time\+Base management functions@{Time\+Base management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Set\+Autoreload()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+Set\+Autoreload (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{uint32\+\_\+t}]{Autoreload }\end{DoxyParamCaption})}
+
+
+
+Sets the T\+I\+Mx Autoreload Register value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1 to 14 to select the T\+IM peripheral. \\
+\hline
+{\em Autoreload} & specifies the Autoreload register new value. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 418} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+\begin{DoxyCode}
+00419 \{
+00420   \textcolor{comment}{/* Check the parameters */}
+00421   assert_param(IS_TIM_ALL_PERIPH(TIMx));
+00422   
+00423   \textcolor{comment}{/* Set the Autoreload Register value */}
+00424   TIMx->ARR = Autoreload;
+00425 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group1_ga20ef804dc32c723662d11ee7da3baab2}} 
+\index{Time\+Base management functions@{Time\+Base management functions}!T\+I\+M\+\_\+\+Set\+Clock\+Division@{T\+I\+M\+\_\+\+Set\+Clock\+Division}}
+\index{T\+I\+M\+\_\+\+Set\+Clock\+Division@{T\+I\+M\+\_\+\+Set\+Clock\+Division}!Time\+Base management functions@{Time\+Base management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Set\+Clock\+Division()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+Set\+Clock\+Division (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{uint16\+\_\+t}]{T\+I\+M\+\_\+\+C\+KD }\end{DoxyParamCaption})}
+
+
+
+Sets the T\+I\+Mx Clock Division value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1 to 14 except 6 and 7, to select the T\+IM peripheral. \\
+\hline
+{\em T\+I\+M\+\_\+\+C\+KD} & specifies the clock division value. This parameter can be one of the following value\+: \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+C\+K\+D\+\_\+\+D\+I\+V1\+: T\+D\+TS = Tck\+\_\+tim \item T\+I\+M\+\_\+\+C\+K\+D\+\_\+\+D\+I\+V2\+: T\+D\+TS = 2$\ast$\+Tck\+\_\+tim \item T\+I\+M\+\_\+\+C\+K\+D\+\_\+\+D\+I\+V4\+: T\+D\+TS = 4$\ast$\+Tck\+\_\+tim \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 566} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+\begin{DoxyCode}
+00567 \{
+00568   \textcolor{comment}{/* Check the parameters */}
+00569   assert_param(IS_TIM_LIST1_PERIPH(TIMx));
+00570   assert_param(IS_TIM_CKD_DIV(TIM\_CKD));
+00571 
+00572   \textcolor{comment}{/* Reset the CKD Bits */}
+00573   TIMx->CR1 &= (uint16\_t)(~TIM_CR1_CKD);
+00574 
+00575   \textcolor{comment}{/* Set the CKD value */}
+00576   TIMx->CR1 |= TIM\_CKD;
+00577 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group1_ga18173e7955a85d5c2598c643eada2692}} 
+\index{Time\+Base management functions@{Time\+Base management functions}!T\+I\+M\+\_\+\+Set\+Counter@{T\+I\+M\+\_\+\+Set\+Counter}}
+\index{T\+I\+M\+\_\+\+Set\+Counter@{T\+I\+M\+\_\+\+Set\+Counter}!Time\+Base management functions@{Time\+Base management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Set\+Counter()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+Set\+Counter (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{uint32\+\_\+t}]{Counter }\end{DoxyParamCaption})}
+
+
+
+Sets the T\+I\+Mx Counter Register value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1 to 14 to select the T\+IM peripheral. \\
+\hline
+{\em Counter} & specifies the Counter register new value. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 403} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+\begin{DoxyCode}
+00404 \{
+00405   \textcolor{comment}{/* Check the parameters */}
+00406    assert_param(IS_TIM_ALL_PERIPH(TIMx));
+00407 
+00408   \textcolor{comment}{/* Set the Counter Register value */}
+00409   TIMx->CNT = Counter;
+00410 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group1_ga83fd58c9416802d9638bbe1715c98932}} 
+\index{Time\+Base management functions@{Time\+Base management functions}!T\+I\+M\+\_\+\+Time\+Base\+Init@{T\+I\+M\+\_\+\+Time\+Base\+Init}}
+\index{T\+I\+M\+\_\+\+Time\+Base\+Init@{T\+I\+M\+\_\+\+Time\+Base\+Init}!Time\+Base management functions@{Time\+Base management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Time\+Base\+Init()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+Time\+Base\+Init (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{\textbf{ T\+I\+M\+\_\+\+Time\+Base\+Init\+Type\+Def} $\ast$}]{T\+I\+M\+\_\+\+Time\+Base\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the T\+I\+Mx Time Base Unit peripheral according to the specified parameters in the T\+I\+M\+\_\+\+Time\+Base\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1 to 14 to select the T\+IM peripheral. \\
+\hline
+{\em T\+I\+M\+\_\+\+Time\+Base\+Init\+Struct} & pointer to a \doxyref{T\+I\+M\+\_\+\+Time\+Base\+Init\+Type\+Def}{p.}{structTIM__TimeBaseInitTypeDef} structure that contains the configuration information for the specified T\+IM peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 282} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+
+References \textbf{ T\+I\+M\+\_\+\+Time\+Base\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+Clock\+Division}, and \textbf{ T\+I\+M\+\_\+\+Time\+Base\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+Counter\+Mode}.
+
+
+\begin{DoxyCode}
+00283 \{
+00284   uint16\_t tmpcr1 = 0;
+00285 
+00286   \textcolor{comment}{/* Check the parameters */}
+00287   assert_param(IS_TIM_ALL_PERIPH(TIMx)); 
+00288   assert_param(IS_TIM_COUNTER_MODE(TIM\_TimeBaseInitStruct->TIM_CounterMode));
+00289   assert_param(IS_TIM_CKD_DIV(TIM\_TimeBaseInitStruct->TIM_ClockDivision));
+00290 
+00291   tmpcr1 = TIMx->CR1;  
+00292 
+00293   \textcolor{keywordflow}{if}((TIMx == TIM1) || (TIMx == TIM8)||
+00294      (TIMx == TIM2) || (TIMx == TIM3)||
+00295      (TIMx == TIM4) || (TIMx == TIM5)) 
+00296   \{
+00297     \textcolor{comment}{/* Select the Counter Mode */}
+00298     tmpcr1 &= (uint16\_t)(~(TIM_CR1_DIR | TIM_CR1_CMS));
+00299     tmpcr1 |= (uint32\_t)TIM\_TimeBaseInitStruct->TIM_CounterMode;
+00300   \}
+00301  
+00302   \textcolor{keywordflow}{if}((TIMx != TIM6) && (TIMx != TIM7))
+00303   \{
+00304     \textcolor{comment}{/* Set the clock division */}
+00305     tmpcr1 &=  (uint16\_t)(~TIM_CR1_CKD);
+00306     tmpcr1 |= (uint32\_t)TIM\_TimeBaseInitStruct->TIM_ClockDivision;
+00307   \}
+00308 
+00309   TIMx->CR1 = tmpcr1;
+00310 
+00311   \textcolor{comment}{/* Set the Autoreload value */}
+00312   TIMx->ARR = TIM\_TimeBaseInitStruct->TIM_Period ;
+00313  
+00314   \textcolor{comment}{/* Set the Prescaler value */}
+00315   TIMx->PSC = TIM\_TimeBaseInitStruct->TIM_Prescaler;
+00316     
+00317   \textcolor{keywordflow}{if} ((TIMx == TIM1) || (TIMx == TIM8))  
+00318   \{
+00319     \textcolor{comment}{/* Set the Repetition Counter value */}
+00320     TIMx->RCR = TIM\_TimeBaseInitStruct->TIM_RepetitionCounter;
+00321   \}
+00322 
+00323   \textcolor{comment}{/* Generate an update event to reload the Prescaler }
+00324 \textcolor{comment}{     and the repetition counter(only for TIM1 and TIM8) value immediatly */}
+00325   TIMx->EGR = TIM_PSCReloadMode_Immediate;          
+00326 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group1_ga1556a0b9a5d53506875fd7de0cbc6b1f}} 
+\index{Time\+Base management functions@{Time\+Base management functions}!T\+I\+M\+\_\+\+Time\+Base\+Struct\+Init@{T\+I\+M\+\_\+\+Time\+Base\+Struct\+Init}}
+\index{T\+I\+M\+\_\+\+Time\+Base\+Struct\+Init@{T\+I\+M\+\_\+\+Time\+Base\+Struct\+Init}!Time\+Base management functions@{Time\+Base management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Time\+Base\+Struct\+Init()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+Time\+Base\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Time\+Base\+Init\+Type\+Def} $\ast$}]{T\+I\+M\+\_\+\+Time\+Base\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each T\+I\+M\+\_\+\+Time\+Base\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+M\+\_\+\+Time\+Base\+Init\+Struct} & \+: pointer to a \doxyref{T\+I\+M\+\_\+\+Time\+Base\+Init\+Type\+Def}{p.}{structTIM__TimeBaseInitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 334} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+
+References \textbf{ T\+I\+M\+\_\+\+Time\+Base\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+Clock\+Division}, \textbf{ T\+I\+M\+\_\+\+Time\+Base\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+Counter\+Mode}, \textbf{ T\+I\+M\+\_\+\+Time\+Base\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+Period}, \textbf{ T\+I\+M\+\_\+\+Time\+Base\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+Prescaler}, and \textbf{ T\+I\+M\+\_\+\+Time\+Base\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+Repetition\+Counter}.
+
+
+\begin{DoxyCode}
+00335 \{
+00336   \textcolor{comment}{/* Set the default configuration */}
+00337   TIM\_TimeBaseInitStruct->TIM_Period = 0xFFFFFFFF;
+00338   TIM\_TimeBaseInitStruct->TIM_Prescaler = 0x0000;
+00339   TIM\_TimeBaseInitStruct->TIM_ClockDivision = TIM_CKD_DIV1;
+00340   TIM\_TimeBaseInitStruct->TIM_CounterMode = TIM_CounterMode_Up;
+00341   TIM\_TimeBaseInitStruct->TIM_RepetitionCounter = 0x0000;
+00342 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group1_gace2384dd33e849a054f61b8e1fc7e7c3}} 
+\index{Time\+Base management functions@{Time\+Base management functions}!T\+I\+M\+\_\+\+Update\+Disable\+Config@{T\+I\+M\+\_\+\+Update\+Disable\+Config}}
+\index{T\+I\+M\+\_\+\+Update\+Disable\+Config@{T\+I\+M\+\_\+\+Update\+Disable\+Config}!Time\+Base management functions@{Time\+Base management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Update\+Disable\+Config()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+Update\+Disable\+Config (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or Disables the T\+I\+Mx Update event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1 to 14 to select the T\+IM peripheral. \\
+\hline
+{\em New\+State} & new state of the T\+I\+Mx U\+D\+IS bit This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 462} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00463 \{
+00464   \textcolor{comment}{/* Check the parameters */}
+00465   assert_param(IS_TIM_ALL_PERIPH(TIMx));
+00466   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00467 
+00468   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00469   \{
+00470     \textcolor{comment}{/* Set the Update Disable Bit */}
+00471     TIMx->CR1 |= TIM_CR1_UDIS;
+00472   \}
+00473   \textcolor{keywordflow}{else}
+00474   \{
+00475     \textcolor{comment}{/* Reset the Update Disable Bit */}
+00476     TIMx->CR1 &= (uint16\_t)~TIM_CR1_UDIS;
+00477   \}
+00478 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group1_ga1d7a8f952e209de142499e67a653fc1f}} 
+\index{Time\+Base management functions@{Time\+Base management functions}!T\+I\+M\+\_\+\+Update\+Request\+Config@{T\+I\+M\+\_\+\+Update\+Request\+Config}}
+\index{T\+I\+M\+\_\+\+Update\+Request\+Config@{T\+I\+M\+\_\+\+Update\+Request\+Config}!Time\+Base management functions@{Time\+Base management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Update\+Request\+Config()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+Update\+Request\+Config (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{uint16\+\_\+t}]{T\+I\+M\+\_\+\+Update\+Source }\end{DoxyParamCaption})}
+
+
+
+Configures the T\+I\+Mx Update Request Interrupt source. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1 to 14 to select the T\+IM peripheral. \\
+\hline
+{\em T\+I\+M\+\_\+\+Update\+Source} & specifies the Update source. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+Update\+Source\+\_\+\+Global\+: Source of update is the counter overflow/underflow or the setting of UG bit, or an update generation through the slave mode controller. \item T\+I\+M\+\_\+\+Update\+Source\+\_\+\+Regular\+: Source of update is counter overflow/underflow. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 491} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+\begin{DoxyCode}
+00492 \{
+00493   \textcolor{comment}{/* Check the parameters */}
+00494   assert_param(IS_TIM_ALL_PERIPH(TIMx));
+00495   assert_param(IS_TIM_UPDATE_SOURCE(TIM\_UpdateSource));
+00496 
+00497   \textcolor{keywordflow}{if} (TIM\_UpdateSource != TIM_UpdateSource_Global)
+00498   \{
+00499     \textcolor{comment}{/* Set the URS Bit */}
+00500     TIMx->CR1 |= TIM_CR1_URS;
+00501   \}
+00502   \textcolor{keywordflow}{else}
+00503   \{
+00504     \textcolor{comment}{/* Reset the URS Bit */}
+00505     TIMx->CR1 &= (uint16\_t)~TIM_CR1_URS;
+00506   \}
+00507 \}
+\end{DoxyCode}

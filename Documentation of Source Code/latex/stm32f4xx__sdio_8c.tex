@@ -1,0 +1,280 @@
+\section{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+sdio.c File Reference}
+\label{stm32f4xx__sdio_8c}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+sdio.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+sdio.\+c}}
+
+
+This file provides firmware functions to manage the following functionalities of the Secure digital input/output interface (S\+D\+IO) peripheral\+:  
+
+
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+sdio.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+rcc.\+h\char`\"{}}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+O\+F\+F\+S\+ET}~(\textbf{ S\+D\+I\+O\+\_\+\+B\+A\+SE} -\/ \textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+A\+SE})
+\item 
+\#define \textbf{ C\+L\+K\+C\+R\+\_\+\+O\+F\+F\+S\+ET}~(\textbf{ S\+D\+I\+O\+\_\+\+O\+F\+F\+S\+ET} + 0x04)
+\item 
+\#define \textbf{ C\+L\+K\+E\+N\+\_\+\+Bit\+Number}~0x08
+\item 
+\#define \textbf{ C\+L\+K\+C\+R\+\_\+\+C\+L\+K\+E\+N\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+L\+K\+C\+R\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ C\+L\+K\+E\+N\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ C\+M\+D\+\_\+\+O\+F\+F\+S\+ET}~(\textbf{ S\+D\+I\+O\+\_\+\+O\+F\+F\+S\+ET} + 0x0\+C)
+\item 
+\#define \textbf{ S\+D\+I\+O\+S\+U\+S\+P\+E\+N\+D\+\_\+\+Bit\+Number}~0x0B
+\item 
+\#define \textbf{ C\+M\+D\+\_\+\+S\+D\+I\+O\+S\+U\+S\+P\+E\+N\+D\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+M\+D\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ S\+D\+I\+O\+S\+U\+S\+P\+E\+N\+D\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ E\+N\+C\+M\+D\+C\+O\+M\+P\+L\+\_\+\+Bit\+Number}~0x0C
+\item 
+\#define \textbf{ C\+M\+D\+\_\+\+E\+N\+C\+M\+D\+C\+O\+M\+P\+L\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+M\+D\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ E\+N\+C\+M\+D\+C\+O\+M\+P\+L\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ N\+I\+E\+N\+\_\+\+Bit\+Number}~0x0D
+\item 
+\#define \textbf{ C\+M\+D\+\_\+\+N\+I\+E\+N\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+M\+D\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ N\+I\+E\+N\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ A\+T\+A\+C\+M\+D\+\_\+\+Bit\+Number}~0x0E
+\item 
+\#define \textbf{ C\+M\+D\+\_\+\+A\+T\+A\+C\+M\+D\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+M\+D\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ A\+T\+A\+C\+M\+D\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET}~(\textbf{ S\+D\+I\+O\+\_\+\+O\+F\+F\+S\+ET} + 0x2\+C)
+\item 
+\#define \textbf{ D\+M\+A\+E\+N\+\_\+\+Bit\+Number}~0x03
+\item 
+\#define \textbf{ D\+C\+T\+R\+L\+\_\+\+D\+M\+A\+E\+N\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ D\+M\+A\+E\+N\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ R\+W\+S\+T\+A\+R\+T\+\_\+\+Bit\+Number}~0x08
+\item 
+\#define \textbf{ D\+C\+T\+R\+L\+\_\+\+R\+W\+S\+T\+A\+R\+T\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ R\+W\+S\+T\+A\+R\+T\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ R\+W\+S\+T\+O\+P\+\_\+\+Bit\+Number}~0x09
+\item 
+\#define \textbf{ D\+C\+T\+R\+L\+\_\+\+R\+W\+S\+T\+O\+P\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ R\+W\+S\+T\+O\+P\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ R\+W\+M\+O\+D\+\_\+\+Bit\+Number}~0x0A
+\item 
+\#define \textbf{ D\+C\+T\+R\+L\+\_\+\+R\+W\+M\+O\+D\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ R\+W\+M\+O\+D\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ S\+D\+I\+O\+E\+N\+\_\+\+Bit\+Number}~0x0B
+\item 
+\#define \textbf{ D\+C\+T\+R\+L\+\_\+\+S\+D\+I\+O\+E\+N\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ S\+D\+I\+O\+E\+N\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ C\+L\+K\+C\+R\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}~((uint32\+\_\+t)0x\+F\+F\+F\+F8100)
+\item 
+\#define \textbf{ P\+W\+R\+\_\+\+P\+W\+R\+C\+T\+R\+L\+\_\+\+M\+A\+SK}~((uint32\+\_\+t)0x\+F\+F\+F\+F\+F\+F\+F\+C)
+\item 
+\#define \textbf{ D\+C\+T\+R\+L\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}~((uint32\+\_\+t)0x\+F\+F\+F\+F\+F\+F08)
+\item 
+\#define \textbf{ C\+M\+D\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}~((uint32\+\_\+t)0x\+F\+F\+F\+F\+F800)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+R\+E\+S\+P\+\_\+\+A\+D\+DR}~((uint32\+\_\+t)(\textbf{ S\+D\+I\+O\+\_\+\+B\+A\+SE} + 0x14))
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the S\+D\+IO peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Init} (\textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the S\+D\+IO peripheral according to the specified parameters in the S\+D\+I\+O\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Struct\+Init} (\textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each S\+D\+I\+O\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Clock\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the S\+D\+IO Clock. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Set\+Power\+State} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+Power\+State)
+\begin{DoxyCompactList}\small\item\em Sets the power status of the controller. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Get\+Power\+State} (void)
+\begin{DoxyCompactList}\small\item\em Gets the power status of the controller. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Send\+Command} (\textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the S\+D\+IO Command according to the specified parameters in the S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct and send the command. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Struct\+Init} (\textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Get\+Command\+Response} (void)
+\begin{DoxyCompactList}\small\item\em Returns command index of last command for which response received. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Get\+Response} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+R\+E\+SP)
+\begin{DoxyCompactList}\small\item\em Returns response received from the card for the last command. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Data\+Config} (\textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Data\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the S\+D\+IO data path according to the specified parameters in the S\+D\+I\+O\+\_\+\+Data\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Data\+Struct\+Init} (\textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Data\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each S\+D\+I\+O\+\_\+\+Data\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Get\+Data\+Counter} (void)
+\begin{DoxyCompactList}\small\item\em Returns number of remaining data bytes to be transferred. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Read\+Data} (void)
+\begin{DoxyCompactList}\small\item\em Read one data word from Rx F\+I\+FO. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Write\+Data} (uint32\+\_\+t Data)
+\begin{DoxyCompactList}\small\item\em Write one data word to Tx F\+I\+FO. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Get\+F\+I\+F\+O\+Count} (void)
+\begin{DoxyCompactList}\small\item\em Returns the number of words left to be written to or read from F\+I\+FO. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Start\+S\+D\+I\+O\+Read\+Wait} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Starts the SD I/O Read Wait operation. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Stop\+S\+D\+I\+O\+Read\+Wait} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Stops the SD I/O Read Wait operation. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Read\+Wait\+Mode} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+Read\+Wait\+Mode)
+\begin{DoxyCompactList}\small\item\em Sets one of the two options of inserting read wait interval. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Operation} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the SD I/O Mode Operation. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Send\+S\+D\+I\+O\+Suspend\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the SD I/O Mode suspend command sending. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Command\+Completion\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the command completion signal. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+C\+E\+A\+T\+A\+I\+T\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the C\+E-\/\+A\+TA interrupt. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Send\+C\+E\+A\+T\+A\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Sends C\+E-\/\+A\+TA command (C\+M\+D61). \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+D\+M\+A\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the S\+D\+IO D\+MA request. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+Config} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the S\+D\+IO interrupts. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ S\+D\+I\+O\+\_\+\+Get\+Flag\+Status} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified S\+D\+IO flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Clear\+Flag} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the S\+D\+IO\textquotesingle{}s pending flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ S\+D\+I\+O\+\_\+\+Get\+I\+T\+Status} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified S\+D\+IO interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Clear\+I\+T\+Pending\+Bit} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the S\+D\+IO\textquotesingle{}s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file provides firmware functions to manage the following functionalities of the Secure digital input/output interface (S\+D\+IO) peripheral\+: 
+
+\begin{DoxyAuthor}{Author}
+M\+CD Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\+0.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+30-\/\+September-\/2011
+\begin{DoxyItemize}
+\item Initialization and Configuration
+\item Command path state machine (C\+P\+SM) management
+\item Data path state machine (D\+P\+SM) management
+\item S\+D\+IO IO Cards mode management
+\item C\+E-\/\+A\+TA mode management
+\item D\+MA transfers management
+\item Interrupts and flags management
+\end{DoxyItemize}
+\end{DoxyDate}
+\begin{DoxyVerb}*
+*
+*          ===================================================================
+*                                 How to use this driver
+*          ===================================================================
+*          1. The SDIO clock (SDIOCLK = 48 MHz) is coming from a specific output
+*             of PLL (PLL48CLK). Before to start working with SDIO peripheral
+*             make sure that the PLL is well configured.
+*          The SDIO peripheral uses two clock signals:
+*              - SDIO adapter clock (SDIOCLK = 48 MHz)
+*              - APB2 bus clock (PCLK2)
+*          PCLK2 and SDIO_CK clock frequencies must respect the following condition:
+*                   Frequenc(PCLK2) >= (3 / 8 x Frequency(SDIO_CK))
+*
+*          2. Enable peripheral clock using RCC_APB2PeriphClockCmd(RCC_APB2Periph_SDIO, ENABLE).
+*
+*          3.  According to the SDIO mode, enable the GPIO clocks using 
+*              RCC_AHB1PeriphClockCmd() function. 
+*              The I/O can be one of the following configurations:
+*                 - 1-bit data length: SDIO_CMD, SDIO_CK and D0.
+*                 - 4-bit data length: SDIO_CMD, SDIO_CK and D[3:0].
+*                 - 8-bit data length: SDIO_CMD, SDIO_CK and D[7:0].      
+*
+*          4. Peripheral's alternate function: 
+*                 - Connect the pin to the desired peripherals' Alternate 
+*                   Function (AF) using GPIO_PinAFConfig() function
+*                 - Configure the desired pin in alternate function by:
+*                   GPIO_InitStruct->GPIO_Mode = GPIO_Mode_AF
+*                 - Select the type, pull-up/pull-down and output speed via 
+*                   GPIO_PuPd, GPIO_OType and GPIO_Speed members
+*                 - Call GPIO_Init() function
+*
+*          5. Program the Clock Edge, Clock Bypass, Clock Power Save, Bus Wide, 
+*             hardware, flow control and the Clock Divider using the SDIO_Init()
+*             function.
+*
+*          6. Enable the Power ON State using the SDIO_SetPowerState(SDIO_PowerState_ON) 
+*             function.
+*              
+*          7. Enable the clock using the SDIO_ClockCmd() function.
+*
+*          8. Enable the NVIC and the corresponding interrupt using the function 
+*             SDIO_ITConfig() if you need to use interrupt mode. 
+*
+*          9. When using the DMA mode 
+*                   - Configure the DMA using DMA_Init() function
+*                   - Active the needed channel Request using SDIO_DMACmd() function
+*
+*          10. Enable the DMA using the DMA_Cmd() function, when using DMA mode. 
+*
+*          11. To control the CPSM (Command Path State Machine) and send 
+*              commands to the card use the SDIO_SendCommand(), 
+*              SDIO_GetCommandResponse() and SDIO_GetResponse() functions.     
+*              First, user has to fill the command structure (pointer to
+*              SDIO_CmdInitTypeDef) according to the selected command to be sent.
+*                 The parameters that should be filled are:
+*                   - Command Argument
+*                   - Command Index
+*                   - Command Response type
+*                   - Command Wait
+*                   - CPSM Status (Enable or Disable)
+*
+*              To check if the command is well received, read the SDIO_CMDRESP
+*              register using the SDIO_GetCommandResponse().
+*              The SDIO responses registers (SDIO_RESP1 to SDIO_RESP2), use the
+*              SDIO_GetResponse() function.
+*
+*          12. To control the DPSM (Data Path State Machine) and send/receive 
+*              data to/from the card use the SDIO_DataConfig(), SDIO_GetDataCounter(), 
+*              SDIO_ReadData(), SDIO_WriteData() and SDIO_GetFIFOCount() functions.
+*
+*              Read Operations
+*              ---------------
+*              a) First, user has to fill the data structure (pointer to
+*                 SDIO_DataInitTypeDef) according to the selected data type to
+*                 be received.
+*                 The parameters that should be filled are:
+*                   - Data TimeOut
+*                   - Data Length
+*                   - Data Block size
+*                   - Data Transfer direction: should be from card (To SDIO)
+*                   - Data Transfer mode
+*                   - DPSM Status (Enable or Disable)
+*                                   
+*              b) Configure the SDIO resources to receive the data from the card
+*                 according to selected transfer mode (Refer to Step 8, 9 and 10).
+*
+*              c) Send the selected Read command (refer to step 11).
+*                  
+*              d) Use the SDIO flags/interrupts to check the transfer status.
+*
+*              Write Operations
+*              ---------------
+*              a) First, user has to fill the data structure (pointer to
+*                 SDIO_DataInitTypeDef) according to the selected data type to
+*                 be received.
+*                 The parameters that should be filled are:
+*                   - Data TimeOut
+*                   - Data Length
+*                   - Data Block size
+*                   - Data Transfer direction:  should be to card (To CARD)
+*                   - Data Transfer mode
+*                   - DPSM Status (Enable or Disable)
+*
+*              b) Configure the SDIO resources to send the data to the card
+*                 according to selected transfer mode (Refer to Step 8, 9 and 10).
+*                   
+*              c) Send the selected Write command (refer to step 11).
+*                  
+*              d) Use the SDIO flags/interrupts to check the transfer status.
+*
+*
+*  \end{DoxyVerb}
+
+
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+T\+HE P\+R\+E\+S\+E\+NT F\+I\+R\+M\+W\+A\+RE W\+H\+I\+CH IS F\+OR G\+U\+I\+D\+A\+N\+CE O\+N\+LY A\+I\+MS AT P\+R\+O\+V\+I\+D\+I\+NG C\+U\+S\+T\+O\+M\+E\+RS W\+I\+TH C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON R\+E\+G\+A\+R\+D\+I\+NG T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS IN O\+R\+D\+ER F\+OR T\+H\+EM TO S\+A\+VE T\+I\+ME. AS A R\+E\+S\+U\+LT, S\+T\+M\+I\+C\+R\+O\+E\+L\+E\+C\+T\+R\+O\+N\+I\+CS S\+H\+A\+LL N\+OT BE H\+E\+LD L\+I\+A\+B\+LE F\+OR A\+NY D\+I\+R\+E\+CT, I\+N\+D\+I\+R\+E\+CT OR C\+O\+N\+S\+E\+Q\+U\+E\+N\+T\+I\+AL D\+A\+M\+A\+G\+ES W\+I\+TH R\+E\+S\+P\+E\+CT TO A\+NY C\+L\+A\+I\+MS A\+R\+I\+S\+I\+NG F\+R\+OM T\+HE C\+O\+N\+T\+E\+NT OF S\+U\+CH F\+I\+R\+M\+W\+A\+RE A\+N\+D/\+OR T\+HE U\+SE M\+A\+DE BY C\+U\+S\+T\+O\+M\+E\+RS OF T\+HE C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON C\+O\+N\+T\+A\+I\+N\+ED H\+E\+R\+E\+IN IN C\+O\+N\+N\+E\+C\+T\+I\+ON W\+I\+TH T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS.
+
+\subsubsection*{\begin{center}\copyright{} C\+O\+P\+Y\+R\+I\+G\+HT 2011 S\+T\+Microelectronics\end{center} }
+
+Definition in file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+

@@ -1,0 +1,332 @@
+\section{stm32f4xx\+\_\+dcmi.\+h}
+\label{stm32f4xx__dcmi_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+dcmi.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+dcmi.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_dcmi.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the DCMI firmware library.}
+00008 \textcolor{comment}{  ******************************************************************************}
+00009 \textcolor{comment}{  * @attention}
+00010 \textcolor{comment}{  *}
+00011 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00012 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00013 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00014 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00015 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00016 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00017 \textcolor{comment}{  *}
+00018 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00019 \textcolor{comment}{  ******************************************************************************}
+00020 \textcolor{comment}{  */}
+00021 
+00022 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00023 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_DCMI\_H}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_DCMI\_H}
+00025 
+00026 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00027  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00028 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00029 
+00030 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00031 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00032 
+00033 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00034 \textcolor{comment}{  * @\{}
+00035 \textcolor{comment}{  */}
+00036 
+00037 \textcolor{comment}{/** @addtogroup DCMI}
+00038 \textcolor{comment}{  * @\{}
+00039 \textcolor{comment}{  */}
+00040 
+00041 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00042 \textcolor{comment}{/** }
+00043 \textcolor{comment}{  * @brief   DCMI Init structure definition  }
+00044 \textcolor{comment}{  */}
+00045 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00046 \{
+00047   uint16\_t DCMI_CaptureMode;      \textcolor{comment}{/*!< Specifies the Capture Mode: Continuous or Snapshot.}
+00048 \textcolor{comment}{                                       This parameter can be a value of @ref DCMI\_Capture\_Mode */}
+00049 
+00050   uint16\_t DCMI_SynchroMode;      \textcolor{comment}{/*!< Specifies the Synchronization Mode: Hardware or Embedded.}
+00051 \textcolor{comment}{                                       This parameter can be a value of @ref DCMI\_Synchronization\_Mode
+       */}
+00052 
+00053   uint16\_t DCMI_PCKPolarity;      \textcolor{comment}{/*!< Specifies the Pixel clock polarity: Falling or Rising.}
+00054 \textcolor{comment}{                                       This parameter can be a value of @ref DCMI\_PIXCK\_Polarity */}
+00055 
+00056   uint16\_t DCMI_VSPolarity;       \textcolor{comment}{/*!< Specifies the Vertical synchronization polarity: High or Low.}
+00057 \textcolor{comment}{                                       This parameter can be a value of @ref DCMI\_VSYNC\_Polarity */}
+00058 
+00059   uint16\_t DCMI_HSPolarity;       \textcolor{comment}{/*!< Specifies the Horizontal synchronization polarity: High or Low.}
+00060 \textcolor{comment}{                                       This parameter can be a value of @ref DCMI\_HSYNC\_Polarity */}
+00061 
+00062   uint16\_t DCMI_CaptureRate;      \textcolor{comment}{/*!< Specifies the frequency of frame capture: All, 1/2 or 1/4.}
+00063 \textcolor{comment}{                                       This parameter can be a value of @ref DCMI\_Capture\_Rate */}
+00064 
+00065   uint16\_t DCMI_ExtendedDataMode; \textcolor{comment}{/*!< Specifies the data width: 8-bit, 10-bit, 12-bit or 14-bit.}
+00066 \textcolor{comment}{                                       This parameter can be a value of @ref DCMI\_Extended\_Data\_Mode
+       */}
+00067 \} DCMI\_InitTypeDef;
+00068 
+00069 \textcolor{comment}{/** }
+00070 \textcolor{comment}{  * @brief   DCMI CROP Init structure definition  }
+00071 \textcolor{comment}{  */}
+00072 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00073 \{
+00074   uint16\_t DCMI_VerticalStartLine;      \textcolor{comment}{/*!< Specifies the Vertical start line count from which the
+       image capture}
+00075 \textcolor{comment}{                                             will start. This parameter can be a value between 0x00
+       and 0x1FFF */}
+00076 
+00077   uint16\_t DCMI_HorizontalOffsetCount;  \textcolor{comment}{/*!< Specifies the number of pixel clocks to count before
+       starting a capture.}
+00078 \textcolor{comment}{                                             This parameter can be a value between 0x00 and 0x3FFF */}
+00079 
+00080   uint16\_t DCMI_VerticalLineCount;      \textcolor{comment}{/*!< Specifies the number of lines to be captured from the
+       starting point.}
+00081 \textcolor{comment}{                                             This parameter can be a value between 0x00 and 0x3FFF */}
+00082 
+00083   uint16\_t DCMI_CaptureCount;           \textcolor{comment}{/*!< Specifies the number of pixel clocks to be captured from
+       the starting}
+00084 \textcolor{comment}{                                             point on the same line.}
+00085 \textcolor{comment}{                                             This parameter can be a value between 0x00 and 0x3FFF */}
+00086 \} DCMI\_CROPInitTypeDef;
+00087 
+00088 \textcolor{comment}{/** }
+00089 \textcolor{comment}{  * @brief   DCMI Embedded Synchronisation CODE Init structure definition  }
+00090 \textcolor{comment}{  */}
+00091 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00092 \{
+00093   uint8\_t DCMI_FrameStartCode; \textcolor{comment}{/*!< Specifies the code of the frame start delimiter. */}
+00094   uint8\_t DCMI_LineStartCode;  \textcolor{comment}{/*!< Specifies the code of the line start delimiter. */}
+00095   uint8\_t DCMI_LineEndCode;    \textcolor{comment}{/*!< Specifies the code of the line end delimiter. */}
+00096   uint8\_t DCMI_FrameEndCode;   \textcolor{comment}{/*!< Specifies the code of the frame end delimiter. */}
+00097 \} DCMI\_CodesInitTypeDef;
+00098 
+00099 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00100 
+00101 \textcolor{comment}{/** @defgroup DCMI\_Exported\_Constants}
+00102 \textcolor{comment}{  * @\{}
+00103 \textcolor{comment}{  */}
+00104 
+00105 \textcolor{comment}{/** @defgroup DCMI\_Capture\_Mode }
+00106 \textcolor{comment}{  * @\{}
+00107 \textcolor{comment}{  */}
+00108 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_CaptureMode\_Continuous}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< The received data are transferred
+       continuously }
+00109 \textcolor{comment}{                                                               into the destination memory through the
+       DMA */}
+00110 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_CaptureMode\_SnapShot}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0002\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Once activated, the interface waits for
+       the start of }
+00111 \textcolor{comment}{                                                               frame and then transfers a single frame
+       through the DMA */}
+00112 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DCMI\_CAPTURE\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_CaptureMode_Continuous\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00113                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_CaptureMode_SnapShot\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00114 \textcolor{comment}{/**}
+00115 \textcolor{comment}{  * @\}}
+00116 \textcolor{comment}{  */}
+00117 
+00118 
+00119 \textcolor{comment}{/** @defgroup DCMI\_Synchronization\_Mode}
+00120 \textcolor{comment}{  * @\{}
+00121 \textcolor{comment}{  */}
+00122 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_SynchroMode\_Hardware}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Hardware synchronization data capture
+       (frame/line start/stop)}
+00123 \textcolor{comment}{                                                             is synchronized with the HSYNC/VSYNC
+       signals */}
+00124 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_SynchroMode\_Embedded}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0010\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Embedded synchronization data capture is
+       synchronized with }
+00125 \textcolor{comment}{                                                             synchronization codes embedded in the
+       data flow */}
+00126 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DCMI\_SYNCHRO}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_SynchroMode_Hardware\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00127                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_SynchroMode_Embedded\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00128 \textcolor{comment}{/**}
+00129 \textcolor{comment}{  * @\}}
+00130 \textcolor{comment}{  */}
+00131 
+00132 
+00133 \textcolor{comment}{/** @defgroup DCMI\_PIXCK\_Polarity }
+00134 \textcolor{comment}{  * @\{}
+00135 \textcolor{comment}{  */}
+00136 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_PCKPolarity\_Falling}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Pixel clock active on Falling edge */}
+00137 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_PCKPolarity\_Rising}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0020\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Pixel clock active on Rising edge */}
+00138 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DCMI\_PCKPOLARITY}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DCMI_PCKPolarity_Falling\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00139                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DCMI_PCKPolarity_Rising\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00140 \textcolor{comment}{/**}
+00141 \textcolor{comment}{  * @\}}
+00142 \textcolor{comment}{  */}
+00143 
+00144 
+00145 \textcolor{comment}{/** @defgroup DCMI\_VSYNC\_Polarity }
+00146 \textcolor{comment}{  * @\{}
+00147 \textcolor{comment}{  */}
+00148 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_VSPolarity\_Low}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Vertical synchronization active Low */}
+00149 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_VSPolarity\_High}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0080\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Vertical synchronization active High */}
+00150 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DCMI\_VSPOLARITY}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_VSPolarity_Low\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00151                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_VSPolarity_High\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00152 \textcolor{comment}{/**}
+00153 \textcolor{comment}{  * @\}}
+00154 \textcolor{comment}{  */}
+00155 
+00156 
+00157 \textcolor{comment}{/** @defgroup DCMI\_HSYNC\_Polarity }
+00158 \textcolor{comment}{  * @\{}
+00159 \textcolor{comment}{  */}
+00160 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_HSPolarity\_Low}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Horizontal synchronization active Low */}
+00161 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_HSPolarity\_High}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0040\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Horizontal synchronization active High */}
+00162 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DCMI\_HSPOLARITY}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_HSPolarity_Low\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00163                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_HSPolarity_High\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00164 \textcolor{comment}{/**}
+00165 \textcolor{comment}{  * @\}}
+00166 \textcolor{comment}{  */}
+00167 
+00168 
+00169 \textcolor{comment}{/** @defgroup DCMI\_Capture\_Rate }
+00170 \textcolor{comment}{  * @\{}
+00171 \textcolor{comment}{  */}
+00172 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_CaptureRate\_All\_Frame}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< All frames are captured */}
+00173 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_CaptureRate\_1of2\_Frame}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0100\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Every alternate frame captured */}
+00174 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_CaptureRate\_1of4\_Frame}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0200\textcolor{preprocessor}{)} \textcolor{comment}{/*!< One frame in 4 frames captured */}
+00175 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DCMI\_CAPTURE\_RATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_CaptureRate_All_Frame\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00176                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_CaptureRate_1of2_Frame\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00177                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_CaptureRate_1of4_Frame\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00178 \textcolor{comment}{/**}
+00179 \textcolor{comment}{  * @\}}
+00180 \textcolor{comment}{  */}
+00181 
+00182 
+00183 \textcolor{comment}{/** @defgroup DCMI\_Extended\_Data\_Mode }
+00184 \textcolor{comment}{  * @\{}
+00185 \textcolor{comment}{  */}
+00186 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_ExtendedDataMode\_8b}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Interface captures 8-bit data on every
+       pixel clock */}
+00187 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_ExtendedDataMode\_10b}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0400\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Interface captures 10-bit data on every
+       pixel clock */}
+00188 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_ExtendedDataMode\_12b}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0800\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Interface captures 12-bit data on every
+       pixel clock */}
+00189 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_ExtendedDataMode\_14b}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0C00\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Interface captures 14-bit data on every
+       pixel clock */}
+00190 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DCMI\_EXTENDED\_DATA}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATA}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATA}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_ExtendedDataMode_8b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00191                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATA}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_ExtendedDataMode_10b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00192                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATA}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_ExtendedDataMode_12b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00193                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATA}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_ExtendedDataMode_14b\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00194 \textcolor{comment}{/**}
+00195 \textcolor{comment}{  * @\}}
+00196 \textcolor{comment}{  */}
+00197 
+00198 
+00199 \textcolor{comment}{/** @defgroup DCMI\_interrupt\_sources }
+00200 \textcolor{comment}{  * @\{}
+00201 \textcolor{comment}{  */}
+00202 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_IT\_FRAME}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0001\textcolor{preprocessor}{)}
+00203 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_IT\_OVF}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0002\textcolor{preprocessor}{)}
+00204 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_IT\_ERR}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0004\textcolor{preprocessor}{)}
+00205 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_IT\_VSYNC}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0008\textcolor{preprocessor}{)}
+00206 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_IT\_LINE}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0010\textcolor{preprocessor}{)}
+00207 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DCMI\_CONFIG\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xFFE0\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x0000\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x0000\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00208 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DCMI\_GET\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_IT_FRAME\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00209                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_IT_OVF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00210                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_IT_ERR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00211                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_IT_VSYNC\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00212                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_IT_LINE\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00213 \textcolor{comment}{/**}
+00214 \textcolor{comment}{  * @\}}
+00215 \textcolor{comment}{  */}
+00216 
+00217 
+00218 \textcolor{comment}{/** @defgroup DCMI\_Flags }
+00219 \textcolor{comment}{  * @\{}
+00220 \textcolor{comment}{  */}
+00221 \textcolor{comment}{/** }
+00222 \textcolor{comment}{  * @brief   DCMI SR register  }
+00223 \textcolor{comment}{  */}
+00224 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_FLAG\_HSYNC}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x2001\textcolor{preprocessor}{)}
+00225 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_FLAG\_VSYNC}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x2002\textcolor{preprocessor}{)}
+00226 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_FLAG\_FNE}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x2004\textcolor{preprocessor}{)}
+00227 \textcolor{comment}{/** }
+00228 \textcolor{comment}{  * @brief   DCMI RISR register  }
+00229 \textcolor{comment}{  */}
+00230 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_FLAG\_FRAMERI}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0001\textcolor{preprocessor}{)}
+00231 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_FLAG\_OVFRI}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0002\textcolor{preprocessor}{)}
+00232 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_FLAG\_ERRRI}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0004\textcolor{preprocessor}{)}
+00233 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_FLAG\_VSYNCRI}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0008\textcolor{preprocessor}{)}
+00234 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_FLAG\_LINERI}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0010\textcolor{preprocessor}{)}
+00235 \textcolor{comment}{/** }
+00236 \textcolor{comment}{  * @brief   DCMI MISR register  }
+00237 \textcolor{comment}{  */}
+00238 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_FLAG\_FRAMEMI}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x1001\textcolor{preprocessor}{)}
+00239 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_FLAG\_OVFMI}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x1002\textcolor{preprocessor}{)}
+00240 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_FLAG\_ERRMI}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x1004\textcolor{preprocessor}{)}
+00241 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_FLAG\_VSYNCMI}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x1008\textcolor{preprocessor}{)}
+00242 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DCMI\_FLAG\_LINEMI}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x1010\textcolor{preprocessor}{)}
+00243 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DCMI\_GET\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_FLAG_HSYNC\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00244                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_FLAG_VSYNC\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00245                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_FLAG_FNE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00246                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_FLAG_FRAMERI\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00247                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_FLAG_OVFRI\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00248                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_FLAG_ERRRI\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00249                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_FLAG_VSYNCRI\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00250                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_FLAG_LINERI\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00251                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_FLAG_FRAMEMI\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00252                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_FLAG_OVFMI\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00253                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_FLAG_ERRMI\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00254                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_FLAG_VSYNCMI\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00255                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DCMI_FLAG_LINEMI\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00256 
+00257 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DCMI\_CLEAR\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xFFE0\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x0000\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x0000\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00258 \textcolor{comment}{/**}
+00259 \textcolor{comment}{  * @\}}
+00260 \textcolor{comment}{  */}
+00261 
+00262 \textcolor{comment}{/**}
+00263 \textcolor{comment}{  * @\}}
+00264 \textcolor{comment}{  */}
+00265 
+00266 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00267 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00268 
+00269 \textcolor{comment}{/*  Function used to set the DCMI configuration to the default reset state ****/}
+00270 \textcolor{keywordtype}{void} DCMI_DeInit(\textcolor{keywordtype}{void});
+00271 
+00272 \textcolor{comment}{/* Initialization and Configuration functions *********************************/}
+00273 \textcolor{keywordtype}{void} DCMI_Init(DCMI\_InitTypeDef* DCMI\_InitStruct);
+00274 \textcolor{keywordtype}{void} DCMI_StructInit(DCMI\_InitTypeDef* DCMI\_InitStruct);
+00275 \textcolor{keywordtype}{void} DCMI_CROPConfig(DCMI\_CROPInitTypeDef* DCMI\_CROPInitStruct);
+00276 \textcolor{keywordtype}{void} DCMI_CROPCmd(FunctionalState NewState);
+00277 \textcolor{keywordtype}{void} DCMI_SetEmbeddedSynchroCodes(DCMI\_CodesInitTypeDef* DCMI\_CodesInitStruct);
+00278 \textcolor{keywordtype}{void} DCMI_JPEGCmd(FunctionalState NewState);
+00279 
+00280 \textcolor{comment}{/* Image capture functions ****************************************************/}
+00281 \textcolor{keywordtype}{void} DCMI_Cmd(FunctionalState NewState);
+00282 \textcolor{keywordtype}{void} DCMI_CaptureCmd(FunctionalState NewState);
+00283 uint32\_t DCMI_ReadData(\textcolor{keywordtype}{void});
+00284 
+00285 \textcolor{comment}{/* Interrupts and flags management functions **********************************/}
+00286 \textcolor{keywordtype}{void} DCMI_ITConfig(uint16\_t DCMI\_IT, FunctionalState NewState);
+00287 FlagStatus DCMI_GetFlagStatus(uint16\_t DCMI\_FLAG);
+00288 \textcolor{keywordtype}{void} DCMI_ClearFlag(uint16\_t DCMI\_FLAG);
+00289 ITStatus DCMI_GetITStatus(uint16\_t DCMI\_IT);
+00290 \textcolor{keywordtype}{void} DCMI_ClearITPendingBit(uint16\_t DCMI\_IT);
+00291 
+00292 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00293 \}
+00294 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00295 
+00296 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/*\_\_STM32F4xx\_DCMI\_H */}
+00297 
+00298 \textcolor{comment}{/**}
+00299 \textcolor{comment}{  * @\}}
+00300 \textcolor{comment}{  */}
+00301 
+00302 \textcolor{comment}{/**}
+00303 \textcolor{comment}{  * @\}}
+00304 \textcolor{comment}{  */}
+00305 
+00306 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

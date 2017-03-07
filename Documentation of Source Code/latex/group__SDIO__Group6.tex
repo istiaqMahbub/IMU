@@ -1,0 +1,58 @@
+\section{D\+MA transfers management functions}
+\label{group__SDIO__Group6}\index{D\+M\+A transfers management functions@{D\+M\+A transfers management functions}}
+
+
+D\+MA transfers management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+D\+M\+A\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the S\+D\+IO D\+MA request. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+D\+MA transfers management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+              DMA transfers management functions
+ ===============================================================================  
+
+  This section provide functions allowing to program SDIO DMA transfer.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__SDIO__Group6_gad36fde5ec0ce0c2089b9d971c2271e6e}} 
+\index{D\+M\+A transfers management functions@{D\+M\+A transfers management functions}!S\+D\+I\+O\+\_\+\+D\+M\+A\+Cmd@{S\+D\+I\+O\+\_\+\+D\+M\+A\+Cmd}}
+\index{S\+D\+I\+O\+\_\+\+D\+M\+A\+Cmd@{S\+D\+I\+O\+\_\+\+D\+M\+A\+Cmd}!D\+M\+A transfers management functions@{D\+M\+A transfers management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+D\+M\+A\+Cmd()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+D\+M\+A\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the S\+D\+IO D\+MA request. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the selected S\+D\+IO D\+MA request. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 762} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00763 \{
+00764   \textcolor{comment}{/* Check the parameters */}
+00765   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00766   
+00767   *(\_\_IO uint32\_t *) DCTRL_DMAEN_BB = (uint32\_t)NewState;
+00768 \}
+\end{DoxyCode}

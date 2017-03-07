@@ -1,0 +1,429 @@
+\section{System A\+HB and A\+PB busses clocks configuration functions}
+\label{group__RCC__Group2}\index{System A\+H\+B and A\+P\+B busses clocks configuration functions@{System A\+H\+B and A\+P\+B busses clocks configuration functions}}
+
+
+System, A\+HB and A\+PB busses clocks configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+Config} (uint32\+\_\+t R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+Source)
+\begin{DoxyCompactList}\small\item\em Configures the system clock (S\+Y\+S\+C\+LK). \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ R\+C\+C\+\_\+\+Get\+S\+Y\+S\+C\+L\+K\+Source} (void)
+\begin{DoxyCompactList}\small\item\em Returns the clock source used as system clock. \end{DoxyCompactList}\item 
+void \textbf{ R\+C\+C\+\_\+\+H\+C\+L\+K\+Config} (uint32\+\_\+t R\+C\+C\+\_\+\+S\+Y\+S\+C\+LK)
+\begin{DoxyCompactList}\small\item\em Configures the A\+HB clock (H\+C\+LK). \end{DoxyCompactList}\item 
+void \textbf{ R\+C\+C\+\_\+\+P\+C\+L\+K1\+Config} (uint32\+\_\+t R\+C\+C\+\_\+\+H\+C\+LK)
+\begin{DoxyCompactList}\small\item\em Configures the Low Speed A\+PB clock (P\+C\+L\+K1). \end{DoxyCompactList}\item 
+void \textbf{ R\+C\+C\+\_\+\+P\+C\+L\+K2\+Config} (uint32\+\_\+t R\+C\+C\+\_\+\+H\+C\+LK)
+\begin{DoxyCompactList}\small\item\em Configures the High Speed A\+PB clock (P\+C\+L\+K2). \end{DoxyCompactList}\item 
+void \textbf{ R\+C\+C\+\_\+\+Get\+Clocks\+Freq} (\textbf{ R\+C\+C\+\_\+\+Clocks\+Type\+Def} $\ast$R\+C\+C\+\_\+\+Clocks)
+\begin{DoxyCompactList}\small\item\em Returns the frequencies of different on chip clocks; S\+Y\+S\+C\+LK, H\+C\+LK, P\+C\+L\+K1 and P\+C\+L\+K2. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+System, A\+HB and A\+PB busses clocks configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+             System, AHB and APB busses clocks configuration functions
+ ===============================================================================  
+
+  This section provide functions allowing to configure the System, AHB, APB1 and 
+  APB2 busses clocks.
+  
+  1. Several clock sources can be used to drive the System clock (SYSCLK): HSI,
+     HSE and PLL.
+     The AHB clock (HCLK) is derived from System clock through configurable prescaler
+     and used to clock the CPU, memory and peripherals mapped on AHB bus (DMA, GPIO...).
+     APB1 (PCLK1) and APB2 (PCLK2) clocks are derived from AHB clock through 
+     configurable prescalers and used to clock the peripherals mapped on these busses.
+     You can use "RCC_GetClocksFreq()" function to retrieve the frequencies of these clocks.  
+
+@note All the peripheral clocks are derived from the System clock (SYSCLK) except:
+       - I2S: the I2S clock can be derived either from a specific PLL (PLLI2S) or
+          from an external clock mapped on the I2S_CKIN pin. 
+          You have to use RCC_I2SCLKConfig() function to configure this clock. 
+       - RTC: the RTC clock can be derived either from the LSI, LSE or HSE clock
+          divided by 2 to 31. You have to use RCC_RTCCLKConfig() and RCC_RTCCLKCmd()
+          functions to configure this clock. 
+       - USB OTG FS, SDIO and RTC: USB OTG FS require a frequency equal to 48 MHz
+          to work correctly, while the SDIO require a frequency equal or lower than
+          to 48. This clock is derived of the main PLL through PLLQ divider.
+       - IWDG clock which is always the LSI clock.
+       
+  2. The maximum frequency of the SYSCLK and HCLK is 168 MHz, PCLK2 82 MHz and PCLK1 42 MHz.
+     Depending on the device voltage range, the maximum frequency should be 
+     adapted accordingly:
+ +-------------------------------------------------------------------------------------+     
+ | Latency       |                HCLK clock frequency (MHz)                           |
+ |               |---------------------------------------------------------------------|     
+ |               | voltage range  | voltage range  | voltage range   | voltage range   |
+ |               | 2.7 V - 3.6 V  | 2.4 V - 2.7 V  | 2.1 V - 2.4 V   | 1.8 V - 2.1 V   |
+ |---------------|----------------|----------------|-----------------|-----------------|              
+ |0WS(1CPU cycle)|0 < HCLK <= 30  |0 < HCLK <= 24  |0 < HCLK <= 18   |0 < HCLK <= 16   |
+ |---------------|----------------|----------------|-----------------|-----------------|   
+ |1WS(2CPU cycle)|30 < HCLK <= 60 |24 < HCLK <= 48 |18 < HCLK <= 36  |16 < HCLK <= 32  | 
+ |---------------|----------------|----------------|-----------------|-----------------|   
+ |2WS(3CPU cycle)|60 < HCLK <= 90 |48 < HCLK <= 72 |36 < HCLK <= 54  |32 < HCLK <= 48  |
+ |---------------|----------------|----------------|-----------------|-----------------| 
+ |3WS(4CPU cycle)|90 < HCLK <= 120|72 < HCLK <= 96 |54 < HCLK <= 72  |48 < HCLK <= 64  |
+ |---------------|----------------|----------------|-----------------|-----------------| 
+ |4WS(5CPU cycle)|120< HCLK <= 150|96 < HCLK <= 120|72 < HCLK <= 90  |64 < HCLK <= 80  |
+ |---------------|----------------|----------------|-----------------|-----------------| 
+ |5WS(6CPU cycle)|120< HCLK <= 168|120< HCLK <= 144|90 < HCLK <= 108 |80 < HCLK <= 96  | 
+ |---------------|----------------|----------------|-----------------|-----------------| 
+ |6WS(7CPU cycle)|      NA        |144< HCLK <= 168|108 < HCLK <= 120|96 < HCLK <= 112 | 
+ |---------------|----------------|----------------|-----------------|-----------------| 
+ |7WS(8CPU cycle)|      NA        |      NA        |120 < HCLK <= 138|112 < HCLK <= 120| 
+ +-------------------------------------------------------------------------------------+    
+   @note When VOS bit (in PWR_CR register) is reset to '0’, the maximum value of HCLK is 144 MHz.
+         You can use PWR_MainRegulatorModeConfig() function to set or reset this bit.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__RCC__Group2_ga3e9944fd1ed734275222bbb3e3f29993}} 
+\index{System A\+H\+B and A\+P\+B busses clocks configuration functions@{System A\+H\+B and A\+P\+B busses clocks configuration functions}!R\+C\+C\+\_\+\+Get\+Clocks\+Freq@{R\+C\+C\+\_\+\+Get\+Clocks\+Freq}}
+\index{R\+C\+C\+\_\+\+Get\+Clocks\+Freq@{R\+C\+C\+\_\+\+Get\+Clocks\+Freq}!System A\+H\+B and A\+P\+B busses clocks configuration functions@{System A\+H\+B and A\+P\+B busses clocks configuration functions}}
+\subsubsection{R\+C\+C\+\_\+\+Get\+Clocks\+Freq()}
+{\footnotesize\ttfamily void R\+C\+C\+\_\+\+Get\+Clocks\+Freq (\begin{DoxyParamCaption}\item[{\textbf{ R\+C\+C\+\_\+\+Clocks\+Type\+Def} $\ast$}]{R\+C\+C\+\_\+\+Clocks }\end{DoxyParamCaption})}
+
+
+
+Returns the frequencies of different on chip clocks; S\+Y\+S\+C\+LK, H\+C\+LK, P\+C\+L\+K1 and P\+C\+L\+K2. 
+
+\begin{DoxyNote}{Note}
+The system frequency computed by this function is not the real frequency in the chip. It is calculated based on the predefined constant and the selected clock source\+: 
+
+If S\+Y\+S\+C\+LK source is H\+SI, function returns values based on \doxyref{H\+S\+I\+\_\+\+V\+A\+L\+U\+E($\ast$)}{p.}{stm32f4xx__hal__conf_8h_aaa8c76e274d0f6dd2cefb5d0b17fbc37} 
+
+If S\+Y\+S\+C\+LK source is H\+SE, function returns values based on \doxyref{H\+S\+E\+\_\+\+V\+A\+L\+U\+E($\ast$$\ast$)}{p.}{stm32f4xx__hal__conf_8h_aeafcff4f57440c60e64812dddd13e7cb} 
+
+If S\+Y\+S\+C\+LK source is P\+LL, function returns values based on \doxyref{H\+S\+E\+\_\+\+V\+A\+L\+U\+E($\ast$$\ast$)}{p.}{stm32f4xx__hal__conf_8h_aeafcff4f57440c60e64812dddd13e7cb} or \doxyref{H\+S\+I\+\_\+\+V\+A\+L\+U\+E($\ast$)}{p.}{stm32f4xx__hal__conf_8h_aaa8c76e274d0f6dd2cefb5d0b17fbc37} multiplied/divided by the P\+LL factors. 
+
+($\ast$) H\+S\+I\+\_\+\+V\+A\+L\+UE is a constant defined in \doxyref{stm32f4xx.\+h}{p.}{stm32f4xx_8h} file (default value 16 M\+Hz) but the real value may vary depending on the variations in voltage and temperature. 
+
+($\ast$$\ast$) H\+S\+E\+\_\+\+V\+A\+L\+UE is a constant defined in \doxyref{stm32f4xx.\+h}{p.}{stm32f4xx_8h} file (default value 25 M\+Hz), user has to ensure that H\+S\+E\+\_\+\+V\+A\+L\+UE is same as the real frequency of the crystal used. Otherwise, this function may have wrong result.
+
+The result of this function could be not correct when using fractional value for H\+SE crystal.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\+C\+C\+\_\+\+Clocks} & pointer to a \doxyref{R\+C\+C\+\_\+\+Clocks\+Type\+Def}{p.}{structRCC__ClocksTypeDef} structure which will hold the clocks frequencies.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This function can be used by the user application to compute the baudrate for the communication peripherals or configure other parameters. 
+
+Each time S\+Y\+S\+C\+LK, H\+C\+LK, P\+C\+L\+K1 and/or P\+C\+L\+K2 clock changes, this function must be called to update the structure\textquotesingle{}s field. Otherwise, any configuration based on this function will be incorrect.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 855} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+
+References \textbf{ R\+C\+C\+\_\+\+Clocks\+Type\+Def\+::\+H\+C\+L\+K\+\_\+\+Frequency}, \textbf{ R\+C\+C\+\_\+\+Clocks\+Type\+Def\+::\+P\+C\+L\+K1\+\_\+\+Frequency}, \textbf{ R\+C\+C\+\_\+\+Clocks\+Type\+Def\+::\+P\+C\+L\+K2\+\_\+\+Frequency}, and \textbf{ R\+C\+C\+\_\+\+Clocks\+Type\+Def\+::\+S\+Y\+S\+C\+L\+K\+\_\+\+Frequency}.
+
+
+
+Referenced by \textbf{ I2\+C\+\_\+\+Init()}, \textbf{ T\+I\+M4\+\_\+\+I\+R\+Q\+Handler()}, and \textbf{ U\+S\+A\+R\+T\+\_\+\+Init()}.
+
+
+\begin{DoxyCode}
+00856 \{
+00857   uint32\_t tmp = 0, presc = 0, pllvco = 0, pllp = 2, pllsource = 0, pllm = 2;
+00858 
+00859   \textcolor{comment}{/* Get SYSCLK source -------------------------------------------------------*/}
+00860   tmp = RCC->CFGR & RCC_CFGR_SWS;
+00861 
+00862   \textcolor{keywordflow}{switch} (tmp)
+00863   \{
+00864     \textcolor{keywordflow}{case} 0x00:  \textcolor{comment}{/* HSI used as system clock source */}
+00865       RCC\_Clocks->SYSCLK_Frequency = HSI_VALUE;
+00866       \textcolor{keywordflow}{break};
+00867     \textcolor{keywordflow}{case} 0x04:  \textcolor{comment}{/* HSE used as system clock  source */}
+00868       RCC\_Clocks->SYSCLK_Frequency = HSE_VALUE;
+00869       \textcolor{keywordflow}{break};
+00870     \textcolor{keywordflow}{case} 0x08:  \textcolor{comment}{/* PLL used as system clock  source */}
+00871 
+00872       \textcolor{comment}{/* PLL\_VCO = (HSE\_VALUE or HSI\_VALUE / PLLM) * PLLN}
+00873 \textcolor{comment}{         SYSCLK = PLL\_VCO / PLLP}
+00874 \textcolor{comment}{         */}    
+00875       pllsource = (RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC) >> 22;
+00876       pllm = RCC->PLLCFGR & RCC_PLLCFGR_PLLM;
+00877       
+00878       \textcolor{keywordflow}{if} (pllsource != 0)
+00879       \{
+00880         \textcolor{comment}{/* HSE used as PLL clock source */}
+00881         pllvco = (HSE_VALUE / pllm) * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6);
+00882       \}
+00883       \textcolor{keywordflow}{else}
+00884       \{
+00885         \textcolor{comment}{/* HSI used as PLL clock source */}
+00886         pllvco = (HSI_VALUE / pllm) * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6);      
+00887       \}
+00888 
+00889       pllp = (((RCC->PLLCFGR & RCC_PLLCFGR_PLLP) >>16) + 1 ) *2;
+00890       RCC\_Clocks->SYSCLK_Frequency = pllvco/pllp;
+00891       \textcolor{keywordflow}{break};
+00892     \textcolor{keywordflow}{default}:
+00893       RCC\_Clocks->SYSCLK_Frequency = HSI_VALUE;
+00894       \textcolor{keywordflow}{break};
+00895   \}
+00896   \textcolor{comment}{/* Compute HCLK, PCLK1 and PCLK2 clocks frequencies ------------------------*/}
+00897 
+00898   \textcolor{comment}{/* Get HCLK prescaler */}
+00899   tmp = RCC->CFGR & RCC_CFGR_HPRE;
+00900   tmp = tmp >> 4;
+00901   presc = APBAHBPrescTable[tmp];
+00902   \textcolor{comment}{/* HCLK clock frequency */}
+00903   RCC\_Clocks->HCLK_Frequency = RCC\_Clocks->SYSCLK_Frequency >> presc;
+00904 
+00905   \textcolor{comment}{/* Get PCLK1 prescaler */}
+00906   tmp = RCC->CFGR & RCC_CFGR_PPRE1;
+00907   tmp = tmp >> 10;
+00908   presc = APBAHBPrescTable[tmp];
+00909   \textcolor{comment}{/* PCLK1 clock frequency */}
+00910   RCC\_Clocks->PCLK1_Frequency = RCC\_Clocks->HCLK_Frequency >> presc;
+00911 
+00912   \textcolor{comment}{/* Get PCLK2 prescaler */}
+00913   tmp = RCC->CFGR & RCC_CFGR_PPRE2;
+00914   tmp = tmp >> 13;
+00915   presc = APBAHBPrescTable[tmp];
+00916   \textcolor{comment}{/* PCLK2 clock frequency */}
+00917   RCC\_Clocks->PCLK2_Frequency = RCC\_Clocks->HCLK_Frequency >> presc;
+00918 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group2_gaaeb32311c208b2a980841c9c884a41ea}} 
+\index{System A\+H\+B and A\+P\+B busses clocks configuration functions@{System A\+H\+B and A\+P\+B busses clocks configuration functions}!R\+C\+C\+\_\+\+Get\+S\+Y\+S\+C\+L\+K\+Source@{R\+C\+C\+\_\+\+Get\+S\+Y\+S\+C\+L\+K\+Source}}
+\index{R\+C\+C\+\_\+\+Get\+S\+Y\+S\+C\+L\+K\+Source@{R\+C\+C\+\_\+\+Get\+S\+Y\+S\+C\+L\+K\+Source}!System A\+H\+B and A\+P\+B busses clocks configuration functions@{System A\+H\+B and A\+P\+B busses clocks configuration functions}}
+\subsubsection{R\+C\+C\+\_\+\+Get\+S\+Y\+S\+C\+L\+K\+Source()}
+{\footnotesize\ttfamily uint8\+\_\+t R\+C\+C\+\_\+\+Get\+S\+Y\+S\+C\+L\+K\+Source (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns the clock source used as system clock. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & clock source used as system clock. The returned value can be one of the following\+:
+\begin{DoxyItemize}
+\item 0x00\+: H\+SI used as system clock
+\item 0x04\+: H\+SE used as system clock
+\item 0x08\+: P\+LL used as system clock 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 715} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+\begin{DoxyCode}
+00716 \{
+00717   \textcolor{keywordflow}{return} ((uint8\_t)(RCC->CFGR & RCC_CFGR_SWS));
+00718 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group2_ga9d0aec72e236c6cdf3a3a82dfb525491}} 
+\index{System A\+H\+B and A\+P\+B busses clocks configuration functions@{System A\+H\+B and A\+P\+B busses clocks configuration functions}!R\+C\+C\+\_\+\+H\+C\+L\+K\+Config@{R\+C\+C\+\_\+\+H\+C\+L\+K\+Config}}
+\index{R\+C\+C\+\_\+\+H\+C\+L\+K\+Config@{R\+C\+C\+\_\+\+H\+C\+L\+K\+Config}!System A\+H\+B and A\+P\+B busses clocks configuration functions@{System A\+H\+B and A\+P\+B busses clocks configuration functions}}
+\subsubsection{R\+C\+C\+\_\+\+H\+C\+L\+K\+Config()}
+{\footnotesize\ttfamily void R\+C\+C\+\_\+\+H\+C\+L\+K\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+C\+C\+\_\+\+S\+Y\+S\+C\+LK }\end{DoxyParamCaption})}
+
+
+
+Configures the A\+HB clock (H\+C\+LK). 
+
+\begin{DoxyNote}{Note}
+Depending on the device voltage range, the software has to set correctly these bits to ensure that H\+C\+LK not exceed the maximum allowed frequency (for more details refer to section above \char`\"{}\+C\+P\+U, A\+H\+B and A\+P\+B busses clocks configuration functions\char`\"{}) 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\+C\+C\+\_\+\+S\+Y\+S\+C\+LK} & defines the A\+HB clock divider. This clock is derived from the system clock (S\+Y\+S\+C\+LK). This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+\_\+\+Div1\+: A\+HB clock = S\+Y\+S\+C\+LK \item R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+\_\+\+Div2\+: A\+HB clock = S\+Y\+S\+C\+L\+K/2 \item R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+\_\+\+Div4\+: A\+HB clock = S\+Y\+S\+C\+L\+K/4 \item R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+\_\+\+Div8\+: A\+HB clock = S\+Y\+S\+C\+L\+K/8 \item R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+\_\+\+Div16\+: A\+HB clock = S\+Y\+S\+C\+L\+K/16 \item R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+\_\+\+Div64\+: A\+HB clock = S\+Y\+S\+C\+L\+K/64 \item R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+\_\+\+Div128\+: A\+HB clock = S\+Y\+S\+C\+L\+K/128 \item R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+\_\+\+Div256\+: A\+HB clock = S\+Y\+S\+C\+L\+K/256 \item R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+\_\+\+Div512\+: A\+HB clock = S\+Y\+S\+C\+L\+K/512 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 740} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+\begin{DoxyCode}
+00741 \{
+00742   uint32\_t tmpreg = 0;
+00743   
+00744   \textcolor{comment}{/* Check the parameters */}
+00745   assert_param(IS_RCC_HCLK(RCC\_SYSCLK));
+00746 
+00747   tmpreg = RCC->CFGR;
+00748 
+00749   \textcolor{comment}{/* Clear HPRE[3:0] bits */}
+00750   tmpreg &= ~RCC_CFGR_HPRE;
+00751 
+00752   \textcolor{comment}{/* Set HPRE[3:0] bits according to RCC\_SYSCLK value */}
+00753   tmpreg |= RCC\_SYSCLK;
+00754 
+00755   \textcolor{comment}{/* Store the new value */}
+00756   RCC->CFGR = tmpreg;
+00757 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group2_ga448137346d4292985d4e7a61dd1a824f}} 
+\index{System A\+H\+B and A\+P\+B busses clocks configuration functions@{System A\+H\+B and A\+P\+B busses clocks configuration functions}!R\+C\+C\+\_\+\+P\+C\+L\+K1\+Config@{R\+C\+C\+\_\+\+P\+C\+L\+K1\+Config}}
+\index{R\+C\+C\+\_\+\+P\+C\+L\+K1\+Config@{R\+C\+C\+\_\+\+P\+C\+L\+K1\+Config}!System A\+H\+B and A\+P\+B busses clocks configuration functions@{System A\+H\+B and A\+P\+B busses clocks configuration functions}}
+\subsubsection{R\+C\+C\+\_\+\+P\+C\+L\+K1\+Config()}
+{\footnotesize\ttfamily void R\+C\+C\+\_\+\+P\+C\+L\+K1\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+C\+C\+\_\+\+H\+C\+LK }\end{DoxyParamCaption})}
+
+
+
+Configures the Low Speed A\+PB clock (P\+C\+L\+K1). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+C\+C\+\_\+\+H\+C\+LK} & defines the A\+P\+B1 clock divider. This clock is derived from the A\+HB clock (H\+C\+LK). This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+C\+C\+\_\+\+H\+C\+L\+K\+\_\+\+Div1\+: A\+P\+B1 clock = H\+C\+LK \item R\+C\+C\+\_\+\+H\+C\+L\+K\+\_\+\+Div2\+: A\+P\+B1 clock = H\+C\+L\+K/2 \item R\+C\+C\+\_\+\+H\+C\+L\+K\+\_\+\+Div4\+: A\+P\+B1 clock = H\+C\+L\+K/4 \item R\+C\+C\+\_\+\+H\+C\+L\+K\+\_\+\+Div8\+: A\+P\+B1 clock = H\+C\+L\+K/8 \item R\+C\+C\+\_\+\+H\+C\+L\+K\+\_\+\+Div16\+: A\+P\+B1 clock = H\+C\+L\+K/16 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 772} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+\begin{DoxyCode}
+00773 \{
+00774   uint32\_t tmpreg = 0;
+00775 
+00776   \textcolor{comment}{/* Check the parameters */}
+00777   assert_param(IS_RCC_PCLK(RCC\_HCLK));
+00778 
+00779   tmpreg = RCC->CFGR;
+00780 
+00781   \textcolor{comment}{/* Clear PPRE1[2:0] bits */}
+00782   tmpreg &= ~RCC_CFGR_PPRE1;
+00783 
+00784   \textcolor{comment}{/* Set PPRE1[2:0] bits according to RCC\_HCLK value */}
+00785   tmpreg |= RCC\_HCLK;
+00786 
+00787   \textcolor{comment}{/* Store the new value */}
+00788   RCC->CFGR = tmpreg;
+00789 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group2_ga09f9c010a4adca9e036da42c2ca6126a}} 
+\index{System A\+H\+B and A\+P\+B busses clocks configuration functions@{System A\+H\+B and A\+P\+B busses clocks configuration functions}!R\+C\+C\+\_\+\+P\+C\+L\+K2\+Config@{R\+C\+C\+\_\+\+P\+C\+L\+K2\+Config}}
+\index{R\+C\+C\+\_\+\+P\+C\+L\+K2\+Config@{R\+C\+C\+\_\+\+P\+C\+L\+K2\+Config}!System A\+H\+B and A\+P\+B busses clocks configuration functions@{System A\+H\+B and A\+P\+B busses clocks configuration functions}}
+\subsubsection{R\+C\+C\+\_\+\+P\+C\+L\+K2\+Config()}
+{\footnotesize\ttfamily void R\+C\+C\+\_\+\+P\+C\+L\+K2\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+C\+C\+\_\+\+H\+C\+LK }\end{DoxyParamCaption})}
+
+
+
+Configures the High Speed A\+PB clock (P\+C\+L\+K2). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+C\+C\+\_\+\+H\+C\+LK} & defines the A\+P\+B2 clock divider. This clock is derived from the A\+HB clock (H\+C\+LK). This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+C\+C\+\_\+\+H\+C\+L\+K\+\_\+\+Div1\+: A\+P\+B2 clock = H\+C\+LK \item R\+C\+C\+\_\+\+H\+C\+L\+K\+\_\+\+Div2\+: A\+P\+B2 clock = H\+C\+L\+K/2 \item R\+C\+C\+\_\+\+H\+C\+L\+K\+\_\+\+Div4\+: A\+P\+B2 clock = H\+C\+L\+K/4 \item R\+C\+C\+\_\+\+H\+C\+L\+K\+\_\+\+Div8\+: A\+P\+B2 clock = H\+C\+L\+K/8 \item R\+C\+C\+\_\+\+H\+C\+L\+K\+\_\+\+Div16\+: A\+P\+B2 clock = H\+C\+L\+K/16 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 803} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+\begin{DoxyCode}
+00804 \{
+00805   uint32\_t tmpreg = 0;
+00806 
+00807   \textcolor{comment}{/* Check the parameters */}
+00808   assert_param(IS_RCC_PCLK(RCC\_HCLK));
+00809 
+00810   tmpreg = RCC->CFGR;
+00811 
+00812   \textcolor{comment}{/* Clear PPRE2[2:0] bits */}
+00813   tmpreg &= ~RCC_CFGR_PPRE2;
+00814 
+00815   \textcolor{comment}{/* Set PPRE2[2:0] bits according to RCC\_HCLK value */}
+00816   tmpreg |= RCC\_HCLK << 3;
+00817 
+00818   \textcolor{comment}{/* Store the new value */}
+00819   RCC->CFGR = tmpreg;
+00820 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group2_ga3551a36a8f0a3dc96a74d6b939048337}} 
+\index{System A\+H\+B and A\+P\+B busses clocks configuration functions@{System A\+H\+B and A\+P\+B busses clocks configuration functions}!R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+Config@{R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+Config}}
+\index{R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+Config@{R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+Config}!System A\+H\+B and A\+P\+B busses clocks configuration functions@{System A\+H\+B and A\+P\+B busses clocks configuration functions}}
+\subsubsection{R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+Config()}
+{\footnotesize\ttfamily void R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+Source }\end{DoxyParamCaption})}
+
+
+
+Configures the system clock (S\+Y\+S\+C\+LK). 
+
+\begin{DoxyNote}{Note}
+The H\+SI is used (enabled by hardware) as system clock source after startup from Reset, wake-\/up from S\+T\+OP and S\+T\+A\+N\+D\+BY mode, or in case of failure of the H\+SE used directly or indirectly as system clock (if the Clock Security System C\+SS is enabled). 
+
+A switch from one clock source to another occurs only if the target clock source is ready (clock stable after startup delay or P\+LL locked). If a clock source which is not yet ready is selected, the switch will occur when the clock source will be ready. You can use \doxyref{R\+C\+C\+\_\+\+Get\+S\+Y\+S\+C\+L\+K\+Source()}{p.}{group__RCC__Group2_gaaeb32311c208b2a980841c9c884a41ea} function to know which clock is currently used as system clock source. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+Source} & specifies the clock source used as system clock. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+Source\+\_\+\+H\+SI\+: H\+SI selected as system clock source \item R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+Source\+\_\+\+H\+SE\+: H\+SE selected as system clock source \item R\+C\+C\+\_\+\+S\+Y\+S\+C\+L\+K\+Source\+\_\+\+P\+L\+L\+C\+LK\+: P\+LL selected as system clock source \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 687} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+\begin{DoxyCode}
+00688 \{
+00689   uint32\_t tmpreg = 0;
+00690 
+00691   \textcolor{comment}{/* Check the parameters */}
+00692   assert_param(IS_RCC_SYSCLK_SOURCE(RCC\_SYSCLKSource));
+00693 
+00694   tmpreg = RCC->CFGR;
+00695 
+00696   \textcolor{comment}{/* Clear SW[1:0] bits */}
+00697   tmpreg &= ~RCC_CFGR_SW;
+00698 
+00699   \textcolor{comment}{/* Set SW[1:0] bits according to RCC\_SYSCLKSource value */}
+00700   tmpreg |= RCC\_SYSCLKSource;
+00701 
+00702   \textcolor{comment}{/* Store the new value */}
+00703   RCC->CFGR = tmpreg;
+00704 \}
+\end{DoxyCode}

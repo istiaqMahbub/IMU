@@ -1,0 +1,93 @@
+\section{Data transfers functions}
+\label{group__I2C__Group2}\index{Data transfers functions@{Data transfers functions}}
+
+
+Data transfers functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ I2\+C\+\_\+\+Send\+Data} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint8\+\_\+t Data)
+\begin{DoxyCompactList}\small\item\em Sends a data byte through the I2\+Cx peripheral. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ I2\+C\+\_\+\+Receive\+Data} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx)
+\begin{DoxyCompactList}\small\item\em Returns the most recent received data by the I2\+Cx peripheral. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Data transfers functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                        Data transfers functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__I2C__Group2_gaeaaa4b6f77f50eb57465148c55d27fb2}} 
+\index{Data transfers functions@{Data transfers functions}!I2\+C\+\_\+\+Receive\+Data@{I2\+C\+\_\+\+Receive\+Data}}
+\index{I2\+C\+\_\+\+Receive\+Data@{I2\+C\+\_\+\+Receive\+Data}!Data transfers functions@{Data transfers functions}}
+\subsubsection{I2\+C\+\_\+\+Receive\+Data()}
+{\footnotesize\ttfamily uint8\+\_\+t I2\+C\+\_\+\+Receive\+Data (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx }\end{DoxyParamCaption})}
+
+
+
+Returns the most recent received data by the I2\+Cx peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & value of the received data. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 702} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+\begin{DoxyCode}
+00703 \{
+00704   \textcolor{comment}{/* Check the parameters */}
+00705   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00706   \textcolor{comment}{/* Return the data in the DR register */}
+00707   \textcolor{keywordflow}{return} (uint8\_t)I2Cx->DR;
+00708 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C__Group2_ga7bd9e70b8eafde0dd5eb42b0d95fe1a9}} 
+\index{Data transfers functions@{Data transfers functions}!I2\+C\+\_\+\+Send\+Data@{I2\+C\+\_\+\+Send\+Data}}
+\index{I2\+C\+\_\+\+Send\+Data@{I2\+C\+\_\+\+Send\+Data}!Data transfers functions@{Data transfers functions}}
+\subsubsection{I2\+C\+\_\+\+Send\+Data()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Send\+Data (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint8\+\_\+t}]{Data }\end{DoxyParamCaption})}
+
+
+
+Sends a data byte through the I2\+Cx peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em Data} & Byte to be transmitted.. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 689} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+\begin{DoxyCode}
+00690 \{
+00691   \textcolor{comment}{/* Check the parameters */}
+00692   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00693   \textcolor{comment}{/* Write in the DR register the data to be sent */}
+00694   I2Cx->DR = Data;
+00695 \}
+\end{DoxyCode}

@@ -1,0 +1,318 @@
+\section{stm32f4xx\+\_\+hash\+\_\+md5.\+c}
+\label{stm32f4xx__hash__md5_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+hash\+\_\+md5.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+hash\+\_\+md5.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_hash\_md5.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides high level functions to compute the HASH MD5 and}
+00008 \textcolor{comment}{  *          HMAC MD5 Digest of an input message.}
+00009 \textcolor{comment}{  *          It uses the stm32f4xx\_hash.c/.h drivers to access the STM32F4xx HASH}
+00010 \textcolor{comment}{  *          peripheral.}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  *  @verbatim}
+00013 \textcolor{comment}{  *    }
+00014 \textcolor{comment}{  *          ===================================================================}
+00015 \textcolor{comment}{  *                                   How to use this driver}
+00016 \textcolor{comment}{  *          ===================================================================}
+00017 \textcolor{comment}{  *          1. Enable The HASH controller clock using }
+00018 \textcolor{comment}{  *            RCC\_AHB2PeriphClockCmd(RCC\_AHB2Periph\_HASH, ENABLE); function.}
+00019 \textcolor{comment}{  *}
+00020 \textcolor{comment}{  *          2. Calculate the HASH MD5 Digest using HASH\_MD5() function.}
+00021 \textcolor{comment}{  *}
+00022 \textcolor{comment}{  *          3. Calculate the HMAC MD5 Digest using HMAC\_MD5() function.}
+00023 \textcolor{comment}{  *}
+00024 \textcolor{comment}{  *  @endverbatim}
+00025 \textcolor{comment}{  *}
+00026 \textcolor{comment}{  ******************************************************************************}
+00027 \textcolor{comment}{  * @attention}
+00028 \textcolor{comment}{  *}
+00029 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00030 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00031 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00032 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00033 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00034 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00035 \textcolor{comment}{  *}
+00036 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00037 \textcolor{comment}{  ******************************************************************************}
+00038 \textcolor{comment}{  */}
+00039 
+00040 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00041 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_hash.h"
+00042 
+00043 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00044 \textcolor{comment}{  * @\{}
+00045 \textcolor{comment}{  */}
+00046 
+00047 \textcolor{comment}{/** @defgroup HASH }
+00048 \textcolor{comment}{  * @brief HASH driver modules}
+00049 \textcolor{comment}{  * @\{}
+00050 \textcolor{comment}{  */}
+00051 
+00052 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00053 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00054 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{MD5BUSY\_TIMEOUT}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)} 0x00010000\textcolor{preprocessor}{)}
+00055 
+00056 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00057 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00058 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00059 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00060 
+00061 \textcolor{comment}{/** @defgroup HASH\_Private\_Functions}
+00062 \textcolor{comment}{  * @\{}
+00063 \textcolor{comment}{  */}
+00064 
+00065 \textcolor{comment}{/** @defgroup HASH\_Group7 High Level MD5 functions}
+00066 \textcolor{comment}{ *  @brief   High Level MD5 Hash and HMAC functions }
+00067 \textcolor{comment}{ *}
+00068 \textcolor{comment}{@verbatim   }
+00069 \textcolor{comment}{ ===============================================================================}
+00070 \textcolor{comment}{                          High Level MD5 Hash and HMAC functions}
+00071 \textcolor{comment}{ ===============================================================================}
+00072 \textcolor{comment}{}
+00073 \textcolor{comment}{}
+00074 \textcolor{comment}{@endverbatim}
+00075 \textcolor{comment}{  * @\{}
+00076 \textcolor{comment}{  */}
+00077 
+00078 \textcolor{comment}{/**}
+00079 \textcolor{comment}{  * @brief  Compute the HASH MD5 digest.}
+00080 \textcolor{comment}{  * @param  Input: pointer to the Input buffer to be treated.}
+00081 \textcolor{comment}{  * @param  Ilen: length of the Input buffer.}
+00082 \textcolor{comment}{  * @param  Output: the returned digest}
+00083 \textcolor{comment}{  * @retval An ErrorStatus enumeration value:}
+00084 \textcolor{comment}{  *          - SUCCESS: digest computation done}
+00085 \textcolor{comment}{  *          - ERROR: digest computation failed}
+00086 \textcolor{comment}{  */}
+00087 ErrorStatus HASH_MD5(uint8\_t *Input, uint32\_t Ilen, uint8\_t Output[16])
+00088 \{
+00089   HASH\_InitTypeDef MD5\_HASH\_InitStructure;
+00090   HASH\_MsgDigest MD5\_MessageDigest;
+00091   \_\_IO uint16\_t nbvalidbitsdata = 0;
+00092   uint32\_t i = 0;
+00093   \_\_IO uint32\_t counter = 0;
+00094   uint32\_t busystatus = 0;
+00095   ErrorStatus status = SUCCESS;
+00096   uint32\_t inputaddr  = (uint32\_t)Input;
+00097   uint32\_t outputaddr = (uint32\_t)Output;
+00098 
+00099 
+00100   \textcolor{comment}{/* Number of valid bits in last word of the Input data */}
+00101   nbvalidbitsdata = 8 * (Ilen % 4);
+00102 
+00103   \textcolor{comment}{/* HASH peripheral initialization */}
+00104   HASH_DeInit();
+00105 
+00106   \textcolor{comment}{/* HASH Configuration */}
+00107   MD5\_HASH\_InitStructure.HASH\_AlgoSelection = HASH_AlgoSelection_MD5;
+00108   MD5\_HASH\_InitStructure.HASH\_AlgoMode = HASH_AlgoMode_HASH;
+00109   MD5\_HASH\_InitStructure.HASH\_DataType = HASH_DataType_8b;
+00110   HASH_Init(&MD5\_HASH\_InitStructure);
+00111 
+00112   \textcolor{comment}{/* Configure the number of valid bits in last word of the data */}
+00113   HASH\_SetLastWordValidBitsNbr(nbvalidbitsdata);
+00114 
+00115   \textcolor{comment}{/* Write the Input block in the IN FIFO */}
+00116   \textcolor{keywordflow}{for}(i=0; i<Ilen; i+=4)
+00117   \{
+00118     HASH\_DataIn(*(uint32\_t*)inputaddr);
+00119     inputaddr+=4;
+00120   \}
+00121 
+00122   \textcolor{comment}{/* Start the HASH processor */}
+00123   HASH_StartDigest();
+00124 
+00125   \textcolor{comment}{/* wait until the Busy flag is RESET */}
+00126   \textcolor{keywordflow}{do}
+00127   \{
+00128     busystatus = HASH\_GetFlagStatus(HASH_FLAG_BUSY);
+00129     counter++;
+00130   \}\textcolor{keywordflow}{while} ((counter != MD5BUSY_TIMEOUT) && (busystatus != RESET));
+00131 
+00132   \textcolor{keywordflow}{if} (busystatus != RESET)
+00133   \{
+00134      status = ERROR;
+00135   \}
+00136   \textcolor{keywordflow}{else}
+00137   \{
+00138     \textcolor{comment}{/* Read the message digest */}
+00139     HASH\_GetDigest(&MD5\_MessageDigest);
+00140     *(uint32\_t*)(outputaddr)  = \_\_REV(MD5\_MessageDigest.Data[0]);
+00141     outputaddr+=4;
+00142     *(uint32\_t*)(outputaddr)  = \_\_REV(MD5\_MessageDigest.Data[1]);
+00143     outputaddr+=4;
+00144     *(uint32\_t*)(outputaddr)  = \_\_REV(MD5\_MessageDigest.Data[2]);
+00145     outputaddr+=4;
+00146     *(uint32\_t*)(outputaddr)  = \_\_REV(MD5\_MessageDigest.Data[3]);
+00147   \}
+00148   \textcolor{keywordflow}{return} status;
+00149 \}
+00150 
+00151 \textcolor{comment}{/**}
+00152 \textcolor{comment}{  * @brief  Compute the HMAC MD5 digest.}
+00153 \textcolor{comment}{  * @param  Key: pointer to the Key used for HMAC.}
+00154 \textcolor{comment}{  * @param  Keylen: length of the Key used for HMAC.}
+00155 \textcolor{comment}{  * @param  Input: pointer to the Input buffer to be treated.}
+00156 \textcolor{comment}{  * @param  Ilen: length of the Input buffer.}
+00157 \textcolor{comment}{  * @param  Output: the returned digest  }
+00158 \textcolor{comment}{  * @retval An ErrorStatus enumeration value:}
+00159 \textcolor{comment}{  *          - SUCCESS: digest computation done}
+00160 \textcolor{comment}{  *          - ERROR: digest computation failed}
+00161 \textcolor{comment}{  */}
+00162 ErrorStatus HMAC_MD5(uint8\_t *Key, uint32\_t Keylen, uint8\_t *Input,
+00163                      uint32\_t Ilen, uint8\_t Output[16])
+00164 \{
+00165   HASH\_InitTypeDef MD5\_HASH\_InitStructure;
+00166   HASH\_MsgDigest MD5\_MessageDigest;
+00167   \_\_IO uint16\_t nbvalidbitsdata = 0;
+00168   \_\_IO uint16\_t nbvalidbitskey = 0;
+00169   uint32\_t i = 0;
+00170   \_\_IO uint32\_t counter = 0;
+00171   uint32\_t busystatus = 0;
+00172   ErrorStatus status = SUCCESS;
+00173   uint32\_t keyaddr    = (uint32\_t)Key;
+00174   uint32\_t inputaddr  = (uint32\_t)Input;
+00175   uint32\_t outputaddr = (uint32\_t)Output;
+00176 
+00177   \textcolor{comment}{/* Number of valid bits in last word of the Input data */}
+00178   nbvalidbitsdata = 8 * (Ilen % 4);
+00179 
+00180   \textcolor{comment}{/* Number of valid bits in last word of the Key */}
+00181   nbvalidbitskey = 8 * (Keylen % 4);
+00182 
+00183   \textcolor{comment}{/* HASH peripheral initialization */}
+00184   HASH_DeInit();
+00185 
+00186   \textcolor{comment}{/* HASH Configuration */}
+00187   MD5\_HASH\_InitStructure.HASH\_AlgoSelection = HASH_AlgoSelection_MD5;
+00188   MD5\_HASH\_InitStructure.HASH\_AlgoMode = HASH_AlgoMode_HMAC;
+00189   MD5\_HASH\_InitStructure.HASH\_DataType = HASH_DataType_8b;
+00190   \textcolor{keywordflow}{if}(Keylen > 64)
+00191   \{
+00192     \textcolor{comment}{/* HMAC long Key */}
+00193     MD5\_HASH\_InitStructure.HASH\_HMACKeyType = HASH_HMACKeyType_LongKey;
+00194   \}
+00195   \textcolor{keywordflow}{else}
+00196   \{
+00197     \textcolor{comment}{/* HMAC short Key */}
+00198     MD5\_HASH\_InitStructure.HASH\_HMACKeyType = HASH_HMACKeyType_ShortKey;
+00199   \}
+00200   HASH_Init(&MD5\_HASH\_InitStructure);
+00201 
+00202   \textcolor{comment}{/* Configure the number of valid bits in last word of the Key */}
+00203   HASH\_SetLastWordValidBitsNbr(nbvalidbitskey);
+00204 
+00205   \textcolor{comment}{/* Write the Key */}
+00206   \textcolor{keywordflow}{for}(i=0; i<Keylen; i+=4)
+00207   \{
+00208     HASH\_DataIn(*(uint32\_t*)keyaddr);
+00209     keyaddr+=4;
+00210   \}
+00211 
+00212   \textcolor{comment}{/* Start the HASH processor */}
+00213   HASH_StartDigest();
+00214 
+00215   \textcolor{comment}{/* wait until the Busy flag is RESET */}
+00216   \textcolor{keywordflow}{do}
+00217   \{
+00218     busystatus = HASH\_GetFlagStatus(HASH_FLAG_BUSY);
+00219     counter++;
+00220   \}\textcolor{keywordflow}{while} ((counter != MD5BUSY_TIMEOUT) && (busystatus != RESET));
+00221 
+00222   \textcolor{keywordflow}{if} (busystatus != RESET)
+00223   \{
+00224      status = ERROR;
+00225   \}
+00226   \textcolor{keywordflow}{else}
+00227   \{
+00228     \textcolor{comment}{/* Configure the number of valid bits in last word of the Input data */}
+00229     HASH\_SetLastWordValidBitsNbr(nbvalidbitsdata);
+00230 
+00231     \textcolor{comment}{/* Write the Input block in the IN FIFO */}
+00232     \textcolor{keywordflow}{for}(i=0; i<Ilen; i+=4)
+00233     \{
+00234       HASH\_DataIn(*(uint32\_t*)inputaddr);
+00235       inputaddr+=4;
+00236     \}
+00237 
+00238     \textcolor{comment}{/* Start the HASH processor */}
+00239     HASH\_StartDigest();
+00240 
+00241     \textcolor{comment}{/* wait until the Busy flag is RESET */}
+00242     counter =0;
+00243     \textcolor{keywordflow}{do}
+00244     \{
+00245        busystatus = HASH\_GetFlagStatus(HASH_FLAG_BUSY);
+00246        counter++;
+00247     \}\textcolor{keywordflow}{while} ((counter != MD5BUSY_TIMEOUT) && (busystatus != RESET));
+00248 
+00249     \textcolor{keywordflow}{if} (busystatus != RESET)
+00250     \{
+00251       status = ERROR;
+00252     \}
+00253     \textcolor{keywordflow}{else}
+00254     \{
+00255       \textcolor{comment}{/* Configure the number of valid bits in last word of the Key */}
+00256       HASH\_SetLastWordValidBitsNbr(nbvalidbitskey);
+00257 
+00258       \textcolor{comment}{/* Write the Key */}
+00259       keyaddr = (uint32\_t)Key;
+00260       \textcolor{keywordflow}{for}(i=0; i<Keylen; i+=4)
+00261       \{
+00262         HASH\_DataIn(*(uint32\_t*)keyaddr);
+00263         keyaddr+=4;
+00264       \}
+00265 
+00266        \textcolor{comment}{/* Start the HASH processor */}
+00267        HASH\_StartDigest();
+00268 
+00269        \textcolor{comment}{/* wait until the Busy flag is RESET */}
+00270        counter =0;
+00271        \textcolor{keywordflow}{do}
+00272        \{
+00273           busystatus = HASH\_GetFlagStatus(HASH_FLAG_BUSY);
+00274           counter++;
+00275       \}\textcolor{keywordflow}{while} ((counter != MD5BUSY_TIMEOUT) && (busystatus != RESET));
+00276 
+00277       \textcolor{keywordflow}{if} (busystatus != RESET)
+00278       \{
+00279          status = ERROR;
+00280       \}
+00281       \textcolor{keywordflow}{else}
+00282       \{
+00283          \textcolor{comment}{/* Read the message digest */}
+00284          HASH\_GetDigest(&MD5\_MessageDigest);
+00285          *(uint32\_t*)(outputaddr)  = \_\_REV(MD5\_MessageDigest.Data[0]);
+00286          outputaddr+=4;
+00287          *(uint32\_t*)(outputaddr)  = \_\_REV(MD5\_MessageDigest.Data[1]);
+00288          outputaddr+=4;
+00289          *(uint32\_t*)(outputaddr)  = \_\_REV(MD5\_MessageDigest.Data[2]);
+00290          outputaddr+=4;
+00291          *(uint32\_t*)(outputaddr)  = \_\_REV(MD5\_MessageDigest.Data[3]);
+00292       \}
+00293     \}
+00294   \}
+00295   \textcolor{keywordflow}{return} status;
+00296 \}
+00297 \textcolor{comment}{/**}
+00298 \textcolor{comment}{  * @\}}
+00299 \textcolor{comment}{  */}
+00300 
+00301 \textcolor{comment}{/**}
+00302 \textcolor{comment}{  * @\}}
+00303 \textcolor{comment}{  */}
+00304 
+00305 \textcolor{comment}{/**}
+00306 \textcolor{comment}{  * @\}}
+00307 \textcolor{comment}{  */}
+00308 
+00309 \textcolor{comment}{/**}
+00310 \textcolor{comment}{  * @\}}
+00311 \textcolor{comment}{  */}
+00312 
+00313 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

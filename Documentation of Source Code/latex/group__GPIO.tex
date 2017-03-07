@@ -1,0 +1,1051 @@
+\section{G\+P\+IO}
+\label{group__GPIO}\index{G\+P\+IO@{G\+P\+IO}}
+
+
+G\+P\+IO driver modules.  
+
+
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ G\+P\+I\+O\+\_\+\+Exported\+\_\+\+Constants}
+\item 
+\textbf{ G\+P\+I\+O\+\_\+\+Private\+\_\+\+Functions}
+\end{DoxyCompactItemize}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def}
+\begin{DoxyCompactList}\small\item\em G\+P\+IO Init structure definition. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+A\+L\+L\+\_\+\+P\+E\+R\+I\+PH}(P\+E\+R\+I\+PH)
+\item 
+\#define \textbf{ I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+M\+O\+DE}(M\+O\+DE)
+\item 
+\#define \textbf{ I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+O\+T\+Y\+PE}(O\+T\+Y\+PE)~(((O\+T\+Y\+PE) == \textbf{ G\+P\+I\+O\+\_\+\+O\+Type\+\_\+\+PP}) $\vert$$\vert$ ((O\+T\+Y\+PE) == \textbf{ G\+P\+I\+O\+\_\+\+O\+Type\+\_\+\+OD}))
+\item 
+\#define \textbf{ I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+S\+P\+E\+ED}(S\+P\+E\+ED)
+\item 
+\#define \textbf{ I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+P\+U\+PD}(P\+U\+PD)
+\item 
+\#define \textbf{ I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+B\+I\+T\+\_\+\+A\+C\+T\+I\+ON}(A\+C\+T\+I\+ON)~(((A\+C\+T\+I\+ON) == \textbf{ Bit\+\_\+\+R\+E\+S\+ET}) $\vert$$\vert$ ((A\+C\+T\+I\+ON) == \textbf{ Bit\+\_\+\+S\+ET}))
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \textbf{ G\+P\+I\+O\+Mode\+\_\+\+Type\+Def} \{ \textbf{ G\+P\+I\+O\+\_\+\+Mode\+\_\+\+IN} = 0x00, 
+\textbf{ G\+P\+I\+O\+\_\+\+Mode\+\_\+\+O\+UT} = 0x01, 
+\textbf{ G\+P\+I\+O\+\_\+\+Mode\+\_\+\+AF} = 0x02, 
+\textbf{ G\+P\+I\+O\+\_\+\+Mode\+\_\+\+AN} = 0x03
+ \}\begin{DoxyCompactList}\small\item\em G\+P\+IO Configuration Mode enumeration. \end{DoxyCompactList}
+\item 
+enum \textbf{ G\+P\+I\+O\+O\+Type\+\_\+\+Type\+Def} \{ \textbf{ G\+P\+I\+O\+\_\+\+O\+Type\+\_\+\+PP} = 0x00, 
+\textbf{ G\+P\+I\+O\+\_\+\+O\+Type\+\_\+\+OD} = 0x01
+ \}\begin{DoxyCompactList}\small\item\em G\+P\+IO Output type enumeration. \end{DoxyCompactList}
+\item 
+enum \textbf{ G\+P\+I\+O\+Speed\+\_\+\+Type\+Def} \{ \textbf{ G\+P\+I\+O\+\_\+\+Speed\+\_\+2\+M\+Hz} = 0x00, 
+\textbf{ G\+P\+I\+O\+\_\+\+Speed\+\_\+25\+M\+Hz} = 0x01, 
+\textbf{ G\+P\+I\+O\+\_\+\+Speed\+\_\+50\+M\+Hz} = 0x02, 
+\textbf{ G\+P\+I\+O\+\_\+\+Speed\+\_\+100\+M\+Hz} = 0x03
+ \}\begin{DoxyCompactList}\small\item\em G\+P\+IO Output Maximum frequency enumeration. \end{DoxyCompactList}
+\item 
+enum \textbf{ G\+P\+I\+O\+Pu\+Pd\+\_\+\+Type\+Def} \{ \textbf{ G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+N\+O\+P\+U\+LL} = 0x00, 
+\textbf{ G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+UP} = 0x01, 
+\textbf{ G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+D\+O\+WN} = 0x02
+ \}\begin{DoxyCompactList}\small\item\em G\+P\+IO Configuration Pull\+Up Pull\+Down enumeration. \end{DoxyCompactList}
+\item 
+enum \textbf{ Bit\+Action} \{ \textbf{ Bit\+\_\+\+R\+E\+S\+ET} = 0, 
+\textbf{ Bit\+\_\+\+S\+ET}
+ \}\begin{DoxyCompactList}\small\item\em G\+P\+IO Bit S\+ET and Bit R\+E\+S\+ET enumeration. \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ G\+P\+I\+O\+\_\+\+De\+Init} (\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$G\+P\+I\+Ox)
+\begin{DoxyCompactList}\small\item\em Deinitializes the G\+P\+I\+Ox peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ G\+P\+I\+O\+\_\+\+Init} (\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$G\+P\+I\+Ox, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def} $\ast$G\+P\+I\+O\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the G\+P\+I\+Ox peripheral according to the specified parameters in the G\+P\+I\+O\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ G\+P\+I\+O\+\_\+\+Struct\+Init} (\textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def} $\ast$G\+P\+I\+O\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each G\+P\+I\+O\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ G\+P\+I\+O\+\_\+\+Pin\+Lock\+Config} (\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$G\+P\+I\+Ox, uint16\+\_\+t G\+P\+I\+O\+\_\+\+Pin)
+\begin{DoxyCompactList}\small\item\em Locks G\+P\+IO Pins configuration registers. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ G\+P\+I\+O\+\_\+\+Read\+Input\+Data\+Bit} (\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$G\+P\+I\+Ox, uint16\+\_\+t G\+P\+I\+O\+\_\+\+Pin)
+\begin{DoxyCompactList}\small\item\em Reads the specified input port pin. \end{DoxyCompactList}\item 
+uint16\+\_\+t \textbf{ G\+P\+I\+O\+\_\+\+Read\+Input\+Data} (\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$G\+P\+I\+Ox)
+\begin{DoxyCompactList}\small\item\em Reads the specified G\+P\+IO input data port. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ G\+P\+I\+O\+\_\+\+Read\+Output\+Data\+Bit} (\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$G\+P\+I\+Ox, uint16\+\_\+t G\+P\+I\+O\+\_\+\+Pin)
+\begin{DoxyCompactList}\small\item\em Reads the specified output data port bit. \end{DoxyCompactList}\item 
+uint16\+\_\+t \textbf{ G\+P\+I\+O\+\_\+\+Read\+Output\+Data} (\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$G\+P\+I\+Ox)
+\begin{DoxyCompactList}\small\item\em Reads the specified G\+P\+IO output data port. \end{DoxyCompactList}\item 
+void \textbf{ G\+P\+I\+O\+\_\+\+Set\+Bits} (\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$G\+P\+I\+Ox, uint16\+\_\+t G\+P\+I\+O\+\_\+\+Pin)
+\begin{DoxyCompactList}\small\item\em Sets the selected data port bits. \end{DoxyCompactList}\item 
+void \textbf{ G\+P\+I\+O\+\_\+\+Reset\+Bits} (\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$G\+P\+I\+Ox, uint16\+\_\+t G\+P\+I\+O\+\_\+\+Pin)
+\begin{DoxyCompactList}\small\item\em Clears the selected data port bits. \end{DoxyCompactList}\item 
+void \textbf{ G\+P\+I\+O\+\_\+\+Write\+Bit} (\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$G\+P\+I\+Ox, uint16\+\_\+t G\+P\+I\+O\+\_\+\+Pin, \textbf{ Bit\+Action} Bit\+Val)
+\begin{DoxyCompactList}\small\item\em Sets or clears the selected data port bit. \end{DoxyCompactList}\item 
+void \textbf{ G\+P\+I\+O\+\_\+\+Write} (\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$G\+P\+I\+Ox, uint16\+\_\+t Port\+Val)
+\begin{DoxyCompactList}\small\item\em Writes data to the specified G\+P\+IO data port. \end{DoxyCompactList}\item 
+void \textbf{ G\+P\+I\+O\+\_\+\+Toggle\+Bits} (\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$G\+P\+I\+Ox, uint16\+\_\+t G\+P\+I\+O\+\_\+\+Pin)
+\begin{DoxyCompactList}\small\item\em Toggles the specified G\+P\+IO pins.. \end{DoxyCompactList}\item 
+void \textbf{ G\+P\+I\+O\+\_\+\+Pin\+A\+F\+Config} (\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$G\+P\+I\+Ox, uint16\+\_\+t G\+P\+I\+O\+\_\+\+Pin\+Source, uint8\+\_\+t G\+P\+I\+O\+\_\+\+AF)
+\begin{DoxyCompactList}\small\item\em Changes the mapping of the specified pin. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+G\+P\+IO driver modules. 
+
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\label{group__GPIO_ga68b2a1f0b05c13978217db5439c7f790}} 
+\index{G\+P\+IO@{G\+P\+IO}!I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+A\+L\+L\+\_\+\+P\+E\+R\+I\+PH@{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+A\+L\+L\+\_\+\+P\+E\+R\+I\+PH}}
+\index{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+A\+L\+L\+\_\+\+P\+E\+R\+I\+PH@{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+A\+L\+L\+\_\+\+P\+E\+R\+I\+PH}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+A\+L\+L\+\_\+\+P\+E\+R\+I\+PH}
+{\footnotesize\ttfamily \#define I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+A\+L\+L\+\_\+\+P\+E\+R\+I\+PH(\begin{DoxyParamCaption}\item[{}]{P\+E\+R\+I\+PH }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}
+(((PERIPH) == GPIOA) || \(\backslash\)
+                                    ((PERIPH) == GPIOB) || \(\backslash\)
+                                    ((PERIPH) == GPIOC) || \(\backslash\)
+                                    ((PERIPH) == GPIOD) || \(\backslash\)
+                                    ((PERIPH) == GPIOE) || \(\backslash\)
+                                    ((PERIPH) == GPIOF) || \(\backslash\)
+                                    ((PERIPH) == GPIOG) || \(\backslash\)
+                                    ((PERIPH) == GPIOH) || \(\backslash\)
+                                    ((PERIPH) == GPIOI))
+\end{DoxyCode}
+
+
+Definition at line \textbf{ 44} of file \textbf{ stm32f4xx\+\_\+gpio.\+h}.
+
+\mbox{\label{group__GPIO_ga6b882caa8ed9857c5c7267959a7818c5}} 
+\index{G\+P\+IO@{G\+P\+IO}!I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+B\+I\+T\+\_\+\+A\+C\+T\+I\+ON@{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+B\+I\+T\+\_\+\+A\+C\+T\+I\+ON}}
+\index{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+B\+I\+T\+\_\+\+A\+C\+T\+I\+ON@{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+B\+I\+T\+\_\+\+A\+C\+T\+I\+ON}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+B\+I\+T\+\_\+\+A\+C\+T\+I\+ON}
+{\footnotesize\ttfamily \#define I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+B\+I\+T\+\_\+\+A\+C\+T\+I\+ON(\begin{DoxyParamCaption}\item[{}]{A\+C\+T\+I\+ON }\end{DoxyParamCaption})~(((A\+C\+T\+I\+ON) == \textbf{ Bit\+\_\+\+R\+E\+S\+ET}) $\vert$$\vert$ ((A\+C\+T\+I\+ON) == \textbf{ Bit\+\_\+\+S\+ET}))}
+
+
+
+Definition at line \textbf{ 111} of file \textbf{ stm32f4xx\+\_\+gpio.\+h}.
+
+\mbox{\label{group__GPIO_gacc5fde3eef57ec3c558c11d0011d900c}} 
+\index{G\+P\+IO@{G\+P\+IO}!I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+M\+O\+DE@{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+M\+O\+DE}}
+\index{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+M\+O\+DE@{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+M\+O\+DE}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+M\+O\+DE}
+{\footnotesize\ttfamily \#define I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+M\+O\+DE(\begin{DoxyParamCaption}\item[{}]{M\+O\+DE }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}
+(((MODE) == GPIO_Mode_IN)  || ((MODE) == GPIO_Mode_OUT) || \(\backslash\)
+                            ((MODE) == GPIO_Mode_AF)|| ((MODE) == GPIO_Mode_AN))
+\end{DoxyCode}
+
+
+Definition at line \textbf{ 64} of file \textbf{ stm32f4xx\+\_\+gpio.\+h}.
+
+\mbox{\label{group__GPIO_ga7145550a414f2b0455d79ddde6100af8}} 
+\index{G\+P\+IO@{G\+P\+IO}!I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+O\+T\+Y\+PE@{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+O\+T\+Y\+PE}}
+\index{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+O\+T\+Y\+PE@{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+O\+T\+Y\+PE}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+O\+T\+Y\+PE}
+{\footnotesize\ttfamily \#define I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+O\+T\+Y\+PE(\begin{DoxyParamCaption}\item[{}]{O\+T\+Y\+PE }\end{DoxyParamCaption})~(((O\+T\+Y\+PE) == \textbf{ G\+P\+I\+O\+\_\+\+O\+Type\+\_\+\+PP}) $\vert$$\vert$ ((O\+T\+Y\+PE) == \textbf{ G\+P\+I\+O\+\_\+\+O\+Type\+\_\+\+OD}))}
+
+
+
+Definition at line \textbf{ 75} of file \textbf{ stm32f4xx\+\_\+gpio.\+h}.
+
+\mbox{\label{group__GPIO_gae30c92591d1f29dbd594ac3cd855b503}} 
+\index{G\+P\+IO@{G\+P\+IO}!I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+P\+U\+PD@{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+P\+U\+PD}}
+\index{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+P\+U\+PD@{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+P\+U\+PD}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+P\+U\+PD}
+{\footnotesize\ttfamily \#define I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+P\+U\+PD(\begin{DoxyParamCaption}\item[{}]{P\+U\+PD }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}
+(((PUPD) == GPIO_PuPd_NOPULL) || ((PUPD) == GPIO_PuPd_UP) || \(\backslash\)
+                            ((PUPD) == GPIO_PuPd_DOWN))
+\end{DoxyCode}
+
+
+Definition at line \textbf{ 100} of file \textbf{ stm32f4xx\+\_\+gpio.\+h}.
+
+\mbox{\label{group__GPIO_ga888e1f951df2fe9dbf827528051a3a56}} 
+\index{G\+P\+IO@{G\+P\+IO}!I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+S\+P\+E\+ED@{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+S\+P\+E\+ED}}
+\index{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+S\+P\+E\+ED@{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+S\+P\+E\+ED}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+S\+P\+E\+ED}
+{\footnotesize\ttfamily \#define I\+S\+\_\+\+G\+P\+I\+O\+\_\+\+S\+P\+E\+ED(\begin{DoxyParamCaption}\item[{}]{S\+P\+E\+ED }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}
+(((SPEED) == GPIO_Speed_2MHz) || ((SPEED) == GPIO_Speed_25MHz) || \(\backslash\)
+                              ((SPEED) == GPIO_Speed_50MHz)||  ((SPEED) == 
+      GPIO_Speed_100MHz))
+\end{DoxyCode}
+
+
+Definition at line \textbf{ 88} of file \textbf{ stm32f4xx\+\_\+gpio.\+h}.
+
+
+
+\subsection{Enumeration Type Documentation}
+\mbox{\label{group__GPIO_ga176130b21c0e719121470a6042d4cf19}} 
+\index{G\+P\+IO@{G\+P\+IO}!Bit\+Action@{Bit\+Action}}
+\index{Bit\+Action@{Bit\+Action}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{Bit\+Action}
+{\footnotesize\ttfamily enum \textbf{ Bit\+Action}}
+
+
+
+G\+P\+IO Bit S\+ET and Bit R\+E\+S\+ET enumeration. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Bit\+\_\+\+R\+E\+S\+ET@{Bit\+\_\+\+R\+E\+S\+ET}!G\+P\+IO@{G\+P\+IO}}\index{G\+P\+IO@{G\+P\+IO}!Bit\+\_\+\+R\+E\+S\+ET@{Bit\+\_\+\+R\+E\+S\+ET}}}\mbox{\label{group__GPIO_gga176130b21c0e719121470a6042d4cf19ae2c026f2b44a949f82a65f3385edef09}} 
+Bit\+\_\+\+R\+E\+S\+ET&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Bit\+\_\+\+S\+ET@{Bit\+\_\+\+S\+ET}!G\+P\+IO@{G\+P\+IO}}\index{G\+P\+IO@{G\+P\+IO}!Bit\+\_\+\+S\+ET@{Bit\+\_\+\+S\+ET}}}\mbox{\label{group__GPIO_gga176130b21c0e719121470a6042d4cf19a3c477841a6ceec13fe47ef322432b992}} 
+Bit\+\_\+\+S\+ET&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \textbf{ 106} of file \textbf{ stm32f4xx\+\_\+gpio.\+h}.
+
+
+\begin{DoxyCode}
+00107 \{ 
+00108   Bit_RESET = 0,
+00109   Bit_SET
+00110 \}BitAction;
+\end{DoxyCode}
+\mbox{\label{group__GPIO_ga1347339e1c84a196fabbb31205eec5d4}} 
+\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+Mode\+\_\+\+Type\+Def@{G\+P\+I\+O\+Mode\+\_\+\+Type\+Def}}
+\index{G\+P\+I\+O\+Mode\+\_\+\+Type\+Def@{G\+P\+I\+O\+Mode\+\_\+\+Type\+Def}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{G\+P\+I\+O\+Mode\+\_\+\+Type\+Def}
+{\footnotesize\ttfamily enum \textbf{ G\+P\+I\+O\+Mode\+\_\+\+Type\+Def}}
+
+
+
+G\+P\+IO Configuration Mode enumeration. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{G\+P\+I\+O\+\_\+\+Mode\+\_\+\+IN@{G\+P\+I\+O\+\_\+\+Mode\+\_\+\+IN}!G\+P\+IO@{G\+P\+IO}}\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Mode\+\_\+\+IN@{G\+P\+I\+O\+\_\+\+Mode\+\_\+\+IN}}}\mbox{\label{group__GPIO_gga1347339e1c84a196fabbb31205eec5d4a484aa18a6156ce916049b334ba1839de}} 
+G\+P\+I\+O\+\_\+\+Mode\+\_\+\+IN&G\+P\+IO Input Mode \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{G\+P\+I\+O\+\_\+\+Mode\+\_\+\+O\+UT@{G\+P\+I\+O\+\_\+\+Mode\+\_\+\+O\+UT}!G\+P\+IO@{G\+P\+IO}}\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Mode\+\_\+\+O\+UT@{G\+P\+I\+O\+\_\+\+Mode\+\_\+\+O\+UT}}}\mbox{\label{group__GPIO_gga1347339e1c84a196fabbb31205eec5d4a60f1d530f4119efcad8e1a68c890c6a6}} 
+G\+P\+I\+O\+\_\+\+Mode\+\_\+\+O\+UT&G\+P\+IO Output Mode \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{G\+P\+I\+O\+\_\+\+Mode\+\_\+\+AF@{G\+P\+I\+O\+\_\+\+Mode\+\_\+\+AF}!G\+P\+IO@{G\+P\+IO}}\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Mode\+\_\+\+AF@{G\+P\+I\+O\+\_\+\+Mode\+\_\+\+AF}}}\mbox{\label{group__GPIO_gga1347339e1c84a196fabbb31205eec5d4a6d44c35c6c5008d85bac9251a867e701}} 
+G\+P\+I\+O\+\_\+\+Mode\+\_\+\+AF&G\+P\+IO Alternate function Mode \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{G\+P\+I\+O\+\_\+\+Mode\+\_\+\+AN@{G\+P\+I\+O\+\_\+\+Mode\+\_\+\+AN}!G\+P\+IO@{G\+P\+IO}}\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Mode\+\_\+\+AN@{G\+P\+I\+O\+\_\+\+Mode\+\_\+\+AN}}}\mbox{\label{group__GPIO_gga1347339e1c84a196fabbb31205eec5d4a6e5c0d7e6d2e22b834b24e1ca1d6d0db}} 
+G\+P\+I\+O\+\_\+\+Mode\+\_\+\+AN&G\+P\+IO Analog Mode \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \textbf{ 57} of file \textbf{ stm32f4xx\+\_\+gpio.\+h}.
+
+
+\begin{DoxyCode}
+00058 \{ 
+00059   GPIO_Mode_IN   = 0x00, 
+00060   GPIO_Mode_OUT  = 0x01, 
+00061   GPIO_Mode_AF   = 0x02, 
+00062   GPIO_Mode_AN   = 0x03  
+00063 \}GPIOMode_TypeDef;
+\end{DoxyCode}
+\mbox{\label{group__GPIO_gae74212e8d66c389f47326b06bdf6d2ab}} 
+\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+O\+Type\+\_\+\+Type\+Def@{G\+P\+I\+O\+O\+Type\+\_\+\+Type\+Def}}
+\index{G\+P\+I\+O\+O\+Type\+\_\+\+Type\+Def@{G\+P\+I\+O\+O\+Type\+\_\+\+Type\+Def}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{G\+P\+I\+O\+O\+Type\+\_\+\+Type\+Def}
+{\footnotesize\ttfamily enum \textbf{ G\+P\+I\+O\+O\+Type\+\_\+\+Type\+Def}}
+
+
+
+G\+P\+IO Output type enumeration. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{G\+P\+I\+O\+\_\+\+O\+Type\+\_\+\+PP@{G\+P\+I\+O\+\_\+\+O\+Type\+\_\+\+PP}!G\+P\+IO@{G\+P\+IO}}\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+O\+Type\+\_\+\+PP@{G\+P\+I\+O\+\_\+\+O\+Type\+\_\+\+PP}}}\mbox{\label{group__GPIO_ggae74212e8d66c389f47326b06bdf6d2abad967f141221bf702a343f91ad6acf55f}} 
+G\+P\+I\+O\+\_\+\+O\+Type\+\_\+\+PP&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{G\+P\+I\+O\+\_\+\+O\+Type\+\_\+\+OD@{G\+P\+I\+O\+\_\+\+O\+Type\+\_\+\+OD}!G\+P\+IO@{G\+P\+IO}}\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+O\+Type\+\_\+\+OD@{G\+P\+I\+O\+\_\+\+O\+Type\+\_\+\+OD}}}\mbox{\label{group__GPIO_ggae74212e8d66c389f47326b06bdf6d2aba1e3717d7271e0707f559a149a1963e43}} 
+G\+P\+I\+O\+\_\+\+O\+Type\+\_\+\+OD&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \textbf{ 70} of file \textbf{ stm32f4xx\+\_\+gpio.\+h}.
+
+
+\begin{DoxyCode}
+00071 \{ 
+00072   GPIO_OType_PP = 0x00,
+00073   GPIO_OType_OD = 0x01
+00074 \}GPIOOType_TypeDef;
+\end{DoxyCode}
+\mbox{\label{group__GPIO_gafb7ecd99c44b4fd702d669304a36c2c8}} 
+\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+Pu\+Pd\+\_\+\+Type\+Def@{G\+P\+I\+O\+Pu\+Pd\+\_\+\+Type\+Def}}
+\index{G\+P\+I\+O\+Pu\+Pd\+\_\+\+Type\+Def@{G\+P\+I\+O\+Pu\+Pd\+\_\+\+Type\+Def}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{G\+P\+I\+O\+Pu\+Pd\+\_\+\+Type\+Def}
+{\footnotesize\ttfamily enum \textbf{ G\+P\+I\+O\+Pu\+Pd\+\_\+\+Type\+Def}}
+
+
+
+G\+P\+IO Configuration Pull\+Up Pull\+Down enumeration. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+N\+O\+P\+U\+LL@{G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+N\+O\+P\+U\+LL}!G\+P\+IO@{G\+P\+IO}}\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+N\+O\+P\+U\+LL@{G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+N\+O\+P\+U\+LL}}}\mbox{\label{group__GPIO_ggafb7ecd99c44b4fd702d669304a36c2c8a013a40bdeb6b3f43e02f8e4da896ba51}} 
+G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+N\+O\+P\+U\+LL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+UP@{G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+UP}!G\+P\+IO@{G\+P\+IO}}\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+UP@{G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+UP}}}\mbox{\label{group__GPIO_ggafb7ecd99c44b4fd702d669304a36c2c8a474392f71830af3fcf2c4cc3896c9c8b}} 
+G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+UP&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+D\+O\+WN@{G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+D\+O\+WN}!G\+P\+IO@{G\+P\+IO}}\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+D\+O\+WN@{G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+D\+O\+WN}}}\mbox{\label{group__GPIO_ggafb7ecd99c44b4fd702d669304a36c2c8ab1e6c016575596c73327862984d8955c}} 
+G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+D\+O\+WN&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \textbf{ 94} of file \textbf{ stm32f4xx\+\_\+gpio.\+h}.
+
+
+\begin{DoxyCode}
+00095 \{ 
+00096   GPIO_PuPd_NOPULL = 0x00,
+00097   GPIO_PuPd_UP     = 0x01,
+00098   GPIO_PuPd_DOWN   = 0x02
+00099 \}GPIOPuPd_TypeDef;
+\end{DoxyCode}
+\mbox{\label{group__GPIO_ga062ad92b67b4a1f301c161022cf3ba8e}} 
+\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+Speed\+\_\+\+Type\+Def@{G\+P\+I\+O\+Speed\+\_\+\+Type\+Def}}
+\index{G\+P\+I\+O\+Speed\+\_\+\+Type\+Def@{G\+P\+I\+O\+Speed\+\_\+\+Type\+Def}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{G\+P\+I\+O\+Speed\+\_\+\+Type\+Def}
+{\footnotesize\ttfamily enum \textbf{ G\+P\+I\+O\+Speed\+\_\+\+Type\+Def}}
+
+
+
+G\+P\+IO Output Maximum frequency enumeration. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{G\+P\+I\+O\+\_\+\+Speed\+\_\+2\+M\+Hz@{G\+P\+I\+O\+\_\+\+Speed\+\_\+2\+M\+Hz}!G\+P\+IO@{G\+P\+IO}}\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Speed\+\_\+2\+M\+Hz@{G\+P\+I\+O\+\_\+\+Speed\+\_\+2\+M\+Hz}}}\mbox{\label{group__GPIO_gga062ad92b67b4a1f301c161022cf3ba8ea9bff9e174639332007c914483361be18}} 
+G\+P\+I\+O\+\_\+\+Speed\+\_\+2\+M\+Hz&Low speed \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{G\+P\+I\+O\+\_\+\+Speed\+\_\+25\+M\+Hz@{G\+P\+I\+O\+\_\+\+Speed\+\_\+25\+M\+Hz}!G\+P\+IO@{G\+P\+IO}}\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Speed\+\_\+25\+M\+Hz@{G\+P\+I\+O\+\_\+\+Speed\+\_\+25\+M\+Hz}}}\mbox{\label{group__GPIO_gga062ad92b67b4a1f301c161022cf3ba8ea59a0acdf2ccd1b4b8d507e845e497c62}} 
+G\+P\+I\+O\+\_\+\+Speed\+\_\+25\+M\+Hz&Medium speed \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{G\+P\+I\+O\+\_\+\+Speed\+\_\+50\+M\+Hz@{G\+P\+I\+O\+\_\+\+Speed\+\_\+50\+M\+Hz}!G\+P\+IO@{G\+P\+IO}}\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Speed\+\_\+50\+M\+Hz@{G\+P\+I\+O\+\_\+\+Speed\+\_\+50\+M\+Hz}}}\mbox{\label{group__GPIO_gga062ad92b67b4a1f301c161022cf3ba8ea9c47db10456202ac05134b12738ce581}} 
+G\+P\+I\+O\+\_\+\+Speed\+\_\+50\+M\+Hz&Fast speed \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{G\+P\+I\+O\+\_\+\+Speed\+\_\+100\+M\+Hz@{G\+P\+I\+O\+\_\+\+Speed\+\_\+100\+M\+Hz}!G\+P\+IO@{G\+P\+IO}}\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Speed\+\_\+100\+M\+Hz@{G\+P\+I\+O\+\_\+\+Speed\+\_\+100\+M\+Hz}}}\mbox{\label{group__GPIO_gga062ad92b67b4a1f301c161022cf3ba8ea195a0e73cd63d7f5b5d41bd0155eacbb}} 
+G\+P\+I\+O\+\_\+\+Speed\+\_\+100\+M\+Hz&High speed on 30 pF (80 M\+Hz Output max speed on 15 pF) \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \textbf{ 81} of file \textbf{ stm32f4xx\+\_\+gpio.\+h}.
+
+
+\begin{DoxyCode}
+00082 \{ 
+00083   GPIO_Speed_2MHz   = 0x00, 
+00084   GPIO_Speed_25MHz  = 0x01, 
+00085   GPIO_Speed_50MHz  = 0x02, 
+00086   GPIO_Speed_100MHz = 0x03  
+00087 \}GPIOSpeed_TypeDef;
+\end{DoxyCode}
+
+
+\subsection{Function Documentation}
+\mbox{\label{group__GPIO_gaa60bdf3182c44b5fa818f237042f52ee}} 
+\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+De\+Init@{G\+P\+I\+O\+\_\+\+De\+Init}}
+\index{G\+P\+I\+O\+\_\+\+De\+Init@{G\+P\+I\+O\+\_\+\+De\+Init}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{G\+P\+I\+O\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void G\+P\+I\+O\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$}]{G\+P\+I\+Ox }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the G\+P\+I\+Ox peripheral registers to their default reset values. 
+
+\begin{DoxyNote}{Note}
+By default, The G\+P\+IO pins are configured in input floating mode (except J\+T\+AG pins). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em G\+P\+I\+Ox} & where x can be (A..I) to select the G\+P\+IO peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 120} of file \textbf{ stm32f4xx\+\_\+gpio.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, and \textbf{ R\+C\+C\+\_\+\+A\+H\+B1\+Periph\+Reset\+Cmd()}.
+
+
+\begin{DoxyCode}
+00121 \{
+00122   \textcolor{comment}{/* Check the parameters */}
+00123   assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
+00124 
+00125   \textcolor{keywordflow}{if} (GPIOx == GPIOA)
+00126   \{
+00127     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+00128     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOA, DISABLE);
+00129   \}
+00130   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (GPIOx == GPIOB)
+00131   \{
+00132     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOB, ENABLE);
+00133     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOB, DISABLE);
+00134   \}
+00135   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (GPIOx == GPIOC)
+00136   \{
+00137     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+00138     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOC, DISABLE);
+00139   \}
+00140   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (GPIOx == GPIOD)
+00141   \{
+00142     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOD, ENABLE);
+00143     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOD, DISABLE);
+00144   \}
+00145   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (GPIOx == GPIOE)
+00146   \{
+00147     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOE, ENABLE);
+00148     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOE, DISABLE);
+00149   \}
+00150   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (GPIOx == GPIOF)
+00151   \{
+00152     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOF, ENABLE);
+00153     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOF, DISABLE);
+00154   \}
+00155   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (GPIOx == GPIOG)
+00156   \{
+00157     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOG, ENABLE);
+00158     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOG, DISABLE);
+00159   \}
+00160   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (GPIOx == GPIOH)
+00161   \{
+00162     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOH, ENABLE);
+00163     RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOH, DISABLE);
+00164   \}
+00165   \textcolor{keywordflow}{else}
+00166   \{
+00167     \textcolor{keywordflow}{if} (GPIOx == GPIOI)
+00168     \{
+00169       RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOI, ENABLE);
+00170       RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_GPIOI, DISABLE);
+00171     \}
+00172   \}
+00173 \}
+\end{DoxyCode}
+\mbox{\label{group__GPIO_ga71abf9404261370d03cca449b88d3a65}} 
+\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Init@{G\+P\+I\+O\+\_\+\+Init}}
+\index{G\+P\+I\+O\+\_\+\+Init@{G\+P\+I\+O\+\_\+\+Init}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{G\+P\+I\+O\+\_\+\+Init()}
+{\footnotesize\ttfamily void G\+P\+I\+O\+\_\+\+Init (\begin{DoxyParamCaption}\item[{\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$}]{G\+P\+I\+Ox,  }\item[{\textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def} $\ast$}]{G\+P\+I\+O\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the G\+P\+I\+Ox peripheral according to the specified parameters in the G\+P\+I\+O\+\_\+\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em G\+P\+I\+Ox} & where x can be (A..I) to select the G\+P\+IO peripheral. \\
+\hline
+{\em G\+P\+I\+O\+\_\+\+Init\+Struct} & pointer to a \doxyref{G\+P\+I\+O\+\_\+\+Init\+Type\+Def}{p.}{structGPIO__InitTypeDef} structure that contains the configuration information for the specified G\+P\+IO peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 182} of file \textbf{ stm32f4xx\+\_\+gpio.\+c}.
+
+
+
+References \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Mode}, \textbf{ G\+P\+I\+O\+\_\+\+Mode\+\_\+\+AF}, \textbf{ G\+P\+I\+O\+\_\+\+Mode\+\_\+\+O\+UT}, and \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Pin}.
+
+
+
+Referenced by \textbf{ G\+P\+I\+O\+\_\+\+Config()}, \textbf{ I2c\+Master\+\_\+\+Init()}, \textbf{ S\+T\+M\+\_\+\+E\+V\+A\+L\+\_\+\+L\+E\+D\+Init()}, \textbf{ S\+T\+M\+\_\+\+E\+V\+A\+L\+\_\+\+P\+B\+Init()}, and \textbf{ U\+S\+A\+R\+T\+\_\+\+Config()}.
+
+
+\begin{DoxyCode}
+00183 \{
+00184   uint32\_t pinpos = 0x00, pos = 0x00 , currentpin = 0x00;
+00185 
+00186   \textcolor{comment}{/* Check the parameters */}
+00187   assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
+00188   assert_param(IS_GPIO_PIN(GPIO\_InitStruct->GPIO_Pin));
+00189   assert_param(IS_GPIO_MODE(GPIO\_InitStruct->GPIO_Mode));
+00190   assert_param(IS_GPIO_PUPD(GPIO\_InitStruct->GPIO_PuPd));
+00191 
+00192   \textcolor{comment}{/* -------------------------Configure the port pins---------------- */}
+00193   \textcolor{comment}{/*-- GPIO Mode Configuration --*/}
+00194   \textcolor{keywordflow}{for} (pinpos = 0x00; pinpos < 0x10; pinpos++)
+00195   \{
+00196     pos = ((uint32\_t)0x01) << pinpos;
+00197     \textcolor{comment}{/* Get the port pins position */}
+00198     currentpin = (GPIO\_InitStruct->GPIO_Pin) & pos;
+00199 
+00200     \textcolor{keywordflow}{if} (currentpin == pos)
+00201     \{
+00202       GPIOx->MODER  &= ~(GPIO_MODER_MODER0 << (pinpos * 2));
+00203       GPIOx->MODER |= (((uint32\_t)GPIO\_InitStruct->GPIO_Mode) << (pinpos * 2));
+00204 
+00205       \textcolor{keywordflow}{if} ((GPIO\_InitStruct->GPIO_Mode == GPIO_Mode_OUT) || (GPIO\_InitStruct->
+      GPIO_Mode == GPIO_Mode_AF))
+00206       \{
+00207         \textcolor{comment}{/* Check Speed mode parameters */}
+00208         assert_param(IS_GPIO_SPEED(GPIO\_InitStruct->GPIO_Speed));
+00209 
+00210         \textcolor{comment}{/* Speed mode configuration */}
+00211         GPIOx->OSPEEDR &= ~(GPIO_OSPEEDER_OSPEEDR0 << (pinpos * 2));
+00212         GPIOx->OSPEEDR |= ((uint32\_t)(GPIO\_InitStruct->GPIO_Speed) << (pinpos * 2));
+00213 
+00214         \textcolor{comment}{/* Check Output mode parameters */}
+00215         assert_param(IS_GPIO_OTYPE(GPIO\_InitStruct->GPIO_OType));
+00216 
+00217         \textcolor{comment}{/* Output mode configuration*/}
+00218         GPIOx->OTYPER  &= ~((GPIO_OTYPER_OT_0) << ((uint16\_t)pinpos)) ;
+00219         GPIOx->OTYPER |= (uint16\_t)(((uint16\_t)GPIO\_InitStruct->GPIO_OType) << ((uint16\_t)pinpos));
+00220       \}
+00221 
+00222       \textcolor{comment}{/* Pull-up Pull down resistor configuration*/}
+00223       GPIOx->PUPDR &= ~(GPIO_PUPDR_PUPDR0 << ((uint16\_t)pinpos * 2));
+00224       GPIOx->PUPDR |= (((uint32\_t)GPIO\_InitStruct->GPIO_PuPd) << (pinpos * 2));
+00225     \}
+00226   \}
+00227 \}
+\end{DoxyCode}
+\mbox{\label{group__GPIO_ga0a77617a322562ae84f8d72486032c5d}} 
+\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Pin\+A\+F\+Config@{G\+P\+I\+O\+\_\+\+Pin\+A\+F\+Config}}
+\index{G\+P\+I\+O\+\_\+\+Pin\+A\+F\+Config@{G\+P\+I\+O\+\_\+\+Pin\+A\+F\+Config}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{G\+P\+I\+O\+\_\+\+Pin\+A\+F\+Config()}
+{\footnotesize\ttfamily void G\+P\+I\+O\+\_\+\+Pin\+A\+F\+Config (\begin{DoxyParamCaption}\item[{\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$}]{G\+P\+I\+Ox,  }\item[{uint16\+\_\+t}]{G\+P\+I\+O\+\_\+\+Pin\+Source,  }\item[{uint8\+\_\+t}]{G\+P\+I\+O\+\_\+\+AF }\end{DoxyParamCaption})}
+
+
+
+Changes the mapping of the specified pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em G\+P\+I\+Ox} & where x can be (A..I) to select the G\+P\+IO peripheral. \\
+\hline
+{\em G\+P\+I\+O\+\_\+\+Pin\+Source} & specifies the pin for the Alternate function. This parameter can be G\+P\+I\+O\+\_\+\+Pin\+Sourcex where x can be (0..15). \\
+\hline
+{\em G\+P\+I\+O\+\_\+\+A\+F\+Selection} & selects the pin to used as Alternate function. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+R\+T\+C\+\_\+50\+Hz\+: Connect R\+T\+C\+\_\+50\+Hz pin to A\+F0 (default after reset) \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+M\+CO\+: Connect M\+CO pin (M\+C\+O1 and M\+C\+O2) to A\+F0 (default after reset) \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+T\+A\+M\+P\+ER\+: Connect T\+A\+M\+P\+ER pins (T\+A\+M\+P\+E\+R\+\_\+1 and T\+A\+M\+P\+E\+R\+\_\+2) to A\+F0 (default after reset) \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+S\+WJ\+: Connect S\+WJ pins (S\+WD and J\+T\+AG)to A\+F0 (default after reset) \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+T\+R\+A\+CE\+: Connect T\+R\+A\+CE pins to A\+F0 (default after reset) \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+T\+I\+M1\+: Connect T\+I\+M1 pins to A\+F1 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+T\+I\+M2\+: Connect T\+I\+M2 pins to A\+F1 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+T\+I\+M3\+: Connect T\+I\+M3 pins to A\+F2 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+T\+I\+M4\+: Connect T\+I\+M4 pins to A\+F2 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+T\+I\+M5\+: Connect T\+I\+M5 pins to A\+F2 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+T\+I\+M8\+: Connect T\+I\+M8 pins to A\+F3 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+T\+I\+M9\+: Connect T\+I\+M9 pins to A\+F3 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+T\+I\+M10\+: Connect T\+I\+M10 pins to A\+F3 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+T\+I\+M11\+: Connect T\+I\+M11 pins to A\+F3 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+I2\+C1\+: Connect I2\+C1 pins to A\+F4 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+I2\+C2\+: Connect I2\+C2 pins to A\+F4 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+I2\+C3\+: Connect I2\+C3 pins to A\+F4 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+S\+P\+I1\+: Connect S\+P\+I1 pins to A\+F5 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+S\+P\+I2\+: Connect S\+P\+I2/\+I2\+S2 pins to A\+F5 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+S\+P\+I3\+: Connect S\+P\+I3/\+I2\+S3 pins to A\+F6 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+I2\+S3ext\+: Connect I2\+S3ext pins to A\+F7 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+U\+S\+A\+R\+T1\+: Connect U\+S\+A\+R\+T1 pins to A\+F7 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+U\+S\+A\+R\+T2\+: Connect U\+S\+A\+R\+T2 pins to A\+F7 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+U\+S\+A\+R\+T3\+: Connect U\+S\+A\+R\+T3 pins to A\+F7 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+U\+A\+R\+T4\+: Connect U\+A\+R\+T4 pins to A\+F8 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+U\+A\+R\+T5\+: Connect U\+A\+R\+T5 pins to A\+F8 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+U\+S\+A\+R\+T6\+: Connect U\+S\+A\+R\+T6 pins to A\+F8 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+C\+A\+N1\+: Connect C\+A\+N1 pins to A\+F9 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+C\+A\+N2\+: Connect C\+A\+N2 pins to A\+F9 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+T\+I\+M12\+: Connect T\+I\+M12 pins to A\+F9 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+T\+I\+M13\+: Connect T\+I\+M13 pins to A\+F9 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+T\+I\+M14\+: Connect T\+I\+M14 pins to A\+F9 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+O\+T\+G\+\_\+\+FS\+: Connect O\+T\+G\+\_\+\+FS pins to A\+F10 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+O\+T\+G\+\_\+\+HS\+: Connect O\+T\+G\+\_\+\+HS pins to A\+F10 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+E\+TH\+: Connect E\+T\+H\+E\+R\+N\+ET pins to A\+F11 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+F\+S\+MC\+: Connect F\+S\+MC pins to A\+F12 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+O\+T\+G\+\_\+\+H\+S\+\_\+\+FS\+: Connect O\+TG HS (configured in FS) pins to A\+F12 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+S\+D\+IO\+: Connect S\+D\+IO pins to A\+F12 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+D\+C\+MI\+: Connect D\+C\+MI pins to A\+F13 \item G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+E\+V\+E\+N\+T\+O\+UT\+: Connect E\+V\+E\+N\+T\+O\+UT pins to A\+F15 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 529} of file \textbf{ stm32f4xx\+\_\+gpio.\+c}.
+
+
+
+Referenced by \textbf{ I2c\+Master\+\_\+\+Init()}, and \textbf{ U\+S\+A\+R\+T\+\_\+\+Config()}.
+
+
+\begin{DoxyCode}
+00530 \{
+00531   uint32\_t temp = 0x00;
+00532   uint32\_t temp\_2 = 0x00;
+00533   
+00534   \textcolor{comment}{/* Check the parameters */}
+00535   assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
+00536   assert_param(IS_GPIO_PIN_SOURCE(GPIO\_PinSource));
+00537   assert_param(IS_GPIO_AF(GPIO\_AF));
+00538   
+00539   temp = ((uint32\_t)(GPIO\_AF) << ((uint32\_t)((uint32\_t)GPIO\_PinSource & (uint32\_t)0x07) * 4)) ;
+00540   GPIOx->AFR[GPIO\_PinSource >> 0x03] &= ~((uint32\_t)0xF << ((uint32\_t)((uint32\_t)GPIO\_PinSource & (uint32\_t
+      )0x07) * 4)) ;
+00541   temp\_2 = GPIOx->AFR[GPIO\_PinSource >> 0x03] | temp;
+00542   GPIOx->AFR[GPIO\_PinSource >> 0x03] = temp\_2;
+00543 \}
+\end{DoxyCode}
+\mbox{\label{group__GPIO_gad2f2e615928c69fd0d8c641a7cedaafc}} 
+\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Pin\+Lock\+Config@{G\+P\+I\+O\+\_\+\+Pin\+Lock\+Config}}
+\index{G\+P\+I\+O\+\_\+\+Pin\+Lock\+Config@{G\+P\+I\+O\+\_\+\+Pin\+Lock\+Config}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{G\+P\+I\+O\+\_\+\+Pin\+Lock\+Config()}
+{\footnotesize\ttfamily void G\+P\+I\+O\+\_\+\+Pin\+Lock\+Config (\begin{DoxyParamCaption}\item[{\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$}]{G\+P\+I\+Ox,  }\item[{uint16\+\_\+t}]{G\+P\+I\+O\+\_\+\+Pin }\end{DoxyParamCaption})}
+
+
+
+Locks G\+P\+IO Pins configuration registers. 
+
+\begin{DoxyNote}{Note}
+The locked registers are G\+P\+I\+Ox\+\_\+\+M\+O\+D\+ER, G\+P\+I\+Ox\+\_\+\+O\+T\+Y\+P\+ER, G\+P\+I\+Ox\+\_\+\+O\+S\+P\+E\+E\+DR, G\+P\+I\+Ox\+\_\+\+P\+U\+P\+DR, G\+P\+I\+Ox\+\_\+\+A\+F\+RL and G\+P\+I\+Ox\+\_\+\+A\+F\+RH. 
+
+The configuration of the locked G\+P\+IO pins can no longer be modified until the next reset. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em G\+P\+I\+Ox} & where x can be (A..I) to select the G\+P\+IO peripheral. \\
+\hline
+{\em G\+P\+I\+O\+\_\+\+Pin} & specifies the port bit to be locked. This parameter can be any combination of G\+P\+I\+O\+\_\+\+Pin\+\_\+x where x can be (0..15). \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 255} of file \textbf{ stm32f4xx\+\_\+gpio.\+c}.
+
+
+\begin{DoxyCode}
+00256 \{
+00257   \_\_IO uint32\_t tmp = 0x00010000;
+00258 
+00259   \textcolor{comment}{/* Check the parameters */}
+00260   assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
+00261   assert_param(IS_GPIO_PIN(GPIO\_Pin));
+00262 
+00263   tmp |= GPIO\_Pin;
+00264   \textcolor{comment}{/* Set LCKK bit */}
+00265   GPIOx->LCKR = tmp;
+00266   \textcolor{comment}{/* Reset LCKK bit */}
+00267   GPIOx->LCKR =  GPIO\_Pin;
+00268   \textcolor{comment}{/* Set LCKK bit */}
+00269   GPIOx->LCKR = tmp;
+00270   \textcolor{comment}{/* Read LCKK bit*/}
+00271   tmp = GPIOx->LCKR;
+00272   \textcolor{comment}{/* Read LCKK bit*/}
+00273   tmp = GPIOx->LCKR;
+00274 \}
+\end{DoxyCode}
+\mbox{\label{group__GPIO_ga139a33adc8409288e9f193bbebb5a0f7}} 
+\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Read\+Input\+Data@{G\+P\+I\+O\+\_\+\+Read\+Input\+Data}}
+\index{G\+P\+I\+O\+\_\+\+Read\+Input\+Data@{G\+P\+I\+O\+\_\+\+Read\+Input\+Data}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{G\+P\+I\+O\+\_\+\+Read\+Input\+Data()}
+{\footnotesize\ttfamily uint16\+\_\+t G\+P\+I\+O\+\_\+\+Read\+Input\+Data (\begin{DoxyParamCaption}\item[{\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$}]{G\+P\+I\+Ox }\end{DoxyParamCaption})}
+
+
+
+Reads the specified G\+P\+IO input data port. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em G\+P\+I\+Ox} & where x can be (A..I) to select the G\+P\+IO peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em G\+P\+IO} & input data port value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 323} of file \textbf{ stm32f4xx\+\_\+gpio.\+c}.
+
+
+\begin{DoxyCode}
+00324 \{
+00325   \textcolor{comment}{/* Check the parameters */}
+00326   assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
+00327 
+00328   \textcolor{keywordflow}{return} ((uint16\_t)GPIOx->IDR);
+00329 \}
+\end{DoxyCode}
+\mbox{\label{group__GPIO_ga98772ef6b639b3fa06c8ae5ba28d3aaa}} 
+\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Read\+Input\+Data\+Bit@{G\+P\+I\+O\+\_\+\+Read\+Input\+Data\+Bit}}
+\index{G\+P\+I\+O\+\_\+\+Read\+Input\+Data\+Bit@{G\+P\+I\+O\+\_\+\+Read\+Input\+Data\+Bit}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{G\+P\+I\+O\+\_\+\+Read\+Input\+Data\+Bit()}
+{\footnotesize\ttfamily uint8\+\_\+t G\+P\+I\+O\+\_\+\+Read\+Input\+Data\+Bit (\begin{DoxyParamCaption}\item[{\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$}]{G\+P\+I\+Ox,  }\item[{uint16\+\_\+t}]{G\+P\+I\+O\+\_\+\+Pin }\end{DoxyParamCaption})}
+
+
+
+Reads the specified input port pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em G\+P\+I\+Ox} & where x can be (A..I) to select the G\+P\+IO peripheral. \\
+\hline
+{\em G\+P\+I\+O\+\_\+\+Pin} & specifies the port bit to read. This parameter can be G\+P\+I\+O\+\_\+\+Pin\+\_\+x where x can be (0..15). \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & input port pin value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 299} of file \textbf{ stm32f4xx\+\_\+gpio.\+c}.
+
+
+
+Referenced by \textbf{ S\+T\+M\+\_\+\+E\+V\+A\+L\+\_\+\+P\+B\+Get\+State()}.
+
+
+\begin{DoxyCode}
+00300 \{
+00301   uint8\_t bitstatus = 0x00;
+00302 
+00303   \textcolor{comment}{/* Check the parameters */}
+00304   assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
+00305   assert_param(IS_GET_GPIO_PIN(GPIO\_Pin));
+00306 
+00307   \textcolor{keywordflow}{if} ((GPIOx->IDR & GPIO\_Pin) != (uint32\_t)Bit_RESET)
+00308   \{
+00309     bitstatus = (uint8\_t)Bit_SET;
+00310   \}
+00311   \textcolor{keywordflow}{else}
+00312   \{
+00313     bitstatus = (uint8\_t)Bit\_RESET;
+00314   \}
+00315   \textcolor{keywordflow}{return} bitstatus;
+00316 \}
+\end{DoxyCode}
+\mbox{\label{group__GPIO_gaf8938a34280b7dc3e39872a7c17bb323}} 
+\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Read\+Output\+Data@{G\+P\+I\+O\+\_\+\+Read\+Output\+Data}}
+\index{G\+P\+I\+O\+\_\+\+Read\+Output\+Data@{G\+P\+I\+O\+\_\+\+Read\+Output\+Data}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{G\+P\+I\+O\+\_\+\+Read\+Output\+Data()}
+{\footnotesize\ttfamily uint16\+\_\+t G\+P\+I\+O\+\_\+\+Read\+Output\+Data (\begin{DoxyParamCaption}\item[{\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$}]{G\+P\+I\+Ox }\end{DoxyParamCaption})}
+
+
+
+Reads the specified G\+P\+IO output data port. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em G\+P\+I\+Ox} & where x can be (A..I) to select the G\+P\+IO peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em G\+P\+IO} & output data port value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 362} of file \textbf{ stm32f4xx\+\_\+gpio.\+c}.
+
+
+\begin{DoxyCode}
+00363 \{
+00364   \textcolor{comment}{/* Check the parameters */}
+00365   assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
+00366 
+00367   \textcolor{keywordflow}{return} ((uint16\_t)GPIOx->ODR);
+00368 \}
+\end{DoxyCode}
+\mbox{\label{group__GPIO_ga138270f8695b105b7c6ed405792919c1}} 
+\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Read\+Output\+Data\+Bit@{G\+P\+I\+O\+\_\+\+Read\+Output\+Data\+Bit}}
+\index{G\+P\+I\+O\+\_\+\+Read\+Output\+Data\+Bit@{G\+P\+I\+O\+\_\+\+Read\+Output\+Data\+Bit}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{G\+P\+I\+O\+\_\+\+Read\+Output\+Data\+Bit()}
+{\footnotesize\ttfamily uint8\+\_\+t G\+P\+I\+O\+\_\+\+Read\+Output\+Data\+Bit (\begin{DoxyParamCaption}\item[{\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$}]{G\+P\+I\+Ox,  }\item[{uint16\+\_\+t}]{G\+P\+I\+O\+\_\+\+Pin }\end{DoxyParamCaption})}
+
+
+
+Reads the specified output data port bit. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em G\+P\+I\+Ox} & where x can be (A..I) to select the G\+P\+IO peripheral. \\
+\hline
+{\em G\+P\+I\+O\+\_\+\+Pin} & specifies the port bit to read. This parameter can be G\+P\+I\+O\+\_\+\+Pin\+\_\+x where x can be (0..15). \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & output port pin value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 338} of file \textbf{ stm32f4xx\+\_\+gpio.\+c}.
+
+
+\begin{DoxyCode}
+00339 \{
+00340   uint8\_t bitstatus = 0x00;
+00341 
+00342   \textcolor{comment}{/* Check the parameters */}
+00343   assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
+00344   assert_param(IS_GET_GPIO_PIN(GPIO\_Pin));
+00345 
+00346   \textcolor{keywordflow}{if} ((GPIOx->ODR & GPIO\_Pin) != (uint32\_t)Bit_RESET)
+00347   \{
+00348     bitstatus = (uint8\_t)Bit_SET;
+00349   \}
+00350   \textcolor{keywordflow}{else}
+00351   \{
+00352     bitstatus = (uint8\_t)Bit\_RESET;
+00353   \}
+00354   \textcolor{keywordflow}{return} bitstatus;
+00355 \}
+\end{DoxyCode}
+\mbox{\label{group__GPIO_ga6fcd35b207a66608dd2c9d7de9247dc8}} 
+\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Reset\+Bits@{G\+P\+I\+O\+\_\+\+Reset\+Bits}}
+\index{G\+P\+I\+O\+\_\+\+Reset\+Bits@{G\+P\+I\+O\+\_\+\+Reset\+Bits}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{G\+P\+I\+O\+\_\+\+Reset\+Bits()}
+{\footnotesize\ttfamily void G\+P\+I\+O\+\_\+\+Reset\+Bits (\begin{DoxyParamCaption}\item[{\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$}]{G\+P\+I\+Ox,  }\item[{uint16\+\_\+t}]{G\+P\+I\+O\+\_\+\+Pin }\end{DoxyParamCaption})}
+
+
+
+Clears the selected data port bits. 
+
+\begin{DoxyNote}{Note}
+This functions uses G\+P\+I\+Ox\+\_\+\+B\+S\+RR register to allow atomic read/modify accesses. In this way, there is no risk of an I\+RQ occurring between the read and the modify access. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em G\+P\+I\+Ox} & where x can be (A..I) to select the G\+P\+IO peripheral. \\
+\hline
+{\em G\+P\+I\+O\+\_\+\+Pin} & specifies the port bits to be written. This parameter can be any combination of G\+P\+I\+O\+\_\+\+Pin\+\_\+x where x can be (0..15). \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 399} of file \textbf{ stm32f4xx\+\_\+gpio.\+c}.
+
+
+\begin{DoxyCode}
+00400 \{
+00401   \textcolor{comment}{/* Check the parameters */}
+00402   assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
+00403   assert_param(IS_GPIO_PIN(GPIO\_Pin));
+00404 
+00405   GPIOx->BSRRH = GPIO\_Pin;
+00406 \}
+\end{DoxyCode}
+\mbox{\label{group__GPIO_ga9e1352eed7c6620e18af2d86f6b6ff8e}} 
+\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Set\+Bits@{G\+P\+I\+O\+\_\+\+Set\+Bits}}
+\index{G\+P\+I\+O\+\_\+\+Set\+Bits@{G\+P\+I\+O\+\_\+\+Set\+Bits}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{G\+P\+I\+O\+\_\+\+Set\+Bits()}
+{\footnotesize\ttfamily void G\+P\+I\+O\+\_\+\+Set\+Bits (\begin{DoxyParamCaption}\item[{\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$}]{G\+P\+I\+Ox,  }\item[{uint16\+\_\+t}]{G\+P\+I\+O\+\_\+\+Pin }\end{DoxyParamCaption})}
+
+
+
+Sets the selected data port bits. 
+
+\begin{DoxyNote}{Note}
+This functions uses G\+P\+I\+Ox\+\_\+\+B\+S\+RR register to allow atomic read/modify accesses. In this way, there is no risk of an I\+RQ occurring between the read and the modify access. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em G\+P\+I\+Ox} & where x can be (A..I) to select the G\+P\+IO peripheral. \\
+\hline
+{\em G\+P\+I\+O\+\_\+\+Pin} & specifies the port bits to be written. This parameter can be any combination of G\+P\+I\+O\+\_\+\+Pin\+\_\+x where x can be (0..15). \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 380} of file \textbf{ stm32f4xx\+\_\+gpio.\+c}.
+
+
+\begin{DoxyCode}
+00381 \{
+00382   \textcolor{comment}{/* Check the parameters */}
+00383   assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
+00384   assert_param(IS_GPIO_PIN(GPIO\_Pin));
+00385 
+00386   GPIOx->BSRRL = GPIO\_Pin;
+00387 \}
+\end{DoxyCode}
+\mbox{\label{group__GPIO_gab28de41278e7f8c63d0851e2733b10df}} 
+\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Struct\+Init@{G\+P\+I\+O\+\_\+\+Struct\+Init}}
+\index{G\+P\+I\+O\+\_\+\+Struct\+Init@{G\+P\+I\+O\+\_\+\+Struct\+Init}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{G\+P\+I\+O\+\_\+\+Struct\+Init()}
+{\footnotesize\ttfamily void G\+P\+I\+O\+\_\+\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def} $\ast$}]{G\+P\+I\+O\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each G\+P\+I\+O\+\_\+\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em G\+P\+I\+O\+\_\+\+Init\+Struct} & \+: pointer to a \doxyref{G\+P\+I\+O\+\_\+\+Init\+Type\+Def}{p.}{structGPIO__InitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 234} of file \textbf{ stm32f4xx\+\_\+gpio.\+c}.
+
+
+
+References \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Mode}, \textbf{ G\+P\+I\+O\+\_\+\+Mode\+\_\+\+IN}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+O\+Type}, \textbf{ G\+P\+I\+O\+\_\+\+O\+Type\+\_\+\+PP}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Pin}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Pu\+Pd}, \textbf{ G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+N\+O\+P\+U\+LL}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Speed}, and \textbf{ G\+P\+I\+O\+\_\+\+Speed\+\_\+2\+M\+Hz}.
+
+
+\begin{DoxyCode}
+00235 \{
+00236   \textcolor{comment}{/* Reset GPIO init structure parameters values */}
+00237   GPIO\_InitStruct->GPIO_Pin  = GPIO_Pin_All;
+00238   GPIO\_InitStruct->GPIO_Mode = GPIO_Mode_IN;
+00239   GPIO\_InitStruct->GPIO_Speed = GPIO_Speed_2MHz;
+00240   GPIO\_InitStruct->GPIO_OType = GPIO_OType_PP;
+00241   GPIO\_InitStruct->GPIO_PuPd = GPIO_PuPd_NOPULL;
+00242 \}
+\end{DoxyCode}
+\mbox{\label{group__GPIO_gac1b837c66258872740d5f89f23549ab1}} 
+\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Toggle\+Bits@{G\+P\+I\+O\+\_\+\+Toggle\+Bits}}
+\index{G\+P\+I\+O\+\_\+\+Toggle\+Bits@{G\+P\+I\+O\+\_\+\+Toggle\+Bits}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{G\+P\+I\+O\+\_\+\+Toggle\+Bits()}
+{\footnotesize\ttfamily void G\+P\+I\+O\+\_\+\+Toggle\+Bits (\begin{DoxyParamCaption}\item[{\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$}]{G\+P\+I\+Ox,  }\item[{uint16\+\_\+t}]{G\+P\+I\+O\+\_\+\+Pin }\end{DoxyParamCaption})}
+
+
+
+Toggles the specified G\+P\+IO pins.. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em G\+P\+I\+Ox} & where x can be (A..I) to select the G\+P\+IO peripheral. \\
+\hline
+{\em G\+P\+I\+O\+\_\+\+Pin} & Specifies the pins to be toggled. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 456} of file \textbf{ stm32f4xx\+\_\+gpio.\+c}.
+
+
+\begin{DoxyCode}
+00457 \{
+00458   \textcolor{comment}{/* Check the parameters */}
+00459   assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
+00460 
+00461   GPIOx->ODR ^= GPIO\_Pin;
+00462 \}
+\end{DoxyCode}
+\mbox{\label{group__GPIO_gaa925f19c8547a00c7a0c269a84873bf9}} 
+\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Write@{G\+P\+I\+O\+\_\+\+Write}}
+\index{G\+P\+I\+O\+\_\+\+Write@{G\+P\+I\+O\+\_\+\+Write}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{G\+P\+I\+O\+\_\+\+Write()}
+{\footnotesize\ttfamily void G\+P\+I\+O\+\_\+\+Write (\begin{DoxyParamCaption}\item[{\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$}]{G\+P\+I\+Ox,  }\item[{uint16\+\_\+t}]{Port\+Val }\end{DoxyParamCaption})}
+
+
+
+Writes data to the specified G\+P\+IO data port. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em G\+P\+I\+Ox} & where x can be (A..I) to select the G\+P\+IO peripheral. \\
+\hline
+{\em Port\+Val} & specifies the value to be written to the port output data register. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 442} of file \textbf{ stm32f4xx\+\_\+gpio.\+c}.
+
+
+\begin{DoxyCode}
+00443 \{
+00444   \textcolor{comment}{/* Check the parameters */}
+00445   assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
+00446 
+00447   GPIOx->ODR = PortVal;
+00448 \}
+\end{DoxyCode}
+\mbox{\label{group__GPIO_ga8f7b237fd744d9f7456fbe0da47a9b80}} 
+\index{G\+P\+IO@{G\+P\+IO}!G\+P\+I\+O\+\_\+\+Write\+Bit@{G\+P\+I\+O\+\_\+\+Write\+Bit}}
+\index{G\+P\+I\+O\+\_\+\+Write\+Bit@{G\+P\+I\+O\+\_\+\+Write\+Bit}!G\+P\+IO@{G\+P\+IO}}
+\subsubsection{G\+P\+I\+O\+\_\+\+Write\+Bit()}
+{\footnotesize\ttfamily void G\+P\+I\+O\+\_\+\+Write\+Bit (\begin{DoxyParamCaption}\item[{\textbf{ G\+P\+I\+O\+\_\+\+Type\+Def} $\ast$}]{G\+P\+I\+Ox,  }\item[{uint16\+\_\+t}]{G\+P\+I\+O\+\_\+\+Pin,  }\item[{\textbf{ Bit\+Action}}]{Bit\+Val }\end{DoxyParamCaption})}
+
+
+
+Sets or clears the selected data port bit. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em G\+P\+I\+Ox} & where x can be (A..I) to select the G\+P\+IO peripheral. \\
+\hline
+{\em G\+P\+I\+O\+\_\+\+Pin} & specifies the port bit to be written. This parameter can be one of G\+P\+I\+O\+\_\+\+Pin\+\_\+x where x can be (0..15). \\
+\hline
+{\em Bit\+Val} & specifies the value to be written to the selected bit. This parameter can be one of the Bit\+Action enum values\+: \begin{DoxyItemize}
+\item Bit\+\_\+\+R\+E\+S\+ET\+: to clear the port pin \item Bit\+\_\+\+S\+ET\+: to set the port pin \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 419} of file \textbf{ stm32f4xx\+\_\+gpio.\+c}.
+
+
+
+References \textbf{ Bit\+\_\+\+R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00420 \{
+00421   \textcolor{comment}{/* Check the parameters */}
+00422   assert_param(IS_GPIO_ALL_PERIPH(GPIOx));
+00423   assert_param(IS_GET_GPIO_PIN(GPIO\_Pin));
+00424   assert_param(IS_GPIO_BIT_ACTION(BitVal));
+00425 
+00426   \textcolor{keywordflow}{if} (BitVal != Bit_RESET)
+00427   \{
+00428     GPIOx->BSRRL = GPIO\_Pin;
+00429   \}
+00430   \textcolor{keywordflow}{else}
+00431   \{
+00432     GPIOx->BSRRH = GPIO\_Pin ;
+00433   \}
+00434 \}
+\end{DoxyCode}

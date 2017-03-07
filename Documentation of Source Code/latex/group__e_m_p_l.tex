@@ -1,0 +1,497 @@
+\section{E\+M\+PL}
+\label{group__e_m_p_l}\index{E\+M\+PL@{E\+M\+PL}}
+
+
+Embedded Motion Processing Library.  
+
+
+\subsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \textbf{ main.\+c}
+\begin{DoxyCompactList}\small\item\em Test app for e\+M\+PL using the Motion Driver D\+MP image. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ rx\+\_\+s}
+\item 
+struct \textbf{ hal\+\_\+s}
+\item 
+struct \textbf{ platform\+\_\+data\+\_\+s}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+A\+C\+C\+EL}~(0x01)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+G\+Y\+RO}~(0x02)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+Q\+U\+AT}~(0x04)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+C\+O\+M\+P\+A\+SS}~(0x08)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+E\+U\+L\+ER}~(0x10)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+R\+O\+T\+\_\+\+M\+AT}~(0x20)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+H\+E\+A\+D\+I\+NG}~(0x40)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+P\+E\+DO}~(0x80)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+L\+I\+N\+E\+A\+R\+\_\+\+A\+C\+C\+EL}~(0x100)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+G\+R\+A\+V\+I\+T\+Y\+\_\+\+V\+E\+C\+T\+OR}~(0x200)
+\item 
+\#define \textbf{ A\+C\+C\+E\+L\+\_\+\+ON}~(0x01)
+\item 
+\#define \textbf{ G\+Y\+R\+O\+\_\+\+ON}~(0x02)
+\item 
+\#define \textbf{ C\+O\+M\+P\+A\+S\+S\+\_\+\+ON}~(0x04)
+\item 
+\#define \textbf{ M\+O\+T\+I\+ON}~(0)
+\item 
+\#define \textbf{ N\+O\+\_\+\+M\+O\+T\+I\+ON}~(1)
+\item 
+\#define \textbf{ D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+P\+U\+\_\+\+HZ}~(20)
+\item 
+\#define \textbf{ F\+L\+A\+S\+H\+\_\+\+S\+I\+ZE}~(512)
+\item 
+\#define \textbf{ F\+L\+A\+S\+H\+\_\+\+M\+E\+M\+\_\+\+S\+T\+A\+RT}~((void$\ast$)0x1800)
+\item 
+\#define \textbf{ P\+E\+D\+O\+\_\+\+R\+E\+A\+D\+\_\+\+MS}~(1000)
+\item 
+\#define \textbf{ T\+E\+M\+P\+\_\+\+R\+E\+A\+D\+\_\+\+MS}~(500)
+\item 
+\#define \textbf{ C\+O\+M\+P\+A\+S\+S\+\_\+\+R\+E\+A\+D\+\_\+\+MS}~(100)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ gyro\+\_\+data\+\_\+ready\+\_\+cb} (void)
+\item 
+int \textbf{ main} (void)
+\begin{DoxyCompactList}\small\item\em main entry point. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+volatile uint32\+\_\+t \textbf{ hal\+\_\+timestamp} = 0
+\begin{DoxyCompactList}\small\item\em timestamp variable initialize, its for count tick \end{DoxyCompactList}\item 
+unsigned char \textbf{ rx\+\_\+s\+::header} [3]
+\item 
+unsigned char \textbf{ rx\+\_\+s\+::cmd}
+\item 
+unsigned char \textbf{ hal\+\_\+s\+::lp\+\_\+accel\+\_\+mode}
+\item 
+unsigned char \textbf{ hal\+\_\+s\+::sensors}
+\item 
+unsigned char \textbf{ hal\+\_\+s\+::dmp\+\_\+on}
+\item 
+unsigned char \textbf{ hal\+\_\+s\+::wait\+\_\+for\+\_\+tap}
+\item 
+volatile unsigned char \textbf{ hal\+\_\+s\+::new\+\_\+gyro}
+\item 
+unsigned char \textbf{ hal\+\_\+s\+::motion\+\_\+int\+\_\+mode}
+\item 
+unsigned long \textbf{ hal\+\_\+s\+::no\+\_\+dmp\+\_\+hz}
+\item 
+unsigned long \textbf{ hal\+\_\+s\+::next\+\_\+pedo\+\_\+ms}
+\item 
+unsigned long \textbf{ hal\+\_\+s\+::next\+\_\+temp\+\_\+ms}
+\item 
+unsigned long \textbf{ hal\+\_\+s\+::next\+\_\+compass\+\_\+ms}
+\item 
+unsigned int \textbf{ hal\+\_\+s\+::report}
+\item 
+unsigned short \textbf{ hal\+\_\+s\+::dmp\+\_\+features}
+\item 
+struct \textbf{ rx\+\_\+s} \textbf{ hal\+\_\+s\+::rx}
+\item 
+volatile unsigned char \textbf{ rx\+\_\+new}
+\begin{DoxyCompactList}\small\item\em Usart Receive variable init. \end{DoxyCompactList}\item 
+unsigned char $\ast$ \textbf{ mpl\+\_\+key} = (unsigned char$\ast$)\char`\"{}e\+M\+PL 5.\+1\char`\"{}
+\item 
+signed char \textbf{ platform\+\_\+data\+\_\+s\+::orientation} [9]
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Embedded Motion Processing Library. 
+
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\label{group__e_m_p_l_ga96e2dc57b8fe509f98cbbb52811717c3}} 
+\index{E\+M\+PL@{E\+M\+PL}!A\+C\+C\+E\+L\+\_\+\+ON@{A\+C\+C\+E\+L\+\_\+\+ON}}
+\index{A\+C\+C\+E\+L\+\_\+\+ON@{A\+C\+C\+E\+L\+\_\+\+ON}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{A\+C\+C\+E\+L\+\_\+\+ON}
+{\footnotesize\ttfamily \#define A\+C\+C\+E\+L\+\_\+\+ON~(0x01)}
+
+\mbox{\label{group__e_m_p_l_gac4b29ad9d2af05af504ca053f3c5d76d}} 
+\index{E\+M\+PL@{E\+M\+PL}!C\+O\+M\+P\+A\+S\+S\+\_\+\+ON@{C\+O\+M\+P\+A\+S\+S\+\_\+\+ON}}
+\index{C\+O\+M\+P\+A\+S\+S\+\_\+\+ON@{C\+O\+M\+P\+A\+S\+S\+\_\+\+ON}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{C\+O\+M\+P\+A\+S\+S\+\_\+\+ON}
+{\footnotesize\ttfamily \#define C\+O\+M\+P\+A\+S\+S\+\_\+\+ON~(0x04)}
+
+\mbox{\label{group__e_m_p_l_ga0718d456616de258f21190908610fdf6}} 
+\index{E\+M\+PL@{E\+M\+PL}!C\+O\+M\+P\+A\+S\+S\+\_\+\+R\+E\+A\+D\+\_\+\+MS@{C\+O\+M\+P\+A\+S\+S\+\_\+\+R\+E\+A\+D\+\_\+\+MS}}
+\index{C\+O\+M\+P\+A\+S\+S\+\_\+\+R\+E\+A\+D\+\_\+\+MS@{C\+O\+M\+P\+A\+S\+S\+\_\+\+R\+E\+A\+D\+\_\+\+MS}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{C\+O\+M\+P\+A\+S\+S\+\_\+\+R\+E\+A\+D\+\_\+\+MS}
+{\footnotesize\ttfamily \#define C\+O\+M\+P\+A\+S\+S\+\_\+\+R\+E\+A\+D\+\_\+\+MS~(100)}
+
+\mbox{\label{group__e_m_p_l_ga292d717406e906831952ce46612fe4cd}} 
+\index{E\+M\+PL@{E\+M\+PL}!D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+P\+U\+\_\+\+HZ@{D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+P\+U\+\_\+\+HZ}}
+\index{D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+P\+U\+\_\+\+HZ@{D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+P\+U\+\_\+\+HZ}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+P\+U\+\_\+\+HZ}
+{\footnotesize\ttfamily \#define D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+P\+U\+\_\+\+HZ~(20)}
+
+Starting sampling rate. \mbox{\label{group__e_m_p_l_ga923aad67335bb52801a4f8dfc0b0fef0}} 
+\index{E\+M\+PL@{E\+M\+PL}!F\+L\+A\+S\+H\+\_\+\+M\+E\+M\+\_\+\+S\+T\+A\+RT@{F\+L\+A\+S\+H\+\_\+\+M\+E\+M\+\_\+\+S\+T\+A\+RT}}
+\index{F\+L\+A\+S\+H\+\_\+\+M\+E\+M\+\_\+\+S\+T\+A\+RT@{F\+L\+A\+S\+H\+\_\+\+M\+E\+M\+\_\+\+S\+T\+A\+RT}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+M\+E\+M\+\_\+\+S\+T\+A\+RT}
+{\footnotesize\ttfamily \#define F\+L\+A\+S\+H\+\_\+\+M\+E\+M\+\_\+\+S\+T\+A\+RT~((void$\ast$)0x1800)}
+
+\mbox{\label{group__e_m_p_l_gae69620948dea1b76e0ab7843ab719db7}} 
+\index{E\+M\+PL@{E\+M\+PL}!F\+L\+A\+S\+H\+\_\+\+S\+I\+ZE@{F\+L\+A\+S\+H\+\_\+\+S\+I\+ZE}}
+\index{F\+L\+A\+S\+H\+\_\+\+S\+I\+ZE@{F\+L\+A\+S\+H\+\_\+\+S\+I\+ZE}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+S\+I\+ZE}
+{\footnotesize\ttfamily \#define F\+L\+A\+S\+H\+\_\+\+S\+I\+ZE~(512)}
+
+\mbox{\label{group__e_m_p_l_ga1abb1b0f967cb0c0f3a0910f18241889}} 
+\index{E\+M\+PL@{E\+M\+PL}!G\+Y\+R\+O\+\_\+\+ON@{G\+Y\+R\+O\+\_\+\+ON}}
+\index{G\+Y\+R\+O\+\_\+\+ON@{G\+Y\+R\+O\+\_\+\+ON}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{G\+Y\+R\+O\+\_\+\+ON}
+{\footnotesize\ttfamily \#define G\+Y\+R\+O\+\_\+\+ON~(0x02)}
+
+\mbox{\label{group__e_m_p_l_ga37210bcb4e70d9199030fb7cd89135e7}} 
+\index{E\+M\+PL@{E\+M\+PL}!M\+O\+T\+I\+ON@{M\+O\+T\+I\+ON}}
+\index{M\+O\+T\+I\+ON@{M\+O\+T\+I\+ON}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{M\+O\+T\+I\+ON}
+{\footnotesize\ttfamily \#define M\+O\+T\+I\+ON~(0)}
+
+\mbox{\label{group__e_m_p_l_ga35a7dc3ebde5e1980ce1412334326f28}} 
+\index{E\+M\+PL@{E\+M\+PL}!N\+O\+\_\+\+M\+O\+T\+I\+ON@{N\+O\+\_\+\+M\+O\+T\+I\+ON}}
+\index{N\+O\+\_\+\+M\+O\+T\+I\+ON@{N\+O\+\_\+\+M\+O\+T\+I\+ON}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{N\+O\+\_\+\+M\+O\+T\+I\+ON}
+{\footnotesize\ttfamily \#define N\+O\+\_\+\+M\+O\+T\+I\+ON~(1)}
+
+\mbox{\label{group__e_m_p_l_ga77888d9bc269c75d63baf58cd000c7d9}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+E\+D\+O\+\_\+\+R\+E\+A\+D\+\_\+\+MS@{P\+E\+D\+O\+\_\+\+R\+E\+A\+D\+\_\+\+MS}}
+\index{P\+E\+D\+O\+\_\+\+R\+E\+A\+D\+\_\+\+MS@{P\+E\+D\+O\+\_\+\+R\+E\+A\+D\+\_\+\+MS}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+E\+D\+O\+\_\+\+R\+E\+A\+D\+\_\+\+MS}
+{\footnotesize\ttfamily \#define P\+E\+D\+O\+\_\+\+R\+E\+A\+D\+\_\+\+MS~(1000)}
+
+\mbox{\label{group__e_m_p_l_ga83c044582a9fec2e45f8858efa5885b8}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+R\+I\+N\+T\+\_\+\+A\+C\+C\+EL@{P\+R\+I\+N\+T\+\_\+\+A\+C\+C\+EL}}
+\index{P\+R\+I\+N\+T\+\_\+\+A\+C\+C\+EL@{P\+R\+I\+N\+T\+\_\+\+A\+C\+C\+EL}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+R\+I\+N\+T\+\_\+\+A\+C\+C\+EL}
+{\footnotesize\ttfamily \#define P\+R\+I\+N\+T\+\_\+\+A\+C\+C\+EL~(0x01)}
+
+Includes -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/---------
+
+Private typedef -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/------
+
+Data read from M\+PL. \mbox{\label{group__e_m_p_l_gae55039e3cf38b78e1ec327c3e81d2859}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+R\+I\+N\+T\+\_\+\+C\+O\+M\+P\+A\+SS@{P\+R\+I\+N\+T\+\_\+\+C\+O\+M\+P\+A\+SS}}
+\index{P\+R\+I\+N\+T\+\_\+\+C\+O\+M\+P\+A\+SS@{P\+R\+I\+N\+T\+\_\+\+C\+O\+M\+P\+A\+SS}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+R\+I\+N\+T\+\_\+\+C\+O\+M\+P\+A\+SS}
+{\footnotesize\ttfamily \#define P\+R\+I\+N\+T\+\_\+\+C\+O\+M\+P\+A\+SS~(0x08)}
+
+\mbox{\label{group__e_m_p_l_gabfb66b3aafb997de9897c558dfc34b8e}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+R\+I\+N\+T\+\_\+\+E\+U\+L\+ER@{P\+R\+I\+N\+T\+\_\+\+E\+U\+L\+ER}}
+\index{P\+R\+I\+N\+T\+\_\+\+E\+U\+L\+ER@{P\+R\+I\+N\+T\+\_\+\+E\+U\+L\+ER}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+R\+I\+N\+T\+\_\+\+E\+U\+L\+ER}
+{\footnotesize\ttfamily \#define P\+R\+I\+N\+T\+\_\+\+E\+U\+L\+ER~(0x10)}
+
+\mbox{\label{group__e_m_p_l_ga31581e6a5034c28ac6270530f4b17e51}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+R\+I\+N\+T\+\_\+\+G\+R\+A\+V\+I\+T\+Y\+\_\+\+V\+E\+C\+T\+OR@{P\+R\+I\+N\+T\+\_\+\+G\+R\+A\+V\+I\+T\+Y\+\_\+\+V\+E\+C\+T\+OR}}
+\index{P\+R\+I\+N\+T\+\_\+\+G\+R\+A\+V\+I\+T\+Y\+\_\+\+V\+E\+C\+T\+OR@{P\+R\+I\+N\+T\+\_\+\+G\+R\+A\+V\+I\+T\+Y\+\_\+\+V\+E\+C\+T\+OR}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+R\+I\+N\+T\+\_\+\+G\+R\+A\+V\+I\+T\+Y\+\_\+\+V\+E\+C\+T\+OR}
+{\footnotesize\ttfamily \#define P\+R\+I\+N\+T\+\_\+\+G\+R\+A\+V\+I\+T\+Y\+\_\+\+V\+E\+C\+T\+OR~(0x200)}
+
+\mbox{\label{group__e_m_p_l_ga1f7cea00edafdbe1570199b28042ddd3}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+R\+I\+N\+T\+\_\+\+G\+Y\+RO@{P\+R\+I\+N\+T\+\_\+\+G\+Y\+RO}}
+\index{P\+R\+I\+N\+T\+\_\+\+G\+Y\+RO@{P\+R\+I\+N\+T\+\_\+\+G\+Y\+RO}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+R\+I\+N\+T\+\_\+\+G\+Y\+RO}
+{\footnotesize\ttfamily \#define P\+R\+I\+N\+T\+\_\+\+G\+Y\+RO~(0x02)}
+
+\mbox{\label{group__e_m_p_l_ga39965157fdb18499d2665cdb203971dd}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+R\+I\+N\+T\+\_\+\+H\+E\+A\+D\+I\+NG@{P\+R\+I\+N\+T\+\_\+\+H\+E\+A\+D\+I\+NG}}
+\index{P\+R\+I\+N\+T\+\_\+\+H\+E\+A\+D\+I\+NG@{P\+R\+I\+N\+T\+\_\+\+H\+E\+A\+D\+I\+NG}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+R\+I\+N\+T\+\_\+\+H\+E\+A\+D\+I\+NG}
+{\footnotesize\ttfamily \#define P\+R\+I\+N\+T\+\_\+\+H\+E\+A\+D\+I\+NG~(0x40)}
+
+\mbox{\label{group__e_m_p_l_ga247e0609bfe123b5d988f0c63e99bf76}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+R\+I\+N\+T\+\_\+\+L\+I\+N\+E\+A\+R\+\_\+\+A\+C\+C\+EL@{P\+R\+I\+N\+T\+\_\+\+L\+I\+N\+E\+A\+R\+\_\+\+A\+C\+C\+EL}}
+\index{P\+R\+I\+N\+T\+\_\+\+L\+I\+N\+E\+A\+R\+\_\+\+A\+C\+C\+EL@{P\+R\+I\+N\+T\+\_\+\+L\+I\+N\+E\+A\+R\+\_\+\+A\+C\+C\+EL}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+R\+I\+N\+T\+\_\+\+L\+I\+N\+E\+A\+R\+\_\+\+A\+C\+C\+EL}
+{\footnotesize\ttfamily \#define P\+R\+I\+N\+T\+\_\+\+L\+I\+N\+E\+A\+R\+\_\+\+A\+C\+C\+EL~(0x100)}
+
+\mbox{\label{group__e_m_p_l_gafc50e337bac90191d386f47e3cf49a7d}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+R\+I\+N\+T\+\_\+\+P\+E\+DO@{P\+R\+I\+N\+T\+\_\+\+P\+E\+DO}}
+\index{P\+R\+I\+N\+T\+\_\+\+P\+E\+DO@{P\+R\+I\+N\+T\+\_\+\+P\+E\+DO}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+R\+I\+N\+T\+\_\+\+P\+E\+DO}
+{\footnotesize\ttfamily \#define P\+R\+I\+N\+T\+\_\+\+P\+E\+DO~(0x80)}
+
+\mbox{\label{group__e_m_p_l_ga709f1d5781d96858850143298f88104c}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+R\+I\+N\+T\+\_\+\+Q\+U\+AT@{P\+R\+I\+N\+T\+\_\+\+Q\+U\+AT}}
+\index{P\+R\+I\+N\+T\+\_\+\+Q\+U\+AT@{P\+R\+I\+N\+T\+\_\+\+Q\+U\+AT}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+R\+I\+N\+T\+\_\+\+Q\+U\+AT}
+{\footnotesize\ttfamily \#define P\+R\+I\+N\+T\+\_\+\+Q\+U\+AT~(0x04)}
+
+\mbox{\label{group__e_m_p_l_ga83fe59ee63a2dd6ba73760f07a21ee95}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+R\+I\+N\+T\+\_\+\+R\+O\+T\+\_\+\+M\+AT@{P\+R\+I\+N\+T\+\_\+\+R\+O\+T\+\_\+\+M\+AT}}
+\index{P\+R\+I\+N\+T\+\_\+\+R\+O\+T\+\_\+\+M\+AT@{P\+R\+I\+N\+T\+\_\+\+R\+O\+T\+\_\+\+M\+AT}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+R\+I\+N\+T\+\_\+\+R\+O\+T\+\_\+\+M\+AT}
+{\footnotesize\ttfamily \#define P\+R\+I\+N\+T\+\_\+\+R\+O\+T\+\_\+\+M\+AT~(0x20)}
+
+\mbox{\label{group__e_m_p_l_ga209a05c6769a81d074903aaffe2f44a6}} 
+\index{E\+M\+PL@{E\+M\+PL}!T\+E\+M\+P\+\_\+\+R\+E\+A\+D\+\_\+\+MS@{T\+E\+M\+P\+\_\+\+R\+E\+A\+D\+\_\+\+MS}}
+\index{T\+E\+M\+P\+\_\+\+R\+E\+A\+D\+\_\+\+MS@{T\+E\+M\+P\+\_\+\+R\+E\+A\+D\+\_\+\+MS}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{T\+E\+M\+P\+\_\+\+R\+E\+A\+D\+\_\+\+MS}
+{\footnotesize\ttfamily \#define T\+E\+M\+P\+\_\+\+R\+E\+A\+D\+\_\+\+MS~(500)}
+
+
+
+\subsection{Function Documentation}
+\mbox{\label{group__e_m_p_l_ga97b092893abbc0853590db8530636b63}} 
+\index{E\+M\+PL@{E\+M\+PL}!gyro\+\_\+data\+\_\+ready\+\_\+cb@{gyro\+\_\+data\+\_\+ready\+\_\+cb}}
+\index{gyro\+\_\+data\+\_\+ready\+\_\+cb@{gyro\+\_\+data\+\_\+ready\+\_\+cb}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{gyro\+\_\+data\+\_\+ready\+\_\+cb()}
+{\footnotesize\ttfamily void gyro\+\_\+data\+\_\+ready\+\_\+cb (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+Every time new gyro data is available, this function is called in an I\+SR context. In this example, it sets a flag protecting the F\+I\+FO read function. \mbox{\label{group__e_m_p_l_ga840291bc02cba5474a4cb46a9b9566fe}} 
+\index{E\+M\+PL@{E\+M\+PL}!main@{main}}
+\index{main@{main}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{main()}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+main entry point. 
+
+\begin{DoxyParagraph}{Parameters None}
+
+\end{DoxyParagraph}
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & None \\
+\hline
+\end{DoxyRetVals}
+\begin{DoxyParagraph}{Required preconditions\+: None}
+
+\end{DoxyParagraph}
+Variable Declaration
+
+If you\textquotesingle{}re not using an M\+P\+U9150 A\+ND you\textquotesingle{}re not using D\+MP features, this function will place all slaves on the primary bus. mpu\+\_\+set\+\_\+bypass(1);
+
+Compute 6-\/axis and 9-\/axis quaternions.
+
+The M\+PL expects compass data at a constant rate (matching the rate passed to inv\+\_\+set\+\_\+compass\+\_\+sample\+\_\+rate). If this is an issue for your application, call this function, and the M\+PL will depend on the timestamps passed to inv\+\_\+build\+\_\+compass instead.
+
+inv\+\_\+9x\+\_\+fusion\+\_\+use\+\_\+timestamps(1);
+
+This function has been deprecated. inv\+\_\+enable\+\_\+no\+\_\+gyro\+\_\+fusion();
+
+Update gyro biases when not in motion. W\+A\+R\+N\+I\+NG\+: These algorithms are mutually exclusive.
+
+inv\+\_\+enable\+\_\+motion\+\_\+no\+\_\+motion();
+
+inv\+\_\+set\+\_\+no\+\_\+motion\+\_\+time(1000);
+
+Update gyro biases when temperature changes.
+
+This algorithm updates the accel biases when in motion. A more accurate bias measurement can be made when running the self-\/test (see case \textquotesingle{}t\textquotesingle{} in handle\+\_\+input), but this algorithm can be enabled if the self-\/test can\textquotesingle{}t be executed in your application.
+
+inv\+\_\+enable\+\_\+in\+\_\+use\+\_\+auto\+\_\+calibration();
+
+If you need to estimate your heading before the compass is calibrated, enable this algorithm. It becomes useless after a good figure-\/eight is detected, so we\textquotesingle{}ll just leave it out to save memory. inv\+\_\+enable\+\_\+heading\+\_\+from\+\_\+gyro();
+
+Allows use of the M\+PL A\+P\+Is in read\+\_\+from\+\_\+mpl.
+
+Get/set hardware configuration. Start gyro.
+
+Wake up all sensors.
+
+Push both gyro and accel data into the F\+I\+FO.
+
+Read back configuration in case it was set improperly.
+
+Sync driver configuration with M\+PL.
+
+Sample rate expected in microseconds.
+
+Set chip-\/to-\/body orientation matrix. Set hardware units to dps/g\textquotesingle{}s/degrees scaling factor.
+
+Initialize H\+AL state variables.
+
+Compass reads are handled by scheduler.
+
+To initialize the D\+MP\+:
+\begin{DoxyEnumerate}
+\item Call dmp\+\_\+load\+\_\+motion\+\_\+driver\+\_\+firmware(). This pushes the D\+MP image in inv\+\_\+mpu\+\_\+dmp\+\_\+motion\+\_\+driver.\+h into the M\+PU memory.
+\item Push the gyro and accel orientation matrix to the D\+MP.
+\item Register gesture callbacks. Don\textquotesingle{}t worry, these callbacks won\textquotesingle{}t be executed unless the corresponding feature is enabled.
+\item Call dmp\+\_\+enable\+\_\+feature(mask) to enable different features.
+\item Call dmp\+\_\+set\+\_\+fifo\+\_\+rate(freq) to select a D\+MP output rate.
+\item Call any feature-\/specific control functions.
+\end{DoxyEnumerate}
+
+To enable the D\+MP, just call mpu\+\_\+set\+\_\+dmp\+\_\+state(1). This function can be called repeatedly to enable and disable the D\+MP at runtime.
+
+The following is a short summary of the features supported in the D\+MP image provided in inv\+\_\+mpu\+\_\+dmp\+\_\+motion\+\_\+driver.\+c\+: D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+L\+P\+\_\+\+Q\+U\+AT\+: Generate a gyro-\/only quaternion on the D\+MP at 200\+Hz. Integrating the gyro data at higher rates reduces numerical errors (compared to integration on the M\+CU at a lower sampling rate). D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+6\+X\+\_\+\+L\+P\+\_\+\+Q\+U\+AT\+: Generate a gyro/accel quaternion on the D\+MP at 200\+Hz. Cannot be used in combination with D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+L\+P\+\_\+\+Q\+U\+AT. D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+AP\+: Detect taps along the X, Y, and Z axes. D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+N\+D\+R\+O\+I\+D\+\_\+\+O\+R\+I\+E\+NT\+: Google\textquotesingle{}s screen rotation algorithm. Triggers an event at the four orientations where the screen should rotate. D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+G\+Y\+R\+O\+\_\+\+C\+AL\+: Calibrates the gyro data after eight seconds of no motion. D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+E\+N\+D\+\_\+\+R\+A\+W\+\_\+\+A\+C\+C\+EL\+: Add raw accelerometer data to the F\+I\+FO. D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+E\+N\+D\+\_\+\+R\+A\+W\+\_\+\+G\+Y\+RO\+: Add raw gyro data to the F\+I\+FO. D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+E\+N\+D\+\_\+\+C\+A\+L\+\_\+\+G\+Y\+RO\+: Add calibrated gyro data to the F\+I\+FO. Cannot be used in combination with D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+E\+N\+D\+\_\+\+R\+A\+W\+\_\+\+G\+Y\+RO.
+
+Known Bug -\/ D\+MP when enabled will sample sensor data at 200\+Hz and output to F\+I\+FO at the rate specified in the dmp\+\_\+set\+\_\+fifo\+\_\+rate A\+PI. The D\+MP will then sent an interrupt once a sample has been put into the F\+I\+FO. Therefore if the dmp\+\_\+set\+\_\+fifo\+\_\+rate is at 25\+Hz there will be a 25\+Hz interrupt from the M\+PU device.
+
+There is a known issue in which if you do not enable D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+AP then the interrupts will be at 200\+Hz even if fifo rate is set at a different rate. To avoid this issue include the D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+AP
+
+D\+MP sensor fusion works only with gyro at +-\/2000dps and accel +-\/2G
+
+A byte has been received via U\+S\+A\+RT. See handle\+\_\+input for a list of valid commands.
+
+Temperature data doesn\textquotesingle{}t need to be read with every gyro sample. Let\textquotesingle{}s make them timer-\/based like the compass reads.
+
+Enable motion interrupt.
+
+Notify the M\+PL that contiguity was broken.
+
+Wait for the M\+PU interrupt.
+
+Restore the previous sensor configuration.
+
+This function gets new data from the F\+I\+FO when the D\+MP is in use. The F\+I\+FO can contain any combination of gyro, accel, quaternion, and gesture data. The sensors parameter tells the caller which data fields were actually populated with new data. For example, if sensors == (I\+N\+V\+\_\+\+X\+Y\+Z\+\_\+\+G\+Y\+RO $\vert$ I\+N\+V\+\_\+\+W\+X\+Y\+Z\+\_\+\+Q\+U\+AT), then the F\+I\+FO isn\textquotesingle{}t being filled with accel data. The driver parses the gesture data to determine if a gesture event has occurred; on an event, the application will be notified via a callback (assuming that a callback function was properly registered). The more parameter is non-\/zero if there are leftover packets in the F\+I\+FO.
+
+Push the new data to the M\+PL.
+
+Temperature only used for gyro temp comp.
+
+This function gets new data from the F\+I\+FO. The F\+I\+FO can contain gyro, accel, both, or neither. The sensors parameter tells the caller which data fields were actually populated with new data. For example, if sensors == I\+N\+V\+\_\+\+X\+Y\+Z\+\_\+\+G\+Y\+RO, then the F\+I\+FO isn\textquotesingle{}t being filled with accel data. The more parameter is non-\/zero if there are leftover packets in the F\+I\+FO. The H\+AL can use this information to increase the frequency at which this function is called.
+
+Push the new data to the M\+PL.
+
+Temperature only used for gyro temp comp.
+
+This function reads bias-\/compensated sensor data and sensor fusion outputs from the M\+PL. The outputs are formatted as seen in e\+M\+P\+L\+\_\+outputs.\+c. This function only needs to be called at the rate requested by the host.
+
+\subsection{Variable Documentation}
+\mbox{\label{group__e_m_p_l_gaefa1a9bddf56e4d6c5ee8ff3f2175b01}} 
+\index{E\+M\+PL@{E\+M\+PL}!cmd@{cmd}}
+\index{cmd@{cmd}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{cmd}
+{\footnotesize\ttfamily unsigned char rx\+\_\+s\+::cmd}
+
+\mbox{\label{group__e_m_p_l_gaddd6cb7910e57a7196ac6ce64aa0f707}} 
+\index{E\+M\+PL@{E\+M\+PL}!dmp\+\_\+features@{dmp\+\_\+features}}
+\index{dmp\+\_\+features@{dmp\+\_\+features}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{dmp\+\_\+features}
+{\footnotesize\ttfamily unsigned short hal\+\_\+s\+::dmp\+\_\+features}
+
+\mbox{\label{group__e_m_p_l_ga74fc0678cdb732ca77b8bfe8c8fb00df}} 
+\index{E\+M\+PL@{E\+M\+PL}!dmp\+\_\+on@{dmp\+\_\+on}}
+\index{dmp\+\_\+on@{dmp\+\_\+on}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{dmp\+\_\+on}
+{\footnotesize\ttfamily unsigned char hal\+\_\+s\+::dmp\+\_\+on}
+
+\mbox{\label{group__e_m_p_l_ga359d30cf3d94f8046df41f14467c36de}} 
+\index{E\+M\+PL@{E\+M\+PL}!hal\+\_\+timestamp@{hal\+\_\+timestamp}}
+\index{hal\+\_\+timestamp@{hal\+\_\+timestamp}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{hal\+\_\+timestamp}
+{\footnotesize\ttfamily volatile uint32\+\_\+t hal\+\_\+timestamp = 0}
+
+
+
+timestamp variable initialize, its for count tick 
+
+\mbox{\label{group__e_m_p_l_ga56962a58a26d80a33025ef500242f51b}} 
+\index{E\+M\+PL@{E\+M\+PL}!header@{header}}
+\index{header@{header}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{header}
+{\footnotesize\ttfamily unsigned char rx\+\_\+s\+::header[3]}
+
+\mbox{\label{group__e_m_p_l_ga2495005d08cae39a0c73412eef93fa96}} 
+\index{E\+M\+PL@{E\+M\+PL}!lp\+\_\+accel\+\_\+mode@{lp\+\_\+accel\+\_\+mode}}
+\index{lp\+\_\+accel\+\_\+mode@{lp\+\_\+accel\+\_\+mode}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{lp\+\_\+accel\+\_\+mode}
+{\footnotesize\ttfamily unsigned char hal\+\_\+s\+::lp\+\_\+accel\+\_\+mode}
+
+\mbox{\label{group__e_m_p_l_ga1cbe790c552b9d5b2097c122ef91362e}} 
+\index{E\+M\+PL@{E\+M\+PL}!motion\+\_\+int\+\_\+mode@{motion\+\_\+int\+\_\+mode}}
+\index{motion\+\_\+int\+\_\+mode@{motion\+\_\+int\+\_\+mode}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{motion\+\_\+int\+\_\+mode}
+{\footnotesize\ttfamily unsigned char hal\+\_\+s\+::motion\+\_\+int\+\_\+mode}
+
+\mbox{\label{group__e_m_p_l_ga56d9a02ae0e768d49fd95fd014c47b07}} 
+\index{E\+M\+PL@{E\+M\+PL}!mpl\+\_\+key@{mpl\+\_\+key}}
+\index{mpl\+\_\+key@{mpl\+\_\+key}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{mpl\+\_\+key}
+{\footnotesize\ttfamily unsigned char$\ast$ mpl\+\_\+key = (unsigned char$\ast$)\char`\"{}e\+M\+PL 5.\+1\char`\"{}}
+
+\mbox{\label{group__e_m_p_l_gad26aab5f2b7bb0c9d115e8cb6c7f91ba}} 
+\index{E\+M\+PL@{E\+M\+PL}!new\+\_\+gyro@{new\+\_\+gyro}}
+\index{new\+\_\+gyro@{new\+\_\+gyro}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{new\+\_\+gyro}
+{\footnotesize\ttfamily volatile unsigned char hal\+\_\+s\+::new\+\_\+gyro}
+
+\mbox{\label{group__e_m_p_l_ga1453f27f878d6f8c675ea57b56143af9}} 
+\index{E\+M\+PL@{E\+M\+PL}!next\+\_\+compass\+\_\+ms@{next\+\_\+compass\+\_\+ms}}
+\index{next\+\_\+compass\+\_\+ms@{next\+\_\+compass\+\_\+ms}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{next\+\_\+compass\+\_\+ms}
+{\footnotesize\ttfamily unsigned long hal\+\_\+s\+::next\+\_\+compass\+\_\+ms}
+
+\mbox{\label{group__e_m_p_l_ga2c4d027b190f5f4cd1518c6331b88a86}} 
+\index{E\+M\+PL@{E\+M\+PL}!next\+\_\+pedo\+\_\+ms@{next\+\_\+pedo\+\_\+ms}}
+\index{next\+\_\+pedo\+\_\+ms@{next\+\_\+pedo\+\_\+ms}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{next\+\_\+pedo\+\_\+ms}
+{\footnotesize\ttfamily unsigned long hal\+\_\+s\+::next\+\_\+pedo\+\_\+ms}
+
+\mbox{\label{group__e_m_p_l_gac1761962f130f7dd8065b5cc73fb58b0}} 
+\index{E\+M\+PL@{E\+M\+PL}!next\+\_\+temp\+\_\+ms@{next\+\_\+temp\+\_\+ms}}
+\index{next\+\_\+temp\+\_\+ms@{next\+\_\+temp\+\_\+ms}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{next\+\_\+temp\+\_\+ms}
+{\footnotesize\ttfamily unsigned long hal\+\_\+s\+::next\+\_\+temp\+\_\+ms}
+
+\mbox{\label{group__e_m_p_l_gaac7ee68b2364db0bb34d2185d37a510f}} 
+\index{E\+M\+PL@{E\+M\+PL}!no\+\_\+dmp\+\_\+hz@{no\+\_\+dmp\+\_\+hz}}
+\index{no\+\_\+dmp\+\_\+hz@{no\+\_\+dmp\+\_\+hz}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{no\+\_\+dmp\+\_\+hz}
+{\footnotesize\ttfamily unsigned long hal\+\_\+s\+::no\+\_\+dmp\+\_\+hz}
+
+\mbox{\label{group__e_m_p_l_gaf026bc5493793c52186a72b50bebba87}} 
+\index{E\+M\+PL@{E\+M\+PL}!orientation@{orientation}}
+\index{orientation@{orientation}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{orientation}
+{\footnotesize\ttfamily signed char platform\+\_\+data\+\_\+s\+::orientation[9]}
+
+\mbox{\label{group__e_m_p_l_gafb36436c48c41d572db54d167140ae03}} 
+\index{E\+M\+PL@{E\+M\+PL}!report@{report}}
+\index{report@{report}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{report}
+{\footnotesize\ttfamily unsigned int hal\+\_\+s\+::report}
+
+\mbox{\label{group__e_m_p_l_gafe5d5719cbbae00426834d2742330553}} 
+\index{E\+M\+PL@{E\+M\+PL}!rx@{rx}}
+\index{rx@{rx}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{rx}
+{\footnotesize\ttfamily struct \textbf{ rx\+\_\+s} hal\+\_\+s\+::rx}
+
+\mbox{\label{group__e_m_p_l_ga5bfb2c29b84492416fe0a885d4664132}} 
+\index{E\+M\+PL@{E\+M\+PL}!rx\+\_\+new@{rx\+\_\+new}}
+\index{rx\+\_\+new@{rx\+\_\+new}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{rx\+\_\+new}
+{\footnotesize\ttfamily volatile unsigned char rx\+\_\+new}
+
+
+
+Usart Receive variable init. 
+
+U\+SB RX binary semaphore. Actually, it\textquotesingle{}s just a flag. Not included in struct because it\textquotesingle{}s declared extern elsewhere. \mbox{\label{group__e_m_p_l_ga6993a0da4e0eb964d49fb309066b1835}} 
+\index{E\+M\+PL@{E\+M\+PL}!sensors@{sensors}}
+\index{sensors@{sensors}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{sensors}
+{\footnotesize\ttfamily unsigned char hal\+\_\+s\+::sensors}
+
+\mbox{\label{group__e_m_p_l_gac5d6826bbae4a543f9e4bac6e9da755d}} 
+\index{E\+M\+PL@{E\+M\+PL}!wait\+\_\+for\+\_\+tap@{wait\+\_\+for\+\_\+tap}}
+\index{wait\+\_\+for\+\_\+tap@{wait\+\_\+for\+\_\+tap}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{wait\+\_\+for\+\_\+tap}
+{\footnotesize\ttfamily unsigned char hal\+\_\+s\+::wait\+\_\+for\+\_\+tap}
+

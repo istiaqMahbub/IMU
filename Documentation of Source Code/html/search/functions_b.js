@@ -1,0 +1,8 @@
+var searchData=
+[
+  ['nmi_5fhandler',['NMI_Handler',['../group__TIM__PWM__Input.html#ga6ad7a5e3ee69cb6db6a6b9111ba898bc',1,'NMI_Handler(void):&#160;stm32f4xx_it.c'],['../group__TIM__PWM__Input.html#ga6ad7a5e3ee69cb6db6a6b9111ba898bc',1,'NMI_Handler(void):&#160;stm32f4xx_it.c']]],
+  ['nvic_5finit',['NVIC_Init',['../group__MISC__Private__Functions.html#ga4ab373ed0870c06fca5eb51d639adf41',1,'NVIC_Init(NVIC_InitTypeDef *NVIC_InitStruct):&#160;misc.c'],['../group__MISC.html#ga4ab373ed0870c06fca5eb51d639adf41',1,'NVIC_Init(NVIC_InitTypeDef *NVIC_InitStruct):&#160;misc.c']]],
+  ['nvic_5fprioritygroupconfig',['NVIC_PriorityGroupConfig',['../group__MISC__Private__Functions.html#gadfb1f34f803ce54c976643db8c484442',1,'NVIC_PriorityGroupConfig(uint32_t NVIC_PriorityGroup):&#160;misc.c'],['../group__MISC.html#gadfb1f34f803ce54c976643db8c484442',1,'NVIC_PriorityGroupConfig(uint32_t NVIC_PriorityGroup):&#160;misc.c']]],
+  ['nvic_5fsetvectortable',['NVIC_SetVectorTable',['../group__MISC__Private__Functions.html#ga1145208ad70edfc2fab19b8b8ef1b1a1',1,'NVIC_SetVectorTable(uint32_t NVIC_VectTab, uint32_t Offset):&#160;misc.c'],['../group__MISC.html#ga1145208ad70edfc2fab19b8b8ef1b1a1',1,'NVIC_SetVectorTable(uint32_t NVIC_VectTab, uint32_t Offset):&#160;misc.c']]],
+  ['nvic_5fsystemlpconfig',['NVIC_SystemLPConfig',['../group__MISC__Private__Functions.html#gae21011c5232f5b8f366acbecd12a1d4a',1,'NVIC_SystemLPConfig(uint8_t LowPowerMode, FunctionalState NewState):&#160;misc.c'],['../group__MISC.html#gae21011c5232f5b8f366acbecd12a1d4a',1,'NVIC_SystemLPConfig(uint8_t LowPowerMode, FunctionalState NewState):&#160;misc.c']]]
+];

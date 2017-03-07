@@ -1,0 +1,180 @@
+\section{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+dac.c File Reference}
+\label{stm32f4xx__dac_8c}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+dac.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+dac.\+c}}
+
+
+This file provides firmware functions to manage the following functionalities of the Digital-\/to-\/\+Analog Converter (D\+AC) peripheral\+:  
+
+
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+dac.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+rcc.\+h\char`\"{}}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ C\+R\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}~((uint32\+\_\+t)0x00000\+F\+F\+E)
+\item 
+\#define \textbf{ D\+U\+A\+L\+\_\+\+S\+W\+T\+R\+I\+G\+\_\+\+S\+ET}~((uint32\+\_\+t)0x00000003)
+\item 
+\#define \textbf{ D\+U\+A\+L\+\_\+\+S\+W\+T\+R\+I\+G\+\_\+\+R\+E\+S\+ET}~((uint32\+\_\+t)0x\+F\+F\+F\+F\+F\+F\+F\+C)
+\item 
+\#define \textbf{ D\+H\+R12\+R1\+\_\+\+O\+F\+F\+S\+ET}~((uint32\+\_\+t)0x00000008)
+\item 
+\#define \textbf{ D\+H\+R12\+R2\+\_\+\+O\+F\+F\+S\+ET}~((uint32\+\_\+t)0x00000014)
+\item 
+\#define \textbf{ D\+H\+R12\+R\+D\+\_\+\+O\+F\+F\+S\+ET}~((uint32\+\_\+t)0x00000020)
+\item 
+\#define \textbf{ D\+O\+R\+\_\+\+O\+F\+F\+S\+ET}~((uint32\+\_\+t)0x0000002\+C)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ D\+A\+C\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the D\+AC peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Init} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel, \textbf{ D\+A\+C\+\_\+\+Init\+Type\+Def} $\ast$D\+A\+C\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the D\+AC peripheral according to the specified parameters in the D\+A\+C\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Struct\+Init} (\textbf{ D\+A\+C\+\_\+\+Init\+Type\+Def} $\ast$D\+A\+C\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each D\+A\+C\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Cmd} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified D\+AC channel. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Software\+Trigger\+Cmd} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the selected D\+AC channel software trigger. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Dual\+Software\+Trigger\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables simultaneously the two D\+AC channels software triggers. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Wave\+Generation\+Cmd} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel, uint32\+\_\+t D\+A\+C\+\_\+\+Wave, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the selected D\+AC channel wave generation. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Set\+Channel1\+Data} (uint32\+\_\+t D\+A\+C\+\_\+\+Align, uint16\+\_\+t Data)
+\begin{DoxyCompactList}\small\item\em Set the specified data holding register value for D\+AC channel1. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Set\+Channel2\+Data} (uint32\+\_\+t D\+A\+C\+\_\+\+Align, uint16\+\_\+t Data)
+\begin{DoxyCompactList}\small\item\em Set the specified data holding register value for D\+AC channel2. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Set\+Dual\+Channel\+Data} (uint32\+\_\+t D\+A\+C\+\_\+\+Align, uint16\+\_\+t Data2, uint16\+\_\+t Data1)
+\begin{DoxyCompactList}\small\item\em Set the specified data holding register value for dual channel D\+AC. \end{DoxyCompactList}\item 
+uint16\+\_\+t \textbf{ D\+A\+C\+\_\+\+Get\+Data\+Output\+Value} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel)
+\begin{DoxyCompactList}\small\item\em Returns the last data output value of the selected D\+AC channel. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+D\+M\+A\+Cmd} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified D\+AC channel D\+MA request. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+I\+T\+Config} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel, uint32\+\_\+t D\+A\+C\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified D\+AC interrupts. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ D\+A\+C\+\_\+\+Get\+Flag\+Status} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel, uint32\+\_\+t D\+A\+C\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified D\+AC flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Clear\+Flag} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel, uint32\+\_\+t D\+A\+C\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the D\+AC channel\textquotesingle{}s pending flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ D\+A\+C\+\_\+\+Get\+I\+T\+Status} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel, uint32\+\_\+t D\+A\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified D\+AC interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ D\+A\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel, uint32\+\_\+t D\+A\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the D\+AC channel\textquotesingle{}s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file provides firmware functions to manage the following functionalities of the Digital-\/to-\/\+Analog Converter (D\+AC) peripheral\+: 
+
+\begin{DoxyAuthor}{Author}
+M\+CD Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\+0.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+30-\/\+September-\/2011
+\begin{DoxyItemize}
+\item D\+AC channels configuration\+: trigger, output buffer, data format
+\item D\+MA management
+\item Interrupts and flags management
+\end{DoxyItemize}
+\end{DoxyDate}
+\begin{DoxyVerb}*    
+*          ===================================================================
+*                             DAC Peripheral features
+*          ===================================================================
+*          
+*          DAC Channels
+*          =============  
+*          The device integrates two 12-bit Digital Analog Converters that can 
+*          be used independently or simultaneously (dual mode):
+*            1- DAC channel1 with DAC_OUT1 (PA4) as output
+*            1- DAC channel2 with DAC_OUT2 (PA5) as output
+*
+*          DAC Triggers
+*          =============
+*          Digital to Analog conversion can be non-triggered using DAC_Trigger_None
+*          and DAC_OUT1/DAC_OUT2 is available once writing to DHRx register 
+*          using DAC_SetChannel1Data() / DAC_SetChannel2Data() functions.
+*   
+*         Digital to Analog conversion can be triggered by:
+*             1- External event: EXTI Line 9 (any GPIOx_Pin9) using DAC_Trigger_Ext_IT9.
+*                The used pin (GPIOx_Pin9) must be configured in input mode.
+*
+*             2- Timers TRGO: TIM2, TIM4, TIM5, TIM6, TIM7 and TIM8 
+*                (DAC_Trigger_T2_TRGO, DAC_Trigger_T4_TRGO...)
+*                The timer TRGO event should be selected using TIM_SelectOutputTrigger()
+*
+*             3- Software using DAC_Trigger_Software
+*
+*          DAC Buffer mode feature
+*          ========================  
+*          Each DAC channel integrates an output buffer that can be used to 
+*          reduce the output impedance, and to drive external loads directly
+*          without having to add an external operational amplifier.
+*          To enable, the output buffer use  
+*              DAC_InitStructure.DAC_OutputBuffer = DAC_OutputBuffer_Enable;
+*          
+*          Refer to the device datasheet for more details about output 
+*          impedance value with and without output buffer.
+*          
+*          DAC wave generation feature
+*          =============================      
+*          Both DAC channels can be used to generate
+*             1- Noise wave using DAC_WaveGeneration_Noise
+*             2- Triangle wave using DAC_WaveGeneration_Triangle
+*        
+*          Wave generation can be disabled using DAC_WaveGeneration_None
+*
+*          DAC data format
+*          ================   
+*          The DAC data format can be:
+*             1- 8-bit right alignment using DAC_Align_8b_R
+*             2- 12-bit left alignment using DAC_Align_12b_L
+*             3- 12-bit right alignment using DAC_Align_12b_R
+*
+*          DAC data value to voltage correspondence  
+*          ========================================  
+*          The analog output voltage on each DAC channel pin is determined
+*          by the following equation: 
+*          DAC_OUTx = VREF+ * DOR / 4095
+*          with  DOR is the Data Output Register
+*                VEF+ is the input voltage reference (refer to the device datasheet)
+*          e.g. To set DAC_OUT1 to 0.7V, use
+*            DAC_SetChannel1Data(DAC_Align_12b_R, 868);
+*          Assuming that VREF+ = 3.3V, DAC_OUT1 = (3.3 * 868) / 4095 = 0.7V
+*
+*          DMA requests 
+*          =============    
+*          A DMA1 request can be generated when an external trigger (but not
+*          a software trigger) occurs if DMA1 requests are enabled using
+*          DAC_DMACmd()
+*          DMA1 requests are mapped as following:
+*             1- DAC channel1 : mapped on DMA1 Stream5 channel7 which must be 
+*                               already configured
+*             2- DAC channel2 : mapped on DMA1 Stream6 channel7 which must be 
+*                               already configured
+*
+*          ===================================================================      
+*                              How to use this driver 
+*          ===================================================================          
+*            - DAC APB clock must be enabled to get write access to DAC
+*              registers using
+*              RCC_APB1PeriphClockCmd(RCC_APB1Periph_DAC, ENABLE)
+*            - Configure DAC_OUTx (DAC_OUT1: PA4, DAC_OUT2: PA5) in analog mode.
+*            - Configure the DAC channel using DAC_Init() function
+*            - Enable the DAC channel using DAC_Cmd() function
+* 
+*  \end{DoxyVerb}
+
+
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+T\+HE P\+R\+E\+S\+E\+NT F\+I\+R\+M\+W\+A\+RE W\+H\+I\+CH IS F\+OR G\+U\+I\+D\+A\+N\+CE O\+N\+LY A\+I\+MS AT P\+R\+O\+V\+I\+D\+I\+NG C\+U\+S\+T\+O\+M\+E\+RS W\+I\+TH C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON R\+E\+G\+A\+R\+D\+I\+NG T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS IN O\+R\+D\+ER F\+OR T\+H\+EM TO S\+A\+VE T\+I\+ME. AS A R\+E\+S\+U\+LT, S\+T\+M\+I\+C\+R\+O\+E\+L\+E\+C\+T\+R\+O\+N\+I\+CS S\+H\+A\+LL N\+OT BE H\+E\+LD L\+I\+A\+B\+LE F\+OR A\+NY D\+I\+R\+E\+CT, I\+N\+D\+I\+R\+E\+CT OR C\+O\+N\+S\+E\+Q\+U\+E\+N\+T\+I\+AL D\+A\+M\+A\+G\+ES W\+I\+TH R\+E\+S\+P\+E\+CT TO A\+NY C\+L\+A\+I\+MS A\+R\+I\+S\+I\+NG F\+R\+OM T\+HE C\+O\+N\+T\+E\+NT OF S\+U\+CH F\+I\+R\+M\+W\+A\+RE A\+N\+D/\+OR T\+HE U\+SE M\+A\+DE BY C\+U\+S\+T\+O\+M\+E\+RS OF T\+HE C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON C\+O\+N\+T\+A\+I\+N\+ED H\+E\+R\+E\+IN IN C\+O\+N\+N\+E\+C\+T\+I\+ON W\+I\+TH T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS.
+
+\subsubsection*{\begin{center}\copyright{} C\+O\+P\+Y\+R\+I\+G\+HT 2011 S\+T\+Microelectronics\end{center} }
+
+Definition in file \textbf{ stm32f4xx\+\_\+dac.\+c}.
+

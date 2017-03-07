@@ -1,0 +1,82 @@
+\section{D\+MA management functions}
+\label{group__DAC__Group2}\index{D\+M\+A management functions@{D\+M\+A management functions}}
+
+
+D\+MA management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ D\+A\+C\+\_\+\+D\+M\+A\+Cmd} (uint32\+\_\+t D\+A\+C\+\_\+\+Channel, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified D\+AC channel D\+MA request. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+D\+MA management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                          DMA management functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__DAC__Group2_ga194cba38f60ace11658824f0250121f4}} 
+\index{D\+M\+A management functions@{D\+M\+A management functions}!D\+A\+C\+\_\+\+D\+M\+A\+Cmd@{D\+A\+C\+\_\+\+D\+M\+A\+Cmd}}
+\index{D\+A\+C\+\_\+\+D\+M\+A\+Cmd@{D\+A\+C\+\_\+\+D\+M\+A\+Cmd}!D\+M\+A management functions@{D\+M\+A management functions}}
+\subsubsection{D\+A\+C\+\_\+\+D\+M\+A\+Cmd()}
+{\footnotesize\ttfamily void D\+A\+C\+\_\+\+D\+M\+A\+Cmd (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{D\+A\+C\+\_\+\+Channel,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified D\+AC channel D\+MA request. 
+
+\begin{DoxyNote}{Note}
+When enabled D\+M\+A1 is generated when an external trigger (E\+X\+TI Line9, T\+I\+M2, T\+I\+M4, T\+I\+M5, T\+I\+M6, T\+I\+M7 or T\+I\+M8 but not a software trigger) occurs. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em D\+A\+C\+\_\+\+Channel} & The selected D\+AC channel. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item D\+A\+C\+\_\+\+Channel\+\_\+1\+: D\+AC Channel1 selected \item D\+A\+C\+\_\+\+Channel\+\_\+2\+: D\+AC Channel2 selected \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the selected D\+AC channel D\+MA request. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The D\+AC channel1 is mapped on D\+M\+A1 Stream 5 channel7 which must be already configured. 
+
+The D\+AC channel2 is mapped on D\+M\+A1 Stream 6 channel7 which must be already configured. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 497} of file \textbf{ stm32f4xx\+\_\+dac.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00498 \{
+00499   \textcolor{comment}{/* Check the parameters */}
+00500   assert_param(IS_DAC_CHANNEL(DAC\_Channel));
+00501   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00502 
+00503   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00504   \{
+00505     \textcolor{comment}{/* Enable the selected DAC channel DMA request */}
+00506     DAC->CR |= (DAC_CR_DMAEN1 << DAC\_Channel);
+00507   \}
+00508   \textcolor{keywordflow}{else}
+00509   \{
+00510     \textcolor{comment}{/* Disable the selected DAC channel DMA request */}
+00511     DAC->CR &= (~(DAC_CR_DMAEN1 << DAC\_Channel));
+00512   \}
+00513 \}
+\end{DoxyCode}

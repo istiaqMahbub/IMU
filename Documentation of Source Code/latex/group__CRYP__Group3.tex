@@ -1,0 +1,201 @@
+\section{Context swapping functions}
+\label{group__CRYP__Group3}\index{Context swapping functions@{Context swapping functions}}
+
+
+Context swapping functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Error\+Status} \textbf{ C\+R\+Y\+P\+\_\+\+Save\+Context} (\textbf{ C\+R\+Y\+P\+\_\+\+Context} $\ast$C\+R\+Y\+P\+\_\+\+Context\+Save, \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init\+Type\+Def} $\ast$C\+R\+Y\+P\+\_\+\+Key\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Saves the C\+R\+YP peripheral Context. \end{DoxyCompactList}\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+Restore\+Context} (\textbf{ C\+R\+Y\+P\+\_\+\+Context} $\ast$C\+R\+Y\+P\+\_\+\+Context\+Restore)
+\begin{DoxyCompactList}\small\item\em Restores the C\+R\+YP peripheral Context. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Context swapping functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                             Context swapping functions
+ ===============================================================================  
+
+  This section provides functions allowing to save and store CRYP Context
+
+  It is possible to interrupt an encryption/ decryption/ key generation process 
+  to perform another processing with a higher priority, and to complete the 
+  interrupted process later on, when the higher-priority task is complete. To do 
+  so, the context of the interrupted task must be saved from the CRYP registers 
+  to memory, and then be restored from memory to the CRYP registers.
+   
+  1. To save the current context, use CRYP_SaveContext() function
+  2. To restore the saved context, use CRYP_RestoreContext() function \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__CRYP__Group3_gaf2986782fa66ea95b2a389595e17e0e5}} 
+\index{Context swapping functions@{Context swapping functions}!C\+R\+Y\+P\+\_\+\+Restore\+Context@{C\+R\+Y\+P\+\_\+\+Restore\+Context}}
+\index{C\+R\+Y\+P\+\_\+\+Restore\+Context@{C\+R\+Y\+P\+\_\+\+Restore\+Context}!Context swapping functions@{Context swapping functions}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+Restore\+Context()}
+{\footnotesize\ttfamily void C\+R\+Y\+P\+\_\+\+Restore\+Context (\begin{DoxyParamCaption}\item[{\textbf{ C\+R\+Y\+P\+\_\+\+Context} $\ast$}]{C\+R\+Y\+P\+\_\+\+Context\+Restore }\end{DoxyParamCaption})}
+
+
+
+Restores the C\+R\+YP peripheral Context. 
+
+\begin{DoxyNote}{Note}
+Since teh D\+MA transfer is stopped in \doxyref{C\+R\+Y\+P\+\_\+\+Save\+Context()}{p.}{group__CRYP__Group3_ga41a14be7fa43d500e7c94cce40910ea8} function, after restoring the context, you have to enable the D\+MA again (if the D\+MA was previously used). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em C\+R\+Y\+P\+\_\+\+Context\+Restore} & pointer to a \doxyref{C\+R\+Y\+P\+\_\+\+Context}{p.}{structCRYP__Context} structure that contains the repository for saved context. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The data that were saved during context saving must be rewrited into the IN F\+I\+FO. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 551} of file \textbf{ stm32f4xx\+\_\+cryp.\+c}.
+
+
+\begin{DoxyCode}
+00552 \{
+00553 
+00554   \textcolor{comment}{/* Configure the processor with the saved configuration */}
+00555   CRYP->CR = CRYP\_ContextRestore->CR_bits9to2;
+00556 
+00557   \textcolor{comment}{/* restore The key value */}
+00558   CRYP->K0LR = CRYP\_ContextRestore->CRYP_K0LR; 
+00559   CRYP->K0RR = CRYP\_ContextRestore->CRYP_K0RR;
+00560   CRYP->K1LR = CRYP\_ContextRestore->CRYP_K1LR;
+00561   CRYP->K1RR = CRYP\_ContextRestore->CRYP_K1RR;
+00562   CRYP->K2LR = CRYP\_ContextRestore->CRYP_K2LR;
+00563   CRYP->K2RR = CRYP\_ContextRestore->CRYP_K2RR;
+00564   CRYP->K3LR = CRYP\_ContextRestore->CRYP_K3LR;
+00565   CRYP->K3RR = CRYP\_ContextRestore->CRYP_K3RR;
+00566 
+00567   \textcolor{comment}{/* and the initialization vectors. */}
+00568   CRYP->IV0LR = CRYP\_ContextRestore->CRYP_IV0LR;
+00569   CRYP->IV0RR = CRYP\_ContextRestore->CRYP_IV0RR;
+00570   CRYP->IV1LR = CRYP\_ContextRestore->CRYP_IV1LR;
+00571   CRYP->IV1RR = CRYP\_ContextRestore->CRYP_IV1RR;
+00572 
+00573   \textcolor{comment}{/* Enable the cryptographic processor */}
+00574   CRYP->CR |= CRYP_CR_CRYPEN;
+00575 \}
+\end{DoxyCode}
+\mbox{\label{group__CRYP__Group3_ga41a14be7fa43d500e7c94cce40910ea8}} 
+\index{Context swapping functions@{Context swapping functions}!C\+R\+Y\+P\+\_\+\+Save\+Context@{C\+R\+Y\+P\+\_\+\+Save\+Context}}
+\index{C\+R\+Y\+P\+\_\+\+Save\+Context@{C\+R\+Y\+P\+\_\+\+Save\+Context}!Context swapping functions@{Context swapping functions}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+Save\+Context()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} C\+R\+Y\+P\+\_\+\+Save\+Context (\begin{DoxyParamCaption}\item[{\textbf{ C\+R\+Y\+P\+\_\+\+Context} $\ast$}]{C\+R\+Y\+P\+\_\+\+Context\+Save,  }\item[{\textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init\+Type\+Def} $\ast$}]{C\+R\+Y\+P\+\_\+\+Key\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Saves the C\+R\+YP peripheral Context. 
+
+\begin{DoxyNote}{Note}
+This function stops D\+MA transfer before to save the context. After restoring the context, you have to enable the D\+MA again (if the D\+MA was previously used). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em C\+R\+Y\+P\+\_\+\+Context\+Save} & pointer to a \doxyref{C\+R\+Y\+P\+\_\+\+Context}{p.}{structCRYP__Context} structure that contains the repository for current context. \\
+\hline
+{\em C\+R\+Y\+P\+\_\+\+Key\+Init\+Struct} & pointer to a \doxyref{C\+R\+Y\+P\+\_\+\+Key\+Init\+Type\+Def}{p.}{structCRYP__KeyInitTypeDef} structure that contains the configuration information for the C\+R\+YP Keys. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 466} of file \textbf{ stm32f4xx\+\_\+cryp.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}.
+
+
+\begin{DoxyCode}
+00468 \{
+00469   \_\_IO uint32\_t timeout = 0;
+00470   uint32\_t ckeckmask = 0, bitstatus;    
+00471   ErrorStatus status = ERROR;
+00472 
+00473   \textcolor{comment}{/* Stop DMA transfers on the IN FIFO by clearing the DIEN bit in the CRYP\_DMACR */}
+00474   CRYP->DMACR &= ~(uint32\_t)CRYP_DMACR_DIEN;
+00475     
+00476   \textcolor{comment}{/* Wait until both the IN and OUT FIFOs are empty  }
+00477 \textcolor{comment}{    (IFEM=1 and OFNE=0 in the CRYP\_SR register) and the }
+00478 \textcolor{comment}{     BUSY bit is cleared. */}
+00479 
+00480   \textcolor{keywordflow}{if} ((CRYP->CR & (uint32\_t)(CRYP_CR_ALGOMODE_TDES_ECB | 
+      CRYP_CR_ALGOMODE_TDES_CBC)) != (uint32\_t)0 )\textcolor{comment}{/* TDES */}
+00481   \{ 
+00482     ckeckmask =  CRYP_SR_IFEM | CRYP_SR_BUSY ;
+00483   \}
+00484   \textcolor{keywordflow}{else} \textcolor{comment}{/* AES or DES */}
+00485   \{
+00486     ckeckmask =  CRYP_SR_IFEM | CRYP_SR_BUSY | CRYP_SR_OFNE;
+00487   \}           
+00488    
+00489   \textcolor{keywordflow}{do} 
+00490   \{
+00491     bitstatus = CRYP->SR & ckeckmask;
+00492     timeout++;
+00493   \}
+00494   \textcolor{keywordflow}{while} ((timeout != MAX_TIMEOUT) && (bitstatus != CRYP_SR_IFEM));
+00495      
+00496   \textcolor{keywordflow}{if} ((CRYP->SR & ckeckmask) != CRYP_SR_IFEM)
+00497   \{
+00498     status = ERROR;
+00499   \}
+00500   \textcolor{keywordflow}{else}
+00501   \{      
+00502     \textcolor{comment}{/* Stop DMA transfers on the OUT FIFO by }
+00503 \textcolor{comment}{       - writing the DOEN bit to 0 in the CRYP\_DMACR register }
+00504 \textcolor{comment}{       - and clear the CRYPEN bit. */}
+00505 
+00506     CRYP->DMACR &= ~(uint32\_t)CRYP_DMACR_DOEN;
+00507     CRYP->CR &= ~(uint32\_t)CRYP_CR_CRYPEN;
+00508 
+00509     \textcolor{comment}{/* Save the current configuration (bits [9:2] in the CRYP\_CR register) */}
+00510     CRYP\_ContextSave->CR_bits9to2  = CRYP->CR & (CRYP_CR_KEYSIZE  | 
+00511                                                  CRYP_CR_DATATYPE | 
+00512                                                  CRYP_CR_ALGOMODE |
+00513                                                  CRYP_CR_ALGODIR); 
+00514 
+00515     \textcolor{comment}{/* and, if not in ECB mode, the initialization vectors. */}
+00516     CRYP\_ContextSave->CRYP_IV0LR = CRYP->IV0LR;
+00517     CRYP\_ContextSave->CRYP_IV0RR = CRYP->IV0RR;
+00518     CRYP\_ContextSave->CRYP_IV1LR = CRYP->IV1LR;
+00519     CRYP\_ContextSave->CRYP_IV1RR = CRYP->IV1RR;
+00520 
+00521     \textcolor{comment}{/* save The key value */}
+00522     CRYP\_ContextSave->CRYP_K0LR = CRYP\_KeyInitStruct->CRYP_Key0Left; 
+00523     CRYP\_ContextSave->CRYP_K0RR = CRYP\_KeyInitStruct->CRYP_Key0Right; 
+00524     CRYP\_ContextSave->CRYP_K1LR = CRYP\_KeyInitStruct->CRYP_Key1Left; 
+00525     CRYP\_ContextSave->CRYP_K1RR = CRYP\_KeyInitStruct->CRYP_Key1Right; 
+00526     CRYP\_ContextSave->CRYP_K2LR = CRYP\_KeyInitStruct->CRYP_Key2Left; 
+00527     CRYP\_ContextSave->CRYP_K2RR = CRYP\_KeyInitStruct->CRYP_Key2Right; 
+00528     CRYP\_ContextSave->CRYP_K3LR = CRYP\_KeyInitStruct->CRYP_Key3Left; 
+00529     CRYP\_ContextSave->CRYP_K3RR = CRYP\_KeyInitStruct->CRYP_Key3Right; 
+00530 
+00531    \textcolor{comment}{/* When needed, save the DMA status (pointers for IN and OUT messages, }
+00532 \textcolor{comment}{      number of remaining bytes, etc.) */}
+00533      
+00534     status = SUCCESS;
+00535   \}
+00536 
+00537    \textcolor{keywordflow}{return} status;
+00538 \}
+\end{DoxyCode}

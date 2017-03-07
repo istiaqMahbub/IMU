@@ -1,0 +1,313 @@
+\section{stm32f4xx\+\_\+exti.\+c}
+\label{stm32f4xx__exti_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+exti.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+exti.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_exti.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides firmware functions to manage the following }
+00008 \textcolor{comment}{  *          functionalities of the EXTI peripheral:           }
+00009 \textcolor{comment}{  *           - Initialization and Configuration}
+00010 \textcolor{comment}{  *           - Interrupts and flags management}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  *  @verbatim  }
+00013 \textcolor{comment}{  *  }
+00014 \textcolor{comment}{  *          ===================================================================}
+00015 \textcolor{comment}{  *                                     EXTI features}
+00016 \textcolor{comment}{  *          ===================================================================}
+00017 \textcolor{comment}{  *    }
+00018 \textcolor{comment}{  *          External interrupt/event lines are mapped as following:}
+00019 \textcolor{comment}{  *            1- All available GPIO pins are connected to the 16 external }
+00020 \textcolor{comment}{  *               interrupt/event lines from EXTI0 to EXTI15.}
+00021 \textcolor{comment}{  *            2- EXTI line 16 is connected to the PVD Output}
+00022 \textcolor{comment}{  *            3- EXTI line 17 is connected to the RTC Alarm event}
+00023 \textcolor{comment}{  *            4- EXTI line 18 is connected to the USB OTG FS Wakeup from suspend event               
+                           }
+00024 \textcolor{comment}{  *            5- EXTI line 19 is connected to the Ethernet Wakeup event}
+00025 \textcolor{comment}{  *            6- EXTI line 20 is connected to the USB OTG HS (configured in FS) Wakeup event }
+00026 \textcolor{comment}{  *            7- EXTI line 21 is connected to the RTC Tamper and Time Stamp events                   
+                                  }
+00027 \textcolor{comment}{  *            8- EXTI line 22 is connected to the RTC Wakeup event}
+00028 \textcolor{comment}{  *        }
+00029 \textcolor{comment}{  *          ===================================================================}
+00030 \textcolor{comment}{  *                                 How to use this driver}
+00031 \textcolor{comment}{  *          ===================================================================  }
+00032 \textcolor{comment}{  *              }
+00033 \textcolor{comment}{  *          In order to use an I/O pin as an external interrupt source, follow}
+00034 \textcolor{comment}{  *          steps below:}
+00035 \textcolor{comment}{  *            1- Configure the I/O in input mode using GPIO\_Init()}
+00036 \textcolor{comment}{  *            2- Select the input source pin for the EXTI line using SYSCFG\_EXTILineConfig()}
+00037 \textcolor{comment}{  *            3- Select the mode(interrupt, event) and configure the trigger }
+00038 \textcolor{comment}{  *               selection (Rising, falling or both) using EXTI\_Init()}
+00039 \textcolor{comment}{  *            4- Configure NVIC IRQ channel mapped to the EXTI line using NVIC\_Init()}
+00040 \textcolor{comment}{  *   }
+00041 \textcolor{comment}{  *  @note  SYSCFG APB clock must be enabled to get write access to SYSCFG\_EXTICRx}
+00042 \textcolor{comment}{  *         registers using RCC\_APB2PeriphClockCmd(RCC\_APB2Periph\_SYSCFG, ENABLE);}
+00043 \textcolor{comment}{  *          }
+00044 \textcolor{comment}{  *  @endverbatim                  }
+00045 \textcolor{comment}{  *}
+00046 \textcolor{comment}{  ******************************************************************************}
+00047 \textcolor{comment}{  * @attention}
+00048 \textcolor{comment}{  *}
+00049 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00050 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00051 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00052 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00053 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00054 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00055 \textcolor{comment}{  *}
+00056 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00057 \textcolor{comment}{  ******************************************************************************}
+00058 \textcolor{comment}{  */}
+00059 
+00060 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00061 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_exti.h"
+00062 
+00063 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00064 \textcolor{comment}{  * @\{}
+00065 \textcolor{comment}{  */}
+00066 
+00067 \textcolor{comment}{/** @defgroup EXTI }
+00068 \textcolor{comment}{  * @brief EXTI driver modules}
+00069 \textcolor{comment}{  * @\{}
+00070 \textcolor{comment}{  */}
+00071 
+00072 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00073 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00074 
+00075 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_LINENONE}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000\textcolor{preprocessor}{)}  \textcolor{comment}{/* No interrupt selected */}
+00076 
+00077 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00078 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00079 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00080 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00081 
+00082 \textcolor{comment}{/** @defgroup EXTI\_Private\_Functions}
+00083 \textcolor{comment}{  * @\{}
+00084 \textcolor{comment}{  */}
+00085 
+00086 \textcolor{comment}{/** @defgroup EXTI\_Group1 Initialization and Configuration functions}
+00087 \textcolor{comment}{ *  @brief   Initialization and Configuration functions }
+00088 \textcolor{comment}{ *}
+00089 \textcolor{comment}{@verbatim   }
+00090 \textcolor{comment}{ ===============================================================================}
+00091 \textcolor{comment}{                  Initialization and Configuration functions}
+00092 \textcolor{comment}{ ===============================================================================  }
+00093 \textcolor{comment}{}
+00094 \textcolor{comment}{@endverbatim}
+00095 \textcolor{comment}{  * @\{}
+00096 \textcolor{comment}{  */}
+00097 
+00098 \textcolor{comment}{/**}
+00099 \textcolor{comment}{  * @brief  Deinitializes the EXTI peripheral registers to their default reset values.}
+00100 \textcolor{comment}{  * @param  None}
+00101 \textcolor{comment}{  * @retval None}
+00102 \textcolor{comment}{  */}
+00103 \textcolor{keywordtype}{void} EXTI_DeInit(\textcolor{keywordtype}{void})
+00104 \{
+00105   EXTI->IMR = 0x00000000;
+00106   EXTI->EMR = 0x00000000;
+00107   EXTI->RTSR = 0x00000000;
+00108   EXTI->FTSR = 0x00000000;
+00109   EXTI->PR = 0x007FFFFF;
+00110 \}
+00111 
+00112 \textcolor{comment}{/**}
+00113 \textcolor{comment}{  * @brief  Initializes the EXTI peripheral according to the specified}
+00114 \textcolor{comment}{  *         parameters in the EXTI\_InitStruct.}
+00115 \textcolor{comment}{  * @param  EXTI\_InitStruct: pointer to a EXTI\_InitTypeDef structure}
+00116 \textcolor{comment}{  *         that contains the configuration information for the EXTI peripheral.}
+00117 \textcolor{comment}{  * @retval None}
+00118 \textcolor{comment}{  */}
+00119 \textcolor{keywordtype}{void} EXTI_Init(EXTI\_InitTypeDef* EXTI\_InitStruct)
+00120 \{
+00121   uint32\_t tmp = 0;
+00122 
+00123   \textcolor{comment}{/* Check the parameters */}
+00124   assert_param(IS\_EXTI\_MODE(EXTI\_InitStruct->EXTI\_Mode));
+00125   assert_param(IS\_EXTI\_TRIGGER(EXTI\_InitStruct->EXTI\_Trigger));
+00126   assert_param(IS\_EXTI\_LINE(EXTI\_InitStruct->EXTI\_Line));
+00127   assert_param(IS\_FUNCTIONAL\_STATE(EXTI\_InitStruct->EXTI\_LineCmd));
+00128 
+00129   tmp = (uint32\_t)EXTI_BASE;
+00130 
+00131   \textcolor{keywordflow}{if} (EXTI\_InitStruct->EXTI_LineCmd != DISABLE)
+00132   \{
+00133     \textcolor{comment}{/* Clear EXTI line configuration */}
+00134     EXTI->IMR &= ~EXTI\_InitStruct->EXTI\_Line;
+00135     EXTI->EMR &= ~EXTI\_InitStruct->EXTI\_Line;
+00136 
+00137     tmp += EXTI\_InitStruct->EXTI_Mode;
+00138 
+00139     *(\_\_IO uint32\_t *) tmp |= EXTI\_InitStruct->EXTI\_Line;
+00140 
+00141     \textcolor{comment}{/* Clear Rising Falling edge configuration */}
+00142     EXTI->RTSR &= ~EXTI\_InitStruct->EXTI\_Line;
+00143     EXTI->FTSR &= ~EXTI\_InitStruct->EXTI\_Line;
+00144 
+00145     \textcolor{comment}{/* Select the trigger for the selected external interrupts */}
+00146     \textcolor{keywordflow}{if} (EXTI\_InitStruct->EXTI_Trigger == EXTI_Trigger_Rising_Falling)
+00147     \{
+00148       \textcolor{comment}{/* Rising Falling edge */}
+00149       EXTI->RTSR |= EXTI\_InitStruct->EXTI\_Line;
+00150       EXTI->FTSR |= EXTI\_InitStruct->EXTI\_Line;
+00151     \}
+00152     \textcolor{keywordflow}{else}
+00153     \{
+00154       tmp = (uint32\_t)EXTI_BASE;
+00155       tmp += EXTI\_InitStruct->EXTI_Trigger;
+00156 
+00157       *(\_\_IO uint32\_t *) tmp |= EXTI\_InitStruct->EXTI\_Line;
+00158     \}
+00159   \}
+00160   \textcolor{keywordflow}{else}
+00161   \{
+00162     tmp += EXTI\_InitStruct->EXTI_Mode;
+00163 
+00164     \textcolor{comment}{/* Disable the selected external lines */}
+00165     *(\_\_IO uint32\_t *) tmp &= ~EXTI\_InitStruct->EXTI\_Line;
+00166   \}
+00167 \}
+00168 
+00169 \textcolor{comment}{/**}
+00170 \textcolor{comment}{  * @brief  Fills each EXTI\_InitStruct member with its reset value.}
+00171 \textcolor{comment}{  * @param  EXTI\_InitStruct: pointer to a EXTI\_InitTypeDef structure which will}
+00172 \textcolor{comment}{  *         be initialized.}
+00173 \textcolor{comment}{  * @retval None}
+00174 \textcolor{comment}{  */}
+00175 \textcolor{keywordtype}{void} EXTI_StructInit(EXTI\_InitTypeDef* EXTI\_InitStruct)
+00176 \{
+00177   EXTI\_InitStruct->EXTI_Line = EXTI_LINENONE;
+00178   EXTI\_InitStruct->EXTI_Mode = EXTI_Mode_Interrupt;
+00179   EXTI\_InitStruct->EXTI_Trigger = EXTI_Trigger_Falling;
+00180   EXTI\_InitStruct->EXTI_LineCmd = DISABLE;
+00181 \}
+00182 
+00183 \textcolor{comment}{/**}
+00184 \textcolor{comment}{  * @brief  Generates a Software interrupt on selected EXTI line.}
+00185 \textcolor{comment}{  * @param  EXTI\_Line: specifies the EXTI line on which the software interrupt}
+00186 \textcolor{comment}{  *         will be generated.}
+00187 \textcolor{comment}{  *         This parameter can be any combination of EXTI\_Linex where x can be (0..22)}
+00188 \textcolor{comment}{  * @retval None}
+00189 \textcolor{comment}{  */}
+00190 \textcolor{keywordtype}{void} EXTI_GenerateSWInterrupt(uint32\_t EXTI\_Line)
+00191 \{
+00192   \textcolor{comment}{/* Check the parameters */}
+00193   assert_param(IS\_EXTI\_LINE(EXTI\_Line));
+00194 
+00195   EXTI->SWIER |= EXTI\_Line;
+00196 \}
+00197 
+00198 \textcolor{comment}{/**}
+00199 \textcolor{comment}{  * @\}}
+00200 \textcolor{comment}{  */}
+00201 
+00202 \textcolor{comment}{/** @defgroup EXTI\_Group2 Interrupts and flags management functions}
+00203 \textcolor{comment}{ *  @brief   Interrupts and flags management functions }
+00204 \textcolor{comment}{ *}
+00205 \textcolor{comment}{@verbatim   }
+00206 \textcolor{comment}{ ===============================================================================}
+00207 \textcolor{comment}{                  Interrupts and flags management functions}
+00208 \textcolor{comment}{ ===============================================================================  }
+00209 \textcolor{comment}{}
+00210 \textcolor{comment}{@endverbatim}
+00211 \textcolor{comment}{  * @\{}
+00212 \textcolor{comment}{  */}
+00213 
+00214 \textcolor{comment}{/**}
+00215 \textcolor{comment}{  * @brief  Checks whether the specified EXTI line flag is set or not.}
+00216 \textcolor{comment}{  * @param  EXTI\_Line: specifies the EXTI line flag to check.}
+00217 \textcolor{comment}{  *          This parameter can be EXTI\_Linex where x can be(0..22)}
+00218 \textcolor{comment}{  * @retval The new state of EXTI\_Line (SET or RESET).}
+00219 \textcolor{comment}{  */}
+00220 FlagStatus EXTI_GetFlagStatus(uint32\_t EXTI\_Line)
+00221 \{
+00222   FlagStatus bitstatus = RESET;
+00223   \textcolor{comment}{/* Check the parameters */}
+00224   assert_param(IS\_GET\_EXTI\_LINE(EXTI\_Line));
+00225 
+00226   \textcolor{keywordflow}{if} ((EXTI->PR & EXTI\_Line) != (uint32\_t)RESET)
+00227   \{
+00228     bitstatus = SET;
+00229   \}
+00230   \textcolor{keywordflow}{else}
+00231   \{
+00232     bitstatus = RESET;
+00233   \}
+00234   \textcolor{keywordflow}{return} bitstatus;
+00235 \}
+00236 
+00237 \textcolor{comment}{/**}
+00238 \textcolor{comment}{  * @brief  Clears the EXTI's line pending flags.}
+00239 \textcolor{comment}{  * @param  EXTI\_Line: specifies the EXTI lines flags to clear.}
+00240 \textcolor{comment}{  *          This parameter can be any combination of EXTI\_Linex where x can be (0..22)}
+00241 \textcolor{comment}{  * @retval None}
+00242 \textcolor{comment}{  */}
+00243 \textcolor{keywordtype}{void} EXTI_ClearFlag(uint32\_t EXTI\_Line)
+00244 \{
+00245   \textcolor{comment}{/* Check the parameters */}
+00246   assert_param(IS\_EXTI\_LINE(EXTI\_Line));
+00247 
+00248   EXTI->PR = EXTI\_Line;
+00249 \}
+00250 
+00251 \textcolor{comment}{/**}
+00252 \textcolor{comment}{  * @brief  Checks whether the specified EXTI line is asserted or not.}
+00253 \textcolor{comment}{  * @param  EXTI\_Line: specifies the EXTI line to check.}
+00254 \textcolor{comment}{  *          This parameter can be EXTI\_Linex where x can be(0..22)}
+00255 \textcolor{comment}{  * @retval The new state of EXTI\_Line (SET or RESET).}
+00256 \textcolor{comment}{  */}
+00257 ITStatus EXTI_GetITStatus(uint32\_t EXTI\_Line)
+00258 \{
+00259   ITStatus bitstatus = RESET;
+00260   uint32\_t enablestatus = 0;
+00261   \textcolor{comment}{/* Check the parameters */}
+00262   assert_param(IS\_GET\_EXTI\_LINE(EXTI\_Line));
+00263 
+00264   enablestatus =  EXTI->IMR & EXTI\_Line;
+00265   \textcolor{keywordflow}{if} (((EXTI->PR & EXTI\_Line) != (uint32\_t)RESET) && (enablestatus != (uint32\_t)RESET))
+00266   \{
+00267     bitstatus = SET;
+00268   \}
+00269   \textcolor{keywordflow}{else}
+00270   \{
+00271     bitstatus = RESET;
+00272   \}
+00273   \textcolor{keywordflow}{return} bitstatus;
+00274 \}
+00275 
+00276 \textcolor{comment}{/**}
+00277 \textcolor{comment}{  * @brief  Clears the EXTI's line pending bits.}
+00278 \textcolor{comment}{  * @param  EXTI\_Line: specifies the EXTI lines to clear.}
+00279 \textcolor{comment}{  *          This parameter can be any combination of EXTI\_Linex where x can be (0..22)}
+00280 \textcolor{comment}{  * @retval None}
+00281 \textcolor{comment}{  */}
+00282 \textcolor{keywordtype}{void} EXTI_ClearITPendingBit(uint32\_t EXTI\_Line)
+00283 \{
+00284   \textcolor{comment}{/* Check the parameters */}
+00285   assert_param(IS\_EXTI\_LINE(EXTI\_Line));
+00286 
+00287   EXTI->PR = EXTI\_Line;
+00288 \}
+00289 
+00290 \textcolor{comment}{/**}
+00291 \textcolor{comment}{  * @\}}
+00292 \textcolor{comment}{  */}
+00293 
+00294 \textcolor{comment}{/**}
+00295 \textcolor{comment}{  * @\}}
+00296 \textcolor{comment}{  */}
+00297 
+00298 \textcolor{comment}{/**}
+00299 \textcolor{comment}{  * @\}}
+00300 \textcolor{comment}{  */}
+00301 
+00302 \textcolor{comment}{/**}
+00303 \textcolor{comment}{  * @\}}
+00304 \textcolor{comment}{  */}
+00305 
+00306 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

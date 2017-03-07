@@ -1,0 +1,3516 @@
+\section{R\+TC}
+\label{group__RTC}\index{R\+TC@{R\+TC}}
+
+
+R\+TC driver modules.  
+
+
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ R\+T\+C\+\_\+\+Exported\+\_\+\+Constants}
+\item 
+\textbf{ R\+T\+C\+\_\+\+Private\+\_\+\+Functions}
+\end{DoxyCompactItemize}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ R\+T\+C\+\_\+\+Init\+Type\+Def}
+\begin{DoxyCompactList}\small\item\em R\+TC Init structures definition. \end{DoxyCompactList}\item 
+struct \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def}
+\begin{DoxyCompactList}\small\item\em R\+TC Time structure definition. \end{DoxyCompactList}\item 
+struct \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def}
+\begin{DoxyCompactList}\small\item\em R\+TC Date structure definition. \end{DoxyCompactList}\item 
+struct \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def}
+\begin{DoxyCompactList}\small\item\em R\+TC Alarm structure definition. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+T\+R\+\_\+\+R\+E\+S\+E\+R\+V\+E\+D\+\_\+\+M\+A\+SK}~((uint32\+\_\+t)0x007\+F7\+F7\+F)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+D\+R\+\_\+\+R\+E\+S\+E\+R\+V\+E\+D\+\_\+\+M\+A\+SK}~((uint32\+\_\+t)0x00\+F\+F\+F\+F3\+F)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+I\+N\+I\+T\+\_\+\+M\+A\+SK}~((uint32\+\_\+t)0x\+F\+F\+F\+F\+F\+F\+F\+F)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+R\+S\+F\+\_\+\+M\+A\+SK}~((uint32\+\_\+t)0x\+F\+F\+F\+F\+F\+F5\+F)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+F\+L\+A\+G\+S\+\_\+\+M\+A\+SK}
+\item 
+\#define \textbf{ I\+N\+I\+T\+M\+O\+D\+E\+\_\+\+T\+I\+M\+E\+O\+UT}~((uint32\+\_\+t) 0x00010000)
+\item 
+\#define \textbf{ S\+Y\+N\+C\+H\+R\+O\+\_\+\+T\+I\+M\+E\+O\+UT}~((uint32\+\_\+t) 0x00020000)
+\item 
+\#define \textbf{ R\+E\+C\+A\+L\+P\+F\+\_\+\+T\+I\+M\+E\+O\+UT}~((uint32\+\_\+t) 0x00020000)
+\item 
+\#define \textbf{ S\+H\+P\+F\+\_\+\+T\+I\+M\+E\+O\+UT}~((uint32\+\_\+t) 0x00001000)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the R\+TC registers to their default reset values. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Init} (\textbf{ R\+T\+C\+\_\+\+Init\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the R\+TC registers according to the specified parameters in R\+T\+C\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Struct\+Init} (\textbf{ R\+T\+C\+\_\+\+Init\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each R\+T\+C\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Write\+Protection\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the R\+TC registers write protection. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Enter\+Init\+Mode} (void)
+\begin{DoxyCompactList}\small\item\em Enters the R\+TC Initialization mode. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Exit\+Init\+Mode} (void)
+\begin{DoxyCompactList}\small\item\em Exits the R\+TC Initialization mode. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Wait\+For\+Synchro} (void)
+\begin{DoxyCompactList}\small\item\em Waits until the R\+TC Time and Date registers (R\+T\+C\+\_\+\+TR and R\+T\+C\+\_\+\+DR) are synchronized with R\+TC A\+PB clock. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Ref\+Clock\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the R\+TC reference clock detection. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Bypass\+Shadow\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the Bypass Shadow feature. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Set\+Time} (uint32\+\_\+t R\+T\+C\+\_\+\+Format, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Time\+Struct)
+\begin{DoxyCompactList}\small\item\em Set the R\+TC current time. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Time\+Struct\+Init} (\textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Time\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each R\+T\+C\+\_\+\+Time\+Struct member with its default value (Time = 00h\+:00min\+:00sec). \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Get\+Time} (uint32\+\_\+t R\+T\+C\+\_\+\+Format, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Time\+Struct)
+\begin{DoxyCompactList}\small\item\em Get the R\+TC current Time. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ R\+T\+C\+\_\+\+Get\+Sub\+Second} (void)
+\begin{DoxyCompactList}\small\item\em Gets the R\+TC current Calendar Subseconds value. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Set\+Date} (uint32\+\_\+t R\+T\+C\+\_\+\+Format, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Date\+Struct)
+\begin{DoxyCompactList}\small\item\em Set the R\+TC current date. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Date\+Struct\+Init} (\textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Date\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each R\+T\+C\+\_\+\+Date\+Struct member with its default value (Monday, January 01 xx00). \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Get\+Date} (uint32\+\_\+t R\+T\+C\+\_\+\+Format, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Date\+Struct)
+\begin{DoxyCompactList}\small\item\em Get the R\+TC current date. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Set\+Alarm} (uint32\+\_\+t R\+T\+C\+\_\+\+Format, uint32\+\_\+t R\+T\+C\+\_\+\+Alarm, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Alarm\+Struct)
+\begin{DoxyCompactList}\small\item\em Set the specified R\+TC Alarm. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Alarm\+Struct\+Init} (\textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Alarm\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each R\+T\+C\+\_\+\+Alarm\+Struct member with its default value (Time = 00h\+:00mn\+:00sec / Date = 1st day of the month/\+Mask = all fields are masked). \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Get\+Alarm} (uint32\+\_\+t R\+T\+C\+\_\+\+Format, uint32\+\_\+t R\+T\+C\+\_\+\+Alarm, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Alarm\+Struct)
+\begin{DoxyCompactList}\small\item\em Get the R\+TC Alarm value and masks. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Alarm\+Cmd} (uint32\+\_\+t R\+T\+C\+\_\+\+Alarm, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified R\+TC Alarm. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Alarm, uint32\+\_\+t R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Value, uint32\+\_\+t R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask)
+\begin{DoxyCompactList}\small\item\em Configure the R\+TC Alarm\+A/B Subseconds value and mask.$\ast$. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ R\+T\+C\+\_\+\+Get\+Alarm\+Sub\+Second} (uint32\+\_\+t R\+T\+C\+\_\+\+Alarm)
+\begin{DoxyCompactList}\small\item\em Gets the R\+TC Alarm Subseconds value. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Wake\+Up\+Clock\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Wake\+Up\+Clock)
+\begin{DoxyCompactList}\small\item\em Configures the R\+TC Wakeup clock source. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Set\+Wake\+Up\+Counter} (uint32\+\_\+t R\+T\+C\+\_\+\+Wake\+Up\+Counter)
+\begin{DoxyCompactList}\small\item\em Configures the R\+TC Wakeup counter. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ R\+T\+C\+\_\+\+Get\+Wake\+Up\+Counter} (void)
+\begin{DoxyCompactList}\small\item\em Returns the R\+TC Wake\+Up timer counter value. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Wake\+Up\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the R\+TC Wake\+Up timer. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Day\+Light\+Saving\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Day\+Light\+Saving, uint32\+\_\+t R\+T\+C\+\_\+\+Store\+Operation)
+\begin{DoxyCompactList}\small\item\em Adds or substract one hour from the current time. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ R\+T\+C\+\_\+\+Get\+Store\+Operation} (void)
+\begin{DoxyCompactList}\small\item\em Returns the R\+TC Day Light Saving stored operation. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Output\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Output, uint32\+\_\+t R\+T\+C\+\_\+\+Output\+Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the R\+TC output source (A\+F\+O\+\_\+\+A\+L\+A\+RM). \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Coarse\+Calib\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Calib\+Sign, uint32\+\_\+t Value)
+\begin{DoxyCompactList}\small\item\em Configures the Coarse calibration parameters. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Coarse\+Calib\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Coarse calibration process. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Calib\+Output\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the R\+TC clock to be output through the relative pin. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Calib\+Output\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Calib\+Output)
+\begin{DoxyCompactList}\small\item\em Configure the Calibration Pinout (R\+T\+C\+\_\+\+C\+A\+L\+IB) Selection (1\+Hz or 512\+Hz). \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Smooth\+Calib\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Smooth\+Calib\+Period, uint32\+\_\+t R\+T\+C\+\_\+\+Smooth\+Calib\+Plus\+Pulses, uint32\+\_\+t R\+T\+C\+\_\+\+Smouth\+Calib\+Minus\+Pulses\+Value)
+\begin{DoxyCompactList}\small\item\em Configures the Smooth Calibration Settings. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Time\+Stamp\+Cmd} (uint32\+\_\+t R\+T\+C\+\_\+\+Time\+Stamp\+Edge, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the R\+TC Time\+Stamp functionality with the specified time stamp pin stimulating edge. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Get\+Time\+Stamp} (uint32\+\_\+t R\+T\+C\+\_\+\+Format, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Stamp\+Time\+Struct, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Stamp\+Date\+Struct)
+\begin{DoxyCompactList}\small\item\em Get the R\+TC Time\+Stamp value and masks. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ R\+T\+C\+\_\+\+Get\+Time\+Stamp\+Sub\+Second} (void)
+\begin{DoxyCompactList}\small\item\em Get the R\+TC timestamp Subseconds value. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Tamper\+Trigger\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Tamper, uint32\+\_\+t R\+T\+C\+\_\+\+Tamper\+Trigger)
+\begin{DoxyCompactList}\small\item\em Configures the select Tamper pin edge. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Tamper\+Cmd} (uint32\+\_\+t R\+T\+C\+\_\+\+Tamper, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the Tamper detection. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Tamper\+Filter\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Tamper\+Filter)
+\begin{DoxyCompactList}\small\item\em Configures the Tampers Filter. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq)
+\begin{DoxyCompactList}\small\item\em Configures the Tampers Sampling Frequency. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Tamper\+Pins\+Precharge\+Duration} (uint32\+\_\+t R\+T\+C\+\_\+\+Tamper\+Precharge\+Duration)
+\begin{DoxyCompactList}\small\item\em Configures the Tampers Pins input Precharge Duration. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Time\+Stamp\+On\+Tamper\+Detection\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the Time\+Stamp on Tamper Detection Event. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Tamper\+Pull\+Up\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the Precharge of Tamper pin. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Write\+Backup\+Register} (uint32\+\_\+t R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+DR, uint32\+\_\+t Data)
+\begin{DoxyCompactList}\small\item\em Writes a data in a specified R\+TC Backup data register. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ R\+T\+C\+\_\+\+Read\+Backup\+Register} (uint32\+\_\+t R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+DR)
+\begin{DoxyCompactList}\small\item\em Reads data from the specified R\+TC Backup data Register. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Tamper\+Pin\+Selection} (uint32\+\_\+t R\+T\+C\+\_\+\+Tamper\+Pin)
+\begin{DoxyCompactList}\small\item\em Selects the R\+TC Tamper Pin. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Time\+Stamp\+Pin\+Selection} (uint32\+\_\+t R\+T\+C\+\_\+\+Time\+Stamp\+Pin)
+\begin{DoxyCompactList}\small\item\em Selects the R\+TC Time\+Stamp Pin. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Output\+Type\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Output\+Type)
+\begin{DoxyCompactList}\small\item\em Configures the R\+TC Output Pin mode. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Synchro\+Shift\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Shift\+Add1S, uint32\+\_\+t R\+T\+C\+\_\+\+Shift\+Sub\+FS)
+\begin{DoxyCompactList}\small\item\em Configures the Synchronization Shift Control Settings. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+I\+T\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified R\+TC interrupts. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ R\+T\+C\+\_\+\+Get\+Flag\+Status} (uint32\+\_\+t R\+T\+C\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified R\+TC flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Clear\+Flag} (uint32\+\_\+t R\+T\+C\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the R\+TC\textquotesingle{}s pending flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ R\+T\+C\+\_\+\+Get\+I\+T\+Status} (uint32\+\_\+t R\+T\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified R\+TC interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit} (uint32\+\_\+t R\+T\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the R\+TC\textquotesingle{}s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+R\+TC driver modules. 
+
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\label{group__RTC_gab89243e1f23e45fedc6357396b26827d}} 
+\index{R\+TC@{R\+TC}!I\+N\+I\+T\+M\+O\+D\+E\+\_\+\+T\+I\+M\+E\+O\+UT@{I\+N\+I\+T\+M\+O\+D\+E\+\_\+\+T\+I\+M\+E\+O\+UT}}
+\index{I\+N\+I\+T\+M\+O\+D\+E\+\_\+\+T\+I\+M\+E\+O\+UT@{I\+N\+I\+T\+M\+O\+D\+E\+\_\+\+T\+I\+M\+E\+O\+UT}!R\+TC@{R\+TC}}
+\subsubsection{I\+N\+I\+T\+M\+O\+D\+E\+\_\+\+T\+I\+M\+E\+O\+UT}
+{\footnotesize\ttfamily \#define I\+N\+I\+T\+M\+O\+D\+E\+\_\+\+T\+I\+M\+E\+O\+UT~((uint32\+\_\+t) 0x00010000)}
+
+
+
+Definition at line \textbf{ 302} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+\mbox{\label{group__RTC_gae578d94ca54a697f9d26b20944f036bc}} 
+\index{R\+TC@{R\+TC}!R\+E\+C\+A\+L\+P\+F\+\_\+\+T\+I\+M\+E\+O\+UT@{R\+E\+C\+A\+L\+P\+F\+\_\+\+T\+I\+M\+E\+O\+UT}}
+\index{R\+E\+C\+A\+L\+P\+F\+\_\+\+T\+I\+M\+E\+O\+UT@{R\+E\+C\+A\+L\+P\+F\+\_\+\+T\+I\+M\+E\+O\+UT}!R\+TC@{R\+TC}}
+\subsubsection{R\+E\+C\+A\+L\+P\+F\+\_\+\+T\+I\+M\+E\+O\+UT}
+{\footnotesize\ttfamily \#define R\+E\+C\+A\+L\+P\+F\+\_\+\+T\+I\+M\+E\+O\+UT~((uint32\+\_\+t) 0x00020000)}
+
+
+
+Definition at line \textbf{ 304} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+\mbox{\label{group__RTC_ga16855eaae542f992c93170492822d058}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+D\+R\+\_\+\+R\+E\+S\+E\+R\+V\+E\+D\+\_\+\+M\+A\+SK@{R\+T\+C\+\_\+\+D\+R\+\_\+\+R\+E\+S\+E\+R\+V\+E\+D\+\_\+\+M\+A\+SK}}
+\index{R\+T\+C\+\_\+\+D\+R\+\_\+\+R\+E\+S\+E\+R\+V\+E\+D\+\_\+\+M\+A\+SK@{R\+T\+C\+\_\+\+D\+R\+\_\+\+R\+E\+S\+E\+R\+V\+E\+D\+\_\+\+M\+A\+SK}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+D\+R\+\_\+\+R\+E\+S\+E\+R\+V\+E\+D\+\_\+\+M\+A\+SK}
+{\footnotesize\ttfamily \#define R\+T\+C\+\_\+\+D\+R\+\_\+\+R\+E\+S\+E\+R\+V\+E\+D\+\_\+\+M\+A\+SK~((uint32\+\_\+t)0x00\+F\+F\+F\+F3\+F)}
+
+
+
+Definition at line \textbf{ 294} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+\mbox{\label{group__RTC_ga0c7513e50528d7b5a52e88340a4e7b25}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+F\+L\+A\+G\+S\+\_\+\+M\+A\+SK@{R\+T\+C\+\_\+\+F\+L\+A\+G\+S\+\_\+\+M\+A\+SK}}
+\index{R\+T\+C\+\_\+\+F\+L\+A\+G\+S\+\_\+\+M\+A\+SK@{R\+T\+C\+\_\+\+F\+L\+A\+G\+S\+\_\+\+M\+A\+SK}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+F\+L\+A\+G\+S\+\_\+\+M\+A\+SK}
+{\footnotesize\ttfamily \#define R\+T\+C\+\_\+\+F\+L\+A\+G\+S\+\_\+\+M\+A\+SK}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}
+((uint32\_t)(RTC_FLAG_TSOVF | RTC_FLAG_TSF | RTC_FLAG_WUTF | \(\backslash\)
+                                            RTC_FLAG_ALRBF | RTC_FLAG_ALRAF | 
+      RTC_FLAG_INITF | \(\backslash\)
+                                            RTC_FLAG_RSF | RTC_FLAG_INITS | 
+      RTC_FLAG_WUTWF | \(\backslash\)
+                                            RTC_FLAG_ALRBWF | RTC_FLAG_ALRAWF | 
+      RTC_FLAG_TAMP1F ))
+\end{DoxyCode}
+
+
+Definition at line \textbf{ 297} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+\mbox{\label{group__RTC_ga0dbaf639bc171f2055c9055d538f13df}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+I\+N\+I\+T\+\_\+\+M\+A\+SK@{R\+T\+C\+\_\+\+I\+N\+I\+T\+\_\+\+M\+A\+SK}}
+\index{R\+T\+C\+\_\+\+I\+N\+I\+T\+\_\+\+M\+A\+SK@{R\+T\+C\+\_\+\+I\+N\+I\+T\+\_\+\+M\+A\+SK}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+I\+N\+I\+T\+\_\+\+M\+A\+SK}
+{\footnotesize\ttfamily \#define R\+T\+C\+\_\+\+I\+N\+I\+T\+\_\+\+M\+A\+SK~((uint32\+\_\+t)0x\+F\+F\+F\+F\+F\+F\+F\+F)}
+
+
+
+Definition at line \textbf{ 295} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+\mbox{\label{group__RTC_ga3a1033490aaf8304e1522d551bd1a7b9}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+R\+S\+F\+\_\+\+M\+A\+SK@{R\+T\+C\+\_\+\+R\+S\+F\+\_\+\+M\+A\+SK}}
+\index{R\+T\+C\+\_\+\+R\+S\+F\+\_\+\+M\+A\+SK@{R\+T\+C\+\_\+\+R\+S\+F\+\_\+\+M\+A\+SK}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+R\+S\+F\+\_\+\+M\+A\+SK}
+{\footnotesize\ttfamily \#define R\+T\+C\+\_\+\+R\+S\+F\+\_\+\+M\+A\+SK~((uint32\+\_\+t)0x\+F\+F\+F\+F\+F\+F5\+F)}
+
+
+
+Definition at line \textbf{ 296} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+\mbox{\label{group__RTC_gacc08d7d212e235f4b04bb88f5567fa54}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+T\+R\+\_\+\+R\+E\+S\+E\+R\+V\+E\+D\+\_\+\+M\+A\+SK@{R\+T\+C\+\_\+\+T\+R\+\_\+\+R\+E\+S\+E\+R\+V\+E\+D\+\_\+\+M\+A\+SK}}
+\index{R\+T\+C\+\_\+\+T\+R\+\_\+\+R\+E\+S\+E\+R\+V\+E\+D\+\_\+\+M\+A\+SK@{R\+T\+C\+\_\+\+T\+R\+\_\+\+R\+E\+S\+E\+R\+V\+E\+D\+\_\+\+M\+A\+SK}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+T\+R\+\_\+\+R\+E\+S\+E\+R\+V\+E\+D\+\_\+\+M\+A\+SK}
+{\footnotesize\ttfamily \#define R\+T\+C\+\_\+\+T\+R\+\_\+\+R\+E\+S\+E\+R\+V\+E\+D\+\_\+\+M\+A\+SK~((uint32\+\_\+t)0x007\+F7\+F7\+F)}
+
+
+
+Definition at line \textbf{ 293} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+\mbox{\label{group__RTC_ga911218ae83f22129a4df0087d98db3cd}} 
+\index{R\+TC@{R\+TC}!S\+H\+P\+F\+\_\+\+T\+I\+M\+E\+O\+UT@{S\+H\+P\+F\+\_\+\+T\+I\+M\+E\+O\+UT}}
+\index{S\+H\+P\+F\+\_\+\+T\+I\+M\+E\+O\+UT@{S\+H\+P\+F\+\_\+\+T\+I\+M\+E\+O\+UT}!R\+TC@{R\+TC}}
+\subsubsection{S\+H\+P\+F\+\_\+\+T\+I\+M\+E\+O\+UT}
+{\footnotesize\ttfamily \#define S\+H\+P\+F\+\_\+\+T\+I\+M\+E\+O\+UT~((uint32\+\_\+t) 0x00001000)}
+
+
+
+Definition at line \textbf{ 305} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+\mbox{\label{group__RTC_ga017f8fc40e791545ae1dfebf84567ed8}} 
+\index{R\+TC@{R\+TC}!S\+Y\+N\+C\+H\+R\+O\+\_\+\+T\+I\+M\+E\+O\+UT@{S\+Y\+N\+C\+H\+R\+O\+\_\+\+T\+I\+M\+E\+O\+UT}}
+\index{S\+Y\+N\+C\+H\+R\+O\+\_\+\+T\+I\+M\+E\+O\+UT@{S\+Y\+N\+C\+H\+R\+O\+\_\+\+T\+I\+M\+E\+O\+UT}!R\+TC@{R\+TC}}
+\subsubsection{S\+Y\+N\+C\+H\+R\+O\+\_\+\+T\+I\+M\+E\+O\+UT}
+{\footnotesize\ttfamily \#define S\+Y\+N\+C\+H\+R\+O\+\_\+\+T\+I\+M\+E\+O\+UT~((uint32\+\_\+t) 0x00020000)}
+
+
+
+Definition at line \textbf{ 303} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+\subsection{Function Documentation}
+\mbox{\label{group__RTC_gac2c08f1aeeb664d3d245cb5aca1b8ca8}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Alarm\+Cmd@{R\+T\+C\+\_\+\+Alarm\+Cmd}}
+\index{R\+T\+C\+\_\+\+Alarm\+Cmd@{R\+T\+C\+\_\+\+Alarm\+Cmd}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Alarm\+Cmd()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Alarm\+Cmd (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Alarm,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified R\+TC Alarm. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Alarm} & specifies the alarm to be configured. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Alarm\+\_\+A\+: to select Alarm A \item R\+T\+C\+\_\+\+Alarm\+\_\+B\+: to select Alarm B \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the specified alarm. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC Alarm is enabled/disabled
+\item E\+R\+R\+OR\+: R\+TC Alarm is not enabled/disabled 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1283} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+R\+R\+OR}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+01284 \{
+01285   \_\_IO uint32\_t alarmcounter = 0x00;
+01286   uint32\_t alarmstatus = 0x00;
+01287   ErrorStatus status = ERROR;
+01288     
+01289   \textcolor{comment}{/* Check the parameters */}
+01290   assert_param(IS_RTC_CMD_ALARM(RTC\_Alarm));
+01291   assert_param(IS_FUNCTIONAL_STATE(NewState));
+01292 
+01293   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01294   RTC->WPR = 0xCA;
+01295   RTC->WPR = 0x53;
+01296 
+01297   \textcolor{comment}{/* Configure the Alarm state */}
+01298   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01299   \{
+01300     RTC->CR |= (uint32\_t)RTC\_Alarm;
+01301 
+01302     status = SUCCESS;    
+01303   \}
+01304   \textcolor{keywordflow}{else}
+01305   \{ 
+01306     \textcolor{comment}{/* Disable the Alarm in RTC\_CR register */}
+01307     RTC->CR &= (uint32\_t)~RTC\_Alarm;
+01308    
+01309     \textcolor{comment}{/* Wait till RTC ALRxWF flag is set and if Time out is reached exit */}
+01310     \textcolor{keywordflow}{do}
+01311     \{
+01312       alarmstatus = RTC->ISR & (RTC\_Alarm >> 8);
+01313       alarmcounter++;  
+01314     \} \textcolor{keywordflow}{while}((alarmcounter != INITMODE_TIMEOUT) && (alarmstatus == 0x00));
+01315     
+01316     \textcolor{keywordflow}{if} ((RTC->ISR & (RTC\_Alarm >> 8)) == RESET)
+01317     \{
+01318       status = ERROR;
+01319     \} 
+01320     \textcolor{keywordflow}{else}
+01321     \{
+01322       status = SUCCESS;
+01323     \}        
+01324   \} 
+01325 
+01326   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01327   RTC->WPR = 0xFF; 
+01328   
+01329   \textcolor{keywordflow}{return} status;
+01330 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga36ab6199e21fb415ab1ec4d7aa48ba45}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Alarm\+Struct\+Init@{R\+T\+C\+\_\+\+Alarm\+Struct\+Init}}
+\index{R\+T\+C\+\_\+\+Alarm\+Struct\+Init@{R\+T\+C\+\_\+\+Alarm\+Struct\+Init}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Alarm\+Struct\+Init()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Alarm\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Alarm\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each R\+T\+C\+\_\+\+Alarm\+Struct member with its default value (Time = 00h\+:00mn\+:00sec / Date = 1st day of the month/\+Mask = all fields are masked). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Alarm\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Alarm\+Type\+Def}{p.}{structRTC__AlarmTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1199} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Date\+Week\+Day}, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Date\+Week\+Day\+Sel}, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Mask}, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Time}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+H12}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Hours}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Minutes}, and \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Seconds}.
+
+
+\begin{DoxyCode}
+01200 \{
+01201   \textcolor{comment}{/* Alarm Time Settings : Time = 00h:00mn:00sec */}
+01202   RTC\_AlarmStruct->RTC_AlarmTime.RTC_H12 = RTC_H12_AM;
+01203   RTC\_AlarmStruct->RTC_AlarmTime.RTC_Hours = 0;
+01204   RTC\_AlarmStruct->RTC_AlarmTime.RTC_Minutes = 0;
+01205   RTC\_AlarmStruct->RTC_AlarmTime.RTC_Seconds = 0;
+01206 
+01207   \textcolor{comment}{/* Alarm Date Settings : Date = 1st day of the month */}
+01208   RTC\_AlarmStruct->RTC_AlarmDateWeekDaySel = RTC_AlarmDateWeekDaySel_Date;
+01209   RTC\_AlarmStruct->RTC_AlarmDateWeekDay = 1;
+01210 
+01211   \textcolor{comment}{/* Alarm Masks Settings : Mask =  all fields are not masked */}
+01212   RTC\_AlarmStruct->RTC_AlarmMask = RTC_AlarmMask_None;
+01213 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga7b3e4e9e39262e9b0d1aadd895394e46}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Config@{R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Config}}
+\index{R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Config@{R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Config}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Config()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Alarm,  }\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Value,  }\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask }\end{DoxyParamCaption})}
+
+
+
+Configure the R\+TC Alarm\+A/B Subseconds value and mask.$\ast$. 
+
+\begin{DoxyNote}{Note}
+This function is performed only when the Alarm is disabled. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Alarm} & specifies the alarm to be configured. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Alarm\+\_\+A\+: to select Alarm A \item R\+T\+C\+\_\+\+Alarm\+\_\+B\+: to select Alarm B \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Value} & specifies the Subseconds value. This parameter can be a value from 0 to 0x00007\+F\+FF. \\
+\hline
+{\em R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask} & specifies the Subseconds Mask. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+All \+: All Alarm SS fields are masked. There is no comparison on sub seconds for Alarm. \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+1 \+: SS[14\+:1] are don\textquotesingle{}t care in Alarm comparison. Only SS[0] is compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+2 \+: SS[14\+:2] are don\textquotesingle{}t care in Alarm comparison. Only SS[1\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+3 \+: SS[14\+:3] are don\textquotesingle{}t care in Alarm comparison. Only SS[2\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+4 \+: SS[14\+:4] are don\textquotesingle{}t care in Alarm comparison. Only SS[3\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+5 \+: SS[14\+:5] are don\textquotesingle{}t care in Alarm comparison. Only SS[4\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+6 \+: SS[14\+:6] are don\textquotesingle{}t care in Alarm comparison. Only SS[5\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+7 \+: SS[14\+:7] are don\textquotesingle{}t care in Alarm comparison. Only SS[6\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+8 \+: SS[14\+:8] are don\textquotesingle{}t care in Alarm comparison. Only SS[7\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+9 \+: SS[14\+:9] are don\textquotesingle{}t care in Alarm comparison. Only SS[8\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+10\+: SS[14\+:10] are don\textquotesingle{}t care in Alarm comparison. Only SS[9\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+11\+: SS[14\+:11] are don\textquotesingle{}t care in Alarm comparison. Only SS[10\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+12\+: SS[14\+:12] are don\textquotesingle{}t care in Alarm comparison. Only SS[11\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+13\+: SS[14\+:13] are don\textquotesingle{}t care in Alarm comparison. Only SS[12\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14 \+: SS[14] is don\textquotesingle{}t care in Alarm comparison. Only SS[13\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+None \+: SS[14\+:0] are compared and must match to activate alarm \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1377} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+01378 \{
+01379   uint32\_t tmpreg = 0;
+01380 
+01381   \textcolor{comment}{/* Check the parameters */}
+01382   assert_param(IS_RTC_ALARM(RTC\_Alarm));
+01383   assert_param(IS_RTC_ALARM_SUB_SECOND_VALUE(RTC\_AlarmSubSecondValue));
+01384   assert_param(IS_RTC_ALARM_SUB_SECOND_MASK(RTC\_AlarmSubSecondMask));
+01385   
+01386   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01387   RTC->WPR = 0xCA;
+01388   RTC->WPR = 0x53;
+01389   
+01390   \textcolor{comment}{/* Configure the Alarm A or Alarm B SubSecond registers */}
+01391   tmpreg = (uint32\_t) (uint32\_t)(RTC\_AlarmSubSecondValue) | (uint32\_t)(RTC\_AlarmSubSecondMask);
+01392   
+01393   \textcolor{keywordflow}{if} (RTC\_Alarm == RTC_Alarm_A)
+01394   \{
+01395     \textcolor{comment}{/* Configure the AlarmA SubSecond register */}
+01396     RTC->ALRMASSR = tmpreg;
+01397   \}
+01398   \textcolor{keywordflow}{else}
+01399   \{
+01400     \textcolor{comment}{/* Configure the Alarm B SubSecond register */}
+01401     RTC->ALRMBSSR = tmpreg;
+01402   \}
+01403 
+01404   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01405   RTC->WPR = 0xFF;
+01406 
+01407 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_gae5e7c682f15b8ae9ddd3b2a85a9df7db}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Bypass\+Shadow\+Cmd@{R\+T\+C\+\_\+\+Bypass\+Shadow\+Cmd}}
+\index{R\+T\+C\+\_\+\+Bypass\+Shadow\+Cmd@{R\+T\+C\+\_\+\+Bypass\+Shadow\+Cmd}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Bypass\+Shadow\+Cmd()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Bypass\+Shadow\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or Disables the Bypass Shadow feature. 
+
+\begin{DoxyNote}{Note}
+When the Bypass Shadow is enabled the calendar value are taken directly from the Calendar counter. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the Bypass Shadow feature. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 698} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00699 \{
+00700   \textcolor{comment}{/* Check the parameters */}
+00701   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00702 
+00703   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00704   RTC->WPR = 0xCA;
+00705   RTC->WPR = 0x53;
+00706   
+00707   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00708   \{
+00709     \textcolor{comment}{/* Set the BYPSHAD bit */}
+00710     RTC->CR |= (uint8\_t)RTC_CR_BYPSHAD;
+00711   \}
+00712   \textcolor{keywordflow}{else}
+00713   \{
+00714     \textcolor{comment}{/* Reset the BYPSHAD bit */}
+00715     RTC->CR &= (uint8\_t)~RTC_CR_BYPSHAD;
+00716   \}
+00717 
+00718   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00719   RTC->WPR = 0xFF;
+00720 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga25eaa2de5ee858a4572d5fb1eb146ff8}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Calib\+Output\+Cmd@{R\+T\+C\+\_\+\+Calib\+Output\+Cmd}}
+\index{R\+T\+C\+\_\+\+Calib\+Output\+Cmd@{R\+T\+C\+\_\+\+Calib\+Output\+Cmd}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Calib\+Output\+Cmd()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Calib\+Output\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the R\+TC clock to be output through the relative pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the digital calibration Output. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1811} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+01812 \{
+01813   \textcolor{comment}{/* Check the parameters */}
+01814   assert_param(IS_FUNCTIONAL_STATE(NewState));
+01815   
+01816   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01817   RTC->WPR = 0xCA;
+01818   RTC->WPR = 0x53;
+01819   
+01820   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01821   \{
+01822     \textcolor{comment}{/* Enable the RTC clock output */}
+01823     RTC->CR |= (uint32\_t)RTC_CR_COE;
+01824   \}
+01825   \textcolor{keywordflow}{else}
+01826   \{ 
+01827     \textcolor{comment}{/* Disable the RTC clock output */}
+01828     RTC->CR &= (uint32\_t)~RTC_CR_COE;
+01829   \}
+01830   
+01831   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01832   RTC->WPR = 0xFF; 
+01833 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga2139adc802bdb6882904c0b855d50b29}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Calib\+Output\+Config@{R\+T\+C\+\_\+\+Calib\+Output\+Config}}
+\index{R\+T\+C\+\_\+\+Calib\+Output\+Config@{R\+T\+C\+\_\+\+Calib\+Output\+Config}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Calib\+Output\+Config()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Calib\+Output\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Calib\+Output }\end{DoxyParamCaption})}
+
+
+
+Configure the Calibration Pinout (R\+T\+C\+\_\+\+C\+A\+L\+IB) Selection (1\+Hz or 512\+Hz). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Calib\+Output} & \+: Select the Calibration output Selection . This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Calib\+Output\+\_\+512\+Hz\+: A signal has a regular waveform at 512\+Hz. \item R\+T\+C\+\_\+\+Calib\+Output\+\_\+1\+Hz \+: A signal has a regular waveform at 1\+Hz. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1843} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+01844 \{
+01845   \textcolor{comment}{/* Check the parameters */}
+01846   assert_param(IS_RTC_CALIB_OUTPUT(RTC\_CalibOutput));
+01847 
+01848   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01849   RTC->WPR = 0xCA;
+01850   RTC->WPR = 0x53;
+01851   
+01852   \textcolor{comment}{/*clear flags before config*/}
+01853   RTC->CR &= (uint32\_t)~(RTC_CR_COSEL);
+01854 
+01855   \textcolor{comment}{/* Configure the RTC\_CR register */}
+01856   RTC->CR |= (uint32\_t)RTC\_CalibOutput;
+01857 
+01858   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01859   RTC->WPR = 0xFF;
+01860 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga9be3325e05418d05c8c5a5ad369c7d50}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Clear\+Flag@{R\+T\+C\+\_\+\+Clear\+Flag}}
+\index{R\+T\+C\+\_\+\+Clear\+Flag@{R\+T\+C\+\_\+\+Clear\+Flag}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Clear\+Flag()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Clear\+Flag (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Clears the R\+TC\textquotesingle{}s pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+F\+L\+AG} & specifies the R\+TC flag to clear. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+A\+M\+P1F\+: Tamper 1 event flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+S\+O\+VF\+: Time Stamp Overflow flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+SF\+: Time Stamp event flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+W\+U\+TF\+: Wake\+Up Timer flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+R\+BF\+: Alarm B flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+R\+AF\+: Alarm A flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+R\+SF\+: Registers Synchronized flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2612} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02613 \{
+02614   \textcolor{comment}{/* Check the parameters */}
+02615   assert_param(IS_RTC_CLEAR_FLAG(RTC\_FLAG));
+02616 
+02617   \textcolor{comment}{/* Clear the Flags in the RTC\_ISR register */}
+02618   RTC->ISR = (uint32\_t)((uint32\_t)(~((RTC\_FLAG | RTC_ISR_INIT)& 0x0000FFFF) | (uint32\_t)(
+      RTC->ISR & RTC_ISR_INIT)));  
+02619 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_gacac6accc75ae54f1b799fa8e7e83ccdb}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit@{R\+T\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit}}
+\index{R\+T\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit@{R\+T\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Clears the R\+TC\textquotesingle{}s interrupt pending bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+IT} & specifies the R\+TC interrupt pending bit to clear. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+I\+T\+\_\+\+TS\+: Time Stamp interrupt \item R\+T\+C\+\_\+\+I\+T\+\_\+\+W\+UT\+: Wake\+Up Timer interrupt \item R\+T\+C\+\_\+\+I\+T\+\_\+\+A\+L\+RB\+: Alarm B interrupt \item R\+T\+C\+\_\+\+I\+T\+\_\+\+A\+L\+RA\+: Alarm A interrupt \item R\+T\+C\+\_\+\+I\+T\+\_\+\+T\+A\+M\+P1\+: Tamper 1 event interrupt \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2672} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02673 \{
+02674   uint32\_t tmpreg = 0;
+02675 
+02676   \textcolor{comment}{/* Check the parameters */}
+02677   assert_param(IS_RTC_CLEAR_IT(RTC\_IT));
+02678 
+02679   \textcolor{comment}{/* Get the RTC\_ISR Interrupt pending bits mask */}
+02680   tmpreg = (uint32\_t)(RTC\_IT >> 4);
+02681 
+02682   \textcolor{comment}{/* Clear the interrupt pending bits in the RTC\_ISR register */}
+02683   RTC->ISR = (uint32\_t)((uint32\_t)(~((tmpreg | RTC_ISR_INIT)& 0x0000FFFF) | (uint32\_t)(
+      RTC->ISR & RTC_ISR_INIT))); 
+02684 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga008ae7173b2befe876f5e76686bc9089}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Coarse\+Calib\+Cmd@{R\+T\+C\+\_\+\+Coarse\+Calib\+Cmd}}
+\index{R\+T\+C\+\_\+\+Coarse\+Calib\+Cmd@{R\+T\+C\+\_\+\+Coarse\+Calib\+Cmd}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Coarse\+Calib\+Cmd()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Coarse\+Calib\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the Coarse calibration process. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the Coarse calibration. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC Coarse calibration are enabled/disabled
+\item E\+R\+R\+OR\+: R\+TC Coarse calibration are not enabled/disabled 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1765} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+R\+R\+OR}, \textbf{ R\+T\+C\+\_\+\+Enter\+Init\+Mode()}, \textbf{ R\+T\+C\+\_\+\+Exit\+Init\+Mode()}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+01766 \{
+01767   ErrorStatus status = ERROR;
+01768   
+01769   \textcolor{comment}{/* Check the parameters */}
+01770   assert_param(IS_FUNCTIONAL_STATE(NewState));
+01771 
+01772   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01773   RTC->WPR = 0xCA;
+01774   RTC->WPR = 0x53;
+01775   
+01776   \textcolor{comment}{/* Set Initialization mode */}
+01777   \textcolor{keywordflow}{if} (RTC_EnterInitMode() == ERROR)
+01778   \{
+01779     status =  ERROR;
+01780   \}
+01781   \textcolor{keywordflow}{else}
+01782   \{
+01783     \textcolor{keywordflow}{if} (NewState != DISABLE)
+01784     \{
+01785       \textcolor{comment}{/* Enable the Coarse Calibration */}
+01786       RTC->CR |= (uint32\_t)RTC_CR_DCE;
+01787     \}
+01788     \textcolor{keywordflow}{else}
+01789     \{ 
+01790       \textcolor{comment}{/* Disable the Coarse Calibration */}
+01791       RTC->CR &= (uint32\_t)~RTC_CR_DCE;
+01792     \}
+01793     \textcolor{comment}{/* Exit Initialization mode */}
+01794     RTC_ExitInitMode();
+01795     
+01796     status = SUCCESS;
+01797   \} 
+01798   
+01799   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01800   RTC->WPR = 0xFF; 
+01801   
+01802   \textcolor{keywordflow}{return} status;
+01803 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_gaa3bb10170a2c70ac9ce3e41c611bdd43}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Coarse\+Calib\+Config@{R\+T\+C\+\_\+\+Coarse\+Calib\+Config}}
+\index{R\+T\+C\+\_\+\+Coarse\+Calib\+Config@{R\+T\+C\+\_\+\+Coarse\+Calib\+Config}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Coarse\+Calib\+Config()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Coarse\+Calib\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Calib\+Sign,  }\item[{uint32\+\_\+t}]{Value }\end{DoxyParamCaption})}
+
+
+
+Configures the Coarse calibration parameters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Calib\+Sign} & specifies the sign of the coarse calibration value. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Calib\+Sign\+\_\+\+Positive\+: The value sign is positive \item R\+T\+C\+\_\+\+Calib\+Sign\+\_\+\+Negative\+: The value sign is negative \end{DoxyItemize}
+\\
+\hline
+{\em Value} & value of coarse calibration expressed in ppm (coded on 5 bits).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This Calibration value should be between 0 and 63 when using negative sign with a 2-\/ppm step.
+
+This Calibration value should be between 0 and 126 when using positive sign with a 4-\/ppm step.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC Coarse calibration are initialized
+\item E\+R\+R\+OR\+: R\+TC Coarse calibration are not initialized 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1724} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}, \textbf{ R\+T\+C\+\_\+\+Enter\+Init\+Mode()}, \textbf{ R\+T\+C\+\_\+\+Exit\+Init\+Mode()}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+01725 \{
+01726   ErrorStatus status = ERROR;
+01727    
+01728   \textcolor{comment}{/* Check the parameters */}
+01729   assert_param(IS_RTC_CALIB_SIGN(RTC\_CalibSign));
+01730   assert_param(IS_RTC_CALIB_VALUE(Value)); 
+01731 
+01732   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01733   RTC->WPR = 0xCA;
+01734   RTC->WPR = 0x53;
+01735 
+01736   \textcolor{comment}{/* Set Initialization mode */}
+01737   \textcolor{keywordflow}{if} (RTC_EnterInitMode() == ERROR)
+01738   \{
+01739     status = ERROR;
+01740   \} 
+01741   \textcolor{keywordflow}{else}
+01742   \{
+01743     \textcolor{comment}{/* Set the coarse calibration value */}
+01744     RTC->CALIBR = (uint32\_t)(RTC\_CalibSign | Value);
+01745     \textcolor{comment}{/* Exit Initialization mode */}
+01746     RTC_ExitInitMode();
+01747     
+01748     status = SUCCESS;
+01749   \} 
+01750 
+01751   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01752   RTC->WPR = 0xFF; 
+01753   
+01754   \textcolor{keywordflow}{return} status;
+01755 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga6e4e99be910d7759f8910056a2985056}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Date\+Struct\+Init@{R\+T\+C\+\_\+\+Date\+Struct\+Init}}
+\index{R\+T\+C\+\_\+\+Date\+Struct\+Init@{R\+T\+C\+\_\+\+Date\+Struct\+Init}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Date\+Struct\+Init()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Date\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Date\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each R\+T\+C\+\_\+\+Date\+Struct member with its default value (Monday, January 01 xx00). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Date\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Date\+Type\+Def}{p.}{structRTC__DateTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1009} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Date}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Month}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Week\+Day}, and \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Year}.
+
+
+\begin{DoxyCode}
+01010 \{
+01011   \textcolor{comment}{/* Monday, January 01 xx00 */}
+01012   RTC\_DateStruct->RTC_WeekDay = RTC_Weekday_Monday;
+01013   RTC\_DateStruct->RTC_Date = 1;
+01014   RTC\_DateStruct->RTC_Month = RTC_Month_January;
+01015   RTC\_DateStruct->RTC_Year = 0;
+01016 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga812feddea77990b5dc336a4989ae61b8}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Day\+Light\+Saving\+Config@{R\+T\+C\+\_\+\+Day\+Light\+Saving\+Config}}
+\index{R\+T\+C\+\_\+\+Day\+Light\+Saving\+Config@{R\+T\+C\+\_\+\+Day\+Light\+Saving\+Config}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Day\+Light\+Saving\+Config()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Day\+Light\+Saving\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Day\+Light\+Saving,  }\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Store\+Operation }\end{DoxyParamCaption})}
+
+
+
+Adds or substract one hour from the current time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Day\+Light\+Save\+Operation} & the value of hour adjustment. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Day\+Light\+Saving\+\_\+\+S\+U\+B1H\+: Substract one hour (winter time) \item R\+T\+C\+\_\+\+Day\+Light\+Saving\+\_\+\+A\+D\+D1H\+: Add one hour (summer time) \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Store\+Operation} & Specifies the value to be written in the B\+CK bit in CR register to store the operation. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Store\+Operation\+\_\+\+Reset\+: B\+CK Bit Reset \item R\+T\+C\+\_\+\+Store\+Operation\+\_\+\+Set\+: B\+CK Bit Set \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1604} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+01605 \{
+01606   \textcolor{comment}{/* Check the parameters */}
+01607   assert_param(IS_RTC_DAYLIGHT_SAVING(RTC\_DayLightSaving));
+01608   assert_param(IS_RTC_STORE_OPERATION(RTC\_StoreOperation));
+01609 
+01610   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01611   RTC->WPR = 0xCA;
+01612   RTC->WPR = 0x53;
+01613 
+01614   \textcolor{comment}{/* Clear the bits to be configured */}
+01615   RTC->CR &= (uint32\_t)~(RTC_CR_BCK);
+01616 
+01617   \textcolor{comment}{/* Configure the RTC\_CR register */}
+01618   RTC->CR |= (uint32\_t)(RTC\_DayLightSaving | RTC\_StoreOperation);
+01619 
+01620   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01621   RTC->WPR = 0xFF; 
+01622 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga9777c6cc4a99c339ebc527a791b2ebe7}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+De\+Init@{R\+T\+C\+\_\+\+De\+Init}}
+\index{R\+T\+C\+\_\+\+De\+Init@{R\+T\+C\+\_\+\+De\+Init}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the R\+TC registers to their default reset values. 
+
+\begin{DoxyNote}{Note}
+This function doesn\textquotesingle{}t reset the R\+TC Clock source and R\+TC Backup Data registers. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC registers are deinitialized
+\item E\+R\+R\+OR\+: R\+TC registers are not deinitialized 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 367} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}, and \textbf{ R\+T\+C\+\_\+\+Enter\+Init\+Mode()}.
+
+
+\begin{DoxyCode}
+00368 \{
+00369   \_\_IO uint32\_t wutcounter = 0x00;
+00370   uint32\_t wutwfstatus = 0x00;
+00371   ErrorStatus status = ERROR;
+00372   
+00373   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00374   RTC->WPR = 0xCA;
+00375   RTC->WPR = 0x53;
+00376 
+00377   \textcolor{comment}{/* Set Initialization mode */}
+00378   \textcolor{keywordflow}{if} (RTC_EnterInitMode() == ERROR)
+00379   \{
+00380     status = ERROR;
+00381   \}  
+00382   \textcolor{keywordflow}{else}
+00383   \{
+00384     \textcolor{comment}{/* Reset TR, DR and CR registers */}
+00385     RTC->TR = (uint32\_t)0x00000000;
+00386     RTC->DR = (uint32\_t)0x00002101;
+00387     \textcolor{comment}{/* Reset All CR bits except CR[2:0] */}
+00388     RTC->CR &= (uint32\_t)0x00000007;
+00389   
+00390     \textcolor{comment}{/* Wait till RTC WUTWF flag is set and if Time out is reached exit */}
+00391     \textcolor{keywordflow}{do}
+00392     \{
+00393       wutwfstatus = RTC->ISR & RTC_ISR_WUTWF;
+00394       wutcounter++;  
+00395     \} \textcolor{keywordflow}{while}((wutcounter != INITMODE_TIMEOUT) && (wutwfstatus == 0x00));
+00396     
+00397     \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_WUTWF) == RESET)
+00398     \{
+00399       status = ERROR;
+00400     \}
+00401     \textcolor{keywordflow}{else}
+00402     \{
+00403       \textcolor{comment}{/* Reset all RTC CR register bits */}
+00404       RTC->CR &= (uint32\_t)0x00000000;
+00405       RTC->WUTR = (uint32\_t)0x0000FFFF;
+00406       RTC->PRER = (uint32\_t)0x007F00FF;
+00407       RTC->CALIBR = (uint32\_t)0x00000000;
+00408       RTC->ALRMAR = (uint32\_t)0x00000000;        
+00409       RTC->ALRMBR = (uint32\_t)0x00000000;
+00410       
+00411       \textcolor{comment}{/* Reset ISR register and exit initialization mode */}
+00412       RTC->ISR = (uint32\_t)0x00000000;
+00413       
+00414       \textcolor{comment}{/* Reset Tamper and alternate functions configuration register */}
+00415       RTC->TAFCR = 0x00000000;
+00416   
+00417       \textcolor{keywordflow}{if}(RTC_WaitForSynchro() == ERROR)
+00418       \{
+00419         status = ERROR;
+00420       \}
+00421       \textcolor{keywordflow}{else}
+00422       \{
+00423         status = SUCCESS;      
+00424       \}
+00425     \}
+00426   \}
+00427   
+00428   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00429   RTC->WPR = 0xFF;  
+00430   
+00431   \textcolor{keywordflow}{return} status;
+00432 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga679f8883cbfb267a53ffb1ab4cc5c8c5}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Enter\+Init\+Mode@{R\+T\+C\+\_\+\+Enter\+Init\+Mode}}
+\index{R\+T\+C\+\_\+\+Enter\+Init\+Mode@{R\+T\+C\+\_\+\+Enter\+Init\+Mode}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Enter\+Init\+Mode()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Enter\+Init\+Mode (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Enters the R\+TC Initialization mode. 
+
+\begin{DoxyNote}{Note}
+The R\+TC Initialization mode is write protected, use the R\+T\+C\+\_\+\+Write\+Protection\+Cmd(\+D\+I\+S\+A\+B\+L\+E) before calling this function. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC is in Init mode
+\item E\+R\+R\+OR\+: R\+TC is not in Init mode 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 540} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}.
+
+
+
+Referenced by \textbf{ R\+T\+C\+\_\+\+Coarse\+Calib\+Cmd()}, \textbf{ R\+T\+C\+\_\+\+Coarse\+Calib\+Config()}, \textbf{ R\+T\+C\+\_\+\+De\+Init()}, \textbf{ R\+T\+C\+\_\+\+Init()}, \textbf{ R\+T\+C\+\_\+\+Ref\+Clock\+Cmd()}, \textbf{ R\+T\+C\+\_\+\+Set\+Date()}, and \textbf{ R\+T\+C\+\_\+\+Set\+Time()}.
+
+
+\begin{DoxyCode}
+00541 \{
+00542   \_\_IO uint32\_t initcounter = 0x00;
+00543   ErrorStatus status = ERROR;
+00544   uint32\_t initstatus = 0x00;
+00545      
+00546   \textcolor{comment}{/* Check if the Initialization mode is set */}
+00547   \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_INITF) == (uint32\_t)RESET)
+00548   \{
+00549     \textcolor{comment}{/* Set the Initialization mode */}
+00550     RTC->ISR = (uint32\_t)RTC_INIT_MASK;
+00551     
+00552     \textcolor{comment}{/* Wait till RTC is in INIT state and if Time out is reached exit */}
+00553     \textcolor{keywordflow}{do}
+00554     \{
+00555       initstatus = RTC->ISR & RTC_ISR_INITF;
+00556       initcounter++;  
+00557     \} \textcolor{keywordflow}{while}((initcounter != INITMODE_TIMEOUT) && (initstatus == 0x00));
+00558     
+00559     \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_INITF) != RESET)
+00560     \{
+00561       status = SUCCESS;
+00562     \}
+00563     \textcolor{keywordflow}{else}
+00564     \{
+00565       status = ERROR;
+00566     \}        
+00567   \}
+00568   \textcolor{keywordflow}{else}
+00569   \{
+00570     status = SUCCESS;  
+00571   \} 
+00572     
+00573   \textcolor{keywordflow}{return} (status);  
+00574 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga87f86f3b794205f09a1eac51738d900f}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Exit\+Init\+Mode@{R\+T\+C\+\_\+\+Exit\+Init\+Mode}}
+\index{R\+T\+C\+\_\+\+Exit\+Init\+Mode@{R\+T\+C\+\_\+\+Exit\+Init\+Mode}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Exit\+Init\+Mode()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Exit\+Init\+Mode (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Exits the R\+TC Initialization mode. 
+
+\begin{DoxyNote}{Note}
+When the initialization sequence is complete, the calendar restarts counting after 4 R\+T\+C\+C\+LK cycles. 
+
+The R\+TC Initialization mode is write protected, use the R\+T\+C\+\_\+\+Write\+Protection\+Cmd(\+D\+I\+S\+A\+B\+L\+E) before calling this function. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 585} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+Referenced by \textbf{ R\+T\+C\+\_\+\+Coarse\+Calib\+Cmd()}, \textbf{ R\+T\+C\+\_\+\+Coarse\+Calib\+Config()}, \textbf{ R\+T\+C\+\_\+\+Init()}, \textbf{ R\+T\+C\+\_\+\+Ref\+Clock\+Cmd()}, \textbf{ R\+T\+C\+\_\+\+Set\+Date()}, and \textbf{ R\+T\+C\+\_\+\+Set\+Time()}.
+
+
+\begin{DoxyCode}
+00586 \{ 
+00587   \textcolor{comment}{/* Exit Initialization mode */}
+00588   RTC->ISR &= (uint32\_t)~RTC_ISR_INIT;  
+00589 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga6e2888d2fd2e3ecb4ec50f5c955b362b}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Get\+Alarm@{R\+T\+C\+\_\+\+Get\+Alarm}}
+\index{R\+T\+C\+\_\+\+Get\+Alarm@{R\+T\+C\+\_\+\+Get\+Alarm}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Get\+Alarm()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Get\+Alarm (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Format,  }\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Alarm,  }\item[{\textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Alarm\+Struct }\end{DoxyParamCaption})}
+
+
+
+Get the R\+TC Alarm value and masks. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Format} & specifies the format of the output parameters. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Format\+\_\+\+B\+IN\+: Binary data format \item R\+T\+C\+\_\+\+Format\+\_\+\+B\+CD\+: B\+CD data format \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Alarm} & specifies the alarm to be read. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Alarm\+\_\+A\+: to select Alarm A \item R\+T\+C\+\_\+\+Alarm\+\_\+B\+: to select Alarm B \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Alarm\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Alarm\+Type\+Def}{p.}{structRTC__AlarmTypeDef} structure that will contains the output alarm configuration values. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1229} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Date\+Week\+Day}, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Date\+Week\+Day\+Sel}, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Mask}, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Time}, \textbf{ R\+T\+C\+\_\+\+Bcd2\+To\+Byte()}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+H12}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Hours}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Minutes}, and \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Seconds}.
+
+
+\begin{DoxyCode}
+01230 \{
+01231   uint32\_t tmpreg = 0;
+01232 
+01233   \textcolor{comment}{/* Check the parameters */}
+01234   assert_param(IS_RTC_FORMAT(RTC\_Format));
+01235   assert_param(IS_RTC_ALARM(RTC\_Alarm)); 
+01236 
+01237   \textcolor{comment}{/* Get the RTC\_ALRMxR register */}
+01238   \textcolor{keywordflow}{if} (RTC\_Alarm == RTC_Alarm_A)
+01239   \{
+01240     tmpreg = (uint32\_t)(RTC->ALRMAR);
+01241   \}
+01242   \textcolor{keywordflow}{else}
+01243   \{
+01244     tmpreg = (uint32\_t)(RTC->ALRMBR);
+01245   \}
+01246 
+01247   \textcolor{comment}{/* Fill the structure with the read parameters */}
+01248   RTC\_AlarmStruct->RTC_AlarmTime.RTC_Hours = (uint32\_t)((tmpreg & (RTC_ALRMAR_HT | \(\backslash\)
+01249                                                      RTC_ALRMAR_HU)) >> 16);
+01250   RTC\_AlarmStruct->RTC_AlarmTime.RTC_Minutes = (uint32\_t)((tmpreg & (
+      RTC_ALRMAR_MNT | \(\backslash\)
+01251                                                      RTC_ALRMAR_MNU)) >> 8);
+01252   RTC\_AlarmStruct->RTC_AlarmTime.RTC_Seconds = (uint32\_t)(tmpreg & (
+      RTC_ALRMAR_ST | \(\backslash\)
+01253                                                      RTC_ALRMAR_SU));
+01254   RTC\_AlarmStruct->RTC_AlarmTime.RTC_H12 = (uint32\_t)((tmpreg & RTC_ALRMAR_PM) >> 16);
+01255   RTC\_AlarmStruct->RTC_AlarmDateWeekDay = (uint32\_t)((tmpreg & (RTC_ALRMAR_DT | 
+      RTC_ALRMAR_DU)) >> 24);
+01256   RTC\_AlarmStruct->RTC_AlarmDateWeekDaySel = (uint32\_t)(tmpreg & 
+      RTC_ALRMAR_WDSEL);
+01257   RTC\_AlarmStruct->RTC_AlarmMask = (uint32\_t)(tmpreg & RTC_AlarmMask_All);
+01258 
+01259   \textcolor{keywordflow}{if} (RTC\_Format == RTC_Format_BIN)
+01260   \{
+01261     RTC\_AlarmStruct->RTC_AlarmTime.RTC_Hours = RTC_Bcd2ToByte(RTC\_AlarmStruct-> \(\backslash\)
+01262                                                         RTC\_AlarmTime.RTC\_Hours);
+01263     RTC\_AlarmStruct->RTC_AlarmTime.RTC_Minutes = RTC_Bcd2ToByte(RTC\_AlarmStruct-> \(\backslash\)
+01264                                                         RTC\_AlarmTime.RTC\_Minutes);
+01265     RTC\_AlarmStruct->RTC_AlarmTime.RTC_Seconds = RTC_Bcd2ToByte(RTC\_AlarmStruct-> \(\backslash\)
+01266                                                         RTC\_AlarmTime.RTC\_Seconds);
+01267     RTC\_AlarmStruct->RTC_AlarmDateWeekDay = RTC_Bcd2ToByte(RTC\_AlarmStruct->
+      RTC_AlarmDateWeekDay);
+01268   \}  
+01269 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_gae7b5e7146be2710d619c8ed3cca464ad}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Get\+Alarm\+Sub\+Second@{R\+T\+C\+\_\+\+Get\+Alarm\+Sub\+Second}}
+\index{R\+T\+C\+\_\+\+Get\+Alarm\+Sub\+Second@{R\+T\+C\+\_\+\+Get\+Alarm\+Sub\+Second}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Get\+Alarm\+Sub\+Second()}
+{\footnotesize\ttfamily uint32\+\_\+t R\+T\+C\+\_\+\+Get\+Alarm\+Sub\+Second (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Alarm }\end{DoxyParamCaption})}
+
+
+
+Gets the R\+TC Alarm Subseconds value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Alarm} & specifies the alarm to be read. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Alarm\+\_\+A\+: to select Alarm A \item R\+T\+C\+\_\+\+Alarm\+\_\+B\+: to select Alarm B \end{DoxyItemize}
+\\
+\hline
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em R\+TC} & Alarm Subseconds value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1418} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+01419 \{
+01420   uint32\_t tmpreg = 0;
+01421   
+01422   \textcolor{comment}{/* Get the RTC\_ALRMxR register */}
+01423   \textcolor{keywordflow}{if} (RTC\_Alarm == RTC_Alarm_A)
+01424   \{
+01425     tmpreg = (uint32\_t)((RTC->ALRMASSR) & RTC_ALRMASSR_SS);
+01426   \}
+01427   \textcolor{keywordflow}{else}
+01428   \{
+01429     tmpreg = (uint32\_t)((RTC->ALRMBSSR) & RTC_ALRMBSSR_SS);
+01430   \} 
+01431   
+01432   \textcolor{keywordflow}{return} (tmpreg);
+01433 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga582645d554cdd4a316213e90f0b4c8ae}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Get\+Date@{R\+T\+C\+\_\+\+Get\+Date}}
+\index{R\+T\+C\+\_\+\+Get\+Date@{R\+T\+C\+\_\+\+Get\+Date}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Get\+Date()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Get\+Date (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Format,  }\item[{\textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Date\+Struct }\end{DoxyParamCaption})}
+
+
+
+Get the R\+TC current date. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Format} & specifies the format of the returned parameters. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Format\+\_\+\+B\+IN\+: Binary data format \item R\+T\+C\+\_\+\+Format\+\_\+\+B\+CD\+: B\+CD data format \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Date\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Date\+Type\+Def}{p.}{structRTC__DateTypeDef} structure that will contain the returned current date configuration. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1028} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+T\+C\+\_\+\+Bcd2\+To\+Byte()}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Date}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Month}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Week\+Day}, and \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Year}.
+
+
+\begin{DoxyCode}
+01029 \{
+01030   uint32\_t tmpreg = 0;
+01031 
+01032   \textcolor{comment}{/* Check the parameters */}
+01033   assert_param(IS_RTC_FORMAT(RTC\_Format));
+01034   
+01035   \textcolor{comment}{/* Get the RTC\_TR register */}
+01036   tmpreg = (uint32\_t)(RTC->DR & RTC_DR_RESERVED_MASK); 
+01037 
+01038   \textcolor{comment}{/* Fill the structure fields with the read parameters */}
+01039   RTC\_DateStruct->RTC_Year = (uint8\_t)((tmpreg & (RTC_DR_YT | RTC_DR_YU)) >> 16);
+01040   RTC\_DateStruct->RTC_Month = (uint8\_t)((tmpreg & (RTC_DR_MT | RTC_DR_MU)) >> 8);
+01041   RTC\_DateStruct->RTC_Date = (uint8\_t)(tmpreg & (RTC_DR_DT | RTC_DR_DU));
+01042   RTC\_DateStruct->RTC_WeekDay = (uint8\_t)((tmpreg & (RTC_DR_WDU)) >> 13);
+01043 
+01044   \textcolor{comment}{/* Check the input parameters format */}
+01045   \textcolor{keywordflow}{if} (RTC\_Format == RTC_Format_BIN)
+01046   \{
+01047     \textcolor{comment}{/* Convert the structure parameters to Binary format */}
+01048     RTC\_DateStruct->RTC_Year = (uint8\_t)RTC_Bcd2ToByte(RTC\_DateStruct->RTC_Year);
+01049     RTC\_DateStruct->RTC_Month = (uint8\_t)RTC_Bcd2ToByte(RTC\_DateStruct->
+      RTC_Month);
+01050     RTC\_DateStruct->RTC_Date = (uint8\_t)RTC_Bcd2ToByte(RTC\_DateStruct->RTC_Date);
+01051   \}
+01052 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_gaf2a7f11aa7160e95650fd10845e7780b}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Get\+Flag\+Status@{R\+T\+C\+\_\+\+Get\+Flag\+Status}}
+\index{R\+T\+C\+\_\+\+Get\+Flag\+Status@{R\+T\+C\+\_\+\+Get\+Flag\+Status}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} R\+T\+C\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified R\+TC flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+F\+L\+AG} & specifies the flag to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+A\+M\+P1F\+: Tamper 1 event flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+S\+O\+VF\+: Time Stamp Over\+Flow flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+SF\+: Time Stamp event flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+W\+U\+TF\+: Wake\+Up Timer flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+R\+BF\+: Alarm B flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+R\+AF\+: Alarm A flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+I\+N\+I\+TF\+: Initialization mode flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+R\+SF\+: Registers Synchronized flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+I\+N\+I\+TS\+: Registers Configured flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+W\+U\+T\+WF\+: Wake\+Up Timer Write flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+R\+B\+WF\+: Alarm B Write flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+R\+A\+WF\+: Alarm A write flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of R\+T\+C\+\_\+\+F\+L\+AG (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2576} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}, and \textbf{ S\+ET}.
+
+
+\begin{DoxyCode}
+02577 \{
+02578   FlagStatus bitstatus = RESET;
+02579   uint32\_t tmpreg = 0;
+02580   
+02581   \textcolor{comment}{/* Check the parameters */}
+02582   assert_param(IS_RTC_GET_FLAG(RTC\_FLAG));
+02583   
+02584   \textcolor{comment}{/* Get all the flags */}
+02585   tmpreg = (uint32\_t)(RTC->ISR & RTC_FLAGS_MASK);
+02586   
+02587   \textcolor{comment}{/* Return the status of the flag */}
+02588   \textcolor{keywordflow}{if} ((tmpreg & RTC\_FLAG) != (uint32\_t)RESET)
+02589   \{
+02590     bitstatus = SET;
+02591   \}
+02592   \textcolor{keywordflow}{else}
+02593   \{
+02594     bitstatus = RESET;
+02595   \}
+02596   \textcolor{keywordflow}{return} bitstatus;
+02597 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_gaab81adc6d2a5a5c1e37a49707c6bf640}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Get\+I\+T\+Status@{R\+T\+C\+\_\+\+Get\+I\+T\+Status}}
+\index{R\+T\+C\+\_\+\+Get\+I\+T\+Status@{R\+T\+C\+\_\+\+Get\+I\+T\+Status}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Get\+I\+T\+Status()}
+{\footnotesize\ttfamily \textbf{ I\+T\+Status} R\+T\+C\+\_\+\+Get\+I\+T\+Status (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified R\+TC interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+IT} & specifies the R\+TC interrupt source to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+I\+T\+\_\+\+TS\+: Time Stamp interrupt \item R\+T\+C\+\_\+\+I\+T\+\_\+\+W\+UT\+: Wake\+Up Timer interrupt \item R\+T\+C\+\_\+\+I\+T\+\_\+\+A\+L\+RB\+: Alarm B interrupt \item R\+T\+C\+\_\+\+I\+T\+\_\+\+A\+L\+RA\+: Alarm A interrupt \item R\+T\+C\+\_\+\+I\+T\+\_\+\+T\+A\+M\+P1\+: Tamper 1 event interrupt \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of R\+T\+C\+\_\+\+IT (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2632} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}, and \textbf{ S\+ET}.
+
+
+\begin{DoxyCode}
+02633 \{
+02634   ITStatus bitstatus = RESET;
+02635   uint32\_t tmpreg = 0, enablestatus = 0;
+02636  
+02637   \textcolor{comment}{/* Check the parameters */}
+02638   assert_param(IS_RTC_GET_IT(RTC\_IT));
+02639   
+02640   \textcolor{comment}{/* Get the TAMPER Interrupt enable bit and pending bit */}
+02641   tmpreg = (uint32\_t)(RTC->TAFCR & (RTC_TAFCR_TAMPIE));
+02642  
+02643   \textcolor{comment}{/* Get the Interrupt enable Status */}
+02644   enablestatus = (uint32\_t)((RTC->CR & RTC\_IT) | (tmpreg & (RTC\_IT >> 15)));
+02645   
+02646   \textcolor{comment}{/* Get the Interrupt pending bit */}
+02647   tmpreg = (uint32\_t)((RTC->ISR & (uint32\_t)(RTC\_IT >> 4)));
+02648   
+02649   \textcolor{comment}{/* Get the status of the Interrupt */}
+02650   \textcolor{keywordflow}{if} ((enablestatus != (uint32\_t)RESET) && ((tmpreg & 0x0000FFFF) != (uint32\_t)
+      RESET))
+02651   \{
+02652     bitstatus = SET;
+02653   \}
+02654   \textcolor{keywordflow}{else}
+02655   \{
+02656     bitstatus = RESET;
+02657   \}
+02658   \textcolor{keywordflow}{return} bitstatus;
+02659 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_gaba0c1361790203e9dca43846f0d9bc15}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Get\+Store\+Operation@{R\+T\+C\+\_\+\+Get\+Store\+Operation}}
+\index{R\+T\+C\+\_\+\+Get\+Store\+Operation@{R\+T\+C\+\_\+\+Get\+Store\+Operation}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Get\+Store\+Operation()}
+{\footnotesize\ttfamily uint32\+\_\+t R\+T\+C\+\_\+\+Get\+Store\+Operation (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns the R\+TC Day Light Saving stored operation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em R\+TC} & Day Light Saving stored operation.
+\begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Store\+Operation\+\_\+\+Reset
+\item R\+T\+C\+\_\+\+Store\+Operation\+\_\+\+Set 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1631} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+01632 \{
+01633   \textcolor{keywordflow}{return} (RTC->CR & RTC_CR_BCK);
+01634 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_gae59c33fb19e36b6abab0bad58072c01a}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Get\+Sub\+Second@{R\+T\+C\+\_\+\+Get\+Sub\+Second}}
+\index{R\+T\+C\+\_\+\+Get\+Sub\+Second@{R\+T\+C\+\_\+\+Get\+Sub\+Second}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Get\+Sub\+Second()}
+{\footnotesize\ttfamily uint32\+\_\+t R\+T\+C\+\_\+\+Get\+Sub\+Second (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Gets the R\+TC current Calendar Subseconds value. 
+
+\begin{DoxyNote}{Note}
+This function freeze the Time and Date registers after reading the S\+SR register. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em R\+TC} & current Calendar Subseconds value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 901} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+00902 \{
+00903   uint32\_t tmpreg = 0;
+00904   
+00905   \textcolor{comment}{/* Get subseconds values from the correspondent registers*/}
+00906   tmpreg = (uint32\_t)(RTC->SSR);
+00907   
+00908   \textcolor{comment}{/* Read DR register to unfroze calendar registers */}
+00909   (void) (RTC->DR);
+00910   
+00911   \textcolor{keywordflow}{return} (tmpreg);
+00912 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga1fcc101339c77aebd25ec3621fd1b61a}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Get\+Time@{R\+T\+C\+\_\+\+Get\+Time}}
+\index{R\+T\+C\+\_\+\+Get\+Time@{R\+T\+C\+\_\+\+Get\+Time}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Get\+Time()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Get\+Time (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Format,  }\item[{\textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Time\+Struct }\end{DoxyParamCaption})}
+
+
+
+Get the R\+TC current Time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Format} & specifies the format of the returned parameters. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Format\+\_\+\+B\+IN\+: Binary data format \item R\+T\+C\+\_\+\+Format\+\_\+\+B\+CD\+: B\+CD data format \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Time\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Time\+Type\+Def}{p.}{structRTC__TimeTypeDef} structure that will contain the returned current time configuration. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 868} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+T\+C\+\_\+\+Bcd2\+To\+Byte()}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+H12}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Hours}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Minutes}, and \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Seconds}.
+
+
+\begin{DoxyCode}
+00869 \{
+00870   uint32\_t tmpreg = 0;
+00871 
+00872   \textcolor{comment}{/* Check the parameters */}
+00873   assert_param(IS_RTC_FORMAT(RTC\_Format));
+00874 
+00875   \textcolor{comment}{/* Get the RTC\_TR register */}
+00876   tmpreg = (uint32\_t)(RTC->TR & RTC_TR_RESERVED_MASK); 
+00877   
+00878   \textcolor{comment}{/* Fill the structure fields with the read parameters */}
+00879   RTC\_TimeStruct->RTC_Hours = (uint8\_t)((tmpreg & (RTC_TR_HT | RTC_TR_HU)) >> 16);
+00880   RTC\_TimeStruct->RTC_Minutes = (uint8\_t)((tmpreg & (RTC_TR_MNT | RTC_TR_MNU)) >>8);
+00881   RTC\_TimeStruct->RTC_Seconds = (uint8\_t)(tmpreg & (RTC_TR_ST | RTC_TR_SU));
+00882   RTC\_TimeStruct->RTC_H12 = (uint8\_t)((tmpreg & (RTC_TR_PM)) >> 16);  
+00883 
+00884   \textcolor{comment}{/* Check the input parameters format */}
+00885   \textcolor{keywordflow}{if} (RTC\_Format == RTC_Format_BIN)
+00886   \{
+00887     \textcolor{comment}{/* Convert the structure parameters to Binary format */}
+00888     RTC\_TimeStruct->RTC_Hours = (uint8\_t)RTC_Bcd2ToByte(RTC\_TimeStruct->
+      RTC_Hours);
+00889     RTC\_TimeStruct->RTC_Minutes = (uint8\_t)RTC_Bcd2ToByte(RTC\_TimeStruct->
+      RTC_Minutes);
+00890     RTC\_TimeStruct->RTC_Seconds = (uint8\_t)RTC_Bcd2ToByte(RTC\_TimeStruct->
+      RTC_Seconds);   
+00891   \}
+00892 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga44c38b0c74e9e960a4263b2905f44796}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Get\+Time\+Stamp@{R\+T\+C\+\_\+\+Get\+Time\+Stamp}}
+\index{R\+T\+C\+\_\+\+Get\+Time\+Stamp@{R\+T\+C\+\_\+\+Get\+Time\+Stamp}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Get\+Time\+Stamp()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Get\+Time\+Stamp (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Format,  }\item[{\textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Stamp\+Time\+Struct,  }\item[{\textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Stamp\+Date\+Struct }\end{DoxyParamCaption})}
+
+
+
+Get the R\+TC Time\+Stamp value and masks. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Format} & specifies the format of the output parameters. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Format\+\_\+\+B\+IN\+: Binary data format \item R\+T\+C\+\_\+\+Format\+\_\+\+B\+CD\+: B\+CD data format \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Stamp\+Time\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Time\+Type\+Def}{p.}{structRTC__TimeTypeDef} structure that will contains the Time\+Stamp time values. \\
+\hline
+{\em R\+T\+C\+\_\+\+Stamp\+Date\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Date\+Type\+Def}{p.}{structRTC__DateTypeDef} structure that will contains the Time\+Stamp date values. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1999} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+T\+C\+\_\+\+Bcd2\+To\+Byte()}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Date}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+H12}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Hours}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Minutes}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Month}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Seconds}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Week\+Day}, and \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Year}.
+
+
+\begin{DoxyCode}
+02001 \{
+02002   uint32\_t tmptime = 0, tmpdate = 0;
+02003 
+02004   \textcolor{comment}{/* Check the parameters */}
+02005   assert_param(IS_RTC_FORMAT(RTC\_Format));
+02006 
+02007   \textcolor{comment}{/* Get the TimeStamp time and date registers values */}
+02008   tmptime = (uint32\_t)(RTC->TSTR & RTC_TR_RESERVED_MASK);
+02009   tmpdate = (uint32\_t)(RTC->TSDR & RTC_DR_RESERVED_MASK);
+02010 
+02011   \textcolor{comment}{/* Fill the Time structure fields with the read parameters */}
+02012   RTC\_StampTimeStruct->RTC_Hours = (uint8\_t)((tmptime & (RTC_TR_HT | RTC_TR_HU)) >> 16);
+02013   RTC\_StampTimeStruct->RTC_Minutes = (uint8\_t)((tmptime & (RTC_TR_MNT | 
+      RTC_TR_MNU)) >> 8);
+02014   RTC\_StampTimeStruct->RTC_Seconds = (uint8\_t)(tmptime & (RTC_TR_ST | RTC_TR_SU));
+02015   RTC\_StampTimeStruct->RTC_H12 = (uint8\_t)((tmptime & (RTC_TR_PM)) >> 16);  
+02016 
+02017   \textcolor{comment}{/* Fill the Date structure fields with the read parameters */}
+02018   RTC\_StampDateStruct->RTC_Year = 0;
+02019   RTC\_StampDateStruct->RTC_Month = (uint8\_t)((tmpdate & (RTC_DR_MT | RTC_DR_MU)) >> 8);
+02020   RTC\_StampDateStruct->RTC_Date = (uint8\_t)(tmpdate & (RTC_DR_DT | RTC_DR_DU));
+02021   RTC\_StampDateStruct->RTC_WeekDay = (uint8\_t)((tmpdate & (RTC_DR_WDU)) >> 13);
+02022 
+02023   \textcolor{comment}{/* Check the input parameters format */}
+02024   \textcolor{keywordflow}{if} (RTC\_Format == RTC_Format_BIN)
+02025   \{
+02026     \textcolor{comment}{/* Convert the Time structure parameters to Binary format */}
+02027     RTC\_StampTimeStruct->RTC_Hours = (uint8\_t)RTC_Bcd2ToByte(RTC\_StampTimeStruct->
+      RTC_Hours);
+02028     RTC\_StampTimeStruct->RTC_Minutes = (uint8\_t)RTC_Bcd2ToByte(RTC\_StampTimeStruct->
+      RTC_Minutes);
+02029     RTC\_StampTimeStruct->RTC_Seconds = (uint8\_t)RTC_Bcd2ToByte(RTC\_StampTimeStruct->
+      RTC_Seconds);
+02030 
+02031     \textcolor{comment}{/* Convert the Date structure parameters to Binary format */}
+02032     RTC\_StampDateStruct->RTC_Month = (uint8\_t)RTC_Bcd2ToByte(RTC\_StampDateStruct->
+      RTC_Month);
+02033     RTC\_StampDateStruct->RTC_Date = (uint8\_t)RTC_Bcd2ToByte(RTC\_StampDateStruct->
+      RTC_Date);
+02034     RTC\_StampDateStruct->RTC_WeekDay = (uint8\_t)RTC_Bcd2ToByte(RTC\_StampDateStruct->
+      RTC_WeekDay);
+02035   \}
+02036 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga2b0ef81f4959a2f9fc6361fbda759b00}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Get\+Time\+Stamp\+Sub\+Second@{R\+T\+C\+\_\+\+Get\+Time\+Stamp\+Sub\+Second}}
+\index{R\+T\+C\+\_\+\+Get\+Time\+Stamp\+Sub\+Second@{R\+T\+C\+\_\+\+Get\+Time\+Stamp\+Sub\+Second}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Get\+Time\+Stamp\+Sub\+Second()}
+{\footnotesize\ttfamily uint32\+\_\+t R\+T\+C\+\_\+\+Get\+Time\+Stamp\+Sub\+Second (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Get the R\+TC timestamp Subseconds value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em R\+TC} & current timestamp Subseconds value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2043} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02044 \{
+02045   \textcolor{comment}{/* Get timestamp subseconds values from the correspondent registers */}
+02046   \textcolor{keywordflow}{return} (uint32\_t)(RTC->TSSSR);
+02047 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_gae63aab672e917cc48e298162c3dec049}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Get\+Wake\+Up\+Counter@{R\+T\+C\+\_\+\+Get\+Wake\+Up\+Counter}}
+\index{R\+T\+C\+\_\+\+Get\+Wake\+Up\+Counter@{R\+T\+C\+\_\+\+Get\+Wake\+Up\+Counter}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Get\+Wake\+Up\+Counter()}
+{\footnotesize\ttfamily uint32\+\_\+t R\+T\+C\+\_\+\+Get\+Wake\+Up\+Counter (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns the R\+TC Wake\+Up timer counter value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & R\+TC Wake\+Up Counter value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1515} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+01516 \{
+01517   \textcolor{comment}{/* Get the counter value */}
+01518   \textcolor{keywordflow}{return} ((uint32\_t)(RTC->WUTR & RTC_WUTR_WUT));
+01519 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga8eb747bf9698b2482ba6ef4d811de8e0}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Init@{R\+T\+C\+\_\+\+Init}}
+\index{R\+T\+C\+\_\+\+Init@{R\+T\+C\+\_\+\+Init}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Init()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Init (\begin{DoxyParamCaption}\item[{\textbf{ R\+T\+C\+\_\+\+Init\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the R\+TC registers according to the specified parameters in R\+T\+C\+\_\+\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Init\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Init\+Type\+Def}{p.}{structRTC__InitTypeDef} structure that contains the configuration information for the R\+TC peripheral. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The R\+TC Prescaler register is write protected and can be written in initialization mode only. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC registers are initialized
+\item E\+R\+R\+OR\+: R\+TC registers are not initialized 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 445} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}, \textbf{ R\+T\+C\+\_\+\+Enter\+Init\+Mode()}, \textbf{ R\+T\+C\+\_\+\+Exit\+Init\+Mode()}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+00446 \{
+00447   ErrorStatus status = ERROR;
+00448   
+00449   \textcolor{comment}{/* Check the parameters */}
+00450   assert_param(IS_RTC_HOUR_FORMAT(RTC\_InitStruct->RTC_HourFormat));
+00451   assert_param(IS_RTC_ASYNCH_PREDIV(RTC\_InitStruct->RTC_AsynchPrediv));
+00452   assert_param(IS_RTC_SYNCH_PREDIV(RTC\_InitStruct->RTC_SynchPrediv));
+00453 
+00454   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00455   RTC->WPR = 0xCA;
+00456   RTC->WPR = 0x53;
+00457 
+00458   \textcolor{comment}{/* Set Initialization mode */}
+00459   \textcolor{keywordflow}{if} (RTC_EnterInitMode() == ERROR)
+00460   \{
+00461     status = ERROR;
+00462   \} 
+00463   \textcolor{keywordflow}{else}
+00464   \{
+00465     \textcolor{comment}{/* Clear RTC CR FMT Bit */}
+00466     RTC->CR &= ((uint32\_t)~(RTC_CR_FMT));
+00467     \textcolor{comment}{/* Set RTC\_CR register */}
+00468     RTC->CR |=  ((uint32\_t)(RTC\_InitStruct->RTC_HourFormat));
+00469   
+00470     \textcolor{comment}{/* Configure the RTC PRER */}
+00471     RTC->PRER = (uint32\_t)(RTC\_InitStruct->RTC_SynchPrediv);
+00472     RTC->PRER |= (uint32\_t)(RTC\_InitStruct->RTC_AsynchPrediv << 16);
+00473 
+00474     \textcolor{comment}{/* Exit Initialization mode */}
+00475     RTC_ExitInitMode();
+00476 
+00477     status = SUCCESS;    
+00478   \}
+00479   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00480   RTC->WPR = 0xFF; 
+00481   
+00482   \textcolor{keywordflow}{return} status;
+00483 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_gaa8469b33b3a99025baf52f007683b925}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+I\+T\+Config@{R\+T\+C\+\_\+\+I\+T\+Config}}
+\index{R\+T\+C\+\_\+\+I\+T\+Config@{R\+T\+C\+\_\+\+I\+T\+Config}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+I\+T\+Config()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+I\+T\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+IT,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified R\+TC interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+IT} & specifies the R\+TC interrupt sources to be enabled or disabled. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+I\+T\+\_\+\+TS\+: Time Stamp interrupt mask \item R\+T\+C\+\_\+\+I\+T\+\_\+\+W\+UT\+: Wake\+Up Timer interrupt mask \item R\+T\+C\+\_\+\+I\+T\+\_\+\+A\+L\+RB\+: Alarm B interrupt mask \item R\+T\+C\+\_\+\+I\+T\+\_\+\+A\+L\+RA\+: Alarm A interrupt mask \item R\+T\+C\+\_\+\+I\+T\+\_\+\+T\+A\+MP\+: Tamper event interrupt mask \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the specified R\+TC interrupts. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2530} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+02531 \{
+02532   \textcolor{comment}{/* Check the parameters */}
+02533   assert_param(IS_RTC_CONFIG_IT(RTC\_IT));
+02534   assert_param(IS_FUNCTIONAL_STATE(NewState));
+02535 
+02536   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+02537   RTC->WPR = 0xCA;
+02538   RTC->WPR = 0x53;
+02539 
+02540   \textcolor{keywordflow}{if} (NewState != DISABLE)
+02541   \{
+02542     \textcolor{comment}{/* Configure the Interrupts in the RTC\_CR register */}
+02543     RTC->CR |= (uint32\_t)(RTC\_IT & ~RTC_TAFCR_TAMPIE);
+02544     \textcolor{comment}{/* Configure the Tamper Interrupt in the RTC\_TAFCR */}
+02545     RTC->TAFCR |= (uint32\_t)(RTC\_IT & RTC_TAFCR_TAMPIE);
+02546   \}
+02547   \textcolor{keywordflow}{else}
+02548   \{
+02549     \textcolor{comment}{/* Configure the Interrupts in the RTC\_CR register */}
+02550     RTC->CR &= (uint32\_t)~(RTC\_IT & (uint32\_t)~RTC_TAFCR_TAMPIE);
+02551     \textcolor{comment}{/* Configure the Tamper Interrupt in the RTC\_TAFCR */}
+02552     RTC->TAFCR &= (uint32\_t)~(RTC\_IT & RTC_TAFCR_TAMPIE);
+02553   \}
+02554   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+02555   RTC->WPR = 0xFF; 
+02556 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_gae3165ef19ef3bd63789e59130ad8d89b}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Output\+Config@{R\+T\+C\+\_\+\+Output\+Config}}
+\index{R\+T\+C\+\_\+\+Output\+Config@{R\+T\+C\+\_\+\+Output\+Config}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Output\+Config()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Output\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Output,  }\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Output\+Polarity }\end{DoxyParamCaption})}
+
+
+
+Configures the R\+TC output source (A\+F\+O\+\_\+\+A\+L\+A\+RM). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Output} & Specifies which signal will be routed to the R\+TC output. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Output\+\_\+\+Disable\+: No output selected \item R\+T\+C\+\_\+\+Output\+\_\+\+AlarmA\+: signal of AlarmA mapped to output \item R\+T\+C\+\_\+\+Output\+\_\+\+AlarmB\+: signal of AlarmB mapped to output \item R\+T\+C\+\_\+\+Output\+\_\+\+Wake\+Up\+: signal of Wake\+Up mapped to output \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Output\+Polarity} & Specifies the polarity of the output signal. This parameter can be one of the following\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Output\+Polarity\+\_\+\+High\+: The output pin is high when the A\+L\+R\+A\+F/\+A\+L\+R\+B\+F/\+W\+U\+TF is high (depending on O\+S\+EL) \item R\+T\+C\+\_\+\+Output\+Polarity\+\_\+\+Low\+: The output pin is low when the A\+L\+R\+A\+F/\+A\+L\+R\+B\+F/\+W\+U\+TF is high (depending on O\+S\+EL) \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1670} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+01671 \{
+01672   \textcolor{comment}{/* Check the parameters */}
+01673   assert_param(IS_RTC_OUTPUT(RTC\_Output));
+01674   assert_param(IS_RTC_OUTPUT_POL(RTC\_OutputPolarity));
+01675 
+01676   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01677   RTC->WPR = 0xCA;
+01678   RTC->WPR = 0x53;
+01679 
+01680   \textcolor{comment}{/* Clear the bits to be configured */}
+01681   RTC->CR &= (uint32\_t)~(RTC_CR_OSEL | RTC_CR_POL);
+01682 
+01683   \textcolor{comment}{/* Configure the output selection and polarity */}
+01684   RTC->CR |= (uint32\_t)(RTC\_Output | RTC\_OutputPolarity);
+01685 
+01686   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01687   RTC->WPR = 0xFF; 
+01688 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga95263b7acf7168d52f66ef9121f14760}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Output\+Type\+Config@{R\+T\+C\+\_\+\+Output\+Type\+Config}}
+\index{R\+T\+C\+\_\+\+Output\+Type\+Config@{R\+T\+C\+\_\+\+Output\+Type\+Config}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Output\+Type\+Config()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Output\+Type\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Output\+Type }\end{DoxyParamCaption})}
+
+
+
+Configures the R\+TC Output Pin mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Output\+Type} & specifies the R\+TC Output (P\+C13) pin mode. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Output\+Type\+\_\+\+Open\+Drain\+: R\+TC Output (P\+C13) is configured in Open Drain mode. \item R\+T\+C\+\_\+\+Output\+Type\+\_\+\+Push\+Pull\+: R\+TC Output (P\+C13) is configured in Push Pull mode. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2373} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02374 \{
+02375   \textcolor{comment}{/* Check the parameters */}
+02376   assert_param(IS_RTC_OUTPUT_TYPE(RTC\_OutputType));
+02377   
+02378   RTC->TAFCR &= (uint32\_t)~(RTC_TAFCR_ALARMOUTTYPE);
+02379   RTC->TAFCR |= (uint32\_t)(RTC\_OutputType);  
+02380 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga504489fd91a66e392beb82bb8230b37f}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Read\+Backup\+Register@{R\+T\+C\+\_\+\+Read\+Backup\+Register}}
+\index{R\+T\+C\+\_\+\+Read\+Backup\+Register@{R\+T\+C\+\_\+\+Read\+Backup\+Register}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Read\+Backup\+Register()}
+{\footnotesize\ttfamily uint32\+\_\+t R\+T\+C\+\_\+\+Read\+Backup\+Register (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+DR }\end{DoxyParamCaption})}
+
+
+
+Reads data from the specified R\+TC Backup data Register. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+DR} & R\+TC Backup data Register number. This parameter can be\+: R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+Rx where x can be from 0 to 19 to specify the register. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2297} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02298 \{
+02299   \_\_IO uint32\_t tmp = 0;
+02300   
+02301   \textcolor{comment}{/* Check the parameters */}
+02302   assert_param(IS_RTC_BKP(RTC\_BKP\_DR));
+02303 
+02304   tmp = RTC_BASE + 0x50;
+02305   tmp += (RTC\_BKP\_DR * 4);
+02306   
+02307   \textcolor{comment}{/* Read the specified register */}
+02308   \textcolor{keywordflow}{return} (*(\_\_IO uint32\_t *)tmp);
+02309 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_gaa60079ec257fb3a277d058ca8305533d}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Ref\+Clock\+Cmd@{R\+T\+C\+\_\+\+Ref\+Clock\+Cmd}}
+\index{R\+T\+C\+\_\+\+Ref\+Clock\+Cmd@{R\+T\+C\+\_\+\+Ref\+Clock\+Cmd}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Ref\+Clock\+Cmd()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Ref\+Clock\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the R\+TC reference clock detection. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the R\+TC reference clock. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC reference clock detection is enabled
+\item E\+R\+R\+OR\+: R\+TC reference clock detection is disabled 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 650} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+R\+R\+OR}, \textbf{ R\+T\+C\+\_\+\+Enter\+Init\+Mode()}, \textbf{ R\+T\+C\+\_\+\+Exit\+Init\+Mode()}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+00651 \{ 
+00652   ErrorStatus status = ERROR;
+00653   
+00654   \textcolor{comment}{/* Check the parameters */}
+00655   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00656   
+00657   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00658   RTC->WPR = 0xCA;
+00659   RTC->WPR = 0x53;
+00660     
+00661   \textcolor{comment}{/* Set Initialization mode */}
+00662   \textcolor{keywordflow}{if} (RTC_EnterInitMode() == ERROR)
+00663   \{
+00664     status = ERROR;
+00665   \} 
+00666   \textcolor{keywordflow}{else}
+00667   \{  
+00668     \textcolor{keywordflow}{if} (NewState != DISABLE)
+00669     \{
+00670       \textcolor{comment}{/* Enable the RTC reference clock detection */}
+00671       RTC->CR |= RTC_CR_REFCKON;   
+00672     \}
+00673     \textcolor{keywordflow}{else}
+00674     \{
+00675       \textcolor{comment}{/* Disable the RTC reference clock detection */}
+00676       RTC->CR &= ~RTC_CR_REFCKON;    
+00677     \}
+00678     \textcolor{comment}{/* Exit Initialization mode */}
+00679     RTC_ExitInitMode();
+00680     
+00681     status = SUCCESS;
+00682   \}
+00683   
+00684   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00685   RTC->WPR = 0xFF;  
+00686   
+00687   \textcolor{keywordflow}{return} status; 
+00688 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga44e3334f8e882df9b8a59b47f0857395}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Set\+Alarm@{R\+T\+C\+\_\+\+Set\+Alarm}}
+\index{R\+T\+C\+\_\+\+Set\+Alarm@{R\+T\+C\+\_\+\+Set\+Alarm}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Set\+Alarm()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Set\+Alarm (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Format,  }\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Alarm,  }\item[{\textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Alarm\+Struct }\end{DoxyParamCaption})}
+
+
+
+Set the specified R\+TC Alarm. 
+
+\begin{DoxyNote}{Note}
+The Alarm register can only be written when the corresponding Alarm is disabled (Use the R\+T\+C\+\_\+\+Alarm\+Cmd(\+D\+I\+S\+A\+B\+L\+E)). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Format} & specifies the format of the returned parameters. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Format\+\_\+\+B\+IN\+: Binary data format \item R\+T\+C\+\_\+\+Format\+\_\+\+B\+CD\+: B\+CD data format \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Alarm} & specifies the alarm to be configured. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Alarm\+\_\+A\+: to select Alarm A \item R\+T\+C\+\_\+\+Alarm\+\_\+B\+: to select Alarm B \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Alarm\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Alarm\+Type\+Def}{p.}{structRTC__AlarmTypeDef} structure that contains the alarm configuration parameters. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1088} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Date\+Week\+Day}, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Date\+Week\+Day\+Sel}, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Mask}, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Time}, \textbf{ R\+T\+C\+\_\+\+Bcd2\+To\+Byte()}, \textbf{ R\+T\+C\+\_\+\+Byte\+To\+Bcd2()}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+H12}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Hours}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Minutes}, and \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Seconds}.
+
+
+\begin{DoxyCode}
+01089 \{
+01090   uint32\_t tmpreg = 0;
+01091   
+01092   \textcolor{comment}{/* Check the parameters */}
+01093   assert_param(IS_RTC_FORMAT(RTC\_Format));
+01094   assert_param(IS_RTC_ALARM(RTC\_Alarm));
+01095   assert_param(IS_ALARM_MASK(RTC\_AlarmStruct->RTC_AlarmMask));
+01096   assert_param(IS_RTC_ALARM_DATE_WEEKDAY_SEL(RTC\_AlarmStruct->
+      RTC_AlarmDateWeekDaySel));
+01097 
+01098   \textcolor{keywordflow}{if} (RTC\_Format == RTC_Format_BIN)
+01099   \{
+01100     \textcolor{keywordflow}{if} ((RTC->CR & RTC_CR_FMT) != (uint32\_t)RESET)
+01101     \{
+01102       assert_param(IS_RTC_HOUR12(RTC\_AlarmStruct->RTC_AlarmTime.RTC_Hours));
+01103       assert_param(IS_RTC_H12(RTC\_AlarmStruct->RTC_AlarmTime.RTC_H12));
+01104     \} 
+01105     \textcolor{keywordflow}{else}
+01106     \{
+01107       RTC\_AlarmStruct->RTC_AlarmTime.RTC_H12 = 0x00;
+01108       assert_param(IS_RTC_HOUR24(RTC\_AlarmStruct->RTC_AlarmTime.RTC_Hours));
+01109     \}
+01110     assert_param(IS_RTC_MINUTES(RTC\_AlarmStruct->RTC_AlarmTime.RTC_Minutes));
+01111     assert_param(IS_RTC_SECONDS(RTC\_AlarmStruct->RTC_AlarmTime.RTC_Seconds));
+01112     
+01113     \textcolor{keywordflow}{if}(RTC\_AlarmStruct->RTC_AlarmDateWeekDaySel == RTC_AlarmDateWeekDaySel_Date)
+01114     \{
+01115       assert_param(IS_RTC_ALARM_DATE_WEEKDAY_DATE(RTC\_AlarmStruct->
+      RTC_AlarmDateWeekDay));
+01116     \}
+01117     \textcolor{keywordflow}{else}
+01118     \{
+01119       assert_param(IS_RTC_ALARM_DATE_WEEKDAY_WEEKDAY(RTC\_AlarmStruct->
+      RTC_AlarmDateWeekDay));
+01120     \}
+01121   \}
+01122   \textcolor{keywordflow}{else}
+01123   \{
+01124     \textcolor{keywordflow}{if} ((RTC->CR & RTC_CR_FMT) != (uint32\_t)RESET)
+01125     \{
+01126       tmpreg = RTC_Bcd2ToByte(RTC\_AlarmStruct->RTC_AlarmTime.RTC_Hours);
+01127       assert_param(IS_RTC_HOUR12(tmpreg));
+01128       assert_param(IS_RTC_H12(RTC\_AlarmStruct->RTC_AlarmTime.RTC_H12));
+01129     \} 
+01130     \textcolor{keywordflow}{else}
+01131     \{
+01132       RTC\_AlarmStruct->RTC_AlarmTime.RTC_H12 = 0x00;
+01133       assert_param(IS_RTC_HOUR24(RTC_Bcd2ToByte(RTC\_AlarmStruct->RTC_AlarmTime.
+      RTC_Hours)));
+01134     \}
+01135     
+01136     assert_param(IS_RTC_MINUTES(RTC_Bcd2ToByte(RTC\_AlarmStruct->RTC_AlarmTime.
+      RTC_Minutes)));
+01137     assert_param(IS_RTC_SECONDS(RTC_Bcd2ToByte(RTC\_AlarmStruct->RTC_AlarmTime.
+      RTC_Seconds)));
+01138     
+01139     \textcolor{keywordflow}{if}(RTC\_AlarmStruct->RTC_AlarmDateWeekDaySel == RTC_AlarmDateWeekDaySel_Date)
+01140     \{
+01141       tmpreg = RTC_Bcd2ToByte(RTC\_AlarmStruct->RTC_AlarmDateWeekDay);
+01142       assert_param(IS_RTC_ALARM_DATE_WEEKDAY_DATE(tmpreg));    
+01143     \}
+01144     \textcolor{keywordflow}{else}
+01145     \{
+01146       tmpreg = RTC_Bcd2ToByte(RTC\_AlarmStruct->RTC_AlarmDateWeekDay);
+01147       assert_param(IS_RTC_ALARM_DATE_WEEKDAY_WEEKDAY(tmpreg));      
+01148     \}    
+01149   \}
+01150 
+01151   \textcolor{comment}{/* Check the input parameters format */}
+01152   \textcolor{keywordflow}{if} (RTC\_Format != RTC_Format_BIN)
+01153   \{
+01154     tmpreg = (((uint32\_t)(RTC\_AlarmStruct->RTC_AlarmTime.RTC_Hours) << 16) | \(\backslash\)
+01155               ((uint32\_t)(RTC\_AlarmStruct->RTC_AlarmTime.RTC_Minutes) << 8) | \(\backslash\)
+01156               ((uint32\_t)RTC\_AlarmStruct->RTC_AlarmTime.RTC_Seconds) | \(\backslash\)
+01157               ((uint32\_t)(RTC\_AlarmStruct->RTC_AlarmTime.RTC_H12) << 16) | \(\backslash\)
+01158               ((uint32\_t)(RTC\_AlarmStruct->RTC_AlarmDateWeekDay) << 24) | \(\backslash\)
+01159               ((uint32\_t)RTC\_AlarmStruct->RTC_AlarmDateWeekDaySel) | \(\backslash\)
+01160               ((uint32\_t)RTC\_AlarmStruct->RTC_AlarmMask)); 
+01161   \}  
+01162   \textcolor{keywordflow}{else}
+01163   \{
+01164     tmpreg = (((uint32\_t)RTC_ByteToBcd2(RTC\_AlarmStruct->RTC_AlarmTime.RTC_Hours) << 16) | \(\backslash\)
+01165               ((uint32\_t)RTC_ByteToBcd2(RTC\_AlarmStruct->RTC_AlarmTime.
+      RTC_Minutes) << 8) | \(\backslash\)
+01166               ((uint32\_t)RTC_ByteToBcd2(RTC\_AlarmStruct->RTC_AlarmTime.
+      RTC_Seconds)) | \(\backslash\)
+01167               ((uint32\_t)(RTC\_AlarmStruct->RTC_AlarmTime.RTC_H12) << 16) | \(\backslash\)
+01168               ((uint32\_t)RTC_ByteToBcd2(RTC\_AlarmStruct->RTC_AlarmDateWeekDay) << 24) | \(\backslash\)
+01169               ((uint32\_t)RTC\_AlarmStruct->RTC_AlarmDateWeekDaySel) | \(\backslash\)
+01170               ((uint32\_t)RTC\_AlarmStruct->RTC_AlarmMask)); 
+01171   \} 
+01172 
+01173   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01174   RTC->WPR = 0xCA;
+01175   RTC->WPR = 0x53;
+01176 
+01177   \textcolor{comment}{/* Configure the Alarm register */}
+01178   \textcolor{keywordflow}{if} (RTC\_Alarm == RTC_Alarm_A)
+01179   \{
+01180     RTC->ALRMAR = (uint32\_t)tmpreg;
+01181   \}
+01182   \textcolor{keywordflow}{else}
+01183   \{
+01184     RTC->ALRMBR = (uint32\_t)tmpreg;
+01185   \}
+01186 
+01187   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01188   RTC->WPR = 0xFF;   
+01189 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga69d08538147f3d89c818dcfabf50e362}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Set\+Date@{R\+T\+C\+\_\+\+Set\+Date}}
+\index{R\+T\+C\+\_\+\+Set\+Date@{R\+T\+C\+\_\+\+Set\+Date}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Set\+Date()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Set\+Date (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Format,  }\item[{\textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Date\+Struct }\end{DoxyParamCaption})}
+
+
+
+Set the R\+TC current date. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Format} & specifies the format of the entered parameters. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Format\+\_\+\+B\+IN\+: Binary data format \item R\+T\+C\+\_\+\+Format\+\_\+\+B\+CD\+: B\+CD data format \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Date\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Date\+Type\+Def}{p.}{structRTC__DateTypeDef} structure that contains the date configuration information for the R\+TC. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC Date register is configured
+\item E\+R\+R\+OR\+: R\+TC Date register is not configured 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 926} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}, \textbf{ R\+T\+C\+\_\+\+Bcd2\+To\+Byte()}, \textbf{ R\+T\+C\+\_\+\+Byte\+To\+Bcd2()}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Date}, \textbf{ R\+T\+C\+\_\+\+Enter\+Init\+Mode()}, \textbf{ R\+T\+C\+\_\+\+Exit\+Init\+Mode()}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Month}, \textbf{ R\+T\+C\+\_\+\+Wait\+For\+Synchro()}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Week\+Day}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Year}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+00927 \{
+00928   uint32\_t tmpreg = 0;
+00929   ErrorStatus status = ERROR;
+00930   
+00931   \textcolor{comment}{/* Check the parameters */}
+00932   assert_param(IS_RTC_FORMAT(RTC\_Format));
+00933 
+00934   \textcolor{keywordflow}{if} ((RTC\_Format == RTC_Format_BIN) && ((RTC\_DateStruct->RTC_Month & 0x10) == 0x10))
+00935   \{
+00936     RTC\_DateStruct->RTC_Month = (RTC\_DateStruct->RTC_Month & (uint32\_t)~(0x10)) + 0x0A;
+00937   \}  
+00938   \textcolor{keywordflow}{if} (RTC\_Format == RTC_Format_BIN)
+00939   \{
+00940     assert_param(IS_RTC_YEAR(RTC\_DateStruct->RTC_Year));
+00941     assert_param(IS_RTC_MONTH(RTC\_DateStruct->RTC_Month));
+00942     assert_param(IS_RTC_DATE(RTC\_DateStruct->RTC_Date));
+00943   \}
+00944   \textcolor{keywordflow}{else}
+00945   \{
+00946     assert_param(IS_RTC_YEAR(RTC_Bcd2ToByte(RTC\_DateStruct->RTC_Year)));
+00947     tmpreg = RTC_Bcd2ToByte(RTC\_DateStruct->RTC_Month);
+00948     assert_param(IS_RTC_MONTH(tmpreg));
+00949     tmpreg = RTC_Bcd2ToByte(RTC\_DateStruct->RTC_Date);
+00950     assert_param(IS_RTC_DATE(tmpreg));
+00951   \}
+00952   assert_param(IS_RTC_WEEKDAY(RTC\_DateStruct->RTC_WeekDay));
+00953 
+00954   \textcolor{comment}{/* Check the input parameters format */}
+00955   \textcolor{keywordflow}{if} (RTC\_Format != RTC_Format_BIN)
+00956   \{
+00957     tmpreg = ((((uint32\_t)RTC\_DateStruct->RTC_Year) << 16) | \(\backslash\)
+00958               (((uint32\_t)RTC\_DateStruct->RTC_Month) << 8) | \(\backslash\)
+00959               ((uint32\_t)RTC\_DateStruct->RTC_Date) | \(\backslash\)
+00960               (((uint32\_t)RTC\_DateStruct->RTC_WeekDay) << 13)); 
+00961   \}  
+00962   \textcolor{keywordflow}{else}
+00963   \{
+00964     tmpreg = (((uint32\_t)RTC_ByteToBcd2(RTC\_DateStruct->RTC_Year) << 16) | \(\backslash\)
+00965               ((uint32\_t)RTC_ByteToBcd2(RTC\_DateStruct->RTC_Month) << 8) | \(\backslash\)
+00966               ((uint32\_t)RTC_ByteToBcd2(RTC\_DateStruct->RTC_Date)) | \(\backslash\)
+00967               ((uint32\_t)RTC\_DateStruct->RTC_WeekDay << 13));
+00968   \}
+00969 
+00970   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00971   RTC->WPR = 0xCA;
+00972   RTC->WPR = 0x53;
+00973 
+00974   \textcolor{comment}{/* Set Initialization mode */}
+00975   \textcolor{keywordflow}{if} (RTC_EnterInitMode() == ERROR)
+00976   \{
+00977     status = ERROR;
+00978   \} 
+00979   \textcolor{keywordflow}{else}
+00980   \{
+00981     \textcolor{comment}{/* Set the RTC\_DR register */}
+00982     RTC->DR = (uint32\_t)(tmpreg & RTC_DR_RESERVED_MASK);
+00983 
+00984     \textcolor{comment}{/* Exit Initialization mode */}
+00985     RTC_ExitInitMode(); 
+00986 
+00987     \textcolor{keywordflow}{if}(RTC_WaitForSynchro() == ERROR)
+00988     \{
+00989       status = ERROR;
+00990     \}
+00991     \textcolor{keywordflow}{else}
+00992     \{
+00993       status = SUCCESS;
+00994     \}
+00995   \}
+00996   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00997   RTC->WPR = 0xFF;   
+00998   
+00999   \textcolor{keywordflow}{return} status;
+01000 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga9f9df80cfa82f7a4dd9f4d0cf2ffb3a6}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Set\+Time@{R\+T\+C\+\_\+\+Set\+Time}}
+\index{R\+T\+C\+\_\+\+Set\+Time@{R\+T\+C\+\_\+\+Set\+Time}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Set\+Time()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Set\+Time (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Format,  }\item[{\textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Time\+Struct }\end{DoxyParamCaption})}
+
+
+
+Set the R\+TC current time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Format} & specifies the format of the entered parameters. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Format\+\_\+\+B\+IN\+: Binary data format \item R\+T\+C\+\_\+\+Format\+\_\+\+B\+CD\+: B\+CD data format \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Time\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Time\+Type\+Def}{p.}{structRTC__TimeTypeDef} structure that contains the time configuration information for the R\+TC. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC Time register is configured
+\item E\+R\+R\+OR\+: R\+TC Time register is not configured 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 753} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}, \textbf{ R\+T\+C\+\_\+\+Byte\+To\+Bcd2()}, \textbf{ R\+T\+C\+\_\+\+Enter\+Init\+Mode()}, \textbf{ R\+T\+C\+\_\+\+Exit\+Init\+Mode()}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+H12}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Hours}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Minutes}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Seconds}, \textbf{ R\+T\+C\+\_\+\+Wait\+For\+Synchro()}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+00754 \{
+00755   uint32\_t tmpreg = 0;
+00756   ErrorStatus status = ERROR;
+00757     
+00758   \textcolor{comment}{/* Check the parameters */}
+00759   assert_param(IS_RTC_FORMAT(RTC\_Format));
+00760   
+00761   \textcolor{keywordflow}{if} (RTC\_Format == RTC_Format_BIN)
+00762   \{
+00763     \textcolor{keywordflow}{if} ((RTC->CR & RTC_CR_FMT) != (uint32\_t)RESET)
+00764     \{
+00765       assert_param(IS_RTC_HOUR12(RTC\_TimeStruct->RTC_Hours));
+00766       assert_param(IS_RTC_H12(RTC\_TimeStruct->RTC_H12));
+00767     \} 
+00768     \textcolor{keywordflow}{else}
+00769     \{
+00770       RTC\_TimeStruct->RTC_H12 = 0x00;
+00771       assert_param(IS_RTC_HOUR24(RTC\_TimeStruct->RTC_Hours));
+00772     \}
+00773     assert_param(IS_RTC_MINUTES(RTC\_TimeStruct->RTC_Minutes));
+00774     assert_param(IS_RTC_SECONDS(RTC\_TimeStruct->RTC_Seconds));
+00775   \}
+00776   \textcolor{keywordflow}{else}
+00777   \{
+00778     \textcolor{keywordflow}{if} ((RTC->CR & RTC_CR_FMT) != (uint32\_t)RESET)
+00779     \{
+00780       tmpreg = RTC_Bcd2ToByte(RTC\_TimeStruct->RTC_Hours);
+00781       assert_param(IS_RTC_HOUR12(tmpreg));
+00782       assert_param(IS_RTC_H12(RTC\_TimeStruct->RTC_H12)); 
+00783     \} 
+00784     \textcolor{keywordflow}{else}
+00785     \{
+00786       RTC\_TimeStruct->RTC_H12 = 0x00;
+00787       assert_param(IS_RTC_HOUR24(RTC_Bcd2ToByte(RTC\_TimeStruct->RTC_Hours)));
+00788     \}
+00789     assert_param(IS_RTC_MINUTES(RTC_Bcd2ToByte(RTC\_TimeStruct->RTC_Minutes)));
+00790     assert_param(IS_RTC_SECONDS(RTC_Bcd2ToByte(RTC\_TimeStruct->RTC_Seconds)));
+00791   \}
+00792   
+00793   \textcolor{comment}{/* Check the input parameters format */}
+00794   \textcolor{keywordflow}{if} (RTC\_Format != RTC_Format_BIN)
+00795   \{
+00796     tmpreg = (((uint32\_t)(RTC\_TimeStruct->RTC_Hours) << 16) | \(\backslash\)
+00797              ((uint32\_t)(RTC\_TimeStruct->RTC_Minutes) << 8) | \(\backslash\)
+00798              ((uint32\_t)RTC\_TimeStruct->RTC_Seconds) | \(\backslash\)
+00799              ((uint32\_t)(RTC\_TimeStruct->RTC_H12) << 16)); 
+00800   \}  
+00801   \textcolor{keywordflow}{else}
+00802   \{
+00803     tmpreg = (uint32\_t)(((uint32\_t)RTC_ByteToBcd2(RTC\_TimeStruct->RTC_Hours) << 16) | \(\backslash\)
+00804                    ((uint32\_t)RTC_ByteToBcd2(RTC\_TimeStruct->RTC_Minutes) << 8) | \(\backslash\)
+00805                    ((uint32\_t)RTC_ByteToBcd2(RTC\_TimeStruct->RTC_Seconds)) | \(\backslash\)
+00806                    (((uint32\_t)RTC\_TimeStruct->RTC_H12) << 16));
+00807   \}  
+00808 
+00809   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00810   RTC->WPR = 0xCA;
+00811   RTC->WPR = 0x53;
+00812 
+00813   \textcolor{comment}{/* Set Initialization mode */}
+00814   \textcolor{keywordflow}{if} (RTC_EnterInitMode() == ERROR)
+00815   \{
+00816     status = ERROR;
+00817   \} 
+00818   \textcolor{keywordflow}{else}
+00819   \{
+00820     \textcolor{comment}{/* Set the RTC\_TR register */}
+00821     RTC->TR = (uint32\_t)(tmpreg & RTC_TR_RESERVED_MASK);
+00822 
+00823     \textcolor{comment}{/* Exit Initialization mode */}
+00824     RTC_ExitInitMode(); 
+00825 
+00826     \textcolor{keywordflow}{if}(RTC_WaitForSynchro() == ERROR)
+00827     \{
+00828       status = ERROR;
+00829     \}
+00830     \textcolor{keywordflow}{else}
+00831     \{
+00832       status = SUCCESS;
+00833     \}
+00834   
+00835   \}
+00836   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00837   RTC->WPR = 0xFF; 
+00838     
+00839   \textcolor{keywordflow}{return} status;
+00840 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga1412044eb756a166c1cf341f3d46ed6b}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Set\+Wake\+Up\+Counter@{R\+T\+C\+\_\+\+Set\+Wake\+Up\+Counter}}
+\index{R\+T\+C\+\_\+\+Set\+Wake\+Up\+Counter@{R\+T\+C\+\_\+\+Set\+Wake\+Up\+Counter}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Set\+Wake\+Up\+Counter()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Set\+Wake\+Up\+Counter (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Wake\+Up\+Counter }\end{DoxyParamCaption})}
+
+
+
+Configures the R\+TC Wakeup counter. 
+
+\begin{DoxyNote}{Note}
+The R\+TC Wake\+Up counter can only be written when the R\+TC Wake\+Up is disabled (Use the R\+T\+C\+\_\+\+Wake\+Up\+Cmd(\+D\+I\+S\+A\+B\+L\+E)). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Wake\+Up\+Counter} & specifies the Wake\+Up counter. This parameter can be a value from 0x0000 to 0x\+F\+F\+FF. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1494} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+01495 \{
+01496   \textcolor{comment}{/* Check the parameters */}
+01497   assert_param(IS_RTC_WAKEUP_COUNTER(RTC\_WakeUpCounter));
+01498   
+01499   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01500   RTC->WPR = 0xCA;
+01501   RTC->WPR = 0x53;
+01502   
+01503   \textcolor{comment}{/* Configure the Wakeup Timer counter */}
+01504   RTC->WUTR = (uint32\_t)RTC\_WakeUpCounter;
+01505   
+01506   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01507   RTC->WPR = 0xFF; 
+01508 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga91a28dcc7d45340a469dd8b8c029f841}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Smooth\+Calib\+Config@{R\+T\+C\+\_\+\+Smooth\+Calib\+Config}}
+\index{R\+T\+C\+\_\+\+Smooth\+Calib\+Config@{R\+T\+C\+\_\+\+Smooth\+Calib\+Config}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Smooth\+Calib\+Config()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Smooth\+Calib\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Smooth\+Calib\+Period,  }\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Smooth\+Calib\+Plus\+Pulses,  }\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Smouth\+Calib\+Minus\+Pulses\+Value }\end{DoxyParamCaption})}
+
+
+
+Configures the Smooth Calibration Settings. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Smooth\+Calib\+Period} & \+: Select the Smooth Calibration Period. This parameter can be can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Smooth\+Calib\+Period\+\_\+32sec \+: The smooth calibration periode is 32s. \item R\+T\+C\+\_\+\+Smooth\+Calib\+Period\+\_\+16sec \+: The smooth calibration periode is 16s. \item R\+T\+C\+\_\+\+Smooth\+Calib\+Period\+\_\+8sec \+: The smooth calibartion periode is 8s. \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Smooth\+Calib\+Plus\+Pulses} & \+: Select to Set or reset the C\+A\+LP bit. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Smooth\+Calib\+Plus\+Pulses\+\_\+\+Set \+: Add one R\+T\+C\+C\+LK puls every 2$\ast$$\ast$11 pulses. \item R\+T\+C\+\_\+\+Smooth\+Calib\+Plus\+Pulses\+\_\+\+Reset\+: No R\+T\+C\+C\+LK pulses are added. \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Smouth\+Calib\+Minus\+Pulses\+Value} & Select the value of C\+A\+LM[8\+:0] bits. This parameter can be one any value from 0 to 0x000001\+FF. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC Calib registers are configured
+\item E\+R\+R\+OR\+: R\+TC Calib registers are not configured 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1879} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}.
+
+
+\begin{DoxyCode}
+01882 \{
+01883   ErrorStatus status = ERROR;
+01884   uint32\_t recalpfcount = 0;
+01885 
+01886   \textcolor{comment}{/* Check the parameters */}
+01887   assert_param(IS_RTC_SMOOTH_CALIB_PERIOD(RTC\_SmoothCalibPeriod));
+01888   assert_param(IS_RTC_SMOOTH_CALIB_PLUS(RTC\_SmoothCalibPlusPulses));
+01889   assert_param(IS_RTC_SMOOTH_CALIB_MINUS(RTC\_SmouthCalibMinusPulsesValue));
+01890 
+01891   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01892   RTC->WPR = 0xCA;
+01893   RTC->WPR = 0x53;
+01894   
+01895   \textcolor{comment}{/* check if a calibration is pending*/}
+01896   \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_RECALPF) != RESET)
+01897   \{
+01898     \textcolor{comment}{/* wait until the Calibration is completed*/}
+01899     \textcolor{keywordflow}{while} (((RTC->ISR & RTC_ISR_RECALPF) != RESET) && (recalpfcount != 
+      RECALPF_TIMEOUT))
+01900     \{
+01901       recalpfcount++;
+01902     \}
+01903   \}
+01904 
+01905   \textcolor{comment}{/* check if the calibration pending is completed or if there is no calibration operation at all*/}
+01906   \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_RECALPF) == RESET)
+01907   \{
+01908     \textcolor{comment}{/* Configure the Smooth calibration settings */}
+01909     RTC->CALR = (uint32\_t)((uint32\_t)RTC\_SmoothCalibPeriod | (uint32\_t)RTC\_SmoothCalibPlusPulses | (
+      uint32\_t)RTC\_SmouthCalibMinusPulsesValue);
+01910 
+01911     status = SUCCESS;
+01912   \}
+01913   \textcolor{keywordflow}{else}
+01914   \{
+01915     status = ERROR;
+01916   \}
+01917 
+01918   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01919   RTC->WPR = 0xFF;
+01920   
+01921   \textcolor{keywordflow}{return} (ErrorStatus)(status);
+01922 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_gab466f3348de3236976e9aec7d6025dff}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Struct\+Init@{R\+T\+C\+\_\+\+Struct\+Init}}
+\index{R\+T\+C\+\_\+\+Struct\+Init@{R\+T\+C\+\_\+\+Struct\+Init}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Struct\+Init()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ R\+T\+C\+\_\+\+Init\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each R\+T\+C\+\_\+\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Init\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Init\+Type\+Def}{p.}{structRTC__InitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 491} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+T\+C\+\_\+\+Init\+Type\+Def\+::\+R\+T\+C\+\_\+\+Asynch\+Prediv}, \textbf{ R\+T\+C\+\_\+\+Init\+Type\+Def\+::\+R\+T\+C\+\_\+\+Hour\+Format}, and \textbf{ R\+T\+C\+\_\+\+Init\+Type\+Def\+::\+R\+T\+C\+\_\+\+Synch\+Prediv}.
+
+
+\begin{DoxyCode}
+00492 \{
+00493   \textcolor{comment}{/* Initialize the RTC\_HourFormat member */}
+00494   RTC\_InitStruct->RTC_HourFormat = RTC_HourFormat_24;
+00495     
+00496   \textcolor{comment}{/* Initialize the RTC\_AsynchPrediv member */}
+00497   RTC\_InitStruct->RTC_AsynchPrediv = (uint32\_t)0x7F;
+00498 
+00499   \textcolor{comment}{/* Initialize the RTC\_SynchPrediv member */}
+00500   RTC\_InitStruct->RTC_SynchPrediv = (uint32\_t)0xFF; 
+00501 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_gaad434ed2a268f05662f0613e8e9717f3}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Synchro\+Shift\+Config@{R\+T\+C\+\_\+\+Synchro\+Shift\+Config}}
+\index{R\+T\+C\+\_\+\+Synchro\+Shift\+Config@{R\+T\+C\+\_\+\+Synchro\+Shift\+Config}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Synchro\+Shift\+Config()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Synchro\+Shift\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Shift\+Add1S,  }\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Shift\+Sub\+FS }\end{DoxyParamCaption})}
+
+
+
+Configures the Synchronization Shift Control Settings. 
+
+\begin{DoxyNote}{Note}
+When R\+E\+F\+C\+K\+ON is set, firmware must not write to Shift control register 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Shift\+Add1S} & \+: Select to add or not 1 second to the time Calendar. This parameter can be one of the following values \+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Shift\+Add1\+S\+\_\+\+Set \+: Add one second to the clock calendar. \item R\+T\+C\+\_\+\+Shift\+Add1\+S\+\_\+\+Reset\+: No effect. \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Shift\+Sub\+FS} & Select the number of Second Fractions to Substitute. This parameter can be one any value from 0 to 0x7\+F\+FF. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC Shift registers are configured
+\item E\+R\+R\+OR\+: R\+TC Shift registers are not configured 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2411} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}.
+
+
+\begin{DoxyCode}
+02412 \{
+02413   ErrorStatus status = ERROR;
+02414   uint32\_t shpfcount = 0;
+02415 
+02416   \textcolor{comment}{/* Check the parameters */}
+02417   assert_param(IS_RTC_SHIFT_ADD1S(RTC\_ShiftAdd1S));
+02418   assert_param(IS_RTC_SHIFT_SUBFS(RTC\_ShiftSubFS));
+02419 
+02420   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+02421   RTC->WPR = 0xCA;
+02422   RTC->WPR = 0x53;
+02423   
+02424   \textcolor{comment}{/* Check if a Shift is pending*/}
+02425   \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_SHPF) != RESET)
+02426   \{
+02427     \textcolor{comment}{/* Wait until the shift is completed*/}
+02428     \textcolor{keywordflow}{while} (((RTC->ISR & RTC_ISR_SHPF) != RESET) && (shpfcount != SHPF_TIMEOUT))
+02429     \{
+02430       shpfcount++;
+02431     \}
+02432   \}
+02433 
+02434   \textcolor{comment}{/* Check if the Shift pending is completed or if there is no Shift operation at all*/}
+02435   \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_SHPF) == RESET)
+02436   \{
+02437     \textcolor{comment}{/* check if the reference clock detection is disabled */}
+02438     \textcolor{keywordflow}{if}((RTC->CR & RTC_CR_REFCKON) == RESET)
+02439     \{
+02440       \textcolor{comment}{/* Configure the Shift settings */}
+02441       RTC->SHIFTR = (uint32\_t)(uint32\_t)(RTC\_ShiftSubFS) | (uint32\_t)(RTC\_ShiftAdd1S);
+02442     
+02443       \textcolor{keywordflow}{if}(RTC_WaitForSynchro() == ERROR)
+02444       \{
+02445         status = ERROR;
+02446       \}
+02447       \textcolor{keywordflow}{else}
+02448       \{
+02449         status = SUCCESS;
+02450       \}
+02451     \}
+02452     \textcolor{keywordflow}{else}
+02453     \{
+02454       status = ERROR;
+02455     \}
+02456   \}
+02457   \textcolor{keywordflow}{else}
+02458   \{
+02459     status = ERROR;
+02460   \}
+02461 
+02462   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+02463   RTC->WPR = 0xFF;
+02464   
+02465   \textcolor{keywordflow}{return} (ErrorStatus)(status);
+02466 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_gaf85cc696d624da0de9fbe99779402833}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Tamper\+Cmd@{R\+T\+C\+\_\+\+Tamper\+Cmd}}
+\index{R\+T\+C\+\_\+\+Tamper\+Cmd@{R\+T\+C\+\_\+\+Tamper\+Cmd}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Tamper\+Cmd()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Tamper\+Cmd (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Tamper,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or Disables the Tamper detection. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Tamper} & Selected tamper pin. This parameter can be R\+T\+C\+\_\+\+Tamper\+\_\+1. \\
+\hline
+{\em New\+State} & new state of the tamper pin. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2104} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+02105 \{
+02106   \textcolor{comment}{/* Check the parameters */}
+02107   assert_param(IS_RTC_TAMPER(RTC\_Tamper));  
+02108   assert_param(IS_FUNCTIONAL_STATE(NewState));
+02109   
+02110   \textcolor{keywordflow}{if} (NewState != DISABLE)
+02111   \{
+02112     \textcolor{comment}{/* Enable the selected Tamper pin */}
+02113     RTC->TAFCR |= (uint32\_t)RTC\_Tamper;
+02114   \}
+02115   \textcolor{keywordflow}{else}
+02116   \{
+02117     \textcolor{comment}{/* Disable the selected Tamper pin */}
+02118     RTC->TAFCR &= (uint32\_t)~RTC\_Tamper;    
+02119   \}  
+02120 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga1e87b9ae757ad12d7585e4fbcbf2c4b8}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Tamper\+Filter\+Config@{R\+T\+C\+\_\+\+Tamper\+Filter\+Config}}
+\index{R\+T\+C\+\_\+\+Tamper\+Filter\+Config@{R\+T\+C\+\_\+\+Tamper\+Filter\+Config}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Tamper\+Filter\+Config()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Tamper\+Filter\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Tamper\+Filter }\end{DoxyParamCaption})}
+
+
+
+Configures the Tampers Filter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Tamper\+Filter} & Specifies the tampers filter. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Tamper\+Filter\+\_\+\+Disable\+: Tamper filter is disabled. \item R\+T\+C\+\_\+\+Tamper\+Filter\+\_\+2\+Sample\+: Tamper is activated after 2 consecutive samples at the active level \item R\+T\+C\+\_\+\+Tamper\+Filter\+\_\+4\+Sample\+: Tamper is activated after 4 consecutive samples at the active level \item R\+T\+C\+\_\+\+Tamper\+Filter\+\_\+8\+Sample\+: Tamper is activated after 8 consecutive samples at the active level \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2135} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02136 \{
+02137   \textcolor{comment}{/* Check the parameters */}
+02138   assert_param(IS_RTC_TAMPER_FILTER(RTC\_TamperFilter));
+02139    
+02140   \textcolor{comment}{/* Clear TAMPFLT[1:0] bits in the RTC\_TAFCR register */}
+02141   RTC->TAFCR &= (uint32\_t)~(RTC_TAFCR_TAMPFLT);
+02142 
+02143   \textcolor{comment}{/* Configure the RTC\_TAFCR register */}
+02144   RTC->TAFCR |= (uint32\_t)RTC\_TamperFilter;
+02145 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga46777272ae77eb9dc38610481e12b0ed}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Tamper\+Pin\+Selection@{R\+T\+C\+\_\+\+Tamper\+Pin\+Selection}}
+\index{R\+T\+C\+\_\+\+Tamper\+Pin\+Selection@{R\+T\+C\+\_\+\+Tamper\+Pin\+Selection}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Tamper\+Pin\+Selection()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Tamper\+Pin\+Selection (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Tamper\+Pin }\end{DoxyParamCaption})}
+
+
+
+Selects the R\+TC Tamper Pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Tamper\+Pin} & specifies the R\+TC Tamper Pin. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Tamper\+Pin\+\_\+\+P\+C13\+: P\+C13 is selected as R\+TC Tamper Pin. \item R\+T\+C\+\_\+\+Tamper\+Pin\+\_\+\+P\+I8\+: P\+I8 is selected as R\+TC Tamper Pin. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2337} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02338 \{
+02339   \textcolor{comment}{/* Check the parameters */}
+02340   assert_param(IS_RTC_TAMPER_PIN(RTC\_TamperPin));
+02341   
+02342   RTC->TAFCR &= (uint32\_t)~(RTC_TAFCR_TAMPINSEL);
+02343   RTC->TAFCR |= (uint32\_t)(RTC\_TamperPin);  
+02344 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_gafc176a013076a651862dc6a957286025}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Tamper\+Pins\+Precharge\+Duration@{R\+T\+C\+\_\+\+Tamper\+Pins\+Precharge\+Duration}}
+\index{R\+T\+C\+\_\+\+Tamper\+Pins\+Precharge\+Duration@{R\+T\+C\+\_\+\+Tamper\+Pins\+Precharge\+Duration}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Tamper\+Pins\+Precharge\+Duration()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Tamper\+Pins\+Precharge\+Duration (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Tamper\+Precharge\+Duration }\end{DoxyParamCaption})}
+
+
+
+Configures the Tampers Pins input Precharge Duration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Tamper\+Precharge\+Duration} & Specifies the Tampers Pins input Precharge Duration. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Tamper\+Precharge\+Duration\+\_\+1\+R\+T\+C\+C\+LK\+: Tamper pins are pre-\/charged before sampling during 1 R\+T\+C\+C\+LK cycle \item R\+T\+C\+\_\+\+Tamper\+Precharge\+Duration\+\_\+2\+R\+T\+C\+C\+LK\+: Tamper pins are pre-\/charged before sampling during 2 R\+T\+C\+C\+LK cycle \item R\+T\+C\+\_\+\+Tamper\+Precharge\+Duration\+\_\+4\+R\+T\+C\+C\+LK\+: Tamper pins are pre-\/charged before sampling during 4 R\+T\+C\+C\+LK cycle \item R\+T\+C\+\_\+\+Tamper\+Precharge\+Duration\+\_\+8\+R\+T\+C\+C\+LK\+: Tamper pins are pre-\/charged before sampling during 8 R\+T\+C\+C\+LK cycle \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2192} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02193 \{
+02194   \textcolor{comment}{/* Check the parameters */}
+02195   assert_param(IS_RTC_TAMPER_PRECHARGE_DURATION(RTC\_TamperPrechargeDuration));
+02196    
+02197   \textcolor{comment}{/* Clear TAMPPRCH[1:0] bits in the RTC\_TAFCR register */}
+02198   RTC->TAFCR &= (uint32\_t)~(RTC_TAFCR_TAMPPRCH);
+02199 
+02200   \textcolor{comment}{/* Configure the RTC\_TAFCR register */}
+02201   RTC->TAFCR |= (uint32\_t)RTC\_TamperPrechargeDuration;
+02202 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga981b9c654e521282a2020a81118c8c3c}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Tamper\+Pull\+Up\+Cmd@{R\+T\+C\+\_\+\+Tamper\+Pull\+Up\+Cmd}}
+\index{R\+T\+C\+\_\+\+Tamper\+Pull\+Up\+Cmd@{R\+T\+C\+\_\+\+Tamper\+Pull\+Up\+Cmd}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Tamper\+Pull\+Up\+Cmd()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Tamper\+Pull\+Up\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or Disables the Precharge of Tamper pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of tamper pull up. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2235} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+02236 \{
+02237   \textcolor{comment}{/* Check the parameters */}
+02238   assert_param(IS_FUNCTIONAL_STATE(NewState));
+02239   
+02240  \textcolor{keywordflow}{if} (NewState != DISABLE)
+02241   \{
+02242     \textcolor{comment}{/* Enable precharge of the selected Tamper pin */}
+02243     RTC->TAFCR &= (uint32\_t)~RTC_TAFCR_TAMPPUDIS; 
+02244   \}
+02245   \textcolor{keywordflow}{else}
+02246   \{
+02247     \textcolor{comment}{/* Disable precharge of the selected Tamper pin */}
+02248     RTC->TAFCR |= (uint32\_t)RTC_TAFCR_TAMPPUDIS;    
+02249   \} 
+02250 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_gadc7f33a31df80b5deac313fc8af8d7f7}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+Config@{R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+Config}}
+\index{R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+Config@{R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+Config}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+Config()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq }\end{DoxyParamCaption})}
+
+
+
+Configures the Tampers Sampling Frequency. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq} & Specifies the tampers Sampling Frequency. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div32768\+: Each of the tamper inputs are sampled with a frequency = R\+T\+C\+C\+LK / 32768 \item R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div16384\+: Each of the tamper inputs are sampled with a frequency = R\+T\+C\+C\+LK / 16384 \item R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div8192\+: Each of the tamper inputs are sampled with a frequency = R\+T\+C\+C\+LK / 8192 \item R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div4096\+: Each of the tamper inputs are sampled with a frequency = R\+T\+C\+C\+LK / 4096 \item R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div2048\+: Each of the tamper inputs are sampled with a frequency = R\+T\+C\+C\+LK / 2048 \item R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div1024\+: Each of the tamper inputs are sampled with a frequency = R\+T\+C\+C\+LK / 1024 \item R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div512\+: Each of the tamper inputs are sampled with a frequency = R\+T\+C\+C\+LK / 512 \item R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div256\+: Each of the tamper inputs are sampled with a frequency = R\+T\+C\+C\+LK / 256 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2169} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02170 \{
+02171   \textcolor{comment}{/* Check the parameters */}
+02172   assert_param(IS_RTC_TAMPER_SAMPLING_FREQ(RTC\_TamperSamplingFreq));
+02173  
+02174   \textcolor{comment}{/* Clear TAMPFREQ[2:0] bits in the RTC\_TAFCR register */}
+02175   RTC->TAFCR &= (uint32\_t)~(RTC_TAFCR_TAMPFREQ);
+02176 
+02177   \textcolor{comment}{/* Configure the RTC\_TAFCR register */}
+02178   RTC->TAFCR |= (uint32\_t)RTC\_TamperSamplingFreq;
+02179 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_gad547d636cfc4fd8d4d673325571e0ffb}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Tamper\+Trigger\+Config@{R\+T\+C\+\_\+\+Tamper\+Trigger\+Config}}
+\index{R\+T\+C\+\_\+\+Tamper\+Trigger\+Config@{R\+T\+C\+\_\+\+Tamper\+Trigger\+Config}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Tamper\+Trigger\+Config()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Tamper\+Trigger\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Tamper,  }\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Tamper\+Trigger }\end{DoxyParamCaption})}
+
+
+
+Configures the select Tamper pin edge. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Tamper} & Selected tamper pin. This parameter can be R\+T\+C\+\_\+\+Tamper\+\_\+1. \\
+\hline
+{\em R\+T\+C\+\_\+\+Tamper\+Trigger} & Specifies the trigger on the tamper pin that stimulates tamper event. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Tamper\+Trigger\+\_\+\+Rising\+Edge\+: Rising Edge of the tamper pin causes tamper event. \item R\+T\+C\+\_\+\+Tamper\+Trigger\+\_\+\+Falling\+Edge\+: Falling Edge of the tamper pin causes tamper event. \item R\+T\+C\+\_\+\+Tamper\+Trigger\+\_\+\+Low\+Level\+: Low Level of the tamper pin causes tamper event. \item R\+T\+C\+\_\+\+Tamper\+Trigger\+\_\+\+High\+Level\+: High Level of the tamper pin causes tamper event. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2078} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02079 \{
+02080   \textcolor{comment}{/* Check the parameters */}
+02081   assert_param(IS_RTC_TAMPER(RTC\_Tamper)); 
+02082   assert_param(IS_RTC_TAMPER_TRIGGER(RTC\_TamperTrigger));
+02083  
+02084   \textcolor{keywordflow}{if} (RTC\_TamperTrigger == RTC_TamperTrigger_RisingEdge)
+02085   \{  
+02086     \textcolor{comment}{/* Configure the RTC\_TAFCR register */}
+02087     RTC->TAFCR &= (uint32\_t)((uint32\_t)~(RTC\_Tamper << 1)); 
+02088   \}
+02089   \textcolor{keywordflow}{else}
+02090   \{ 
+02091     \textcolor{comment}{/* Configure the RTC\_TAFCR register */}
+02092     RTC->TAFCR |= (uint32\_t)(RTC\_Tamper << 1);  
+02093   \}  
+02094 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga7d80fa4a2c87654598d8207154ac8e96}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Time\+Stamp\+Cmd@{R\+T\+C\+\_\+\+Time\+Stamp\+Cmd}}
+\index{R\+T\+C\+\_\+\+Time\+Stamp\+Cmd@{R\+T\+C\+\_\+\+Time\+Stamp\+Cmd}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Time\+Stamp\+Cmd()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Time\+Stamp\+Cmd (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Time\+Stamp\+Edge,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or Disables the R\+TC Time\+Stamp functionality with the specified time stamp pin stimulating edge. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Time\+Stamp\+Edge} & Specifies the pin edge on which the Time\+Stamp is activated. This parameter can be one of the following\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Time\+Stamp\+Edge\+\_\+\+Rising\+: the Time stamp event occurs on the rising edge of the related pin. \item R\+T\+C\+\_\+\+Time\+Stamp\+Edge\+\_\+\+Falling\+: the Time stamp event occurs on the falling edge of the related pin. \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the Time\+Stamp. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1955} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+01956 \{
+01957   uint32\_t tmpreg = 0;
+01958 
+01959   \textcolor{comment}{/* Check the parameters */}
+01960   assert_param(IS_RTC_TIMESTAMP_EDGE(RTC\_TimeStampEdge));
+01961   assert_param(IS_FUNCTIONAL_STATE(NewState));
+01962 
+01963   \textcolor{comment}{/* Get the RTC\_CR register and clear the bits to be configured */}
+01964   tmpreg = (uint32\_t)(RTC->CR & (uint32\_t)~(RTC_CR_TSEDGE | RTC_CR_TSE));
+01965 
+01966   \textcolor{comment}{/* Get the new configuration */}
+01967   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01968   \{
+01969     tmpreg |= (uint32\_t)(RTC\_TimeStampEdge | RTC_CR_TSE);
+01970   \}
+01971   \textcolor{keywordflow}{else}
+01972   \{
+01973     tmpreg |= (uint32\_t)(RTC\_TimeStampEdge);
+01974   \}
+01975 
+01976   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01977   RTC->WPR = 0xCA;
+01978   RTC->WPR = 0x53;
+01979 
+01980   \textcolor{comment}{/* Configure the Time Stamp TSEDGE and Enable bits */}
+01981   RTC->CR = (uint32\_t)tmpreg;
+01982 
+01983   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01984   RTC->WPR = 0xFF; 
+01985 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga29c82fceefd21a78dc55ccc5bcc1ed59}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Time\+Stamp\+On\+Tamper\+Detection\+Cmd@{R\+T\+C\+\_\+\+Time\+Stamp\+On\+Tamper\+Detection\+Cmd}}
+\index{R\+T\+C\+\_\+\+Time\+Stamp\+On\+Tamper\+Detection\+Cmd@{R\+T\+C\+\_\+\+Time\+Stamp\+On\+Tamper\+Detection\+Cmd}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Time\+Stamp\+On\+Tamper\+Detection\+Cmd()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Time\+Stamp\+On\+Tamper\+Detection\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or Disables the Time\+Stamp on Tamper Detection Event. 
+
+\begin{DoxyNote}{Note}
+The timestamp is valid even the T\+SE bit in tamper control register is reset. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the timestamp on tamper event. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2212} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+02213 \{
+02214   \textcolor{comment}{/* Check the parameters */}
+02215   assert_param(IS_FUNCTIONAL_STATE(NewState));
+02216    
+02217   \textcolor{keywordflow}{if} (NewState != DISABLE)
+02218   \{
+02219     \textcolor{comment}{/* Save timestamp on tamper detection event */}
+02220     RTC->TAFCR |= (uint32\_t)RTC_TAFCR_TAMPTS;
+02221   \}
+02222   \textcolor{keywordflow}{else}
+02223   \{
+02224     \textcolor{comment}{/* Tamper detection does not cause a timestamp to be saved */}
+02225     RTC->TAFCR &= (uint32\_t)~RTC_TAFCR_TAMPTS;    
+02226   \}
+02227 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_gaedf9830bdaaaa50ea5d45d2ff7bb43a9}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Time\+Stamp\+Pin\+Selection@{R\+T\+C\+\_\+\+Time\+Stamp\+Pin\+Selection}}
+\index{R\+T\+C\+\_\+\+Time\+Stamp\+Pin\+Selection@{R\+T\+C\+\_\+\+Time\+Stamp\+Pin\+Selection}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Time\+Stamp\+Pin\+Selection()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Time\+Stamp\+Pin\+Selection (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Time\+Stamp\+Pin }\end{DoxyParamCaption})}
+
+
+
+Selects the R\+TC Time\+Stamp Pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Time\+Stamp\+Pin} & specifies the R\+TC Time\+Stamp Pin. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Time\+Stamp\+Pin\+\_\+\+P\+C13\+: P\+C13 is selected as R\+TC Time\+Stamp Pin. \item R\+T\+C\+\_\+\+Time\+Stamp\+Pin\+\_\+\+P\+I8\+: P\+I8 is selected as R\+TC Time\+Stamp Pin. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2354} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02355 \{
+02356   \textcolor{comment}{/* Check the parameters */}
+02357   assert_param(IS_RTC_TIMESTAMP_PIN(RTC\_TimeStampPin));
+02358   
+02359   RTC->TAFCR &= (uint32\_t)~(RTC_TAFCR_TSINSEL);
+02360   RTC->TAFCR |= (uint32\_t)(RTC\_TimeStampPin);  
+02361 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga0404db6e0c70e5a6bbbe4fa58a577365}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Time\+Struct\+Init@{R\+T\+C\+\_\+\+Time\+Struct\+Init}}
+\index{R\+T\+C\+\_\+\+Time\+Struct\+Init@{R\+T\+C\+\_\+\+Time\+Struct\+Init}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Time\+Struct\+Init()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Time\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Time\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each R\+T\+C\+\_\+\+Time\+Struct member with its default value (Time = 00h\+:00min\+:00sec). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Time\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Time\+Type\+Def}{p.}{structRTC__TimeTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 849} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+H12}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Hours}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Minutes}, and \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Seconds}.
+
+
+\begin{DoxyCode}
+00850 \{
+00851   \textcolor{comment}{/* Time = 00h:00min:00sec */}
+00852   RTC\_TimeStruct->RTC_H12 = RTC_H12_AM;
+00853   RTC\_TimeStruct->RTC_Hours = 0;
+00854   RTC\_TimeStruct->RTC_Minutes = 0;
+00855   RTC\_TimeStruct->RTC_Seconds = 0; 
+00856 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga2938febeef6baf0d91cc066ca5caf095}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Wait\+For\+Synchro@{R\+T\+C\+\_\+\+Wait\+For\+Synchro}}
+\index{R\+T\+C\+\_\+\+Wait\+For\+Synchro@{R\+T\+C\+\_\+\+Wait\+For\+Synchro}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Wait\+For\+Synchro()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Wait\+For\+Synchro (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Waits until the R\+TC Time and Date registers (R\+T\+C\+\_\+\+TR and R\+T\+C\+\_\+\+DR) are synchronized with R\+TC A\+PB clock. 
+
+\begin{DoxyNote}{Note}
+The R\+TC Resynchronization mode is write protected, use the R\+T\+C\+\_\+\+Write\+Protection\+Cmd(\+D\+I\+S\+A\+B\+L\+E) before calling this function. 
+
+To read the calendar through the shadow registers after Calendar initialization, calendar update or after wakeup from low power modes the software must first clear the R\+SF flag. The software must then wait until it is set again before reading the calendar, which means that the calendar registers have been correctly copied into the R\+T\+C\+\_\+\+TR and R\+T\+C\+\_\+\+DR shadow registers. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC registers are synchronised
+\item E\+R\+R\+OR\+: R\+TC registers are not synchronised 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 607} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}.
+
+
+
+Referenced by \textbf{ R\+T\+C\+\_\+\+Set\+Date()}, and \textbf{ R\+T\+C\+\_\+\+Set\+Time()}.
+
+
+\begin{DoxyCode}
+00608 \{
+00609   \_\_IO uint32\_t synchrocounter = 0;
+00610   ErrorStatus status = ERROR;
+00611   uint32\_t synchrostatus = 0x00;
+00612 
+00613   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00614   RTC->WPR = 0xCA;
+00615   RTC->WPR = 0x53;
+00616     
+00617   \textcolor{comment}{/* Clear RSF flag */}
+00618   RTC->ISR &= (uint32\_t)RTC_RSF_MASK;
+00619     
+00620   \textcolor{comment}{/* Wait the registers to be synchronised */}
+00621   \textcolor{keywordflow}{do}
+00622   \{
+00623     synchrostatus = RTC->ISR & RTC_ISR_RSF;
+00624     synchrocounter++;  
+00625   \} \textcolor{keywordflow}{while}((synchrocounter != SYNCHRO_TIMEOUT) && (synchrostatus == 0x00));
+00626     
+00627   \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_RSF) != RESET)
+00628   \{
+00629     status = SUCCESS;
+00630   \}
+00631   \textcolor{keywordflow}{else}
+00632   \{
+00633     status = ERROR;
+00634   \}        
+00635 
+00636   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00637   RTC->WPR = 0xFF; 
+00638     
+00639   \textcolor{keywordflow}{return} (status); 
+00640 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga2557b02b318211112731a91a190c4b26}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Wake\+Up\+Clock\+Config@{R\+T\+C\+\_\+\+Wake\+Up\+Clock\+Config}}
+\index{R\+T\+C\+\_\+\+Wake\+Up\+Clock\+Config@{R\+T\+C\+\_\+\+Wake\+Up\+Clock\+Config}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Wake\+Up\+Clock\+Config()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Wake\+Up\+Clock\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Wake\+Up\+Clock }\end{DoxyParamCaption})}
+
+
+
+Configures the R\+TC Wakeup clock source. 
+
+\begin{DoxyNote}{Note}
+The Wake\+Up Clock source can only be changed when the R\+TC Wake\+Up is disabled (Use the R\+T\+C\+\_\+\+Wake\+Up\+Cmd(\+D\+I\+S\+A\+B\+L\+E)). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Wake\+Up\+Clock} & Wakeup Clock source. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Wake\+Up\+Clock\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div16\+: R\+TC Wakeup Counter Clock = R\+T\+C\+C\+L\+K/16 \item R\+T\+C\+\_\+\+Wake\+Up\+Clock\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div8\+: R\+TC Wakeup Counter Clock = R\+T\+C\+C\+L\+K/8 \item R\+T\+C\+\_\+\+Wake\+Up\+Clock\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div4\+: R\+TC Wakeup Counter Clock = R\+T\+C\+C\+L\+K/4 \item R\+T\+C\+\_\+\+Wake\+Up\+Clock\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div2\+: R\+TC Wakeup Counter Clock = R\+T\+C\+C\+L\+K/2 \item R\+T\+C\+\_\+\+Wake\+Up\+Clock\+\_\+\+C\+K\+\_\+\+S\+P\+R\+E\+\_\+16bits\+: R\+TC Wakeup Counter Clock = C\+K\+\_\+\+S\+P\+RE \item R\+T\+C\+\_\+\+Wake\+Up\+Clock\+\_\+\+C\+K\+\_\+\+S\+P\+R\+E\+\_\+17bits\+: R\+TC Wakeup Counter Clock = C\+K\+\_\+\+S\+P\+RE \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1467} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+01468 \{
+01469   \textcolor{comment}{/* Check the parameters */}
+01470   assert_param(IS_RTC_WAKEUP_CLOCK(RTC\_WakeUpClock));
+01471 
+01472   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01473   RTC->WPR = 0xCA;
+01474   RTC->WPR = 0x53;
+01475 
+01476   \textcolor{comment}{/* Clear the Wakeup Timer clock source bits in CR register */}
+01477   RTC->CR &= (uint32\_t)~RTC_CR_WUCKSEL;
+01478 
+01479   \textcolor{comment}{/* Configure the clock source */}
+01480   RTC->CR |= (uint32\_t)RTC\_WakeUpClock;
+01481   
+01482   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01483   RTC->WPR = 0xFF; 
+01484 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga2ce05293303e0d7879c6d755c5355b4c}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Wake\+Up\+Cmd@{R\+T\+C\+\_\+\+Wake\+Up\+Cmd}}
+\index{R\+T\+C\+\_\+\+Wake\+Up\+Cmd@{R\+T\+C\+\_\+\+Wake\+Up\+Cmd}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Wake\+Up\+Cmd()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Wake\+Up\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or Disables the R\+TC Wake\+Up timer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the Wake\+Up timer. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1527} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+R\+R\+OR}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+01528 \{
+01529   \_\_IO uint32\_t wutcounter = 0x00;
+01530   uint32\_t wutwfstatus = 0x00;
+01531   ErrorStatus status = ERROR;
+01532   
+01533   \textcolor{comment}{/* Check the parameters */}
+01534   assert_param(IS_FUNCTIONAL_STATE(NewState));
+01535 
+01536   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01537   RTC->WPR = 0xCA;
+01538   RTC->WPR = 0x53;
+01539 
+01540   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01541   \{
+01542     \textcolor{comment}{/* Enable the Wakeup Timer */}
+01543     RTC->CR |= (uint32\_t)RTC_CR_WUTE;
+01544     status = SUCCESS;    
+01545   \}
+01546   \textcolor{keywordflow}{else}
+01547   \{
+01548     \textcolor{comment}{/* Disable the Wakeup Timer */}
+01549     RTC->CR &= (uint32\_t)~RTC_CR_WUTE;
+01550     \textcolor{comment}{/* Wait till RTC WUTWF flag is set and if Time out is reached exit */}
+01551     \textcolor{keywordflow}{do}
+01552     \{
+01553       wutwfstatus = RTC->ISR & RTC_ISR_WUTWF;
+01554       wutcounter++;  
+01555     \} \textcolor{keywordflow}{while}((wutcounter != INITMODE_TIMEOUT) && (wutwfstatus == 0x00));
+01556     
+01557     \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_WUTWF) == RESET)
+01558     \{
+01559       status = ERROR;
+01560     \}
+01561     \textcolor{keywordflow}{else}
+01562     \{
+01563       status = SUCCESS;
+01564     \}    
+01565   \}
+01566 
+01567   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01568   RTC->WPR = 0xFF; 
+01569   
+01570   \textcolor{keywordflow}{return} status;
+01571 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_gaa1241e2b47d04acc116b50d7b031c3aa}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Write\+Backup\+Register@{R\+T\+C\+\_\+\+Write\+Backup\+Register}}
+\index{R\+T\+C\+\_\+\+Write\+Backup\+Register@{R\+T\+C\+\_\+\+Write\+Backup\+Register}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Write\+Backup\+Register()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Write\+Backup\+Register (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+DR,  }\item[{uint32\+\_\+t}]{Data }\end{DoxyParamCaption})}
+
+
+
+Writes a data in a specified R\+TC Backup data register. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+DR} & R\+TC Backup data Register number. This parameter can be\+: R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+Rx where x can be from 0 to 19 to specify the register. \\
+\hline
+{\em Data} & Data to be written in the specified R\+TC Backup data register. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2276} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02277 \{
+02278   \_\_IO uint32\_t tmp = 0;
+02279   
+02280   \textcolor{comment}{/* Check the parameters */}
+02281   assert_param(IS_RTC_BKP(RTC\_BKP\_DR));
+02282 
+02283   tmp = RTC_BASE + 0x50;
+02284   tmp += (RTC\_BKP\_DR * 4);
+02285 
+02286   \textcolor{comment}{/* Write the specified register */}
+02287   *(\_\_IO uint32\_t *)tmp = (uint32\_t)Data;
+02288 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC_ga9d4bdfd3ae6957630d15d2497573b7c7}} 
+\index{R\+TC@{R\+TC}!R\+T\+C\+\_\+\+Write\+Protection\+Cmd@{R\+T\+C\+\_\+\+Write\+Protection\+Cmd}}
+\index{R\+T\+C\+\_\+\+Write\+Protection\+Cmd@{R\+T\+C\+\_\+\+Write\+Protection\+Cmd}!R\+TC@{R\+TC}}
+\subsubsection{R\+T\+C\+\_\+\+Write\+Protection\+Cmd()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Write\+Protection\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the R\+TC registers write protection. 
+
+\begin{DoxyNote}{Note}
+All the R\+TC registers are write protected except for R\+T\+C\+\_\+\+I\+SR[13\+:8], R\+T\+C\+\_\+\+T\+A\+F\+CR and R\+T\+C\+\_\+\+B\+K\+PxR. 
+
+Writing a wrong key reactivates the write protection. 
+
+The protection mechanism is not affected by system reset. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the write protection. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 513} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00514 \{
+00515   \textcolor{comment}{/* Check the parameters */}
+00516   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00517     
+00518   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00519   \{
+00520     \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00521     RTC->WPR = 0xFF;   
+00522   \}
+00523   \textcolor{keywordflow}{else}
+00524   \{
+00525     \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00526     RTC->WPR = 0xCA;
+00527     RTC->WPR = 0x53;    
+00528   \}
+00529 \}
+\end{DoxyCode}

@@ -1,0 +1,587 @@
+\section{Initialization and Configuration functions}
+\label{group__CAN__Group1}\index{Initialization and Configuration functions@{Initialization and Configuration functions}}
+
+
+Initialization and Configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ C\+A\+N\+\_\+\+De\+Init} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx)
+\begin{DoxyCompactList}\small\item\em Deinitializes the C\+AN peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ C\+A\+N\+\_\+\+Init} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, \textbf{ C\+A\+N\+\_\+\+Init\+Type\+Def} $\ast$C\+A\+N\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the C\+AN peripheral according to the specified parameters in the C\+A\+N\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ C\+A\+N\+\_\+\+Filter\+Init} (\textbf{ C\+A\+N\+\_\+\+Filter\+Init\+Type\+Def} $\ast$C\+A\+N\+\_\+\+Filter\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Configures the C\+AN reception filter according to the specified parameters in the C\+A\+N\+\_\+\+Filter\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ C\+A\+N\+\_\+\+Struct\+Init} (\textbf{ C\+A\+N\+\_\+\+Init\+Type\+Def} $\ast$C\+A\+N\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each C\+A\+N\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ C\+A\+N\+\_\+\+Slave\+Start\+Bank} (uint8\+\_\+t C\+A\+N\+\_\+\+Bank\+Number)
+\begin{DoxyCompactList}\small\item\em Select the start bank filter for slave C\+AN. \end{DoxyCompactList}\item 
+void \textbf{ C\+A\+N\+\_\+\+D\+B\+G\+Freeze} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the D\+BG Freeze for C\+AN. \end{DoxyCompactList}\item 
+void \textbf{ C\+A\+N\+\_\+\+T\+T\+Com\+Mode\+Cmd} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the C\+AN Time Trigger\+Operation communication mode. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Initialization and Configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                      Initialization and Configuration functions
+ ===============================================================================  
+  This section provides functions allowing to 
+   - Initialize the CAN peripherals : Prescaler, operating mode, the maximum number 
+     of time quanta to perform resynchronization, the number of time quanta in
+     Bit Segment 1 and 2 and many other modes. 
+     Refer to  @ref CAN_InitTypeDef  for more details.
+   - Configures the CAN reception filter.                                      
+   - Select the start bank filter for slave CAN.
+   - Enables or disables the Debug Freeze mode for CAN
+   - Enables or disables the CAN Time Trigger Operation communication mode\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__CAN__Group1_gac0e2d33e08caf49d1f1251f0dcc20213}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\+A\+N\+\_\+\+D\+B\+G\+Freeze@{C\+A\+N\+\_\+\+D\+B\+G\+Freeze}}
+\index{C\+A\+N\+\_\+\+D\+B\+G\+Freeze@{C\+A\+N\+\_\+\+D\+B\+G\+Freeze}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{C\+A\+N\+\_\+\+D\+B\+G\+Freeze()}
+{\footnotesize\ttfamily void C\+A\+N\+\_\+\+D\+B\+G\+Freeze (\begin{DoxyParamCaption}\item[{\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$}]{C\+A\+Nx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the D\+BG Freeze for C\+AN. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+Nx} & where x can be 1 or 2 to to select the C\+AN peripheral. \\
+\hline
+{\em New\+State} & new state of the C\+AN peripheral. This parameter can be\+: E\+N\+A\+B\+LE (C\+AN reception/transmission is frozen during debug. Reception F\+I\+F\+Os can still be accessed/controlled normally) or D\+I\+S\+A\+B\+LE (C\+AN is working during debug). \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 488} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00489 \{
+00490   \textcolor{comment}{/* Check the parameters */}
+00491   assert_param(IS_CAN_ALL_PERIPH(CANx));
+00492   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00493   
+00494   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00495   \{
+00496     \textcolor{comment}{/* Enable Debug Freeze  */}
+00497     CANx->MCR |= MCR_DBF;
+00498   \}
+00499   \textcolor{keywordflow}{else}
+00500   \{
+00501     \textcolor{comment}{/* Disable Debug Freeze */}
+00502     CANx->MCR &= ~MCR_DBF;
+00503   \}
+00504 \}
+\end{DoxyCode}
+\mbox{\label{group__CAN__Group1_ga002b74cd69574a14b17ad445090245cd}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\+A\+N\+\_\+\+De\+Init@{C\+A\+N\+\_\+\+De\+Init}}
+\index{C\+A\+N\+\_\+\+De\+Init@{C\+A\+N\+\_\+\+De\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{C\+A\+N\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void C\+A\+N\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$}]{C\+A\+Nx }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the C\+AN peripheral registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+Nx} & where x can be 1 or 2 to select the C\+AN peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None.} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 162} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, and \textbf{ R\+C\+C\+\_\+\+A\+P\+B1\+Periph\+Reset\+Cmd()}.
+
+
+\begin{DoxyCode}
+00163 \{
+00164   \textcolor{comment}{/* Check the parameters */}
+00165   assert_param(IS_CAN_ALL_PERIPH(CANx));
+00166  
+00167   \textcolor{keywordflow}{if} (CANx == CAN1)
+00168   \{
+00169     \textcolor{comment}{/* Enable CAN1 reset state */}
+00170     RCC_APB1PeriphResetCmd(RCC_APB1Periph_CAN1, ENABLE);
+00171     \textcolor{comment}{/* Release CAN1 from reset state */}
+00172     RCC_APB1PeriphResetCmd(RCC_APB1Periph_CAN1, DISABLE);
+00173   \}
+00174   \textcolor{keywordflow}{else}
+00175   \{  
+00176     \textcolor{comment}{/* Enable CAN2 reset state */}
+00177     RCC_APB1PeriphResetCmd(RCC_APB1Periph_CAN2, ENABLE);
+00178     \textcolor{comment}{/* Release CAN2 from reset state */}
+00179     RCC_APB1PeriphResetCmd(RCC_APB1Periph_CAN2, DISABLE);
+00180   \}
+00181 \}
+\end{DoxyCode}
+\mbox{\label{group__CAN__Group1_ga39476830280340363c51041be6b12647}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\+A\+N\+\_\+\+Filter\+Init@{C\+A\+N\+\_\+\+Filter\+Init}}
+\index{C\+A\+N\+\_\+\+Filter\+Init@{C\+A\+N\+\_\+\+Filter\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{C\+A\+N\+\_\+\+Filter\+Init()}
+{\footnotesize\ttfamily void C\+A\+N\+\_\+\+Filter\+Init (\begin{DoxyParamCaption}\item[{\textbf{ C\+A\+N\+\_\+\+Filter\+Init\+Type\+Def} $\ast$}]{C\+A\+N\+\_\+\+Filter\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Configures the C\+AN reception filter according to the specified parameters in the C\+A\+N\+\_\+\+Filter\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+N\+\_\+\+Filter\+Init\+Struct} & pointer to a \doxyref{C\+A\+N\+\_\+\+Filter\+Init\+Type\+Def}{p.}{structCAN__FilterInitTypeDef} structure that contains the configuration information. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 329} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+
+References \textbf{ C\+A\+N\+\_\+\+Filter\+Init\+Type\+Def\+::\+C\+A\+N\+\_\+\+Filter\+Activation}, \textbf{ C\+A\+N\+\_\+\+Filter\+Init\+Type\+Def\+::\+C\+A\+N\+\_\+\+Filter\+F\+I\+F\+O\+Assignment}, \textbf{ C\+A\+N\+\_\+\+Filter\+Init\+Type\+Def\+::\+C\+A\+N\+\_\+\+Filter\+Mode}, \textbf{ C\+A\+N\+\_\+\+Filter\+Init\+Type\+Def\+::\+C\+A\+N\+\_\+\+Filter\+Number}, \textbf{ C\+A\+N\+\_\+\+Filter\+Init\+Type\+Def\+::\+C\+A\+N\+\_\+\+Filter\+Scale}, and \textbf{ E\+N\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00330 \{
+00331   uint32\_t filter\_number\_bit\_pos = 0;
+00332   \textcolor{comment}{/* Check the parameters */}
+00333   assert_param(IS_CAN_FILTER_NUMBER(CAN\_FilterInitStruct->CAN_FilterNumber));
+00334   assert_param(IS_CAN_FILTER_MODE(CAN\_FilterInitStruct->CAN_FilterMode));
+00335   assert_param(IS_CAN_FILTER_SCALE(CAN\_FilterInitStruct->CAN_FilterScale));
+00336   assert_param(IS_CAN_FILTER_FIFO(CAN\_FilterInitStruct->CAN_FilterFIFOAssignment));
+00337   assert_param(IS_FUNCTIONAL_STATE(CAN\_FilterInitStruct->CAN_FilterActivation));
+00338 
+00339   filter\_number\_bit\_pos = ((uint32\_t)1) << CAN\_FilterInitStruct->
+      CAN_FilterNumber;
+00340 
+00341   \textcolor{comment}{/* Initialisation mode for the filter */}
+00342   CAN1->FMR |= FMR_FINIT;
+00343 
+00344   \textcolor{comment}{/* Filter Deactivation */}
+00345   CAN1->FA1R &= ~(uint32\_t)filter\_number\_bit\_pos;
+00346 
+00347   \textcolor{comment}{/* Filter Scale */}
+00348   \textcolor{keywordflow}{if} (CAN\_FilterInitStruct->CAN_FilterScale == CAN_FilterScale_16bit)
+00349   \{
+00350     \textcolor{comment}{/* 16-bit scale for the filter */}
+00351     CAN1->FS1R &= ~(uint32\_t)filter\_number\_bit\_pos;
+00352 
+00353     \textcolor{comment}{/* First 16-bit identifier and First 16-bit mask */}
+00354     \textcolor{comment}{/* Or First 16-bit identifier and Second 16-bit identifier */}
+00355     CAN1->sFilterRegister[CAN\_FilterInitStruct->CAN_FilterNumber].FR1 = 
+00356        ((0x0000FFFF & (uint32\_t)CAN\_FilterInitStruct->CAN_FilterMaskIdLow) << 16) |
+00357         (0x0000FFFF & (uint32\_t)CAN\_FilterInitStruct->CAN_FilterIdLow);
+00358 
+00359     \textcolor{comment}{/* Second 16-bit identifier and Second 16-bit mask */}
+00360     \textcolor{comment}{/* Or Third 16-bit identifier and Fourth 16-bit identifier */}
+00361     CAN1->sFilterRegister[CAN\_FilterInitStruct->CAN_FilterNumber].FR2 = 
+00362        ((0x0000FFFF & (uint32\_t)CAN\_FilterInitStruct->CAN_FilterMaskIdHigh) << 16) |
+00363         (0x0000FFFF & (uint32\_t)CAN\_FilterInitStruct->CAN_FilterIdHigh);
+00364   \}
+00365 
+00366   \textcolor{keywordflow}{if} (CAN\_FilterInitStruct->CAN_FilterScale == CAN_FilterScale_32bit)
+00367   \{
+00368     \textcolor{comment}{/* 32-bit scale for the filter */}
+00369     CAN1->FS1R |= filter\_number\_bit\_pos;
+00370     \textcolor{comment}{/* 32-bit identifier or First 32-bit identifier */}
+00371     CAN1->sFilterRegister[CAN\_FilterInitStruct->CAN_FilterNumber].FR1 = 
+00372        ((0x0000FFFF & (uint32\_t)CAN\_FilterInitStruct->CAN_FilterIdHigh) << 16) |
+00373         (0x0000FFFF & (uint32\_t)CAN\_FilterInitStruct->CAN_FilterIdLow);
+00374     \textcolor{comment}{/* 32-bit mask or Second 32-bit identifier */}
+00375     CAN1->sFilterRegister[CAN\_FilterInitStruct->CAN_FilterNumber].FR2 = 
+00376        ((0x0000FFFF & (uint32\_t)CAN\_FilterInitStruct->CAN_FilterMaskIdHigh) << 16) |
+00377         (0x0000FFFF & (uint32\_t)CAN\_FilterInitStruct->CAN_FilterMaskIdLow);
+00378   \}
+00379 
+00380   \textcolor{comment}{/* Filter Mode */}
+00381   \textcolor{keywordflow}{if} (CAN\_FilterInitStruct->CAN_FilterMode == CAN_FilterMode_IdMask)
+00382   \{
+00383     \textcolor{comment}{/*Id/Mask mode for the filter*/}
+00384     CAN1->FM1R &= ~(uint32\_t)filter\_number\_bit\_pos;
+00385   \}
+00386   \textcolor{keywordflow}{else} \textcolor{comment}{/* CAN\_FilterInitStruct->CAN\_FilterMode == CAN\_FilterMode\_IdList */}
+00387   \{
+00388     \textcolor{comment}{/*Identifier list mode for the filter*/}
+00389     CAN1->FM1R |= (uint32\_t)filter\_number\_bit\_pos;
+00390   \}
+00391 
+00392   \textcolor{comment}{/* Filter FIFO assignment */}
+00393   \textcolor{keywordflow}{if} (CAN\_FilterInitStruct->CAN_FilterFIFOAssignment == CAN_Filter_FIFO0)
+00394   \{
+00395     \textcolor{comment}{/* FIFO 0 assignation for the filter */}
+00396     CAN1->FFA1R &= ~(uint32\_t)filter\_number\_bit\_pos;
+00397   \}
+00398 
+00399   \textcolor{keywordflow}{if} (CAN\_FilterInitStruct->CAN_FilterFIFOAssignment == CAN_Filter_FIFO1)
+00400   \{
+00401     \textcolor{comment}{/* FIFO 1 assignation for the filter */}
+00402     CAN1->FFA1R |= (uint32\_t)filter\_number\_bit\_pos;
+00403   \}
+00404   
+00405   \textcolor{comment}{/* Filter activation */}
+00406   \textcolor{keywordflow}{if} (CAN\_FilterInitStruct->CAN_FilterActivation == ENABLE)
+00407   \{
+00408     CAN1->FA1R |= filter\_number\_bit\_pos;
+00409   \}
+00410 
+00411   \textcolor{comment}{/* Leave the initialisation mode for the filter */}
+00412   CAN1->FMR &= ~FMR_FINIT;
+00413 \}
+\end{DoxyCode}
+\mbox{\label{group__CAN__Group1_ga9023c35a9ab931ad4513fc5d19b4bd6c}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\+A\+N\+\_\+\+Init@{C\+A\+N\+\_\+\+Init}}
+\index{C\+A\+N\+\_\+\+Init@{C\+A\+N\+\_\+\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{C\+A\+N\+\_\+\+Init()}
+{\footnotesize\ttfamily uint8\+\_\+t C\+A\+N\+\_\+\+Init (\begin{DoxyParamCaption}\item[{\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$}]{C\+A\+Nx,  }\item[{\textbf{ C\+A\+N\+\_\+\+Init\+Type\+Def} $\ast$}]{C\+A\+N\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the C\+AN peripheral according to the specified parameters in the C\+A\+N\+\_\+\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+Nx} & where x can be 1 or 2 to select the C\+AN peripheral. \\
+\hline
+{\em C\+A\+N\+\_\+\+Init\+Struct} & pointer to a \doxyref{C\+A\+N\+\_\+\+Init\+Type\+Def}{p.}{structCAN__InitTypeDef} structure that contains the configuration information for the C\+AN peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Constant} & indicates initialization succeed which will be C\+A\+N\+\_\+\+Init\+Status\+\_\+\+Failed or C\+A\+N\+\_\+\+Init\+Status\+\_\+\+Success. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 192} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+\begin{DoxyCode}
+00193 \{
+00194   uint8\_t InitStatus = CAN_InitStatus_Failed;
+00195   uint32\_t wait\_ack = 0x00000000;
+00196   \textcolor{comment}{/* Check the parameters */}
+00197   assert_param(IS_CAN_ALL_PERIPH(CANx));
+00198   assert_param(IS_FUNCTIONAL_STATE(CAN\_InitStruct->CAN_TTCM));
+00199   assert_param(IS_FUNCTIONAL_STATE(CAN\_InitStruct->CAN_ABOM));
+00200   assert_param(IS_FUNCTIONAL_STATE(CAN\_InitStruct->CAN_AWUM));
+00201   assert_param(IS_FUNCTIONAL_STATE(CAN\_InitStruct->CAN_NART));
+00202   assert_param(IS_FUNCTIONAL_STATE(CAN\_InitStruct->CAN_RFLM));
+00203   assert_param(IS_FUNCTIONAL_STATE(CAN\_InitStruct->CAN_TXFP));
+00204   assert_param(IS_CAN_MODE(CAN\_InitStruct->CAN_Mode));
+00205   assert_param(IS_CAN_SJW(CAN\_InitStruct->CAN_SJW));
+00206   assert_param(IS_CAN_BS1(CAN\_InitStruct->CAN_BS1));
+00207   assert_param(IS_CAN_BS2(CAN\_InitStruct->CAN_BS2));
+00208   assert_param(IS_CAN_PRESCALER(CAN\_InitStruct->CAN_Prescaler));
+00209 
+00210   \textcolor{comment}{/* Exit from sleep mode */}
+00211   CANx->MCR &= (~(uint32\_t)CAN_MCR_SLEEP);
+00212 
+00213   \textcolor{comment}{/* Request initialisation */}
+00214   CANx->MCR |= CAN_MCR_INRQ ;
+00215 
+00216   \textcolor{comment}{/* Wait the acknowledge */}
+00217   \textcolor{keywordflow}{while} (((CANx->MSR & CAN_MSR_INAK) != CAN_MSR_INAK) && (wait\_ack != 
+      INAK_TIMEOUT))
+00218   \{
+00219     wait\_ack++;
+00220   \}
+00221 
+00222   \textcolor{comment}{/* Check acknowledge */}
+00223   \textcolor{keywordflow}{if} ((CANx->MSR & CAN_MSR_INAK) != CAN_MSR_INAK)
+00224   \{
+00225     InitStatus = CAN_InitStatus_Failed;
+00226   \}
+00227   \textcolor{keywordflow}{else} 
+00228   \{
+00229     \textcolor{comment}{/* Set the time triggered communication mode */}
+00230     \textcolor{keywordflow}{if} (CAN\_InitStruct->CAN_TTCM == ENABLE)
+00231     \{
+00232       CANx->MCR |= CAN_MCR_TTCM;
+00233     \}
+00234     \textcolor{keywordflow}{else}
+00235     \{
+00236       CANx->MCR &= ~(uint32\_t)CAN_MCR_TTCM;
+00237     \}
+00238 
+00239     \textcolor{comment}{/* Set the automatic bus-off management */}
+00240     \textcolor{keywordflow}{if} (CAN\_InitStruct->CAN_ABOM == ENABLE)
+00241     \{
+00242       CANx->MCR |= CAN_MCR_ABOM;
+00243     \}
+00244     \textcolor{keywordflow}{else}
+00245     \{
+00246       CANx->MCR &= ~(uint32\_t)CAN_MCR_ABOM;
+00247     \}
+00248 
+00249     \textcolor{comment}{/* Set the automatic wake-up mode */}
+00250     \textcolor{keywordflow}{if} (CAN\_InitStruct->CAN_AWUM == ENABLE)
+00251     \{
+00252       CANx->MCR |= CAN_MCR_AWUM;
+00253     \}
+00254     \textcolor{keywordflow}{else}
+00255     \{
+00256       CANx->MCR &= ~(uint32\_t)CAN_MCR_AWUM;
+00257     \}
+00258 
+00259     \textcolor{comment}{/* Set the no automatic retransmission */}
+00260     \textcolor{keywordflow}{if} (CAN\_InitStruct->CAN_NART == ENABLE)
+00261     \{
+00262       CANx->MCR |= CAN_MCR_NART;
+00263     \}
+00264     \textcolor{keywordflow}{else}
+00265     \{
+00266       CANx->MCR &= ~(uint32\_t)CAN_MCR_NART;
+00267     \}
+00268 
+00269     \textcolor{comment}{/* Set the receive FIFO locked mode */}
+00270     \textcolor{keywordflow}{if} (CAN\_InitStruct->CAN_RFLM == ENABLE)
+00271     \{
+00272       CANx->MCR |= CAN_MCR_RFLM;
+00273     \}
+00274     \textcolor{keywordflow}{else}
+00275     \{
+00276       CANx->MCR &= ~(uint32\_t)CAN_MCR_RFLM;
+00277     \}
+00278 
+00279     \textcolor{comment}{/* Set the transmit FIFO priority */}
+00280     \textcolor{keywordflow}{if} (CAN\_InitStruct->CAN_TXFP == ENABLE)
+00281     \{
+00282       CANx->MCR |= CAN_MCR_TXFP;
+00283     \}
+00284     \textcolor{keywordflow}{else}
+00285     \{
+00286       CANx->MCR &= ~(uint32\_t)CAN_MCR_TXFP;
+00287     \}
+00288 
+00289     \textcolor{comment}{/* Set the bit timing register */}
+00290     CANx->BTR = (uint32\_t)((uint32\_t)CAN\_InitStruct->CAN_Mode << 30) | \(\backslash\)
+00291                 ((uint32\_t)CAN\_InitStruct->CAN_SJW << 24) | \(\backslash\)
+00292                 ((uint32\_t)CAN\_InitStruct->CAN_BS1 << 16) | \(\backslash\)
+00293                 ((uint32\_t)CAN\_InitStruct->CAN_BS2 << 20) | \(\backslash\)
+00294                ((uint32\_t)CAN\_InitStruct->CAN_Prescaler - 1);
+00295 
+00296     \textcolor{comment}{/* Request leave initialisation */}
+00297     CANx->MCR &= ~(uint32\_t)CAN_MCR_INRQ;
+00298 
+00299    \textcolor{comment}{/* Wait the acknowledge */}
+00300    wait\_ack = 0;
+00301 
+00302    \textcolor{keywordflow}{while} (((CANx->MSR & CAN_MSR_INAK) == CAN_MSR_INAK) && (wait\_ack != 
+      INAK_TIMEOUT))
+00303    \{
+00304      wait\_ack++;
+00305    \}
+00306 
+00307     \textcolor{comment}{/* ...and check acknowledged */}
+00308     \textcolor{keywordflow}{if} ((CANx->MSR & CAN_MSR_INAK) == CAN_MSR_INAK)
+00309     \{
+00310       InitStatus = CAN_InitStatus_Failed;
+00311     \}
+00312     \textcolor{keywordflow}{else}
+00313     \{
+00314       InitStatus = CAN_InitStatus_Success ;
+00315     \}
+00316   \}
+00317 
+00318   \textcolor{comment}{/* At this step, return the status of initialization */}
+00319   \textcolor{keywordflow}{return} InitStatus;
+00320 \}
+\end{DoxyCode}
+\mbox{\label{group__CAN__Group1_ga109ff8960bc59f44b984c9646f17b3c0}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\+A\+N\+\_\+\+Slave\+Start\+Bank@{C\+A\+N\+\_\+\+Slave\+Start\+Bank}}
+\index{C\+A\+N\+\_\+\+Slave\+Start\+Bank@{C\+A\+N\+\_\+\+Slave\+Start\+Bank}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{C\+A\+N\+\_\+\+Slave\+Start\+Bank()}
+{\footnotesize\ttfamily void C\+A\+N\+\_\+\+Slave\+Start\+Bank (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{C\+A\+N\+\_\+\+Bank\+Number }\end{DoxyParamCaption})}
+
+
+
+Select the start bank filter for slave C\+AN. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+N\+\_\+\+Bank\+Number} & Select the start slave bank filter from 1..27. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 463} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+\begin{DoxyCode}
+00464 \{
+00465   \textcolor{comment}{/* Check the parameters */}
+00466   assert_param(IS_CAN_BANKNUMBER(CAN\_BankNumber));
+00467   
+00468   \textcolor{comment}{/* Enter Initialisation mode for the filter */}
+00469   CAN1->FMR |= FMR_FINIT;
+00470   
+00471   \textcolor{comment}{/* Select the start slave bank */}
+00472   CAN1->FMR &= (uint32\_t)0xFFFFC0F1 ;
+00473   CAN1->FMR |= (uint32\_t)(CAN\_BankNumber)<<8;
+00474   
+00475   \textcolor{comment}{/* Leave Initialisation mode for the filter */}
+00476   CAN1->FMR &= ~FMR_FINIT;
+00477 \}
+\end{DoxyCode}
+\mbox{\label{group__CAN__Group1_gad77ad810868ed111755fc9e8ae0c7646}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\+A\+N\+\_\+\+Struct\+Init@{C\+A\+N\+\_\+\+Struct\+Init}}
+\index{C\+A\+N\+\_\+\+Struct\+Init@{C\+A\+N\+\_\+\+Struct\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{C\+A\+N\+\_\+\+Struct\+Init()}
+{\footnotesize\ttfamily void C\+A\+N\+\_\+\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ C\+A\+N\+\_\+\+Init\+Type\+Def} $\ast$}]{C\+A\+N\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each C\+A\+N\+\_\+\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+N\+\_\+\+Init\+Struct} & pointer to a \doxyref{C\+A\+N\+\_\+\+Init\+Type\+Def}{p.}{structCAN__InitTypeDef} structure which ill be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 420} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+
+References \textbf{ C\+A\+N\+\_\+\+Init\+Type\+Def\+::\+C\+A\+N\+\_\+\+A\+B\+OM}, \textbf{ C\+A\+N\+\_\+\+Init\+Type\+Def\+::\+C\+A\+N\+\_\+\+A\+W\+UM}, \textbf{ C\+A\+N\+\_\+\+Init\+Type\+Def\+::\+C\+A\+N\+\_\+\+B\+S1}, \textbf{ C\+A\+N\+\_\+\+Init\+Type\+Def\+::\+C\+A\+N\+\_\+\+B\+S2}, \textbf{ C\+A\+N\+\_\+\+Init\+Type\+Def\+::\+C\+A\+N\+\_\+\+Mode}, \textbf{ C\+A\+N\+\_\+\+Init\+Type\+Def\+::\+C\+A\+N\+\_\+\+N\+A\+RT}, \textbf{ C\+A\+N\+\_\+\+Init\+Type\+Def\+::\+C\+A\+N\+\_\+\+Prescaler}, \textbf{ C\+A\+N\+\_\+\+Init\+Type\+Def\+::\+C\+A\+N\+\_\+\+R\+F\+LM}, \textbf{ C\+A\+N\+\_\+\+Init\+Type\+Def\+::\+C\+A\+N\+\_\+\+S\+JW}, \textbf{ C\+A\+N\+\_\+\+Init\+Type\+Def\+::\+C\+A\+N\+\_\+\+T\+T\+CM}, \textbf{ C\+A\+N\+\_\+\+Init\+Type\+Def\+::\+C\+A\+N\+\_\+\+T\+X\+FP}, and \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00421 \{
+00422   \textcolor{comment}{/* Reset CAN init structure parameters values */}
+00423   
+00424   \textcolor{comment}{/* Initialize the time triggered communication mode */}
+00425   CAN\_InitStruct->CAN_TTCM = DISABLE;
+00426   
+00427   \textcolor{comment}{/* Initialize the automatic bus-off management */}
+00428   CAN\_InitStruct->CAN_ABOM = DISABLE;
+00429   
+00430   \textcolor{comment}{/* Initialize the automatic wake-up mode */}
+00431   CAN\_InitStruct->CAN_AWUM = DISABLE;
+00432   
+00433   \textcolor{comment}{/* Initialize the no automatic retransmission */}
+00434   CAN\_InitStruct->CAN_NART = DISABLE;
+00435   
+00436   \textcolor{comment}{/* Initialize the receive FIFO locked mode */}
+00437   CAN\_InitStruct->CAN_RFLM = DISABLE;
+00438   
+00439   \textcolor{comment}{/* Initialize the transmit FIFO priority */}
+00440   CAN\_InitStruct->CAN_TXFP = DISABLE;
+00441   
+00442   \textcolor{comment}{/* Initialize the CAN\_Mode member */}
+00443   CAN\_InitStruct->CAN_Mode = CAN_Mode_Normal;
+00444   
+00445   \textcolor{comment}{/* Initialize the CAN\_SJW member */}
+00446   CAN\_InitStruct->CAN_SJW = CAN_SJW_1tq;
+00447   
+00448   \textcolor{comment}{/* Initialize the CAN\_BS1 member */}
+00449   CAN\_InitStruct->CAN_BS1 = CAN_BS1_4tq;
+00450   
+00451   \textcolor{comment}{/* Initialize the CAN\_BS2 member */}
+00452   CAN\_InitStruct->CAN_BS2 = CAN_BS2_3tq;
+00453   
+00454   \textcolor{comment}{/* Initialize the CAN\_Prescaler member */}
+00455   CAN\_InitStruct->CAN_Prescaler = 1;
+00456 \}
+\end{DoxyCode}
+\mbox{\label{group__CAN__Group1_ga94740177bab153ca5b102d122f9a8cca}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\+A\+N\+\_\+\+T\+T\+Com\+Mode\+Cmd@{C\+A\+N\+\_\+\+T\+T\+Com\+Mode\+Cmd}}
+\index{C\+A\+N\+\_\+\+T\+T\+Com\+Mode\+Cmd@{C\+A\+N\+\_\+\+T\+T\+Com\+Mode\+Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{C\+A\+N\+\_\+\+T\+T\+Com\+Mode\+Cmd()}
+{\footnotesize\ttfamily void C\+A\+N\+\_\+\+T\+T\+Com\+Mode\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$}]{C\+A\+Nx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the C\+AN Time Trigger\+Operation communication mode. 
+
+\begin{DoxyNote}{Note}
+D\+LC must be programmed as 8 in order Time Stamp (2 bytes) to be sent over the C\+AN bus. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+Nx} & where x can be 1 or 2 to to select the C\+AN peripheral. \\
+\hline
+{\em New\+State} & Mode new state. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. When enabled, Time stamp (T\+I\+ME[15\+:0]) value is sent in the last two data bytes of the 8-\/byte message\+: T\+I\+ME[7\+:0] in data byte 6 and T\+I\+ME[15\+:8] in data byte 7. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 518} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00519 \{
+00520   \textcolor{comment}{/* Check the parameters */}
+00521   assert_param(IS_CAN_ALL_PERIPH(CANx));
+00522   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00523   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00524   \{
+00525     \textcolor{comment}{/* Enable the TTCM mode */}
+00526     CANx->MCR |= CAN_MCR_TTCM;
+00527 
+00528     \textcolor{comment}{/* Set TGT bits */}
+00529     CANx->sTxMailBox[0].TDTR |= ((uint32\_t)CAN_TDT0R_TGT);
+00530     CANx->sTxMailBox[1].TDTR |= ((uint32\_t)CAN_TDT1R_TGT);
+00531     CANx->sTxMailBox[2].TDTR |= ((uint32\_t)CAN_TDT2R_TGT);
+00532   \}
+00533   \textcolor{keywordflow}{else}
+00534   \{
+00535     \textcolor{comment}{/* Disable the TTCM mode */}
+00536     CANx->MCR &= (uint32\_t)(~(uint32\_t)CAN_MCR_TTCM);
+00537 
+00538     \textcolor{comment}{/* Reset TGT bits */}
+00539     CANx->sTxMailBox[0].TDTR &= ((uint32\_t)~CAN_TDT0R_TGT);
+00540     CANx->sTxMailBox[1].TDTR &= ((uint32\_t)~CAN_TDT1R_TGT);
+00541     CANx->sTxMailBox[2].TDTR &= ((uint32\_t)~CAN_TDT2R_TGT);
+00542   \}
+00543 \}
+\end{DoxyCode}

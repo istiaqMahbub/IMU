@@ -1,0 +1,84 @@
+\section{C\+R\+YP\textquotesingle{}s D\+MA interface Configuration function}
+\label{group__CRYP__Group4}\index{C\+R\+Y\+P\textquotesingle{}s D\+M\+A interface Configuration function@{C\+R\+Y\+P\textquotesingle{}s D\+M\+A interface Configuration function}}
+
+
+C\+R\+YP\textquotesingle{}s D\+MA interface Configuration function.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+D\+M\+A\+Cmd} (uint8\+\_\+t C\+R\+Y\+P\+\_\+\+D\+M\+A\+Req, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the C\+R\+YP D\+MA interface. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+C\+R\+YP\textquotesingle{}s D\+MA interface Configuration function. 
+
+\begin{DoxyVerb} ===============================================================================
+                   CRYP's DMA interface Configuration function
+ ===============================================================================  
+
+  This section provides functions allowing to configure the DMA interface for 
+  CRYP data input and output transfer.
+   
+  When the DMA mode is enabled (using the CRYP_DMACmd() function), data can be 
+  transferred:
+  - From memory to the CRYP IN FIFO using the DMA peripheral by enabling 
+    the CRYP_DMAReq_DataIN request.
+  - From the CRYP OUT FIFO to the memory using the DMA peripheral by enabling 
+    the CRYP_DMAReq_DataOUT request.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__CRYP__Group4_ga111d0ec56facb27f8367ce6a33869115}} 
+\index{C\+R\+Y\+P\textquotesingle{}s D\+M\+A interface Configuration function@{C\+R\+Y\+P\textquotesingle{}s D\+M\+A interface Configuration function}!C\+R\+Y\+P\+\_\+\+D\+M\+A\+Cmd@{C\+R\+Y\+P\+\_\+\+D\+M\+A\+Cmd}}
+\index{C\+R\+Y\+P\+\_\+\+D\+M\+A\+Cmd@{C\+R\+Y\+P\+\_\+\+D\+M\+A\+Cmd}!C\+R\+Y\+P\textquotesingle{}s D\+M\+A interface Configuration function@{C\+R\+Y\+P\textquotesingle{}s D\+M\+A interface Configuration function}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+D\+M\+A\+Cmd()}
+{\footnotesize\ttfamily void C\+R\+Y\+P\+\_\+\+D\+M\+A\+Cmd (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{C\+R\+Y\+P\+\_\+\+D\+M\+A\+Req,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the C\+R\+YP D\+MA interface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+R\+Y\+P\+\_\+\+D\+M\+A\+Req} & specifies the C\+R\+YP D\+MA transfer request to be enabled or disabled. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item C\+R\+Y\+P\+\_\+\+D\+M\+A\+Req\+\_\+\+Data\+O\+UT\+: D\+MA for outgoing(\+Tx) data transfer \item C\+R\+Y\+P\+\_\+\+D\+M\+A\+Req\+\_\+\+Data\+IN\+: D\+MA for incoming(\+Rx) data transfer \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the selected C\+R\+YP D\+MA transfer request. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 612} of file \textbf{ stm32f4xx\+\_\+cryp.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00613 \{
+00614   \textcolor{comment}{/* Check the parameters */}
+00615   assert_param(IS_CRYP_DMAREQ(CRYP\_DMAReq));
+00616   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00617 
+00618   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00619   \{
+00620     \textcolor{comment}{/* Enable the selected CRYP DMA request */}
+00621     CRYP->DMACR |= CRYP\_DMAReq;
+00622   \}
+00623   \textcolor{keywordflow}{else}
+00624   \{
+00625     \textcolor{comment}{/* Disable the selected CRYP DMA request */}
+00626     CRYP->DMACR &= (uint8\_t)~CRYP\_DMAReq;
+00627   \}
+00628 \}
+\end{DoxyCode}

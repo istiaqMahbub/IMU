@@ -1,0 +1,165 @@
+\section{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+usart.c File Reference}
+\label{stm32f4xx__usart_8c}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+usart.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+usart.\+c}}
+
+
+This file provides firmware functions to manage the following functionalities of the Universal synchronous asynchronous receiver transmitter (U\+S\+A\+RT)\+:  
+
+
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+usart.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+rcc.\+h\char`\"{}}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ C\+R1\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}
+\item 
+\#define \textbf{ C\+R2\+\_\+\+C\+L\+O\+C\+K\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}
+\item 
+\#define \textbf{ C\+R3\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}~((uint16\+\_\+t)(\textbf{ U\+S\+A\+R\+T\+\_\+\+C\+R3\+\_\+\+R\+T\+SE} $\vert$ \textbf{ U\+S\+A\+R\+T\+\_\+\+C\+R3\+\_\+\+C\+T\+SE}))
+\item 
+\#define \textbf{ I\+T\+\_\+\+M\+A\+SK}~((uint16\+\_\+t)0x001\+F)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+De\+Init} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx})
+\begin{DoxyCompactList}\small\item\em Deinitializes the U\+S\+A\+R\+Tx peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Init} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def} $\ast$U\+S\+A\+R\+T\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the U\+S\+A\+R\+Tx peripheral according to the specified parameters in the U\+S\+A\+R\+T\+\_\+\+Init\+Struct . \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Struct\+Init} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Init\+Type\+Def} $\ast$U\+S\+A\+R\+T\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each U\+S\+A\+R\+T\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Clock\+Init} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Type\+Def} $\ast$U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the U\+S\+A\+R\+Tx peripheral Clock according to the specified parameters in the U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Struct . \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Clock\+Struct\+Init} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Type\+Def} $\ast$U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each U\+S\+A\+R\+T\+\_\+\+Clock\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Cmd} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified U\+S\+A\+RT peripheral. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Set\+Prescaler} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, uint8\+\_\+t U\+S\+A\+R\+T\+\_\+\+Prescaler)
+\begin{DoxyCompactList}\small\item\em Sets the system clock prescaler. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Over\+Sampling8\+Cmd} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\+S\+A\+RT\textquotesingle{}s 8x oversampling mode. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+One\+Bit\+Method\+Cmd} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\+S\+A\+RT\textquotesingle{}s one bit sampling method. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Send\+Data} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, uint16\+\_\+t Data)
+\begin{DoxyCompactList}\small\item\em Transmits single data through the U\+S\+A\+R\+Tx peripheral. \end{DoxyCompactList}\item 
+uint16\+\_\+t \textbf{ U\+S\+A\+R\+T\+\_\+\+Receive\+Data} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx})
+\begin{DoxyCompactList}\small\item\em Returns the most recent received data by the U\+S\+A\+R\+Tx peripheral. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Set\+Address} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, uint8\+\_\+t U\+S\+A\+R\+T\+\_\+\+Address)
+\begin{DoxyCompactList}\small\item\em Sets the address of the U\+S\+A\+RT node. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Receiver\+Wake\+Up\+Cmd} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Determines if the U\+S\+A\+RT is in mute mode or not. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Wake\+Up\+Config} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, uint16\+\_\+t U\+S\+A\+R\+T\+\_\+\+Wake\+Up)
+\begin{DoxyCompactList}\small\item\em Selects the U\+S\+A\+RT Wake\+Up method. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Break\+Detect\+Length\+Config} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, uint16\+\_\+t U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Break\+Detect\+Length)
+\begin{DoxyCompactList}\small\item\em Sets the U\+S\+A\+RT L\+IN Break detection length. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+L\+I\+N\+Cmd} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\+S\+A\+RT\textquotesingle{}s L\+IN mode. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Send\+Break} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx})
+\begin{DoxyCompactList}\small\item\em Transmits break characters. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Half\+Duplex\+Cmd} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\+S\+A\+RT\textquotesingle{}s Half Duplex communication. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Set\+Guard\+Time} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, uint8\+\_\+t U\+S\+A\+R\+T\+\_\+\+Guard\+Time)
+\begin{DoxyCompactList}\small\item\em Sets the specified U\+S\+A\+RT guard time. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Smart\+Card\+Cmd} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\+S\+A\+RT\textquotesingle{}s Smart Card mode. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Smart\+Card\+N\+A\+C\+K\+Cmd} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables N\+A\+CK transmission. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Config} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, uint16\+\_\+t U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Mode)
+\begin{DoxyCompactList}\small\item\em Configures the U\+S\+A\+RT\textquotesingle{}s Ir\+DA interface. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Ir\+D\+A\+Cmd} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\+S\+A\+RT\textquotesingle{}s Ir\+DA interface. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+D\+M\+A\+Cmd} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, uint16\+\_\+t U\+S\+A\+R\+T\+\_\+\+D\+M\+A\+Req, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\+S\+A\+RT\textquotesingle{}s D\+MA interface. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+I\+T\+Config} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, uint16\+\_\+t U\+S\+A\+R\+T\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified U\+S\+A\+RT interrupts. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ U\+S\+A\+R\+T\+\_\+\+Get\+Flag\+Status} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, uint16\+\_\+t U\+S\+A\+R\+T\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified U\+S\+A\+RT flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Clear\+Flag} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, uint16\+\_\+t U\+S\+A\+R\+T\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the U\+S\+A\+R\+Tx\textquotesingle{}s pending flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ U\+S\+A\+R\+T\+\_\+\+Get\+I\+T\+Status} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, uint16\+\_\+t U\+S\+A\+R\+T\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified U\+S\+A\+RT interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Clear\+I\+T\+Pending\+Bit} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, uint16\+\_\+t U\+S\+A\+R\+T\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the U\+S\+A\+R\+Tx\textquotesingle{}s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file provides firmware functions to manage the following functionalities of the Universal synchronous asynchronous receiver transmitter (U\+S\+A\+RT)\+: 
+
+\begin{DoxyAuthor}{Author}
+M\+CD Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\+0.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+30-\/\+September-\/2011
+\begin{DoxyItemize}
+\item Initialization and Configuration
+\item Data transfers
+\item Multi-\/\+Processor Communication
+\item L\+IN mode
+\item Half-\/duplex mode
+\item Smartcard mode
+\item Ir\+DA mode
+\item D\+MA transfers management
+\item Interrupts and flags management
+\end{DoxyItemize}
+\end{DoxyDate}
+\begin{DoxyVerb}*      
+*          ===================================================================
+*                                 How to use this driver
+*          ===================================================================
+*          1. Enable peripheral clock using the follwoing functions
+*             RCC_APB2PeriphClockCmd(RCC_APB2Periph_USARTx, ENABLE) for USART1 and USART6 
+*             RCC_APB1PeriphClockCmd(RCC_APB1Periph_USARTx, ENABLE) for USART2, USART3, UART4 or UART5.
+*
+*          2.  According to the USART mode, enable the GPIO clocks using 
+*              RCC_AHB1PeriphClockCmd() function. (The I/O can be TX, RX, CTS, 
+*              or/and SCLK). 
+*
+*          3. Peripheral's alternate function: 
+*                 - Connect the pin to the desired peripherals' Alternate 
+*                   Function (AF) using GPIO_PinAFConfig() function
+*                 - Configure the desired pin in alternate function by:
+*                   GPIO_InitStruct->GPIO_Mode = GPIO_Mode_AF
+*                 - Select the type, pull-up/pull-down and output speed via 
+*                   GPIO_PuPd, GPIO_OType and GPIO_Speed members
+*                 - Call GPIO_Init() function
+*        
+*          4. Program the Baud Rate, Word Length , Stop Bit, Parity, Hardware 
+*             flow control and Mode(Receiver/Transmitter) using the USART_Init()
+*             function.
+*
+*          5. For synchronous mode, enable the clock and program the polarity,
+*             phase and last bit using the USART_ClockInit() function.
+*
+*          5. Enable the NVIC and the corresponding interrupt using the function 
+*             USART_ITConfig() if you need to use interrupt mode. 
+*
+*          6. When using the DMA mode 
+*                   - Configure the DMA using DMA_Init() function
+*                   - Active the needed channel Request using USART_DMACmd() function
+* 
+*          7. Enable the USART using the USART_Cmd() function.
+* 
+*          8. Enable the DMA using the DMA_Cmd() function, when using DMA mode. 
+*
+*          Refer to Multi-Processor, LIN, half-duplex, Smartcard, IrDA sub-sections
+*          for more details
+*          
+*          In order to reach higher communication baudrates, it is possible to
+*          enable the oversampling by 8 mode using the function USART_OverSampling8Cmd().
+*          This function should be called after enabling the USART clock (RCC_APBxPeriphClockCmd())
+*          and before calling the function USART_Init().
+*          
+*  \end{DoxyVerb}
+
+
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+T\+HE P\+R\+E\+S\+E\+NT F\+I\+R\+M\+W\+A\+RE W\+H\+I\+CH IS F\+OR G\+U\+I\+D\+A\+N\+CE O\+N\+LY A\+I\+MS AT P\+R\+O\+V\+I\+D\+I\+NG C\+U\+S\+T\+O\+M\+E\+RS W\+I\+TH C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON R\+E\+G\+A\+R\+D\+I\+NG T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS IN O\+R\+D\+ER F\+OR T\+H\+EM TO S\+A\+VE T\+I\+ME. AS A R\+E\+S\+U\+LT, S\+T\+M\+I\+C\+R\+O\+E\+L\+E\+C\+T\+R\+O\+N\+I\+CS S\+H\+A\+LL N\+OT BE H\+E\+LD L\+I\+A\+B\+LE F\+OR A\+NY D\+I\+R\+E\+CT, I\+N\+D\+I\+R\+E\+CT OR C\+O\+N\+S\+E\+Q\+U\+E\+N\+T\+I\+AL D\+A\+M\+A\+G\+ES W\+I\+TH R\+E\+S\+P\+E\+CT TO A\+NY C\+L\+A\+I\+MS A\+R\+I\+S\+I\+NG F\+R\+OM T\+HE C\+O\+N\+T\+E\+NT OF S\+U\+CH F\+I\+R\+M\+W\+A\+RE A\+N\+D/\+OR T\+HE U\+SE M\+A\+DE BY C\+U\+S\+T\+O\+M\+E\+RS OF T\+HE C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON C\+O\+N\+T\+A\+I\+N\+ED H\+E\+R\+E\+IN IN C\+O\+N\+N\+E\+C\+T\+I\+ON W\+I\+TH T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS.
+
+\subsubsection*{\begin{center}\copyright{} C\+O\+P\+Y\+R\+I\+G\+HT 2011 S\+T\+Microelectronics\end{center} }
+
+Definition in file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+

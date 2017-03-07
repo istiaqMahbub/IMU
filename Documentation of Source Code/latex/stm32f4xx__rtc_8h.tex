@@ -1,0 +1,556 @@
+\section{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+rtc.h File Reference}
+\label{stm32f4xx__rtc_8h}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+rtc.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+rtc.\+h}}
+
+
+This file contains all the functions prototypes for the R\+TC firmware library.  
+
+
+{\ttfamily \#include \char`\"{}stm32f4xx.\+h\char`\"{}}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ R\+T\+C\+\_\+\+Init\+Type\+Def}
+\begin{DoxyCompactList}\small\item\em R\+TC Init structures definition. \end{DoxyCompactList}\item 
+struct \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def}
+\begin{DoxyCompactList}\small\item\em R\+TC Time structure definition. \end{DoxyCompactList}\item 
+struct \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def}
+\begin{DoxyCompactList}\small\item\em R\+TC Date structure definition. \end{DoxyCompactList}\item 
+struct \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def}
+\begin{DoxyCompactList}\small\item\em R\+TC Alarm structure definition. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Hour\+Format\+\_\+24}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Hour\+Format\+\_\+12}~((uint32\+\_\+t)0x00000040)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+H\+O\+U\+R\+\_\+\+F\+O\+R\+M\+AT}(F\+O\+R\+M\+AT)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+A\+S\+Y\+N\+C\+H\+\_\+\+P\+R\+E\+D\+IV}(P\+R\+E\+D\+IV)~((P\+R\+E\+D\+IV) $<$= 0x7\+F)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+S\+Y\+N\+C\+H\+\_\+\+P\+R\+E\+D\+IV}(P\+R\+E\+D\+IV)~((P\+R\+E\+D\+IV) $<$= 0x7\+F\+F\+F)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+H\+O\+U\+R12}(H\+O\+UR)~(((H\+O\+UR) $>$ 0) \&\& ((H\+O\+UR) $<$= 12))
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+H\+O\+U\+R24}(H\+O\+UR)~((H\+O\+UR) $<$= 23)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+M\+I\+N\+U\+T\+ES}(M\+I\+N\+U\+T\+ES)~((M\+I\+N\+U\+T\+ES) $<$= 59)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+S\+E\+C\+O\+N\+DS}(S\+E\+C\+O\+N\+DS)~((S\+E\+C\+O\+N\+DS) $<$= 59)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+H12\+\_\+\+AM}~((uint8\+\_\+t)0x00)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+H12\+\_\+\+PM}~((uint8\+\_\+t)0x40)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+H12}(PM)~(((PM) == \textbf{ R\+T\+C\+\_\+\+H12\+\_\+\+AM}) $\vert$$\vert$ ((PM) == \textbf{ R\+T\+C\+\_\+\+H12\+\_\+\+PM}))
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+Y\+E\+AR}(Y\+E\+AR)~((Y\+E\+AR) $<$= 99)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Month\+\_\+\+January}~((uint8\+\_\+t)0x01)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Month\+\_\+\+February}~((uint8\+\_\+t)0x02)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Month\+\_\+\+March}~((uint8\+\_\+t)0x03)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Month\+\_\+\+April}~((uint8\+\_\+t)0x04)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Month\+\_\+\+May}~((uint8\+\_\+t)0x05)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Month\+\_\+\+June}~((uint8\+\_\+t)0x06)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Month\+\_\+\+July}~((uint8\+\_\+t)0x07)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Month\+\_\+\+August}~((uint8\+\_\+t)0x08)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Month\+\_\+\+September}~((uint8\+\_\+t)0x09)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Month\+\_\+\+October}~((uint8\+\_\+t)0x10)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Month\+\_\+\+November}~((uint8\+\_\+t)0x11)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Month\+\_\+\+December}~((uint8\+\_\+t)0x12)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+M\+O\+N\+TH}(M\+O\+N\+TH)~(((M\+O\+N\+TH) $>$= 1) \&\& ((M\+O\+N\+TH) $<$= 12))
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+D\+A\+TE}(D\+A\+TE)~(((D\+A\+TE) $>$= 1) \&\& ((D\+A\+TE) $<$= 31))
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Weekday\+\_\+\+Monday}~((uint8\+\_\+t)0x01)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Weekday\+\_\+\+Tuesday}~((uint8\+\_\+t)0x02)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Weekday\+\_\+\+Wednesday}~((uint8\+\_\+t)0x03)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Weekday\+\_\+\+Thursday}~((uint8\+\_\+t)0x04)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Weekday\+\_\+\+Friday}~((uint8\+\_\+t)0x05)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Weekday\+\_\+\+Saturday}~((uint8\+\_\+t)0x06)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Weekday\+\_\+\+Sunday}~((uint8\+\_\+t)0x07)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+W\+E\+E\+K\+D\+AY}(W\+E\+E\+K\+D\+AY)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+A\+L\+A\+R\+M\+\_\+\+D\+A\+T\+E\+\_\+\+W\+E\+E\+K\+D\+A\+Y\+\_\+\+D\+A\+TE}(D\+A\+TE)~(((D\+A\+TE) $>$ 0) \&\& ((D\+A\+TE) $<$= 31))
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+A\+L\+A\+R\+M\+\_\+\+D\+A\+T\+E\+\_\+\+W\+E\+E\+K\+D\+A\+Y\+\_\+\+W\+E\+E\+K\+D\+AY}(W\+E\+E\+K\+D\+AY)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Date\+Week\+Day\+Sel\+\_\+\+Date}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Date\+Week\+Day\+Sel\+\_\+\+Week\+Day}~((uint32\+\_\+t)0x40000000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+A\+L\+A\+R\+M\+\_\+\+D\+A\+T\+E\+\_\+\+W\+E\+E\+K\+D\+A\+Y\+\_\+\+S\+EL}(S\+EL)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Mask\+\_\+\+None}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Mask\+\_\+\+Date\+Week\+Day}~((uint32\+\_\+t)0x80000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Mask\+\_\+\+Hours}~((uint32\+\_\+t)0x00800000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Mask\+\_\+\+Minutes}~((uint32\+\_\+t)0x00008000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Mask\+\_\+\+Seconds}~((uint32\+\_\+t)0x00000080)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Mask\+\_\+\+All}~((uint32\+\_\+t)0x80808080)
+\item 
+\#define \textbf{ I\+S\+\_\+\+A\+L\+A\+R\+M\+\_\+\+M\+A\+SK}(M\+A\+SK)~(((M\+A\+SK) \& 0x7\+F7\+F7\+F7\+F) == (uint32\+\_\+t)\+R\+E\+S\+E\+T)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+\_\+A}~((uint32\+\_\+t)0x00000100)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+\_\+B}~((uint32\+\_\+t)0x00000200)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+A\+L\+A\+RM}(A\+L\+A\+RM)~(((A\+L\+A\+RM) == \textbf{ R\+T\+C\+\_\+\+Alarm\+\_\+A}) $\vert$$\vert$ ((A\+L\+A\+RM) == \textbf{ R\+T\+C\+\_\+\+Alarm\+\_\+B}))
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+C\+M\+D\+\_\+\+A\+L\+A\+RM}(A\+L\+A\+RM)~(((A\+L\+A\+RM) \& (\textbf{ R\+T\+C\+\_\+\+Alarm\+\_\+A} $\vert$ \textbf{ R\+T\+C\+\_\+\+Alarm\+\_\+B})) != (uint32\+\_\+t)\textbf{ R\+E\+S\+ET})
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+All}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+1}~((uint32\+\_\+t)0x01000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+2}~((uint32\+\_\+t)0x02000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+3}~((uint32\+\_\+t)0x03000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+4}~((uint32\+\_\+t)0x04000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+5}~((uint32\+\_\+t)0x05000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+6}~((uint32\+\_\+t)0x06000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+7}~((uint32\+\_\+t)0x07000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+8}~((uint32\+\_\+t)0x08000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+9}~((uint32\+\_\+t)0x09000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+10}~((uint32\+\_\+t)0x0\+A000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+11}~((uint32\+\_\+t)0x0\+B000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+12}~((uint32\+\_\+t)0x0\+C000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+13}~((uint32\+\_\+t)0x0\+D000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14}~((uint32\+\_\+t)0x0\+E000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+None}~((uint32\+\_\+t)0x0\+F000000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+A\+L\+A\+R\+M\+\_\+\+S\+U\+B\+\_\+\+S\+E\+C\+O\+N\+D\+\_\+\+M\+A\+SK}(M\+A\+SK)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+A\+L\+A\+R\+M\+\_\+\+S\+U\+B\+\_\+\+S\+E\+C\+O\+N\+D\+\_\+\+V\+A\+L\+UE}(V\+A\+L\+UE)~((V\+A\+L\+UE) $<$= 0x00007\+F\+F\+F)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Wake\+Up\+Clock\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div16}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Wake\+Up\+Clock\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div8}~((uint32\+\_\+t)0x00000001)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Wake\+Up\+Clock\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div4}~((uint32\+\_\+t)0x00000002)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Wake\+Up\+Clock\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div2}~((uint32\+\_\+t)0x00000003)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Wake\+Up\+Clock\+\_\+\+C\+K\+\_\+\+S\+P\+R\+E\+\_\+16bits}~((uint32\+\_\+t)0x00000004)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Wake\+Up\+Clock\+\_\+\+C\+K\+\_\+\+S\+P\+R\+E\+\_\+17bits}~((uint32\+\_\+t)0x00000006)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+W\+A\+K\+E\+U\+P\+\_\+\+C\+L\+O\+CK}(C\+L\+O\+CK)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+W\+A\+K\+E\+U\+P\+\_\+\+C\+O\+U\+N\+T\+ER}(C\+O\+U\+N\+T\+ER)~((C\+O\+U\+N\+T\+ER) $<$= 0x\+F\+F\+F\+F)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Time\+Stamp\+Edge\+\_\+\+Rising}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Time\+Stamp\+Edge\+\_\+\+Falling}~((uint32\+\_\+t)0x00000008)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+T\+I\+M\+E\+S\+T\+A\+M\+P\+\_\+\+E\+D\+GE}(E\+D\+GE)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Output\+\_\+\+Disable}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Output\+\_\+\+AlarmA}~((uint32\+\_\+t)0x00200000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Output\+\_\+\+AlarmB}~((uint32\+\_\+t)0x00400000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Output\+\_\+\+Wake\+Up}~((uint32\+\_\+t)0x00600000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+O\+U\+T\+P\+UT}(O\+U\+T\+P\+UT)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Output\+Polarity\+\_\+\+High}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Output\+Polarity\+\_\+\+Low}~((uint32\+\_\+t)0x00100000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+P\+OL}(P\+OL)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Calib\+Sign\+\_\+\+Positive}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Calib\+Sign\+\_\+\+Negative}~((uint32\+\_\+t)0x00000080)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+C\+A\+L\+I\+B\+\_\+\+S\+I\+GN}(S\+I\+GN)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+C\+A\+L\+I\+B\+\_\+\+V\+A\+L\+UE}(V\+A\+L\+UE)~((V\+A\+L\+UE) $<$ 0x20)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Calib\+Output\+\_\+512\+Hz}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Calib\+Output\+\_\+1\+Hz}~((uint32\+\_\+t)0x00080000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+C\+A\+L\+I\+B\+\_\+\+O\+U\+T\+P\+UT}(O\+U\+T\+P\+UT)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Smooth\+Calib\+Period\+\_\+32sec}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Smooth\+Calib\+Period\+\_\+16sec}~((uint32\+\_\+t)0x00002000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Smooth\+Calib\+Period\+\_\+8sec}~((uint32\+\_\+t)0x00004000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+S\+M\+O\+O\+T\+H\+\_\+\+C\+A\+L\+I\+B\+\_\+\+P\+E\+R\+I\+OD}(P\+E\+R\+I\+OD)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Smooth\+Calib\+Plus\+Pulses\+\_\+\+Set}~((uint32\+\_\+t)0x00008000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Smooth\+Calib\+Plus\+Pulses\+\_\+\+Reset}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+S\+M\+O\+O\+T\+H\+\_\+\+C\+A\+L\+I\+B\+\_\+\+P\+L\+US}(P\+L\+US)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+S\+M\+O\+O\+T\+H\+\_\+\+C\+A\+L\+I\+B\+\_\+\+M\+I\+N\+US}(V\+A\+L\+UE)~((V\+A\+L\+UE) $<$= 0x000001\+F\+F)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Day\+Light\+Saving\+\_\+\+S\+U\+B1H}~((uint32\+\_\+t)0x00020000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Day\+Light\+Saving\+\_\+\+A\+D\+D1H}~((uint32\+\_\+t)0x00010000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+D\+A\+Y\+L\+I\+G\+H\+T\+\_\+\+S\+A\+V\+I\+NG}(S\+A\+VE)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Store\+Operation\+\_\+\+Reset}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Store\+Operation\+\_\+\+Set}~((uint32\+\_\+t)0x00040000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+S\+T\+O\+R\+E\+\_\+\+O\+P\+E\+R\+A\+T\+I\+ON}(O\+P\+E\+R\+A\+T\+I\+ON)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Trigger\+\_\+\+Rising\+Edge}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Trigger\+\_\+\+Falling\+Edge}~((uint32\+\_\+t)0x00000001)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Trigger\+\_\+\+Low\+Level}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Trigger\+\_\+\+High\+Level}~((uint32\+\_\+t)0x00000001)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+T\+A\+M\+P\+E\+R\+\_\+\+T\+R\+I\+G\+G\+ER}(T\+R\+I\+G\+G\+ER)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Filter\+\_\+\+Disable}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Filter\+\_\+2\+Sample}~((uint32\+\_\+t)0x00000800)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Filter\+\_\+4\+Sample}~((uint32\+\_\+t)0x00001000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Filter\+\_\+8\+Sample}~((uint32\+\_\+t)0x00001800)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+T\+A\+M\+P\+E\+R\+\_\+\+F\+I\+L\+T\+ER}(F\+I\+L\+T\+ER)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div32768}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div16384}~((uint32\+\_\+t)0x000000100)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div8192}~((uint32\+\_\+t)0x00000200)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div4096}~((uint32\+\_\+t)0x00000300)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div2048}~((uint32\+\_\+t)0x00000400)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div1024}~((uint32\+\_\+t)0x00000500)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div512}~((uint32\+\_\+t)0x00000600)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+\_\+\+R\+T\+C\+C\+L\+K\+\_\+\+Div256}~((uint32\+\_\+t)0x00000700)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+T\+A\+M\+P\+E\+R\+\_\+\+S\+A\+M\+P\+L\+I\+N\+G\+\_\+\+F\+R\+EQ}(F\+R\+EQ)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Precharge\+Duration\+\_\+1\+R\+T\+C\+C\+LK}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Precharge\+Duration\+\_\+2\+R\+T\+C\+C\+LK}~((uint32\+\_\+t)0x00002000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Precharge\+Duration\+\_\+4\+R\+T\+C\+C\+LK}~((uint32\+\_\+t)0x00004000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Precharge\+Duration\+\_\+8\+R\+T\+C\+C\+LK}~((uint32\+\_\+t)0x00006000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+T\+A\+M\+P\+E\+R\+\_\+\+P\+R\+E\+C\+H\+A\+R\+G\+E\+\_\+\+D\+U\+R\+A\+T\+I\+ON}(D\+U\+R\+A\+T\+I\+ON)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+\_\+1}~\textbf{ R\+T\+C\+\_\+\+T\+A\+F\+C\+R\+\_\+\+T\+A\+M\+P1E}
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+T\+A\+M\+P\+ER}(T\+A\+M\+P\+ER)~(((T\+A\+M\+P\+ER) == \textbf{ R\+T\+C\+\_\+\+Tamper\+\_\+1}))
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Pin\+\_\+\+P\+C13}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Tamper\+Pin\+\_\+\+P\+I8}~((uint32\+\_\+t)0x00010000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+T\+A\+M\+P\+E\+R\+\_\+\+P\+IN}(P\+IN)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Time\+Stamp\+Pin\+\_\+\+P\+C13}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Time\+Stamp\+Pin\+\_\+\+P\+I8}~((uint32\+\_\+t)0x00020000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+T\+I\+M\+E\+S\+T\+A\+M\+P\+\_\+\+P\+IN}(P\+IN)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Output\+Type\+\_\+\+Open\+Drain}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Output\+Type\+\_\+\+Push\+Pull}~((uint32\+\_\+t)0x00040000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+T\+Y\+PE}(T\+Y\+PE)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Shift\+Add1\+S\+\_\+\+Reset}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Shift\+Add1\+S\+\_\+\+Set}~((uint32\+\_\+t)0x80000000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+S\+H\+I\+F\+T\+\_\+\+A\+D\+D1S}(S\+EL)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+S\+H\+I\+F\+T\+\_\+\+S\+U\+B\+FS}(FS)~((FS) $<$= 0x00007\+F\+F\+F)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+R0}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+R1}~((uint32\+\_\+t)0x00000001)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+R2}~((uint32\+\_\+t)0x00000002)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+R3}~((uint32\+\_\+t)0x00000003)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+R4}~((uint32\+\_\+t)0x00000004)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+R5}~((uint32\+\_\+t)0x00000005)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+R6}~((uint32\+\_\+t)0x00000006)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+R7}~((uint32\+\_\+t)0x00000007)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+R8}~((uint32\+\_\+t)0x00000008)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+R9}~((uint32\+\_\+t)0x00000009)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+R10}~((uint32\+\_\+t)0x0000000\+A)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+R11}~((uint32\+\_\+t)0x0000000\+B)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+R12}~((uint32\+\_\+t)0x0000000\+C)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+R13}~((uint32\+\_\+t)0x0000000\+D)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+R14}~((uint32\+\_\+t)0x0000000\+E)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+R15}~((uint32\+\_\+t)0x0000000\+F)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+R16}~((uint32\+\_\+t)0x00000010)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+R17}~((uint32\+\_\+t)0x00000011)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+R18}~((uint32\+\_\+t)0x00000012)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+D\+R19}~((uint32\+\_\+t)0x00000013)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+B\+KP}(B\+KP)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Format\+\_\+\+B\+IN}~((uint32\+\_\+t)0x000000000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Format\+\_\+\+B\+CD}~((uint32\+\_\+t)0x000000001)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+F\+O\+R\+M\+AT}(F\+O\+R\+M\+AT)~(((F\+O\+R\+M\+AT) == \textbf{ R\+T\+C\+\_\+\+Format\+\_\+\+B\+IN}) $\vert$$\vert$ ((F\+O\+R\+M\+AT) == \textbf{ R\+T\+C\+\_\+\+Format\+\_\+\+B\+CD}))
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+R\+E\+C\+A\+L\+PF}~((uint32\+\_\+t)0x00010000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+A\+M\+P1F}~((uint32\+\_\+t)0x00002000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+S\+O\+VF}~((uint32\+\_\+t)0x00001000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+SF}~((uint32\+\_\+t)0x00000800)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+W\+U\+TF}~((uint32\+\_\+t)0x00000400)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+R\+BF}~((uint32\+\_\+t)0x00000200)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+R\+AF}~((uint32\+\_\+t)0x00000100)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+I\+N\+I\+TF}~((uint32\+\_\+t)0x00000040)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+R\+SF}~((uint32\+\_\+t)0x00000020)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+I\+N\+I\+TS}~((uint32\+\_\+t)0x00000010)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+S\+H\+PF}~((uint32\+\_\+t)0x00000008)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+W\+U\+T\+WF}~((uint32\+\_\+t)0x00000004)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+R\+B\+WF}~((uint32\+\_\+t)0x00000002)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+R\+A\+WF}~((uint32\+\_\+t)0x00000001)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+G\+E\+T\+\_\+\+F\+L\+AG}(F\+L\+AG)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+C\+L\+E\+A\+R\+\_\+\+F\+L\+AG}(F\+L\+AG)~(((F\+L\+AG) != (uint32\+\_\+t)\textbf{ R\+E\+S\+ET}) \&\& (((F\+L\+AG) \& 0x\+F\+F\+F\+F00\+D\+F) == (uint32\+\_\+t)\+R\+E\+S\+E\+T))
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+I\+T\+\_\+\+TS}~((uint32\+\_\+t)0x00008000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+I\+T\+\_\+\+W\+UT}~((uint32\+\_\+t)0x00004000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+I\+T\+\_\+\+A\+L\+RB}~((uint32\+\_\+t)0x00002000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+I\+T\+\_\+\+A\+L\+RA}~((uint32\+\_\+t)0x00001000)
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+I\+T\+\_\+\+T\+A\+MP}~((uint32\+\_\+t)0x00000004) /$\ast$ Used only to Enable the Tamper Interrupt $\ast$/
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+I\+T\+\_\+\+T\+A\+M\+P1}~((uint32\+\_\+t)0x00020000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+C\+O\+N\+F\+I\+G\+\_\+\+IT}(IT)~(((IT) != (uint32\+\_\+t)\textbf{ R\+E\+S\+ET}) \&\& (((IT) \& 0x\+F\+F\+F\+F0\+F\+F\+B) == (uint32\+\_\+t)\+R\+E\+S\+E\+T))
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+G\+E\+T\+\_\+\+IT}(IT)
+\item 
+\#define \textbf{ I\+S\+\_\+\+R\+T\+C\+\_\+\+C\+L\+E\+A\+R\+\_\+\+IT}(IT)~(((IT) != (uint32\+\_\+t)\textbf{ R\+E\+S\+ET}) \&\& (((IT) \& 0x\+F\+F\+F\+D0\+F\+F\+F) == (uint32\+\_\+t)\+R\+E\+S\+E\+T))
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Digital\+Calib\+Config}~\textbf{ R\+T\+C\+\_\+\+Coarse\+Calib\+Config}
+\item 
+\#define \textbf{ R\+T\+C\+\_\+\+Digital\+Calib\+Cmd}~\textbf{ R\+T\+C\+\_\+\+Coarse\+Calib\+Cmd}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the R\+TC registers to their default reset values. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Init} (\textbf{ R\+T\+C\+\_\+\+Init\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the R\+TC registers according to the specified parameters in R\+T\+C\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Struct\+Init} (\textbf{ R\+T\+C\+\_\+\+Init\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each R\+T\+C\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Write\+Protection\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the R\+TC registers write protection. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Enter\+Init\+Mode} (void)
+\begin{DoxyCompactList}\small\item\em Enters the R\+TC Initialization mode. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Exit\+Init\+Mode} (void)
+\begin{DoxyCompactList}\small\item\em Exits the R\+TC Initialization mode. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Wait\+For\+Synchro} (void)
+\begin{DoxyCompactList}\small\item\em Waits until the R\+TC Time and Date registers (R\+T\+C\+\_\+\+TR and R\+T\+C\+\_\+\+DR) are synchronized with R\+TC A\+PB clock. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Ref\+Clock\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the R\+TC reference clock detection. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Bypass\+Shadow\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the Bypass Shadow feature. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Set\+Time} (uint32\+\_\+t R\+T\+C\+\_\+\+Format, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Time\+Struct)
+\begin{DoxyCompactList}\small\item\em Set the R\+TC current time. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Time\+Struct\+Init} (\textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Time\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each R\+T\+C\+\_\+\+Time\+Struct member with its default value (Time = 00h\+:00min\+:00sec). \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Get\+Time} (uint32\+\_\+t R\+T\+C\+\_\+\+Format, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Time\+Struct)
+\begin{DoxyCompactList}\small\item\em Get the R\+TC current Time. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ R\+T\+C\+\_\+\+Get\+Sub\+Second} (void)
+\begin{DoxyCompactList}\small\item\em Gets the R\+TC current Calendar Subseconds value. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Set\+Date} (uint32\+\_\+t R\+T\+C\+\_\+\+Format, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Date\+Struct)
+\begin{DoxyCompactList}\small\item\em Set the R\+TC current date. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Date\+Struct\+Init} (\textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Date\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each R\+T\+C\+\_\+\+Date\+Struct member with its default value (Monday, January 01 xx00). \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Get\+Date} (uint32\+\_\+t R\+T\+C\+\_\+\+Format, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Date\+Struct)
+\begin{DoxyCompactList}\small\item\em Get the R\+TC current date. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Set\+Alarm} (uint32\+\_\+t R\+T\+C\+\_\+\+Format, uint32\+\_\+t R\+T\+C\+\_\+\+Alarm, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Alarm\+Struct)
+\begin{DoxyCompactList}\small\item\em Set the specified R\+TC Alarm. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Alarm\+Struct\+Init} (\textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Alarm\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each R\+T\+C\+\_\+\+Alarm\+Struct member with its default value (Time = 00h\+:00mn\+:00sec / Date = 1st day of the month/\+Mask = all fields are masked). \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Get\+Alarm} (uint32\+\_\+t R\+T\+C\+\_\+\+Format, uint32\+\_\+t R\+T\+C\+\_\+\+Alarm, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Alarm\+Struct)
+\begin{DoxyCompactList}\small\item\em Get the R\+TC Alarm value and masks. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Alarm\+Cmd} (uint32\+\_\+t R\+T\+C\+\_\+\+Alarm, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified R\+TC Alarm. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Alarm, uint32\+\_\+t R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Value, uint32\+\_\+t R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask)
+\begin{DoxyCompactList}\small\item\em Configure the R\+TC Alarm\+A/B Subseconds value and mask.$\ast$. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ R\+T\+C\+\_\+\+Get\+Alarm\+Sub\+Second} (uint32\+\_\+t R\+T\+C\+\_\+\+Alarm)
+\begin{DoxyCompactList}\small\item\em Gets the R\+TC Alarm Subseconds value. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Wake\+Up\+Clock\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Wake\+Up\+Clock)
+\begin{DoxyCompactList}\small\item\em Configures the R\+TC Wakeup clock source. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Set\+Wake\+Up\+Counter} (uint32\+\_\+t R\+T\+C\+\_\+\+Wake\+Up\+Counter)
+\begin{DoxyCompactList}\small\item\em Configures the R\+TC Wakeup counter. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ R\+T\+C\+\_\+\+Get\+Wake\+Up\+Counter} (void)
+\begin{DoxyCompactList}\small\item\em Returns the R\+TC Wake\+Up timer counter value. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Wake\+Up\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the R\+TC Wake\+Up timer. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Day\+Light\+Saving\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Day\+Light\+Saving, uint32\+\_\+t R\+T\+C\+\_\+\+Store\+Operation)
+\begin{DoxyCompactList}\small\item\em Adds or substract one hour from the current time. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ R\+T\+C\+\_\+\+Get\+Store\+Operation} (void)
+\begin{DoxyCompactList}\small\item\em Returns the R\+TC Day Light Saving stored operation. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Output\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Output, uint32\+\_\+t R\+T\+C\+\_\+\+Output\+Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the R\+TC output source (A\+F\+O\+\_\+\+A\+L\+A\+RM). \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Coarse\+Calib\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Calib\+Sign, uint32\+\_\+t Value)
+\begin{DoxyCompactList}\small\item\em Configures the Coarse calibration parameters. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Coarse\+Calib\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Coarse calibration process. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Calib\+Output\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the R\+TC clock to be output through the relative pin. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Calib\+Output\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Calib\+Output)
+\begin{DoxyCompactList}\small\item\em Configure the Calibration Pinout (R\+T\+C\+\_\+\+C\+A\+L\+IB) Selection (1\+Hz or 512\+Hz). \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Smooth\+Calib\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Smooth\+Calib\+Period, uint32\+\_\+t R\+T\+C\+\_\+\+Smooth\+Calib\+Plus\+Pulses, uint32\+\_\+t R\+T\+C\+\_\+\+Smouth\+Calib\+Minus\+Pulses\+Value)
+\begin{DoxyCompactList}\small\item\em Configures the Smooth Calibration Settings. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Time\+Stamp\+Cmd} (uint32\+\_\+t R\+T\+C\+\_\+\+Time\+Stamp\+Edge, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the R\+TC Time\+Stamp functionality with the specified time stamp pin stimulating edge. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Get\+Time\+Stamp} (uint32\+\_\+t R\+T\+C\+\_\+\+Format, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Stamp\+Time\+Struct, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Stamp\+Date\+Struct)
+\begin{DoxyCompactList}\small\item\em Get the R\+TC Time\+Stamp value and masks. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ R\+T\+C\+\_\+\+Get\+Time\+Stamp\+Sub\+Second} (void)
+\begin{DoxyCompactList}\small\item\em Get the R\+TC timestamp Subseconds value. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Tamper\+Trigger\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Tamper, uint32\+\_\+t R\+T\+C\+\_\+\+Tamper\+Trigger)
+\begin{DoxyCompactList}\small\item\em Configures the select Tamper pin edge. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Tamper\+Cmd} (uint32\+\_\+t R\+T\+C\+\_\+\+Tamper, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the Tamper detection. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Tamper\+Filter\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Tamper\+Filter)
+\begin{DoxyCompactList}\small\item\em Configures the Tampers Filter. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Tamper\+Sampling\+Freq)
+\begin{DoxyCompactList}\small\item\em Configures the Tampers Sampling Frequency. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Tamper\+Pins\+Precharge\+Duration} (uint32\+\_\+t R\+T\+C\+\_\+\+Tamper\+Precharge\+Duration)
+\begin{DoxyCompactList}\small\item\em Configures the Tampers Pins input Precharge Duration. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Time\+Stamp\+On\+Tamper\+Detection\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the Time\+Stamp on Tamper Detection Event. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Tamper\+Pull\+Up\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the Precharge of Tamper pin. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Write\+Backup\+Register} (uint32\+\_\+t R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+DR, uint32\+\_\+t Data)
+\begin{DoxyCompactList}\small\item\em Writes a data in a specified R\+TC Backup data register. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ R\+T\+C\+\_\+\+Read\+Backup\+Register} (uint32\+\_\+t R\+T\+C\+\_\+\+B\+K\+P\+\_\+\+DR)
+\begin{DoxyCompactList}\small\item\em Reads data from the specified R\+TC Backup data Register. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Tamper\+Pin\+Selection} (uint32\+\_\+t R\+T\+C\+\_\+\+Tamper\+Pin)
+\begin{DoxyCompactList}\small\item\em Selects the R\+TC Tamper Pin. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Time\+Stamp\+Pin\+Selection} (uint32\+\_\+t R\+T\+C\+\_\+\+Time\+Stamp\+Pin)
+\begin{DoxyCompactList}\small\item\em Selects the R\+TC Time\+Stamp Pin. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Output\+Type\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Output\+Type)
+\begin{DoxyCompactList}\small\item\em Configures the R\+TC Output Pin mode. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Synchro\+Shift\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Shift\+Add1S, uint32\+\_\+t R\+T\+C\+\_\+\+Shift\+Sub\+FS)
+\begin{DoxyCompactList}\small\item\em Configures the Synchronization Shift Control Settings. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+I\+T\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified R\+TC interrupts. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ R\+T\+C\+\_\+\+Get\+Flag\+Status} (uint32\+\_\+t R\+T\+C\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified R\+TC flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Clear\+Flag} (uint32\+\_\+t R\+T\+C\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the R\+TC\textquotesingle{}s pending flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ R\+T\+C\+\_\+\+Get\+I\+T\+Status} (uint32\+\_\+t R\+T\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified R\+TC interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit} (uint32\+\_\+t R\+T\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the R\+TC\textquotesingle{}s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file contains all the functions prototypes for the R\+TC firmware library. 
+
+\begin{DoxyAuthor}{Author}
+M\+CD Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\+0.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+30-\/\+September-\/2011 
+\end{DoxyDate}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+T\+HE P\+R\+E\+S\+E\+NT F\+I\+R\+M\+W\+A\+RE W\+H\+I\+CH IS F\+OR G\+U\+I\+D\+A\+N\+CE O\+N\+LY A\+I\+MS AT P\+R\+O\+V\+I\+D\+I\+NG C\+U\+S\+T\+O\+M\+E\+RS W\+I\+TH C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON R\+E\+G\+A\+R\+D\+I\+NG T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS IN O\+R\+D\+ER F\+OR T\+H\+EM TO S\+A\+VE T\+I\+ME. AS A R\+E\+S\+U\+LT, S\+T\+M\+I\+C\+R\+O\+E\+L\+E\+C\+T\+R\+O\+N\+I\+CS S\+H\+A\+LL N\+OT BE H\+E\+LD L\+I\+A\+B\+LE F\+OR A\+NY D\+I\+R\+E\+CT, I\+N\+D\+I\+R\+E\+CT OR C\+O\+N\+S\+E\+Q\+U\+E\+N\+T\+I\+AL D\+A\+M\+A\+G\+ES W\+I\+TH R\+E\+S\+P\+E\+CT TO A\+NY C\+L\+A\+I\+MS A\+R\+I\+S\+I\+NG F\+R\+OM T\+HE C\+O\+N\+T\+E\+NT OF S\+U\+CH F\+I\+R\+M\+W\+A\+RE A\+N\+D/\+OR T\+HE U\+SE M\+A\+DE BY C\+U\+S\+T\+O\+M\+E\+RS OF T\+HE C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON C\+O\+N\+T\+A\+I\+N\+ED H\+E\+R\+E\+IN IN C\+O\+N\+N\+E\+C\+T\+I\+ON W\+I\+TH T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS.
+
+\subsubsection*{\begin{center}\copyright{} C\+O\+P\+Y\+R\+I\+G\+HT 2011 S\+T\+Microelectronics\end{center} }
+
+Definition in file \textbf{ stm32f4xx\+\_\+rtc.\+h}.
+

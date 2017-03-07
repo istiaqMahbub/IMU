@@ -1,0 +1,360 @@
+\section{Interrupts and flags management functions}
+\label{group__FSMC__Group4}\index{Interrupts and flags management functions@{Interrupts and flags management functions}}
+
+
+Interrupts and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ F\+S\+M\+C\+\_\+\+I\+T\+Config} (uint32\+\_\+t F\+S\+M\+C\+\_\+\+Bank, uint32\+\_\+t F\+S\+M\+C\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified F\+S\+MC interrupts. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ F\+S\+M\+C\+\_\+\+Get\+Flag\+Status} (uint32\+\_\+t F\+S\+M\+C\+\_\+\+Bank, uint32\+\_\+t F\+S\+M\+C\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified F\+S\+MC flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ F\+S\+M\+C\+\_\+\+Clear\+Flag} (uint32\+\_\+t F\+S\+M\+C\+\_\+\+Bank, uint32\+\_\+t F\+S\+M\+C\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the F\+S\+MC\textquotesingle{}s pending flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ F\+S\+M\+C\+\_\+\+Get\+I\+T\+Status} (uint32\+\_\+t F\+S\+M\+C\+\_\+\+Bank, uint32\+\_\+t F\+S\+M\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified F\+S\+MC interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ F\+S\+M\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit} (uint32\+\_\+t F\+S\+M\+C\+\_\+\+Bank, uint32\+\_\+t F\+S\+M\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the F\+S\+MC\textquotesingle{}s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts and flags management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                     Interrupts and flags management functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__FSMC__Group4_ga697618f2de0ad9a8a82461ddbebd5264}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!F\+S\+M\+C\+\_\+\+Clear\+Flag@{F\+S\+M\+C\+\_\+\+Clear\+Flag}}
+\index{F\+S\+M\+C\+\_\+\+Clear\+Flag@{F\+S\+M\+C\+\_\+\+Clear\+Flag}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{F\+S\+M\+C\+\_\+\+Clear\+Flag()}
+{\footnotesize\ttfamily void F\+S\+M\+C\+\_\+\+Clear\+Flag (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{F\+S\+M\+C\+\_\+\+Bank,  }\item[{uint32\+\_\+t}]{F\+S\+M\+C\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Clears the F\+S\+MC\textquotesingle{}s pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\+S\+M\+C\+\_\+\+Bank} & specifies the F\+S\+MC Bank to be used This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item F\+S\+M\+C\+\_\+\+Bank2\+\_\+\+N\+A\+ND\+: F\+S\+MC Bank2 N\+A\+ND \item F\+S\+M\+C\+\_\+\+Bank3\+\_\+\+N\+A\+ND\+: F\+S\+MC Bank3 N\+A\+ND \item F\+S\+M\+C\+\_\+\+Bank4\+\_\+\+P\+C\+C\+A\+RD\+: F\+S\+MC Bank4 P\+C\+C\+A\+RD \end{DoxyItemize}
+\\
+\hline
+{\em F\+S\+M\+C\+\_\+\+F\+L\+AG} & specifies the flag to clear. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item F\+S\+M\+C\+\_\+\+F\+L\+A\+G\+\_\+\+Rising\+Edge\+: Rising edge detection Flag. \item F\+S\+M\+C\+\_\+\+F\+L\+A\+G\+\_\+\+Level\+: Level detection Flag. \item F\+S\+M\+C\+\_\+\+F\+L\+A\+G\+\_\+\+Falling\+Edge\+: Falling edge detection Flag. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 859} of file \textbf{ stm32f4xx\+\_\+fsmc.\+c}.
+
+
+\begin{DoxyCode}
+00860 \{
+00861  \textcolor{comment}{/* Check the parameters */}
+00862   assert_param(IS_FSMC_GETFLAG_BANK(FSMC\_Bank));
+00863   assert_param(IS_FSMC_CLEAR_FLAG(FSMC\_FLAG)) ;
+00864     
+00865   \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00866   \{
+00867     FSMC_Bank2->SR2 &= ~FSMC\_FLAG; 
+00868   \}  
+00869   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank3_NAND)
+00870   \{
+00871     FSMC_Bank3->SR3 &= ~FSMC\_FLAG;
+00872   \}
+00873   \textcolor{comment}{/* FSMC\_Bank4\_PCCARD*/}
+00874   \textcolor{keywordflow}{else}
+00875   \{
+00876     FSMC_Bank4->SR4 &= ~FSMC\_FLAG;
+00877   \}
+00878 \}
+\end{DoxyCode}
+\mbox{\label{group__FSMC__Group4_gad9387e7674b8a376256a3378649e004e}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!F\+S\+M\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit@{F\+S\+M\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit}}
+\index{F\+S\+M\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit@{F\+S\+M\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{F\+S\+M\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit()}
+{\footnotesize\ttfamily void F\+S\+M\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{F\+S\+M\+C\+\_\+\+Bank,  }\item[{uint32\+\_\+t}]{F\+S\+M\+C\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Clears the F\+S\+MC\textquotesingle{}s interrupt pending bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\+S\+M\+C\+\_\+\+Bank} & specifies the F\+S\+MC Bank to be used This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item F\+S\+M\+C\+\_\+\+Bank2\+\_\+\+N\+A\+ND\+: F\+S\+MC Bank2 N\+A\+ND \item F\+S\+M\+C\+\_\+\+Bank3\+\_\+\+N\+A\+ND\+: F\+S\+MC Bank3 N\+A\+ND \item F\+S\+M\+C\+\_\+\+Bank4\+\_\+\+P\+C\+C\+A\+RD\+: F\+S\+MC Bank4 P\+C\+C\+A\+RD \end{DoxyItemize}
+\\
+\hline
+{\em F\+S\+M\+C\+\_\+\+IT} & specifies the interrupt pending bit to clear. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item F\+S\+M\+C\+\_\+\+I\+T\+\_\+\+Rising\+Edge\+: Rising edge detection interrupt. \item F\+S\+M\+C\+\_\+\+I\+T\+\_\+\+Level\+: Level edge detection interrupt. \item F\+S\+M\+C\+\_\+\+I\+T\+\_\+\+Falling\+Edge\+: Falling edge detection interrupt. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 945} of file \textbf{ stm32f4xx\+\_\+fsmc.\+c}.
+
+
+\begin{DoxyCode}
+00946 \{
+00947   \textcolor{comment}{/* Check the parameters */}
+00948   assert_param(IS_FSMC_IT_BANK(FSMC\_Bank));
+00949   assert_param(IS_FSMC_IT(FSMC\_IT));
+00950     
+00951   \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00952   \{
+00953     FSMC_Bank2->SR2 &= ~(FSMC\_IT >> 3); 
+00954   \}  
+00955   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank3_NAND)
+00956   \{
+00957     FSMC_Bank3->SR3 &= ~(FSMC\_IT >> 3);
+00958   \}
+00959   \textcolor{comment}{/* FSMC\_Bank4\_PCCARD*/}
+00960   \textcolor{keywordflow}{else}
+00961   \{
+00962     FSMC_Bank4->SR4 &= ~(FSMC\_IT >> 3);
+00963   \}
+00964 \}
+\end{DoxyCode}
+\mbox{\label{group__FSMC__Group4_gae00355115b078f483f0771057bb849c4}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!F\+S\+M\+C\+\_\+\+Get\+Flag\+Status@{F\+S\+M\+C\+\_\+\+Get\+Flag\+Status}}
+\index{F\+S\+M\+C\+\_\+\+Get\+Flag\+Status@{F\+S\+M\+C\+\_\+\+Get\+Flag\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{F\+S\+M\+C\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} F\+S\+M\+C\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{F\+S\+M\+C\+\_\+\+Bank,  }\item[{uint32\+\_\+t}]{F\+S\+M\+C\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified F\+S\+MC flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\+S\+M\+C\+\_\+\+Bank} & specifies the F\+S\+MC Bank to be used This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item F\+S\+M\+C\+\_\+\+Bank2\+\_\+\+N\+A\+ND\+: F\+S\+MC Bank2 N\+A\+ND \item F\+S\+M\+C\+\_\+\+Bank3\+\_\+\+N\+A\+ND\+: F\+S\+MC Bank3 N\+A\+ND \item F\+S\+M\+C\+\_\+\+Bank4\+\_\+\+P\+C\+C\+A\+RD\+: F\+S\+MC Bank4 P\+C\+C\+A\+RD \end{DoxyItemize}
+\\
+\hline
+{\em F\+S\+M\+C\+\_\+\+F\+L\+AG} & specifies the flag to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item F\+S\+M\+C\+\_\+\+F\+L\+A\+G\+\_\+\+Rising\+Edge\+: Rising edge detection Flag. \item F\+S\+M\+C\+\_\+\+F\+L\+A\+G\+\_\+\+Level\+: Level detection Flag. \item F\+S\+M\+C\+\_\+\+F\+L\+A\+G\+\_\+\+Falling\+Edge\+: Falling edge detection Flag. \item F\+S\+M\+C\+\_\+\+F\+L\+A\+G\+\_\+\+F\+E\+M\+PT\+: Fifo empty Flag. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of F\+S\+M\+C\+\_\+\+F\+L\+AG (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 809} of file \textbf{ stm32f4xx\+\_\+fsmc.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}, and \textbf{ S\+ET}.
+
+
+\begin{DoxyCode}
+00810 \{
+00811   FlagStatus bitstatus = RESET;
+00812   uint32\_t tmpsr = 0x00000000;
+00813   
+00814   \textcolor{comment}{/* Check the parameters */}
+00815   assert_param(IS_FSMC_GETFLAG_BANK(FSMC\_Bank));
+00816   assert_param(IS_FSMC_GET_FLAG(FSMC\_FLAG));
+00817   
+00818   \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00819   \{
+00820     tmpsr = FSMC_Bank2->SR2;
+00821   \}  
+00822   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank3_NAND)
+00823   \{
+00824     tmpsr = FSMC_Bank3->SR3;
+00825   \}
+00826   \textcolor{comment}{/* FSMC\_Bank4\_PCCARD*/}
+00827   \textcolor{keywordflow}{else}
+00828   \{
+00829     tmpsr = FSMC_Bank4->SR4;
+00830   \} 
+00831   
+00832   \textcolor{comment}{/* Get the flag status */}
+00833   \textcolor{keywordflow}{if} ((tmpsr & FSMC\_FLAG) != (uint16\_t)RESET )
+00834   \{
+00835     bitstatus = SET;
+00836   \}
+00837   \textcolor{keywordflow}{else}
+00838   \{
+00839     bitstatus = RESET;
+00840   \}
+00841   \textcolor{comment}{/* Return the flag status */}
+00842   \textcolor{keywordflow}{return} bitstatus;
+00843 \}
+\end{DoxyCode}
+\mbox{\label{group__FSMC__Group4_ga7fce9ca889d33cd8b8b7413875dd4d73}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!F\+S\+M\+C\+\_\+\+Get\+I\+T\+Status@{F\+S\+M\+C\+\_\+\+Get\+I\+T\+Status}}
+\index{F\+S\+M\+C\+\_\+\+Get\+I\+T\+Status@{F\+S\+M\+C\+\_\+\+Get\+I\+T\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{F\+S\+M\+C\+\_\+\+Get\+I\+T\+Status()}
+{\footnotesize\ttfamily \textbf{ I\+T\+Status} F\+S\+M\+C\+\_\+\+Get\+I\+T\+Status (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{F\+S\+M\+C\+\_\+\+Bank,  }\item[{uint32\+\_\+t}]{F\+S\+M\+C\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified F\+S\+MC interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\+S\+M\+C\+\_\+\+Bank} & specifies the F\+S\+MC Bank to be used This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item F\+S\+M\+C\+\_\+\+Bank2\+\_\+\+N\+A\+ND\+: F\+S\+MC Bank2 N\+A\+ND \item F\+S\+M\+C\+\_\+\+Bank3\+\_\+\+N\+A\+ND\+: F\+S\+MC Bank3 N\+A\+ND \item F\+S\+M\+C\+\_\+\+Bank4\+\_\+\+P\+C\+C\+A\+RD\+: F\+S\+MC Bank4 P\+C\+C\+A\+RD \end{DoxyItemize}
+\\
+\hline
+{\em F\+S\+M\+C\+\_\+\+IT} & specifies the F\+S\+MC interrupt source to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item F\+S\+M\+C\+\_\+\+I\+T\+\_\+\+Rising\+Edge\+: Rising edge detection interrupt. \item F\+S\+M\+C\+\_\+\+I\+T\+\_\+\+Level\+: Level edge detection interrupt. \item F\+S\+M\+C\+\_\+\+I\+T\+\_\+\+Falling\+Edge\+: Falling edge detection interrupt. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of F\+S\+M\+C\+\_\+\+IT (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 894} of file \textbf{ stm32f4xx\+\_\+fsmc.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}, and \textbf{ S\+ET}.
+
+
+\begin{DoxyCode}
+00895 \{
+00896   ITStatus bitstatus = RESET;
+00897   uint32\_t tmpsr = 0x0, itstatus = 0x0, itenable = 0x0; 
+00898   
+00899   \textcolor{comment}{/* Check the parameters */}
+00900   assert_param(IS_FSMC_IT_BANK(FSMC\_Bank));
+00901   assert_param(IS_FSMC_GET_IT(FSMC\_IT));
+00902   
+00903   \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00904   \{
+00905     tmpsr = FSMC_Bank2->SR2;
+00906   \}  
+00907   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank3_NAND)
+00908   \{
+00909     tmpsr = FSMC_Bank3->SR3;
+00910   \}
+00911   \textcolor{comment}{/* FSMC\_Bank4\_PCCARD*/}
+00912   \textcolor{keywordflow}{else}
+00913   \{
+00914     tmpsr = FSMC_Bank4->SR4;
+00915   \} 
+00916   
+00917   itstatus = tmpsr & FSMC\_IT;
+00918   
+00919   itenable = tmpsr & (FSMC\_IT >> 3);
+00920   \textcolor{keywordflow}{if} ((itstatus != (uint32\_t)RESET)  && (itenable != (uint32\_t)RESET))
+00921   \{
+00922     bitstatus = SET;
+00923   \}
+00924   \textcolor{keywordflow}{else}
+00925   \{
+00926     bitstatus = RESET;
+00927   \}
+00928   \textcolor{keywordflow}{return} bitstatus; 
+00929 \}
+\end{DoxyCode}
+\mbox{\label{group__FSMC__Group4_ga217027ae3cd213b9076b6a1be197064c}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!F\+S\+M\+C\+\_\+\+I\+T\+Config@{F\+S\+M\+C\+\_\+\+I\+T\+Config}}
+\index{F\+S\+M\+C\+\_\+\+I\+T\+Config@{F\+S\+M\+C\+\_\+\+I\+T\+Config}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{F\+S\+M\+C\+\_\+\+I\+T\+Config()}
+{\footnotesize\ttfamily void F\+S\+M\+C\+\_\+\+I\+T\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{F\+S\+M\+C\+\_\+\+Bank,  }\item[{uint32\+\_\+t}]{F\+S\+M\+C\+\_\+\+IT,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified F\+S\+MC interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\+S\+M\+C\+\_\+\+Bank} & specifies the F\+S\+MC Bank to be used This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item F\+S\+M\+C\+\_\+\+Bank2\+\_\+\+N\+A\+ND\+: F\+S\+MC Bank2 N\+A\+ND \item F\+S\+M\+C\+\_\+\+Bank3\+\_\+\+N\+A\+ND\+: F\+S\+MC Bank3 N\+A\+ND \item F\+S\+M\+C\+\_\+\+Bank4\+\_\+\+P\+C\+C\+A\+RD\+: F\+S\+MC Bank4 P\+C\+C\+A\+RD \end{DoxyItemize}
+\\
+\hline
+{\em F\+S\+M\+C\+\_\+\+IT} & specifies the F\+S\+MC interrupt sources to be enabled or disabled. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item F\+S\+M\+C\+\_\+\+I\+T\+\_\+\+Rising\+Edge\+: Rising edge detection interrupt. \item F\+S\+M\+C\+\_\+\+I\+T\+\_\+\+Level\+: Level edge detection interrupt. \item F\+S\+M\+C\+\_\+\+I\+T\+\_\+\+Falling\+Edge\+: Falling edge detection interrupt. \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the specified F\+S\+MC interrupts. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 749} of file \textbf{ stm32f4xx\+\_\+fsmc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00750 \{
+00751   assert_param(IS_FSMC_IT_BANK(FSMC\_Bank));
+00752   assert_param(IS_FSMC_IT(FSMC\_IT));    
+00753   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00754   
+00755   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00756   \{
+00757     \textcolor{comment}{/* Enable the selected FSMC\_Bank2 interrupts */}
+00758     \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00759     \{
+00760       FSMC_Bank2->SR2 |= FSMC\_IT;
+00761     \}
+00762     \textcolor{comment}{/* Enable the selected FSMC\_Bank3 interrupts */}
+00763     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (FSMC\_Bank == FSMC_Bank3_NAND)
+00764     \{
+00765       FSMC_Bank3->SR3 |= FSMC\_IT;
+00766     \}
+00767     \textcolor{comment}{/* Enable the selected FSMC\_Bank4 interrupts */}
+00768     \textcolor{keywordflow}{else}
+00769     \{
+00770       FSMC_Bank4->SR4 |= FSMC\_IT;    
+00771     \}
+00772   \}
+00773   \textcolor{keywordflow}{else}
+00774   \{
+00775     \textcolor{comment}{/* Disable the selected FSMC\_Bank2 interrupts */}
+00776     \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00777     \{
+00778       
+00779       FSMC_Bank2->SR2 &= (uint32\_t)~FSMC\_IT;
+00780     \}
+00781     \textcolor{comment}{/* Disable the selected FSMC\_Bank3 interrupts */}
+00782     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (FSMC\_Bank == FSMC_Bank3_NAND)
+00783     \{
+00784       FSMC_Bank3->SR3 &= (uint32\_t)~FSMC\_IT;
+00785     \}
+00786     \textcolor{comment}{/* Disable the selected FSMC\_Bank4 interrupts */}
+00787     \textcolor{keywordflow}{else}
+00788     \{
+00789       FSMC_Bank4->SR4 &= (uint32\_t)~FSMC\_IT;    
+00790     \}
+00791   \}
+00792 \}
+\end{DoxyCode}

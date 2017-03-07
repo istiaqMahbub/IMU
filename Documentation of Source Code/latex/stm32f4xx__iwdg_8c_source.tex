@@ -1,0 +1,268 @@
+\section{stm32f4xx\+\_\+iwdg.\+c}
+\label{stm32f4xx__iwdg_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+iwdg.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+iwdg.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_iwdg.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides firmware functions to manage the following }
+00008 \textcolor{comment}{  *          functionalities of the Independent watchdog (IWDG) peripheral:           }
+00009 \textcolor{comment}{  *           - Prescaler and Counter configuration}
+00010 \textcolor{comment}{  *           - IWDG activation}
+00011 \textcolor{comment}{  *           - Flag management}
+00012 \textcolor{comment}{  *}
+00013 \textcolor{comment}{  *  @verbatim  }
+00014 \textcolor{comment}{  *  }
+00015 \textcolor{comment}{  *          ===================================================================}
+00016 \textcolor{comment}{  *                                     IWDG features}
+00017 \textcolor{comment}{  *          ===================================================================}
+00018 \textcolor{comment}{  *    }
+00019 \textcolor{comment}{  *          The IWDG can be started by either software or hardware (configurable}
+00020 \textcolor{comment}{  *          through option byte).}
+00021 \textcolor{comment}{  *            }
+00022 \textcolor{comment}{  *          The IWDG is clocked by its own dedicated low-speed clock (LSI) and}
+00023 \textcolor{comment}{  *          thus stays active even if the main clock fails.}
+00024 \textcolor{comment}{  *          Once the IWDG is started, the LSI is forced ON and cannot be disabled}
+00025 \textcolor{comment}{  *          (LSI cannot be disabled too), and the counter starts counting down from }
+00026 \textcolor{comment}{  *          the reset value of 0xFFF. When it reaches the end of count value (0x000)}
+00027 \textcolor{comment}{  *          a system reset is generated.}
+00028 \textcolor{comment}{  *          The IWDG counter should be reloaded at regular intervals to prevent}
+00029 \textcolor{comment}{  *          an MCU reset.}
+00030 \textcolor{comment}{  *                           }
+00031 \textcolor{comment}{  *          The IWDG is implemented in the VDD voltage domain that is still functional}
+00032 \textcolor{comment}{  *          in STOP and STANDBY mode (IWDG reset can wake-up from STANDBY).          }
+00033 \textcolor{comment}{  *            }
+00034 \textcolor{comment}{  *          IWDGRST flag in RCC\_CSR register can be used to inform when a IWDG}
+00035 \textcolor{comment}{  *          reset occurs.}
+00036 \textcolor{comment}{  *            }
+00037 \textcolor{comment}{  *          Min-max timeout value @32KHz (LSI): ~125us / ~32.7s}
+00038 \textcolor{comment}{  *          The IWDG timeout may vary due to LSI frequency dispersion. STM32F4xx}
+00039 \textcolor{comment}{  *          devices provide the capability to measure the LSI frequency (LSI clock}
+00040 \textcolor{comment}{  *          connected internally to TIM5 CH4 input capture). The measured value}
+00041 \textcolor{comment}{  *          can be used to have an IWDG timeout with an acceptable accuracy. }
+00042 \textcolor{comment}{  *          For more information, please refer to the STM32F4xx Reference manual}
+00043 \textcolor{comment}{  *          }
+00044 \textcolor{comment}{  *                            }
+00045 \textcolor{comment}{  *          ===================================================================}
+00046 \textcolor{comment}{  *                                 How to use this driver}
+00047 \textcolor{comment}{  *          ===================================================================}
+00048 \textcolor{comment}{  *          1. Enable write access to IWDG\_PR and IWDG\_RLR registers using}
+00049 \textcolor{comment}{  *             IWDG\_WriteAccessCmd(IWDG\_WriteAccess\_Enable) function}
+00050 \textcolor{comment}{  *               }
+00051 \textcolor{comment}{  *          2. Configure the IWDG prescaler using IWDG\_SetPrescaler() function}
+00052 \textcolor{comment}{  *            }
+00053 \textcolor{comment}{  *          3. Configure the IWDG counter value using IWDG\_SetReload() function.}
+00054 \textcolor{comment}{  *             This value will be loaded in the IWDG counter each time the counter}
+00055 \textcolor{comment}{  *             is reloaded, then the IWDG will start counting down from this value.}
+00056 \textcolor{comment}{  *            }
+00057 \textcolor{comment}{  *          4. Start the IWDG using IWDG\_Enable() function, when the IWDG is used}
+00058 \textcolor{comment}{  *             in software mode (no need to enable the LSI, it will be enabled}
+00059 \textcolor{comment}{  *             by hardware)}
+00060 \textcolor{comment}{  *             }
+00061 \textcolor{comment}{  *          5. Then the application program must reload the IWDG counter at regular}
+00062 \textcolor{comment}{  *             intervals during normal operation to prevent an MCU reset, using}
+00063 \textcolor{comment}{  *             IWDG\_ReloadCounter() function.      }
+00064 \textcolor{comment}{  *          }
+00065 \textcolor{comment}{  *  @endverbatim}
+00066 \textcolor{comment}{  *    }
+00067 \textcolor{comment}{  ******************************************************************************}
+00068 \textcolor{comment}{  * @attention}
+00069 \textcolor{comment}{  *}
+00070 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00071 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00072 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00073 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00074 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00075 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00076 \textcolor{comment}{  *}
+00077 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00078 \textcolor{comment}{  ******************************************************************************}
+00079 \textcolor{comment}{  */}
+00080 
+00081 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00082 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_iwdg.h"
+00083 
+00084 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00085 \textcolor{comment}{  * @\{}
+00086 \textcolor{comment}{  */}
+00087 
+00088 \textcolor{comment}{/** @defgroup IWDG }
+00089 \textcolor{comment}{  * @brief IWDG driver modules}
+00090 \textcolor{comment}{  * @\{}
+00091 \textcolor{comment}{  */}
+00092 
+00093 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00094 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00095 
+00096 \textcolor{comment}{/* KR register bit mask */}
+00097 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{KR\_KEY\_RELOAD}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xAAAA\textcolor{preprocessor}{)}
+00098 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{KR\_KEY\_ENABLE}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xCCCC\textcolor{preprocessor}{)}
+00099 
+00100 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00101 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00102 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00103 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00104 
+00105 \textcolor{comment}{/** @defgroup IWDG\_Private\_Functions}
+00106 \textcolor{comment}{  * @\{}
+00107 \textcolor{comment}{  */}
+00108 
+00109 \textcolor{comment}{/** @defgroup IWDG\_Group1 Prescaler and Counter configuration functions}
+00110 \textcolor{comment}{ *  @brief   Prescaler and Counter configuration functions}
+00111 \textcolor{comment}{ *}
+00112 \textcolor{comment}{@verbatim   }
+00113 \textcolor{comment}{ ===============================================================================}
+00114 \textcolor{comment}{                  Prescaler and Counter configuration functions}
+00115 \textcolor{comment}{ ===============================================================================  }
+00116 \textcolor{comment}{}
+00117 \textcolor{comment}{@endverbatim}
+00118 \textcolor{comment}{  * @\{}
+00119 \textcolor{comment}{  */}
+00120 
+00121 \textcolor{comment}{/**}
+00122 \textcolor{comment}{  * @brief  Enables or disables write access to IWDG\_PR and IWDG\_RLR registers.}
+00123 \textcolor{comment}{  * @param  IWDG\_WriteAccess: new state of write access to IWDG\_PR and IWDG\_RLR registers.}
+00124 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00125 \textcolor{comment}{  *            @arg IWDG\_WriteAccess\_Enable: Enable write access to IWDG\_PR and IWDG\_RLR registers}
+00126 \textcolor{comment}{  *            @arg IWDG\_WriteAccess\_Disable: Disable write access to IWDG\_PR and IWDG\_RLR registers}
+00127 \textcolor{comment}{  * @retval None}
+00128 \textcolor{comment}{  */}
+00129 \textcolor{keywordtype}{void} IWDG_WriteAccessCmd(uint16\_t IWDG\_WriteAccess)
+00130 \{
+00131   \textcolor{comment}{/* Check the parameters */}
+00132   assert_param(IS\_IWDG\_WRITE\_ACCESS(IWDG\_WriteAccess));
+00133   IWDG->KR = IWDG\_WriteAccess;
+00134 \}
+00135 
+00136 \textcolor{comment}{/**}
+00137 \textcolor{comment}{  * @brief  Sets IWDG Prescaler value.}
+00138 \textcolor{comment}{  * @param  IWDG\_Prescaler: specifies the IWDG Prescaler value.}
+00139 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00140 \textcolor{comment}{  *            @arg IWDG\_Prescaler\_4: IWDG prescaler set to 4}
+00141 \textcolor{comment}{  *            @arg IWDG\_Prescaler\_8: IWDG prescaler set to 8}
+00142 \textcolor{comment}{  *            @arg IWDG\_Prescaler\_16: IWDG prescaler set to 16}
+00143 \textcolor{comment}{  *            @arg IWDG\_Prescaler\_32: IWDG prescaler set to 32}
+00144 \textcolor{comment}{  *            @arg IWDG\_Prescaler\_64: IWDG prescaler set to 64}
+00145 \textcolor{comment}{  *            @arg IWDG\_Prescaler\_128: IWDG prescaler set to 128}
+00146 \textcolor{comment}{  *            @arg IWDG\_Prescaler\_256: IWDG prescaler set to 256}
+00147 \textcolor{comment}{  * @retval None}
+00148 \textcolor{comment}{  */}
+00149 \textcolor{keywordtype}{void} IWDG_SetPrescaler(uint8\_t IWDG\_Prescaler)
+00150 \{
+00151   \textcolor{comment}{/* Check the parameters */}
+00152   assert_param(IS\_IWDG\_PRESCALER(IWDG\_Prescaler));
+00153   IWDG->PR = IWDG\_Prescaler;
+00154 \}
+00155 
+00156 \textcolor{comment}{/**}
+00157 \textcolor{comment}{  * @brief  Sets IWDG Reload value.}
+00158 \textcolor{comment}{  * @param  Reload: specifies the IWDG Reload value.}
+00159 \textcolor{comment}{  *          This parameter must be a number between 0 and 0x0FFF.}
+00160 \textcolor{comment}{  * @retval None}
+00161 \textcolor{comment}{  */}
+00162 \textcolor{keywordtype}{void} IWDG_SetReload(uint16\_t Reload)
+00163 \{
+00164   \textcolor{comment}{/* Check the parameters */}
+00165   assert_param(IS\_IWDG\_RELOAD(Reload));
+00166   IWDG->RLR = Reload;
+00167 \}
+00168 
+00169 \textcolor{comment}{/**}
+00170 \textcolor{comment}{  * @brief  Reloads IWDG counter with value defined in the reload register}
+00171 \textcolor{comment}{  *         (write access to IWDG\_PR and IWDG\_RLR registers disabled).}
+00172 \textcolor{comment}{  * @param  None}
+00173 \textcolor{comment}{  * @retval None}
+00174 \textcolor{comment}{  */}
+00175 \textcolor{keywordtype}{void} IWDG_ReloadCounter(\textcolor{keywordtype}{void})
+00176 \{
+00177   IWDG->KR = KR_KEY_RELOAD;
+00178 \}
+00179 
+00180 \textcolor{comment}{/**}
+00181 \textcolor{comment}{  * @\}}
+00182 \textcolor{comment}{  */}
+00183 
+00184 \textcolor{comment}{/** @defgroup IWDG\_Group2 IWDG activation function}
+00185 \textcolor{comment}{ *  @brief   IWDG activation function }
+00186 \textcolor{comment}{ *}
+00187 \textcolor{comment}{@verbatim   }
+00188 \textcolor{comment}{ ===============================================================================}
+00189 \textcolor{comment}{                          IWDG activation function}
+00190 \textcolor{comment}{ ===============================================================================  }
+00191 \textcolor{comment}{}
+00192 \textcolor{comment}{@endverbatim}
+00193 \textcolor{comment}{  * @\{}
+00194 \textcolor{comment}{  */}
+00195 
+00196 \textcolor{comment}{/**}
+00197 \textcolor{comment}{  * @brief  Enables IWDG (write access to IWDG\_PR and IWDG\_RLR registers disabled).}
+00198 \textcolor{comment}{  * @param  None}
+00199 \textcolor{comment}{  * @retval None}
+00200 \textcolor{comment}{  */}
+00201 \textcolor{keywordtype}{void} IWDG_Enable(\textcolor{keywordtype}{void})
+00202 \{
+00203   IWDG->KR = KR_KEY_ENABLE;
+00204 \}
+00205 
+00206 \textcolor{comment}{/**}
+00207 \textcolor{comment}{  * @\}}
+00208 \textcolor{comment}{  */}
+00209 
+00210 \textcolor{comment}{/** @defgroup IWDG\_Group3 Flag management function }
+00211 \textcolor{comment}{ *  @brief  Flag management function  }
+00212 \textcolor{comment}{ *}
+00213 \textcolor{comment}{@verbatim   }
+00214 \textcolor{comment}{ ===============================================================================}
+00215 \textcolor{comment}{                            Flag management function }
+00216 \textcolor{comment}{ ===============================================================================  }
+00217 \textcolor{comment}{}
+00218 \textcolor{comment}{@endverbatim}
+00219 \textcolor{comment}{  * @\{}
+00220 \textcolor{comment}{  */}
+00221 
+00222 \textcolor{comment}{/**}
+00223 \textcolor{comment}{  * @brief  Checks whether the specified IWDG flag is set or not.}
+00224 \textcolor{comment}{  * @param  IWDG\_FLAG: specifies the flag to check.}
+00225 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00226 \textcolor{comment}{  *            @arg IWDG\_FLAG\_PVU: Prescaler Value Update on going}
+00227 \textcolor{comment}{  *            @arg IWDG\_FLAG\_RVU: Reload Value Update on going}
+00228 \textcolor{comment}{  * @retval The new state of IWDG\_FLAG (SET or RESET).}
+00229 \textcolor{comment}{  */}
+00230 FlagStatus IWDG_GetFlagStatus(uint16\_t IWDG\_FLAG)
+00231 \{
+00232   FlagStatus bitstatus = RESET;
+00233   \textcolor{comment}{/* Check the parameters */}
+00234   assert_param(IS\_IWDG\_FLAG(IWDG\_FLAG));
+00235   \textcolor{keywordflow}{if} ((IWDG->SR & IWDG\_FLAG) != (uint32\_t)RESET)
+00236   \{
+00237     bitstatus = SET;
+00238   \}
+00239   \textcolor{keywordflow}{else}
+00240   \{
+00241     bitstatus = RESET;
+00242   \}
+00243   \textcolor{comment}{/* Return the flag status */}
+00244   \textcolor{keywordflow}{return} bitstatus;
+00245 \}
+00246 
+00247 \textcolor{comment}{/**}
+00248 \textcolor{comment}{  * @\}}
+00249 \textcolor{comment}{  */}
+00250 
+00251 \textcolor{comment}{/**}
+00252 \textcolor{comment}{  * @\}}
+00253 \textcolor{comment}{  */}
+00254 
+00255 \textcolor{comment}{/**}
+00256 \textcolor{comment}{  * @\}}
+00257 \textcolor{comment}{  */}
+00258 
+00259 \textcolor{comment}{/**}
+00260 \textcolor{comment}{  * @\}}
+00261 \textcolor{comment}{  */}
+00262 
+00263 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

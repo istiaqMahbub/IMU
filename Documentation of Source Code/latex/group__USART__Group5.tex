@@ -1,0 +1,92 @@
+\section{Halfduplex mode function}
+\label{group__USART__Group5}\index{Halfduplex mode function@{Halfduplex mode function}}
+
+
+Half-\/duplex mode function.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Half\+Duplex\+Cmd} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the U\+S\+A\+RT\textquotesingle{}s Half Duplex communication. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Half-\/duplex mode function. 
+
+\begin{DoxyVerb} ===============================================================================
+                         Half-duplex mode function
+ ===============================================================================  
+
+  This subsection provides a set of functions allowing to manage the USART 
+  Half-duplex communication.
+  
+  The USART can be configured to follow a single-wire half-duplex protocol where 
+  the TX and RX lines are internally connected.
+
+  USART Half duplex communication is possible through the following procedure:
+     1. Program the Baud rate, Word length, Stop bits, Parity, Mode transmitter 
+        or Mode receiver and hardware flow control values using the USART_Init()
+        function.
+     2. Configures the USART address using the USART_SetAddress() function.
+     3. Enable the USART using the USART_Cmd() function.
+     4. Enable the half duplex mode using USART_HalfDuplexCmd() function.
+
+
+@note The RX pin is no longer used
+@note In Half-duplex mode the following bits must be kept cleared:
+        - LINEN and CLKEN bits in the USART_CR2 register.
+        - SCEN and IREN bits in the USART_CR3 register.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__USART__Group5_gaaa23b05fe0e1896bad90da7f82750831}} 
+\index{Halfduplex mode function@{Halfduplex mode function}!U\+S\+A\+R\+T\+\_\+\+Half\+Duplex\+Cmd@{U\+S\+A\+R\+T\+\_\+\+Half\+Duplex\+Cmd}}
+\index{U\+S\+A\+R\+T\+\_\+\+Half\+Duplex\+Cmd@{U\+S\+A\+R\+T\+\_\+\+Half\+Duplex\+Cmd}!Halfduplex mode function@{Halfduplex mode function}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+Half\+Duplex\+Cmd()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+Half\+Duplex\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the U\+S\+A\+RT\textquotesingle{}s Half Duplex communication. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3, 4, 5 or 6 to select the U\+S\+A\+RT or U\+A\+RT peripheral. \\
+\hline
+{\em New\+State} & new state of the U\+S\+A\+RT Communication. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 816} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00817 \{
+00818   \textcolor{comment}{/* Check the parameters */}
+00819   assert_param(IS_USART_ALL_PERIPH(USARTx));
+00820   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00821   
+00822   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00823   \{
+00824     \textcolor{comment}{/* Enable the Half-Duplex mode by setting the HDSEL bit in the CR3 register */}
+00825     USARTx->CR3 |= USART_CR3_HDSEL;
+00826   \}
+00827   \textcolor{keywordflow}{else}
+00828   \{
+00829     \textcolor{comment}{/* Disable the Half-Duplex mode by clearing the HDSEL bit in the CR3 register */}
+00830     USARTx->CR3 &= (uint16\_t)~((uint16\_t)USART_CR3_HDSEL);
+00831   \}
+00832 \}
+\end{DoxyCode}

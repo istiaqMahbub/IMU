@@ -1,0 +1,136 @@
+\section{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Device\+Support/src/board-\/st\+\_\+discovery.h File Reference}
+\label{board-st__discovery_8h}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Device\+Support/src/board-\/st\+\_\+discovery.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Device\+Support/src/board-\/st\+\_\+discovery.\+h}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ board\+\_\+init} ()
+\item 
+int \textbf{ get\+\_\+tick\+\_\+count} (unsigned long $\ast$count)
+\item 
+void \textbf{ mdelay} (unsigned long n\+Time)
+\item 
+void \textbf{ Sys\+Tick\+\_\+\+Handler} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\label{board-st__discovery_8h_ad7d81512b0ce3a7214547801a3e41264}} 
+\index{board-\/st\+\_\+discovery.\+h@{board-\/st\+\_\+discovery.\+h}!board\+\_\+init@{board\+\_\+init}}
+\index{board\+\_\+init@{board\+\_\+init}!board-\/st\+\_\+discovery.\+h@{board-\/st\+\_\+discovery.\+h}}
+\subsubsection{board\+\_\+init()}
+{\footnotesize\ttfamily void board\+\_\+init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \textbf{ 17} of file \textbf{ board-\/st\+\_\+discovery.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, \textbf{ G\+P\+I\+O\+\_\+\+Config()}, \textbf{ I2c\+Master\+\_\+\+Init()}, \textbf{ P\+W\+R\+\_\+\+Backup\+Access\+Cmd()}, \textbf{ R\+C\+C\+\_\+\+A\+P\+B1\+Periph\+Clock\+Cmd()}, \textbf{ R\+C\+C\+\_\+\+Backup\+Reset\+Cmd()}, \textbf{ Set\+\_\+\+I2\+C\+\_\+\+Retry()}, \textbf{ System\+Core\+Clock\+Update()}, and \textbf{ U\+S\+A\+R\+T\+\_\+\+Config()}.
+
+
+
+Referenced by \textbf{ main()}.
+
+
+\begin{DoxyCode}
+00018 \{
+00019     \textcolor{comment}{//SystemInit();}
+00020     SystemCoreClockUpdate();                               \textcolor{comment}{// Update the system clock variable (might not
+       have been set before)}
+00021                                                            \textcolor{comment}{// With this call, the core clock gets set to
+       56MHz}
+00022     
+00023     \textcolor{keywordflow}{if} (SysTick\_Config (SystemCoreClock / TICK_FREQ)) \{     \textcolor{comment}{// Setup SysTick Timer for 1 msec interrupts}
+00024         \textcolor{keywordflow}{while} (1);                                          \textcolor{comment}{// Handle Error}
+00025     \}   
+00026     
+00027     Set_I2C_Retry(5);
+00028   
+00029     \textcolor{comment}{/* Enable PWR APB1 Clock */}
+00030     RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);
+00031 
+00032     \textcolor{comment}{/* Allow access to Backup */}
+00033     PWR_BackupAccessCmd(ENABLE);
+00034 
+00035     \textcolor{comment}{/* Reset RTC Domain */}
+00036     RCC_BackupResetCmd(ENABLE);
+00037     RCC_BackupResetCmd(DISABLE);
+00038  
+00039     \textcolor{comment}{//Configure Interrupts}
+00040     GPIO_Config();  
+00041 
+00042     \textcolor{comment}{// Configure I2C}
+00043     I2cMaster_Init(); 
+00044 
+00045     \textcolor{comment}{// Configure UART}
+00046     USART_Config(); 
+00047 \}
+\end{DoxyCode}
+\mbox{\label{board-st__discovery_8h_ae640b1a6fa58dce2fd3858ed0df803c0}} 
+\index{board-\/st\+\_\+discovery.\+h@{board-\/st\+\_\+discovery.\+h}!get\+\_\+tick\+\_\+count@{get\+\_\+tick\+\_\+count}}
+\index{get\+\_\+tick\+\_\+count@{get\+\_\+tick\+\_\+count}!board-\/st\+\_\+discovery.\+h@{board-\/st\+\_\+discovery.\+h}}
+\subsubsection{get\+\_\+tick\+\_\+count()}
+{\footnotesize\ttfamily int get\+\_\+tick\+\_\+count (\begin{DoxyParamCaption}\item[{unsigned long $\ast$}]{count }\end{DoxyParamCaption})}
+
+
+
+Definition at line \textbf{ 55} of file \textbf{ board-\/st\+\_\+discovery.\+c}.
+
+
+
+References \textbf{ g\+\_\+ul\+\_\+ms\+\_\+ticks}.
+
+
+
+Referenced by \textbf{ main()}, and \textbf{ read\+\_\+from\+\_\+mpl()}.
+
+
+\begin{DoxyCode}
+00056 \{
+00057         count[0] = g_ul_ms_ticks;
+00058     \textcolor{keywordflow}{return} 0;
+00059 \}
+\end{DoxyCode}
+\mbox{\label{board-st__discovery_8h_aac3cd1e2cc3631be4fe17ab30f42fcc7}} 
+\index{board-\/st\+\_\+discovery.\+h@{board-\/st\+\_\+discovery.\+h}!mdelay@{mdelay}}
+\index{mdelay@{mdelay}!board-\/st\+\_\+discovery.\+h@{board-\/st\+\_\+discovery.\+h}}
+\subsubsection{mdelay()}
+{\footnotesize\ttfamily void mdelay (\begin{DoxyParamCaption}\item[{unsigned long}]{n\+Time }\end{DoxyParamCaption})}
+
+
+
+Definition at line \textbf{ 49} of file \textbf{ board-\/st\+\_\+discovery.\+c}.
+
+
+
+References \textbf{ Timing\+Delay}.
+
+
+
+Referenced by \textbf{ Sensors\+\_\+\+I2\+C\+\_\+\+Read\+Register()}, and \textbf{ Sensors\+\_\+\+I2\+C\+\_\+\+Write\+Register()}.
+
+
+\begin{DoxyCode}
+00050 \{
+00051     TimingDelay = nTime;
+00052     \textcolor{keywordflow}{while}(TimingDelay != 0);
+00053 \}
+\end{DoxyCode}
+\mbox{\label{board-st__discovery_8h_ab5e09814056d617c521549e542639b7e}} 
+\index{board-\/st\+\_\+discovery.\+h@{board-\/st\+\_\+discovery.\+h}!Sys\+Tick\+\_\+\+Handler@{Sys\+Tick\+\_\+\+Handler}}
+\index{Sys\+Tick\+\_\+\+Handler@{Sys\+Tick\+\_\+\+Handler}!board-\/st\+\_\+discovery.\+h@{board-\/st\+\_\+discovery.\+h}}
+\subsubsection{Sys\+Tick\+\_\+\+Handler()}
+{\footnotesize\ttfamily void Sys\+Tick\+\_\+\+Handler (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \textbf{ 72} of file \textbf{ board-\/st\+\_\+discovery.\+c}.
+
+
+\begin{DoxyCode}
+00073 \{
+00074     TimingDelay_Decrement();
+00075     TimeStamp_Increment();
+00076 \}
+\end{DoxyCode}

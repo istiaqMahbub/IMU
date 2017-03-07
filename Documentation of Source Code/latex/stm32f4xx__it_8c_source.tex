@@ -1,0 +1,221 @@
+\section{stm32f4xx\+\_\+it.\+c}
+\label{stm32f4xx__it_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Device\+Support/src/stm32f4xx\+\_\+it.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Device\+Support/src/stm32f4xx\+\_\+it.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    TIM\_PWM\_Input/stm32f4xx\_it.c }
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    19-September-2011}
+00007 \textcolor{comment}{  * @brief   Main Interrupt Service Routines.}
+00008 \textcolor{comment}{  *          This file provides template for all exceptions handler and peripherals}
+00009 \textcolor{comment}{  *          interrupt service routine.}
+00010 \textcolor{comment}{  ******************************************************************************}
+00011 \textcolor{comment}{  * @attention}
+00012 \textcolor{comment}{  *}
+00013 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00014 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00015 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00016 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00017 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00018 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00019 \textcolor{comment}{  *}
+00020 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00021 \textcolor{comment}{  ******************************************************************************}
+00022 \textcolor{comment}{  */}
+00023 
+00024 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_it.h"
+00026 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rcc.h"
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_tim.h"
+00028 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_gpio.h"
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_exti.h"
+00030 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "main.h"
+00031 
+00032 \textcolor{comment}{/** @addtogroup STM32F4\_Discovery\_Peripheral\_Examples}
+00033 \textcolor{comment}{  * @\{}
+00034 \textcolor{comment}{  */}
+00035 
+00036 \textcolor{comment}{/** @addtogroup TIM\_PWM\_Input}
+00037 \textcolor{comment}{  * @\{}
+00038 \textcolor{comment}{  */}
+00039 
+00040 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00041 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00042 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00043 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00044 \_\_IO uint16\_t IC2Value = 0;
+00045 \_\_IO uint16\_t DutyCycle = 0;
+00046 \_\_IO uint32\_t Frequency = 0;
+00047 
+00048 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00049 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00050 
+00051 \textcolor{comment}{/******************************************************************************/}
+00052 \textcolor{comment}{/*            Cortex-M4 Processor Exceptions Handlers                         */}
+00053 \textcolor{comment}{/******************************************************************************/}
+00054 
+00055 \textcolor{comment}{/**}
+00056 \textcolor{comment}{  * @brief  This function handles NMI exception.}
+00057 \textcolor{comment}{  * @param  None}
+00058 \textcolor{comment}{  * @retval None}
+00059 \textcolor{comment}{  */}
+00060 \textcolor{keywordtype}{void} NMI_Handler(\textcolor{keywordtype}{void})
+00061 \{
+00062 \}
+00063 
+00064 \textcolor{comment}{///**}
+00065 \textcolor{comment}{//  * @brief  This function handles Hard Fault exception.}
+00066 \textcolor{comment}{//  * @param  None}
+00067 \textcolor{comment}{//  * @retval None}
+00068 \textcolor{comment}{//  */}
+00069 \textcolor{comment}{//void HardFault\_Handler(void)}
+00070 \textcolor{comment}{//\{}
+00071 \textcolor{comment}{//  /* Go to infinite loop when Hard Fault exception occurs */}
+00072 \textcolor{comment}{//  while (1)}
+00073 \textcolor{comment}{//  \{\}}
+00074 \textcolor{comment}{//\}}
+00075 
+00076 \textcolor{comment}{/**}
+00077 \textcolor{comment}{  * @brief  This function handles Memory Manage exception.}
+00078 \textcolor{comment}{  * @param  None}
+00079 \textcolor{comment}{  * @retval None}
+00080 \textcolor{comment}{  */}
+00081 \textcolor{keywordtype}{void} MemManage_Handler(\textcolor{keywordtype}{void})
+00082 \{
+00083   \textcolor{comment}{/* Go to infinite loop when Memory Manage exception occurs */}
+00084   \textcolor{keywordflow}{while} (1)
+00085   \{\}
+00086 \}
+00087 
+00088 \textcolor{comment}{/**}
+00089 \textcolor{comment}{  * @brief  This function handles Bus Fault exception.}
+00090 \textcolor{comment}{  * @param  None}
+00091 \textcolor{comment}{  * @retval None}
+00092 \textcolor{comment}{  */}
+00093 \textcolor{keywordtype}{void} BusFault_Handler(\textcolor{keywordtype}{void})
+00094 \{
+00095   \textcolor{comment}{/* Go to infinite loop when Bus Fault exception occurs */}
+00096   \textcolor{keywordflow}{while} (1)
+00097   \{\}
+00098 \}
+00099 
+00100 \textcolor{comment}{/**}
+00101 \textcolor{comment}{  * @brief  This function handles Usage Fault exception.}
+00102 \textcolor{comment}{  * @param  None}
+00103 \textcolor{comment}{  * @retval None}
+00104 \textcolor{comment}{  */}
+00105 \textcolor{keywordtype}{void} UsageFault_Handler(\textcolor{keywordtype}{void})
+00106 \{
+00107   \textcolor{comment}{/* Go to infinite loop when Usage Fault exception occurs */}
+00108   \textcolor{keywordflow}{while} (1)
+00109   \{\}
+00110 \}
+00111 
+00112 \textcolor{comment}{/**}
+00113 \textcolor{comment}{  * @brief  This function handles Debug Monitor exception.}
+00114 \textcolor{comment}{  * @param  None}
+00115 \textcolor{comment}{  * @retval None}
+00116 \textcolor{comment}{  */}
+00117 \textcolor{keywordtype}{void} DebugMon_Handler(\textcolor{keywordtype}{void})
+00118 \{\}
+00119 
+00120 \textcolor{comment}{/**}
+00121 \textcolor{comment}{  * @brief  This function handles SVCall exception.}
+00122 \textcolor{comment}{  * @param  None}
+00123 \textcolor{comment}{  * @retval None}
+00124 \textcolor{comment}{  */}
+00125 \textcolor{keywordtype}{void} SVC_Handler(\textcolor{keywordtype}{void})
+00126 \{\}
+00127 
+00128 \textcolor{comment}{///**}
+00129 \textcolor{comment}{//  * @brief  This function handles PendSV\_Handler exception.}
+00130 \textcolor{comment}{//  * @param  None}
+00131 \textcolor{comment}{//  * @retval None}
+00132 \textcolor{comment}{//  */}
+00133 \textcolor{comment}{//void PendSV\_Handler(void)}
+00134 \textcolor{comment}{//\{\}}
+00135 
+00136 \textcolor{comment}{///**}
+00137 \textcolor{comment}{//  * @brief  This function handles SysTick Handler.}
+00138 \textcolor{comment}{//  * @param  None}
+00139 \textcolor{comment}{//  * @retval None}
+00140 \textcolor{comment}{//  */}
+00141 \textcolor{comment}{//void SysTick\_Handler(void)}
+00142 \textcolor{comment}{//\{}
+00143 \textcolor{comment}{//    TimingDelay\_Decrement();}
+00144 \textcolor{comment}{//    TimeStamp\_Increment();}
+00145 \textcolor{comment}{//\}}
+00146 \textcolor{comment}{/******************************************************************************/}
+00147 \textcolor{comment}{/*                 STM32F4xx Peripherals Interrupt Handlers                   */}
+00148 \textcolor{comment}{/*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */}
+00149 \textcolor{comment}{/*  available peripheral interrupt handler's name please refer to the startup */}
+00150 \textcolor{comment}{/*  file (startup\_stm32f4xx.s).                                               */}
+00151 \textcolor{comment}{/******************************************************************************/}
+00152 \textcolor{comment}{/**}
+00153 \textcolor{comment}{  * @brief  This function handles TIM4 global interrupt request.}
+00154 \textcolor{comment}{  * @param  None}
+00155 \textcolor{comment}{  * @retval None}
+00156 \textcolor{comment}{  */}
+00157 \textcolor{keywordtype}{void} TIM4_IRQHandler(\textcolor{keywordtype}{void})
+00158 \{
+00159   RCC\_ClocksTypeDef RCC\_Clocks;
+00160   RCC_GetClocksFreq(&RCC\_Clocks);
+00161 
+00162   \textcolor{comment}{/* Clear TIM4 Capture compare interrupt pending bit */}
+00163   TIM_ClearITPendingBit(TIM4, TIM_IT_CC2);
+00164 
+00165   \textcolor{comment}{/* Get the Input Capture value */}
+00166   IC2Value = TIM\_GetCapture2(TIM4);
+00167 
+00168   \textcolor{keywordflow}{if} (IC2Value != 0)
+00169   \{
+00170     \textcolor{comment}{/* Duty cycle computation */}
+00171     DutyCycle = (TIM\_GetCapture1(TIM4) * 100) / IC2Value;
+00172 
+00173     \textcolor{comment}{/* Frequency computation }
+00174 \textcolor{comment}{       TIM4 counter clock = (RCC\_Clocks.HCLK\_Frequency)/2 */}
+00175 
+00176     Frequency = (RCC\_Clocks.HCLK\_Frequency)/2 / IC2Value;
+00177   \}
+00178   \textcolor{keywordflow}{else}
+00179   \{
+00180     DutyCycle = 0;
+00181     Frequency = 0;
+00182   \}
+00183 \}
+00184 
+00185 \textcolor{comment}{/**}
+00186 \textcolor{comment}{  * @brief  This function handles external interrupts generated by MPU.}
+00187 \textcolor{comment}{  * @param  None}
+00188 \textcolor{comment}{  * @retval None}
+00189 \textcolor{comment}{  */}
+00190 
+00191 \textcolor{keywordtype}{void} EXTI1_IRQHandler(\textcolor{keywordtype}{void})
+00192 \{
+00193   \textcolor{comment}{/* Handle new gyro*/}
+00194   gyro_data_ready_cb();
+00195   EXTI_ClearITPendingBit(EXTI_Line1);
+00196 \}
+00197 
+00198 
+00199 \textcolor{comment}{/**}
+00200 \textcolor{comment}{  * @brief  This function handles PPP interrupt request.}
+00201 \textcolor{comment}{  * @param  None}
+00202 \textcolor{comment}{  * @retval None}
+00203 \textcolor{comment}{  */}
+00204 \textcolor{comment}{/*void PPP\_IRQHandler(void)}
+00205 \textcolor{comment}{\{}
+00206 \textcolor{comment}{\}*/}
+00207 
+00208 \textcolor{comment}{/**}
+00209 \textcolor{comment}{  * @\}}
+00210 \textcolor{comment}{  */}
+00211 
+00212 \textcolor{comment}{/**}
+00213 \textcolor{comment}{  * @\}}
+00214 \textcolor{comment}{  */}
+00215 
+00216 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

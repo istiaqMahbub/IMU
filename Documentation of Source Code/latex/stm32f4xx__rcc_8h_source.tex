@@ -1,0 +1,570 @@
+\section{stm32f4xx\+\_\+rcc.\+h}
+\label{stm32f4xx__rcc_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+rcc.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+rcc.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_rcc.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the RCC firmware library.}
+00008 \textcolor{comment}{  ******************************************************************************}
+00009 \textcolor{comment}{  * @attention}
+00010 \textcolor{comment}{  *}
+00011 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00012 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00013 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00014 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00015 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00016 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00017 \textcolor{comment}{  *}
+00018 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00019 \textcolor{comment}{  ******************************************************************************}
+00020 \textcolor{comment}{  */}
+00021 
+00022 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00023 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_RCC\_H}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_RCC\_H}
+00025 
+00026 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00027  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00028 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00029 
+00030 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00031 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00032 
+00033 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00034 \textcolor{comment}{  * @\{}
+00035 \textcolor{comment}{  */}
+00036 
+00037 \textcolor{comment}{/** @addtogroup RCC}
+00038 \textcolor{comment}{  * @\{}
+00039 \textcolor{comment}{  */}
+00040 
+00041 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00042 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00043 \{
+00044   uint32\_t SYSCLK_Frequency; \textcolor{comment}{/*!<  SYSCLK clock frequency expressed in Hz */}
+00045   uint32\_t HCLK_Frequency;   \textcolor{comment}{/*!<  HCLK clock frequency expressed in Hz */}
+00046   uint32\_t PCLK1_Frequency;  \textcolor{comment}{/*!<  PCLK1 clock frequency expressed in Hz */}
+00047   uint32\_t PCLK2_Frequency;  \textcolor{comment}{/*!<  PCLK2 clock frequency expressed in Hz */}
+00048 \}RCC\_ClocksTypeDef;
+00049 
+00050 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00051 
+00052 \textcolor{comment}{/** @defgroup RCC\_Exported\_Constants}
+00053 \textcolor{comment}{  * @\{}
+00054 \textcolor{comment}{  */}
+00055 
+00056 \textcolor{comment}{/** @defgroup RCC\_HSE\_configuration }
+00057 \textcolor{comment}{  * @\{}
+00058 \textcolor{comment}{  */}
+00059 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_HSE\_OFF}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}
+00060 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_HSE\_ON}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}
+00061 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_HSE\_Bypass}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x05\textcolor{preprocessor}{)}
+00062 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_HSE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{HSE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{HSE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_HSE_OFF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{HSE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_HSE_ON\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00063                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{HSE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_HSE_Bypass\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00064 \textcolor{comment}{/**}
+00065 \textcolor{comment}{  * @\}}
+00066 \textcolor{comment}{  */}
+00067 
+00068 \textcolor{comment}{/** @defgroup RCC\_PLL\_Clock\_Source }
+00069 \textcolor{comment}{  * @\{}
+00070 \textcolor{comment}{  */}
+00071 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_PLLSource\_HSI}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00072 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_PLLSource\_HSE}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00400000\textcolor{preprocessor}{)}
+00073 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_PLL\_SOURCE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_PLLSource_HSI\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00074                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_PLLSource_HSE\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00075 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_PLLM\_VALUE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 63\textcolor{preprocessor}{)}
+00076 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_PLLN\_VALUE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}192 \textcolor{preprocessor}{<=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 432\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00077 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_PLLP\_VALUE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 8\textcolor{preprocessor}{)}\textcolor{preprocessor}{
+      )}
+00078 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_PLLQ\_VALUE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}4 \textcolor{preprocessor}{<=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 15\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00079 
+00080 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_PLLI2SN\_VALUE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}192 \textcolor{preprocessor}{<=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 432\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00081 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_PLLI2SR\_VALUE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}2 \textcolor{preprocessor}{<=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 7\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00082 \textcolor{comment}{/**}
+00083 \textcolor{comment}{  * @\}}
+00084 \textcolor{comment}{  */}
+00085 
+00086 \textcolor{comment}{/** @defgroup RCC\_System\_Clock\_Source }
+00087 \textcolor{comment}{  * @\{}
+00088 \textcolor{comment}{  */}
+00089 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_SYSCLKSource\_HSI}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00090 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_SYSCLKSource\_HSE}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00091 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_SYSCLKSource\_PLLCLK}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}
+00092 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_SYSCLK\_SOURCE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_SYSCLKSource_HSI\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00093                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_SYSCLKSource_HSE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00094                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_SYSCLKSource_PLLCLK\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00095 \textcolor{comment}{/**}
+00096 \textcolor{comment}{  * @\}}
+00097 \textcolor{comment}{  */}
+00098 
+00099 \textcolor{comment}{/** @defgroup RCC\_AHB\_Clock\_Source}
+00100 \textcolor{comment}{  * @\{}
+00101 \textcolor{comment}{  */}
+00102 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_SYSCLK\_Div1}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00103 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_SYSCLK\_Div2}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000080\textcolor{preprocessor}{)}
+00104 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_SYSCLK\_Div4}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000090\textcolor{preprocessor}{)}
+00105 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_SYSCLK\_Div8}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000000A0\textcolor{preprocessor}{)}
+00106 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_SYSCLK\_Div16}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000000B0\textcolor{preprocessor}{)}
+00107 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_SYSCLK\_Div64}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000000C0\textcolor{preprocessor}{)}
+00108 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_SYSCLK\_Div128}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000000D0\textcolor{preprocessor}{)}
+00109 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_SYSCLK\_Div256}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000000E0\textcolor{preprocessor}{)}
+00110 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_SYSCLK\_Div512}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000000F0\textcolor{preprocessor}{)}
+00111 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_HCLK}\textcolor{preprocessor}{(}\textcolor{preprocessor}{HCLK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{HCLK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_SYSCLK_Div1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{HCLK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_SYSCLK_Div2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00112                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{HCLK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_SYSCLK_Div4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{HCLK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_SYSCLK_Div8\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00113                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{HCLK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_SYSCLK_Div16\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{HCLK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_SYSCLK_Div64\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00114                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{HCLK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_SYSCLK_Div128\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{HCLK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_SYSCLK_Div256\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00115                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{HCLK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_SYSCLK_Div512\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00116 \textcolor{comment}{/**}
+00117 \textcolor{comment}{  * @\}}
+00118 \textcolor{comment}{  */}
+00119 
+00120 \textcolor{comment}{/** @defgroup RCC\_APB1\_APB2\_Clock\_Source}
+00121 \textcolor{comment}{  * @\{}
+00122 \textcolor{comment}{  */}
+00123 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_HCLK\_Div1}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00124 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_HCLK\_Div2}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00001000\textcolor{preprocessor}{)}
+00125 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_HCLK\_Div4}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00001400\textcolor{preprocessor}{)}
+00126 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_HCLK\_Div8}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00001800\textcolor{preprocessor}{)}
+00127 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_HCLK\_Div16}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00001C00\textcolor{preprocessor}{)}
+00128 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_PCLK}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PCLK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PCLK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_HCLK_Div1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PCLK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_HCLK_Div2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00129                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PCLK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_HCLK_Div4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PCLK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_HCLK_Div8\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00130                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PCLK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_HCLK_Div16\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00131 \textcolor{comment}{/**}
+00132 \textcolor{comment}{  * @\}}
+00133 \textcolor{comment}{  */}
+00134 
+00135 \textcolor{comment}{/** @defgroup RCC\_Interrupt\_Source }
+00136 \textcolor{comment}{  * @\{}
+00137 \textcolor{comment}{  */}
+00138 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_IT\_LSIRDY}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}
+00139 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_IT\_LSERDY}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}
+00140 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_IT\_HSIRDY}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x04\textcolor{preprocessor}{)}
+00141 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_IT\_HSERDY}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x08\textcolor{preprocessor}{)}
+00142 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_IT\_PLLRDY}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x10\textcolor{preprocessor}{)}
+00143 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_IT\_PLLI2SRDY}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x20\textcolor{preprocessor}{)}
+00144 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_IT\_CSS}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x80\textcolor{preprocessor}{)}
+00145 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0xC0\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00146 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_GET\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_IT_LSIRDY\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_IT_LSERDY\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00147                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_IT_HSIRDY\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_IT_HSERDY\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00148                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_IT_PLLRDY\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_IT_CSS\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00149                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_IT_PLLI2SRDY\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00150 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_CLEAR\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x40\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00151 \textcolor{comment}{/**}
+00152 \textcolor{comment}{  * @\}}
+00153 \textcolor{comment}{  */}
+00154 
+00155 \textcolor{comment}{/** @defgroup RCC\_LSE\_Configuration }
+00156 \textcolor{comment}{  * @\{}
+00157 \textcolor{comment}{  */}
+00158 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_LSE\_OFF}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}
+00159 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_LSE\_ON}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}
+00160 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_LSE\_Bypass}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x04\textcolor{preprocessor}{)}
+00161 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_LSE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LSE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LSE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_LSE_OFF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LSE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_LSE_ON\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00162                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LSE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_LSE_Bypass\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00163 \textcolor{comment}{/**}
+00164 \textcolor{comment}{  * @\}}
+00165 \textcolor{comment}{  */}
+00166 
+00167 \textcolor{comment}{/** @defgroup RCC\_RTC\_Clock\_Source}
+00168 \textcolor{comment}{  * @\{}
+00169 \textcolor{comment}{  */}
+00170 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_LSE}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000100\textcolor{preprocessor}{)}
+00171 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_LSI}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000200\textcolor{preprocessor}{)}
+00172 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div2}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00020300\textcolor{preprocessor}{)}
+00173 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div3}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00030300\textcolor{preprocessor}{)}
+00174 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div4}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00040300\textcolor{preprocessor}{)}
+00175 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div5}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00050300\textcolor{preprocessor}{)}
+00176 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div6}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00060300\textcolor{preprocessor}{)}
+00177 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div7}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00070300\textcolor{preprocessor}{)}
+00178 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div8}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00080300\textcolor{preprocessor}{)}
+00179 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div9}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00090300\textcolor{preprocessor}{)}
+00180 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div10}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000A0300\textcolor{preprocessor}{)}
+00181 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div11}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000B0300\textcolor{preprocessor}{)}
+00182 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div12}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000C0300\textcolor{preprocessor}{)}
+00183 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div13}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000D0300\textcolor{preprocessor}{)}
+00184 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div14}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000E0300\textcolor{preprocessor}{)}
+00185 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div15}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000F0300\textcolor{preprocessor}{)}
+00186 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div16}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00100300\textcolor{preprocessor}{)}
+00187 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div17}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00110300\textcolor{preprocessor}{)}
+00188 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div18}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00120300\textcolor{preprocessor}{)}
+00189 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div19}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00130300\textcolor{preprocessor}{)}
+00190 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div20}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00140300\textcolor{preprocessor}{)}
+00191 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div21}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00150300\textcolor{preprocessor}{)}
+00192 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div22}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00160300\textcolor{preprocessor}{)}
+00193 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div23}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00170300\textcolor{preprocessor}{)}
+00194 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div24}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00180300\textcolor{preprocessor}{)}
+00195 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div25}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00190300\textcolor{preprocessor}{)}
+00196 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div26}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x001A0300\textcolor{preprocessor}{)}
+00197 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div27}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x001B0300\textcolor{preprocessor}{)}
+00198 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div28}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x001C0300\textcolor{preprocessor}{)}
+00199 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div29}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x001D0300\textcolor{preprocessor}{)}
+00200 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div30}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x001E0300\textcolor{preprocessor}{)}
+00201 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_RTCCLKSource\_HSE\_Div31}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x001F0300\textcolor{preprocessor}{)}
+00202 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_RTCCLK\_SOURCE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_RTCCLKSource_LSE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00203                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_RTCCLKSource_LSI\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00204                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00205                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00206                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00207                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00208                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00209                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div7\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00210                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div8\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00211                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div9\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00212                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div10\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00213                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div11\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00214                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div12\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00215                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div13\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00216                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div14\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00217                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div15\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00218                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div16\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00219                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div17\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00220                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div18\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00221                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div19\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00222                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div20\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00223                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div21\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00224                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div22\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00225                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div23\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00226                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div24\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00227                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div25\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00228                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div26\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00229                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div27\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00230                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div28\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00231                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div29\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00232                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div30\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00233                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_RTCCLKSource_HSE_Div31\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00234 \textcolor{comment}{/**}
+00235 \textcolor{comment}{  * @\}}
+00236 \textcolor{comment}{  */}
+00237 
+00238 \textcolor{comment}{/** @defgroup RCC\_I2S\_Clock\_Source}
+00239 \textcolor{comment}{  * @\{}
+00240 \textcolor{comment}{  */}
+00241 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_I2S2CLKSource\_PLLI2S}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}
+00242 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_I2S2CLKSource\_Ext}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}
+00243 
+00244 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_I2SCLK\_SOURCE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_I2S2CLKSource_PLLI2S\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_I2S2CLKSource_Ext\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00245 \textcolor{comment}{/**}
+00246 \textcolor{comment}{  * @\}}
+00247 \textcolor{comment}{  */}
+00248 
+00249 \textcolor{comment}{/** @defgroup RCC\_AHB1\_Peripherals }
+00250 \textcolor{comment}{  * @\{}
+00251 \textcolor{comment}{  */}
+00252 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_GPIOA}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00253 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_GPIOB}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}
+00254 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_GPIOC}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)}
+00255 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_GPIOD}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000008\textcolor{preprocessor}{)}
+00256 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_GPIOE}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000010\textcolor{preprocessor}{)}
+00257 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_GPIOF}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000020\textcolor{preprocessor}{)}
+00258 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_GPIOG}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000040\textcolor{preprocessor}{)}
+00259 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_GPIOH}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000080\textcolor{preprocessor}{)}
+00260 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_GPIOI}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000100\textcolor{preprocessor}{)}
+00261 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_CRC}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00001000\textcolor{preprocessor}{)}
+00262 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_FLITF}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00008000\textcolor{preprocessor}{)}
+00263 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_SRAM1}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00010000\textcolor{preprocessor}{)}
+00264 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_SRAM2}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00020000\textcolor{preprocessor}{)}
+00265 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_BKPSRAM}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00040000\textcolor{preprocessor}{)}
+00266 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_CCMDATARAMEN}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00100000\textcolor{preprocessor}{)}
+00267 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_DMA1}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00200000\textcolor{preprocessor}{)}
+00268 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_DMA2}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00400000\textcolor{preprocessor}{)}
+00269 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_ETH\_MAC}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x02000000\textcolor{preprocessor}{)}
+00270 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_ETH\_MAC\_Tx}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x04000000\textcolor{preprocessor}{)}
+00271 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_ETH\_MAC\_Rx}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x08000000\textcolor{preprocessor}{)}
+00272 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_ETH\_MAC\_PTP}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000000\textcolor{preprocessor}{)}
+00273 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_OTG\_HS}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000000\textcolor{preprocessor}{)}
+00274 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB1Periph\_OTG\_HS\_ULPI}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x40000000\textcolor{preprocessor}{)}
+00275 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_AHB1\_CLOCK\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0x818BEE00\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00276 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_AHB1\_RESET\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0xDD9FEE00\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00277 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_AHB1\_LPMODE\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0x81986E00\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00278 \textcolor{comment}{/**}
+00279 \textcolor{comment}{  * @\}}
+00280 \textcolor{comment}{  */}
+00281 
+00282 \textcolor{comment}{/** @defgroup RCC\_AHB2\_Peripherals }
+00283 \textcolor{comment}{  * @\{}
+00284 \textcolor{comment}{  */}
+00285 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB2Periph\_DCMI}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00286 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB2Periph\_CRYP}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000010\textcolor{preprocessor}{)}
+00287 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB2Periph\_HASH}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000020\textcolor{preprocessor}{)}
+00288 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB2Periph\_RNG}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000040\textcolor{preprocessor}{)}
+00289 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB2Periph\_OTG\_FS}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000080\textcolor{preprocessor}{)}
+00290 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_AHB2\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0xFFFFFF0E\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00291 \textcolor{comment}{/**}
+00292 \textcolor{comment}{  * @\}}
+00293 \textcolor{comment}{  */}
+00294 
+00295 \textcolor{comment}{/** @defgroup RCC\_AHB3\_Peripherals }
+00296 \textcolor{comment}{  * @\{}
+00297 \textcolor{comment}{  */}
+00298 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_AHB3Periph\_FSMC}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00299 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_AHB3\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0xFFFFFFFE\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00300 \textcolor{comment}{/**}
+00301 \textcolor{comment}{  * @\}}
+00302 \textcolor{comment}{  */}
+00303 
+00304 \textcolor{comment}{/** @defgroup RCC\_APB1\_Peripherals }
+00305 \textcolor{comment}{  * @\{}
+00306 \textcolor{comment}{  */}
+00307 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_TIM2}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00308 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_TIM3}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}
+00309 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_TIM4}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)}
+00310 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_TIM5}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000008\textcolor{preprocessor}{)}
+00311 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_TIM6}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000010\textcolor{preprocessor}{)}
+00312 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_TIM7}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000020\textcolor{preprocessor}{)}
+00313 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_TIM12}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000040\textcolor{preprocessor}{)}
+00314 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_TIM13}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000080\textcolor{preprocessor}{)}
+00315 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_TIM14}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000100\textcolor{preprocessor}{)}
+00316 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_WWDG}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000800\textcolor{preprocessor}{)}
+00317 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_SPI2}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00004000\textcolor{preprocessor}{)}
+00318 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_SPI3}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00008000\textcolor{preprocessor}{)}
+00319 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_USART2}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00020000\textcolor{preprocessor}{)}
+00320 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_USART3}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00040000\textcolor{preprocessor}{)}
+00321 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_UART4}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00080000\textcolor{preprocessor}{)}
+00322 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_UART5}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00100000\textcolor{preprocessor}{)}
+00323 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_I2C1}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00200000\textcolor{preprocessor}{)}
+00324 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_I2C2}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00400000\textcolor{preprocessor}{)}
+00325 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_I2C3}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00800000\textcolor{preprocessor}{)}
+00326 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_CAN1}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x02000000\textcolor{preprocessor}{)}
+00327 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_CAN2}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x04000000\textcolor{preprocessor}{)}
+00328 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_PWR}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000000\textcolor{preprocessor}{)}
+00329 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB1Periph\_DAC}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000000\textcolor{preprocessor}{)}
+00330 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_APB1\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0xC9013600\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00331 \textcolor{comment}{/**}
+00332 \textcolor{comment}{  * @\}}
+00333 \textcolor{comment}{  */}
+00334 
+00335 \textcolor{comment}{/** @defgroup RCC\_APB2\_Peripherals }
+00336 \textcolor{comment}{  * @\{}
+00337 \textcolor{comment}{  */}
+00338 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB2Periph\_TIM1}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00339 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB2Periph\_TIM8}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}
+00340 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB2Periph\_USART1}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000010\textcolor{preprocessor}{)}
+00341 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB2Periph\_USART6}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000020\textcolor{preprocessor}{)}
+00342 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB2Periph\_ADC}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000100\textcolor{preprocessor}{)}
+00343 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB2Periph\_ADC1}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000100\textcolor{preprocessor}{)}
+00344 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB2Periph\_ADC2}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000200\textcolor{preprocessor}{)}
+00345 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB2Periph\_ADC3}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000400\textcolor{preprocessor}{)}
+00346 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB2Periph\_SDIO}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000800\textcolor{preprocessor}{)}
+00347 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB2Periph\_SPI1}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00001000\textcolor{preprocessor}{)}
+00348 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB2Periph\_SYSCFG}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00004000\textcolor{preprocessor}{)}
+00349 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB2Periph\_TIM9}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00010000\textcolor{preprocessor}{)}
+00350 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB2Periph\_TIM10}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00020000\textcolor{preprocessor}{)}
+00351 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_APB2Periph\_TIM11}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00040000\textcolor{preprocessor}{)}
+00352 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_APB2\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0xFFF8A0CC\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00353 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_APB2\_RESET\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0xFFF8A6CC\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00354 \textcolor{comment}{/**}
+00355 \textcolor{comment}{  * @\}}
+00356 \textcolor{comment}{  */}
+00357 
+00358 \textcolor{comment}{/** @defgroup RCC\_MCO1\_Clock\_Source\_Prescaler}
+00359 \textcolor{comment}{  * @\{}
+00360 \textcolor{comment}{  */}
+00361 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_MCO1Source\_HSI}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00362 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_MCO1Source\_LSE}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00200000\textcolor{preprocessor}{)}
+00363 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_MCO1Source\_HSE}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00400000\textcolor{preprocessor}{)}
+00364 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_MCO1Source\_PLLCLK}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00600000\textcolor{preprocessor}{)}
+00365 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_MCO1Div\_1}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00366 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_MCO1Div\_2}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x04000000\textcolor{preprocessor}{)}
+00367 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_MCO1Div\_3}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x05000000\textcolor{preprocessor}{)}
+00368 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_MCO1Div\_4}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x06000000\textcolor{preprocessor}{)}
+00369 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_MCO1Div\_5}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x07000000\textcolor{preprocessor}{)}
+00370 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_MCO1SOURCE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_MCO1Source_HSI\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_MCO1Source_LSE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00371                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_MCO1Source_HSE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_MCO1Source_PLLCLK\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00372 
+00373 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_MCO1DIV}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIV}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIV}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_MCO1Div_1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIV}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_MCO1Div_2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00374                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIV}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_MCO1Div_3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIV}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_MCO1Div_4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00375                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIV}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_MCO1Div_5\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00376 \textcolor{comment}{/**}
+00377 \textcolor{comment}{  * @\}}
+00378 \textcolor{comment}{  */}
+00379 
+00380 \textcolor{comment}{/** @defgroup RCC\_MCO2\_Clock\_Source\_Prescaler}
+00381 \textcolor{comment}{  * @\{}
+00382 \textcolor{comment}{  */}
+00383 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_MCO2Source\_SYSCLK}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00384 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_MCO2Source\_PLLI2SCLK}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x40000000\textcolor{preprocessor}{)}
+00385 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_MCO2Source\_HSE}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x80000000\textcolor{preprocessor}{)}
+00386 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_MCO2Source\_PLLCLK}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xC0000000\textcolor{preprocessor}{)}
+00387 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_MCO2Div\_1}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00388 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_MCO2Div\_2}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000000\textcolor{preprocessor}{)}
+00389 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_MCO2Div\_3}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x28000000\textcolor{preprocessor}{)}
+00390 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_MCO2Div\_4}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x30000000\textcolor{preprocessor}{)}
+00391 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_MCO2Div\_5}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x38000000\textcolor{preprocessor}{)}
+00392 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_MCO2SOURCE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_MCO2Source_SYSCLK\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_MCO2Source_PLLI2SCLK\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00393                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_MCO2Source_HSE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_MCO2Source_PLLCLK\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00394 
+00395 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_MCO2DIV}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIV}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIV}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_MCO2Div_1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIV}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_MCO2Div_2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00396                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIV}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_MCO2Div_3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIV}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_MCO2Div_4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00397                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIV}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_MCO2Div_5\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00398 \textcolor{comment}{/**}
+00399 \textcolor{comment}{  * @\}}
+00400 \textcolor{comment}{  */}
+00401 
+00402 \textcolor{comment}{/** @defgroup RCC\_Flag }
+00403 \textcolor{comment}{  * @\{}
+00404 \textcolor{comment}{  */}
+00405 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_FLAG\_HSIRDY}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x21\textcolor{preprocessor}{)}
+00406 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_FLAG\_HSERDY}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x31\textcolor{preprocessor}{)}
+00407 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_FLAG\_PLLRDY}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x39\textcolor{preprocessor}{)}
+00408 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_FLAG\_PLLI2SRDY}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x3B\textcolor{preprocessor}{)}
+00409 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_FLAG\_LSERDY}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x41\textcolor{preprocessor}{)}
+00410 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_FLAG\_LSIRDY}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x61\textcolor{preprocessor}{)}
+00411 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_FLAG\_BORRST}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x79\textcolor{preprocessor}{)}
+00412 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_FLAG\_PINRST}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x7A\textcolor{preprocessor}{)}
+00413 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_FLAG\_PORRST}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x7B\textcolor{preprocessor}{)}
+00414 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_FLAG\_SFTRST}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x7C\textcolor{preprocessor}{)}
+00415 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_FLAG\_IWDGRST}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x7D\textcolor{preprocessor}{)}
+00416 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_FLAG\_WWDGRST}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x7E\textcolor{preprocessor}{)}
+00417 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_FLAG\_LPWRRST}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x7F\textcolor{preprocessor}{)}
+00418 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_FLAG_HSIRDY\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_FLAG_HSERDY\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00419                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_FLAG_PLLRDY\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_FLAG_LSERDY\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00420                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_FLAG_LSIRDY\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_FLAG_BORRST\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00421                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_FLAG_PINRST\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_FLAG_PORRST\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00422                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_FLAG_SFTRST\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_FLAG_IWDGRST\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00423                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_FLAG_WWDGRST\textcolor{preprocessor}{)}\textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RCC_FLAG_LPWRRST\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00424                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RCC_FLAG_PLLI2SRDY\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00425 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RCC\_CALIBRATION\_VALUE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0x1F\textcolor{preprocessor}{)}
+00426 \textcolor{comment}{/**}
+00427 \textcolor{comment}{  * @\}}
+00428 \textcolor{comment}{  */}
+00429 
+00430 \textcolor{comment}{/**}
+00431 \textcolor{comment}{  * @\}}
+00432 \textcolor{comment}{  */}
+00433 
+00434 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00435 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00436 
+00437 \textcolor{comment}{/* Function used to set the RCC clock configuration to the default reset state */}
+00438 \textcolor{keywordtype}{void} RCC_DeInit(\textcolor{keywordtype}{void});
+00439 
+00440 \textcolor{comment}{/* Internal/external clocks, PLL, CSS and MCO configuration functions *********/}
+00441 \textcolor{keywordtype}{void} RCC_HSEConfig(uint8\_t RCC\_HSE);
+00442 ErrorStatus RCC_WaitForHSEStartUp(\textcolor{keywordtype}{void});
+00443 \textcolor{keywordtype}{void} RCC_AdjustHSICalibrationValue(uint8\_t HSICalibrationValue);
+00444 \textcolor{keywordtype}{void} RCC_HSICmd(FunctionalState NewState);
+00445 \textcolor{keywordtype}{void} RCC_LSEConfig(uint8\_t RCC\_LSE);
+00446 \textcolor{keywordtype}{void} RCC_LSICmd(FunctionalState NewState);
+00447 
+00448 \textcolor{keywordtype}{void} RCC_PLLConfig(uint32\_t RCC\_PLLSource, uint32\_t PLLM, uint32\_t PLLN, uint32\_t PLLP, uint32\_t PLLQ)
+      ;
+00449 \textcolor{keywordtype}{void} RCC_PLLCmd(FunctionalState NewState);
+00450 \textcolor{keywordtype}{void} RCC_PLLI2SConfig(uint32\_t PLLI2SN, uint32\_t PLLI2SR);
+00451 \textcolor{keywordtype}{void} RCC_PLLI2SCmd(FunctionalState NewState);
+00452 
+00453 \textcolor{keywordtype}{void} RCC_ClockSecuritySystemCmd(FunctionalState NewState);
+00454 \textcolor{keywordtype}{void} RCC_MCO1Config(uint32\_t RCC\_MCO1Source, uint32\_t RCC\_MCO1Div);
+00455 \textcolor{keywordtype}{void} RCC_MCO2Config(uint32\_t RCC\_MCO2Source, uint32\_t RCC\_MCO2Div);
+00456 
+00457 \textcolor{comment}{/* System, AHB and APB busses clocks configuration functions ******************/}
+00458 \textcolor{keywordtype}{void} RCC_SYSCLKConfig(uint32\_t RCC\_SYSCLKSource);
+00459 uint8\_t RCC_GetSYSCLKSource(\textcolor{keywordtype}{void});
+00460 \textcolor{keywordtype}{void} RCC_HCLKConfig(uint32\_t RCC\_SYSCLK);
+00461 \textcolor{keywordtype}{void} RCC_PCLK1Config(uint32\_t RCC\_HCLK);
+00462 \textcolor{keywordtype}{void} RCC_PCLK2Config(uint32\_t RCC\_HCLK);
+00463 \textcolor{keywordtype}{void} RCC_GetClocksFreq(RCC\_ClocksTypeDef* RCC\_Clocks);
+00464 
+00465 \textcolor{comment}{/* Peripheral clocks configuration functions **********************************/}
+00466 \textcolor{keywordtype}{void} RCC_RTCCLKConfig(uint32\_t RCC\_RTCCLKSource);
+00467 \textcolor{keywordtype}{void} RCC_RTCCLKCmd(FunctionalState NewState);
+00468 \textcolor{keywordtype}{void} RCC_BackupResetCmd(FunctionalState NewState);
+00469 \textcolor{keywordtype}{void} RCC_I2SCLKConfig(uint32\_t RCC\_I2SCLKSource);
+00470 
+00471 \textcolor{keywordtype}{void} RCC_AHB1PeriphClockCmd(uint32\_t RCC\_AHB1Periph, FunctionalState NewState);
+00472 \textcolor{keywordtype}{void} RCC_AHB2PeriphClockCmd(uint32\_t RCC\_AHB2Periph, FunctionalState NewState);
+00473 \textcolor{keywordtype}{void} RCC_AHB3PeriphClockCmd(uint32\_t RCC\_AHB3Periph, FunctionalState NewState);
+00474 \textcolor{keywordtype}{void} RCC_APB1PeriphClockCmd(uint32\_t RCC\_APB1Periph, FunctionalState NewState);
+00475 \textcolor{keywordtype}{void} RCC_APB2PeriphClockCmd(uint32\_t RCC\_APB2Periph, FunctionalState NewState);
+00476 
+00477 \textcolor{keywordtype}{void} RCC_AHB1PeriphResetCmd(uint32\_t RCC\_AHB1Periph, FunctionalState NewState);
+00478 \textcolor{keywordtype}{void} RCC_AHB2PeriphResetCmd(uint32\_t RCC\_AHB2Periph, FunctionalState NewState);
+00479 \textcolor{keywordtype}{void} RCC_AHB3PeriphResetCmd(uint32\_t RCC\_AHB3Periph, FunctionalState NewState);
+00480 \textcolor{keywordtype}{void} RCC_APB1PeriphResetCmd(uint32\_t RCC\_APB1Periph, FunctionalState NewState);
+00481 \textcolor{keywordtype}{void} RCC_APB2PeriphResetCmd(uint32\_t RCC\_APB2Periph, FunctionalState NewState);
+00482 
+00483 \textcolor{keywordtype}{void} RCC_AHB1PeriphClockLPModeCmd(uint32\_t RCC\_AHB1Periph, FunctionalState NewState);
+00484 \textcolor{keywordtype}{void} RCC_AHB2PeriphClockLPModeCmd(uint32\_t RCC\_AHB2Periph, FunctionalState NewState);
+00485 \textcolor{keywordtype}{void} RCC_AHB3PeriphClockLPModeCmd(uint32\_t RCC\_AHB3Periph, FunctionalState NewState);
+00486 \textcolor{keywordtype}{void} RCC_APB1PeriphClockLPModeCmd(uint32\_t RCC\_APB1Periph, FunctionalState NewState);
+00487 \textcolor{keywordtype}{void} RCC_APB2PeriphClockLPModeCmd(uint32\_t RCC\_APB2Periph, FunctionalState NewState);
+00488 
+00489 \textcolor{comment}{/* Interrupts and flags management functions **********************************/}
+00490 \textcolor{keywordtype}{void} RCC_ITConfig(uint8\_t RCC\_IT, FunctionalState NewState);
+00491 FlagStatus RCC_GetFlagStatus(uint8\_t RCC\_FLAG);
+00492 \textcolor{keywordtype}{void} RCC_ClearFlag(\textcolor{keywordtype}{void});
+00493 ITStatus RCC_GetITStatus(uint8\_t RCC\_IT);
+00494 \textcolor{keywordtype}{void} RCC_ClearITPendingBit(uint8\_t RCC\_IT);
+00495 
+00496 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00497 \}
+00498 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00499 
+00500 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/* \_\_STM32F4xx\_RCC\_H */}
+00501 
+00502 \textcolor{comment}{/**}
+00503 \textcolor{comment}{  * @\}}
+00504 \textcolor{comment}{  */}
+00505 
+00506 \textcolor{comment}{/**}
+00507 \textcolor{comment}{  * @\}}
+00508 \textcolor{comment}{  */}
+00509 
+00510 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

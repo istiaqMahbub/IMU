@@ -1,0 +1,710 @@
+\section{stm32f4xx\+\_\+dac.\+c}
+\label{stm32f4xx__dac_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+dac.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+dac.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_dac.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{   * @brief   This file provides firmware functions to manage the following }
+00008 \textcolor{comment}{  *          functionalities of the Digital-to-Analog Converter (DAC) peripheral: }
+00009 \textcolor{comment}{  *           - DAC channels configuration: trigger, output buffer, data format}
+00010 \textcolor{comment}{  *           - DMA management      }
+00011 \textcolor{comment}{  *           - Interrupts and flags management}
+00012 \textcolor{comment}{  *}
+00013 \textcolor{comment}{  *  @verbatim}
+00014 \textcolor{comment}{  *    }
+00015 \textcolor{comment}{  *          ===================================================================}
+00016 \textcolor{comment}{  *                             DAC Peripheral features}
+00017 \textcolor{comment}{  *          ===================================================================}
+00018 \textcolor{comment}{  *          }
+00019 \textcolor{comment}{  *          DAC Channels}
+00020 \textcolor{comment}{  *          =============  }
+00021 \textcolor{comment}{  *          The device integrates two 12-bit Digital Analog Converters that can }
+00022 \textcolor{comment}{  *          be used independently or simultaneously (dual mode):}
+00023 \textcolor{comment}{  *            1- DAC channel1 with DAC\_OUT1 (PA4) as output}
+00024 \textcolor{comment}{  *            1- DAC channel2 with DAC\_OUT2 (PA5) as output}
+00025 \textcolor{comment}{  *}
+00026 \textcolor{comment}{  *          DAC Triggers}
+00027 \textcolor{comment}{  *          =============}
+00028 \textcolor{comment}{  *          Digital to Analog conversion can be non-triggered using DAC\_Trigger\_None}
+00029 \textcolor{comment}{  *          and DAC\_OUT1/DAC\_OUT2 is available once writing to DHRx register }
+00030 \textcolor{comment}{  *          using DAC\_SetChannel1Data() / DAC\_SetChannel2Data() functions.}
+00031 \textcolor{comment}{  *   }
+00032 \textcolor{comment}{  *         Digital to Analog conversion can be triggered by:}
+00033 \textcolor{comment}{  *             1- External event: EXTI Line 9 (any GPIOx\_Pin9) using DAC\_Trigger\_Ext\_IT9.}
+00034 \textcolor{comment}{  *                The used pin (GPIOx\_Pin9) must be configured in input mode.}
+00035 \textcolor{comment}{  *}
+00036 \textcolor{comment}{  *             2- Timers TRGO: TIM2, TIM4, TIM5, TIM6, TIM7 and TIM8 }
+00037 \textcolor{comment}{  *                (DAC\_Trigger\_T2\_TRGO, DAC\_Trigger\_T4\_TRGO...)}
+00038 \textcolor{comment}{  *                The timer TRGO event should be selected using TIM\_SelectOutputTrigger()}
+00039 \textcolor{comment}{  *}
+00040 \textcolor{comment}{  *             3- Software using DAC\_Trigger\_Software}
+00041 \textcolor{comment}{  *}
+00042 \textcolor{comment}{  *          DAC Buffer mode feature}
+00043 \textcolor{comment}{  *          ========================  }
+00044 \textcolor{comment}{  *          Each DAC channel integrates an output buffer that can be used to }
+00045 \textcolor{comment}{  *          reduce the output impedance, and to drive external loads directly}
+00046 \textcolor{comment}{  *          without having to add an external operational amplifier.}
+00047 \textcolor{comment}{  *          To enable, the output buffer use  }
+00048 \textcolor{comment}{  *              DAC\_InitStructure.DAC\_OutputBuffer = DAC\_OutputBuffer\_Enable;}
+00049 \textcolor{comment}{  *          }
+00050 \textcolor{comment}{  *          Refer to the device datasheet for more details about output }
+00051 \textcolor{comment}{  *          impedance value with and without output buffer.}
+00052 \textcolor{comment}{  *          }
+00053 \textcolor{comment}{  *          DAC wave generation feature}
+00054 \textcolor{comment}{  *          =============================      }
+00055 \textcolor{comment}{  *          Both DAC channels can be used to generate}
+00056 \textcolor{comment}{  *             1- Noise wave using DAC\_WaveGeneration\_Noise}
+00057 \textcolor{comment}{  *             2- Triangle wave using DAC\_WaveGeneration\_Triangle}
+00058 \textcolor{comment}{  *        }
+00059 \textcolor{comment}{  *          Wave generation can be disabled using DAC\_WaveGeneration\_None}
+00060 \textcolor{comment}{  *}
+00061 \textcolor{comment}{  *          DAC data format}
+00062 \textcolor{comment}{  *          ================   }
+00063 \textcolor{comment}{  *          The DAC data format can be:}
+00064 \textcolor{comment}{  *             1- 8-bit right alignment using DAC\_Align\_8b\_R}
+00065 \textcolor{comment}{  *             2- 12-bit left alignment using DAC\_Align\_12b\_L}
+00066 \textcolor{comment}{  *             3- 12-bit right alignment using DAC\_Align\_12b\_R}
+00067 \textcolor{comment}{  *}
+00068 \textcolor{comment}{  *          DAC data value to voltage correspondence  }
+00069 \textcolor{comment}{  *          ========================================  }
+00070 \textcolor{comment}{  *          The analog output voltage on each DAC channel pin is determined}
+00071 \textcolor{comment}{  *          by the following equation: }
+00072 \textcolor{comment}{  *          DAC\_OUTx = VREF+ * DOR / 4095}
+00073 \textcolor{comment}{  *          with  DOR is the Data Output Register}
+00074 \textcolor{comment}{  *                VEF+ is the input voltage reference (refer to the device datasheet)}
+00075 \textcolor{comment}{  *          e.g. To set DAC\_OUT1 to 0.7V, use}
+00076 \textcolor{comment}{  *            DAC\_SetChannel1Data(DAC\_Align\_12b\_R, 868);}
+00077 \textcolor{comment}{  *          Assuming that VREF+ = 3.3V, DAC\_OUT1 = (3.3 * 868) / 4095 = 0.7V}
+00078 \textcolor{comment}{  *}
+00079 \textcolor{comment}{  *          DMA requests }
+00080 \textcolor{comment}{  *          =============    }
+00081 \textcolor{comment}{  *          A DMA1 request can be generated when an external trigger (but not}
+00082 \textcolor{comment}{  *          a software trigger) occurs if DMA1 requests are enabled using}
+00083 \textcolor{comment}{  *          DAC\_DMACmd()}
+00084 \textcolor{comment}{  *          DMA1 requests are mapped as following:}
+00085 \textcolor{comment}{  *             1- DAC channel1 : mapped on DMA1 Stream5 channel7 which must be }
+00086 \textcolor{comment}{  *                               already configured}
+00087 \textcolor{comment}{  *             2- DAC channel2 : mapped on DMA1 Stream6 channel7 which must be }
+00088 \textcolor{comment}{  *                               already configured}
+00089 \textcolor{comment}{  *}
+00090 \textcolor{comment}{  *          ===================================================================      }
+00091 \textcolor{comment}{  *                              How to use this driver }
+00092 \textcolor{comment}{  *          ===================================================================          }
+00093 \textcolor{comment}{  *            - DAC APB clock must be enabled to get write access to DAC}
+00094 \textcolor{comment}{  *              registers using}
+00095 \textcolor{comment}{  *              RCC\_APB1PeriphClockCmd(RCC\_APB1Periph\_DAC, ENABLE)}
+00096 \textcolor{comment}{  *            - Configure DAC\_OUTx (DAC\_OUT1: PA4, DAC\_OUT2: PA5) in analog mode.}
+00097 \textcolor{comment}{  *            - Configure the DAC channel using DAC\_Init() function}
+00098 \textcolor{comment}{  *            - Enable the DAC channel using DAC\_Cmd() function}
+00099 \textcolor{comment}{  * }
+00100 \textcolor{comment}{  *  @endverbatim}
+00101 \textcolor{comment}{  *    }
+00102 \textcolor{comment}{  ******************************************************************************}
+00103 \textcolor{comment}{  * @attention}
+00104 \textcolor{comment}{  *}
+00105 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00106 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00107 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00108 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00109 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00110 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00111 \textcolor{comment}{  *}
+00112 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00113 \textcolor{comment}{  ******************************************************************************  }
+00114 \textcolor{comment}{  */}
+00115 
+00116 
+00117 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00118 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_dac.h"
+00119 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rcc.h"
+00120 
+00121 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00122 \textcolor{comment}{  * @\{}
+00123 \textcolor{comment}{  */}
+00124 
+00125 \textcolor{comment}{/** @defgroup DAC }
+00126 \textcolor{comment}{  * @brief DAC driver modules}
+00127 \textcolor{comment}{  * @\{}
+00128 \textcolor{comment}{  */}
+00129 
+00130 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00131 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00132 
+00133 \textcolor{comment}{/* CR register Mask */}
+00134 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR\_CLEAR\_MASK}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000FFE\textcolor{preprocessor}{)}
+00135 
+00136 \textcolor{comment}{/* DAC Dual Channels SWTRIG masks */}
+00137 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DUAL\_SWTRIG\_SET}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000003\textcolor{preprocessor}{)}
+00138 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DUAL\_SWTRIG\_RESET}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFFFFFFC\textcolor{preprocessor}{)}
+00139 
+00140 \textcolor{comment}{/* DHR registers offsets */}
+00141 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DHR12R1\_OFFSET}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000008\textcolor{preprocessor}{)}
+00142 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DHR12R2\_OFFSET}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000014\textcolor{preprocessor}{)}
+00143 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DHR12RD\_OFFSET}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000020\textcolor{preprocessor}{)}
+00144 
+00145 \textcolor{comment}{/* DOR register offset */}
+00146 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DOR\_OFFSET}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0000002C\textcolor{preprocessor}{)}
+00147 
+00148 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00149 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00150 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00151 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00152 
+00153 \textcolor{comment}{/** @defgroup DAC\_Private\_Functions}
+00154 \textcolor{comment}{  * @\{}
+00155 \textcolor{comment}{  */}
+00156 
+00157 \textcolor{comment}{/** @defgroup DAC\_Group1 DAC channels configuration}
+00158 \textcolor{comment}{ *  @brief   DAC channels configuration: trigger, output buffer, data format }
+00159 \textcolor{comment}{ *}
+00160 \textcolor{comment}{@verbatim   }
+00161 \textcolor{comment}{ ===============================================================================}
+00162 \textcolor{comment}{          DAC channels configuration: trigger, output buffer, data format}
+00163 \textcolor{comment}{ ===============================================================================  }
+00164 \textcolor{comment}{}
+00165 \textcolor{comment}{@endverbatim}
+00166 \textcolor{comment}{  * @\{}
+00167 \textcolor{comment}{  */}
+00168 
+00169 \textcolor{comment}{/**}
+00170 \textcolor{comment}{  * @brief  Deinitializes the DAC peripheral registers to their default reset values.}
+00171 \textcolor{comment}{  * @param  None}
+00172 \textcolor{comment}{  * @retval None}
+00173 \textcolor{comment}{  */}
+00174 \textcolor{keywordtype}{void} DAC_DeInit(\textcolor{keywordtype}{void})
+00175 \{
+00176   \textcolor{comment}{/* Enable DAC reset state */}
+00177   RCC_APB1PeriphResetCmd(RCC_APB1Periph_DAC, ENABLE);
+00178   \textcolor{comment}{/* Release DAC from reset state */}
+00179   RCC_APB1PeriphResetCmd(RCC_APB1Periph_DAC, DISABLE);
+00180 \}
+00181 
+00182 \textcolor{comment}{/**}
+00183 \textcolor{comment}{  * @brief  Initializes the DAC peripheral according to the specified parameters}
+00184 \textcolor{comment}{  *         in the DAC\_InitStruct.}
+00185 \textcolor{comment}{  * @param  DAC\_Channel: the selected DAC channel. }
+00186 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00187 \textcolor{comment}{  *            @arg DAC\_Channel\_1: DAC Channel1 selected}
+00188 \textcolor{comment}{  *            @arg DAC\_Channel\_2: DAC Channel2 selected}
+00189 \textcolor{comment}{  * @param  DAC\_InitStruct: pointer to a DAC\_InitTypeDef structure that contains}
+00190 \textcolor{comment}{  *         the configuration information for the  specified DAC channel.}
+00191 \textcolor{comment}{  * @retval None}
+00192 \textcolor{comment}{  */}
+00193 \textcolor{keywordtype}{void} DAC_Init(uint32\_t DAC\_Channel, DAC\_InitTypeDef* DAC\_InitStruct)
+00194 \{
+00195   uint32\_t tmpreg1 = 0, tmpreg2 = 0;
+00196 
+00197   \textcolor{comment}{/* Check the DAC parameters */}
+00198   assert_param(IS\_DAC\_TRIGGER(DAC\_InitStruct->DAC\_Trigger));
+00199   assert_param(IS\_DAC\_GENERATE\_WAVE(DAC\_InitStruct->DAC\_WaveGeneration));
+00200   assert_param(IS\_DAC\_LFSR\_UNMASK\_TRIANGLE\_AMPLITUDE(DAC\_InitStruct->DAC\_LFSRUnmask\_TriangleAmplitude)
+      );
+00201   assert_param(IS\_DAC\_OUTPUT\_BUFFER\_STATE(DAC\_InitStruct->DAC\_OutputBuffer));
+00202 
+00203 \textcolor{comment}{/*---------------------------- DAC CR Configuration --------------------------*/}
+00204   \textcolor{comment}{/* Get the DAC CR value */}
+00205   tmpreg1 = DAC->CR;
+00206   \textcolor{comment}{/* Clear BOFFx, TENx, TSELx, WAVEx and MAMPx bits */}
+00207   tmpreg1 &= ~(CR_CLEAR_MASK << DAC\_Channel);
+00208   \textcolor{comment}{/* Configure for the selected DAC channel: buffer output, trigger, }
+00209 \textcolor{comment}{     wave generation, mask/amplitude for wave generation */}
+00210   \textcolor{comment}{/* Set TSELx and TENx bits according to DAC\_Trigger value */}
+00211   \textcolor{comment}{/* Set WAVEx bits according to DAC\_WaveGeneration value */}
+00212   \textcolor{comment}{/* Set MAMPx bits according to DAC\_LFSRUnmask\_TriangleAmplitude value */}
+00213   \textcolor{comment}{/* Set BOFFx bit according to DAC\_OutputBuffer value */}
+00214   tmpreg2 = (DAC\_InitStruct->DAC_Trigger | DAC\_InitStruct->
+      DAC_WaveGeneration |
+00215              DAC\_InitStruct->DAC_LFSRUnmask_TriangleAmplitude |
+00216              DAC\_InitStruct->DAC_OutputBuffer);
+00217   \textcolor{comment}{/* Calculate CR register value depending on DAC\_Channel */}
+00218   tmpreg1 |= tmpreg2 << DAC\_Channel;
+00219   \textcolor{comment}{/* Write to DAC CR */}
+00220   DAC->CR = tmpreg1;
+00221 \}
+00222 
+00223 \textcolor{comment}{/**}
+00224 \textcolor{comment}{  * @brief  Fills each DAC\_InitStruct member with its default value.}
+00225 \textcolor{comment}{  * @param  DAC\_InitStruct: pointer to a DAC\_InitTypeDef structure which will }
+00226 \textcolor{comment}{  *         be initialized.}
+00227 \textcolor{comment}{  * @retval None}
+00228 \textcolor{comment}{  */}
+00229 \textcolor{keywordtype}{void} DAC_StructInit(DAC\_InitTypeDef* DAC\_InitStruct)
+00230 \{
+00231 \textcolor{comment}{/*--------------- Reset DAC init structure parameters values -----------------*/}
+00232   \textcolor{comment}{/* Initialize the DAC\_Trigger member */}
+00233   DAC\_InitStruct->DAC_Trigger = DAC_Trigger_None;
+00234   \textcolor{comment}{/* Initialize the DAC\_WaveGeneration member */}
+00235   DAC\_InitStruct->DAC_WaveGeneration = DAC_WaveGeneration_None;
+00236   \textcolor{comment}{/* Initialize the DAC\_LFSRUnmask\_TriangleAmplitude member */}
+00237   DAC\_InitStruct->DAC_LFSRUnmask_TriangleAmplitude = DAC_LFSRUnmask_Bit0;
+00238   \textcolor{comment}{/* Initialize the DAC\_OutputBuffer member */}
+00239   DAC\_InitStruct->DAC_OutputBuffer = DAC_OutputBuffer_Enable;
+00240 \}
+00241 
+00242 \textcolor{comment}{/**}
+00243 \textcolor{comment}{  * @brief  Enables or disables the specified DAC channel.}
+00244 \textcolor{comment}{  * @param  DAC\_Channel: The selected DAC channel. }
+00245 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00246 \textcolor{comment}{  *            @arg DAC\_Channel\_1: DAC Channel1 selected}
+00247 \textcolor{comment}{  *            @arg DAC\_Channel\_2: DAC Channel2 selected}
+00248 \textcolor{comment}{  * @param  NewState: new state of the DAC channel. }
+00249 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00250 \textcolor{comment}{  * @note   When the DAC channel is enabled the trigger source can no more be modified.}
+00251 \textcolor{comment}{  * @retval None}
+00252 \textcolor{comment}{  */}
+00253 \textcolor{keywordtype}{void} DAC_Cmd(uint32\_t DAC\_Channel, FunctionalState NewState)
+00254 \{
+00255   \textcolor{comment}{/* Check the parameters */}
+00256   assert_param(IS\_DAC\_CHANNEL(DAC\_Channel));
+00257   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00258 
+00259   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00260   \{
+00261     \textcolor{comment}{/* Enable the selected DAC channel */}
+00262     DAC->CR |= (DAC_CR_EN1 << DAC\_Channel);
+00263   \}
+00264   \textcolor{keywordflow}{else}
+00265   \{
+00266     \textcolor{comment}{/* Disable the selected DAC channel */}
+00267     DAC->CR &= (~(DAC_CR_EN1 << DAC\_Channel));
+00268   \}
+00269 \}
+00270 
+00271 \textcolor{comment}{/**}
+00272 \textcolor{comment}{  * @brief  Enables or disables the selected DAC channel software trigger.}
+00273 \textcolor{comment}{  * @param  DAC\_Channel: The selected DAC channel. }
+00274 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00275 \textcolor{comment}{  *            @arg DAC\_Channel\_1: DAC Channel1 selected}
+00276 \textcolor{comment}{  *            @arg DAC\_Channel\_2: DAC Channel2 selected}
+00277 \textcolor{comment}{  * @param  NewState: new state of the selected DAC channel software trigger.}
+00278 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00279 \textcolor{comment}{  * @retval None}
+00280 \textcolor{comment}{  */}
+00281 \textcolor{keywordtype}{void} DAC_SoftwareTriggerCmd(uint32\_t DAC\_Channel, FunctionalState NewState)
+00282 \{
+00283   \textcolor{comment}{/* Check the parameters */}
+00284   assert_param(IS\_DAC\_CHANNEL(DAC\_Channel));
+00285   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00286 
+00287   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00288   \{
+00289     \textcolor{comment}{/* Enable software trigger for the selected DAC channel */}
+00290     DAC->SWTRIGR |= (uint32\_t)DAC_SWTRIGR_SWTRIG1 << (DAC\_Channel >> 4);
+00291   \}
+00292   \textcolor{keywordflow}{else}
+00293   \{
+00294     \textcolor{comment}{/* Disable software trigger for the selected DAC channel */}
+00295     DAC->SWTRIGR &= ~((uint32\_t)DAC_SWTRIGR_SWTRIG1 << (DAC\_Channel >> 4));
+00296   \}
+00297 \}
+00298 
+00299 \textcolor{comment}{/**}
+00300 \textcolor{comment}{  * @brief  Enables or disables simultaneously the two DAC channels software triggers.}
+00301 \textcolor{comment}{  * @param  NewState: new state of the DAC channels software triggers.}
+00302 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00303 \textcolor{comment}{  * @retval None}
+00304 \textcolor{comment}{  */}
+00305 \textcolor{keywordtype}{void} DAC_DualSoftwareTriggerCmd(FunctionalState NewState)
+00306 \{
+00307   \textcolor{comment}{/* Check the parameters */}
+00308   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00309 
+00310   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00311   \{
+00312     \textcolor{comment}{/* Enable software trigger for both DAC channels */}
+00313     DAC->SWTRIGR |= DUAL_SWTRIG_SET;
+00314   \}
+00315   \textcolor{keywordflow}{else}
+00316   \{
+00317     \textcolor{comment}{/* Disable software trigger for both DAC channels */}
+00318     DAC->SWTRIGR &= DUAL_SWTRIG_RESET;
+00319   \}
+00320 \}
+00321 
+00322 \textcolor{comment}{/**}
+00323 \textcolor{comment}{  * @brief  Enables or disables the selected DAC channel wave generation.}
+00324 \textcolor{comment}{  * @param  DAC\_Channel: The selected DAC channel. }
+00325 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00326 \textcolor{comment}{  *            @arg DAC\_Channel\_1: DAC Channel1 selected}
+00327 \textcolor{comment}{  *            @arg DAC\_Channel\_2: DAC Channel2 selected}
+00328 \textcolor{comment}{  * @param  DAC\_Wave: specifies the wave type to enable or disable.}
+00329 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00330 \textcolor{comment}{  *            @arg DAC\_Wave\_Noise: noise wave generation}
+00331 \textcolor{comment}{  *            @arg DAC\_Wave\_Triangle: triangle wave generation}
+00332 \textcolor{comment}{  * @param  NewState: new state of the selected DAC channel wave generation.}
+00333 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.  }
+00334 \textcolor{comment}{  * @retval None}
+00335 \textcolor{comment}{  */}
+00336 \textcolor{keywordtype}{void} DAC_WaveGenerationCmd(uint32\_t DAC\_Channel, uint32\_t DAC\_Wave, FunctionalState NewState)
+00337 \{
+00338   \textcolor{comment}{/* Check the parameters */}
+00339   assert_param(IS\_DAC\_CHANNEL(DAC\_Channel));
+00340   assert_param(IS\_DAC\_WAVE(DAC\_Wave));
+00341   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00342 
+00343   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00344   \{
+00345     \textcolor{comment}{/* Enable the selected wave generation for the selected DAC channel */}
+00346     DAC->CR |= DAC\_Wave << DAC\_Channel;
+00347   \}
+00348   \textcolor{keywordflow}{else}
+00349   \{
+00350     \textcolor{comment}{/* Disable the selected wave generation for the selected DAC channel */}
+00351     DAC->CR &= ~(DAC\_Wave << DAC\_Channel);
+00352   \}
+00353 \}
+00354 
+00355 \textcolor{comment}{/**}
+00356 \textcolor{comment}{  * @brief  Set the specified data holding register value for DAC channel1.}
+00357 \textcolor{comment}{  * @param  DAC\_Align: Specifies the data alignment for DAC channel1.}
+00358 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00359 \textcolor{comment}{  *            @arg DAC\_Align\_8b\_R: 8bit right data alignment selected}
+00360 \textcolor{comment}{  *            @arg DAC\_Align\_12b\_L: 12bit left data alignment selected}
+00361 \textcolor{comment}{  *            @arg DAC\_Align\_12b\_R: 12bit right data alignment selected}
+00362 \textcolor{comment}{  * @param  Data: Data to be loaded in the selected data holding register.}
+00363 \textcolor{comment}{  * @retval None}
+00364 \textcolor{comment}{  */}
+00365 \textcolor{keywordtype}{void} DAC_SetChannel1Data(uint32\_t DAC\_Align, uint16\_t Data)
+00366 \{
+00367   \_\_IO uint32\_t tmp = 0;
+00368 
+00369   \textcolor{comment}{/* Check the parameters */}
+00370   assert_param(IS\_DAC\_ALIGN(DAC\_Align));
+00371   assert_param(IS\_DAC\_DATA(Data));
+00372 
+00373   tmp = (uint32\_t)DAC_BASE;
+00374   tmp += DHR12R1_OFFSET + DAC\_Align;
+00375 
+00376   \textcolor{comment}{/* Set the DAC channel1 selected data holding register */}
+00377   *(\_\_IO uint32\_t *) tmp = Data;
+00378 \}
+00379 
+00380 \textcolor{comment}{/**}
+00381 \textcolor{comment}{  * @brief  Set the specified data holding register value for DAC channel2.}
+00382 \textcolor{comment}{  * @param  DAC\_Align: Specifies the data alignment for DAC channel2.}
+00383 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00384 \textcolor{comment}{  *            @arg DAC\_Align\_8b\_R: 8bit right data alignment selected}
+00385 \textcolor{comment}{  *            @arg DAC\_Align\_12b\_L: 12bit left data alignment selected}
+00386 \textcolor{comment}{  *            @arg DAC\_Align\_12b\_R: 12bit right data alignment selected}
+00387 \textcolor{comment}{  * @param  Data: Data to be loaded in the selected data holding register.}
+00388 \textcolor{comment}{  * @retval None}
+00389 \textcolor{comment}{  */}
+00390 \textcolor{keywordtype}{void} DAC_SetChannel2Data(uint32\_t DAC\_Align, uint16\_t Data)
+00391 \{
+00392   \_\_IO uint32\_t tmp = 0;
+00393 
+00394   \textcolor{comment}{/* Check the parameters */}
+00395   assert_param(IS\_DAC\_ALIGN(DAC\_Align));
+00396   assert_param(IS\_DAC\_DATA(Data));
+00397 
+00398   tmp = (uint32\_t)DAC_BASE;
+00399   tmp += DHR12R2_OFFSET + DAC\_Align;
+00400 
+00401   \textcolor{comment}{/* Set the DAC channel2 selected data holding register */}
+00402   *(\_\_IO uint32\_t *)tmp = Data;
+00403 \}
+00404 
+00405 \textcolor{comment}{/**}
+00406 \textcolor{comment}{  * @brief  Set the specified data holding register value for dual channel DAC.}
+00407 \textcolor{comment}{  * @param  DAC\_Align: Specifies the data alignment for dual channel DAC.}
+00408 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00409 \textcolor{comment}{  *            @arg DAC\_Align\_8b\_R: 8bit right data alignment selected}
+00410 \textcolor{comment}{  *            @arg DAC\_Align\_12b\_L: 12bit left data alignment selected}
+00411 \textcolor{comment}{  *            @arg DAC\_Align\_12b\_R: 12bit right data alignment selected}
+00412 \textcolor{comment}{  * @param  Data2: Data for DAC Channel2 to be loaded in the selected data holding register.}
+00413 \textcolor{comment}{  * @param  Data1: Data for DAC Channel1 to be loaded in the selected data  holding register.}
+00414 \textcolor{comment}{  * @note   In dual mode, a unique register access is required to write in both}
+00415 \textcolor{comment}{  *          DAC channels at the same time.}
+00416 \textcolor{comment}{  * @retval None}
+00417 \textcolor{comment}{  */}
+00418 \textcolor{keywordtype}{void} DAC_SetDualChannelData(uint32\_t DAC\_Align, uint16\_t Data2, uint16\_t Data1)
+00419 \{
+00420   uint32\_t data = 0, tmp = 0;
+00421 
+00422   \textcolor{comment}{/* Check the parameters */}
+00423   assert_param(IS\_DAC\_ALIGN(DAC\_Align));
+00424   assert_param(IS\_DAC\_DATA(Data1));
+00425   assert_param(IS\_DAC\_DATA(Data2));
+00426 
+00427   \textcolor{comment}{/* Calculate and set dual DAC data holding register value */}
+00428   \textcolor{keywordflow}{if} (DAC\_Align == DAC_Align_8b_R)
+00429   \{
+00430     data = ((uint32\_t)Data2 << 8) | Data1;
+00431   \}
+00432   \textcolor{keywordflow}{else}
+00433   \{
+00434     data = ((uint32\_t)Data2 << 16) | Data1;
+00435   \}
+00436 
+00437   tmp = (uint32\_t)DAC_BASE;
+00438   tmp += DHR12RD_OFFSET + DAC\_Align;
+00439 
+00440   \textcolor{comment}{/* Set the dual DAC selected data holding register */}
+00441   *(\_\_IO uint32\_t *)tmp = data;
+00442 \}
+00443 
+00444 \textcolor{comment}{/**}
+00445 \textcolor{comment}{  * @brief  Returns the last data output value of the selected DAC channel.}
+00446 \textcolor{comment}{  * @param  DAC\_Channel: The selected DAC channel. }
+00447 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00448 \textcolor{comment}{  *            @arg DAC\_Channel\_1: DAC Channel1 selected}
+00449 \textcolor{comment}{  *            @arg DAC\_Channel\_2: DAC Channel2 selected}
+00450 \textcolor{comment}{  * @retval The selected DAC channel data output value.}
+00451 \textcolor{comment}{  */}
+00452 uint16\_t DAC_GetDataOutputValue(uint32\_t DAC\_Channel)
+00453 \{
+00454   \_\_IO uint32\_t tmp = 0;
+00455 
+00456   \textcolor{comment}{/* Check the parameters */}
+00457   assert_param(IS\_DAC\_CHANNEL(DAC\_Channel));
+00458 
+00459   tmp = (uint32\_t) DAC_BASE ;
+00460   tmp += DOR_OFFSET + ((uint32\_t)DAC\_Channel >> 2);
+00461 
+00462   \textcolor{comment}{/* Returns the DAC channel data output register value */}
+00463   \textcolor{keywordflow}{return} (uint16\_t) (*(\_\_IO uint32\_t*) tmp);
+00464 \}
+00465 \textcolor{comment}{/**}
+00466 \textcolor{comment}{  * @\}}
+00467 \textcolor{comment}{  */}
+00468 
+00469 \textcolor{comment}{/** @defgroup DAC\_Group2 DMA management functions}
+00470 \textcolor{comment}{ *  @brief   DMA management functions}
+00471 \textcolor{comment}{ *}
+00472 \textcolor{comment}{@verbatim   }
+00473 \textcolor{comment}{ ===============================================================================}
+00474 \textcolor{comment}{                          DMA management functions}
+00475 \textcolor{comment}{ ===============================================================================  }
+00476 \textcolor{comment}{}
+00477 \textcolor{comment}{@endverbatim}
+00478 \textcolor{comment}{  * @\{}
+00479 \textcolor{comment}{  */}
+00480 
+00481 \textcolor{comment}{/**}
+00482 \textcolor{comment}{  * @brief  Enables or disables the specified DAC channel DMA request.}
+00483 \textcolor{comment}{  * @note   When enabled DMA1 is generated when an external trigger (EXTI Line9,}
+00484 \textcolor{comment}{  *         TIM2, TIM4, TIM5, TIM6, TIM7 or TIM8  but not a software trigger) occurs.}
+00485 \textcolor{comment}{  * @param  DAC\_Channel: The selected DAC channel. }
+00486 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00487 \textcolor{comment}{  *            @arg DAC\_Channel\_1: DAC Channel1 selected}
+00488 \textcolor{comment}{  *            @arg DAC\_Channel\_2: DAC Channel2 selected}
+00489 \textcolor{comment}{  * @param  NewState: new state of the selected DAC channel DMA request.}
+00490 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00491 \textcolor{comment}{  * @note   The DAC channel1 is mapped on DMA1 Stream 5 channel7 which must be}
+00492 \textcolor{comment}{  *          already configured.}
+00493 \textcolor{comment}{  * @note   The DAC channel2 is mapped on DMA1 Stream 6 channel7 which must be}
+00494 \textcolor{comment}{  *          already configured.    }
+00495 \textcolor{comment}{  * @retval None}
+00496 \textcolor{comment}{  */}
+00497 \textcolor{keywordtype}{void} DAC_DMACmd(uint32\_t DAC\_Channel, FunctionalState NewState)
+00498 \{
+00499   \textcolor{comment}{/* Check the parameters */}
+00500   assert_param(IS\_DAC\_CHANNEL(DAC\_Channel));
+00501   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00502 
+00503   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00504   \{
+00505     \textcolor{comment}{/* Enable the selected DAC channel DMA request */}
+00506     DAC->CR |= (DAC_CR_DMAEN1 << DAC\_Channel);
+00507   \}
+00508   \textcolor{keywordflow}{else}
+00509   \{
+00510     \textcolor{comment}{/* Disable the selected DAC channel DMA request */}
+00511     DAC->CR &= (~(DAC_CR_DMAEN1 << DAC\_Channel));
+00512   \}
+00513 \}
+00514 \textcolor{comment}{/**}
+00515 \textcolor{comment}{  * @\}}
+00516 \textcolor{comment}{  */}
+00517 
+00518 \textcolor{comment}{/** @defgroup DAC\_Group3 Interrupts and flags management functions}
+00519 \textcolor{comment}{ *  @brief   Interrupts and flags management functions}
+00520 \textcolor{comment}{ *}
+00521 \textcolor{comment}{@verbatim   }
+00522 \textcolor{comment}{ ===============================================================================}
+00523 \textcolor{comment}{                   Interrupts and flags management functions}
+00524 \textcolor{comment}{ ===============================================================================  }
+00525 \textcolor{comment}{}
+00526 \textcolor{comment}{@endverbatim}
+00527 \textcolor{comment}{  * @\{}
+00528 \textcolor{comment}{  */}
+00529 
+00530 \textcolor{comment}{/**}
+00531 \textcolor{comment}{  * @brief  Enables or disables the specified DAC interrupts.}
+00532 \textcolor{comment}{  * @param  DAC\_Channel: The selected DAC channel. }
+00533 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00534 \textcolor{comment}{  *            @arg DAC\_Channel\_1: DAC Channel1 selected}
+00535 \textcolor{comment}{  *            @arg DAC\_Channel\_2: DAC Channel2 selected}
+00536 \textcolor{comment}{  * @param  DAC\_IT: specifies the DAC interrupt sources to be enabled or disabled. }
+00537 \textcolor{comment}{  *          This parameter can be the following values:}
+00538 \textcolor{comment}{  *            @arg DAC\_IT\_DMAUDR: DMA underrun interrupt mask}
+00539 \textcolor{comment}{  * @note   The DMA underrun occurs when a second external trigger arrives before the }
+00540 \textcolor{comment}{  *         acknowledgement for the first external trigger is received (first request).}
+00541 \textcolor{comment}{  * @param  NewState: new state of the specified DAC interrupts.}
+00542 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00543 \textcolor{comment}{  * @retval None}
+00544 \textcolor{comment}{  */}
+00545 \textcolor{keywordtype}{void} DAC_ITConfig(uint32\_t DAC\_Channel, uint32\_t DAC\_IT, FunctionalState NewState)
+00546 \{
+00547   \textcolor{comment}{/* Check the parameters */}
+00548   assert_param(IS\_DAC\_CHANNEL(DAC\_Channel));
+00549   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00550   assert_param(IS\_DAC\_IT(DAC\_IT));
+00551 
+00552   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00553   \{
+00554     \textcolor{comment}{/* Enable the selected DAC interrupts */}
+00555     DAC->CR |=  (DAC\_IT << DAC\_Channel);
+00556   \}
+00557   \textcolor{keywordflow}{else}
+00558   \{
+00559     \textcolor{comment}{/* Disable the selected DAC interrupts */}
+00560     DAC->CR &= (~(uint32\_t)(DAC\_IT << DAC\_Channel));
+00561   \}
+00562 \}
+00563 
+00564 \textcolor{comment}{/**}
+00565 \textcolor{comment}{  * @brief  Checks whether the specified DAC flag is set or not.}
+00566 \textcolor{comment}{  * @param  DAC\_Channel: The selected DAC channel. }
+00567 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00568 \textcolor{comment}{  *            @arg DAC\_Channel\_1: DAC Channel1 selected}
+00569 \textcolor{comment}{  *            @arg DAC\_Channel\_2: DAC Channel2 selected}
+00570 \textcolor{comment}{  * @param  DAC\_FLAG: specifies the flag to check. }
+00571 \textcolor{comment}{  *          This parameter can be only of the following value:}
+00572 \textcolor{comment}{  *            @arg DAC\_FLAG\_DMAUDR: DMA underrun flag}
+00573 \textcolor{comment}{  * @note   The DMA underrun occurs when a second external trigger arrives before the }
+00574 \textcolor{comment}{  *         acknowledgement for the first external trigger is received (first request).}
+00575 \textcolor{comment}{  * @retval The new state of DAC\_FLAG (SET or RESET).}
+00576 \textcolor{comment}{  */}
+00577 FlagStatus DAC_GetFlagStatus(uint32\_t DAC\_Channel, uint32\_t DAC\_FLAG)
+00578 \{
+00579   FlagStatus bitstatus = RESET;
+00580   \textcolor{comment}{/* Check the parameters */}
+00581   assert_param(IS\_DAC\_CHANNEL(DAC\_Channel));
+00582   assert_param(IS\_DAC\_FLAG(DAC\_FLAG));
+00583 
+00584   \textcolor{comment}{/* Check the status of the specified DAC flag */}
+00585   \textcolor{keywordflow}{if} ((DAC->SR & (DAC\_FLAG << DAC\_Channel)) != (uint8\_t)RESET)
+00586   \{
+00587     \textcolor{comment}{/* DAC\_FLAG is set */}
+00588     bitstatus = SET;
+00589   \}
+00590   \textcolor{keywordflow}{else}
+00591   \{
+00592     \textcolor{comment}{/* DAC\_FLAG is reset */}
+00593     bitstatus = RESET;
+00594   \}
+00595   \textcolor{comment}{/* Return the DAC\_FLAG status */}
+00596   \textcolor{keywordflow}{return}  bitstatus;
+00597 \}
+00598 
+00599 \textcolor{comment}{/**}
+00600 \textcolor{comment}{  * @brief  Clears the DAC channel's pending flags.}
+00601 \textcolor{comment}{  * @param  DAC\_Channel: The selected DAC channel. }
+00602 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00603 \textcolor{comment}{  *            @arg DAC\_Channel\_1: DAC Channel1 selected}
+00604 \textcolor{comment}{  *            @arg DAC\_Channel\_2: DAC Channel2 selected}
+00605 \textcolor{comment}{  * @param  DAC\_FLAG: specifies the flag to clear. }
+00606 \textcolor{comment}{  *          This parameter can be of the following value:}
+00607 \textcolor{comment}{  *            @arg DAC\_FLAG\_DMAUDR: DMA underrun flag }
+00608 \textcolor{comment}{  * @note   The DMA underrun occurs when a second external trigger arrives before the }
+00609 \textcolor{comment}{  *         acknowledgement for the first external trigger is received (first request).               
+                  }
+00610 \textcolor{comment}{  * @retval None}
+00611 \textcolor{comment}{  */}
+00612 \textcolor{keywordtype}{void} DAC_ClearFlag(uint32\_t DAC\_Channel, uint32\_t DAC\_FLAG)
+00613 \{
+00614   \textcolor{comment}{/* Check the parameters */}
+00615   assert_param(IS\_DAC\_CHANNEL(DAC\_Channel));
+00616   assert_param(IS\_DAC\_FLAG(DAC\_FLAG));
+00617 
+00618   \textcolor{comment}{/* Clear the selected DAC flags */}
+00619   DAC->SR = (DAC\_FLAG << DAC\_Channel);
+00620 \}
+00621 
+00622 \textcolor{comment}{/**}
+00623 \textcolor{comment}{  * @brief  Checks whether the specified DAC interrupt has occurred or not.}
+00624 \textcolor{comment}{  * @param  DAC\_Channel: The selected DAC channel. }
+00625 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00626 \textcolor{comment}{  *            @arg DAC\_Channel\_1: DAC Channel1 selected}
+00627 \textcolor{comment}{  *            @arg DAC\_Channel\_2: DAC Channel2 selected}
+00628 \textcolor{comment}{  * @param  DAC\_IT: specifies the DAC interrupt source to check. }
+00629 \textcolor{comment}{  *          This parameter can be the following values:}
+00630 \textcolor{comment}{  *            @arg DAC\_IT\_DMAUDR: DMA underrun interrupt mask}
+00631 \textcolor{comment}{  * @note   The DMA underrun occurs when a second external trigger arrives before the }
+00632 \textcolor{comment}{  *         acknowledgement for the first external trigger is received (first request).}
+00633 \textcolor{comment}{  * @retval The new state of DAC\_IT (SET or RESET).}
+00634 \textcolor{comment}{  */}
+00635 ITStatus DAC_GetITStatus(uint32\_t DAC\_Channel, uint32\_t DAC\_IT)
+00636 \{
+00637   ITStatus bitstatus = RESET;
+00638   uint32\_t enablestatus = 0;
+00639 
+00640   \textcolor{comment}{/* Check the parameters */}
+00641   assert_param(IS\_DAC\_CHANNEL(DAC\_Channel));
+00642   assert_param(IS\_DAC\_IT(DAC\_IT));
+00643 
+00644   \textcolor{comment}{/* Get the DAC\_IT enable bit status */}
+00645   enablestatus = (DAC->CR & (DAC\_IT << DAC\_Channel)) ;
+00646 
+00647   \textcolor{comment}{/* Check the status of the specified DAC interrupt */}
+00648   \textcolor{keywordflow}{if} (((DAC->SR & (DAC\_IT << DAC\_Channel)) != (uint32\_t)RESET) && enablestatus)
+00649   \{
+00650     \textcolor{comment}{/* DAC\_IT is set */}
+00651     bitstatus = SET;
+00652   \}
+00653   \textcolor{keywordflow}{else}
+00654   \{
+00655     \textcolor{comment}{/* DAC\_IT is reset */}
+00656     bitstatus = RESET;
+00657   \}
+00658   \textcolor{comment}{/* Return the DAC\_IT status */}
+00659   \textcolor{keywordflow}{return}  bitstatus;
+00660 \}
+00661 
+00662 \textcolor{comment}{/**}
+00663 \textcolor{comment}{  * @brief  Clears the DAC channel's interrupt pending bits.}
+00664 \textcolor{comment}{  * @param  DAC\_Channel: The selected DAC channel. }
+00665 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00666 \textcolor{comment}{  *            @arg DAC\_Channel\_1: DAC Channel1 selected}
+00667 \textcolor{comment}{  *            @arg DAC\_Channel\_2: DAC Channel2 selected}
+00668 \textcolor{comment}{  * @param  DAC\_IT: specifies the DAC interrupt pending bit to clear.}
+00669 \textcolor{comment}{  *          This parameter can be the following values:}
+00670 \textcolor{comment}{  *            @arg DAC\_IT\_DMAUDR: DMA underrun interrupt mask                         }
+00671 \textcolor{comment}{  * @note   The DMA underrun occurs when a second external trigger arrives before the }
+00672 \textcolor{comment}{  *         acknowledgement for the first external trigger is received (first request).               
+                  }
+00673 \textcolor{comment}{  * @retval None}
+00674 \textcolor{comment}{  */}
+00675 \textcolor{keywordtype}{void} DAC_ClearITPendingBit(uint32\_t DAC\_Channel, uint32\_t DAC\_IT)
+00676 \{
+00677   \textcolor{comment}{/* Check the parameters */}
+00678   assert_param(IS\_DAC\_CHANNEL(DAC\_Channel));
+00679   assert_param(IS\_DAC\_IT(DAC\_IT));
+00680 
+00681   \textcolor{comment}{/* Clear the selected DAC interrupt pending bits */}
+00682   DAC->SR = (DAC\_IT << DAC\_Channel);
+00683 \}
+00684 
+00685 \textcolor{comment}{/**}
+00686 \textcolor{comment}{  * @\}}
+00687 \textcolor{comment}{  */}
+00688 
+00689 \textcolor{comment}{/**}
+00690 \textcolor{comment}{  * @\}}
+00691 \textcolor{comment}{  */}
+00692 
+00693 \textcolor{comment}{/**}
+00694 \textcolor{comment}{  * @\}}
+00695 \textcolor{comment}{  */}
+00696 
+00697 \textcolor{comment}{/**}
+00698 \textcolor{comment}{  * @\}}
+00699 \textcolor{comment}{  */}
+00700 
+00701 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

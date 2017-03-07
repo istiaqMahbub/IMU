@@ -1,0 +1,515 @@
+\section{Alarms configuration functions}
+\label{group__RTC__Group3}\index{Alarms configuration functions@{Alarms configuration functions}}
+
+
+Alarms (Alarm A and Alarm B) configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ R\+T\+C\+\_\+\+Set\+Alarm} (uint32\+\_\+t R\+T\+C\+\_\+\+Format, uint32\+\_\+t R\+T\+C\+\_\+\+Alarm, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Alarm\+Struct)
+\begin{DoxyCompactList}\small\item\em Set the specified R\+TC Alarm. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Alarm\+Struct\+Init} (\textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Alarm\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each R\+T\+C\+\_\+\+Alarm\+Struct member with its default value (Time = 00h\+:00mn\+:00sec / Date = 1st day of the month/\+Mask = all fields are masked). \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Get\+Alarm} (uint32\+\_\+t R\+T\+C\+\_\+\+Format, uint32\+\_\+t R\+T\+C\+\_\+\+Alarm, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Alarm\+Struct)
+\begin{DoxyCompactList}\small\item\em Get the R\+TC Alarm value and masks. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Alarm\+Cmd} (uint32\+\_\+t R\+T\+C\+\_\+\+Alarm, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified R\+TC Alarm. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Alarm, uint32\+\_\+t R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Value, uint32\+\_\+t R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask)
+\begin{DoxyCompactList}\small\item\em Configure the R\+TC Alarm\+A/B Subseconds value and mask.$\ast$. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ R\+T\+C\+\_\+\+Get\+Alarm\+Sub\+Second} (uint32\+\_\+t R\+T\+C\+\_\+\+Alarm)
+\begin{DoxyCompactList}\small\item\em Gets the R\+TC Alarm Subseconds value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Alarms (Alarm A and Alarm B) configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+              Alarms (Alarm A and Alarm B) configuration functions
+ ===============================================================================  
+
+  This section provide functions allowing to program and read the RTC Alarms.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__RTC__Group3_gac2c08f1aeeb664d3d245cb5aca1b8ca8}} 
+\index{Alarms configuration functions@{Alarms configuration functions}!R\+T\+C\+\_\+\+Alarm\+Cmd@{R\+T\+C\+\_\+\+Alarm\+Cmd}}
+\index{R\+T\+C\+\_\+\+Alarm\+Cmd@{R\+T\+C\+\_\+\+Alarm\+Cmd}!Alarms configuration functions@{Alarms configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Alarm\+Cmd()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Alarm\+Cmd (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Alarm,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified R\+TC Alarm. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Alarm} & specifies the alarm to be configured. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Alarm\+\_\+A\+: to select Alarm A \item R\+T\+C\+\_\+\+Alarm\+\_\+B\+: to select Alarm B \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the specified alarm. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC Alarm is enabled/disabled
+\item E\+R\+R\+OR\+: R\+TC Alarm is not enabled/disabled 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1283} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+R\+R\+OR}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+01284 \{
+01285   \_\_IO uint32\_t alarmcounter = 0x00;
+01286   uint32\_t alarmstatus = 0x00;
+01287   ErrorStatus status = ERROR;
+01288     
+01289   \textcolor{comment}{/* Check the parameters */}
+01290   assert_param(IS_RTC_CMD_ALARM(RTC\_Alarm));
+01291   assert_param(IS_FUNCTIONAL_STATE(NewState));
+01292 
+01293   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01294   RTC->WPR = 0xCA;
+01295   RTC->WPR = 0x53;
+01296 
+01297   \textcolor{comment}{/* Configure the Alarm state */}
+01298   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01299   \{
+01300     RTC->CR |= (uint32\_t)RTC\_Alarm;
+01301 
+01302     status = SUCCESS;    
+01303   \}
+01304   \textcolor{keywordflow}{else}
+01305   \{ 
+01306     \textcolor{comment}{/* Disable the Alarm in RTC\_CR register */}
+01307     RTC->CR &= (uint32\_t)~RTC\_Alarm;
+01308    
+01309     \textcolor{comment}{/* Wait till RTC ALRxWF flag is set and if Time out is reached exit */}
+01310     \textcolor{keywordflow}{do}
+01311     \{
+01312       alarmstatus = RTC->ISR & (RTC\_Alarm >> 8);
+01313       alarmcounter++;  
+01314     \} \textcolor{keywordflow}{while}((alarmcounter != INITMODE_TIMEOUT) && (alarmstatus == 0x00));
+01315     
+01316     \textcolor{keywordflow}{if} ((RTC->ISR & (RTC\_Alarm >> 8)) == RESET)
+01317     \{
+01318       status = ERROR;
+01319     \} 
+01320     \textcolor{keywordflow}{else}
+01321     \{
+01322       status = SUCCESS;
+01323     \}        
+01324   \} 
+01325 
+01326   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01327   RTC->WPR = 0xFF; 
+01328   
+01329   \textcolor{keywordflow}{return} status;
+01330 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group3_ga36ab6199e21fb415ab1ec4d7aa48ba45}} 
+\index{Alarms configuration functions@{Alarms configuration functions}!R\+T\+C\+\_\+\+Alarm\+Struct\+Init@{R\+T\+C\+\_\+\+Alarm\+Struct\+Init}}
+\index{R\+T\+C\+\_\+\+Alarm\+Struct\+Init@{R\+T\+C\+\_\+\+Alarm\+Struct\+Init}!Alarms configuration functions@{Alarms configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Alarm\+Struct\+Init()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Alarm\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Alarm\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each R\+T\+C\+\_\+\+Alarm\+Struct member with its default value (Time = 00h\+:00mn\+:00sec / Date = 1st day of the month/\+Mask = all fields are masked). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Alarm\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Alarm\+Type\+Def}{p.}{structRTC__AlarmTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1199} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Date\+Week\+Day}, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Date\+Week\+Day\+Sel}, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Mask}, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Time}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+H12}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Hours}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Minutes}, and \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Seconds}.
+
+
+\begin{DoxyCode}
+01200 \{
+01201   \textcolor{comment}{/* Alarm Time Settings : Time = 00h:00mn:00sec */}
+01202   RTC\_AlarmStruct->RTC_AlarmTime.RTC_H12 = RTC_H12_AM;
+01203   RTC\_AlarmStruct->RTC_AlarmTime.RTC_Hours = 0;
+01204   RTC\_AlarmStruct->RTC_AlarmTime.RTC_Minutes = 0;
+01205   RTC\_AlarmStruct->RTC_AlarmTime.RTC_Seconds = 0;
+01206 
+01207   \textcolor{comment}{/* Alarm Date Settings : Date = 1st day of the month */}
+01208   RTC\_AlarmStruct->RTC_AlarmDateWeekDaySel = RTC_AlarmDateWeekDaySel_Date;
+01209   RTC\_AlarmStruct->RTC_AlarmDateWeekDay = 1;
+01210 
+01211   \textcolor{comment}{/* Alarm Masks Settings : Mask =  all fields are not masked */}
+01212   RTC\_AlarmStruct->RTC_AlarmMask = RTC_AlarmMask_None;
+01213 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group3_ga7b3e4e9e39262e9b0d1aadd895394e46}} 
+\index{Alarms configuration functions@{Alarms configuration functions}!R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Config@{R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Config}}
+\index{R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Config@{R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Config}!Alarms configuration functions@{Alarms configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Config()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Alarm,  }\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Value,  }\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask }\end{DoxyParamCaption})}
+
+
+
+Configure the R\+TC Alarm\+A/B Subseconds value and mask.$\ast$. 
+
+\begin{DoxyNote}{Note}
+This function is performed only when the Alarm is disabled. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Alarm} & specifies the alarm to be configured. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Alarm\+\_\+A\+: to select Alarm A \item R\+T\+C\+\_\+\+Alarm\+\_\+B\+: to select Alarm B \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Value} & specifies the Subseconds value. This parameter can be a value from 0 to 0x00007\+F\+FF. \\
+\hline
+{\em R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask} & specifies the Subseconds Mask. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+All \+: All Alarm SS fields are masked. There is no comparison on sub seconds for Alarm. \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+1 \+: SS[14\+:1] are don\textquotesingle{}t care in Alarm comparison. Only SS[0] is compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+2 \+: SS[14\+:2] are don\textquotesingle{}t care in Alarm comparison. Only SS[1\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+3 \+: SS[14\+:3] are don\textquotesingle{}t care in Alarm comparison. Only SS[2\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+4 \+: SS[14\+:4] are don\textquotesingle{}t care in Alarm comparison. Only SS[3\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+5 \+: SS[14\+:5] are don\textquotesingle{}t care in Alarm comparison. Only SS[4\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+6 \+: SS[14\+:6] are don\textquotesingle{}t care in Alarm comparison. Only SS[5\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+7 \+: SS[14\+:7] are don\textquotesingle{}t care in Alarm comparison. Only SS[6\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+8 \+: SS[14\+:8] are don\textquotesingle{}t care in Alarm comparison. Only SS[7\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+9 \+: SS[14\+:9] are don\textquotesingle{}t care in Alarm comparison. Only SS[8\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+10\+: SS[14\+:10] are don\textquotesingle{}t care in Alarm comparison. Only SS[9\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+11\+: SS[14\+:11] are don\textquotesingle{}t care in Alarm comparison. Only SS[10\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+12\+: SS[14\+:12] are don\textquotesingle{}t care in Alarm comparison. Only SS[11\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14\+\_\+13\+: SS[14\+:13] are don\textquotesingle{}t care in Alarm comparison. Only SS[12\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+S\+S14 \+: SS[14] is don\textquotesingle{}t care in Alarm comparison. Only SS[13\+:0] are compared \item R\+T\+C\+\_\+\+Alarm\+Sub\+Second\+Mask\+\_\+\+None \+: SS[14\+:0] are compared and must match to activate alarm \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1377} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+01378 \{
+01379   uint32\_t tmpreg = 0;
+01380 
+01381   \textcolor{comment}{/* Check the parameters */}
+01382   assert_param(IS_RTC_ALARM(RTC\_Alarm));
+01383   assert_param(IS_RTC_ALARM_SUB_SECOND_VALUE(RTC\_AlarmSubSecondValue));
+01384   assert_param(IS_RTC_ALARM_SUB_SECOND_MASK(RTC\_AlarmSubSecondMask));
+01385   
+01386   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01387   RTC->WPR = 0xCA;
+01388   RTC->WPR = 0x53;
+01389   
+01390   \textcolor{comment}{/* Configure the Alarm A or Alarm B SubSecond registers */}
+01391   tmpreg = (uint32\_t) (uint32\_t)(RTC\_AlarmSubSecondValue) | (uint32\_t)(RTC\_AlarmSubSecondMask);
+01392   
+01393   \textcolor{keywordflow}{if} (RTC\_Alarm == RTC_Alarm_A)
+01394   \{
+01395     \textcolor{comment}{/* Configure the AlarmA SubSecond register */}
+01396     RTC->ALRMASSR = tmpreg;
+01397   \}
+01398   \textcolor{keywordflow}{else}
+01399   \{
+01400     \textcolor{comment}{/* Configure the Alarm B SubSecond register */}
+01401     RTC->ALRMBSSR = tmpreg;
+01402   \}
+01403 
+01404   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01405   RTC->WPR = 0xFF;
+01406 
+01407 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group3_ga6e2888d2fd2e3ecb4ec50f5c955b362b}} 
+\index{Alarms configuration functions@{Alarms configuration functions}!R\+T\+C\+\_\+\+Get\+Alarm@{R\+T\+C\+\_\+\+Get\+Alarm}}
+\index{R\+T\+C\+\_\+\+Get\+Alarm@{R\+T\+C\+\_\+\+Get\+Alarm}!Alarms configuration functions@{Alarms configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Get\+Alarm()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Get\+Alarm (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Format,  }\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Alarm,  }\item[{\textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Alarm\+Struct }\end{DoxyParamCaption})}
+
+
+
+Get the R\+TC Alarm value and masks. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Format} & specifies the format of the output parameters. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Format\+\_\+\+B\+IN\+: Binary data format \item R\+T\+C\+\_\+\+Format\+\_\+\+B\+CD\+: B\+CD data format \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Alarm} & specifies the alarm to be read. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Alarm\+\_\+A\+: to select Alarm A \item R\+T\+C\+\_\+\+Alarm\+\_\+B\+: to select Alarm B \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Alarm\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Alarm\+Type\+Def}{p.}{structRTC__AlarmTypeDef} structure that will contains the output alarm configuration values. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1229} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Date\+Week\+Day}, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Date\+Week\+Day\+Sel}, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Mask}, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Time}, \textbf{ R\+T\+C\+\_\+\+Bcd2\+To\+Byte()}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+H12}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Hours}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Minutes}, and \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Seconds}.
+
+
+\begin{DoxyCode}
+01230 \{
+01231   uint32\_t tmpreg = 0;
+01232 
+01233   \textcolor{comment}{/* Check the parameters */}
+01234   assert_param(IS_RTC_FORMAT(RTC\_Format));
+01235   assert_param(IS_RTC_ALARM(RTC\_Alarm)); 
+01236 
+01237   \textcolor{comment}{/* Get the RTC\_ALRMxR register */}
+01238   \textcolor{keywordflow}{if} (RTC\_Alarm == RTC_Alarm_A)
+01239   \{
+01240     tmpreg = (uint32\_t)(RTC->ALRMAR);
+01241   \}
+01242   \textcolor{keywordflow}{else}
+01243   \{
+01244     tmpreg = (uint32\_t)(RTC->ALRMBR);
+01245   \}
+01246 
+01247   \textcolor{comment}{/* Fill the structure with the read parameters */}
+01248   RTC\_AlarmStruct->RTC_AlarmTime.RTC_Hours = (uint32\_t)((tmpreg & (RTC_ALRMAR_HT | \(\backslash\)
+01249                                                      RTC_ALRMAR_HU)) >> 16);
+01250   RTC\_AlarmStruct->RTC_AlarmTime.RTC_Minutes = (uint32\_t)((tmpreg & (
+      RTC_ALRMAR_MNT | \(\backslash\)
+01251                                                      RTC_ALRMAR_MNU)) >> 8);
+01252   RTC\_AlarmStruct->RTC_AlarmTime.RTC_Seconds = (uint32\_t)(tmpreg & (
+      RTC_ALRMAR_ST | \(\backslash\)
+01253                                                      RTC_ALRMAR_SU));
+01254   RTC\_AlarmStruct->RTC_AlarmTime.RTC_H12 = (uint32\_t)((tmpreg & RTC_ALRMAR_PM) >> 16);
+01255   RTC\_AlarmStruct->RTC_AlarmDateWeekDay = (uint32\_t)((tmpreg & (RTC_ALRMAR_DT | 
+      RTC_ALRMAR_DU)) >> 24);
+01256   RTC\_AlarmStruct->RTC_AlarmDateWeekDaySel = (uint32\_t)(tmpreg & 
+      RTC_ALRMAR_WDSEL);
+01257   RTC\_AlarmStruct->RTC_AlarmMask = (uint32\_t)(tmpreg & RTC_AlarmMask_All);
+01258 
+01259   \textcolor{keywordflow}{if} (RTC\_Format == RTC_Format_BIN)
+01260   \{
+01261     RTC\_AlarmStruct->RTC_AlarmTime.RTC_Hours = RTC_Bcd2ToByte(RTC\_AlarmStruct-> \(\backslash\)
+01262                                                         RTC\_AlarmTime.RTC\_Hours);
+01263     RTC\_AlarmStruct->RTC_AlarmTime.RTC_Minutes = RTC_Bcd2ToByte(RTC\_AlarmStruct-> \(\backslash\)
+01264                                                         RTC\_AlarmTime.RTC\_Minutes);
+01265     RTC\_AlarmStruct->RTC_AlarmTime.RTC_Seconds = RTC_Bcd2ToByte(RTC\_AlarmStruct-> \(\backslash\)
+01266                                                         RTC\_AlarmTime.RTC\_Seconds);
+01267     RTC\_AlarmStruct->RTC_AlarmDateWeekDay = RTC_Bcd2ToByte(RTC\_AlarmStruct->
+      RTC_AlarmDateWeekDay);
+01268   \}  
+01269 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group3_gae7b5e7146be2710d619c8ed3cca464ad}} 
+\index{Alarms configuration functions@{Alarms configuration functions}!R\+T\+C\+\_\+\+Get\+Alarm\+Sub\+Second@{R\+T\+C\+\_\+\+Get\+Alarm\+Sub\+Second}}
+\index{R\+T\+C\+\_\+\+Get\+Alarm\+Sub\+Second@{R\+T\+C\+\_\+\+Get\+Alarm\+Sub\+Second}!Alarms configuration functions@{Alarms configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Get\+Alarm\+Sub\+Second()}
+{\footnotesize\ttfamily uint32\+\_\+t R\+T\+C\+\_\+\+Get\+Alarm\+Sub\+Second (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Alarm }\end{DoxyParamCaption})}
+
+
+
+Gets the R\+TC Alarm Subseconds value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Alarm} & specifies the alarm to be read. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Alarm\+\_\+A\+: to select Alarm A \item R\+T\+C\+\_\+\+Alarm\+\_\+B\+: to select Alarm B \end{DoxyItemize}
+\\
+\hline
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em R\+TC} & Alarm Subseconds value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1418} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+01419 \{
+01420   uint32\_t tmpreg = 0;
+01421   
+01422   \textcolor{comment}{/* Get the RTC\_ALRMxR register */}
+01423   \textcolor{keywordflow}{if} (RTC\_Alarm == RTC_Alarm_A)
+01424   \{
+01425     tmpreg = (uint32\_t)((RTC->ALRMASSR) & RTC_ALRMASSR_SS);
+01426   \}
+01427   \textcolor{keywordflow}{else}
+01428   \{
+01429     tmpreg = (uint32\_t)((RTC->ALRMBSSR) & RTC_ALRMBSSR_SS);
+01430   \} 
+01431   
+01432   \textcolor{keywordflow}{return} (tmpreg);
+01433 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group3_ga44e3334f8e882df9b8a59b47f0857395}} 
+\index{Alarms configuration functions@{Alarms configuration functions}!R\+T\+C\+\_\+\+Set\+Alarm@{R\+T\+C\+\_\+\+Set\+Alarm}}
+\index{R\+T\+C\+\_\+\+Set\+Alarm@{R\+T\+C\+\_\+\+Set\+Alarm}!Alarms configuration functions@{Alarms configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Set\+Alarm()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Set\+Alarm (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Format,  }\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Alarm,  }\item[{\textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Alarm\+Struct }\end{DoxyParamCaption})}
+
+
+
+Set the specified R\+TC Alarm. 
+
+\begin{DoxyNote}{Note}
+The Alarm register can only be written when the corresponding Alarm is disabled (Use the R\+T\+C\+\_\+\+Alarm\+Cmd(\+D\+I\+S\+A\+B\+L\+E)). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Format} & specifies the format of the returned parameters. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Format\+\_\+\+B\+IN\+: Binary data format \item R\+T\+C\+\_\+\+Format\+\_\+\+B\+CD\+: B\+CD data format \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Alarm} & specifies the alarm to be configured. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Alarm\+\_\+A\+: to select Alarm A \item R\+T\+C\+\_\+\+Alarm\+\_\+B\+: to select Alarm B \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Alarm\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Alarm\+Type\+Def}{p.}{structRTC__AlarmTypeDef} structure that contains the alarm configuration parameters. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1088} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Date\+Week\+Day}, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Date\+Week\+Day\+Sel}, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Mask}, \textbf{ R\+T\+C\+\_\+\+Alarm\+Type\+Def\+::\+R\+T\+C\+\_\+\+Alarm\+Time}, \textbf{ R\+T\+C\+\_\+\+Bcd2\+To\+Byte()}, \textbf{ R\+T\+C\+\_\+\+Byte\+To\+Bcd2()}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+H12}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Hours}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Minutes}, and \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Seconds}.
+
+
+\begin{DoxyCode}
+01089 \{
+01090   uint32\_t tmpreg = 0;
+01091   
+01092   \textcolor{comment}{/* Check the parameters */}
+01093   assert_param(IS_RTC_FORMAT(RTC\_Format));
+01094   assert_param(IS_RTC_ALARM(RTC\_Alarm));
+01095   assert_param(IS_ALARM_MASK(RTC\_AlarmStruct->RTC_AlarmMask));
+01096   assert_param(IS_RTC_ALARM_DATE_WEEKDAY_SEL(RTC\_AlarmStruct->
+      RTC_AlarmDateWeekDaySel));
+01097 
+01098   \textcolor{keywordflow}{if} (RTC\_Format == RTC_Format_BIN)
+01099   \{
+01100     \textcolor{keywordflow}{if} ((RTC->CR & RTC_CR_FMT) != (uint32\_t)RESET)
+01101     \{
+01102       assert_param(IS_RTC_HOUR12(RTC\_AlarmStruct->RTC_AlarmTime.RTC_Hours));
+01103       assert_param(IS_RTC_H12(RTC\_AlarmStruct->RTC_AlarmTime.RTC_H12));
+01104     \} 
+01105     \textcolor{keywordflow}{else}
+01106     \{
+01107       RTC\_AlarmStruct->RTC_AlarmTime.RTC_H12 = 0x00;
+01108       assert_param(IS_RTC_HOUR24(RTC\_AlarmStruct->RTC_AlarmTime.RTC_Hours));
+01109     \}
+01110     assert_param(IS_RTC_MINUTES(RTC\_AlarmStruct->RTC_AlarmTime.RTC_Minutes));
+01111     assert_param(IS_RTC_SECONDS(RTC\_AlarmStruct->RTC_AlarmTime.RTC_Seconds));
+01112     
+01113     \textcolor{keywordflow}{if}(RTC\_AlarmStruct->RTC_AlarmDateWeekDaySel == RTC_AlarmDateWeekDaySel_Date)
+01114     \{
+01115       assert_param(IS_RTC_ALARM_DATE_WEEKDAY_DATE(RTC\_AlarmStruct->
+      RTC_AlarmDateWeekDay));
+01116     \}
+01117     \textcolor{keywordflow}{else}
+01118     \{
+01119       assert_param(IS_RTC_ALARM_DATE_WEEKDAY_WEEKDAY(RTC\_AlarmStruct->
+      RTC_AlarmDateWeekDay));
+01120     \}
+01121   \}
+01122   \textcolor{keywordflow}{else}
+01123   \{
+01124     \textcolor{keywordflow}{if} ((RTC->CR & RTC_CR_FMT) != (uint32\_t)RESET)
+01125     \{
+01126       tmpreg = RTC_Bcd2ToByte(RTC\_AlarmStruct->RTC_AlarmTime.RTC_Hours);
+01127       assert_param(IS_RTC_HOUR12(tmpreg));
+01128       assert_param(IS_RTC_H12(RTC\_AlarmStruct->RTC_AlarmTime.RTC_H12));
+01129     \} 
+01130     \textcolor{keywordflow}{else}
+01131     \{
+01132       RTC\_AlarmStruct->RTC_AlarmTime.RTC_H12 = 0x00;
+01133       assert_param(IS_RTC_HOUR24(RTC_Bcd2ToByte(RTC\_AlarmStruct->RTC_AlarmTime.
+      RTC_Hours)));
+01134     \}
+01135     
+01136     assert_param(IS_RTC_MINUTES(RTC_Bcd2ToByte(RTC\_AlarmStruct->RTC_AlarmTime.
+      RTC_Minutes)));
+01137     assert_param(IS_RTC_SECONDS(RTC_Bcd2ToByte(RTC\_AlarmStruct->RTC_AlarmTime.
+      RTC_Seconds)));
+01138     
+01139     \textcolor{keywordflow}{if}(RTC\_AlarmStruct->RTC_AlarmDateWeekDaySel == RTC_AlarmDateWeekDaySel_Date)
+01140     \{
+01141       tmpreg = RTC_Bcd2ToByte(RTC\_AlarmStruct->RTC_AlarmDateWeekDay);
+01142       assert_param(IS_RTC_ALARM_DATE_WEEKDAY_DATE(tmpreg));    
+01143     \}
+01144     \textcolor{keywordflow}{else}
+01145     \{
+01146       tmpreg = RTC_Bcd2ToByte(RTC\_AlarmStruct->RTC_AlarmDateWeekDay);
+01147       assert_param(IS_RTC_ALARM_DATE_WEEKDAY_WEEKDAY(tmpreg));      
+01148     \}    
+01149   \}
+01150 
+01151   \textcolor{comment}{/* Check the input parameters format */}
+01152   \textcolor{keywordflow}{if} (RTC\_Format != RTC_Format_BIN)
+01153   \{
+01154     tmpreg = (((uint32\_t)(RTC\_AlarmStruct->RTC_AlarmTime.RTC_Hours) << 16) | \(\backslash\)
+01155               ((uint32\_t)(RTC\_AlarmStruct->RTC_AlarmTime.RTC_Minutes) << 8) | \(\backslash\)
+01156               ((uint32\_t)RTC\_AlarmStruct->RTC_AlarmTime.RTC_Seconds) | \(\backslash\)
+01157               ((uint32\_t)(RTC\_AlarmStruct->RTC_AlarmTime.RTC_H12) << 16) | \(\backslash\)
+01158               ((uint32\_t)(RTC\_AlarmStruct->RTC_AlarmDateWeekDay) << 24) | \(\backslash\)
+01159               ((uint32\_t)RTC\_AlarmStruct->RTC_AlarmDateWeekDaySel) | \(\backslash\)
+01160               ((uint32\_t)RTC\_AlarmStruct->RTC_AlarmMask)); 
+01161   \}  
+01162   \textcolor{keywordflow}{else}
+01163   \{
+01164     tmpreg = (((uint32\_t)RTC_ByteToBcd2(RTC\_AlarmStruct->RTC_AlarmTime.RTC_Hours) << 16) | \(\backslash\)
+01165               ((uint32\_t)RTC_ByteToBcd2(RTC\_AlarmStruct->RTC_AlarmTime.
+      RTC_Minutes) << 8) | \(\backslash\)
+01166               ((uint32\_t)RTC_ByteToBcd2(RTC\_AlarmStruct->RTC_AlarmTime.
+      RTC_Seconds)) | \(\backslash\)
+01167               ((uint32\_t)(RTC\_AlarmStruct->RTC_AlarmTime.RTC_H12) << 16) | \(\backslash\)
+01168               ((uint32\_t)RTC_ByteToBcd2(RTC\_AlarmStruct->RTC_AlarmDateWeekDay) << 24) | \(\backslash\)
+01169               ((uint32\_t)RTC\_AlarmStruct->RTC_AlarmDateWeekDaySel) | \(\backslash\)
+01170               ((uint32\_t)RTC\_AlarmStruct->RTC_AlarmMask)); 
+01171   \} 
+01172 
+01173   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01174   RTC->WPR = 0xCA;
+01175   RTC->WPR = 0x53;
+01176 
+01177   \textcolor{comment}{/* Configure the Alarm register */}
+01178   \textcolor{keywordflow}{if} (RTC\_Alarm == RTC_Alarm_A)
+01179   \{
+01180     RTC->ALRMAR = (uint32\_t)tmpreg;
+01181   \}
+01182   \textcolor{keywordflow}{else}
+01183   \{
+01184     RTC->ALRMBR = (uint32\_t)tmpreg;
+01185   \}
+01186 
+01187   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01188   RTC->WPR = 0xFF;   
+01189 \}
+\end{DoxyCode}

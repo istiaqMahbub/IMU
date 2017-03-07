@@ -1,0 +1,203 @@
+\section{Time\+Stamp configuration functions}
+\label{group__RTC__Group8}\index{Time\+Stamp configuration functions@{Time\+Stamp configuration functions}}
+
+
+Time\+Stamp configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ R\+T\+C\+\_\+\+Time\+Stamp\+Cmd} (uint32\+\_\+t R\+T\+C\+\_\+\+Time\+Stamp\+Edge, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the R\+TC Time\+Stamp functionality with the specified time stamp pin stimulating edge. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Get\+Time\+Stamp} (uint32\+\_\+t R\+T\+C\+\_\+\+Format, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Stamp\+Time\+Struct, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Stamp\+Date\+Struct)
+\begin{DoxyCompactList}\small\item\em Get the R\+TC Time\+Stamp value and masks. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ R\+T\+C\+\_\+\+Get\+Time\+Stamp\+Sub\+Second} (void)
+\begin{DoxyCompactList}\small\item\em Get the R\+TC timestamp Subseconds value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Time\+Stamp configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                       TimeStamp configuration functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__RTC__Group8_ga44c38b0c74e9e960a4263b2905f44796}} 
+\index{Time\+Stamp configuration functions@{Time\+Stamp configuration functions}!R\+T\+C\+\_\+\+Get\+Time\+Stamp@{R\+T\+C\+\_\+\+Get\+Time\+Stamp}}
+\index{R\+T\+C\+\_\+\+Get\+Time\+Stamp@{R\+T\+C\+\_\+\+Get\+Time\+Stamp}!Time\+Stamp configuration functions@{Time\+Stamp configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Get\+Time\+Stamp()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Get\+Time\+Stamp (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Format,  }\item[{\textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Stamp\+Time\+Struct,  }\item[{\textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Stamp\+Date\+Struct }\end{DoxyParamCaption})}
+
+
+
+Get the R\+TC Time\+Stamp value and masks. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Format} & specifies the format of the output parameters. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Format\+\_\+\+B\+IN\+: Binary data format \item R\+T\+C\+\_\+\+Format\+\_\+\+B\+CD\+: B\+CD data format \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Stamp\+Time\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Time\+Type\+Def}{p.}{structRTC__TimeTypeDef} structure that will contains the Time\+Stamp time values. \\
+\hline
+{\em R\+T\+C\+\_\+\+Stamp\+Date\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Date\+Type\+Def}{p.}{structRTC__DateTypeDef} structure that will contains the Time\+Stamp date values. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1999} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+T\+C\+\_\+\+Bcd2\+To\+Byte()}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Date}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+H12}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Hours}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Minutes}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Month}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Seconds}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Week\+Day}, and \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Year}.
+
+
+\begin{DoxyCode}
+02001 \{
+02002   uint32\_t tmptime = 0, tmpdate = 0;
+02003 
+02004   \textcolor{comment}{/* Check the parameters */}
+02005   assert_param(IS_RTC_FORMAT(RTC\_Format));
+02006 
+02007   \textcolor{comment}{/* Get the TimeStamp time and date registers values */}
+02008   tmptime = (uint32\_t)(RTC->TSTR & RTC_TR_RESERVED_MASK);
+02009   tmpdate = (uint32\_t)(RTC->TSDR & RTC_DR_RESERVED_MASK);
+02010 
+02011   \textcolor{comment}{/* Fill the Time structure fields with the read parameters */}
+02012   RTC\_StampTimeStruct->RTC_Hours = (uint8\_t)((tmptime & (RTC_TR_HT | RTC_TR_HU)) >> 16);
+02013   RTC\_StampTimeStruct->RTC_Minutes = (uint8\_t)((tmptime & (RTC_TR_MNT | 
+      RTC_TR_MNU)) >> 8);
+02014   RTC\_StampTimeStruct->RTC_Seconds = (uint8\_t)(tmptime & (RTC_TR_ST | RTC_TR_SU));
+02015   RTC\_StampTimeStruct->RTC_H12 = (uint8\_t)((tmptime & (RTC_TR_PM)) >> 16);  
+02016 
+02017   \textcolor{comment}{/* Fill the Date structure fields with the read parameters */}
+02018   RTC\_StampDateStruct->RTC_Year = 0;
+02019   RTC\_StampDateStruct->RTC_Month = (uint8\_t)((tmpdate & (RTC_DR_MT | RTC_DR_MU)) >> 8);
+02020   RTC\_StampDateStruct->RTC_Date = (uint8\_t)(tmpdate & (RTC_DR_DT | RTC_DR_DU));
+02021   RTC\_StampDateStruct->RTC_WeekDay = (uint8\_t)((tmpdate & (RTC_DR_WDU)) >> 13);
+02022 
+02023   \textcolor{comment}{/* Check the input parameters format */}
+02024   \textcolor{keywordflow}{if} (RTC\_Format == RTC_Format_BIN)
+02025   \{
+02026     \textcolor{comment}{/* Convert the Time structure parameters to Binary format */}
+02027     RTC\_StampTimeStruct->RTC_Hours = (uint8\_t)RTC_Bcd2ToByte(RTC\_StampTimeStruct->
+      RTC_Hours);
+02028     RTC\_StampTimeStruct->RTC_Minutes = (uint8\_t)RTC_Bcd2ToByte(RTC\_StampTimeStruct->
+      RTC_Minutes);
+02029     RTC\_StampTimeStruct->RTC_Seconds = (uint8\_t)RTC_Bcd2ToByte(RTC\_StampTimeStruct->
+      RTC_Seconds);
+02030 
+02031     \textcolor{comment}{/* Convert the Date structure parameters to Binary format */}
+02032     RTC\_StampDateStruct->RTC_Month = (uint8\_t)RTC_Bcd2ToByte(RTC\_StampDateStruct->
+      RTC_Month);
+02033     RTC\_StampDateStruct->RTC_Date = (uint8\_t)RTC_Bcd2ToByte(RTC\_StampDateStruct->
+      RTC_Date);
+02034     RTC\_StampDateStruct->RTC_WeekDay = (uint8\_t)RTC_Bcd2ToByte(RTC\_StampDateStruct->
+      RTC_WeekDay);
+02035   \}
+02036 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group8_ga2b0ef81f4959a2f9fc6361fbda759b00}} 
+\index{Time\+Stamp configuration functions@{Time\+Stamp configuration functions}!R\+T\+C\+\_\+\+Get\+Time\+Stamp\+Sub\+Second@{R\+T\+C\+\_\+\+Get\+Time\+Stamp\+Sub\+Second}}
+\index{R\+T\+C\+\_\+\+Get\+Time\+Stamp\+Sub\+Second@{R\+T\+C\+\_\+\+Get\+Time\+Stamp\+Sub\+Second}!Time\+Stamp configuration functions@{Time\+Stamp configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Get\+Time\+Stamp\+Sub\+Second()}
+{\footnotesize\ttfamily uint32\+\_\+t R\+T\+C\+\_\+\+Get\+Time\+Stamp\+Sub\+Second (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Get the R\+TC timestamp Subseconds value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em R\+TC} & current timestamp Subseconds value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2043} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02044 \{
+02045   \textcolor{comment}{/* Get timestamp subseconds values from the correspondent registers */}
+02046   \textcolor{keywordflow}{return} (uint32\_t)(RTC->TSSSR);
+02047 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group8_ga7d80fa4a2c87654598d8207154ac8e96}} 
+\index{Time\+Stamp configuration functions@{Time\+Stamp configuration functions}!R\+T\+C\+\_\+\+Time\+Stamp\+Cmd@{R\+T\+C\+\_\+\+Time\+Stamp\+Cmd}}
+\index{R\+T\+C\+\_\+\+Time\+Stamp\+Cmd@{R\+T\+C\+\_\+\+Time\+Stamp\+Cmd}!Time\+Stamp configuration functions@{Time\+Stamp configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Time\+Stamp\+Cmd()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Time\+Stamp\+Cmd (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Time\+Stamp\+Edge,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or Disables the R\+TC Time\+Stamp functionality with the specified time stamp pin stimulating edge. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Time\+Stamp\+Edge} & Specifies the pin edge on which the Time\+Stamp is activated. This parameter can be one of the following\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Time\+Stamp\+Edge\+\_\+\+Rising\+: the Time stamp event occurs on the rising edge of the related pin. \item R\+T\+C\+\_\+\+Time\+Stamp\+Edge\+\_\+\+Falling\+: the Time stamp event occurs on the falling edge of the related pin. \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the Time\+Stamp. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1955} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+01956 \{
+01957   uint32\_t tmpreg = 0;
+01958 
+01959   \textcolor{comment}{/* Check the parameters */}
+01960   assert_param(IS_RTC_TIMESTAMP_EDGE(RTC\_TimeStampEdge));
+01961   assert_param(IS_FUNCTIONAL_STATE(NewState));
+01962 
+01963   \textcolor{comment}{/* Get the RTC\_CR register and clear the bits to be configured */}
+01964   tmpreg = (uint32\_t)(RTC->CR & (uint32\_t)~(RTC_CR_TSEDGE | RTC_CR_TSE));
+01965 
+01966   \textcolor{comment}{/* Get the new configuration */}
+01967   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01968   \{
+01969     tmpreg |= (uint32\_t)(RTC\_TimeStampEdge | RTC_CR_TSE);
+01970   \}
+01971   \textcolor{keywordflow}{else}
+01972   \{
+01973     tmpreg |= (uint32\_t)(RTC\_TimeStampEdge);
+01974   \}
+01975 
+01976   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01977   RTC->WPR = 0xCA;
+01978   RTC->WPR = 0x53;
+01979 
+01980   \textcolor{comment}{/* Configure the Time Stamp TSEDGE and Enable bits */}
+01981   RTC->CR = (uint32\_t)tmpreg;
+01982 
+01983   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01984   RTC->WPR = 0xFF; 
+01985 \}
+\end{DoxyCode}

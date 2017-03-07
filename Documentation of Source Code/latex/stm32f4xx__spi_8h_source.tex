@@ -1,0 +1,562 @@
+\section{stm32f4xx\+\_\+spi.\+h}
+\label{stm32f4xx__spi_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+spi.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+spi.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_spi.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the SPI }
+00008 \textcolor{comment}{  *          firmware library.}
+00009 \textcolor{comment}{  ******************************************************************************}
+00010 \textcolor{comment}{  * @attention}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00013 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00014 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00015 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00016 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00017 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00020 \textcolor{comment}{  ******************************************************************************  }
+00021 \textcolor{comment}{  */}
+00022 
+00023 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_SPI\_H}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_SPI\_H}
+00026 
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00028  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00033 
+00034 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00035 \textcolor{comment}{  * @\{}
+00036 \textcolor{comment}{  */}
+00037 
+00038 \textcolor{comment}{/** @addtogroup SPI}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00043 
+00044 \textcolor{comment}{/** }
+00045 \textcolor{comment}{  * @brief  SPI Init structure definition  }
+00046 \textcolor{comment}{  */}
+00047 
+00048 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00049 \{
+00050   uint16\_t SPI_Direction;           \textcolor{comment}{/*!< Specifies the SPI unidirectional or bidirectional data mode.}
+00051 \textcolor{comment}{                                         This parameter can be a value of @ref SPI\_data\_direction */}
+00052 
+00053   uint16\_t SPI_Mode;                \textcolor{comment}{/*!< Specifies the SPI operating mode.}
+00054 \textcolor{comment}{                                         This parameter can be a value of @ref SPI\_mode */}
+00055 
+00056   uint16\_t SPI_DataSize;            \textcolor{comment}{/*!< Specifies the SPI data size.}
+00057 \textcolor{comment}{                                         This parameter can be a value of @ref SPI\_data\_size */}
+00058 
+00059   uint16\_t SPI_CPOL;                \textcolor{comment}{/*!< Specifies the serial clock steady state.}
+00060 \textcolor{comment}{                                         This parameter can be a value of @ref SPI\_Clock\_Polarity */}
+00061 
+00062   uint16\_t SPI_CPHA;                \textcolor{comment}{/*!< Specifies the clock active edge for the bit capture.}
+00063 \textcolor{comment}{                                         This parameter can be a value of @ref SPI\_Clock\_Phase */}
+00064 
+00065   uint16\_t SPI_NSS;                 \textcolor{comment}{/*!< Specifies whether the NSS signal is managed by}
+00066 \textcolor{comment}{                                         hardware (NSS pin) or by software using the SSI bit.}
+00067 \textcolor{comment}{                                         This parameter can be a value of @ref
+       SPI\_Slave\_Select\_management */}
+00068 
+00069   uint16\_t SPI_BaudRatePrescaler;   \textcolor{comment}{/*!< Specifies the Baud Rate prescaler value which will be}
+00070 \textcolor{comment}{                                         used to configure the transmit and receive SCK clock.}
+00071 \textcolor{comment}{                                         This parameter can be a value of @ref SPI\_BaudRate\_Prescaler}
+00072 \textcolor{comment}{                                         @note The communication clock is derived from the master}
+00073 \textcolor{comment}{                                               clock. The slave clock does not need to be set. */}
+00074 
+00075   uint16\_t SPI_FirstBit;            \textcolor{comment}{/*!< Specifies whether data transfers start from MSB or LSB bit.}
+00076 \textcolor{comment}{                                         This parameter can be a value of @ref
+       SPI\_MSB\_LSB\_transmission */}
+00077 
+00078   uint16\_t SPI_CRCPolynomial;       \textcolor{comment}{/*!< Specifies the polynomial used for the CRC calculation. */}
+00079 \}SPI\_InitTypeDef;
+00080 
+00081 \textcolor{comment}{/** }
+00082 \textcolor{comment}{  * @brief  I2S Init structure definition  }
+00083 \textcolor{comment}{  */}
+00084 
+00085 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00086 \{
+00087 
+00088   uint16\_t I2S_Mode;         \textcolor{comment}{/*!< Specifies the I2S operating mode.}
+00089 \textcolor{comment}{                                  This parameter can be a value of @ref I2S\_Mode */}
+00090 
+00091   uint16\_t I2S_Standard;     \textcolor{comment}{/*!< Specifies the standard used for the I2S communication.}
+00092 \textcolor{comment}{                                  This parameter can be a value of @ref I2S\_Standard */}
+00093 
+00094   uint16\_t I2S_DataFormat;   \textcolor{comment}{/*!< Specifies the data format for the I2S communication.}
+00095 \textcolor{comment}{                                  This parameter can be a value of @ref I2S\_Data\_Format */}
+00096 
+00097   uint16\_t I2S_MCLKOutput;   \textcolor{comment}{/*!< Specifies whether the I2S MCLK output is enabled or not.}
+00098 \textcolor{comment}{                                  This parameter can be a value of @ref I2S\_MCLK\_Output */}
+00099 
+00100   uint32\_t I2S_AudioFreq;    \textcolor{comment}{/*!< Specifies the frequency selected for the I2S communication.}
+00101 \textcolor{comment}{                                  This parameter can be a value of @ref I2S\_Audio\_Frequency */}
+00102 
+00103   uint16\_t I2S_CPOL;         \textcolor{comment}{/*!< Specifies the idle state of the I2S clock.}
+00104 \textcolor{comment}{                                  This parameter can be a value of @ref I2S\_Clock\_Polarity */}
+00105 \}I2S\_InitTypeDef;
+00106 
+00107 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00108 
+00109 \textcolor{comment}{/** @defgroup SPI\_Exported\_Constants}
+00110 \textcolor{comment}{  * @\{}
+00111 \textcolor{comment}{  */}
+00112 
+00113 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_ALL\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00114                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00115                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI3\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00116 
+00117 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_ALL\_PERIPH\_EXT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00118                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00119                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00120                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S2ext\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00121                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S3ext\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00122 
+00123 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_23\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00124                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI3\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00125 
+00126 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_23\_PERIPH\_EXT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00127                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00128                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S2ext\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00129                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S3ext\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00130 
+00131 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2S\_EXT\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S2ext\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00132                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S3ext\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00133 
+00134 
+00135 \textcolor{comment}{/** @defgroup SPI\_data\_direction }
+00136 \textcolor{comment}{  * @\{}
+00137 \textcolor{comment}{  */}
+00138 
+00139 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_Direction\_2Lines\_FullDuplex} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00140 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_Direction\_2Lines\_RxOnly}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0400\textcolor{preprocessor}{)}
+00141 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_Direction\_1Line\_Rx}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x8000\textcolor{preprocessor}{)}
+00142 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_Direction\_1Line\_Tx}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xC000\textcolor{preprocessor}{)}
+00143 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_DIRECTION\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SPI_Direction_2Lines_FullDuplex\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00144                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_Direction_2Lines_RxOnly\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00145                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_Direction_1Line_Rx\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00146                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_Direction_1Line_Tx\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00147 \textcolor{comment}{/**}
+00148 \textcolor{comment}{  * @\}}
+00149 \textcolor{comment}{  */}
+00150 
+00151 \textcolor{comment}{/** @defgroup SPI\_mode }
+00152 \textcolor{comment}{  * @\{}
+00153 \textcolor{comment}{  */}
+00154 
+00155 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_Mode\_Master}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0104\textcolor{preprocessor}{)}
+00156 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_Mode\_Slave}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00157 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_Mode_Master\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00158                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_Mode_Slave\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00159 \textcolor{comment}{/**}
+00160 \textcolor{comment}{  * @\}}
+00161 \textcolor{comment}{  */}
+00162 
+00163 \textcolor{comment}{/** @defgroup SPI\_data\_size }
+00164 \textcolor{comment}{  * @\{}
+00165 \textcolor{comment}{  */}
+00166 
+00167 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_DataSize\_16b}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0800\textcolor{preprocessor}{)}
+00168 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_DataSize\_8b}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00169 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_DATASIZE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATASIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATASIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_DataSize_16b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00170                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATASIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_DataSize_8b\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00171 \textcolor{comment}{/**}
+00172 \textcolor{comment}{  * @\}}
+00173 \textcolor{comment}{  */}
+00174 
+00175 \textcolor{comment}{/** @defgroup SPI\_Clock\_Polarity }
+00176 \textcolor{comment}{  * @\{}
+00177 \textcolor{comment}{  */}
+00178 
+00179 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_CPOL\_Low}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00180 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_CPOL\_High}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0002\textcolor{preprocessor}{)}
+00181 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_CPOL}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CPOL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CPOL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_CPOL_Low\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00182                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CPOL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_CPOL_High\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00183 \textcolor{comment}{/**}
+00184 \textcolor{comment}{  * @\}}
+00185 \textcolor{comment}{  */}
+00186 
+00187 \textcolor{comment}{/** @defgroup SPI\_Clock\_Phase }
+00188 \textcolor{comment}{  * @\{}
+00189 \textcolor{comment}{  */}
+00190 
+00191 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_CPHA\_1Edge}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00192 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_CPHA\_2Edge}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0001\textcolor{preprocessor}{)}
+00193 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_CPHA}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CPHA}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CPHA}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_CPHA_1Edge\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00194                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CPHA}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_CPHA_2Edge\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00195 \textcolor{comment}{/**}
+00196 \textcolor{comment}{  * @\}}
+00197 \textcolor{comment}{  */}
+00198 
+00199 \textcolor{comment}{/** @defgroup SPI\_Slave\_Select\_management }
+00200 \textcolor{comment}{  * @\{}
+00201 \textcolor{comment}{  */}
+00202 
+00203 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_NSS\_Soft}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0200\textcolor{preprocessor}{)}
+00204 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_NSS\_Hard}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00205 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_NSS}\textcolor{preprocessor}{(}\textcolor{preprocessor}{NSS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{NSS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_NSS_Soft\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00206                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{NSS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_NSS_Hard\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00207 \textcolor{comment}{/**}
+00208 \textcolor{comment}{  * @\}}
+00209 \textcolor{comment}{  */}
+00210 
+00211 \textcolor{comment}{/** @defgroup SPI\_BaudRate\_Prescaler }
+00212 \textcolor{comment}{  * @\{}
+00213 \textcolor{comment}{  */}
+00214 
+00215 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_BaudRatePrescaler\_2}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00216 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_BaudRatePrescaler\_4}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0008\textcolor{preprocessor}{)}
+00217 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_BaudRatePrescaler\_8}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0010\textcolor{preprocessor}{)}
+00218 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_BaudRatePrescaler\_16}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0018\textcolor{preprocessor}{)}
+00219 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_BaudRatePrescaler\_32}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0020\textcolor{preprocessor}{)}
+00220 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_BaudRatePrescaler\_64}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0028\textcolor{preprocessor}{)}
+00221 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_BaudRatePrescaler\_128}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0030\textcolor{preprocessor}{)}
+00222 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_BaudRatePrescaler\_256}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0038\textcolor{preprocessor}{)}
+00223 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_BAUDRATE\_PRESCALER}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SPI_BaudRatePrescaler_2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00224                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SPI_BaudRatePrescaler_4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00225                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SPI_BaudRatePrescaler_8\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00226                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SPI_BaudRatePrescaler_16\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00227                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SPI_BaudRatePrescaler_32\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00228                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SPI_BaudRatePrescaler_64\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00229                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SPI_BaudRatePrescaler_128\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00230                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SPI_BaudRatePrescaler_256\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00231 \textcolor{comment}{/**}
+00232 \textcolor{comment}{  * @\}}
+00233 \textcolor{comment}{  */}
+00234 
+00235 \textcolor{comment}{/** @defgroup SPI\_MSB\_LSB\_transmission }
+00236 \textcolor{comment}{  * @\{}
+00237 \textcolor{comment}{  */}
+00238 
+00239 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_FirstBit\_MSB}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00240 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_FirstBit\_LSB}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0080\textcolor{preprocessor}{)}
+00241 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_FIRST\_BIT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BIT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BIT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_FirstBit_MSB\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00242                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BIT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_FirstBit_LSB\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00243 \textcolor{comment}{/**}
+00244 \textcolor{comment}{  * @\}}
+00245 \textcolor{comment}{  */}
+00246 
+00247 \textcolor{comment}{/** @defgroup SPI\_I2S\_Mode }
+00248 \textcolor{comment}{  * @\{}
+00249 \textcolor{comment}{  */}
+00250 
+00251 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_Mode\_SlaveTx}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00252 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_Mode\_SlaveRx}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0100\textcolor{preprocessor}{)}
+00253 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_Mode\_MasterTx}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0200\textcolor{preprocessor}{)}
+00254 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_Mode\_MasterRx}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0300\textcolor{preprocessor}{)}
+00255 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2S\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S_Mode_SlaveTx\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00256                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S_Mode_SlaveRx\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00257                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S_Mode_MasterTx\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00258                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S_Mode_MasterRx\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00259 \textcolor{comment}{/**}
+00260 \textcolor{comment}{  * @\}}
+00261 \textcolor{comment}{  */}
+00262 
+00263 
+00264 \textcolor{comment}{/** @defgroup SPI\_I2S\_Standard }
+00265 \textcolor{comment}{  * @\{}
+00266 \textcolor{comment}{  */}
+00267 
+00268 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_Standard\_Phillips}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00269 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_Standard\_MSB}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0010\textcolor{preprocessor}{)}
+00270 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_Standard\_LSB}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0020\textcolor{preprocessor}{)}
+00271 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_Standard\_PCMShort}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0030\textcolor{preprocessor}{)}
+00272 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_Standard\_PCMLong}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x00B0\textcolor{preprocessor}{)}
+00273 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2S\_STANDARD}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STANDARD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STANDARD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S_Standard_Phillips\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00274                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STANDARD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S_Standard_MSB\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00275                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STANDARD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S_Standard_LSB\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00276                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STANDARD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S_Standard_PCMShort\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00277                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STANDARD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S_Standard_PCMLong\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00278 \textcolor{comment}{/**}
+00279 \textcolor{comment}{  * @\}}
+00280 \textcolor{comment}{  */}
+00281 
+00282 \textcolor{comment}{/** @defgroup SPI\_I2S\_Data\_Format }
+00283 \textcolor{comment}{  * @\{}
+00284 \textcolor{comment}{  */}
+00285 
+00286 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_DataFormat\_16b}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00287 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_DataFormat\_16bextended}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0001\textcolor{preprocessor}{)}
+00288 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_DataFormat\_24b}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0003\textcolor{preprocessor}{)}
+00289 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_DataFormat\_32b}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0005\textcolor{preprocessor}{)}
+00290 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2S\_DATA\_FORMAT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FORMAT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FORMAT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S_DataFormat_16b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00291                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FORMAT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S_DataFormat_16bextended\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00292                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FORMAT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S_DataFormat_24b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00293                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FORMAT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S_DataFormat_32b\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00294 \textcolor{comment}{/**}
+00295 \textcolor{comment}{  * @\}}
+00296 \textcolor{comment}{  */}
+00297 
+00298 \textcolor{comment}{/** @defgroup SPI\_I2S\_MCLK\_Output }
+00299 \textcolor{comment}{  * @\{}
+00300 \textcolor{comment}{  */}
+00301 
+00302 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_MCLKOutput\_Enable}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0200\textcolor{preprocessor}{)}
+00303 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_MCLKOutput\_Disable}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00304 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2S\_MCLK\_OUTPUT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OUTPUT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OUTPUT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S_MCLKOutput_Enable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00305                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OUTPUT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S_MCLKOutput_Disable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00306 \textcolor{comment}{/**}
+00307 \textcolor{comment}{  * @\}}
+00308 \textcolor{comment}{  */}
+00309 
+00310 \textcolor{comment}{/** @defgroup SPI\_I2S\_Audio\_Frequency }
+00311 \textcolor{comment}{  * @\{}
+00312 \textcolor{comment}{  */}
+00313 
+00314 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_AudioFreq\_192k}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}192000\textcolor{preprocessor}{)}
+00315 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_AudioFreq\_96k}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}96000\textcolor{preprocessor}{)}
+00316 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_AudioFreq\_48k}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}48000\textcolor{preprocessor}{)}
+00317 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_AudioFreq\_44k}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}44100\textcolor{preprocessor}{)}
+00318 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_AudioFreq\_32k}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}32000\textcolor{preprocessor}{)}
+00319 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_AudioFreq\_22k}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}22050\textcolor{preprocessor}{)}
+00320 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_AudioFreq\_16k}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}16000\textcolor{preprocessor}{)}
+00321 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_AudioFreq\_11k}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}11025\textcolor{preprocessor}{)}
+00322 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_AudioFreq\_8k}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}8000\textcolor{preprocessor}{)}
+00323 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_AudioFreq\_Default}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}2\textcolor{preprocessor}{)}
+00324 
+00325 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2S\_AUDIO\_FREQ}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{>=} I2S_AudioFreq_8k\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&}
+00326                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} I2S_AudioFreq_192k\textcolor{preprocessor}{)}\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00327                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S_AudioFreq_Default\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00328 \textcolor{comment}{/**}
+00329 \textcolor{comment}{  * @\}}
+00330 \textcolor{comment}{  */}
+00331 
+00332 \textcolor{comment}{/** @defgroup SPI\_I2S\_Clock\_Polarity }
+00333 \textcolor{comment}{  * @\{}
+00334 \textcolor{comment}{  */}
+00335 
+00336 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_CPOL\_Low}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00337 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_CPOL\_High}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0008\textcolor{preprocessor}{)}
+00338 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2S\_CPOL}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CPOL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CPOL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S_CPOL_Low\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00339                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CPOL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S_CPOL_High\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00340 \textcolor{comment}{/**}
+00341 \textcolor{comment}{  * @\}}
+00342 \textcolor{comment}{  */}
+00343 
+00344 \textcolor{comment}{/** @defgroup SPI\_I2S\_DMA\_transfer\_requests }
+00345 \textcolor{comment}{  * @\{}
+00346 \textcolor{comment}{  */}
+00347 
+00348 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_I2S\_DMAReq\_Tx}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0002\textcolor{preprocessor}{)}
+00349 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_I2S\_DMAReq\_Rx}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0001\textcolor{preprocessor}{)}
+00350 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_I2S\_DMAREQ}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DMAREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DMAREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xFFFC\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DMAREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00351 \textcolor{comment}{/**}
+00352 \textcolor{comment}{  * @\}}
+00353 \textcolor{comment}{  */}
+00354 
+00355 \textcolor{comment}{/** @defgroup SPI\_NSS\_internal\_software\_management }
+00356 \textcolor{comment}{  * @\{}
+00357 \textcolor{comment}{  */}
+00358 
+00359 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_NSSInternalSoft\_Set}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0100\textcolor{preprocessor}{)}
+00360 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_NSSInternalSoft\_Reset}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xFEFF\textcolor{preprocessor}{)}
+00361 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_NSS\_INTERNAL}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INTERNAL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INTERNAL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SPI_NSSInternalSoft_Set\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00362                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INTERNAL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SPI_NSSInternalSoft_Reset\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00363 \textcolor{comment}{/**}
+00364 \textcolor{comment}{  * @\}}
+00365 \textcolor{comment}{  */}
+00366 
+00367 \textcolor{comment}{/** @defgroup SPI\_CRC\_Transmit\_Receive }
+00368 \textcolor{comment}{  * @\{}
+00369 \textcolor{comment}{  */}
+00370 
+00371 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_CRC\_Tx}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}
+00372 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_CRC\_Rx}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}
+00373 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_CRC}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CRC}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CRC}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_CRC_Tx\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CRC}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_CRC_Rx\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00374 \textcolor{comment}{/**}
+00375 \textcolor{comment}{  * @\}}
+00376 \textcolor{comment}{  */}
+00377 
+00378 \textcolor{comment}{/** @defgroup SPI\_direction\_transmit\_receive }
+00379 \textcolor{comment}{  * @\{}
+00380 \textcolor{comment}{  */}
+00381 
+00382 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_Direction\_Rx}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xBFFF\textcolor{preprocessor}{)}
+00383 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_Direction\_Tx}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x4000\textcolor{preprocessor}{)}
+00384 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_DIRECTION}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIRECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIRECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_Direction_Rx\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00385                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIRECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_Direction_Tx\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00386 \textcolor{comment}{/**}
+00387 \textcolor{comment}{  * @\}}
+00388 \textcolor{comment}{  */}
+00389 
+00390 \textcolor{comment}{/** @defgroup SPI\_I2S\_interrupts\_definition }
+00391 \textcolor{comment}{  * @\{}
+00392 \textcolor{comment}{  */}
+00393 
+00394 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_I2S\_IT\_TXE}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x71\textcolor{preprocessor}{)}
+00395 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_I2S\_IT\_RXNE}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x60\textcolor{preprocessor}{)}
+00396 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_I2S\_IT\_ERR}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x50\textcolor{preprocessor}{)}
+00397 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_IT\_UDR}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x53\textcolor{preprocessor}{)}
+00398 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_I2S\_IT\_TIFRFE}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x58\textcolor{preprocessor}{)}
+00399 
+00400 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_I2S\_CONFIG\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_I2S_IT_TXE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00401                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_I2S_IT_RXNE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00402                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_I2S_IT_ERR\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00403 
+00404 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_I2S\_IT\_OVR}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x56\textcolor{preprocessor}{)}
+00405 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_IT\_MODF}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x55\textcolor{preprocessor}{)}
+00406 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_IT\_CRCERR}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x54\textcolor{preprocessor}{)}
+00407 
+00408 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_I2S\_CLEAR\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_IT_CRCERR\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00409 
+00410 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_I2S\_GET\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_I2S_IT_RXNE\textcolor{preprocessor}{)}\textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SPI_I2S_IT_TXE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00411                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_IT_CRCERR\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SPI_IT_MODF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00412                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_I2S_IT_OVR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2S_IT_UDR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00413                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_I2S_IT_TIFRFE\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00414 \textcolor{comment}{/**}
+00415 \textcolor{comment}{  * @\}}
+00416 \textcolor{comment}{  */}
+00417 
+00418 \textcolor{comment}{/** @defgroup SPI\_I2S\_flags\_definition }
+00419 \textcolor{comment}{  * @\{}
+00420 \textcolor{comment}{  */}
+00421 
+00422 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_I2S\_FLAG\_RXNE}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0001\textcolor{preprocessor}{)}
+00423 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_I2S\_FLAG\_TXE}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0002\textcolor{preprocessor}{)}
+00424 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_FLAG\_CHSIDE}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0004\textcolor{preprocessor}{)}
+00425 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2S\_FLAG\_UDR}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0008\textcolor{preprocessor}{)}
+00426 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_FLAG\_CRCERR}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0010\textcolor{preprocessor}{)}
+00427 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_FLAG\_MODF}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0020\textcolor{preprocessor}{)}
+00428 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_I2S\_FLAG\_OVR}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0040\textcolor{preprocessor}{)}
+00429 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_I2S\_FLAG\_BSY}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0080\textcolor{preprocessor}{)}
+00430 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_I2S\_FLAG\_TIFRFE}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0100\textcolor{preprocessor}{)}
+00431 
+00432 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_I2S\_CLEAR\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_FLAG_CRCERR\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00433 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_I2S\_GET\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_I2S_FLAG_BSY\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SPI_I2S_FLAG_OVR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00434                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_FLAG_MODF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SPI_FLAG_CRCERR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00435                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2S_FLAG_UDR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2S_FLAG_CHSIDE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00436                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_I2S_FLAG_TXE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SPI_I2S_FLAG_RXNE\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00437                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SPI_I2S_FLAG_TIFRFE\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00438 \textcolor{comment}{/**}
+00439 \textcolor{comment}{  * @\}}
+00440 \textcolor{comment}{  */}
+00441 
+00442 \textcolor{comment}{/** @defgroup SPI\_CRC\_polynomial }
+00443 \textcolor{comment}{  * @\{}
+00444 \textcolor{comment}{  */}
+00445 
+00446 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SPI\_CRC\_POLYNOMIAL}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLYNOMIAL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLYNOMIAL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{>=} 0x1\textcolor{preprocessor}{)}
+00447 \textcolor{comment}{/**}
+00448 \textcolor{comment}{  * @\}}
+00449 \textcolor{comment}{  */}
+00450 
+00451 \textcolor{comment}{/** @defgroup SPI\_I2S\_Legacy }
+00452 \textcolor{comment}{  * @\{}
+00453 \textcolor{comment}{  */}
+00454 
+00455 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_DMAReq\_Tx}                SPI_I2S_DMAReq_Tx
+00456 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_DMAReq\_Rx}                SPI_I2S_DMAReq_Rx
+00457 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_IT\_TXE}                   SPI_I2S_IT_TXE
+00458 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_IT\_RXNE}                  SPI_I2S_IT_RXNE
+00459 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_IT\_ERR}                   SPI_I2S_IT_ERR
+00460 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_IT\_OVR}                   SPI_I2S_IT_OVR
+00461 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_FLAG\_RXNE}                SPI_I2S_FLAG_RXNE
+00462 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_FLAG\_TXE}                 SPI_I2S_FLAG_TXE
+00463 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_FLAG\_OVR}                 SPI_I2S_FLAG_OVR
+00464 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_FLAG\_BSY}                 SPI_I2S_FLAG_BSY
+00465 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_DeInit}                   \textcolor{preprocessor}{SPI\_I2S\_DeInit}
+00466 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_ITConfig}                 \textcolor{preprocessor}{SPI\_I2S\_ITConfig}
+00467 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_DMACmd}                   \textcolor{preprocessor}{SPI\_I2S\_DMACmd}
+00468 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_SendData}                 \textcolor{preprocessor}{SPI\_I2S\_SendData}
+00469 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_ReceiveData}              \textcolor{preprocessor}{SPI\_I2S\_ReceiveData}
+00470 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_GetFlagStatus}            \textcolor{preprocessor}{SPI\_I2S\_GetFlagStatus}
+00471 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_ClearFlag}                \textcolor{preprocessor}{SPI\_I2S\_ClearFlag}
+00472 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_GetITStatus}              \textcolor{preprocessor}{SPI\_I2S\_GetITStatus}
+00473 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_ClearITPendingBit}        \textcolor{preprocessor}{SPI\_I2S\_ClearITPendingBit}
+00474 \textcolor{comment}{/**}
+00475 \textcolor{comment}{  * @\}}
+00476 \textcolor{comment}{  */}
+00477 
+00478 \textcolor{comment}{/**}
+00479 \textcolor{comment}{  * @\}}
+00480 \textcolor{comment}{  */}
+00481 
+00482 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00483 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00484 
+00485 \textcolor{comment}{/*  Function used to set the SPI configuration to the default reset state *****/}
+00486 \textcolor{keywordtype}{void} SPI_I2S_DeInit(SPI\_TypeDef* SPIx);
+00487 
+00488 \textcolor{comment}{/* Initialization and Configuration functions *********************************/}
+00489 \textcolor{keywordtype}{void} SPI_Init(SPI\_TypeDef* SPIx, SPI\_InitTypeDef* SPI\_InitStruct);
+00490 \textcolor{keywordtype}{void} I2S_Init(SPI\_TypeDef* SPIx, I2S\_InitTypeDef* I2S\_InitStruct);
+00491 \textcolor{keywordtype}{void} SPI_StructInit(SPI\_InitTypeDef* SPI\_InitStruct);
+00492 \textcolor{keywordtype}{void} I2S_StructInit(I2S\_InitTypeDef* I2S\_InitStruct);
+00493 \textcolor{keywordtype}{void} SPI_Cmd(SPI\_TypeDef* SPIx, FunctionalState NewState);
+00494 \textcolor{keywordtype}{void} I2S_Cmd(SPI\_TypeDef* SPIx, FunctionalState NewState);
+00495 \textcolor{keywordtype}{void} SPI_DataSizeConfig(SPI\_TypeDef* SPIx, uint16\_t SPI\_DataSize);
+00496 \textcolor{keywordtype}{void} SPI_BiDirectionalLineConfig(SPI\_TypeDef* SPIx, uint16\_t SPI\_Direction);
+00497 \textcolor{keywordtype}{void} SPI_NSSInternalSoftwareConfig(SPI\_TypeDef* SPIx, uint16\_t SPI\_NSSInternalSoft);
+00498 \textcolor{keywordtype}{void} SPI_SSOutputCmd(SPI\_TypeDef* SPIx, FunctionalState NewState);
+00499 \textcolor{keywordtype}{void} SPI_TIModeCmd(SPI\_TypeDef* SPIx, FunctionalState NewState);
+00500 
+00501 \textcolor{keywordtype}{void} I2S_FullDuplexConfig(SPI\_TypeDef* I2Sxext, I2S\_InitTypeDef* I2S\_InitStruct);
+00502 
+00503 \textcolor{comment}{/* Data transfers functions ***************************************************/}
+00504 \textcolor{keywordtype}{void} SPI_I2S_SendData(SPI\_TypeDef* SPIx, uint16\_t Data);
+00505 uint16\_t SPI_I2S_ReceiveData(SPI\_TypeDef* SPIx);
+00506 
+00507 \textcolor{comment}{/* Hardware CRC Calculation functions *****************************************/}
+00508 \textcolor{keywordtype}{void} SPI_CalculateCRC(SPI\_TypeDef* SPIx, FunctionalState NewState);
+00509 \textcolor{keywordtype}{void} SPI_TransmitCRC(SPI\_TypeDef* SPIx);
+00510 uint16\_t SPI_GetCRC(SPI\_TypeDef* SPIx, uint8\_t SPI\_CRC);
+00511 uint16\_t SPI_GetCRCPolynomial(SPI\_TypeDef* SPIx);
+00512 
+00513 \textcolor{comment}{/* DMA transfers management functions *****************************************/}
+00514 \textcolor{keywordtype}{void} SPI_I2S_DMACmd(SPI\_TypeDef* SPIx, uint16\_t SPI\_I2S\_DMAReq, FunctionalState NewState);
+00515 
+00516 \textcolor{comment}{/* Interrupts and flags management functions **********************************/}
+00517 \textcolor{keywordtype}{void} SPI_I2S_ITConfig(SPI\_TypeDef* SPIx, uint8\_t SPI\_I2S\_IT, FunctionalState NewState);
+00518 FlagStatus SPI_I2S_GetFlagStatus(SPI\_TypeDef* SPIx, uint16\_t SPI\_I2S\_FLAG);
+00519 \textcolor{keywordtype}{void} SPI_I2S_ClearFlag(SPI\_TypeDef* SPIx, uint16\_t SPI\_I2S\_FLAG);
+00520 ITStatus SPI_I2S_GetITStatus(SPI\_TypeDef* SPIx, uint8\_t SPI\_I2S\_IT);
+00521 \textcolor{keywordtype}{void} SPI_I2S_ClearITPendingBit(SPI\_TypeDef* SPIx, uint8\_t SPI\_I2S\_IT);
+00522 
+00523 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00524 \}
+00525 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00526 
+00527 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/*\_\_STM32F4xx\_SPI\_H */}
+00528 
+00529 \textcolor{comment}{/**}
+00530 \textcolor{comment}{  * @\}}
+00531 \textcolor{comment}{  */}
+00532 
+00533 \textcolor{comment}{/**}
+00534 \textcolor{comment}{  * @\}}
+00535 \textcolor{comment}{  */}
+00536 
+00537 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

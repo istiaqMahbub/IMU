@@ -1,0 +1,173 @@
+\section{Multi\+Processor Communication functions}
+\label{group__USART__Group3}\index{Multi\+Processor Communication functions@{Multi\+Processor Communication functions}}
+
+
+Multi-\/\+Processor Communication functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Set\+Address} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, uint8\+\_\+t U\+S\+A\+R\+T\+\_\+\+Address)
+\begin{DoxyCompactList}\small\item\em Sets the address of the U\+S\+A\+RT node. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Receiver\+Wake\+Up\+Cmd} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Determines if the U\+S\+A\+RT is in mute mode or not. \end{DoxyCompactList}\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Wake\+Up\+Config} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, uint16\+\_\+t U\+S\+A\+R\+T\+\_\+\+Wake\+Up)
+\begin{DoxyCompactList}\small\item\em Selects the U\+S\+A\+RT Wake\+Up method. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Multi-\/\+Processor Communication functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                    Multi-Processor Communication functions
+ ===============================================================================  
+
+  This subsection provides a set of functions allowing to manage the USART 
+  multiprocessor communication.
+  
+  For instance one of the USARTs can be the master, its TX output is connected to 
+  the RX input of the other USART. The others are slaves, their respective TX outputs 
+  are logically ANDed together and connected to the RX input of the master.
+
+  USART multiprocessor communication is possible through the following procedure:
+     1. Program the Baud rate, Word length = 9 bits, Stop bits, Parity, Mode transmitter 
+        or Mode receiver and hardware flow control values using the USART_Init()
+        function.
+     2. Configures the USART address using the USART_SetAddress() function.
+     3. Configures the wake up method (USART_WakeUp_IdleLine or USART_WakeUp_AddressMark)
+        using USART_WakeUpConfig() function only for the slaves.
+     4. Enable the USART using the USART_Cmd() function.
+     5. Enter the USART slaves in mute mode using USART_ReceiverWakeUpCmd() function.
+
+  The USART Slave exit from mute mode when receive the wake up condition.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__USART__Group3_gac27b78ce445a16fe33851d2f87781c02}} 
+\index{Multi\+Processor Communication functions@{Multi\+Processor Communication functions}!U\+S\+A\+R\+T\+\_\+\+Receiver\+Wake\+Up\+Cmd@{U\+S\+A\+R\+T\+\_\+\+Receiver\+Wake\+Up\+Cmd}}
+\index{U\+S\+A\+R\+T\+\_\+\+Receiver\+Wake\+Up\+Cmd@{U\+S\+A\+R\+T\+\_\+\+Receiver\+Wake\+Up\+Cmd}!Multi\+Processor Communication functions@{Multi\+Processor Communication functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+Receiver\+Wake\+Up\+Cmd()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+Receiver\+Wake\+Up\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Determines if the U\+S\+A\+RT is in mute mode or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3, 4, 5 or 6 to select the U\+S\+A\+RT or U\+A\+RT peripheral. \\
+\hline
+{\em New\+State} & new state of the U\+S\+A\+RT mute mode. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 625} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00626 \{
+00627   \textcolor{comment}{/* Check the parameters */}
+00628   assert_param(IS_USART_ALL_PERIPH(USARTx));
+00629   assert_param(IS_FUNCTIONAL_STATE(NewState)); 
+00630   
+00631   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00632   \{
+00633     \textcolor{comment}{/* Enable the USART mute mode  by setting the RWU bit in the CR1 register */}
+00634     USARTx->CR1 |= USART_CR1_RWU;
+00635   \}
+00636   \textcolor{keywordflow}{else}
+00637   \{
+00638     \textcolor{comment}{/* Disable the USART mute mode by clearing the RWU bit in the CR1 register */}
+00639     USARTx->CR1 &= (uint16\_t)~((uint16\_t)USART_CR1_RWU);
+00640   \}
+00641 \}
+\end{DoxyCode}
+\mbox{\label{group__USART__Group3_ga65ec9928817f3f031dd9a4dfc95d6666}} 
+\index{Multi\+Processor Communication functions@{Multi\+Processor Communication functions}!U\+S\+A\+R\+T\+\_\+\+Set\+Address@{U\+S\+A\+R\+T\+\_\+\+Set\+Address}}
+\index{U\+S\+A\+R\+T\+\_\+\+Set\+Address@{U\+S\+A\+R\+T\+\_\+\+Set\+Address}!Multi\+Processor Communication functions@{Multi\+Processor Communication functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+Set\+Address()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+Set\+Address (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx,  }\item[{uint8\+\_\+t}]{U\+S\+A\+R\+T\+\_\+\+Address }\end{DoxyParamCaption})}
+
+
+
+Sets the address of the U\+S\+A\+RT node. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3, 4, 5 or 6 to select the U\+S\+A\+RT or U\+A\+RT peripheral. \\
+\hline
+{\em U\+S\+A\+R\+T\+\_\+\+Address} & Indicates the address of the U\+S\+A\+RT node. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 605} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+\begin{DoxyCode}
+00606 \{
+00607   \textcolor{comment}{/* Check the parameters */}
+00608   assert_param(IS_USART_ALL_PERIPH(USARTx));
+00609   assert_param(IS_USART_ADDRESS(USART\_Address)); 
+00610     
+00611   \textcolor{comment}{/* Clear the USART address */}
+00612   USARTx->CR2 &= (uint16\_t)~((uint16\_t)USART_CR2_ADD);
+00613   \textcolor{comment}{/* Set the USART address node */}
+00614   USARTx->CR2 |= USART\_Address;
+00615 \}
+\end{DoxyCode}
+\mbox{\label{group__USART__Group3_ga4965417c2412c36e462fcad50a8d5393}} 
+\index{Multi\+Processor Communication functions@{Multi\+Processor Communication functions}!U\+S\+A\+R\+T\+\_\+\+Wake\+Up\+Config@{U\+S\+A\+R\+T\+\_\+\+Wake\+Up\+Config}}
+\index{U\+S\+A\+R\+T\+\_\+\+Wake\+Up\+Config@{U\+S\+A\+R\+T\+\_\+\+Wake\+Up\+Config}!Multi\+Processor Communication functions@{Multi\+Processor Communication functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+Wake\+Up\+Config()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+Wake\+Up\+Config (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx,  }\item[{uint16\+\_\+t}]{U\+S\+A\+R\+T\+\_\+\+Wake\+Up }\end{DoxyParamCaption})}
+
+
+
+Selects the U\+S\+A\+RT Wake\+Up method. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3, 4, 5 or 6 to select the U\+S\+A\+RT or U\+A\+RT peripheral. \\
+\hline
+{\em U\+S\+A\+R\+T\+\_\+\+Wake\+Up} & specifies the U\+S\+A\+RT wakeup method. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item U\+S\+A\+R\+T\+\_\+\+Wake\+Up\+\_\+\+Idle\+Line\+: Wake\+Up by an idle line detection \item U\+S\+A\+R\+T\+\_\+\+Wake\+Up\+\_\+\+Address\+Mark\+: Wake\+Up by an address mark \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 652} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+\begin{DoxyCode}
+00653 \{
+00654   \textcolor{comment}{/* Check the parameters */}
+00655   assert_param(IS_USART_ALL_PERIPH(USARTx));
+00656   assert_param(IS_USART_WAKEUP(USART\_WakeUp));
+00657   
+00658   USARTx->CR1 &= (uint16\_t)~((uint16\_t)USART_CR1_WAKE);
+00659   USARTx->CR1 |= USART\_WakeUp;
+00660 \}
+\end{DoxyCode}

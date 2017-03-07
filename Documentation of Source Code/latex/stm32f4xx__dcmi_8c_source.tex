@@ -1,0 +1,539 @@
+\section{stm32f4xx\+\_\+dcmi.\+c}
+\label{stm32f4xx__dcmi_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+dcmi.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+dcmi.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_dcmi.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides firmware functions to manage the following }
+00008 \textcolor{comment}{  *          functionalities of the DCMI peripheral:           }
+00009 \textcolor{comment}{  *           - Initialization and Configuration}
+00010 \textcolor{comment}{  *           - Image capture functions  }
+00011 \textcolor{comment}{  *           - Interrupts and flags management}
+00012 \textcolor{comment}{  *}
+00013 \textcolor{comment}{  *  @verbatim  }
+00014 \textcolor{comment}{  *  }
+00015 \textcolor{comment}{  *        }
+00016 \textcolor{comment}{  *          ===================================================================}
+00017 \textcolor{comment}{  *                                 How to use this driver}
+00018 \textcolor{comment}{  *          ===================================================================  }
+00019 \textcolor{comment}{  *         }
+00020 \textcolor{comment}{  *         The sequence below describes how to use this driver to capture image}
+00021 \textcolor{comment}{  *         from a camera module connected to the DCMI Interface.}
+00022 \textcolor{comment}{  *         This sequence does not take into account the configuration of the  }
+00023 \textcolor{comment}{  *         camera module, which should be made before to configure and enable}
+00024 \textcolor{comment}{  *         the DCMI to capture images.}
+00025 \textcolor{comment}{  *           }
+00026 \textcolor{comment}{  *          1. Enable the clock for the DCMI and associated GPIOs using the following functions:}
+00027 \textcolor{comment}{  *                 RCC\_AHB2PeriphClockCmd(RCC\_AHB2Periph\_DCMI, ENABLE);}
+00028 \textcolor{comment}{  *                 RCC\_AHB1PeriphClockCmd(RCC\_AHB1Periph\_GPIOx, ENABLE);}
+00029 \textcolor{comment}{  *}
+00030 \textcolor{comment}{  *          2. DCMI pins configuration }
+00031 \textcolor{comment}{  *             - Connect the involved DCMI pins to AF13 using the following function }
+00032 \textcolor{comment}{  *                 GPIO\_PinAFConfig(GPIOx, GPIO\_PinSourcex, GPIO\_AF\_DCMI); }
+00033 \textcolor{comment}{  *             - Configure these DCMI pins in alternate function mode by calling the function}
+00034 \textcolor{comment}{  *                 GPIO\_Init();}
+00035 \textcolor{comment}{  *    }
+00036 \textcolor{comment}{  *          3. Declare a DCMI\_InitTypeDef structure, for example:}
+00037 \textcolor{comment}{  *                 DCMI\_InitTypeDef  DCMI\_InitStructure;}
+00038 \textcolor{comment}{  *             and fill the DCMI\_InitStructure variable with the allowed values}
+00039 \textcolor{comment}{  *             of the structure member.}
+00040 \textcolor{comment}{  *  }
+00041 \textcolor{comment}{  *          4. Initialize the DCMI interface by calling the function}
+00042 \textcolor{comment}{  *                 DCMI\_Init(&DCMI\_InitStructure); }
+00043 \textcolor{comment}{  *  }
+00044 \textcolor{comment}{  *          5. Configure the DMA2\_Stream1 channel1 to transfer Data from DCMI DR}
+00045 \textcolor{comment}{  *             register to the destination memory buffer.}
+00046 \textcolor{comment}{  *  }
+00047 \textcolor{comment}{  *          6. Enable DCMI interface using the function}
+00048 \textcolor{comment}{  *                 DCMI\_Cmd(ENABLE);}
+00049 \textcolor{comment}{  *                 }
+00050 \textcolor{comment}{  *         7. Start the image capture using the function}
+00051 \textcolor{comment}{  *                 DCMI\_CaptureCmd(ENABLE);}
+00052 \textcolor{comment}{  *                 }
+00053 \textcolor{comment}{  *         8. At this stage the DCMI interface waits for the first start of frame,}
+00054 \textcolor{comment}{  *            then a DMA request is generated continuously/once (depending on the}
+00055 \textcolor{comment}{  *            mode used, Continuous/Snapshot) to transfer the received data into}
+00056 \textcolor{comment}{  *            the destination memory. }
+00057 \textcolor{comment}{  *   }
+00058 \textcolor{comment}{  *  @note  If you need to capture only a rectangular window from the received}
+00059 \textcolor{comment}{  *         image, you have to use the DCMI\_CROPConfig() function to configure }
+00060 \textcolor{comment}{  *         the coordinates and size of the window to be captured, then enable }
+00061 \textcolor{comment}{  *         the Crop feature using DCMI\_CROPCmd(ENABLE);  }
+00062 \textcolor{comment}{  *         In this case, the Crop configuration should be made before to enable}
+00063 \textcolor{comment}{  *         and start the DCMI interface. }
+00064 \textcolor{comment}{  *        }
+00065 \textcolor{comment}{  *  @endverbatim   }
+00066 \textcolor{comment}{  *  }
+00067 \textcolor{comment}{  ******************************************************************************}
+00068 \textcolor{comment}{  * @attention}
+00069 \textcolor{comment}{  *}
+00070 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00071 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00072 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00073 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00074 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00075 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00076 \textcolor{comment}{  *}
+00077 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00078 \textcolor{comment}{  ******************************************************************************}
+00079 \textcolor{comment}{  */}
+00080 
+00081 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00082 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_dcmi.h"
+00083 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rcc.h"
+00084 
+00085 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00086 \textcolor{comment}{  * @\{}
+00087 \textcolor{comment}{  */}
+00088 
+00089 \textcolor{comment}{/** @defgroup DCMI }
+00090 \textcolor{comment}{  * @brief DCMI driver modules}
+00091 \textcolor{comment}{  * @\{}
+00092 \textcolor{comment}{  */}
+00093 
+00094 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00095 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00096 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00097 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00098 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00099 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00100 
+00101 \textcolor{comment}{/** @defgroup DCMI\_Private\_Functions}
+00102 \textcolor{comment}{  * @\{}
+00103 \textcolor{comment}{  */}
+00104 
+00105 \textcolor{comment}{/** @defgroup DCMI\_Group1 Initialization and Configuration functions}
+00106 \textcolor{comment}{ *  @brief   Initialization and Configuration functions }
+00107 \textcolor{comment}{ *}
+00108 \textcolor{comment}{@verbatim   }
+00109 \textcolor{comment}{ ===============================================================================}
+00110 \textcolor{comment}{                  Initialization and Configuration functions}
+00111 \textcolor{comment}{ ===============================================================================  }
+00112 \textcolor{comment}{}
+00113 \textcolor{comment}{@endverbatim}
+00114 \textcolor{comment}{  * @\{}
+00115 \textcolor{comment}{  */}
+00116 
+00117 \textcolor{comment}{/**}
+00118 \textcolor{comment}{  * @brief  Deinitializes the DCMI registers to their default reset values.}
+00119 \textcolor{comment}{  * @param  None}
+00120 \textcolor{comment}{  * @retval None}
+00121 \textcolor{comment}{  */}
+00122 \textcolor{keywordtype}{void} DCMI_DeInit(\textcolor{keywordtype}{void})
+00123 \{
+00124   DCMI->CR = 0x0;
+00125   DCMI->IER = 0x0;
+00126   DCMI->ICR = 0x1F;
+00127   DCMI->ESCR = 0x0;
+00128   DCMI->ESUR = 0x0;
+00129   DCMI->CWSTRTR = 0x0;
+00130   DCMI->CWSIZER = 0x0;
+00131 \}
+00132 
+00133 \textcolor{comment}{/**}
+00134 \textcolor{comment}{  * @brief  Initializes the DCMI according to the specified parameters in the DCMI\_InitStruct.}
+00135 \textcolor{comment}{  * @param  DCMI\_InitStruct: pointer to a DCMI\_InitTypeDef structure that contains }
+00136 \textcolor{comment}{  *         the configuration information for the DCMI.}
+00137 \textcolor{comment}{  * @retval None}
+00138 \textcolor{comment}{  */}
+00139 \textcolor{keywordtype}{void} DCMI_Init(DCMI\_InitTypeDef* DCMI\_InitStruct)
+00140 \{
+00141   uint32\_t temp = 0x0;
+00142 
+00143   \textcolor{comment}{/* Check the parameters */}
+00144   assert_param(IS\_DCMI\_CAPTURE\_MODE(DCMI\_InitStruct->DCMI\_CaptureMode));
+00145   assert_param(IS\_DCMI\_SYNCHRO(DCMI\_InitStruct->DCMI\_SynchroMode));
+00146   assert_param(IS\_DCMI\_PCKPOLARITY(DCMI\_InitStruct->DCMI\_PCKPolarity));
+00147   assert_param(IS\_DCMI\_VSPOLARITY(DCMI\_InitStruct->DCMI\_VSPolarity));
+00148   assert_param(IS\_DCMI\_HSPOLARITY(DCMI\_InitStruct->DCMI\_HSPolarity));
+00149   assert_param(IS\_DCMI\_CAPTURE\_RATE(DCMI\_InitStruct->DCMI\_CaptureRate));
+00150   assert_param(IS\_DCMI\_EXTENDED\_DATA(DCMI\_InitStruct->DCMI\_ExtendedDataMode));
+00151 
+00152   \textcolor{comment}{/* The DCMI configuration registers should be programmed correctly before }
+00153 \textcolor{comment}{  enabling the CR\_ENABLE Bit and the CR\_CAPTURE Bit */}
+00154   DCMI->CR &= ~(DCMI_CR_ENABLE | DCMI_CR_CAPTURE);
+00155 
+00156   \textcolor{comment}{/* Reset the old DCMI configuration */}
+00157   temp = DCMI->CR;
+00158 
+00159   temp &= ~((uint32\_t)DCMI_CR_CM     | DCMI_CR_ESS   | DCMI_CR_PCKPOL |
+00160                       DCMI_CR_HSPOL  | DCMI_CR_VSPOL | DCMI_CR_FCRC_0 |
+00161                       DCMI_CR_FCRC_1 | DCMI_CR_EDM_0 | DCMI_CR_EDM_1);
+00162 
+00163   \textcolor{comment}{/* Sets the new configuration of the DCMI peripheral */}
+00164   temp |= ((uint32\_t)DCMI\_InitStruct->DCMI_CaptureMode |
+00165                      DCMI\_InitStruct->DCMI_SynchroMode |
+00166                      DCMI\_InitStruct->DCMI_PCKPolarity |
+00167                      DCMI\_InitStruct->DCMI_VSPolarity |
+00168                      DCMI\_InitStruct->DCMI_HSPolarity |
+00169                      DCMI\_InitStruct->DCMI_CaptureRate |
+00170                      DCMI\_InitStruct->DCMI_ExtendedDataMode);
+00171 
+00172   DCMI->CR = temp;
+00173 \}
+00174 
+00175 \textcolor{comment}{/**}
+00176 \textcolor{comment}{  * @brief  Fills each DCMI\_InitStruct member with its default value.}
+00177 \textcolor{comment}{  * @param  DCMI\_InitStruct : pointer to a DCMI\_InitTypeDef structure which will}
+00178 \textcolor{comment}{  *         be initialized.}
+00179 \textcolor{comment}{  * @retval None}
+00180 \textcolor{comment}{  */}
+00181 \textcolor{keywordtype}{void} DCMI_StructInit(DCMI\_InitTypeDef* DCMI\_InitStruct)
+00182 \{
+00183   \textcolor{comment}{/* Set the default configuration */}
+00184   DCMI\_InitStruct->DCMI_CaptureMode = DCMI_CaptureMode_Continuous;
+00185   DCMI\_InitStruct->DCMI_SynchroMode = DCMI_SynchroMode_Hardware;
+00186   DCMI\_InitStruct->DCMI_PCKPolarity = DCMI_PCKPolarity_Falling;
+00187   DCMI\_InitStruct->DCMI_VSPolarity = DCMI_VSPolarity_Low;
+00188   DCMI\_InitStruct->DCMI_HSPolarity = DCMI_HSPolarity_Low;
+00189   DCMI\_InitStruct->DCMI_CaptureRate = DCMI_CaptureRate_All_Frame;
+00190   DCMI\_InitStruct->DCMI_ExtendedDataMode = DCMI_ExtendedDataMode_8b;
+00191 \}
+00192 
+00193 \textcolor{comment}{/**}
+00194 \textcolor{comment}{  * @brief  Initializes the DCMI peripheral CROP mode according to the specified}
+00195 \textcolor{comment}{  *         parameters in the DCMI\_CROPInitStruct.}
+00196 \textcolor{comment}{  * @note   This function should be called before to enable and start the DCMI interface.   }
+00197 \textcolor{comment}{  * @param  DCMI\_CROPInitStruct:  pointer to a DCMI\_CROPInitTypeDef structure that }
+00198 \textcolor{comment}{  *         contains the configuration information for the DCMI peripheral CROP mode.}
+00199 \textcolor{comment}{  * @retval None}
+00200 \textcolor{comment}{  */}
+00201 \textcolor{keywordtype}{void} DCMI_CROPConfig(DCMI\_CROPInitTypeDef* DCMI\_CROPInitStruct)
+00202 \{
+00203   \textcolor{comment}{/* Sets the CROP window coordinates */}
+00204   DCMI->CWSTRTR = (uint32\_t)((uint32\_t)DCMI\_CROPInitStruct->DCMI\_HorizontalOffsetCount |
+00205                   ((uint32\_t)DCMI\_CROPInitStruct->DCMI\_VerticalStartLine << 16));
+00206 
+00207   \textcolor{comment}{/* Sets the CROP window size */}
+00208   DCMI->CWSIZER = (uint32\_t)(DCMI\_CROPInitStruct->DCMI\_CaptureCount |
+00209                   ((uint32\_t)DCMI\_CROPInitStruct->DCMI\_VerticalLineCount << 16));
+00210 \}
+00211 
+00212 \textcolor{comment}{/**}
+00213 \textcolor{comment}{  * @brief  Enables or disables the DCMI Crop feature.}
+00214 \textcolor{comment}{  * @note   This function should be called before to enable and start the DCMI interface.}
+00215 \textcolor{comment}{  * @param  NewState: new state of the DCMI Crop feature. }
+00216 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00217 \textcolor{comment}{  * @retval None}
+00218 \textcolor{comment}{  */}
+00219 \textcolor{keywordtype}{void} DCMI_CROPCmd(FunctionalState NewState)
+00220 \{
+00221   \textcolor{comment}{/* Check the parameters */}
+00222   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00223 
+00224   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00225   \{
+00226     \textcolor{comment}{/* Enable the DCMI Crop feature */}
+00227     DCMI->CR |= (uint32\_t)DCMI_CR_CROP;
+00228   \}
+00229   \textcolor{keywordflow}{else}
+00230   \{
+00231     \textcolor{comment}{/* Disable the DCMI Crop feature */}
+00232     DCMI->CR &= ~(uint32\_t)DCMI_CR_CROP;
+00233   \}
+00234 \}
+00235 
+00236 \textcolor{comment}{/**}
+00237 \textcolor{comment}{  * @brief  Sets the embedded synchronization codes}
+00238 \textcolor{comment}{  * @param  DCMI\_CodesInitTypeDef: pointer to a DCMI\_CodesInitTypeDef structure that}
+00239 \textcolor{comment}{  *         contains the embedded synchronization codes for the DCMI peripheral.}
+00240 \textcolor{comment}{  * @retval None}
+00241 \textcolor{comment}{  */}
+00242 \textcolor{keywordtype}{void} DCMI_SetEmbeddedSynchroCodes(DCMI\_CodesInitTypeDef* DCMI\_CodesInitStruct)
+00243 \{
+00244   DCMI->ESCR = (uint32\_t)(DCMI\_CodesInitStruct->DCMI\_FrameStartCode |
+00245                           ((uint32\_t)DCMI\_CodesInitStruct->DCMI\_LineStartCode << 8)|
+00246                           ((uint32\_t)DCMI\_CodesInitStruct->DCMI\_LineEndCode << 16)|
+00247                           ((uint32\_t)DCMI\_CodesInitStruct->DCMI\_FrameEndCode << 24));
+00248 \}
+00249 
+00250 \textcolor{comment}{/**}
+00251 \textcolor{comment}{  * @brief  Enables or disables the DCMI JPEG format.}
+00252 \textcolor{comment}{  * @note   The Crop and Embedded Synchronization features cannot be used in this mode.  }
+00253 \textcolor{comment}{  * @param  NewState: new state of the DCMI JPEG format. }
+00254 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00255 \textcolor{comment}{  * @retval None}
+00256 \textcolor{comment}{  */}
+00257 \textcolor{keywordtype}{void} DCMI_JPEGCmd(FunctionalState NewState)
+00258 \{
+00259   \textcolor{comment}{/* Check the parameters */}
+00260   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00261 
+00262   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00263   \{
+00264     \textcolor{comment}{/* Enable the DCMI JPEG format */}
+00265     DCMI->CR |= (uint32\_t)DCMI_CR_JPEG;
+00266   \}
+00267   \textcolor{keywordflow}{else}
+00268   \{
+00269     \textcolor{comment}{/* Disable the DCMI JPEG format */}
+00270     DCMI->CR &= ~(uint32\_t)DCMI_CR_JPEG;
+00271   \}
+00272 \}
+00273 \textcolor{comment}{/**}
+00274 \textcolor{comment}{  * @\}}
+00275 \textcolor{comment}{  */}
+00276 
+00277 \textcolor{comment}{/** @defgroup DCMI\_Group2 Image capture functions}
+00278 \textcolor{comment}{ *  @brief   Image capture functions}
+00279 \textcolor{comment}{ *}
+00280 \textcolor{comment}{@verbatim   }
+00281 \textcolor{comment}{ ===============================================================================}
+00282 \textcolor{comment}{                                 Image capture functions}
+00283 \textcolor{comment}{ ===============================================================================  }
+00284 \textcolor{comment}{}
+00285 \textcolor{comment}{@endverbatim}
+00286 \textcolor{comment}{  * @\{}
+00287 \textcolor{comment}{  */}
+00288 
+00289 \textcolor{comment}{/**}
+00290 \textcolor{comment}{  * @brief  Enables or disables the DCMI interface.}
+00291 \textcolor{comment}{  * @param  NewState: new state of the DCMI interface. }
+00292 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00293 \textcolor{comment}{  * @retval None}
+00294 \textcolor{comment}{  */}
+00295 \textcolor{keywordtype}{void} DCMI_Cmd(FunctionalState NewState)
+00296 \{
+00297   \textcolor{comment}{/* Check the parameters */}
+00298   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00299 
+00300   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00301   \{
+00302     \textcolor{comment}{/* Enable the DCMI by setting ENABLE bit */}
+00303     DCMI->CR |= (uint32\_t)DCMI_CR_ENABLE;
+00304   \}
+00305   \textcolor{keywordflow}{else}
+00306   \{
+00307     \textcolor{comment}{/* Disable the DCMI by clearing ENABLE bit */}
+00308     DCMI->CR &= ~(uint32\_t)DCMI_CR_ENABLE;
+00309   \}
+00310 \}
+00311 
+00312 \textcolor{comment}{/**}
+00313 \textcolor{comment}{  * @brief  Enables or disables the DCMI Capture.}
+00314 \textcolor{comment}{  * @param  NewState: new state of the DCMI capture. }
+00315 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00316 \textcolor{comment}{  * @retval None}
+00317 \textcolor{comment}{  */}
+00318 \textcolor{keywordtype}{void} DCMI_CaptureCmd(FunctionalState NewState)
+00319 \{
+00320   \textcolor{comment}{/* Check the parameters */}
+00321   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00322 
+00323   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00324   \{
+00325     \textcolor{comment}{/* Enable the DCMI Capture */}
+00326     DCMI->CR |= (uint32\_t)DCMI_CR_CAPTURE;
+00327   \}
+00328   \textcolor{keywordflow}{else}
+00329   \{
+00330     \textcolor{comment}{/* Disable the DCMI Capture */}
+00331     DCMI->CR &= ~(uint32\_t)DCMI_CR_CAPTURE;
+00332   \}
+00333 \}
+00334 
+00335 \textcolor{comment}{/**}
+00336 \textcolor{comment}{  * @brief  Reads the data stored in the DR register.}
+00337 \textcolor{comment}{  * @param  None }
+00338 \textcolor{comment}{  * @retval Data register value}
+00339 \textcolor{comment}{  */}
+00340 uint32\_t DCMI_ReadData(\textcolor{keywordtype}{void})
+00341 \{
+00342   \textcolor{keywordflow}{return} DCMI->DR;
+00343 \}
+00344 \textcolor{comment}{/**}
+00345 \textcolor{comment}{  * @\}}
+00346 \textcolor{comment}{  */}
+00347 
+00348 \textcolor{comment}{/** @defgroup DCMI\_Group3 Interrupts and flags management functions}
+00349 \textcolor{comment}{ *  @brief   Interrupts and flags management functions}
+00350 \textcolor{comment}{ *}
+00351 \textcolor{comment}{@verbatim   }
+00352 \textcolor{comment}{ ===============================================================================}
+00353 \textcolor{comment}{                  Interrupts and flags management functions}
+00354 \textcolor{comment}{ ===============================================================================  }
+00355 \textcolor{comment}{}
+00356 \textcolor{comment}{@endverbatim}
+00357 \textcolor{comment}{  * @\{}
+00358 \textcolor{comment}{  */}
+00359 
+00360 \textcolor{comment}{/**}
+00361 \textcolor{comment}{  * @brief  Enables or disables the DCMI interface interrupts.}
+00362 \textcolor{comment}{  * @param  DCMI\_IT: specifies the DCMI interrupt sources to be enabled or disabled. }
+00363 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+00364 \textcolor{comment}{  *            @arg DCMI\_IT\_FRAME: Frame capture complete interrupt mask}
+00365 \textcolor{comment}{  *            @arg DCMI\_IT\_OVF: Overflow interrupt mask}
+00366 \textcolor{comment}{  *            @arg DCMI\_IT\_ERR: Synchronization error interrupt mask}
+00367 \textcolor{comment}{  *            @arg DCMI\_IT\_VSYNC: VSYNC interrupt mask}
+00368 \textcolor{comment}{  *            @arg DCMI\_IT\_LINE: Line interrupt mask}
+00369 \textcolor{comment}{  * @param  NewState: new state of the specified DCMI interrupts.}
+00370 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00371 \textcolor{comment}{  * @retval None}
+00372 \textcolor{comment}{  */}
+00373 \textcolor{keywordtype}{void} DCMI_ITConfig(uint16\_t DCMI\_IT, FunctionalState NewState)
+00374 \{
+00375   \textcolor{comment}{/* Check the parameters */}
+00376   assert_param(IS\_DCMI\_CONFIG\_IT(DCMI\_IT));
+00377   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00378 
+00379   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00380   \{
+00381     \textcolor{comment}{/* Enable the Interrupt sources */}
+00382     DCMI->IER |= DCMI\_IT;
+00383   \}
+00384   \textcolor{keywordflow}{else}
+00385   \{
+00386     \textcolor{comment}{/* Disable the Interrupt sources */}
+00387     DCMI->IER &= (uint16\_t)(~DCMI\_IT);
+00388   \}
+00389 \}
+00390 
+00391 \textcolor{comment}{/**}
+00392 \textcolor{comment}{  * @brief  Checks whether the  DCMI interface flag is set or not.}
+00393 \textcolor{comment}{  * @param  DCMI\_FLAG: specifies the flag to check.}
+00394 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00395 \textcolor{comment}{  *            @arg DCMI\_FLAG\_FRAMERI: Frame capture complete Raw flag mask}
+00396 \textcolor{comment}{  *            @arg DCMI\_FLAG\_OVFRI: Overflow Raw flag mask}
+00397 \textcolor{comment}{  *            @arg DCMI\_FLAG\_ERRRI: Synchronization error Raw flag mask}
+00398 \textcolor{comment}{  *            @arg DCMI\_FLAG\_VSYNCRI: VSYNC Raw flag mask}
+00399 \textcolor{comment}{  *            @arg DCMI\_FLAG\_LINERI: Line Raw flag mask}
+00400 \textcolor{comment}{  *            @arg DCMI\_FLAG\_FRAMEMI: Frame capture complete Masked flag mask}
+00401 \textcolor{comment}{  *            @arg DCMI\_FLAG\_OVFMI: Overflow Masked flag mask}
+00402 \textcolor{comment}{  *            @arg DCMI\_FLAG\_ERRMI: Synchronization error Masked flag mask}
+00403 \textcolor{comment}{  *            @arg DCMI\_FLAG\_VSYNCMI: VSYNC Masked flag mask}
+00404 \textcolor{comment}{  *            @arg DCMI\_FLAG\_LINEMI: Line Masked flag mask}
+00405 \textcolor{comment}{  *            @arg DCMI\_FLAG\_HSYNC: HSYNC flag mask}
+00406 \textcolor{comment}{  *            @arg DCMI\_FLAG\_VSYNC: VSYNC flag mask}
+00407 \textcolor{comment}{  *            @arg DCMI\_FLAG\_FNE: Fifo not empty flag mask}
+00408 \textcolor{comment}{  * @retval The new state of DCMI\_FLAG (SET or RESET).}
+00409 \textcolor{comment}{  */}
+00410 FlagStatus DCMI_GetFlagStatus(uint16\_t DCMI\_FLAG)
+00411 \{
+00412   FlagStatus bitstatus = RESET;
+00413   uint32\_t dcmireg, tempreg = 0;
+00414 
+00415   \textcolor{comment}{/* Check the parameters */}
+00416   assert_param(IS\_DCMI\_GET\_FLAG(DCMI\_FLAG));
+00417 
+00418   \textcolor{comment}{/* Get the DCMI register index */}
+00419   dcmireg = (((uint16\_t)DCMI\_FLAG) >> 12);
+00420 
+00421   \textcolor{keywordflow}{if} (dcmireg == 0x01) \textcolor{comment}{/* The FLAG is in RISR register */}
+00422   \{
+00423     tempreg= DCMI->RISR;
+00424   \}
+00425   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (dcmireg == 0x02) \textcolor{comment}{/* The FLAG is in SR register */}
+00426   \{
+00427     tempreg = DCMI->SR;
+00428   \}
+00429   \textcolor{keywordflow}{else} \textcolor{comment}{/* The FLAG is in MISR register */}
+00430   \{
+00431     tempreg = DCMI->MISR;
+00432   \}
+00433 
+00434   \textcolor{keywordflow}{if} ((tempreg & DCMI\_FLAG) != (uint16\_t)RESET )
+00435   \{
+00436     bitstatus = SET;
+00437   \}
+00438   \textcolor{keywordflow}{else}
+00439   \{
+00440     bitstatus = RESET;
+00441   \}
+00442   \textcolor{comment}{/* Return the DCMI\_FLAG status */}
+00443   \textcolor{keywordflow}{return}  bitstatus;
+00444 \}
+00445 
+00446 \textcolor{comment}{/**}
+00447 \textcolor{comment}{  * @brief  Clears the DCMI's pending flags.}
+00448 \textcolor{comment}{  * @param  DCMI\_FLAG: specifies the flag to clear.}
+00449 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+00450 \textcolor{comment}{  *            @arg DCMI\_FLAG\_FRAMERI: Frame capture complete Raw flag mask}
+00451 \textcolor{comment}{  *            @arg DCMI\_FLAG\_OVFRI: Overflow Raw flag mask}
+00452 \textcolor{comment}{  *            @arg DCMI\_FLAG\_ERRRI: Synchronization error Raw flag mask}
+00453 \textcolor{comment}{  *            @arg DCMI\_FLAG\_VSYNCRI: VSYNC Raw flag mask}
+00454 \textcolor{comment}{  *            @arg DCMI\_FLAG\_LINERI: Line Raw flag mask}
+00455 \textcolor{comment}{  * @retval None}
+00456 \textcolor{comment}{  */}
+00457 \textcolor{keywordtype}{void} DCMI_ClearFlag(uint16\_t DCMI\_FLAG)
+00458 \{
+00459   \textcolor{comment}{/* Check the parameters */}
+00460   assert_param(IS\_DCMI\_CLEAR\_FLAG(DCMI\_FLAG));
+00461 
+00462   \textcolor{comment}{/* Clear the flag by writing in the ICR register 1 in the corresponding }
+00463 \textcolor{comment}{  Flag position*/}
+00464 
+00465   DCMI->ICR = DCMI\_FLAG;
+00466 \}
+00467 
+00468 \textcolor{comment}{/**}
+00469 \textcolor{comment}{  * @brief  Checks whether the DCMI interrupt has occurred or not.}
+00470 \textcolor{comment}{  * @param  DCMI\_IT: specifies the DCMI interrupt source to check.}
+00471 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00472 \textcolor{comment}{  *            @arg DCMI\_IT\_FRAME: Frame capture complete interrupt mask}
+00473 \textcolor{comment}{  *            @arg DCMI\_IT\_OVF: Overflow interrupt mask}
+00474 \textcolor{comment}{  *            @arg DCMI\_IT\_ERR: Synchronization error interrupt mask}
+00475 \textcolor{comment}{  *            @arg DCMI\_IT\_VSYNC: VSYNC interrupt mask}
+00476 \textcolor{comment}{  *            @arg DCMI\_IT\_LINE: Line interrupt mask}
+00477 \textcolor{comment}{  * @retval The new state of DCMI\_IT (SET or RESET).}
+00478 \textcolor{comment}{  */}
+00479 ITStatus DCMI_GetITStatus(uint16\_t DCMI\_IT)
+00480 \{
+00481   ITStatus bitstatus = RESET;
+00482   uint32\_t itstatus = 0;
+00483 
+00484   \textcolor{comment}{/* Check the parameters */}
+00485   assert_param(IS\_DCMI\_GET\_IT(DCMI\_IT));
+00486 
+00487   itstatus = DCMI->MISR & DCMI\_IT; \textcolor{comment}{/* Only masked interrupts are checked */}
+00488 
+00489   \textcolor{keywordflow}{if} ((itstatus != (uint16\_t)RESET))
+00490   \{
+00491     bitstatus = SET;
+00492   \}
+00493   \textcolor{keywordflow}{else}
+00494   \{
+00495     bitstatus = RESET;
+00496   \}
+00497   \textcolor{keywordflow}{return} bitstatus;
+00498 \}
+00499 
+00500 \textcolor{comment}{/**}
+00501 \textcolor{comment}{  * @brief  Clears the DCMI's interrupt pending bits.}
+00502 \textcolor{comment}{  * @param  DCMI\_IT: specifies the DCMI interrupt pending bit to clear.}
+00503 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+00504 \textcolor{comment}{  *            @arg DCMI\_IT\_FRAME: Frame capture complete interrupt mask}
+00505 \textcolor{comment}{  *            @arg DCMI\_IT\_OVF: Overflow interrupt mask}
+00506 \textcolor{comment}{  *            @arg DCMI\_IT\_ERR: Synchronization error interrupt mask}
+00507 \textcolor{comment}{  *            @arg DCMI\_IT\_VSYNC: VSYNC interrupt mask}
+00508 \textcolor{comment}{  *            @arg DCMI\_IT\_LINE: Line interrupt mask}
+00509 \textcolor{comment}{  * @retval None}
+00510 \textcolor{comment}{  */}
+00511 \textcolor{keywordtype}{void} DCMI_ClearITPendingBit(uint16\_t DCMI\_IT)
+00512 \{
+00513   \textcolor{comment}{/* Clear the interrupt pending Bit by writing in the ICR register 1 in the }
+00514 \textcolor{comment}{  corresponding pending Bit position*/}
+00515 
+00516   DCMI->ICR = DCMI\_IT;
+00517 \}
+00518 \textcolor{comment}{/**}
+00519 \textcolor{comment}{  * @\}}
+00520 \textcolor{comment}{  */}
+00521 
+00522 \textcolor{comment}{/**}
+00523 \textcolor{comment}{  * @\}}
+00524 \textcolor{comment}{  */}
+00525 
+00526 \textcolor{comment}{/**}
+00527 \textcolor{comment}{  * @\}}
+00528 \textcolor{comment}{  */}
+00529 
+00530 \textcolor{comment}{/**}
+00531 \textcolor{comment}{  * @\}}
+00532 \textcolor{comment}{  */}
+00533 
+00534 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

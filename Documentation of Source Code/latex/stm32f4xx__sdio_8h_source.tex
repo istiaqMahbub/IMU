@@ -1,0 +1,551 @@
+\section{stm32f4xx\+\_\+sdio.\+h}
+\label{stm32f4xx__sdio_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+sdio.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+sdio.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_sdio.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the SDIO firmware}
+00008 \textcolor{comment}{  *          library.}
+00009 \textcolor{comment}{  ******************************************************************************}
+00010 \textcolor{comment}{  * @attention}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00013 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00014 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00015 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00016 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00017 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00020 \textcolor{comment}{  ******************************************************************************}
+00021 \textcolor{comment}{  */}
+00022 
+00023 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_SDIO\_H}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_SDIO\_H}
+00026 
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00028  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00033 
+00034 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00035 \textcolor{comment}{  * @\{}
+00036 \textcolor{comment}{  */}
+00037 
+00038 \textcolor{comment}{/** @addtogroup SDIO}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00043 
+00044 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00045 \{
+00046   uint32\_t SDIO_ClockEdge;            \textcolor{comment}{/*!< Specifies the clock transition on which the bit capture is
+       made.}
+00047 \textcolor{comment}{                                           This parameter can be a value of @ref SDIO\_Clock\_Edge */}
+00048 
+00049   uint32\_t SDIO_ClockBypass;          \textcolor{comment}{/*!< Specifies whether the SDIO Clock divider bypass is}
+00050 \textcolor{comment}{                                           enabled or disabled.}
+00051 \textcolor{comment}{                                           This parameter can be a value of @ref SDIO\_Clock\_Bypass */}
+00052 
+00053   uint32\_t SDIO_ClockPowerSave;       \textcolor{comment}{/*!< Specifies whether SDIO Clock output is enabled or}
+00054 \textcolor{comment}{                                           disabled when the bus is idle.}
+00055 \textcolor{comment}{                                           This parameter can be a value of @ref SDIO\_Clock\_Power\_Save
+       */}
+00056 
+00057   uint32\_t SDIO_BusWide;              \textcolor{comment}{/*!< Specifies the SDIO bus width.}
+00058 \textcolor{comment}{                                           This parameter can be a value of @ref SDIO\_Bus\_Wide */}
+00059 
+00060   uint32\_t SDIO_HardwareFlowControl;  \textcolor{comment}{/*!< Specifies whether the SDIO hardware flow control is enabled
+       or disabled.}
+00061 \textcolor{comment}{                                           This parameter can be a value of @ref
+       SDIO\_Hardware\_Flow\_Control */}
+00062 
+00063   uint8\_t SDIO_ClockDiv;              \textcolor{comment}{/*!< Specifies the clock frequency of the SDIO controller.}
+00064 \textcolor{comment}{                                           This parameter can be a value between 0x00 and 0xFF. */}
+00065 
+00066 \} SDIO\_InitTypeDef;
+00067 
+00068 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00069 \{
+00070   uint32\_t SDIO_Argument;  \textcolor{comment}{/*!< Specifies the SDIO command argument which is sent}
+00071 \textcolor{comment}{                                to a card as part of a command message. If a command}
+00072 \textcolor{comment}{                                contains an argument, it must be loaded into this register}
+00073 \textcolor{comment}{                                before writing the command to the command register */}
+00074 
+00075   uint32\_t SDIO_CmdIndex;  \textcolor{comment}{/*!< Specifies the SDIO command index. It must be lower than 0x40. */}
+00076 
+00077   uint32\_t SDIO_Response;  \textcolor{comment}{/*!< Specifies the SDIO response type.}
+00078 \textcolor{comment}{                                This parameter can be a value of @ref SDIO\_Response\_Type */}
+00079 
+00080   uint32\_t SDIO_Wait;      \textcolor{comment}{/*!< Specifies whether SDIO wait-for-interrupt request is enabled or
+       disabled.}
+00081 \textcolor{comment}{                                This parameter can be a value of @ref SDIO\_Wait\_Interrupt\_State */}
+00082 
+00083   uint32\_t SDIO_CPSM;      \textcolor{comment}{/*!< Specifies whether SDIO Command path state machine (CPSM)}
+00084 \textcolor{comment}{                                is enabled or disabled.}
+00085 \textcolor{comment}{                                This parameter can be a value of @ref SDIO\_CPSM\_State */}
+00086 \} SDIO\_CmdInitTypeDef;
+00087 
+00088 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00089 \{
+00090   uint32\_t SDIO_DataTimeOut;    \textcolor{comment}{/*!< Specifies the data timeout period in card bus clock periods. */}
+00091 
+00092   uint32\_t SDIO_DataLength;     \textcolor{comment}{/*!< Specifies the number of data bytes to be transferred. */}
+00093 
+00094   uint32\_t SDIO_DataBlockSize;  \textcolor{comment}{/*!< Specifies the data block size for block transfer.}
+00095 \textcolor{comment}{                                     This parameter can be a value of @ref SDIO\_Data\_Block\_Size */}
+00096 
+00097   uint32\_t SDIO_TransferDir;    \textcolor{comment}{/*!< Specifies the data transfer direction, whether the transfer}
+00098 \textcolor{comment}{                                     is a read or write.}
+00099 \textcolor{comment}{                                     This parameter can be a value of @ref SDIO\_Transfer\_Direction */}
+00100 
+00101   uint32\_t SDIO_TransferMode;   \textcolor{comment}{/*!< Specifies whether data transfer is in stream or block mode.}
+00102 \textcolor{comment}{                                     This parameter can be a value of @ref SDIO\_Transfer\_Type */}
+00103 
+00104   uint32\_t SDIO_DPSM;           \textcolor{comment}{/*!< Specifies whether SDIO Data path state machine (DPSM)}
+00105 \textcolor{comment}{                                     is enabled or disabled.}
+00106 \textcolor{comment}{                                     This parameter can be a value of @ref SDIO\_DPSM\_State */}
+00107 \} SDIO\_DataInitTypeDef;
+00108 
+00109 
+00110 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00111 
+00112 \textcolor{comment}{/** @defgroup SDIO\_Exported\_Constants}
+00113 \textcolor{comment}{  * @\{}
+00114 \textcolor{comment}{  */}
+00115 
+00116 \textcolor{comment}{/** @defgroup SDIO\_Clock\_Edge }
+00117 \textcolor{comment}{  * @\{}
+00118 \textcolor{comment}{  */}
+00119 
+00120 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_ClockEdge\_Rising}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00121 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_ClockEdge\_Falling}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00002000\textcolor{preprocessor}{)}
+00122 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_CLOCK\_EDGE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EDGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EDGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_ClockEdge_Rising\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00123                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EDGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_ClockEdge_Falling\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00124 \textcolor{comment}{/**}
+00125 \textcolor{comment}{  * @\}}
+00126 \textcolor{comment}{  */}
+00127 
+00128 \textcolor{comment}{/** @defgroup SDIO\_Clock\_Bypass }
+00129 \textcolor{comment}{  * @\{}
+00130 \textcolor{comment}{  */}
+00131 
+00132 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_ClockBypass\_Disable}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00133 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_ClockBypass\_Enable}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000400\textcolor{preprocessor}{)}
+00134 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_CLOCK\_BYPASS}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BYPASS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BYPASS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_ClockBypass_Disable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00135                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BYPASS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_ClockBypass_Enable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00136 \textcolor{comment}{/**}
+00137 \textcolor{comment}{  * @\}}
+00138 \textcolor{comment}{  */}
+00139 
+00140 \textcolor{comment}{/** @defgroup SDIO\_Clock\_Power\_Save }
+00141 \textcolor{comment}{  * @\{}
+00142 \textcolor{comment}{  */}
+00143 
+00144 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_ClockPowerSave\_Disable}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00145 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_ClockPowerSave\_Enable}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000200\textcolor{preprocessor}{)}
+00146 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_CLOCK\_POWER\_SAVE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SAVE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SAVE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SDIO_ClockPowerSave_Disable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00147                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SAVE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SDIO_ClockPowerSave_Enable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00148 \textcolor{comment}{/**}
+00149 \textcolor{comment}{  * @\}}
+00150 \textcolor{comment}{  */}
+00151 
+00152 \textcolor{comment}{/** @defgroup SDIO\_Bus\_Wide }
+00153 \textcolor{comment}{  * @\{}
+00154 \textcolor{comment}{  */}
+00155 
+00156 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_BusWide\_1b}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00157 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_BusWide\_4b}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000800\textcolor{preprocessor}{)}
+00158 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_BusWide\_8b}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00001000\textcolor{preprocessor}{)}
+00159 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_BUS\_WIDE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WIDE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WIDE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_BusWide_1b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WIDE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SDIO_BusWide_4b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00160                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WIDE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_BusWide_8b\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00161 
+00162 \textcolor{comment}{/**}
+00163 \textcolor{comment}{  * @\}}
+00164 \textcolor{comment}{  */}
+00165 
+00166 \textcolor{comment}{/** @defgroup SDIO\_Hardware\_Flow\_Control }
+00167 \textcolor{comment}{  * @\{}
+00168 \textcolor{comment}{  */}
+00169 
+00170 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_HardwareFlowControl\_Disable}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00171 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_HardwareFlowControl\_Enable}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00004000\textcolor{preprocessor}{)}
+00172 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_HARDWARE\_FLOW\_CONTROL}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CONTROL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CONTROL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SDIO_HardwareFlowControl_Disable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00173                                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CONTROL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SDIO_HardwareFlowControl_Enable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00174 \textcolor{comment}{/**}
+00175 \textcolor{comment}{  * @\}}
+00176 \textcolor{comment}{  */}
+00177 
+00178 \textcolor{comment}{/** @defgroup SDIO\_Power\_State }
+00179 \textcolor{comment}{  * @\{}
+00180 \textcolor{comment}{  */}
+00181 
+00182 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_PowerState\_OFF}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00183 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_PowerState\_ON}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000003\textcolor{preprocessor}{)}
+00184 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_POWER\_STATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_PowerState_OFF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SDIO_PowerState_ON\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00185 \textcolor{comment}{/**}
+00186 \textcolor{comment}{  * @\}}
+00187 \textcolor{comment}{  */}
+00188 
+00189 
+00190 \textcolor{comment}{/** @defgroup SDIO\_Interrupt\_sources}
+00191 \textcolor{comment}{  * @\{}
+00192 \textcolor{comment}{  */}
+00193 
+00194 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_CCRCFAIL}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00195 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_DCRCFAIL}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}
+00196 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_CTIMEOUT}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)}
+00197 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_DTIMEOUT}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000008\textcolor{preprocessor}{)}
+00198 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_TXUNDERR}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000010\textcolor{preprocessor}{)}
+00199 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_RXOVERR}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000020\textcolor{preprocessor}{)}
+00200 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_CMDREND}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000040\textcolor{preprocessor}{)}
+00201 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_CMDSENT}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000080\textcolor{preprocessor}{)}
+00202 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_DATAEND}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000100\textcolor{preprocessor}{)}
+00203 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_STBITERR}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000200\textcolor{preprocessor}{)}
+00204 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_DBCKEND}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000400\textcolor{preprocessor}{)}
+00205 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_CMDACT}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000800\textcolor{preprocessor}{)}
+00206 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_TXACT}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00001000\textcolor{preprocessor}{)}
+00207 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_RXACT}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00002000\textcolor{preprocessor}{)}
+00208 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_TXFIFOHE}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00004000\textcolor{preprocessor}{)}
+00209 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_RXFIFOHF}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00008000\textcolor{preprocessor}{)}
+00210 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_TXFIFOF}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00010000\textcolor{preprocessor}{)}
+00211 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_RXFIFOF}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00020000\textcolor{preprocessor}{)}
+00212 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_TXFIFOE}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00040000\textcolor{preprocessor}{)}
+00213 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_RXFIFOE}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00080000\textcolor{preprocessor}{)}
+00214 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_TXDAVL}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00100000\textcolor{preprocessor}{)}
+00215 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_RXDAVL}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00200000\textcolor{preprocessor}{)}
+00216 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_SDIOIT}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00400000\textcolor{preprocessor}{)}
+00217 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_IT\_CEATAEND}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00800000\textcolor{preprocessor}{)}
+00218 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFF000000\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00219 \textcolor{comment}{/**}
+00220 \textcolor{comment}{  * @\}}
+00221 \textcolor{comment}{  */}
+00222 
+00223 \textcolor{comment}{/** @defgroup SDIO\_Command\_Index}
+00224 \textcolor{comment}{  * @\{}
+00225 \textcolor{comment}{  */}
+00226 
+00227 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_CMD\_INDEX}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INDEX}\textcolor{preprocessor}{)}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INDEX}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<} 0x40\textcolor{preprocessor}{)}
+00228 \textcolor{comment}{/**}
+00229 \textcolor{comment}{  * @\}}
+00230 \textcolor{comment}{  */}
+00231 
+00232 \textcolor{comment}{/** @defgroup SDIO\_Response\_Type}
+00233 \textcolor{comment}{  * @\{}
+00234 \textcolor{comment}{  */}
+00235 
+00236 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_Response\_No}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00237 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_Response\_Short}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000040\textcolor{preprocessor}{)}
+00238 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_Response\_Long}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000000C0\textcolor{preprocessor}{)}
+00239 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_RESPONSE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RESPONSE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RESPONSE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_Response_No\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00240                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RESPONSE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_Response_Short\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00241                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RESPONSE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_Response_Long\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00242 \textcolor{comment}{/**}
+00243 \textcolor{comment}{  * @\}}
+00244 \textcolor{comment}{  */}
+00245 
+00246 \textcolor{comment}{/** @defgroup SDIO\_Wait\_Interrupt\_State}
+00247 \textcolor{comment}{  * @\{}
+00248 \textcolor{comment}{  */}
+00249 
+00250 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_Wait\_No}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< SDIO No Wait, TimeOut is
+       enabled */}
+00251 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_Wait\_IT}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000100\textcolor{preprocessor}{)} \textcolor{comment}{/*!< SDIO Wait Interrupt Request */}
+00252 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_Wait\_Pend}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000200\textcolor{preprocessor}{)} \textcolor{comment}{/*!< SDIO Wait End of transfer */}
+00253 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_WAIT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WAIT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WAIT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_Wait_No\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WAIT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SDIO_Wait_IT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00254                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WAIT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_Wait_Pend\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00255 \textcolor{comment}{/**}
+00256 \textcolor{comment}{  * @\}}
+00257 \textcolor{comment}{  */}
+00258 
+00259 \textcolor{comment}{/** @defgroup SDIO\_CPSM\_State}
+00260 \textcolor{comment}{  * @\{}
+00261 \textcolor{comment}{  */}
+00262 
+00263 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_CPSM\_Disable}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00264 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_CPSM\_Enable}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000400\textcolor{preprocessor}{)}
+00265 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_CPSM}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CPSM}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CPSM}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_CPSM_Enable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CPSM}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SDIO_CPSM_Disable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00266 \textcolor{comment}{/**}
+00267 \textcolor{comment}{  * @\}}
+00268 \textcolor{comment}{  */}
+00269 
+00270 \textcolor{comment}{/** @defgroup SDIO\_Response\_Registers}
+00271 \textcolor{comment}{  * @\{}
+00272 \textcolor{comment}{  */}
+00273 
+00274 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_RESP1}                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00275 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_RESP2}                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)}
+00276 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_RESP3}                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000008\textcolor{preprocessor}{)}
+00277 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_RESP4}                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0000000C\textcolor{preprocessor}{)}
+00278 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_RESP}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RESP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RESP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_RESP1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RESP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_RESP2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00279                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RESP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_RESP3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RESP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_RESP4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00280 \textcolor{comment}{/**}
+00281 \textcolor{comment}{  * @\}}
+00282 \textcolor{comment}{  */}
+00283 
+00284 \textcolor{comment}{/** @defgroup SDIO\_Data\_Length }
+00285 \textcolor{comment}{  * @\{}
+00286 \textcolor{comment}{  */}
+00287 
+00288 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_DATA\_LENGTH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0x01FFFFFF\textcolor{preprocessor}{)}
+00289 \textcolor{comment}{/**}
+00290 \textcolor{comment}{  * @\}}
+00291 \textcolor{comment}{  */}
+00292 
+00293 \textcolor{comment}{/** @defgroup SDIO\_Data\_Block\_Size }
+00294 \textcolor{comment}{  * @\{}
+00295 \textcolor{comment}{  */}
+00296 
+00297 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_DataBlockSize\_1b}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00298 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_DataBlockSize\_2b}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000010\textcolor{preprocessor}{)}
+00299 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_DataBlockSize\_4b}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000020\textcolor{preprocessor}{)}
+00300 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_DataBlockSize\_8b}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000030\textcolor{preprocessor}{)}
+00301 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_DataBlockSize\_16b}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000040\textcolor{preprocessor}{)}
+00302 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_DataBlockSize\_32b}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000050\textcolor{preprocessor}{)}
+00303 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_DataBlockSize\_64b}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000060\textcolor{preprocessor}{)}
+00304 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_DataBlockSize\_128b}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000070\textcolor{preprocessor}{)}
+00305 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_DataBlockSize\_256b}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000080\textcolor{preprocessor}{)}
+00306 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_DataBlockSize\_512b}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000090\textcolor{preprocessor}{)}
+00307 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_DataBlockSize\_1024b}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000000A0\textcolor{preprocessor}{)}
+00308 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_DataBlockSize\_2048b}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000000B0\textcolor{preprocessor}{)}
+00309 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_DataBlockSize\_4096b}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000000C0\textcolor{preprocessor}{)}
+00310 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_DataBlockSize\_8192b}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000000D0\textcolor{preprocessor}{)}
+00311 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_DataBlockSize\_16384b}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000000E0\textcolor{preprocessor}{)}
+00312 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_BLOCK\_SIZE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_DataBlockSize_1b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00313                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_DataBlockSize_2b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00314                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_DataBlockSize_4b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00315                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_DataBlockSize_8b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00316                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_DataBlockSize_16b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00317                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_DataBlockSize_32b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00318                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_DataBlockSize_64b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00319                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_DataBlockSize_128b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00320                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_DataBlockSize_256b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00321                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_DataBlockSize_512b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00322                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_DataBlockSize_1024b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00323                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_DataBlockSize_2048b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00324                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_DataBlockSize_4096b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00325                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_DataBlockSize_8192b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00326                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_DataBlockSize_16384b\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00327 \textcolor{comment}{/**}
+00328 \textcolor{comment}{  * @\}}
+00329 \textcolor{comment}{  */}
+00330 
+00331 \textcolor{comment}{/** @defgroup SDIO\_Transfer\_Direction }
+00332 \textcolor{comment}{  * @\{}
+00333 \textcolor{comment}{  */}
+00334 
+00335 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_TransferDir\_ToCard}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00336 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_TransferDir\_ToSDIO}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}
+00337 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_TRANSFER\_DIR}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_TransferDir_ToCard\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00338                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_TransferDir_ToSDIO\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00339 \textcolor{comment}{/**}
+00340 \textcolor{comment}{  * @\}}
+00341 \textcolor{comment}{  */}
+00342 
+00343 \textcolor{comment}{/** @defgroup SDIO\_Transfer\_Type }
+00344 \textcolor{comment}{  * @\{}
+00345 \textcolor{comment}{  */}
+00346 
+00347 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_TransferMode\_Block}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00348 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_TransferMode\_Stream}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)}
+00349 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_TRANSFER\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_TransferMode_Stream\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00350                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_TransferMode_Block\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00351 \textcolor{comment}{/**}
+00352 \textcolor{comment}{  * @\}}
+00353 \textcolor{comment}{  */}
+00354 
+00355 \textcolor{comment}{/** @defgroup SDIO\_DPSM\_State }
+00356 \textcolor{comment}{  * @\{}
+00357 \textcolor{comment}{  */}
+00358 
+00359 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_DPSM\_Disable}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00360 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_DPSM\_Enable}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00361 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_DPSM}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DPSM}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DPSM}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_DPSM_Enable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DPSM}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SDIO_DPSM_Disable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00362 \textcolor{comment}{/**}
+00363 \textcolor{comment}{  * @\}}
+00364 \textcolor{comment}{  */}
+00365 
+00366 \textcolor{comment}{/** @defgroup SDIO\_Flags }
+00367 \textcolor{comment}{  * @\{}
+00368 \textcolor{comment}{  */}
+00369 
+00370 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_CCRCFAIL}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00371 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_DCRCFAIL}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}
+00372 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_CTIMEOUT}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)}
+00373 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_DTIMEOUT}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000008\textcolor{preprocessor}{)}
+00374 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_TXUNDERR}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000010\textcolor{preprocessor}{)}
+00375 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_RXOVERR}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000020\textcolor{preprocessor}{)}
+00376 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_CMDREND}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000040\textcolor{preprocessor}{)}
+00377 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_CMDSENT}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000080\textcolor{preprocessor}{)}
+00378 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_DATAEND}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000100\textcolor{preprocessor}{)}
+00379 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_STBITERR}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000200\textcolor{preprocessor}{)}
+00380 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_DBCKEND}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000400\textcolor{preprocessor}{)}
+00381 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_CMDACT}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000800\textcolor{preprocessor}{)}
+00382 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_TXACT}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00001000\textcolor{preprocessor}{)}
+00383 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_RXACT}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00002000\textcolor{preprocessor}{)}
+00384 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_TXFIFOHE}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00004000\textcolor{preprocessor}{)}
+00385 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_RXFIFOHF}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00008000\textcolor{preprocessor}{)}
+00386 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_TXFIFOF}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00010000\textcolor{preprocessor}{)}
+00387 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_RXFIFOF}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00020000\textcolor{preprocessor}{)}
+00388 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_TXFIFOE}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00040000\textcolor{preprocessor}{)}
+00389 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_RXFIFOE}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00080000\textcolor{preprocessor}{)}
+00390 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_TXDAVL}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00100000\textcolor{preprocessor}{)}
+00391 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_RXDAVL}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00200000\textcolor{preprocessor}{)}
+00392 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_SDIOIT}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00400000\textcolor{preprocessor}{)}
+00393 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_FLAG\_CEATAEND}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00800000\textcolor{preprocessor}{)}
+00394 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_CCRCFAIL\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00395                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_DCRCFAIL\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00396                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_CTIMEOUT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00397                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_DTIMEOUT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00398                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_TXUNDERR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00399                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_RXOVERR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00400                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_CMDREND\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00401                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_CMDSENT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00402                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_DATAEND\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00403                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_STBITERR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00404                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_DBCKEND\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00405                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_CMDACT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00406                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_TXACT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00407                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_RXACT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00408                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_TXFIFOHE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00409                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_RXFIFOHF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00410                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_TXFIFOF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00411                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_RXFIFOF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00412                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_TXFIFOE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00413                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_RXFIFOE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00414                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_TXDAVL\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00415                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_RXDAVL\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00416                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_SDIOIT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00417                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_FLAG_CEATAEND\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00418 
+00419 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_CLEAR\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFF3FF800\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}
+      0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00420 
+00421 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_GET\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_CCRCFAIL\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00422                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_DCRCFAIL\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00423                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_CTIMEOUT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00424                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_DTIMEOUT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00425                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_TXUNDERR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00426                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_RXOVERR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00427                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_CMDREND\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00428                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_CMDSENT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00429                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_DATAEND\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00430                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_STBITERR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00431                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_DBCKEND\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00432                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_CMDACT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00433                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_TXACT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00434                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_RXACT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00435                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_TXFIFOHE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00436                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_RXFIFOHF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00437                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_TXFIFOF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00438                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_RXFIFOF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00439                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_TXFIFOE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00440                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_RXFIFOE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00441                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_TXDAVL\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00442                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_RXDAVL\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00443                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_SDIOIT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00444                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{==} SDIO_IT_CEATAEND\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00445 
+00446 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_CLEAR\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFF3FF800\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00447 
+00448 \textcolor{comment}{/**}
+00449 \textcolor{comment}{  * @\}}
+00450 \textcolor{comment}{  */}
+00451 
+00452 \textcolor{comment}{/** @defgroup SDIO\_Read\_Wait\_Mode }
+00453 \textcolor{comment}{  * @\{}
+00454 \textcolor{comment}{  */}
+00455 
+00456 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_ReadWaitMode\_CLK}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00457 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SDIO\_ReadWaitMode\_DATA2}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00458 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SDIO\_READWAIT\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_ReadWaitMode_CLK\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00459                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SDIO_ReadWaitMode_DATA2\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00460 \textcolor{comment}{/**}
+00461 \textcolor{comment}{  * @\}}
+00462 \textcolor{comment}{  */}
+00463 
+00464 \textcolor{comment}{/**}
+00465 \textcolor{comment}{  * @\}}
+00466 \textcolor{comment}{  */}
+00467 
+00468 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00469 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00470 \textcolor{comment}{/*  Function used to set the SDIO configuration to the default reset state ****/}
+00471 \textcolor{keywordtype}{void} SDIO_DeInit(\textcolor{keywordtype}{void});
+00472 
+00473 \textcolor{comment}{/* Initialization and Configuration functions *********************************/}
+00474 \textcolor{keywordtype}{void} SDIO_Init(SDIO\_InitTypeDef* SDIO\_InitStruct);
+00475 \textcolor{keywordtype}{void} SDIO_StructInit(SDIO\_InitTypeDef* SDIO\_InitStruct);
+00476 \textcolor{keywordtype}{void} SDIO_ClockCmd(FunctionalState NewState);
+00477 \textcolor{keywordtype}{void} SDIO_SetPowerState(uint32\_t SDIO\_PowerState);
+00478 uint32\_t SDIO_GetPowerState(\textcolor{keywordtype}{void});
+00479 
+00480 \textcolor{comment}{/* Command path state machine (CPSM) management functions *********************/}
+00481 \textcolor{keywordtype}{void} SDIO_SendCommand(SDIO\_CmdInitTypeDef *SDIO\_CmdInitStruct);
+00482 \textcolor{keywordtype}{void} SDIO_CmdStructInit(SDIO\_CmdInitTypeDef* SDIO\_CmdInitStruct);
+00483 uint8\_t SDIO_GetCommandResponse(\textcolor{keywordtype}{void});
+00484 uint32\_t SDIO_GetResponse(uint32\_t SDIO\_RESP);
+00485 
+00486 \textcolor{comment}{/* Data path state machine (DPSM) management functions ************************/}
+00487 \textcolor{keywordtype}{void} SDIO_DataConfig(SDIO\_DataInitTypeDef* SDIO\_DataInitStruct);
+00488 \textcolor{keywordtype}{void} SDIO_DataStructInit(SDIO\_DataInitTypeDef* SDIO\_DataInitStruct);
+00489 uint32\_t SDIO_GetDataCounter(\textcolor{keywordtype}{void});
+00490 uint32\_t SDIO_ReadData(\textcolor{keywordtype}{void});
+00491 \textcolor{keywordtype}{void} SDIO_WriteData(uint32\_t Data);
+00492 uint32\_t SDIO_GetFIFOCount(\textcolor{keywordtype}{void});
+00493 
+00494 \textcolor{comment}{/* SDIO IO Cards mode management functions ************************************/}
+00495 \textcolor{keywordtype}{void} SDIO_StartSDIOReadWait(FunctionalState NewState);
+00496 \textcolor{keywordtype}{void} SDIO_StopSDIOReadWait(FunctionalState NewState);
+00497 \textcolor{keywordtype}{void} SDIO_SetSDIOReadWaitMode(uint32\_t SDIO\_ReadWaitMode);
+00498 \textcolor{keywordtype}{void} SDIO_SetSDIOOperation(FunctionalState NewState);
+00499 \textcolor{keywordtype}{void} SDIO_SendSDIOSuspendCmd(FunctionalState NewState);
+00500 
+00501 \textcolor{comment}{/* CE-ATA mode management functions *******************************************/}
+00502 \textcolor{keywordtype}{void} SDIO_CommandCompletionCmd(FunctionalState NewState);
+00503 \textcolor{keywordtype}{void} SDIO_CEATAITCmd(FunctionalState NewState);
+00504 \textcolor{keywordtype}{void} SDIO_SendCEATACmd(FunctionalState NewState);
+00505 
+00506 \textcolor{comment}{/* DMA transfers management functions *****************************************/}
+00507 \textcolor{keywordtype}{void} SDIO_DMACmd(FunctionalState NewState);
+00508 
+00509 \textcolor{comment}{/* Interrupts and flags management functions **********************************/}
+00510 \textcolor{keywordtype}{void} SDIO_ITConfig(uint32\_t SDIO\_IT, FunctionalState NewState);
+00511 FlagStatus SDIO_GetFlagStatus(uint32\_t SDIO\_FLAG);
+00512 \textcolor{keywordtype}{void} SDIO_ClearFlag(uint32\_t SDIO\_FLAG);
+00513 ITStatus SDIO_GetITStatus(uint32\_t SDIO\_IT);
+00514 \textcolor{keywordtype}{void} SDIO_ClearITPendingBit(uint32\_t SDIO\_IT);
+00515 
+00516 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00517 \}
+00518 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00519 
+00520 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/* \_\_STM32F4xx\_SDIO\_H */}
+00521 
+00522 \textcolor{comment}{/**}
+00523 \textcolor{comment}{  * @\}}
+00524 \textcolor{comment}{  */}
+00525 
+00526 \textcolor{comment}{/**}
+00527 \textcolor{comment}{  * @\}}
+00528 \textcolor{comment}{  */}
+00529 
+00530 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

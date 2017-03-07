@@ -1,0 +1,763 @@
+\section{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Peripheral/src/i2c.c File Reference}
+\label{i2c_8c}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Peripheral/src/i2c.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Peripheral/src/i2c.\+c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}i2c.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+gpio.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+i2c.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+rcc.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}board-\/st\+\_\+discovery.\+h\char`\"{}}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ Delay}~\textbf{ mdelay}
+\item 
+\#define \textbf{ I2\+Cx\+\_\+\+F\+L\+A\+G\+\_\+\+T\+I\+M\+E\+O\+UT}~((uint32\+\_\+t) 900)
+\item 
+\#define \textbf{ I2\+Cx\+\_\+\+L\+O\+N\+G\+\_\+\+T\+I\+M\+E\+O\+UT}~((uint32\+\_\+t) (300 $\ast$ \textbf{ I2\+Cx\+\_\+\+F\+L\+A\+G\+\_\+\+T\+I\+M\+E\+O\+UT}))
+\item 
+\#define \textbf{ S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT}~\textbf{ G\+P\+I\+OB}
+\item 
+\#define \textbf{ S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK}~\textbf{ R\+C\+C\+\_\+\+A\+H\+B1\+Periph\+\_\+\+G\+P\+I\+OB}
+\item 
+\#define \textbf{ S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+P\+IN}~\textbf{ G\+P\+I\+O\+\_\+\+Pin\+\_\+10}
+\item 
+\#define \textbf{ S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+P\+I\+N\+S\+O\+U\+R\+CE}~\textbf{ G\+P\+I\+O\+\_\+\+Pin\+Source10}
+\item 
+\#define \textbf{ S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT}~\textbf{ G\+P\+I\+OB}
+\item 
+\#define \textbf{ S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK}~\textbf{ R\+C\+C\+\_\+\+A\+H\+B1\+Periph\+\_\+\+G\+P\+I\+OB}
+\item 
+\#define \textbf{ S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+P\+IN}~\textbf{ G\+P\+I\+O\+\_\+\+Pin\+\_\+11}
+\item 
+\#define \textbf{ S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+P\+I\+N\+S\+O\+U\+R\+CE}~\textbf{ G\+P\+I\+O\+\_\+\+Pin\+Source11}
+\item 
+\#define \textbf{ S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+R\+C\+C\+\_\+\+C\+LK}~\textbf{ R\+C\+C\+\_\+\+A\+P\+B1\+Periph\+\_\+\+I2\+C2}
+\item 
+\#define \textbf{ S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+AF}~\textbf{ G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+I2\+C2}
+\item 
+\#define \textbf{ W\+A\+I\+T\+\_\+\+F\+O\+R\+\_\+\+F\+L\+AG}(flag,  value,  timeout,  errorcode)
+\item 
+\#define \textbf{ C\+L\+E\+A\+R\+\_\+\+A\+D\+D\+R\+\_\+\+B\+IT}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+unsigned long \textbf{ S\+T\+\_\+\+Sensors\+\_\+\+I2\+C\+\_\+\+Write\+Register} (unsigned char Address, unsigned char Register\+Addr, unsigned short Register\+Len, const unsigned char $\ast$Register\+Value)
+\begin{DoxyCompactList}\small\item\em Writes a Byte to a given register to the sensors through the control interface (I2C) \end{DoxyCompactList}\item 
+unsigned long \textbf{ S\+T\+\_\+\+Sensors\+\_\+\+I2\+C\+\_\+\+Read\+Register} (unsigned char Address, unsigned char Register\+Addr, unsigned short Register\+Len, unsigned char $\ast$Register\+Value)
+\item 
+void \textbf{ I2c\+Master\+\_\+\+Init} (void)
+\item 
+static uint32\+\_\+t \textbf{ I2\+Cx\+\_\+\+T\+I\+M\+E\+O\+U\+T\+\_\+\+User\+Callback} (char value)
+\begin{DoxyCompactList}\small\item\em Basic management of the timeout situation. \end{DoxyCompactList}\item 
+int \textbf{ Sensors\+\_\+\+I2\+C\+\_\+\+Write\+Register} (unsigned char slave\+\_\+addr, unsigned char reg\+\_\+addr, unsigned short len, const unsigned char $\ast$data\+\_\+ptr)
+\item 
+int \textbf{ Sensors\+\_\+\+I2\+C\+\_\+\+Read\+Register} (unsigned char slave\+\_\+addr, unsigned char reg\+\_\+addr, unsigned short len, unsigned char $\ast$data\+\_\+ptr)
+\item 
+void \textbf{ Set\+\_\+\+I2\+C\+\_\+\+Retry} (unsigned short ml\+\_\+sec)
+\item 
+unsigned short \textbf{ Get\+\_\+\+I2\+C\+\_\+\+Retry} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static unsigned short \textbf{ R\+E\+T\+R\+Y\+\_\+\+I\+N\+\_\+\+M\+L\+S\+EC} = 55
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\label{i2c_8c_a3c1ea0c9316ef565b7eb23f20db740d8}} 
+\index{i2c.\+c@{i2c.\+c}!C\+L\+E\+A\+R\+\_\+\+A\+D\+D\+R\+\_\+\+B\+IT@{C\+L\+E\+A\+R\+\_\+\+A\+D\+D\+R\+\_\+\+B\+IT}}
+\index{C\+L\+E\+A\+R\+\_\+\+A\+D\+D\+R\+\_\+\+B\+IT@{C\+L\+E\+A\+R\+\_\+\+A\+D\+D\+R\+\_\+\+B\+IT}!i2c.\+c@{i2c.\+c}}
+\subsubsection{C\+L\+E\+A\+R\+\_\+\+A\+D\+D\+R\+\_\+\+B\+IT}
+{\footnotesize\ttfamily \#define C\+L\+E\+A\+R\+\_\+\+A\+D\+D\+R\+\_\+\+B\+IT}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}
+I2C_ReadRegister(SENSORS_I2C, I2C_Register_SR1);\(\backslash\)
+                            I2C\_ReadRegister(SENSORS_I2C, I2C_Register_SR2);\(\backslash\)
+\end{DoxyCode}
+
+
+Definition at line \textbf{ 43} of file \textbf{ i2c.\+c}.
+
+\mbox{\label{i2c_8c_ada5117fc4f5cae9ee7091b2fd013ad02}} 
+\index{i2c.\+c@{i2c.\+c}!Delay@{Delay}}
+\index{Delay@{Delay}!i2c.\+c@{i2c.\+c}}
+\subsubsection{Delay}
+{\footnotesize\ttfamily \#define Delay~\textbf{ mdelay}}
+
+
+
+Definition at line \textbf{ 17} of file \textbf{ i2c.\+c}.
+
+\mbox{\label{i2c_8c_a98e343bcbb7cabb3c7d456649e3ebf1f}} 
+\index{i2c.\+c@{i2c.\+c}!I2\+Cx\+\_\+\+F\+L\+A\+G\+\_\+\+T\+I\+M\+E\+O\+UT@{I2\+Cx\+\_\+\+F\+L\+A\+G\+\_\+\+T\+I\+M\+E\+O\+UT}}
+\index{I2\+Cx\+\_\+\+F\+L\+A\+G\+\_\+\+T\+I\+M\+E\+O\+UT@{I2\+Cx\+\_\+\+F\+L\+A\+G\+\_\+\+T\+I\+M\+E\+O\+UT}!i2c.\+c@{i2c.\+c}}
+\subsubsection{I2\+Cx\+\_\+\+F\+L\+A\+G\+\_\+\+T\+I\+M\+E\+O\+UT}
+{\footnotesize\ttfamily \#define I2\+Cx\+\_\+\+F\+L\+A\+G\+\_\+\+T\+I\+M\+E\+O\+UT~((uint32\+\_\+t) 900)}
+
+
+
+Definition at line \textbf{ 20} of file \textbf{ i2c.\+c}.
+
+\mbox{\label{i2c_8c_acc7f302a7e86eed787dae3e7795e2c77}} 
+\index{i2c.\+c@{i2c.\+c}!I2\+Cx\+\_\+\+L\+O\+N\+G\+\_\+\+T\+I\+M\+E\+O\+UT@{I2\+Cx\+\_\+\+L\+O\+N\+G\+\_\+\+T\+I\+M\+E\+O\+UT}}
+\index{I2\+Cx\+\_\+\+L\+O\+N\+G\+\_\+\+T\+I\+M\+E\+O\+UT@{I2\+Cx\+\_\+\+L\+O\+N\+G\+\_\+\+T\+I\+M\+E\+O\+UT}!i2c.\+c@{i2c.\+c}}
+\subsubsection{I2\+Cx\+\_\+\+L\+O\+N\+G\+\_\+\+T\+I\+M\+E\+O\+UT}
+{\footnotesize\ttfamily \#define I2\+Cx\+\_\+\+L\+O\+N\+G\+\_\+\+T\+I\+M\+E\+O\+UT~((uint32\+\_\+t) (300 $\ast$ \textbf{ I2\+Cx\+\_\+\+F\+L\+A\+G\+\_\+\+T\+I\+M\+E\+O\+UT}))}
+
+
+
+Definition at line \textbf{ 21} of file \textbf{ i2c.\+c}.
+
+\mbox{\label{i2c_8c_acfe3e05b326e55d634c7d0a95cc1292e}} 
+\index{i2c.\+c@{i2c.\+c}!S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+AF@{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+AF}}
+\index{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+AF@{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+AF}!i2c.\+c@{i2c.\+c}}
+\subsubsection{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+AF}
+{\footnotesize\ttfamily \#define S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+AF~\textbf{ G\+P\+I\+O\+\_\+\+A\+F\+\_\+\+I2\+C2}}
+
+
+
+Definition at line \textbf{ 35} of file \textbf{ i2c.\+c}.
+
+\mbox{\label{i2c_8c_a90bb13900b52fb30ed9a47b80ed37562}} 
+\index{i2c.\+c@{i2c.\+c}!S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+R\+C\+C\+\_\+\+C\+LK@{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+R\+C\+C\+\_\+\+C\+LK}}
+\index{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+R\+C\+C\+\_\+\+C\+LK@{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+R\+C\+C\+\_\+\+C\+LK}!i2c.\+c@{i2c.\+c}}
+\subsubsection{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+R\+C\+C\+\_\+\+C\+LK}
+{\footnotesize\ttfamily \#define S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+R\+C\+C\+\_\+\+C\+LK~\textbf{ R\+C\+C\+\_\+\+A\+P\+B1\+Periph\+\_\+\+I2\+C2}}
+
+
+
+Definition at line \textbf{ 34} of file \textbf{ i2c.\+c}.
+
+\mbox{\label{i2c_8c_aa0bc2d64ee4d521c85677f19569df261}} 
+\index{i2c.\+c@{i2c.\+c}!S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK@{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK}}
+\index{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK@{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK}!i2c.\+c@{i2c.\+c}}
+\subsubsection{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK}
+{\footnotesize\ttfamily \#define S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK~\textbf{ R\+C\+C\+\_\+\+A\+H\+B1\+Periph\+\_\+\+G\+P\+I\+OB}}
+
+
+
+Definition at line \textbf{ 25} of file \textbf{ i2c.\+c}.
+
+\mbox{\label{i2c_8c_ac4ce5d3f5e11ba39cd72f964e2d7691b}} 
+\index{i2c.\+c@{i2c.\+c}!S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+P\+IN@{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+P\+IN}}
+\index{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+P\+IN@{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+P\+IN}!i2c.\+c@{i2c.\+c}}
+\subsubsection{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+P\+IN}
+{\footnotesize\ttfamily \#define S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+P\+IN~\textbf{ G\+P\+I\+O\+\_\+\+Pin\+\_\+10}}
+
+
+
+Definition at line \textbf{ 26} of file \textbf{ i2c.\+c}.
+
+\mbox{\label{i2c_8c_a42f7d17cbf3b6f87eb29187e7eaadf04}} 
+\index{i2c.\+c@{i2c.\+c}!S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+P\+I\+N\+S\+O\+U\+R\+CE@{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+P\+I\+N\+S\+O\+U\+R\+CE}}
+\index{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+P\+I\+N\+S\+O\+U\+R\+CE@{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+P\+I\+N\+S\+O\+U\+R\+CE}!i2c.\+c@{i2c.\+c}}
+\subsubsection{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+P\+I\+N\+S\+O\+U\+R\+CE}
+{\footnotesize\ttfamily \#define S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+P\+I\+N\+S\+O\+U\+R\+CE~\textbf{ G\+P\+I\+O\+\_\+\+Pin\+Source10}}
+
+
+
+Definition at line \textbf{ 27} of file \textbf{ i2c.\+c}.
+
+\mbox{\label{i2c_8c_a3c9f0108edbba7118274a442315e036e}} 
+\index{i2c.\+c@{i2c.\+c}!S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT@{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT}}
+\index{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT@{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT}!i2c.\+c@{i2c.\+c}}
+\subsubsection{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT}
+{\footnotesize\ttfamily \#define S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+C\+L\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT~\textbf{ G\+P\+I\+OB}}
+
+
+
+Definition at line \textbf{ 24} of file \textbf{ i2c.\+c}.
+
+\mbox{\label{i2c_8c_a7d51ed1434fc55125d8dea9c8e3ef431}} 
+\index{i2c.\+c@{i2c.\+c}!S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK@{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK}}
+\index{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK@{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK}!i2c.\+c@{i2c.\+c}}
+\subsubsection{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK}
+{\footnotesize\ttfamily \#define S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+C\+LK~\textbf{ R\+C\+C\+\_\+\+A\+H\+B1\+Periph\+\_\+\+G\+P\+I\+OB}}
+
+
+
+Definition at line \textbf{ 30} of file \textbf{ i2c.\+c}.
+
+\mbox{\label{i2c_8c_a2ad2452237077a4a37753e856ff55f15}} 
+\index{i2c.\+c@{i2c.\+c}!S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+P\+IN@{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+P\+IN}}
+\index{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+P\+IN@{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+P\+IN}!i2c.\+c@{i2c.\+c}}
+\subsubsection{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+P\+IN}
+{\footnotesize\ttfamily \#define S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+P\+IN~\textbf{ G\+P\+I\+O\+\_\+\+Pin\+\_\+11}}
+
+
+
+Definition at line \textbf{ 31} of file \textbf{ i2c.\+c}.
+
+\mbox{\label{i2c_8c_a4a5ad52bc958fe440418c9e46e2b1b30}} 
+\index{i2c.\+c@{i2c.\+c}!S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+P\+I\+N\+S\+O\+U\+R\+CE@{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+P\+I\+N\+S\+O\+U\+R\+CE}}
+\index{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+P\+I\+N\+S\+O\+U\+R\+CE@{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+P\+I\+N\+S\+O\+U\+R\+CE}!i2c.\+c@{i2c.\+c}}
+\subsubsection{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+P\+I\+N\+S\+O\+U\+R\+CE}
+{\footnotesize\ttfamily \#define S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+P\+I\+N\+S\+O\+U\+R\+CE~\textbf{ G\+P\+I\+O\+\_\+\+Pin\+Source11}}
+
+
+
+Definition at line \textbf{ 32} of file \textbf{ i2c.\+c}.
+
+\mbox{\label{i2c_8c_ae97cf7dcf0399e53564be92f1b81683d}} 
+\index{i2c.\+c@{i2c.\+c}!S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT@{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT}}
+\index{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT@{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT}!i2c.\+c@{i2c.\+c}}
+\subsubsection{S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT}
+{\footnotesize\ttfamily \#define S\+E\+N\+S\+O\+R\+S\+\_\+\+I2\+C\+\_\+\+S\+D\+A\+\_\+\+G\+P\+I\+O\+\_\+\+P\+O\+RT~\textbf{ G\+P\+I\+OB}}
+
+
+
+Definition at line \textbf{ 29} of file \textbf{ i2c.\+c}.
+
+\mbox{\label{i2c_8c_ace8d36a89876fbb94fe548278b2db9a5}} 
+\index{i2c.\+c@{i2c.\+c}!W\+A\+I\+T\+\_\+\+F\+O\+R\+\_\+\+F\+L\+AG@{W\+A\+I\+T\+\_\+\+F\+O\+R\+\_\+\+F\+L\+AG}}
+\index{W\+A\+I\+T\+\_\+\+F\+O\+R\+\_\+\+F\+L\+AG@{W\+A\+I\+T\+\_\+\+F\+O\+R\+\_\+\+F\+L\+AG}!i2c.\+c@{i2c.\+c}}
+\subsubsection{W\+A\+I\+T\+\_\+\+F\+O\+R\+\_\+\+F\+L\+AG}
+{\footnotesize\ttfamily \#define W\+A\+I\+T\+\_\+\+F\+O\+R\+\_\+\+F\+L\+AG(\begin{DoxyParamCaption}\item[{}]{flag,  }\item[{}]{value,  }\item[{}]{timeout,  }\item[{}]{errorcode }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}
+I2CTimeout = timeout;\(\backslash\)
+          while(I2C_GetFlagStatus(SENSORS_I2C, flag) != value) \{\(\backslash\)
+            if((I2CTimeout--) == 0) return I2Cx_TIMEOUT_UserCallback(errorcode); \(\backslash\)
+          \}\(\backslash\)
+\end{DoxyCode}
+
+
+Definition at line \textbf{ 38} of file \textbf{ i2c.\+c}.
+
+
+
+\subsection{Function Documentation}
+\mbox{\label{i2c_8c_a62f1734db1e997e848ee534e49a7736f}} 
+\index{i2c.\+c@{i2c.\+c}!Get\+\_\+\+I2\+C\+\_\+\+Retry@{Get\+\_\+\+I2\+C\+\_\+\+Retry}}
+\index{Get\+\_\+\+I2\+C\+\_\+\+Retry@{Get\+\_\+\+I2\+C\+\_\+\+Retry}!i2c.\+c@{i2c.\+c}}
+\subsubsection{Get\+\_\+\+I2\+C\+\_\+\+Retry()}
+{\footnotesize\ttfamily unsigned short Get\+\_\+\+I2\+C\+\_\+\+Retry (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \textbf{ 408} of file \textbf{ i2c.\+c}.
+
+
+
+References \textbf{ R\+E\+T\+R\+Y\+\_\+\+I\+N\+\_\+\+M\+L\+S\+EC}.
+
+
+
+Referenced by \textbf{ Sensors\+\_\+\+I2\+C\+\_\+\+Read\+Register()}, and \textbf{ Sensors\+\_\+\+I2\+C\+\_\+\+Write\+Register()}.
+
+
+\begin{DoxyCode}
+00409 \{
+00410   \textcolor{keywordflow}{return} RETRY_IN_MLSEC;
+00411 \}
+\end{DoxyCode}
+\mbox{\label{i2c_8c_ae2b2e880b40601327a6ed3e146a84965}} 
+\index{i2c.\+c@{i2c.\+c}!I2c\+Master\+\_\+\+Init@{I2c\+Master\+\_\+\+Init}}
+\index{I2c\+Master\+\_\+\+Init@{I2c\+Master\+\_\+\+Init}!i2c.\+c@{i2c.\+c}}
+\subsubsection{I2c\+Master\+\_\+\+Init()}
+{\footnotesize\ttfamily void I2c\+Master\+\_\+\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \textbf{ 53} of file \textbf{ i2c.\+c}.
+
+
+
+References \textbf{ E\+N\+A\+B\+LE}, \textbf{ G\+P\+I\+O\+\_\+\+Init()}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Mode}, \textbf{ G\+P\+I\+O\+\_\+\+Mode\+\_\+\+AF}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+O\+Type}, \textbf{ G\+P\+I\+O\+\_\+\+O\+Type\+\_\+\+OD}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Pin}, \textbf{ G\+P\+I\+O\+\_\+\+Pin\+A\+F\+Config()}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Pu\+Pd}, \textbf{ G\+P\+I\+O\+\_\+\+Pu\+Pd\+\_\+\+N\+O\+P\+U\+LL}, \textbf{ G\+P\+I\+O\+\_\+\+Init\+Type\+Def\+::\+G\+P\+I\+O\+\_\+\+Speed}, \textbf{ G\+P\+I\+O\+\_\+\+Speed\+\_\+100\+M\+Hz}, \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Ack}, \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Acknowledged\+Address}, \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Clock\+Speed}, \textbf{ I2\+C\+\_\+\+Cmd()}, \textbf{ I2\+C\+\_\+\+De\+Init()}, \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Duty\+Cycle}, \textbf{ I2\+C\+\_\+\+Init()}, \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Mode}, \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Own\+Address1}, \textbf{ R\+C\+C\+\_\+\+A\+H\+B1\+Periph\+Clock\+Cmd()}, and \textbf{ R\+C\+C\+\_\+\+A\+P\+B1\+Periph\+Clock\+Cmd()}.
+
+
+
+Referenced by \textbf{ board\+\_\+init()}.
+
+
+\begin{DoxyCode}
+00054 \{
+00055   GPIO_InitTypeDef GPIO\_InitStructure;
+00056   I2C_InitTypeDef I2C\_InitStructure;
+00057 
+00058     \textcolor{comment}{/* Enable I2Cx clock */}
+00059   RCC_APB1PeriphClockCmd(SENSORS_I2C_RCC_CLK, ENABLE);
+00060 
+00061   \textcolor{comment}{/* Enable I2C GPIO clock */}
+00062   RCC_AHB1PeriphClockCmd(SENSORS_I2C_SCL_GPIO_CLK | SENSORS_I2C_SDA_GPIO_CLK, 
+      ENABLE);
+00063 
+00064   \textcolor{comment}{/* Configure I2Cx pin: SCL ----------------------------------------*/}
+00065   GPIO\_InitStructure.GPIO_Pin =  SENSORS_I2C_SCL_GPIO_PIN; 
+00066   GPIO\_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+00067   GPIO\_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+00068   GPIO\_InitStructure.GPIO_OType = GPIO_OType_OD;
+00069   GPIO\_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
+00070 
+00071   \textcolor{comment}{/* Connect pins to Periph */}
+00072   GPIO_PinAFConfig(SENSORS_I2C_SCL_GPIO_PORT, SENSORS_I2C_SCL_GPIO_PINSOURCE, 
+      SENSORS_I2C_AF);  
+00073   GPIO_Init(SENSORS_I2C_SCL_GPIO_PORT, &GPIO\_InitStructure);
+00074 
+00075   \textcolor{comment}{/* Configure I2Cx pin: SDA ----------------------------------------*/}
+00076   GPIO\_InitStructure.GPIO_Pin = SENSORS_I2C_SDA_GPIO_PIN; 
+00077 
+00078   \textcolor{comment}{/* Connect pins to Periph */}
+00079   GPIO_PinAFConfig(SENSORS_I2C_SDA_GPIO_PORT, SENSORS_I2C_SDA_GPIO_PINSOURCE, 
+      SENSORS_I2C_AF);  
+00080   GPIO_Init(SENSORS_I2C_SDA_GPIO_PORT, &GPIO\_InitStructure);  
+00081   
+00082   I2C_DeInit(SENSORS_I2C);
+00083   I2C\_InitStructure.I2C_Mode = I2C_Mode_I2C;
+00084   I2C\_InitStructure.I2C_DutyCycle = I2C_DutyCycle_2;
+00085   I2C\_InitStructure.I2C_OwnAddress1 = I2C_OWN_ADDRESS;
+00086   I2C\_InitStructure.I2C_Ack = I2C_Ack_Enable;
+00087   I2C\_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
+00088   I2C\_InitStructure.I2C_ClockSpeed = I2C_SPEED;
+00089     
+00090   \textcolor{comment}{/* Enable the I2C peripheral */}
+00091   I2C_Cmd(SENSORS_I2C, ENABLE);  
+00092     
+00093   \textcolor{comment}{/* Initialize the I2C peripheral */}
+00094   I2C_Init(SENSORS_I2C, &I2C\_InitStructure);
+00095   
+00096   \textcolor{keywordflow}{return};
+00097 \}
+\end{DoxyCode}
+\mbox{\label{i2c_8c_a806b5e5cc6b594c30143e04d67c5227f}} 
+\index{i2c.\+c@{i2c.\+c}!I2\+Cx\+\_\+\+T\+I\+M\+E\+O\+U\+T\+\_\+\+User\+Callback@{I2\+Cx\+\_\+\+T\+I\+M\+E\+O\+U\+T\+\_\+\+User\+Callback}}
+\index{I2\+Cx\+\_\+\+T\+I\+M\+E\+O\+U\+T\+\_\+\+User\+Callback@{I2\+Cx\+\_\+\+T\+I\+M\+E\+O\+U\+T\+\_\+\+User\+Callback}!i2c.\+c@{i2c.\+c}}
+\subsubsection{I2\+Cx\+\_\+\+T\+I\+M\+E\+O\+U\+T\+\_\+\+User\+Callback()}
+{\footnotesize\ttfamily static uint32\+\_\+t I2\+Cx\+\_\+\+T\+I\+M\+E\+O\+U\+T\+\_\+\+User\+Callback (\begin{DoxyParamCaption}\item[{char}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Basic management of the timeout situation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None.} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None.} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 104} of file \textbf{ i2c.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Ack}, \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Acknowledged\+Address}, \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Clock\+Speed}, \textbf{ I2\+C\+\_\+\+Cmd()}, \textbf{ I2\+C\+\_\+\+De\+Init()}, \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Duty\+Cycle}, \textbf{ I2\+C\+\_\+\+Generate\+S\+T\+O\+P()}, \textbf{ I2\+C\+\_\+\+Init()}, \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Mode}, \textbf{ I2\+C\+\_\+\+Init\+Type\+Def\+::\+I2\+C\+\_\+\+Own\+Address1}, and \textbf{ I2\+C\+\_\+\+Software\+Reset\+Cmd()}.
+
+
+\begin{DoxyCode}
+00105 \{
+00106   
+00107   \textcolor{comment}{/* The following code allows I2C error recovery and return to normal communication}
+00108 \textcolor{comment}{     if the error source doesn’t still exist (ie. hardware issue..) */}
+00109   I2C_InitTypeDef I2C\_InitStructure;
+00110   
+00111   I2C_GenerateSTOP(SENSORS_I2C, ENABLE);
+00112   I2C_SoftwareResetCmd(SENSORS_I2C, ENABLE);
+00113   I2C_SoftwareResetCmd(SENSORS_I2C, DISABLE);
+00114   
+00115    I2C_DeInit(SENSORS_I2C);
+00116   I2C\_InitStructure.I2C_Mode = I2C_Mode_I2C;
+00117   I2C\_InitStructure.I2C_DutyCycle = I2C_DutyCycle_2;
+00118   I2C\_InitStructure.I2C_OwnAddress1 = I2C_OWN_ADDRESS;
+00119   I2C\_InitStructure.I2C_Ack = I2C_Ack_Enable;
+00120   I2C\_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
+00121   I2C\_InitStructure.I2C_ClockSpeed = I2C_SPEED;
+00122     
+00123   \textcolor{comment}{/* Enable the I2C peripheral */}
+00124   I2C_Cmd(SENSORS_I2C, ENABLE);  
+00125     
+00126   \textcolor{comment}{/* Initialize the I2C peripheral */}
+00127   I2C_Init(SENSORS_I2C, &I2C\_InitStructure);
+00128 
+00129   \textcolor{keywordflow}{return} 1;
+00130 \}
+\end{DoxyCode}
+\mbox{\label{i2c_8c_a259f93a2242da99f5680c7dc04a26517}} 
+\index{i2c.\+c@{i2c.\+c}!Sensors\+\_\+\+I2\+C\+\_\+\+Read\+Register@{Sensors\+\_\+\+I2\+C\+\_\+\+Read\+Register}}
+\index{Sensors\+\_\+\+I2\+C\+\_\+\+Read\+Register@{Sensors\+\_\+\+I2\+C\+\_\+\+Read\+Register}!i2c.\+c@{i2c.\+c}}
+\subsubsection{Sensors\+\_\+\+I2\+C\+\_\+\+Read\+Register()}
+{\footnotesize\ttfamily int Sensors\+\_\+\+I2\+C\+\_\+\+Read\+Register (\begin{DoxyParamCaption}\item[{unsigned char}]{slave\+\_\+addr,  }\item[{unsigned char}]{reg\+\_\+addr,  }\item[{unsigned short}]{len,  }\item[{unsigned char $\ast$}]{data\+\_\+ptr }\end{DoxyParamCaption})}
+
+
+
+Definition at line \textbf{ 157} of file \textbf{ i2c.\+c}.
+
+
+
+References \textbf{ Get\+\_\+\+I2\+C\+\_\+\+Retry()}, \textbf{ mdelay()}, and \textbf{ S\+T\+\_\+\+Sensors\+\_\+\+I2\+C\+\_\+\+Read\+Register()}.
+
+
+\begin{DoxyCode}
+00161 \{
+00162   \textcolor{keywordtype}{char} retries=0;
+00163   \textcolor{keywordtype}{int} ret = 0;
+00164   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} retry\_in\_mlsec = Get_I2C_Retry();
+00165   
+00166 tryReadAgain:  
+00167   ret = 0;
+00168   ret = ST_Sensors_I2C_ReadRegister( slave\_addr, reg\_addr, len, data\_ptr);
+00169 
+00170   \textcolor{keywordflow}{if}(ret && retry\_in\_mlsec)
+00171   \{
+00172     \textcolor{keywordflow}{if}( retries++ > 4 )
+00173         \textcolor{keywordflow}{return} ret;
+00174     
+00175     mdelay(retry\_in\_mlsec);
+00176     \textcolor{keywordflow}{goto} tryReadAgain;
+00177   \} 
+00178   \textcolor{keywordflow}{return} ret;
+00179 \}
+\end{DoxyCode}
+\mbox{\label{i2c_8c_a6176e6f8143b5235c03ca1b2cb337f3b}} 
+\index{i2c.\+c@{i2c.\+c}!Sensors\+\_\+\+I2\+C\+\_\+\+Write\+Register@{Sensors\+\_\+\+I2\+C\+\_\+\+Write\+Register}}
+\index{Sensors\+\_\+\+I2\+C\+\_\+\+Write\+Register@{Sensors\+\_\+\+I2\+C\+\_\+\+Write\+Register}!i2c.\+c@{i2c.\+c}}
+\subsubsection{Sensors\+\_\+\+I2\+C\+\_\+\+Write\+Register()}
+{\footnotesize\ttfamily int Sensors\+\_\+\+I2\+C\+\_\+\+Write\+Register (\begin{DoxyParamCaption}\item[{unsigned char}]{slave\+\_\+addr,  }\item[{unsigned char}]{reg\+\_\+addr,  }\item[{unsigned short}]{len,  }\item[{const unsigned char $\ast$}]{data\+\_\+ptr }\end{DoxyParamCaption})}
+
+
+
+Definition at line \textbf{ 133} of file \textbf{ i2c.\+c}.
+
+
+
+References \textbf{ Get\+\_\+\+I2\+C\+\_\+\+Retry()}, \textbf{ mdelay()}, and \textbf{ S\+T\+\_\+\+Sensors\+\_\+\+I2\+C\+\_\+\+Write\+Register()}.
+
+
+\begin{DoxyCode}
+00137 \{
+00138   \textcolor{keywordtype}{char} retries=0;
+00139   \textcolor{keywordtype}{int} ret = 0;
+00140   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} retry\_in\_mlsec = Get_I2C_Retry();
+00141                               
+00142 tryWriteAgain:  
+00143   ret = 0;
+00144   ret = ST_Sensors_I2C_WriteRegister( slave\_addr, reg\_addr, len, data\_ptr); 
+00145 
+00146   \textcolor{keywordflow}{if}(ret && retry\_in\_mlsec)
+00147   \{
+00148     \textcolor{keywordflow}{if}( retries++ > 4 )
+00149         \textcolor{keywordflow}{return} ret;
+00150     
+00151     mdelay(retry\_in\_mlsec);
+00152     \textcolor{keywordflow}{goto} tryWriteAgain;
+00153   \}
+00154   \textcolor{keywordflow}{return} ret;  
+00155 \}
+\end{DoxyCode}
+\mbox{\label{i2c_8c_a463aa366d8082caef51ff67c162c0a19}} 
+\index{i2c.\+c@{i2c.\+c}!Set\+\_\+\+I2\+C\+\_\+\+Retry@{Set\+\_\+\+I2\+C\+\_\+\+Retry}}
+\index{Set\+\_\+\+I2\+C\+\_\+\+Retry@{Set\+\_\+\+I2\+C\+\_\+\+Retry}!i2c.\+c@{i2c.\+c}}
+\subsubsection{Set\+\_\+\+I2\+C\+\_\+\+Retry()}
+{\footnotesize\ttfamily void Set\+\_\+\+I2\+C\+\_\+\+Retry (\begin{DoxyParamCaption}\item[{unsigned short}]{ml\+\_\+sec }\end{DoxyParamCaption})}
+
+
+
+Definition at line \textbf{ 403} of file \textbf{ i2c.\+c}.
+
+
+
+References \textbf{ R\+E\+T\+R\+Y\+\_\+\+I\+N\+\_\+\+M\+L\+S\+EC}.
+
+
+
+Referenced by \textbf{ board\+\_\+init()}.
+
+
+\begin{DoxyCode}
+00404 \{
+00405   RETRY_IN_MLSEC = ml\_sec;
+00406 \}
+\end{DoxyCode}
+\mbox{\label{i2c_8c_a93d0ebfda50e145af01975c68f8be543}} 
+\index{i2c.\+c@{i2c.\+c}!S\+T\+\_\+\+Sensors\+\_\+\+I2\+C\+\_\+\+Read\+Register@{S\+T\+\_\+\+Sensors\+\_\+\+I2\+C\+\_\+\+Read\+Register}}
+\index{S\+T\+\_\+\+Sensors\+\_\+\+I2\+C\+\_\+\+Read\+Register@{S\+T\+\_\+\+Sensors\+\_\+\+I2\+C\+\_\+\+Read\+Register}!i2c.\+c@{i2c.\+c}}
+\subsubsection{S\+T\+\_\+\+Sensors\+\_\+\+I2\+C\+\_\+\+Read\+Register()}
+{\footnotesize\ttfamily unsigned long S\+T\+\_\+\+Sensors\+\_\+\+I2\+C\+\_\+\+Read\+Register (\begin{DoxyParamCaption}\item[{unsigned char}]{Address,  }\item[{unsigned char}]{Register\+Addr,  }\item[{unsigned short}]{Register\+Len,  }\item[{unsigned char $\ast$}]{Register\+Value }\end{DoxyParamCaption})}
+
+$<$ Send S\+T\+A\+RT condition a second time
+
+$<$ Send address for read
+
+$<$ Disable Acknowledgment
+
+$<$ Send S\+T\+OP Condition
+
+$<$ Disable Acknowledgment
+
+$<$ Send S\+T\+OP Condition
+
+$<$ Disable Acknowledgment
+
+$<$ Send S\+T\+OP Condition
+
+$<$ Disable Acknowledgment
+
+$<$ Send S\+T\+OP Condition
+
+$<$ Re-\/\+Enable Acknowledgment to be ready for another reception 
+
+Definition at line \textbf{ 249} of file \textbf{ i2c.\+c}.
+
+
+
+Referenced by \textbf{ Sensors\+\_\+\+I2\+C\+\_\+\+Read\+Register()}.
+
+
+\begin{DoxyCode}
+00250 \{
+00251   uint32\_t i=0, result = 0;
+00252   \_\_IO uint32\_t  I2CTimeout = I2Cx_LONG_TIMEOUT;
+00253    
+00254   \textcolor{comment}{/* Wait for the busy flag to be cleared */}
+00255   WAIT_FOR_FLAG (I2C_FLAG_BUSY, RESET, I2Cx_LONG_TIMEOUT, 7);
+00256   
+00257   \textcolor{comment}{/* Start the config sequence */}
+00258   I2C_GenerateSTART(SENSORS_I2C, ENABLE);
+00259 
+00260   \textcolor{comment}{/* Wait for the start bit to be set */}
+00261   WAIT_FOR_FLAG (I2C_FLAG_SB, SET, I2Cx_FLAG_TIMEOUT, 8);
+00262   
+00263   \textcolor{comment}{/* Transmit the slave address and enable writing operation */}
+00264   I2C_Send7bitAddress(SENSORS_I2C, (Address<<1), I2C_Direction_Transmitter);
+00265 
+00266   \textcolor{comment}{/* Wait for the start bit to be set */}
+00267   WAIT_FOR_FLAG (I2C_FLAG_ADDR, SET, I2Cx_FLAG_TIMEOUT, 9);
+00268 
+00269   \textcolor{comment}{/* clear the ADDR interrupt bit  - this is done by reading SR1 and SR2*/}
+00270   CLEAR_ADDR_BIT;
+00271   
+00272   \textcolor{comment}{/* Wait for address bit to be set */}
+00273   WAIT_FOR_FLAG (I2C_FLAG_TXE, SET, I2Cx_FLAG_TIMEOUT, 10);
+00274   
+00275   \textcolor{comment}{/* Transmit the register address to be read */}
+00276   I2C_SendData(SENSORS_I2C, RegisterAddr);
+00277   
+00278   \textcolor{comment}{/* Wait for address bit to be set */}
+00279   WAIT_FOR_FLAG (I2C_FLAG_TXE, SET, I2Cx_FLAG_TIMEOUT, 11);  
+00280 
+00282   I2C_GenerateSTART(SENSORS_I2C, ENABLE);
+00283   
+00284   \textcolor{comment}{/* Wait for the start bit to be set */}
+00285   WAIT_FOR_FLAG (I2C_FLAG_SB, SET, I2Cx_FLAG_TIMEOUT, 12);
+00286   
+00288   I2C_Send7bitAddress(SENSORS_I2C, (Address<<1), I2C_Direction_Receiver);  
+00289   
+00290   \textcolor{comment}{/* Wait for the start bit to be set */}
+00291   WAIT_FOR_FLAG (I2C_FLAG_ADDR, SET, I2Cx_FLAG_TIMEOUT, 13);
+00292   
+00293   \textcolor{keywordflow}{if} (RegisterLen == 1) 
+00294   \{
+00296     I2C_AcknowledgeConfig(SENSORS_I2C, DISABLE);
+00297     
+00298     \textcolor{comment}{/* clear the ADDR interrupt bit  - this is done by reading SR1 and SR2*/}
+00299     CLEAR_ADDR_BIT;
+00300     
+00302     I2C_GenerateSTOP(SENSORS_I2C, ENABLE);
+00303     
+00304     \textcolor{comment}{/* Wait for the RXNE bit to be set */}
+00305     WAIT_FOR_FLAG (I2C_FLAG_RXNE, SET, I2Cx_FLAG_TIMEOUT, 14);
+00306     
+00307     RegisterValue[0] = I2C_ReceiveData(SENSORS_I2C);
+00308   \} 
+00309   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}( RegisterLen == 2) 
+00310   \{
+00312     I2C_AcknowledgeConfig(SENSORS_I2C, DISABLE);
+00313     
+00314    \textcolor{comment}{/* Set POS bit */} 
+00315    SENSORS_I2C->CR1 |= I2C_CR1_POS;
+00316    
+00317    \textcolor{comment}{/* clear the ADDR interrupt bit  - this is done by reading SR1 and SR2*/}
+00318    CLEAR_ADDR_BIT; 
+00319    
+00320    \textcolor{comment}{/* Wait for the buffer full bit to be set */}
+00321    WAIT_FOR_FLAG (I2C_FLAG_BTF, SET, I2Cx_FLAG_TIMEOUT, 15);
+00322    
+00324    I2C_GenerateSTOP(SENSORS_I2C, ENABLE);
+00325 
+00326    \textcolor{comment}{/* Read 2 bytes */}
+00327    RegisterValue[0] = I2C_ReceiveData(SENSORS_I2C);
+00328    RegisterValue[1] = I2C_ReceiveData(SENSORS_I2C);
+00329   \} 
+00330   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}( RegisterLen == 3)
+00331   \{
+00332     CLEAR_ADDR_BIT;
+00333     
+00334     \textcolor{comment}{/* Wait for the buffer full bit to be set */}
+00335     WAIT_FOR_FLAG (I2C_FLAG_BTF, SET, I2Cx_FLAG_TIMEOUT, 16);
+00337     I2C_AcknowledgeConfig(SENSORS_I2C, DISABLE);
+00338     \textcolor{comment}{/* Read 1 bytes */}
+00339     RegisterValue[0] = I2C_ReceiveData(SENSORS_I2C);
+00341     I2C_GenerateSTOP(SENSORS_I2C, ENABLE);        
+00342     \textcolor{comment}{/* Read 1 bytes */}
+00343     RegisterValue[1] = I2C_ReceiveData(SENSORS_I2C);
+00344     \textcolor{comment}{/* Wait for the buffer full bit to be set */}
+00345     WAIT_FOR_FLAG (I2C_FLAG_RXNE, SET, I2Cx_FLAG_TIMEOUT, 17);
+00346     \textcolor{comment}{/* Read 1 bytes */}
+00347     RegisterValue[2] = I2C_ReceiveData(SENSORS_I2C);  
+00348   \}  
+00349   \textcolor{keywordflow}{else} \textcolor{comment}{/* more than 2 bytes */}
+00350   \{ 
+00351     \textcolor{comment}{/* clear the ADDR interrupt bit  - this is done by reading SR1 and SR2*/}
+00352     CLEAR_ADDR_BIT;
+00353     
+00354     \textcolor{keywordflow}{for}(i=0; i<(RegisterLen); i++)
+00355     \{
+00356       \textcolor{keywordflow}{if}(i==(RegisterLen-3))
+00357       \{
+00358         \textcolor{comment}{/* Wait for the buffer full bit to be set */}
+00359         WAIT_FOR_FLAG (I2C_FLAG_BTF, SET, I2Cx_FLAG_TIMEOUT, 16);
+00360         
+00362         I2C_AcknowledgeConfig(SENSORS_I2C, DISABLE);
+00363         
+00364         \textcolor{comment}{/* Read 1 bytes */}
+00365         RegisterValue[i++] = I2C_ReceiveData(SENSORS_I2C);
+00366         
+00368         I2C_GenerateSTOP(SENSORS_I2C, ENABLE);        
+00369         
+00370         \textcolor{comment}{/* Read 1 bytes */}
+00371         RegisterValue[i++] = I2C_ReceiveData(SENSORS_I2C);
+00372         
+00373         \textcolor{comment}{/* Wait for the buffer full bit to be set */}
+00374         WAIT_FOR_FLAG (I2C_FLAG_RXNE, SET, I2Cx_FLAG_TIMEOUT, 17);
+00375         
+00376         \textcolor{comment}{/* Read 1 bytes */}
+00377         RegisterValue[i++] = I2C_ReceiveData(SENSORS_I2C);  
+00378         \textcolor{keywordflow}{goto} endReadLoop;
+00379       \}
+00380             
+00381       \textcolor{comment}{/* Wait for the RXNE bit to be set */}
+00382       WAIT_FOR_FLAG (I2C_FLAG_RXNE, SET, I2Cx_FLAG_TIMEOUT, 18);
+00383       RegisterValue[i] = I2C_ReceiveData(SENSORS_I2C); 
+00384     \}   
+00385   \} 
+00386   
+00387 endReadLoop:  
+00388   \textcolor{comment}{/* Clear BTF flag */}
+00389   I2C_ClearFlag(SENSORS_I2C, I2C_FLAG_BTF);
+00390   \textcolor{comment}{/* Wait for the busy flag to be cleared */}
+00391   WAIT_FOR_FLAG (I2C_FLAG_BUSY, RESET, I2Cx_LONG_TIMEOUT, 19);  
+00393   I2C_AcknowledgeConfig(SENSORS_I2C, ENABLE);
+00394   \textcolor{comment}{//Disable POS -- TODO}
+00395   SENSORS_I2C->CR1 &= ~I2C_CR1_POS;  
+00396      
+00397   \textcolor{comment}{/* Return the byte read from sensor */}
+00398   \textcolor{keywordflow}{return} result;
+00399 \}
+\end{DoxyCode}
+\mbox{\label{i2c_8c_a0524f12c08cc0cd4409eda7a014e96cd}} 
+\index{i2c.\+c@{i2c.\+c}!S\+T\+\_\+\+Sensors\+\_\+\+I2\+C\+\_\+\+Write\+Register@{S\+T\+\_\+\+Sensors\+\_\+\+I2\+C\+\_\+\+Write\+Register}}
+\index{S\+T\+\_\+\+Sensors\+\_\+\+I2\+C\+\_\+\+Write\+Register@{S\+T\+\_\+\+Sensors\+\_\+\+I2\+C\+\_\+\+Write\+Register}!i2c.\+c@{i2c.\+c}}
+\subsubsection{S\+T\+\_\+\+Sensors\+\_\+\+I2\+C\+\_\+\+Write\+Register()}
+{\footnotesize\ttfamily unsigned long S\+T\+\_\+\+Sensors\+\_\+\+I2\+C\+\_\+\+Write\+Register (\begin{DoxyParamCaption}\item[{unsigned char}]{Address,  }\item[{unsigned char}]{Register\+Addr,  }\item[{unsigned short}]{Register\+Len,  }\item[{const unsigned char $\ast$}]{Register\+Value }\end{DoxyParamCaption})}
+
+
+
+Writes a Byte to a given register to the sensors through the control interface (I2C) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Register\+Addr} & The address (location) of the register to be written. \\
+\hline
+{\em Register\+Value} & the Byte value to be written into destination register. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & if correct communication, else wrong communication \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 189} of file \textbf{ i2c.\+c}.
+
+
+
+Referenced by \textbf{ Sensors\+\_\+\+I2\+C\+\_\+\+Write\+Register()}.
+
+
+\begin{DoxyCode}
+00190 \{
+00191   uint32\_t  result = 0;
+00192   uint32\_t  i = 0; \textcolor{comment}{// i = RegisterLen;}
+00193   \_\_IO uint32\_t  I2CTimeout = I2Cx_LONG_TIMEOUT;
+00194   
+00195 \textcolor{comment}{//  RegisterValue = RegisterValue + (RegisterLen - 1);}
+00196 
+00197   \textcolor{comment}{/* Wait for the busy flag to be cleared */}
+00198   WAIT_FOR_FLAG (I2C_FLAG_BUSY, RESET, I2Cx_LONG_TIMEOUT, 1);
+00199   
+00200   \textcolor{comment}{/* Start the config sequence */}
+00201   I2C_GenerateSTART(SENSORS_I2C, ENABLE);
+00202 
+00203   \textcolor{comment}{/* Wait for the start bit to be set */}
+00204   WAIT_FOR_FLAG (I2C_FLAG_SB, SET, I2Cx_FLAG_TIMEOUT, 2);
+00205 
+00206   \textcolor{comment}{/* Transmit the slave address and enable writing operation */}
+00207   I2C_Send7bitAddress(SENSORS_I2C, (Address<<1), I2C_Direction_Transmitter);
+00208   
+00209   \textcolor{comment}{/* Wait for address bit to be set */}
+00210   WAIT_FOR_FLAG (I2C_FLAG_ADDR, SET, I2Cx_FLAG_TIMEOUT, 3);
+00211   
+00212   \textcolor{comment}{/* clear the ADDR interrupt bit  - this is done by reading SR1 and SR2*/}
+00213   CLEAR_ADDR_BIT
+00214   
+00215   \textcolor{comment}{/* Wait for address bit to be set */}
+00216   WAIT_FOR_FLAG (I2C_FLAG_TXE, SET, I2Cx_FLAG_TIMEOUT, 4);
+00217 
+00218   \textcolor{comment}{/* Transmit the first address for write operation */}
+00219   I2C_SendData(SENSORS_I2C, RegisterAddr);
+00220 
+00221 \textcolor{comment}{//  while (i--)}
+00222 \textcolor{comment}{//  \{}
+00223 \textcolor{comment}{//    /* Wait for address bit to be set */}
+00224 \textcolor{comment}{//    WAIT\_FOR\_FLAG (I2C\_FLAG\_TXE, SET, I2Cx\_FLAG\_TIMEOUT, 5);}
+00225 \textcolor{comment}{//  }
+00226 \textcolor{comment}{//    /* Prepare the register value to be sent */}
+00227 \textcolor{comment}{//    I2C\_SendData(SENSORS\_I2C, *RegisterValue--);}
+00228 \textcolor{comment}{//  \}}
+00229   
+00230   \textcolor{keywordflow}{for}(i=0; i<(RegisterLen); i++)
+00231   \{
+00232     \textcolor{comment}{/* Wait for address bit to be set */}
+00233     WAIT_FOR_FLAG (I2C_FLAG_TXE, SET, I2Cx_FLAG_TIMEOUT, 5);
+00234   
+00235     \textcolor{comment}{/* Prepare the register value to be sent */}
+00236     I2C_SendData(SENSORS_I2C, RegisterValue[i]);
+00237   \}  
+00238    
+00239   \textcolor{comment}{/* Wait for address bit to be set */}
+00240   WAIT_FOR_FLAG (I2C_FLAG_BTF, SET, I2Cx_FLAG_TIMEOUT, 6);
+00241   
+00242   \textcolor{comment}{/* End the configuration sequence */}
+00243   I2C_GenerateSTOP(SENSORS_I2C, ENABLE);  
+00244   
+00245   \textcolor{comment}{/* Return the verifying value: 0 (Passed) or 1 (Failed) */}
+00246   \textcolor{keywordflow}{return} result;  
+00247 \}
+\end{DoxyCode}
+
+
+\subsection{Variable Documentation}
+\mbox{\label{i2c_8c_a7c91e98bb904d944ecf31bc3c1530634}} 
+\index{i2c.\+c@{i2c.\+c}!R\+E\+T\+R\+Y\+\_\+\+I\+N\+\_\+\+M\+L\+S\+EC@{R\+E\+T\+R\+Y\+\_\+\+I\+N\+\_\+\+M\+L\+S\+EC}}
+\index{R\+E\+T\+R\+Y\+\_\+\+I\+N\+\_\+\+M\+L\+S\+EC@{R\+E\+T\+R\+Y\+\_\+\+I\+N\+\_\+\+M\+L\+S\+EC}!i2c.\+c@{i2c.\+c}}
+\subsubsection{R\+E\+T\+R\+Y\+\_\+\+I\+N\+\_\+\+M\+L\+S\+EC}
+{\footnotesize\ttfamily unsigned short R\+E\+T\+R\+Y\+\_\+\+I\+N\+\_\+\+M\+L\+S\+EC = 55\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \textbf{ 401} of file \textbf{ i2c.\+c}.
+
+
+
+Referenced by \textbf{ Get\+\_\+\+I2\+C\+\_\+\+Retry()}, and \textbf{ Set\+\_\+\+I2\+C\+\_\+\+Retry()}.
+

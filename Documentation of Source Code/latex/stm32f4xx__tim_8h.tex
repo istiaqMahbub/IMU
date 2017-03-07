@@ -1,0 +1,750 @@
+\section{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+tim.h File Reference}
+\label{stm32f4xx__tim_8h}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+tim.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+tim.\+h}}
+
+
+This file contains all the functions prototypes for the T\+IM firmware library.  
+
+
+{\ttfamily \#include \char`\"{}stm32f4xx.\+h\char`\"{}}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ T\+I\+M\+\_\+\+Time\+Base\+Init\+Type\+Def}
+\begin{DoxyCompactList}\small\item\em T\+IM Time Base Init structure definition. \end{DoxyCompactList}\item 
+struct \textbf{ T\+I\+M\+\_\+\+O\+C\+Init\+Type\+Def}
+\begin{DoxyCompactList}\small\item\em T\+IM Output Compare Init structure definition. \end{DoxyCompactList}\item 
+struct \textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def}
+\begin{DoxyCompactList}\small\item\em T\+IM Input Capture Init structure definition. \end{DoxyCompactList}\item 
+struct \textbf{ T\+I\+M\+\_\+\+B\+D\+T\+R\+Init\+Type\+Def}
+\begin{DoxyCompactList}\small\item\em B\+D\+TR structure definition. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+A\+L\+L\+\_\+\+P\+E\+R\+I\+PH}(P\+E\+R\+I\+PH)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+L\+I\+S\+T1\+\_\+\+P\+E\+R\+I\+PH}(P\+E\+R\+I\+PH)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+L\+I\+S\+T2\+\_\+\+P\+E\+R\+I\+PH}(P\+E\+R\+I\+PH)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+L\+I\+S\+T3\+\_\+\+P\+E\+R\+I\+PH}(P\+E\+R\+I\+PH)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+L\+I\+S\+T4\+\_\+\+P\+E\+R\+I\+PH}(P\+E\+R\+I\+PH)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+L\+I\+S\+T5\+\_\+\+P\+E\+R\+I\+PH}(P\+E\+R\+I\+PH)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+L\+I\+S\+T6\+\_\+\+P\+E\+R\+I\+PH}(T\+I\+Mx)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+Timing}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+Active}~((uint16\+\_\+t)0x0010)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+Inactive}~((uint16\+\_\+t)0x0020)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+Toggle}~((uint16\+\_\+t)0x0030)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+P\+W\+M1}~((uint16\+\_\+t)0x0060)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+C\+Mode\+\_\+\+P\+W\+M2}~((uint16\+\_\+t)0x0070)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+O\+C\+\_\+\+M\+O\+DE}(M\+O\+DE)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+O\+CM}(M\+O\+DE)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+P\+Mode\+\_\+\+Single}~((uint16\+\_\+t)0x0008)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+P\+Mode\+\_\+\+Repetitive}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+O\+P\+M\+\_\+\+M\+O\+DE}(M\+O\+DE)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Channel\+\_\+1}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Channel\+\_\+2}~((uint16\+\_\+t)0x0004)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Channel\+\_\+3}~((uint16\+\_\+t)0x0008)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Channel\+\_\+4}~((uint16\+\_\+t)0x000\+C)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+C\+H\+A\+N\+N\+EL}(C\+H\+A\+N\+N\+EL)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+P\+W\+M\+I\+\_\+\+C\+H\+A\+N\+N\+EL}(C\+H\+A\+N\+N\+EL)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+C\+O\+M\+P\+L\+E\+M\+E\+N\+T\+A\+R\+Y\+\_\+\+C\+H\+A\+N\+N\+EL}(C\+H\+A\+N\+N\+EL)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+C\+K\+D\+\_\+\+D\+I\+V1}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+C\+K\+D\+\_\+\+D\+I\+V2}~((uint16\+\_\+t)0x0100)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+C\+K\+D\+\_\+\+D\+I\+V4}~((uint16\+\_\+t)0x0200)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+C\+K\+D\+\_\+\+D\+IV}(D\+IV)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Counter\+Mode\+\_\+\+Up}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Counter\+Mode\+\_\+\+Down}~((uint16\+\_\+t)0x0010)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Counter\+Mode\+\_\+\+Center\+Aligned1}~((uint16\+\_\+t)0x0020)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Counter\+Mode\+\_\+\+Center\+Aligned2}~((uint16\+\_\+t)0x0040)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Counter\+Mode\+\_\+\+Center\+Aligned3}~((uint16\+\_\+t)0x0060)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+C\+O\+U\+N\+T\+E\+R\+\_\+\+M\+O\+DE}(M\+O\+DE)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+C\+Polarity\+\_\+\+High}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+C\+Polarity\+\_\+\+Low}~((uint16\+\_\+t)0x0002)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+O\+C\+\_\+\+P\+O\+L\+A\+R\+I\+TY}(P\+O\+L\+A\+R\+I\+TY)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+C\+N\+Polarity\+\_\+\+High}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+C\+N\+Polarity\+\_\+\+Low}~((uint16\+\_\+t)0x0008)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+O\+C\+N\+\_\+\+P\+O\+L\+A\+R\+I\+TY}(P\+O\+L\+A\+R\+I\+TY)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Output\+State\+\_\+\+Disable}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Output\+State\+\_\+\+Enable}~((uint16\+\_\+t)0x0001)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+S\+T\+A\+TE}(S\+T\+A\+TE)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Output\+N\+State\+\_\+\+Disable}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Output\+N\+State\+\_\+\+Enable}~((uint16\+\_\+t)0x0004)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+O\+U\+T\+P\+U\+T\+N\+\_\+\+S\+T\+A\+TE}(S\+T\+A\+TE)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+C\+Cx\+\_\+\+Enable}~((uint16\+\_\+t)0x0001)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+C\+Cx\+\_\+\+Disable}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+C\+CX}(C\+CX)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+C\+Cx\+N\+\_\+\+Enable}~((uint16\+\_\+t)0x0004)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+C\+Cx\+N\+\_\+\+Disable}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+C\+C\+XN}(C\+C\+XN)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Break\+\_\+\+Enable}~((uint16\+\_\+t)0x1000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Break\+\_\+\+Disable}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+B\+R\+E\+A\+K\+\_\+\+S\+T\+A\+TE}(S\+T\+A\+TE)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Break\+Polarity\+\_\+\+Low}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Break\+Polarity\+\_\+\+High}~((uint16\+\_\+t)0x2000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+B\+R\+E\+A\+K\+\_\+\+P\+O\+L\+A\+R\+I\+TY}(P\+O\+L\+A\+R\+I\+TY)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Automatic\+Output\+\_\+\+Enable}~((uint16\+\_\+t)0x4000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Automatic\+Output\+\_\+\+Disable}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+A\+U\+T\+O\+M\+A\+T\+I\+C\+\_\+\+O\+U\+T\+P\+U\+T\+\_\+\+S\+T\+A\+TE}(S\+T\+A\+TE)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+L\+O\+C\+K\+Level\+\_\+\+O\+FF}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+L\+O\+C\+K\+Level\+\_\+1}~((uint16\+\_\+t)0x0100)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+L\+O\+C\+K\+Level\+\_\+2}~((uint16\+\_\+t)0x0200)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+L\+O\+C\+K\+Level\+\_\+3}~((uint16\+\_\+t)0x0300)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+L\+O\+C\+K\+\_\+\+L\+E\+V\+EL}(L\+E\+V\+EL)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+S\+S\+I\+State\+\_\+\+Enable}~((uint16\+\_\+t)0x0400)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+S\+S\+I\+State\+\_\+\+Disable}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+O\+S\+S\+I\+\_\+\+S\+T\+A\+TE}(S\+T\+A\+TE)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+S\+S\+R\+State\+\_\+\+Enable}~((uint16\+\_\+t)0x0800)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+S\+S\+R\+State\+\_\+\+Disable}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+O\+S\+S\+R\+\_\+\+S\+T\+A\+TE}(S\+T\+A\+TE)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+C\+Idle\+State\+\_\+\+Set}~((uint16\+\_\+t)0x0100)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+C\+Idle\+State\+\_\+\+Reset}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+O\+C\+I\+D\+L\+E\+\_\+\+S\+T\+A\+TE}(S\+T\+A\+TE)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+C\+N\+Idle\+State\+\_\+\+Set}~((uint16\+\_\+t)0x0200)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+C\+N\+Idle\+State\+\_\+\+Reset}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+O\+C\+N\+I\+D\+L\+E\+\_\+\+S\+T\+A\+TE}(S\+T\+A\+TE)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+I\+C\+Polarity\+\_\+\+Rising}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+I\+C\+Polarity\+\_\+\+Falling}~((uint16\+\_\+t)0x0002)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+I\+C\+Polarity\+\_\+\+Both\+Edge}~((uint16\+\_\+t)0x000\+A)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+I\+C\+\_\+\+P\+O\+L\+A\+R\+I\+TY}(P\+O\+L\+A\+R\+I\+TY)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+I\+C\+Selection\+\_\+\+Direct\+TI}~((uint16\+\_\+t)0x0001)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+I\+C\+Selection\+\_\+\+Indirect\+TI}~((uint16\+\_\+t)0x0002)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+I\+C\+Selection\+\_\+\+T\+RC}~((uint16\+\_\+t)0x0003)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+I\+C\+\_\+\+S\+E\+L\+E\+C\+T\+I\+ON}(S\+E\+L\+E\+C\+T\+I\+ON)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+I\+C\+P\+S\+C\+\_\+\+D\+I\+V1}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+I\+C\+P\+S\+C\+\_\+\+D\+I\+V2}~((uint16\+\_\+t)0x0004)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+I\+C\+P\+S\+C\+\_\+\+D\+I\+V4}~((uint16\+\_\+t)0x0008)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+I\+C\+P\+S\+C\+\_\+\+D\+I\+V8}~((uint16\+\_\+t)0x000\+C)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+I\+C\+\_\+\+P\+R\+E\+S\+C\+A\+L\+ER}(P\+R\+E\+S\+C\+A\+L\+ER)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+I\+T\+\_\+\+Update}~((uint16\+\_\+t)0x0001)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+I\+T\+\_\+\+C\+C1}~((uint16\+\_\+t)0x0002)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+I\+T\+\_\+\+C\+C2}~((uint16\+\_\+t)0x0004)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+I\+T\+\_\+\+C\+C3}~((uint16\+\_\+t)0x0008)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+I\+T\+\_\+\+C\+C4}~((uint16\+\_\+t)0x0010)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+I\+T\+\_\+\+C\+OM}~((uint16\+\_\+t)0x0020)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+I\+T\+\_\+\+Trigger}~((uint16\+\_\+t)0x0040)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+I\+T\+\_\+\+Break}~((uint16\+\_\+t)0x0080)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+IT}(IT)~((((IT) \& (uint16\+\_\+t)0x\+F\+F00) == 0x0000) \&\& ((\+I\+T) != 0x0000))
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+G\+E\+T\+\_\+\+IT}(IT)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Base\+\_\+\+C\+R1}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Base\+\_\+\+C\+R2}~((uint16\+\_\+t)0x0001)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Base\+\_\+\+S\+M\+CR}~((uint16\+\_\+t)0x0002)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Base\+\_\+\+D\+I\+ER}~((uint16\+\_\+t)0x0003)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Base\+\_\+\+SR}~((uint16\+\_\+t)0x0004)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Base\+\_\+\+E\+GR}~((uint16\+\_\+t)0x0005)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Base\+\_\+\+C\+C\+M\+R1}~((uint16\+\_\+t)0x0006)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Base\+\_\+\+C\+C\+M\+R2}~((uint16\+\_\+t)0x0007)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Base\+\_\+\+C\+C\+ER}~((uint16\+\_\+t)0x0008)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Base\+\_\+\+C\+NT}~((uint16\+\_\+t)0x0009)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Base\+\_\+\+P\+SC}~((uint16\+\_\+t)0x000\+A)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Base\+\_\+\+A\+RR}~((uint16\+\_\+t)0x000\+B)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Base\+\_\+\+R\+CR}~((uint16\+\_\+t)0x000\+C)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Base\+\_\+\+C\+C\+R1}~((uint16\+\_\+t)0x000\+D)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Base\+\_\+\+C\+C\+R2}~((uint16\+\_\+t)0x000\+E)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Base\+\_\+\+C\+C\+R3}~((uint16\+\_\+t)0x000\+F)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Base\+\_\+\+C\+C\+R4}~((uint16\+\_\+t)0x0010)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Base\+\_\+\+B\+D\+TR}~((uint16\+\_\+t)0x0011)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Base\+\_\+\+D\+CR}~((uint16\+\_\+t)0x0012)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Base\+\_\+\+OR}~((uint16\+\_\+t)0x0013)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+D\+M\+A\+\_\+\+B\+A\+SE}(B\+A\+SE)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+1\+Transfer}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+2\+Transfers}~((uint16\+\_\+t)0x0100)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+3\+Transfers}~((uint16\+\_\+t)0x0200)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+4\+Transfers}~((uint16\+\_\+t)0x0300)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+5\+Transfers}~((uint16\+\_\+t)0x0400)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+6\+Transfers}~((uint16\+\_\+t)0x0500)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+7\+Transfers}~((uint16\+\_\+t)0x0600)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+8\+Transfers}~((uint16\+\_\+t)0x0700)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+9\+Transfers}~((uint16\+\_\+t)0x0800)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+10\+Transfers}~((uint16\+\_\+t)0x0900)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+11\+Transfers}~((uint16\+\_\+t)0x0\+A00)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+12\+Transfers}~((uint16\+\_\+t)0x0\+B00)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+13\+Transfers}~((uint16\+\_\+t)0x0\+C00)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+14\+Transfers}~((uint16\+\_\+t)0x0\+D00)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+15\+Transfers}~((uint16\+\_\+t)0x0\+E00)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+16\+Transfers}~((uint16\+\_\+t)0x0\+F00)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+17\+Transfers}~((uint16\+\_\+t)0x1000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+18\+Transfers}~((uint16\+\_\+t)0x1100)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+D\+M\+A\+\_\+\+L\+E\+N\+G\+TH}(L\+E\+N\+G\+TH)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+\_\+\+Update}~((uint16\+\_\+t)0x0100)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+\_\+\+C\+C1}~((uint16\+\_\+t)0x0200)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+\_\+\+C\+C2}~((uint16\+\_\+t)0x0400)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+\_\+\+C\+C3}~((uint16\+\_\+t)0x0800)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+\_\+\+C\+C4}~((uint16\+\_\+t)0x1000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+\_\+\+C\+OM}~((uint16\+\_\+t)0x2000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+\_\+\+Trigger}~((uint16\+\_\+t)0x4000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+D\+M\+A\+\_\+\+S\+O\+U\+R\+CE}(S\+O\+U\+R\+CE)~((((S\+O\+U\+R\+CE) \& (uint16\+\_\+t)0x80\+F\+F) == 0x0000) \&\& ((\+S\+O\+U\+R\+C\+E) != 0x0000))
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Ext\+T\+R\+G\+P\+S\+C\+\_\+\+O\+FF}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Ext\+T\+R\+G\+P\+S\+C\+\_\+\+D\+I\+V2}~((uint16\+\_\+t)0x1000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Ext\+T\+R\+G\+P\+S\+C\+\_\+\+D\+I\+V4}~((uint16\+\_\+t)0x2000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Ext\+T\+R\+G\+P\+S\+C\+\_\+\+D\+I\+V8}~((uint16\+\_\+t)0x3000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+E\+X\+T\+\_\+\+P\+R\+E\+S\+C\+A\+L\+ER}(P\+R\+E\+S\+C\+A\+L\+ER)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+T\+S\+\_\+\+I\+T\+R0}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+T\+S\+\_\+\+I\+T\+R1}~((uint16\+\_\+t)0x0010)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+T\+S\+\_\+\+I\+T\+R2}~((uint16\+\_\+t)0x0020)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+T\+S\+\_\+\+I\+T\+R3}~((uint16\+\_\+t)0x0030)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+T\+S\+\_\+\+T\+I1\+F\+\_\+\+ED}~((uint16\+\_\+t)0x0040)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+T\+S\+\_\+\+T\+I1\+F\+P1}~((uint16\+\_\+t)0x0050)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+T\+S\+\_\+\+T\+I2\+F\+P2}~((uint16\+\_\+t)0x0060)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+T\+S\+\_\+\+E\+T\+RF}~((uint16\+\_\+t)0x0070)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+T\+R\+I\+G\+G\+E\+R\+\_\+\+S\+E\+L\+E\+C\+T\+I\+ON}(S\+E\+L\+E\+C\+T\+I\+ON)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+I\+N\+T\+E\+R\+N\+A\+L\+\_\+\+T\+R\+I\+G\+G\+E\+R\+\_\+\+S\+E\+L\+E\+C\+T\+I\+ON}(S\+E\+L\+E\+C\+T\+I\+ON)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+T\+Ix\+External\+C\+L\+K1\+Source\+\_\+\+T\+I1}~((uint16\+\_\+t)0x0050)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+T\+Ix\+External\+C\+L\+K1\+Source\+\_\+\+T\+I2}~((uint16\+\_\+t)0x0060)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+T\+Ix\+External\+C\+L\+K1\+Source\+\_\+\+T\+I1\+ED}~((uint16\+\_\+t)0x0040)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Ext\+T\+R\+G\+Polarity\+\_\+\+Inverted}~((uint16\+\_\+t)0x8000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Ext\+T\+R\+G\+Polarity\+\_\+\+Non\+Inverted}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+E\+X\+T\+\_\+\+P\+O\+L\+A\+R\+I\+TY}(P\+O\+L\+A\+R\+I\+TY)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+P\+S\+C\+Reload\+Mode\+\_\+\+Update}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+P\+S\+C\+Reload\+Mode\+\_\+\+Immediate}~((uint16\+\_\+t)0x0001)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+P\+R\+E\+S\+C\+A\+L\+E\+R\+\_\+\+R\+E\+L\+O\+AD}(R\+E\+L\+O\+AD)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Forced\+Action\+\_\+\+Active}~((uint16\+\_\+t)0x0050)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Forced\+Action\+\_\+\+In\+Active}~((uint16\+\_\+t)0x0040)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+F\+O\+R\+C\+E\+D\+\_\+\+A\+C\+T\+I\+ON}(A\+C\+T\+I\+ON)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Encoder\+Mode\+\_\+\+T\+I1}~((uint16\+\_\+t)0x0001)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Encoder\+Mode\+\_\+\+T\+I2}~((uint16\+\_\+t)0x0002)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Encoder\+Mode\+\_\+\+T\+I12}~((uint16\+\_\+t)0x0003)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+E\+N\+C\+O\+D\+E\+R\+\_\+\+M\+O\+DE}(M\+O\+DE)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Event\+Source\+\_\+\+Update}~((uint16\+\_\+t)0x0001)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Event\+Source\+\_\+\+C\+C1}~((uint16\+\_\+t)0x0002)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Event\+Source\+\_\+\+C\+C2}~((uint16\+\_\+t)0x0004)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Event\+Source\+\_\+\+C\+C3}~((uint16\+\_\+t)0x0008)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Event\+Source\+\_\+\+C\+C4}~((uint16\+\_\+t)0x0010)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Event\+Source\+\_\+\+C\+OM}~((uint16\+\_\+t)0x0020)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Event\+Source\+\_\+\+Trigger}~((uint16\+\_\+t)0x0040)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Event\+Source\+\_\+\+Break}~((uint16\+\_\+t)0x0080)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+O\+U\+R\+CE}(S\+O\+U\+R\+CE)~((((S\+O\+U\+R\+CE) \& (uint16\+\_\+t)0x\+F\+F00) == 0x0000) \&\& ((\+S\+O\+U\+R\+C\+E) != 0x0000))
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Update\+Source\+\_\+\+Global}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Update\+Source\+\_\+\+Regular}~((uint16\+\_\+t)0x0001)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+U\+P\+D\+A\+T\+E\+\_\+\+S\+O\+U\+R\+CE}(S\+O\+U\+R\+CE)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+C\+Preload\+\_\+\+Enable}~((uint16\+\_\+t)0x0008)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+C\+Preload\+\_\+\+Disable}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+O\+C\+P\+R\+E\+L\+O\+A\+D\+\_\+\+S\+T\+A\+TE}(S\+T\+A\+TE)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+C\+Fast\+\_\+\+Enable}~((uint16\+\_\+t)0x0004)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+C\+Fast\+\_\+\+Disable}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+O\+C\+F\+A\+S\+T\+\_\+\+S\+T\+A\+TE}(S\+T\+A\+TE)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+C\+Clear\+\_\+\+Enable}~((uint16\+\_\+t)0x0080)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+O\+C\+Clear\+\_\+\+Disable}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+O\+C\+C\+L\+E\+A\+R\+\_\+\+S\+T\+A\+TE}(S\+T\+A\+TE)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+T\+R\+G\+O\+Source\+\_\+\+Reset}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+T\+R\+G\+O\+Source\+\_\+\+Enable}~((uint16\+\_\+t)0x0010)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+T\+R\+G\+O\+Source\+\_\+\+Update}~((uint16\+\_\+t)0x0020)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+T\+R\+G\+O\+Source\+\_\+\+O\+C1}~((uint16\+\_\+t)0x0030)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+T\+R\+G\+O\+Source\+\_\+\+O\+C1\+Ref}~((uint16\+\_\+t)0x0040)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+T\+R\+G\+O\+Source\+\_\+\+O\+C2\+Ref}~((uint16\+\_\+t)0x0050)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+T\+R\+G\+O\+Source\+\_\+\+O\+C3\+Ref}~((uint16\+\_\+t)0x0060)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+T\+R\+G\+O\+Source\+\_\+\+O\+C4\+Ref}~((uint16\+\_\+t)0x0070)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+T\+R\+G\+O\+\_\+\+S\+O\+U\+R\+CE}(S\+O\+U\+R\+CE)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Slave\+Mode\+\_\+\+Reset}~((uint16\+\_\+t)0x0004)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Slave\+Mode\+\_\+\+Gated}~((uint16\+\_\+t)0x0005)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Slave\+Mode\+\_\+\+Trigger}~((uint16\+\_\+t)0x0006)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Slave\+Mode\+\_\+\+External1}~((uint16\+\_\+t)0x0007)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+S\+L\+A\+V\+E\+\_\+\+M\+O\+DE}(M\+O\+DE)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Master\+Slave\+Mode\+\_\+\+Enable}~((uint16\+\_\+t)0x0080)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+Master\+Slave\+Mode\+\_\+\+Disable}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+M\+S\+M\+\_\+\+S\+T\+A\+TE}(S\+T\+A\+TE)
+\item 
+\#define \textbf{ T\+I\+M2\+\_\+\+T\+I\+M8\+\_\+\+T\+R\+GO}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M2\+\_\+\+E\+T\+H\+\_\+\+P\+TP}~((uint16\+\_\+t)0x0400)
+\item 
+\#define \textbf{ T\+I\+M2\+\_\+\+U\+S\+B\+F\+S\+\_\+\+S\+OF}~((uint16\+\_\+t)0x0800)
+\item 
+\#define \textbf{ T\+I\+M2\+\_\+\+U\+S\+B\+H\+S\+\_\+\+S\+OF}~((uint16\+\_\+t)0x0\+C00)
+\item 
+\#define \textbf{ T\+I\+M5\+\_\+\+G\+P\+IO}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M5\+\_\+\+L\+SI}~((uint16\+\_\+t)0x0040)
+\item 
+\#define \textbf{ T\+I\+M5\+\_\+\+L\+SE}~((uint16\+\_\+t)0x0080)
+\item 
+\#define \textbf{ T\+I\+M5\+\_\+\+R\+TC}~((uint16\+\_\+t)0x00\+C0)
+\item 
+\#define \textbf{ T\+I\+M11\+\_\+\+G\+P\+IO}~((uint16\+\_\+t)0x0000)
+\item 
+\#define \textbf{ T\+I\+M11\+\_\+\+H\+SE}~((uint16\+\_\+t)0x0002)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+R\+E\+M\+AP}(T\+I\+M\+\_\+\+R\+E\+M\+AP)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+F\+L\+A\+G\+\_\+\+Update}~((uint16\+\_\+t)0x0001)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+F\+L\+A\+G\+\_\+\+C\+C1}~((uint16\+\_\+t)0x0002)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+F\+L\+A\+G\+\_\+\+C\+C2}~((uint16\+\_\+t)0x0004)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+F\+L\+A\+G\+\_\+\+C\+C3}~((uint16\+\_\+t)0x0008)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+F\+L\+A\+G\+\_\+\+C\+C4}~((uint16\+\_\+t)0x0010)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+F\+L\+A\+G\+\_\+\+C\+OM}~((uint16\+\_\+t)0x0020)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+F\+L\+A\+G\+\_\+\+Trigger}~((uint16\+\_\+t)0x0040)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+F\+L\+A\+G\+\_\+\+Break}~((uint16\+\_\+t)0x0080)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+F\+L\+A\+G\+\_\+\+C\+C1\+OF}~((uint16\+\_\+t)0x0200)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+F\+L\+A\+G\+\_\+\+C\+C2\+OF}~((uint16\+\_\+t)0x0400)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+F\+L\+A\+G\+\_\+\+C\+C3\+OF}~((uint16\+\_\+t)0x0800)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+F\+L\+A\+G\+\_\+\+C\+C4\+OF}~((uint16\+\_\+t)0x1000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+G\+E\+T\+\_\+\+F\+L\+AG}(F\+L\+AG)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+I\+C\+\_\+\+F\+I\+L\+T\+ER}(I\+C\+F\+I\+L\+T\+ER)~((I\+C\+F\+I\+L\+T\+ER) $<$= 0x\+F)
+\item 
+\#define \textbf{ I\+S\+\_\+\+T\+I\+M\+\_\+\+E\+X\+T\+\_\+\+F\+I\+L\+T\+ER}(E\+X\+T\+F\+I\+L\+T\+ER)~((E\+X\+T\+F\+I\+L\+T\+ER) $<$= 0x\+F)
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+1\+Byte}~\textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+1\+Transfer}
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+2\+Bytes}~\textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+2\+Transfers}
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+3\+Bytes}~\textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+3\+Transfers}
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+4\+Bytes}~\textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+4\+Transfers}
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+5\+Bytes}~\textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+5\+Transfers}
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+6\+Bytes}~\textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+6\+Transfers}
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+7\+Bytes}~\textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+7\+Transfers}
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+8\+Bytes}~\textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+8\+Transfers}
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+9\+Bytes}~\textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+9\+Transfers}
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+10\+Bytes}~\textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+10\+Transfers}
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+11\+Bytes}~\textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+11\+Transfers}
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+12\+Bytes}~\textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+12\+Transfers}
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+13\+Bytes}~\textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+13\+Transfers}
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+14\+Bytes}~\textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+14\+Transfers}
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+15\+Bytes}~\textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+15\+Transfers}
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+16\+Bytes}~\textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+16\+Transfers}
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+17\+Bytes}~\textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+17\+Transfers}
+\item 
+\#define \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+18\+Bytes}~\textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length\+\_\+18\+Transfers}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ T\+I\+M\+\_\+\+De\+Init} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx)
+\begin{DoxyCompactList}\small\item\em Deinitializes the T\+I\+Mx peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Time\+Base\+Init} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ T\+I\+M\+\_\+\+Time\+Base\+Init\+Type\+Def} $\ast$T\+I\+M\+\_\+\+Time\+Base\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\+I\+Mx Time Base Unit peripheral according to the specified parameters in the T\+I\+M\+\_\+\+Time\+Base\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Time\+Base\+Struct\+Init} (\textbf{ T\+I\+M\+\_\+\+Time\+Base\+Init\+Type\+Def} $\ast$T\+I\+M\+\_\+\+Time\+Base\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each T\+I\+M\+\_\+\+Time\+Base\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Prescaler\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t Prescaler, uint16\+\_\+t T\+I\+M\+\_\+\+P\+S\+C\+Reload\+Mode)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx Prescaler. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Counter\+Mode\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Counter\+Mode)
+\begin{DoxyCompactList}\small\item\em Specifies the T\+I\+Mx Counter Mode to be used. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Set\+Counter} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint32\+\_\+t Counter)
+\begin{DoxyCompactList}\small\item\em Sets the T\+I\+Mx Counter Register value. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Set\+Autoreload} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint32\+\_\+t Autoreload)
+\begin{DoxyCompactList}\small\item\em Sets the T\+I\+Mx Autoreload Register value. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ T\+I\+M\+\_\+\+Get\+Counter} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\+I\+Mx Counter value. \end{DoxyCompactList}\item 
+uint16\+\_\+t \textbf{ T\+I\+M\+\_\+\+Get\+Prescaler} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\+I\+Mx Prescaler value. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Update\+Disable\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the T\+I\+Mx Update event. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Update\+Request\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Update\+Source)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx Update Request Interrupt source. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+A\+R\+R\+Preload\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables T\+I\+Mx peripheral Preload register on A\+RR. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Select\+One\+Pulse\+Mode} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+O\+P\+Mode)
+\begin{DoxyCompactList}\small\item\em Selects the T\+I\+Mx\textquotesingle{}s One Pulse Mode. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Set\+Clock\+Division} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+C\+KD)
+\begin{DoxyCompactList}\small\item\em Sets the T\+I\+Mx Clock Division value. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Cmd} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified T\+IM peripheral. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+O\+C1\+Init} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ T\+I\+M\+\_\+\+O\+C\+Init\+Type\+Def} $\ast$T\+I\+M\+\_\+\+O\+C\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\+I\+Mx Channel1 according to the specified parameters in the T\+I\+M\+\_\+\+O\+C\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+O\+C2\+Init} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ T\+I\+M\+\_\+\+O\+C\+Init\+Type\+Def} $\ast$T\+I\+M\+\_\+\+O\+C\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\+I\+Mx Channel2 according to the specified parameters in the T\+I\+M\+\_\+\+O\+C\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+O\+C3\+Init} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ T\+I\+M\+\_\+\+O\+C\+Init\+Type\+Def} $\ast$T\+I\+M\+\_\+\+O\+C\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\+I\+Mx Channel3 according to the specified parameters in the T\+I\+M\+\_\+\+O\+C\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+O\+C4\+Init} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ T\+I\+M\+\_\+\+O\+C\+Init\+Type\+Def} $\ast$T\+I\+M\+\_\+\+O\+C\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\+I\+Mx Channel4 according to the specified parameters in the T\+I\+M\+\_\+\+O\+C\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+O\+C\+Struct\+Init} (\textbf{ T\+I\+M\+\_\+\+O\+C\+Init\+Type\+Def} $\ast$T\+I\+M\+\_\+\+O\+C\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each T\+I\+M\+\_\+\+O\+C\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Select\+O\+CxM} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Channel, uint16\+\_\+t T\+I\+M\+\_\+\+O\+C\+Mode)
+\begin{DoxyCompactList}\small\item\em Selects the T\+IM Output Compare Mode. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Set\+Compare1} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint32\+\_\+t Compare1)
+\begin{DoxyCompactList}\small\item\em Sets the T\+I\+Mx Capture Compare1 Register value. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Set\+Compare2} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint32\+\_\+t Compare2)
+\begin{DoxyCompactList}\small\item\em Sets the T\+I\+Mx Capture Compare2 Register value. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Set\+Compare3} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint32\+\_\+t Compare3)
+\begin{DoxyCompactList}\small\item\em Sets the T\+I\+Mx Capture Compare3 Register value. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Set\+Compare4} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint32\+\_\+t Compare4)
+\begin{DoxyCompactList}\small\item\em Sets the T\+I\+Mx Capture Compare4 Register value. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Forced\+O\+C1\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Forced\+Action)
+\begin{DoxyCompactList}\small\item\em Forces the T\+I\+Mx output 1 waveform to active or inactive level. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Forced\+O\+C2\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Forced\+Action)
+\begin{DoxyCompactList}\small\item\em Forces the T\+I\+Mx output 2 waveform to active or inactive level. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Forced\+O\+C3\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Forced\+Action)
+\begin{DoxyCompactList}\small\item\em Forces the T\+I\+Mx output 3 waveform to active or inactive level. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Forced\+O\+C4\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Forced\+Action)
+\begin{DoxyCompactList}\small\item\em Forces the T\+I\+Mx output 4 waveform to active or inactive level. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+O\+C1\+Preload\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+O\+C\+Preload)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\+I\+Mx peripheral Preload register on C\+C\+R1. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+O\+C2\+Preload\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+O\+C\+Preload)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\+I\+Mx peripheral Preload register on C\+C\+R2. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+O\+C3\+Preload\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+O\+C\+Preload)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\+I\+Mx peripheral Preload register on C\+C\+R3. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+O\+C4\+Preload\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+O\+C\+Preload)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\+I\+Mx peripheral Preload register on C\+C\+R4. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+O\+C1\+Fast\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+O\+C\+Fast)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx Output Compare 1 Fast feature. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+O\+C2\+Fast\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+O\+C\+Fast)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx Output Compare 2 Fast feature. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+O\+C3\+Fast\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+O\+C\+Fast)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx Output Compare 3 Fast feature. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+O\+C4\+Fast\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+O\+C\+Fast)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx Output Compare 4 Fast feature. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Clear\+O\+C1\+Ref} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+O\+C\+Clear)
+\begin{DoxyCompactList}\small\item\em Clears or safeguards the O\+C\+R\+E\+F1 signal on an external event. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Clear\+O\+C2\+Ref} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+O\+C\+Clear)
+\begin{DoxyCompactList}\small\item\em Clears or safeguards the O\+C\+R\+E\+F2 signal on an external event. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Clear\+O\+C3\+Ref} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+O\+C\+Clear)
+\begin{DoxyCompactList}\small\item\em Clears or safeguards the O\+C\+R\+E\+F3 signal on an external event. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Clear\+O\+C4\+Ref} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+O\+C\+Clear)
+\begin{DoxyCompactList}\small\item\em Clears or safeguards the O\+C\+R\+E\+F4 signal on an external event. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+O\+C1\+Polarity\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+O\+C\+Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx channel 1 polarity. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+O\+C1\+N\+Polarity\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+O\+C\+N\+Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx Channel 1N polarity. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+O\+C2\+Polarity\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+O\+C\+Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx channel 2 polarity. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+O\+C2\+N\+Polarity\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+O\+C\+N\+Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx Channel 2N polarity. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+O\+C3\+Polarity\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+O\+C\+Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx channel 3 polarity. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+O\+C3\+N\+Polarity\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+O\+C\+N\+Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx Channel 3N polarity. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+O\+C4\+Polarity\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+O\+C\+Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx channel 4 polarity. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+C\+Cx\+Cmd} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Channel, uint16\+\_\+t T\+I\+M\+\_\+\+C\+Cx)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\+IM Capture Compare Channel x. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+C\+Cx\+N\+Cmd} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Channel, uint16\+\_\+t T\+I\+M\+\_\+\+C\+CxN)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\+IM Capture Compare Channel xN. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+I\+C\+Init} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def} $\ast$T\+I\+M\+\_\+\+I\+C\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\+IM peripheral according to the specified parameters in the T\+I\+M\+\_\+\+I\+C\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+I\+C\+Struct\+Init} (\textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def} $\ast$T\+I\+M\+\_\+\+I\+C\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each T\+I\+M\+\_\+\+I\+C\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+P\+W\+M\+I\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def} $\ast$T\+I\+M\+\_\+\+I\+C\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Configures the T\+IM peripheral according to the specified parameters in the T\+I\+M\+\_\+\+I\+C\+Init\+Struct to measure an external P\+WM signal. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ T\+I\+M\+\_\+\+Get\+Capture1} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\+I\+Mx Input Capture 1 value. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ T\+I\+M\+\_\+\+Get\+Capture2} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\+I\+Mx Input Capture 2 value. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ T\+I\+M\+\_\+\+Get\+Capture3} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\+I\+Mx Input Capture 3 value. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ T\+I\+M\+\_\+\+Get\+Capture4} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\+I\+Mx Input Capture 4 value. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Set\+I\+C1\+Prescaler} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+I\+C\+P\+SC)
+\begin{DoxyCompactList}\small\item\em Sets the T\+I\+Mx Input Capture 1 prescaler. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Set\+I\+C2\+Prescaler} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+I\+C\+P\+SC)
+\begin{DoxyCompactList}\small\item\em Sets the T\+I\+Mx Input Capture 2 prescaler. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Set\+I\+C3\+Prescaler} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+I\+C\+P\+SC)
+\begin{DoxyCompactList}\small\item\em Sets the T\+I\+Mx Input Capture 3 prescaler. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Set\+I\+C4\+Prescaler} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+I\+C\+P\+SC)
+\begin{DoxyCompactList}\small\item\em Sets the T\+I\+Mx Input Capture 4 prescaler. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+B\+D\+T\+R\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ T\+I\+M\+\_\+\+B\+D\+T\+R\+Init\+Type\+Def} $\ast$T\+I\+M\+\_\+\+B\+D\+T\+R\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Configures the Break feature, dead time, Lock level, O\+S\+S\+I/\+O\+S\+SR State and the A\+O\+E(automatic output enable). \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+B\+D\+T\+R\+Struct\+Init} (\textbf{ T\+I\+M\+\_\+\+B\+D\+T\+R\+Init\+Type\+Def} $\ast$T\+I\+M\+\_\+\+B\+D\+T\+R\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each T\+I\+M\+\_\+\+B\+D\+T\+R\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Ctrl\+P\+W\+M\+Outputs} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\+IM peripheral Main Outputs. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Select\+C\+OM} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Selects the T\+IM peripheral Commutation event. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+C\+C\+Preload\+Control} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Sets or Resets the T\+IM peripheral Capture Compare Preload Control bit. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+I\+T\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified T\+IM interrupts. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Generate\+Event} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Event\+Source)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx event to be generate by software. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ T\+I\+M\+\_\+\+Get\+Flag\+Status} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified T\+IM flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Clear\+Flag} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the T\+I\+Mx\textquotesingle{}s pending flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ T\+I\+M\+\_\+\+Get\+I\+T\+Status} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the T\+IM interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Clear\+I\+T\+Pending\+Bit} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the T\+I\+Mx\textquotesingle{}s interrupt pending bits. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+D\+M\+A\+Base, uint16\+\_\+t T\+I\+M\+\_\+\+D\+M\+A\+Burst\+Length)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx\textquotesingle{}s D\+MA interface. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+D\+M\+A\+Cmd} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+D\+M\+A\+Source, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\+I\+Mx\textquotesingle{}s D\+MA Requests. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Select\+C\+C\+D\+MA} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Selects the T\+I\+Mx peripheral Capture Compare D\+MA source. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Internal\+Clock\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx internal Clock. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+I\+T\+Rx\+External\+Clock\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Input\+Trigger\+Source)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx Internal Trigger as External Clock. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+T\+Ix\+External\+Clock\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+T\+Ix\+External\+C\+L\+K\+Source, uint16\+\_\+t T\+I\+M\+\_\+\+I\+C\+Polarity, uint16\+\_\+t I\+C\+Filter)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx Trigger as External Clock. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+E\+T\+R\+Clock\+Mode1\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Ext\+T\+R\+G\+Prescaler, uint16\+\_\+t T\+I\+M\+\_\+\+Ext\+T\+R\+G\+Polarity, uint16\+\_\+t Ext\+T\+R\+G\+Filter)
+\begin{DoxyCompactList}\small\item\em Configures the External clock Mode1. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+E\+T\+R\+Clock\+Mode2\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Ext\+T\+R\+G\+Prescaler, uint16\+\_\+t T\+I\+M\+\_\+\+Ext\+T\+R\+G\+Polarity, uint16\+\_\+t Ext\+T\+R\+G\+Filter)
+\begin{DoxyCompactList}\small\item\em Configures the External clock Mode2. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Select\+Input\+Trigger} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Input\+Trigger\+Source)
+\begin{DoxyCompactList}\small\item\em Selects the Input Trigger source. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Select\+Output\+Trigger} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+T\+R\+G\+O\+Source)
+\begin{DoxyCompactList}\small\item\em Selects the T\+I\+Mx Trigger Output Mode. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Select\+Slave\+Mode} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Slave\+Mode)
+\begin{DoxyCompactList}\small\item\em Selects the T\+I\+Mx Slave Mode. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Select\+Master\+Slave\+Mode} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Master\+Slave\+Mode)
+\begin{DoxyCompactList}\small\item\em Sets or Resets the T\+I\+Mx Master/\+Slave Mode. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+E\+T\+R\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Ext\+T\+R\+G\+Prescaler, uint16\+\_\+t T\+I\+M\+\_\+\+Ext\+T\+R\+G\+Polarity, uint16\+\_\+t Ext\+T\+R\+G\+Filter)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx External Trigger (E\+TR). \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Encoder\+Interface\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Encoder\+Mode, uint16\+\_\+t T\+I\+M\+\_\+\+I\+C1\+Polarity, uint16\+\_\+t T\+I\+M\+\_\+\+I\+C2\+Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx Encoder Interface. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Select\+Hall\+Sensor} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\+I\+Mx\textquotesingle{}s Hall sensor interface. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Remap\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Remap)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+M2, T\+I\+M5 and T\+I\+M11 Remapping input capabilities. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file contains all the functions prototypes for the T\+IM firmware library. 
+
+\begin{DoxyAuthor}{Author}
+M\+CD Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\+0.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+30-\/\+September-\/2011 
+\end{DoxyDate}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+T\+HE P\+R\+E\+S\+E\+NT F\+I\+R\+M\+W\+A\+RE W\+H\+I\+CH IS F\+OR G\+U\+I\+D\+A\+N\+CE O\+N\+LY A\+I\+MS AT P\+R\+O\+V\+I\+D\+I\+NG C\+U\+S\+T\+O\+M\+E\+RS W\+I\+TH C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON R\+E\+G\+A\+R\+D\+I\+NG T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS IN O\+R\+D\+ER F\+OR T\+H\+EM TO S\+A\+VE T\+I\+ME. AS A R\+E\+S\+U\+LT, S\+T\+M\+I\+C\+R\+O\+E\+L\+E\+C\+T\+R\+O\+N\+I\+CS S\+H\+A\+LL N\+OT BE H\+E\+LD L\+I\+A\+B\+LE F\+OR A\+NY D\+I\+R\+E\+CT, I\+N\+D\+I\+R\+E\+CT OR C\+O\+N\+S\+E\+Q\+U\+E\+N\+T\+I\+AL D\+A\+M\+A\+G\+ES W\+I\+TH R\+E\+S\+P\+E\+CT TO A\+NY C\+L\+A\+I\+MS A\+R\+I\+S\+I\+NG F\+R\+OM T\+HE C\+O\+N\+T\+E\+NT OF S\+U\+CH F\+I\+R\+M\+W\+A\+RE A\+N\+D/\+OR T\+HE U\+SE M\+A\+DE BY C\+U\+S\+T\+O\+M\+E\+RS OF T\+HE C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON C\+O\+N\+T\+A\+I\+N\+ED H\+E\+R\+E\+IN IN C\+O\+N\+N\+E\+C\+T\+I\+ON W\+I\+TH T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS.
+
+\subsubsection*{\begin{center}\copyright{} C\+O\+P\+Y\+R\+I\+G\+HT 2011 S\+T\+Microelectronics\end{center} }
+
+Definition in file \textbf{ stm32f4xx\+\_\+tim.\+h}.
+

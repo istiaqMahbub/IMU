@@ -1,0 +1,193 @@
+\section{stm32f4xx\+\_\+pwr.\+h}
+\label{stm32f4xx__pwr_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+pwr.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+pwr.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_pwr.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the PWR firmware }
+00008 \textcolor{comment}{  *          library.}
+00009 \textcolor{comment}{  ******************************************************************************}
+00010 \textcolor{comment}{  * @attention}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00013 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00014 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00015 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00016 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00017 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00020 \textcolor{comment}{  ******************************************************************************}
+00021 \textcolor{comment}{  */}
+00022 
+00023 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_PWR\_H}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_PWR\_H}
+00026 
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00028  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00033 
+00034 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00035 \textcolor{comment}{  * @\{}
+00036 \textcolor{comment}{  */}
+00037 
+00038 \textcolor{comment}{/** @addtogroup PWR}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00043 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00044 
+00045 \textcolor{comment}{/** @defgroup PWR\_Exported\_Constants}
+00046 \textcolor{comment}{  * @\{}
+00047 \textcolor{comment}{  */}
+00048 
+00049 \textcolor{comment}{/** @defgroup PWR\_PVD\_detection\_level }
+00050 \textcolor{comment}{  * @\{}
+00051 \textcolor{comment}{  */}
+00052 
+00053 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_PVDLevel\_0}                  PWR_CR_PLS_LEV0
+00054 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_PVDLevel\_1}                  PWR_CR_PLS_LEV1
+00055 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_PVDLevel\_2}                  PWR_CR_PLS_LEV2
+00056 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_PVDLevel\_3}                  PWR_CR_PLS_LEV3
+00057 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_PVDLevel\_4}                  PWR_CR_PLS_LEV4
+00058 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_PVDLevel\_5}                  PWR_CR_PLS_LEV5
+00059 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_PVDLevel\_6}                  PWR_CR_PLS_LEV6
+00060 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_PVDLevel\_7}                  PWR_CR_PLS_LEV7
+00061 
+00062 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_PWR\_PVD\_LEVEL}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} PWR_PVDLevel_0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      PWR_PVDLevel_1\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00063                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} PWR_PVDLevel_2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      PWR_PVDLevel_3\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00064                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} PWR_PVDLevel_4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      PWR_PVDLevel_5\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00065                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} PWR_PVDLevel_6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      PWR_PVDLevel_7\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00066 \textcolor{comment}{/**}
+00067 \textcolor{comment}{  * @\}}
+00068 \textcolor{comment}{  */}
+00069 
+00070 
+00071 \textcolor{comment}{/** @defgroup PWR\_Regulator\_state\_in\_STOP\_mode }
+00072 \textcolor{comment}{  * @\{}
+00073 \textcolor{comment}{  */}
+00074 
+00075 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_Regulator\_ON}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00076 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_Regulator\_LowPower}          PWR_CR_LPDS
+00077 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_PWR\_REGULATOR}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGULATOR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGULATOR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} PWR_Regulator_ON\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00078                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGULATOR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} PWR_Regulator_LowPower\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00079 \textcolor{comment}{/**}
+00080 \textcolor{comment}{  * @\}}
+00081 \textcolor{comment}{  */}
+00082 
+00083 \textcolor{comment}{/** @defgroup PWR\_STOP\_mode\_entry }
+00084 \textcolor{comment}{  * @\{}
+00085 \textcolor{comment}{  */}
+00086 
+00087 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_STOPEntry\_WFI}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}
+00088 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_STOPEntry\_WFE}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}
+00089 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_PWR\_STOP\_ENTRY}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ENTRY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ENTRY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} PWR_STOPEntry_WFI\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ENTRY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      PWR_STOPEntry_WFE\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00090 
+00091 \textcolor{comment}{/** @defgroup PWR\_Regulator\_Voltage\_Scale }
+00092 \textcolor{comment}{  * @\{}
+00093 \textcolor{comment}{  */}
+00094 
+00095 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_Regulator\_Voltage\_Scale1}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00004000\textcolor{preprocessor}{)}
+00096 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_Regulator\_Voltage\_Scale2}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00097 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_PWR\_REGULATOR\_VOLTAGE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VOLTAGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VOLTAGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      PWR_Regulator_Voltage_Scale1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VOLTAGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} PWR_Regulator_Voltage_Scale2\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00098 
+00099 \textcolor{comment}{/**}
+00100 \textcolor{comment}{  * @\}}
+00101 \textcolor{comment}{  */}
+00102 
+00103 \textcolor{comment}{/** @defgroup PWR\_Flag }
+00104 \textcolor{comment}{  * @\{}
+00105 \textcolor{comment}{  */}
+00106 
+00107 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_FLAG\_WU}                     PWR_CSR_WUF
+00108 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_FLAG\_SB}                     PWR_CSR_SBF
+00109 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_FLAG\_PVDO}                   PWR_CSR_PVDO
+00110 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_FLAG\_BRR}                    PWR_CSR_BRR
+00111 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_FLAG\_VOSRDY}                 PWR_CSR_VOSRDY
+00112 
+00113 \textcolor{comment}{/** @defgroup PWR\_Flag\_Legacy }
+00114 \textcolor{comment}{  * @\{}
+00115 \textcolor{comment}{  */}
+00116 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PWR\_FLAG\_REGRDY}                  PWR_FLAG_VOSRDY
+00117 \textcolor{comment}{/**}
+00118 \textcolor{comment}{  * @\}}
+00119 \textcolor{comment}{  */}
+00120 
+00121 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_PWR\_GET\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} PWR_FLAG_WU\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      PWR_FLAG_SB\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00122                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} PWR_FLAG_PVDO\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      PWR_FLAG_BRR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00123                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} PWR_FLAG_VOSRDY\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00124 
+00125 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_PWR\_CLEAR\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} PWR_FLAG_WU\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      PWR_FLAG_SB\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00126 \textcolor{comment}{/**}
+00127 \textcolor{comment}{  * @\}}
+00128 \textcolor{comment}{  */}
+00129 
+00130 \textcolor{comment}{/**}
+00131 \textcolor{comment}{  * @\}}
+00132 \textcolor{comment}{  */}
+00133 
+00134 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00135 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00136 
+00137 \textcolor{comment}{/* Function used to set the PWR configuration to the default reset state ******/}
+00138 \textcolor{keywordtype}{void} PWR_DeInit(\textcolor{keywordtype}{void});
+00139 
+00140 \textcolor{comment}{/* Backup Domain Access function **********************************************/}
+00141 \textcolor{keywordtype}{void} PWR_BackupAccessCmd(FunctionalState NewState);
+00142 
+00143 \textcolor{comment}{/* PVD configuration functions ************************************************/}
+00144 \textcolor{keywordtype}{void} PWR_PVDLevelConfig(uint32\_t PWR\_PVDLevel);
+00145 \textcolor{keywordtype}{void} PWR_PVDCmd(FunctionalState NewState);
+00146 
+00147 \textcolor{comment}{/* WakeUp pins configuration functions ****************************************/}
+00148 \textcolor{keywordtype}{void} PWR_WakeUpPinCmd(FunctionalState NewState);
+00149 
+00150 \textcolor{comment}{/* Main and Backup Regulators configuration functions *************************/}
+00151 \textcolor{keywordtype}{void} PWR_BackupRegulatorCmd(FunctionalState NewState);
+00152 \textcolor{keywordtype}{void} PWR_MainRegulatorModeConfig(uint32\_t PWR\_Regulator\_Voltage);
+00153 
+00154 \textcolor{comment}{/* FLASH Power Down configuration functions ***********************************/}
+00155 \textcolor{keywordtype}{void} PWR_FlashPowerDownCmd(FunctionalState NewState);
+00156 
+00157 \textcolor{comment}{/* Low Power modes configuration functions ************************************/}
+00158 \textcolor{keywordtype}{void} PWR_EnterSTOPMode(uint32\_t PWR\_Regulator, uint8\_t PWR\_STOPEntry);
+00159 \textcolor{keywordtype}{void} PWR_EnterSTANDBYMode(\textcolor{keywordtype}{void});
+00160 
+00161 \textcolor{comment}{/* Flags management functions *************************************************/}
+00162 FlagStatus PWR_GetFlagStatus(uint32\_t PWR\_FLAG);
+00163 \textcolor{keywordtype}{void} PWR_ClearFlag(uint32\_t PWR\_FLAG);
+00164 
+00165 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00166 \}
+00167 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00168 
+00169 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/* \_\_STM32F4xx\_PWR\_H */}
+00170 
+00171 \textcolor{comment}{/**}
+00172 \textcolor{comment}{  * @\}}
+00173 \textcolor{comment}{  */}
+00174 
+00175 \textcolor{comment}{/**}
+00176 \textcolor{comment}{  * @\}}
+00177 \textcolor{comment}{  */}
+00178 
+00179 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

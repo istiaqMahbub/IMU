@@ -1,0 +1,1300 @@
+\section{stm32f4xx\+\_\+dma.\+c}
+\label{stm32f4xx__dma_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+dma.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+dma.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_dma.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides firmware functions to manage the following }
+00008 \textcolor{comment}{  *          functionalities of the Direct Memory Access controller (DMA):           }
+00009 \textcolor{comment}{  *           - Initialization and Configuration}
+00010 \textcolor{comment}{  *           - Data Counter}
+00011 \textcolor{comment}{  *           - Double Buffer mode configuration and command  }
+00012 \textcolor{comment}{  *           - Interrupts and flags management}
+00013 \textcolor{comment}{  *           }
+00014 \textcolor{comment}{  *  @verbatim}
+00015 \textcolor{comment}{  *      }
+00016 \textcolor{comment}{  *          ===================================================================      }
+00017 \textcolor{comment}{  *                                 How to use this driver}
+00018 \textcolor{comment}{  *          =================================================================== }
+00019 \textcolor{comment}{  *          1. Enable The DMA controller clock using RCC\_AHB1PeriphResetCmd(RCC\_AHB1Periph\_DMA1,
+       ENABLE)}
+00020 \textcolor{comment}{  *             function for DMA1 or using RCC\_AHB1PeriphResetCmd(RCC\_AHB1Periph\_DMA2, ENABLE)}
+00021 \textcolor{comment}{  *             function for DMA2.}
+00022 \textcolor{comment}{  *}
+00023 \textcolor{comment}{  *          2. Enable and configure the peripheral to be connected to the DMA Stream}
+00024 \textcolor{comment}{  *             (except for internal SRAM / FLASH memories: no initialization is }
+00025 \textcolor{comment}{  *             necessary). }
+00026 \textcolor{comment}{  *        }
+00027 \textcolor{comment}{  *          3. For a given Stream, program the required configuration through following parameters:  
+       }
+00028 \textcolor{comment}{  *             Source and Destination addresses, Transfer Direction, Transfer size, Source and
+       Destination }
+00029 \textcolor{comment}{  *             data formats, Circular or Normal mode, Stream Priority level, Source and Destination }
+00030 \textcolor{comment}{  *             Incrementation mode, FIFO mode and its Threshold (if needed), Burst mode for Source
+       and/or }
+00031 \textcolor{comment}{  *             Destination (if needed) using the DMA\_Init() function.}
+00032 \textcolor{comment}{  *             To avoid filling un-nesecessary fields, you can call DMA\_StructInit() function}
+00033 \textcolor{comment}{  *             to initialize a given structure with default values (reset values), the modify}
+00034 \textcolor{comment}{  *             only necessary fields (ie. Source and Destination addresses, Transfer size and Data
+       Formats).}
+00035 \textcolor{comment}{  *}
+00036 \textcolor{comment}{  *          4. Enable the NVIC and the corresponding interrupt(s) using the function }
+00037 \textcolor{comment}{  *             DMA\_ITConfig() if you need to use DMA interrupts. }
+00038 \textcolor{comment}{  *}
+00039 \textcolor{comment}{  *          5. Optionally, if the Circular mode is enabled, you can use the Double buffer mode by
+       configuring }
+00040 \textcolor{comment}{  *             the second Memory address and the first Memory to be used through the function }
+00041 \textcolor{comment}{  *             DMA\_DoubleBufferModeConfig(). Then enable the Double buffer mode through the function}
+00042 \textcolor{comment}{  *             DMA\_DoubleBufferModeCmd(). These operations must be done before step 6.}
+00043 \textcolor{comment}{  *    }
+00044 \textcolor{comment}{  *          6. Enable the DMA stream using the DMA\_Cmd() function. }
+00045 \textcolor{comment}{  *                }
+00046 \textcolor{comment}{  *          7. Activate the needed Stream Request using PPP\_DMACmd() function for}
+00047 \textcolor{comment}{  *             any PPP peripheral except internal SRAM and FLASH (ie. SPI, USART ...)}
+00048 \textcolor{comment}{  *             The function allowing this operation is provided in each PPP peripheral}
+00049 \textcolor{comment}{  *             driver (ie. SPI\_DMACmd for SPI peripheral).}
+00050 \textcolor{comment}{  *             Once the Stream is enabled, it is not possible to modify its configuration}
+00051 \textcolor{comment}{  *             unless the stream is stopped and disabled.}
+00052 \textcolor{comment}{  *             After enabling the Stream, it is advised to monitor the EN bit status using}
+00053 \textcolor{comment}{  *             the function DMA\_GetCmdStatus(). In case of configuration errors or bus errors}
+00054 \textcolor{comment}{  *             this bit will remain reset and all transfers on this Stream will remain on hold.      }
+00055 \textcolor{comment}{  *}
+00056 \textcolor{comment}{  *          8. Optionally, you can configure the number of data to be transferred}
+00057 \textcolor{comment}{  *             when the Stream is disabled (ie. after each Transfer Complete event}
+00058 \textcolor{comment}{  *             or when a Transfer Error occurs) using the function DMA\_SetCurrDataCounter().}
+00059 \textcolor{comment}{  *             And you can get the number of remaining data to be transferred using }
+00060 \textcolor{comment}{  *             the function DMA\_GetCurrDataCounter() at run time (when the DMA Stream is}
+00061 \textcolor{comment}{  *             enabled and running).  }
+00062 \textcolor{comment}{  *                   }
+00063 \textcolor{comment}{  *          9. To control DMA events you can use one of the following }
+00064 \textcolor{comment}{  *              two methods:}
+00065 \textcolor{comment}{  *               a- Check on DMA Stream flags using the function DMA\_GetFlagStatus().  }
+00066 \textcolor{comment}{  *               b- Use DMA interrupts through the function DMA\_ITConfig() at initialization}
+00067 \textcolor{comment}{  *                  phase and DMA\_GetITStatus() function into interrupt routines in}
+00068 \textcolor{comment}{  *                  communication phase.  }
+00069 \textcolor{comment}{  *              After checking on a flag you should clear it using DMA\_ClearFlag()}
+00070 \textcolor{comment}{  *              function. And after checking on an interrupt event you should }
+00071 \textcolor{comment}{  *              clear it using DMA\_ClearITPendingBit() function.    }
+00072 \textcolor{comment}{  *              }
+00073 \textcolor{comment}{  *          10. Optionally, if Circular mode and Double Buffer mode are enabled, you can modify}
+00074 \textcolor{comment}{  *              the Memory Addresses using the function DMA\_MemoryTargetConfig(). Make sure that}
+00075 \textcolor{comment}{  *              the Memory Address to be modified is not the one currently in use by DMA Stream.}
+00076 \textcolor{comment}{  *              This condition can be monitored using the function DMA\_GetCurrentMemoryTarget().}
+00077 \textcolor{comment}{  *              }
+00078 \textcolor{comment}{  *          11. Optionally, Pause-Resume operations may be performed:}
+00079 \textcolor{comment}{  *              The DMA\_Cmd() function may be used to perform Pause-Resume operation. When a }
+00080 \textcolor{comment}{  *              transfer is ongoing, calling this function to disable the Stream will cause the }
+00081 \textcolor{comment}{  *              transfer to be paused. All configuration registers and the number of remaining }
+00082 \textcolor{comment}{  *              data will be preserved. When calling again this function to re-enable the Stream, }
+00083 \textcolor{comment}{  *              the transfer will be resumed from the point where it was paused.          }
+00084 \textcolor{comment}{  *                 }
+00085 \textcolor{comment}{  * @note   Memory-to-Memory transfer is possible by setting the address of the memory into}
+00086 \textcolor{comment}{  *         the Peripheral registers. In this mode, Circular mode and Double Buffer mode}
+00087 \textcolor{comment}{  *         are not allowed.}
+00088 \textcolor{comment}{  *  }
+00089 \textcolor{comment}{  * @note   The FIFO is used mainly to reduce bus usage and to allow data packing/unpacking: it is}
+00090 \textcolor{comment}{  *         possible to set different Data Sizes for the Peripheral and the Memory (ie. you can set}
+00091 \textcolor{comment}{  *         Half-Word data size for the peripheral to access its data register and set Word data size}
+00092 \textcolor{comment}{  *         for the Memory to gain in access time. Each two Half-words will be packed and written in}
+00093 \textcolor{comment}{  *         a single access to a Word in the Memory).}
+00094 \textcolor{comment}{  *    }
+00095 \textcolor{comment}{  * @note  When FIFO is disabled, it is not allowed to configure different Data Sizes for Source}
+00096 \textcolor{comment}{  *        and Destination. In this case the Peripheral Data Size will be applied to both Source}
+00097 \textcolor{comment}{  *        and Destination.               }
+00098 \textcolor{comment}{  *}
+00099 \textcolor{comment}{  *  @endverbatim}
+00100 \textcolor{comment}{  *                                  }
+00101 \textcolor{comment}{  ******************************************************************************}
+00102 \textcolor{comment}{  * @attention}
+00103 \textcolor{comment}{  *}
+00104 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00105 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00106 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00107 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00108 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00109 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00110 \textcolor{comment}{  *}
+00111 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00112 \textcolor{comment}{  ******************************************************************************  }
+00113 \textcolor{comment}{  */}
+00114 
+00115 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00116 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_dma.h"
+00117 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rcc.h"
+00118 
+00119 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00120 \textcolor{comment}{  * @\{}
+00121 \textcolor{comment}{  */}
+00122 
+00123 \textcolor{comment}{/** @defgroup DMA }
+00124 \textcolor{comment}{  * @brief DMA driver modules}
+00125 \textcolor{comment}{  * @\{}
+00126 \textcolor{comment}{  */}
+00127 
+00128 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00129 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00130 
+00131 \textcolor{comment}{/* Masks Definition */}
+00132 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TRANSFER\_IT\_ENABLE\_MASK} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}DMA_SxCR_TCIE \textcolor{preprocessor}{|} DMA_SxCR_HTIE \textcolor{preprocessor}{|}
+00133                                            DMA_SxCR_TEIE \textcolor{preprocessor}{|} DMA_SxCR_DMEIE\textcolor{preprocessor}{)}
+00134 
+00135 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Stream0\_IT\_MASK}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}DMA_LISR_FEIF0 \textcolor{preprocessor}{|} DMA_LISR_DMEIF0 \textcolor{preprocessor}{|}
+00136                                            DMA_LISR_TEIF0 \textcolor{preprocessor}{|} DMA_LISR_HTIF0 \textcolor{preprocessor}{|}
+00137                                            DMA_LISR_TCIF0\textcolor{preprocessor}{)}
+00138 
+00139 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Stream1\_IT\_MASK}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}DMA_Stream0_IT_MASK \textcolor{preprocessor}{<<} 6\textcolor{preprocessor}{)}
+00140 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Stream2\_IT\_MASK}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}DMA_Stream0_IT_MASK \textcolor{preprocessor}{<<} 16\textcolor{preprocessor}{)}
+00141 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Stream3\_IT\_MASK}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}DMA_Stream0_IT_MASK \textcolor{preprocessor}{<<} 22\textcolor{preprocessor}{)}
+00142 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Stream4\_IT\_MASK}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}DMA_Stream0_IT_MASK \textcolor{preprocessor}{|} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000000\textcolor{preprocessor}{)}
+00143 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Stream5\_IT\_MASK}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}DMA_Stream1_IT_MASK \textcolor{preprocessor}{|} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000000\textcolor{preprocessor}{)}
+00144 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Stream6\_IT\_MASK}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}DMA_Stream2_IT_MASK \textcolor{preprocessor}{|} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000000\textcolor{preprocessor}{)}
+00145 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Stream7\_IT\_MASK}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}DMA_Stream3_IT_MASK \textcolor{preprocessor}{|} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000000\textcolor{preprocessor}{)}
+00146 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TRANSFER\_IT\_MASK}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0F3C0F3C
+00147 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{HIGH\_ISR\_MASK}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000000
+00148 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RESERVED\_MASK}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0F7D0F7D
+00149 
+00150 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00151 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00152 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00153 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00154 
+00155 
+00156 \textcolor{comment}{/** @defgroup DMA\_Private\_Functions}
+00157 \textcolor{comment}{  * @\{}
+00158 \textcolor{comment}{  */}
+00159 
+00160 \textcolor{comment}{/** @defgroup DMA\_Group1 Initialization and Configuration functions}
+00161 \textcolor{comment}{ *  @brief   Initialization and Configuration functions}
+00162 \textcolor{comment}{ *}
+00163 \textcolor{comment}{@verbatim   }
+00164 \textcolor{comment}{ ===============================================================================}
+00165 \textcolor{comment}{                 Initialization and Configuration functions}
+00166 \textcolor{comment}{ ===============================================================================  }
+00167 \textcolor{comment}{}
+00168 \textcolor{comment}{  This subsection provides functions allowing to initialize the DMA Stream source}
+00169 \textcolor{comment}{  and destination addresses, incrementation and data sizes, transfer direction, }
+00170 \textcolor{comment}{  buffer size, circular/normal mode selection, memory-to-memory mode selection }
+00171 \textcolor{comment}{  and Stream priority value.}
+00172 \textcolor{comment}{  }
+00173 \textcolor{comment}{  The DMA\_Init() function follows the DMA configuration procedures as described in}
+00174 \textcolor{comment}{  reference manual (RM0090) except the first point: waiting on EN bit to be reset.}
+00175 \textcolor{comment}{  This condition should be checked by user application using the function DMA\_GetCmdStatus()}
+00176 \textcolor{comment}{  before calling the DMA\_Init() function.}
+00177 \textcolor{comment}{}
+00178 \textcolor{comment}{@endverbatim}
+00179 \textcolor{comment}{  * @\{}
+00180 \textcolor{comment}{  */}
+00181 
+00182 \textcolor{comment}{/**}
+00183 \textcolor{comment}{  * @brief  Deinitialize the DMAy Streamx registers to their default reset values.}
+00184 \textcolor{comment}{  * @param  DMAy\_Streamx: where y can be 1 or 2 to select the DMA and x can be 0}
+00185 \textcolor{comment}{  *         to 7 to select the DMA Stream.}
+00186 \textcolor{comment}{  * @retval None}
+00187 \textcolor{comment}{  */}
+00188 \textcolor{keywordtype}{void} DMA_DeInit(DMA\_Stream\_TypeDef* DMAy\_Streamx)
+00189 \{
+00190   \textcolor{comment}{/* Check the parameters */}
+00191   assert_param(IS\_DMA\_ALL\_PERIPH(DMAy\_Streamx));
+00192 
+00193   \textcolor{comment}{/* Disable the selected DMAy Streamx */}
+00194   DMAy\_Streamx->CR &= ~((uint32\_t)DMA_SxCR_EN);
+00195 
+00196   \textcolor{comment}{/* Reset DMAy Streamx control register */}
+00197   DMAy\_Streamx->CR  = 0;
+00198 
+00199   \textcolor{comment}{/* Reset DMAy Streamx Number of Data to Transfer register */}
+00200   DMAy\_Streamx->NDTR = 0;
+00201 
+00202   \textcolor{comment}{/* Reset DMAy Streamx peripheral address register */}
+00203   DMAy\_Streamx->PAR  = 0;
+00204 
+00205   \textcolor{comment}{/* Reset DMAy Streamx memory 0 address register */}
+00206   DMAy\_Streamx->M0AR = 0;
+00207 
+00208   \textcolor{comment}{/* Reset DMAy Streamx memory 1 address register */}
+00209   DMAy\_Streamx->M1AR = 0;
+00210 
+00211   \textcolor{comment}{/* Reset DMAy Streamx FIFO control register */}
+00212   DMAy\_Streamx->FCR = (uint32\_t)0x00000021;
+00213 
+00214   \textcolor{comment}{/* Reset interrupt pending bits for the selected stream */}
+00215   \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA1_Stream0)
+00216   \{
+00217     \textcolor{comment}{/* Reset interrupt pending bits for DMA1 Stream0 */}
+00218     DMA1->LIFCR = DMA_Stream0_IT_MASK;
+00219   \}
+00220   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA1_Stream1)
+00221   \{
+00222     \textcolor{comment}{/* Reset interrupt pending bits for DMA1 Stream1 */}
+00223     DMA1->LIFCR = DMA_Stream1_IT_MASK;
+00224   \}
+00225   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA1_Stream2)
+00226   \{
+00227     \textcolor{comment}{/* Reset interrupt pending bits for DMA1 Stream2 */}
+00228     DMA1->LIFCR = DMA_Stream2_IT_MASK;
+00229   \}
+00230   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA1_Stream3)
+00231   \{
+00232     \textcolor{comment}{/* Reset interrupt pending bits for DMA1 Stream3 */}
+00233     DMA1->LIFCR = DMA_Stream3_IT_MASK;
+00234   \}
+00235   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA1_Stream4)
+00236   \{
+00237     \textcolor{comment}{/* Reset interrupt pending bits for DMA1 Stream4 */}
+00238     DMA1->HIFCR = DMA_Stream4_IT_MASK;
+00239   \}
+00240   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA1_Stream5)
+00241   \{
+00242     \textcolor{comment}{/* Reset interrupt pending bits for DMA1 Stream5 */}
+00243     DMA1->HIFCR = DMA_Stream5_IT_MASK;
+00244   \}
+00245   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA1_Stream6)
+00246   \{
+00247     \textcolor{comment}{/* Reset interrupt pending bits for DMA1 Stream6 */}
+00248     DMA1->HIFCR = (uint32\_t)DMA_Stream6_IT_MASK;
+00249   \}
+00250   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA1_Stream7)
+00251   \{
+00252     \textcolor{comment}{/* Reset interrupt pending bits for DMA1 Stream7 */}
+00253     DMA1->HIFCR = DMA_Stream7_IT_MASK;
+00254   \}
+00255   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA2_Stream0)
+00256   \{
+00257     \textcolor{comment}{/* Reset interrupt pending bits for DMA2 Stream0 */}
+00258     DMA2->LIFCR = DMA_Stream0_IT_MASK;
+00259   \}
+00260   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA2_Stream1)
+00261   \{
+00262     \textcolor{comment}{/* Reset interrupt pending bits for DMA2 Stream1 */}
+00263     DMA2->LIFCR = DMA_Stream1_IT_MASK;
+00264   \}
+00265   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA2_Stream2)
+00266   \{
+00267     \textcolor{comment}{/* Reset interrupt pending bits for DMA2 Stream2 */}
+00268     DMA2->LIFCR = DMA_Stream2_IT_MASK;
+00269   \}
+00270   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA2_Stream3)
+00271   \{
+00272     \textcolor{comment}{/* Reset interrupt pending bits for DMA2 Stream3 */}
+00273     DMA2->LIFCR = DMA_Stream3_IT_MASK;
+00274   \}
+00275   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA2_Stream4)
+00276   \{
+00277     \textcolor{comment}{/* Reset interrupt pending bits for DMA2 Stream4 */}
+00278     DMA2->HIFCR = DMA_Stream4_IT_MASK;
+00279   \}
+00280   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA2_Stream5)
+00281   \{
+00282     \textcolor{comment}{/* Reset interrupt pending bits for DMA2 Stream5 */}
+00283     DMA2->HIFCR = DMA_Stream5_IT_MASK;
+00284   \}
+00285   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA2_Stream6)
+00286   \{
+00287     \textcolor{comment}{/* Reset interrupt pending bits for DMA2 Stream6 */}
+00288     DMA2->HIFCR = DMA_Stream6_IT_MASK;
+00289   \}
+00290   \textcolor{keywordflow}{else}
+00291   \{
+00292     \textcolor{keywordflow}{if} (DMAy\_Streamx == DMA2_Stream7)
+00293     \{
+00294       \textcolor{comment}{/* Reset interrupt pending bits for DMA2 Stream7 */}
+00295       DMA2->HIFCR = DMA_Stream7_IT_MASK;
+00296     \}
+00297   \}
+00298 \}
+00299 
+00300 \textcolor{comment}{/**}
+00301 \textcolor{comment}{  * @brief  Initializes the DMAy Streamx according to the specified parameters in }
+00302 \textcolor{comment}{  *         the DMA\_InitStruct structure.}
+00303 \textcolor{comment}{  * @note   Before calling this function, it is recommended to check that the Stream }
+00304 \textcolor{comment}{  *         is actually disabled using the function DMA\_GetCmdStatus().  }
+00305 \textcolor{comment}{  * @param  DMAy\_Streamx: where y can be 1 or 2 to select the DMA and x can be 0}
+00306 \textcolor{comment}{  *         to 7 to select the DMA Stream.}
+00307 \textcolor{comment}{  * @param  DMA\_InitStruct: pointer to a DMA\_InitTypeDef structure that contains}
+00308 \textcolor{comment}{  *         the configuration information for the specified DMA Stream.  }
+00309 \textcolor{comment}{  * @retval None}
+00310 \textcolor{comment}{  */}
+00311 \textcolor{keywordtype}{void} DMA_Init(DMA\_Stream\_TypeDef* DMAy\_Streamx, DMA\_InitTypeDef* DMA\_InitStruct)
+00312 \{
+00313   uint32\_t tmpreg = 0;
+00314 
+00315   \textcolor{comment}{/* Check the parameters */}
+00316   assert_param(IS\_DMA\_ALL\_PERIPH(DMAy\_Streamx));
+00317   assert_param(IS\_DMA\_CHANNEL(DMA\_InitStruct->DMA\_Channel));
+00318   assert_param(IS\_DMA\_DIRECTION(DMA\_InitStruct->DMA\_DIR));
+00319   assert_param(IS\_DMA\_BUFFER\_SIZE(DMA\_InitStruct->DMA\_BufferSize));
+00320   assert_param(IS\_DMA\_PERIPHERAL\_INC\_STATE(DMA\_InitStruct->DMA\_PeripheralInc));
+00321   assert_param(IS\_DMA\_MEMORY\_INC\_STATE(DMA\_InitStruct->DMA\_MemoryInc));
+00322   assert_param(IS\_DMA\_PERIPHERAL\_DATA\_SIZE(DMA\_InitStruct->DMA\_PeripheralDataSize));
+00323   assert_param(IS\_DMA\_MEMORY\_DATA\_SIZE(DMA\_InitStruct->DMA\_MemoryDataSize));
+00324   assert_param(IS\_DMA\_MODE(DMA\_InitStruct->DMA\_Mode));
+00325   assert_param(IS\_DMA\_PRIORITY(DMA\_InitStruct->DMA\_Priority));
+00326   assert_param(IS\_DMA\_FIFO\_MODE\_STATE(DMA\_InitStruct->DMA\_FIFOMode));
+00327   assert_param(IS\_DMA\_FIFO\_THRESHOLD(DMA\_InitStruct->DMA\_FIFOThreshold));
+00328   assert_param(IS\_DMA\_MEMORY\_BURST(DMA\_InitStruct->DMA\_MemoryBurst));
+00329   assert_param(IS\_DMA\_PERIPHERAL\_BURST(DMA\_InitStruct->DMA\_PeripheralBurst));
+00330 
+00331   \textcolor{comment}{/*------------------------- DMAy Streamx CR Configuration ------------------*/}
+00332   \textcolor{comment}{/* Get the DMAy\_Streamx CR value */}
+00333   tmpreg = DMAy\_Streamx->CR;
+00334 
+00335   \textcolor{comment}{/* Clear CHSEL, MBURST, PBURST, PL, MSIZE, PSIZE, MINC, PINC, CIRC and DIR bits */}
+00336   tmpreg &= ((uint32\_t)~(DMA_SxCR_CHSEL | DMA_SxCR_MBURST | DMA_SxCR_PBURST |
+00337                          DMA_SxCR_PL | DMA_SxCR_MSIZE | DMA_SxCR_PSIZE |
+00338                          DMA_SxCR_MINC | DMA_SxCR_PINC | DMA_SxCR_CIRC |
+00339                          DMA_SxCR_DIR));
+00340 
+00341   \textcolor{comment}{/* Configure DMAy Streamx: */}
+00342   \textcolor{comment}{/* Set CHSEL bits according to DMA\_CHSEL value */}
+00343   \textcolor{comment}{/* Set DIR bits according to DMA\_DIR value */}
+00344   \textcolor{comment}{/* Set PINC bit according to DMA\_PeripheralInc value */}
+00345   \textcolor{comment}{/* Set MINC bit according to DMA\_MemoryInc value */}
+00346   \textcolor{comment}{/* Set PSIZE bits according to DMA\_PeripheralDataSize value */}
+00347   \textcolor{comment}{/* Set MSIZE bits according to DMA\_MemoryDataSize value */}
+00348   \textcolor{comment}{/* Set CIRC bit according to DMA\_Mode value */}
+00349   \textcolor{comment}{/* Set PL bits according to DMA\_Priority value */}
+00350   \textcolor{comment}{/* Set MBURST bits according to DMA\_MemoryBurst value */}
+00351   \textcolor{comment}{/* Set PBURST bits according to DMA\_PeripheralBurst value */}
+00352   tmpreg |= DMA\_InitStruct->DMA_Channel | DMA\_InitStruct->DMA_DIR |
+00353             DMA\_InitStruct->DMA_PeripheralInc | DMA\_InitStruct->
+      DMA_MemoryInc |
+00354             DMA\_InitStruct->DMA_PeripheralDataSize | DMA\_InitStruct->
+      DMA_MemoryDataSize |
+00355             DMA\_InitStruct->DMA_Mode | DMA\_InitStruct->DMA_Priority |
+00356             DMA\_InitStruct->DMA_MemoryBurst | DMA\_InitStruct->
+      DMA_PeripheralBurst;
+00357 
+00358   \textcolor{comment}{/* Write to DMAy Streamx CR register */}
+00359   DMAy\_Streamx->CR = tmpreg;
+00360 
+00361   \textcolor{comment}{/*------------------------- DMAy Streamx FCR Configuration -----------------*/}
+00362   \textcolor{comment}{/* Get the DMAy\_Streamx FCR value */}
+00363   tmpreg = DMAy\_Streamx->FCR;
+00364 
+00365   \textcolor{comment}{/* Clear DMDIS and FTH bits */}
+00366   tmpreg &= (uint32\_t)~(DMA_SxFCR_DMDIS | DMA_SxFCR_FTH);
+00367 
+00368   \textcolor{comment}{/* Configure DMAy Streamx FIFO: }
+00369 \textcolor{comment}{    Set DMDIS bits according to DMA\_FIFOMode value }
+00370 \textcolor{comment}{    Set FTH bits according to DMA\_FIFOThreshold value */}
+00371   tmpreg |= DMA\_InitStruct->DMA_FIFOMode | DMA\_InitStruct->
+      DMA_FIFOThreshold;
+00372 
+00373   \textcolor{comment}{/* Write to DMAy Streamx CR */}
+00374   DMAy\_Streamx->FCR = tmpreg;
+00375 
+00376   \textcolor{comment}{/*------------------------- DMAy Streamx NDTR Configuration ----------------*/}
+00377   \textcolor{comment}{/* Write to DMAy Streamx NDTR register */}
+00378   DMAy\_Streamx->NDTR = DMA\_InitStruct->DMA\_BufferSize;
+00379 
+00380   \textcolor{comment}{/*------------------------- DMAy Streamx PAR Configuration -----------------*/}
+00381   \textcolor{comment}{/* Write to DMAy Streamx PAR */}
+00382   DMAy\_Streamx->PAR = DMA\_InitStruct->DMA\_PeripheralBaseAddr;
+00383 
+00384   \textcolor{comment}{/*------------------------- DMAy Streamx M0AR Configuration ----------------*/}
+00385   \textcolor{comment}{/* Write to DMAy Streamx M0AR */}
+00386   DMAy\_Streamx->M0AR = DMA\_InitStruct->DMA\_Memory0BaseAddr;
+00387 \}
+00388 
+00389 \textcolor{comment}{/**}
+00390 \textcolor{comment}{  * @brief  Fills each DMA\_InitStruct member with its default value.}
+00391 \textcolor{comment}{  * @param  DMA\_InitStruct : pointer to a DMA\_InitTypeDef structure which will }
+00392 \textcolor{comment}{  *         be initialized.}
+00393 \textcolor{comment}{  * @retval None}
+00394 \textcolor{comment}{  */}
+00395 \textcolor{keywordtype}{void} DMA_StructInit(DMA\_InitTypeDef* DMA\_InitStruct)
+00396 \{
+00397   \textcolor{comment}{/*-------------- Reset DMA init structure parameters values ----------------*/}
+00398   \textcolor{comment}{/* Initialize the DMA\_Channel member */}
+00399   DMA\_InitStruct->DMA_Channel = 0;
+00400 
+00401   \textcolor{comment}{/* Initialize the DMA\_PeripheralBaseAddr member */}
+00402   DMA\_InitStruct->DMA_PeripheralBaseAddr = 0;
+00403 
+00404   \textcolor{comment}{/* Initialize the DMA\_Memory0BaseAddr member */}
+00405   DMA\_InitStruct->DMA_Memory0BaseAddr = 0;
+00406 
+00407   \textcolor{comment}{/* Initialize the DMA\_DIR member */}
+00408   DMA\_InitStruct->DMA_DIR = DMA_DIR_PeripheralToMemory;
+00409 
+00410   \textcolor{comment}{/* Initialize the DMA\_BufferSize member */}
+00411   DMA\_InitStruct->DMA_BufferSize = 0;
+00412 
+00413   \textcolor{comment}{/* Initialize the DMA\_PeripheralInc member */}
+00414   DMA\_InitStruct->DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+00415 
+00416   \textcolor{comment}{/* Initialize the DMA\_MemoryInc member */}
+00417   DMA\_InitStruct->DMA_MemoryInc = DMA_MemoryInc_Disable;
+00418 
+00419   \textcolor{comment}{/* Initialize the DMA\_PeripheralDataSize member */}
+00420   DMA\_InitStruct->DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
+00421 
+00422   \textcolor{comment}{/* Initialize the DMA\_MemoryDataSize member */}
+00423   DMA\_InitStruct->DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
+00424 
+00425   \textcolor{comment}{/* Initialize the DMA\_Mode member */}
+00426   DMA\_InitStruct->DMA_Mode = DMA_Mode_Normal;
+00427 
+00428   \textcolor{comment}{/* Initialize the DMA\_Priority member */}
+00429   DMA\_InitStruct->DMA_Priority = DMA_Priority_Low;
+00430 
+00431   \textcolor{comment}{/* Initialize the DMA\_FIFOMode member */}
+00432   DMA\_InitStruct->DMA_FIFOMode = DMA_FIFOMode_Disable;
+00433 
+00434   \textcolor{comment}{/* Initialize the DMA\_FIFOThreshold member */}
+00435   DMA\_InitStruct->DMA_FIFOThreshold = DMA_FIFOThreshold_1QuarterFull;
+00436 
+00437   \textcolor{comment}{/* Initialize the DMA\_MemoryBurst member */}
+00438   DMA\_InitStruct->DMA_MemoryBurst = DMA_MemoryBurst_Single;
+00439 
+00440   \textcolor{comment}{/* Initialize the DMA\_PeripheralBurst member */}
+00441   DMA\_InitStruct->DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
+00442 \}
+00443 
+00444 \textcolor{comment}{/**}
+00445 \textcolor{comment}{  * @brief  Enables or disables the specified DMAy Streamx.}
+00446 \textcolor{comment}{  * @param  DMAy\_Streamx: where y can be 1 or 2 to select the DMA and x can be 0}
+00447 \textcolor{comment}{  *         to 7 to select the DMA Stream.}
+00448 \textcolor{comment}{  * @param  NewState: new state of the DMAy Streamx. }
+00449 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00450 \textcolor{comment}{  *}
+00451 \textcolor{comment}{  * @note  This function may be used to perform Pause-Resume operation. When a}
+00452 \textcolor{comment}{  *        transfer is ongoing, calling this function to disable the Stream will}
+00453 \textcolor{comment}{  *        cause the transfer to be paused. All configuration registers and the}
+00454 \textcolor{comment}{  *        number of remaining data will be preserved. When calling again this}
+00455 \textcolor{comment}{  *        function to re-enable the Stream, the transfer will be resumed from}
+00456 \textcolor{comment}{  *        the point where it was paused.          }
+00457 \textcolor{comment}{  *    }
+00458 \textcolor{comment}{  * @note  After configuring the DMA Stream (DMA\_Init() function) and enabling the}
+00459 \textcolor{comment}{  *        stream, it is recommended to check (or wait until) the DMA Stream is}
+00460 \textcolor{comment}{  *        effectively enabled. A Stream may remain disabled if a configuration }
+00461 \textcolor{comment}{  *        parameter is wrong.}
+00462 \textcolor{comment}{  *        After disabling a DMA Stream, it is also recommended to check (or wait}
+00463 \textcolor{comment}{  *        until) the DMA Stream is effectively disabled. If a Stream is disabled }
+00464 \textcolor{comment}{  *        while a data transfer is ongoing, the current data will be transferred}
+00465 \textcolor{comment}{  *        and the Stream will be effectively disabled only after the transfer of}
+00466 \textcolor{comment}{  *        this single data is finished.            }
+00467 \textcolor{comment}{  *    }
+00468 \textcolor{comment}{  * @retval None}
+00469 \textcolor{comment}{  */}
+00470 \textcolor{keywordtype}{void} DMA_Cmd(DMA\_Stream\_TypeDef* DMAy\_Streamx, FunctionalState NewState)
+00471 \{
+00472   \textcolor{comment}{/* Check the parameters */}
+00473   assert_param(IS\_DMA\_ALL\_PERIPH(DMAy\_Streamx));
+00474   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00475 
+00476   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00477   \{
+00478     \textcolor{comment}{/* Enable the selected DMAy Streamx by setting EN bit */}
+00479     DMAy\_Streamx->CR |= (uint32\_t)DMA_SxCR_EN;
+00480   \}
+00481   \textcolor{keywordflow}{else}
+00482   \{
+00483     \textcolor{comment}{/* Disable the selected DMAy Streamx by clearing EN bit */}
+00484     DMAy\_Streamx->CR &= ~(uint32\_t)DMA_SxCR_EN;
+00485   \}
+00486 \}
+00487 
+00488 \textcolor{comment}{/**}
+00489 \textcolor{comment}{  * @brief  Configures, when the PINC (Peripheral Increment address mode) bit is}
+00490 \textcolor{comment}{  *         set, if the peripheral address should be incremented with the data }
+00491 \textcolor{comment}{  *         size (configured with PSIZE bits) or by a fixed offset equal to 4}
+00492 \textcolor{comment}{  *         (32-bit aligned addresses).}
+00493 \textcolor{comment}{  *   }
+00494 \textcolor{comment}{  * @note   This function has no effect if the Peripheral Increment mode is disabled.}
+00495 \textcolor{comment}{  *     }
+00496 \textcolor{comment}{  * @param  DMAy\_Streamx: where y can be 1 or 2 to select the DMA and x can be 0}
+00497 \textcolor{comment}{  *          to 7 to select the DMA Stream.}
+00498 \textcolor{comment}{  * @param  DMA\_Pincos: specifies the Peripheral increment offset size.}
+00499 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00500 \textcolor{comment}{  *            @arg DMA\_PINCOS\_Psize: Peripheral address increment is done  }
+00501 \textcolor{comment}{  *                                   accordingly to PSIZE parameter.}
+00502 \textcolor{comment}{  *            @arg DMA\_PINCOS\_WordAligned: Peripheral address increment offset is }
+00503 \textcolor{comment}{  *                                         fixed to 4 (32-bit aligned addresses). }
+00504 \textcolor{comment}{  * @retval None}
+00505 \textcolor{comment}{  */}
+00506 \textcolor{keywordtype}{void} DMA_PeriphIncOffsetSizeConfig(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t DMA\_Pincos)
+00507 \{
+00508   \textcolor{comment}{/* Check the parameters */}
+00509   assert_param(IS\_DMA\_ALL\_PERIPH(DMAy\_Streamx));
+00510   assert_param(IS\_DMA\_PINCOS\_SIZE(DMA\_Pincos));
+00511 
+00512   \textcolor{comment}{/* Check the needed Peripheral increment offset */}
+00513   \textcolor{keywordflow}{if}(DMA\_Pincos != DMA_PINCOS_Psize)
+00514   \{
+00515     \textcolor{comment}{/* Configure DMA\_SxCR\_PINCOS bit with the input parameter */}
+00516     DMAy\_Streamx->CR |= (uint32\_t)DMA_SxCR_PINCOS;
+00517   \}
+00518   \textcolor{keywordflow}{else}
+00519   \{
+00520     \textcolor{comment}{/* Clear the PINCOS bit: Peripheral address incremented according to PSIZE */}
+00521     DMAy\_Streamx->CR &= ~(uint32\_t)DMA_SxCR_PINCOS;
+00522   \}
+00523 \}
+00524 
+00525 \textcolor{comment}{/**}
+00526 \textcolor{comment}{  * @brief  Configures, when the DMAy Streamx is disabled, the flow controller for}
+00527 \textcolor{comment}{  *         the next transactions (Peripheral or Memory).}
+00528 \textcolor{comment}{  *       }
+00529 \textcolor{comment}{  * @note   Before enabling this feature, check if the used peripheral supports }
+00530 \textcolor{comment}{  *         the Flow Controller mode or not.    }
+00531 \textcolor{comment}{  *  }
+00532 \textcolor{comment}{  * @param  DMAy\_Streamx: where y can be 1 or 2 to select the DMA and x can be 0}
+00533 \textcolor{comment}{  *          to 7 to select the DMA Stream.}
+00534 \textcolor{comment}{  * @param  DMA\_FlowCtrl: specifies the DMA flow controller.}
+00535 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00536 \textcolor{comment}{  *            @arg DMA\_FlowCtrl\_Memory: DMAy\_Streamx transactions flow controller is }
+00537 \textcolor{comment}{  *                                      the DMA controller.}
+00538 \textcolor{comment}{  *            @arg DMA\_FlowCtrl\_Peripheral: DMAy\_Streamx transactions flow controller }
+00539 \textcolor{comment}{  *                                          is the peripheral.    }
+00540 \textcolor{comment}{  * @retval None}
+00541 \textcolor{comment}{  */}
+00542 \textcolor{keywordtype}{void} DMA_FlowControllerConfig(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t DMA\_FlowCtrl)
+00543 \{
+00544   \textcolor{comment}{/* Check the parameters */}
+00545   assert_param(IS\_DMA\_ALL\_PERIPH(DMAy\_Streamx));
+00546   assert_param(IS\_DMA\_FLOW\_CTRL(DMA\_FlowCtrl));
+00547 
+00548   \textcolor{comment}{/* Check the needed flow controller  */}
+00549   \textcolor{keywordflow}{if}(DMA\_FlowCtrl != DMA_FlowCtrl_Memory)
+00550   \{
+00551     \textcolor{comment}{/* Configure DMA\_SxCR\_PFCTRL bit with the input parameter */}
+00552     DMAy\_Streamx->CR |= (uint32\_t)DMA_SxCR_PFCTRL;
+00553   \}
+00554   \textcolor{keywordflow}{else}
+00555   \{
+00556     \textcolor{comment}{/* Clear the PFCTRL bit: Memory is the flow controller */}
+00557     DMAy\_Streamx->CR &= ~(uint32\_t)DMA_SxCR_PFCTRL;
+00558   \}
+00559 \}
+00560 \textcolor{comment}{/**}
+00561 \textcolor{comment}{  * @\}}
+00562 \textcolor{comment}{  */}
+00563 
+00564 \textcolor{comment}{/** @defgroup DMA\_Group2 Data Counter functions}
+00565 \textcolor{comment}{ *  @brief   Data Counter functions }
+00566 \textcolor{comment}{ *}
+00567 \textcolor{comment}{@verbatim   }
+00568 \textcolor{comment}{ ===============================================================================}
+00569 \textcolor{comment}{                           Data Counter functions}
+00570 \textcolor{comment}{ ===============================================================================  }
+00571 \textcolor{comment}{}
+00572 \textcolor{comment}{  This subsection provides function allowing to configure and read the buffer size}
+00573 \textcolor{comment}{  (number of data to be transferred). }
+00574 \textcolor{comment}{}
+00575 \textcolor{comment}{  The DMA data counter can be written only when the DMA Stream is disabled }
+00576 \textcolor{comment}{  (ie. after transfer complete event).}
+00577 \textcolor{comment}{}
+00578 \textcolor{comment}{  The following function can be used to write the Stream data counter value:}
+00579 \textcolor{comment}{    - void DMA\_SetCurrDataCounter(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint16\_t Counter);}
+00580 \textcolor{comment}{}
+00581 \textcolor{comment}{@note It is advised to use this function rather than DMA\_Init() in situations where}
+00582 \textcolor{comment}{      only the Data buffer needs to be reloaded.}
+00583 \textcolor{comment}{}
+00584 \textcolor{comment}{@note If the Source and Destination Data Sizes are different, then the value written in}
+00585 \textcolor{comment}{      data counter, expressing the number of transfers, is relative to the number of }
+00586 \textcolor{comment}{      transfers from the Peripheral point of view.}
+00587 \textcolor{comment}{      ie. If Memory data size is Word, Peripheral data size is Half-Words, then the value}
+00588 \textcolor{comment}{      to be configured in the data counter is the number of Half-Words to be transferred}
+00589 \textcolor{comment}{      from/to the peripheral.}
+00590 \textcolor{comment}{}
+00591 \textcolor{comment}{  The DMA data counter can be read to indicate the number of remaining transfers for}
+00592 \textcolor{comment}{  the relative DMA Stream. This counter is decremented at the end of each data }
+00593 \textcolor{comment}{  transfer and when the transfer is complete: }
+00594 \textcolor{comment}{   - If Normal mode is selected: the counter is set to 0.}
+00595 \textcolor{comment}{   - If Circular mode is selected: the counter is reloaded with the initial value}
+00596 \textcolor{comment}{     (configured before enabling the DMA Stream)}
+00597 \textcolor{comment}{   }
+00598 \textcolor{comment}{  The following function can be used to read the Stream data counter value:}
+00599 \textcolor{comment}{     - uint16\_t DMA\_GetCurrDataCounter(DMA\_Stream\_TypeDef* DMAy\_Streamx);}
+00600 \textcolor{comment}{}
+00601 \textcolor{comment}{@endverbatim}
+00602 \textcolor{comment}{  * @\{}
+00603 \textcolor{comment}{  */}
+00604 
+00605 \textcolor{comment}{/**}
+00606 \textcolor{comment}{  * @brief  Writes the number of data units to be transferred on the DMAy Streamx.}
+00607 \textcolor{comment}{  * @param  DMAy\_Streamx: where y can be 1 or 2 to select the DMA and x can be 0}
+00608 \textcolor{comment}{  *          to 7 to select the DMA Stream.}
+00609 \textcolor{comment}{  * @param  Counter: Number of data units to be transferred (from 0 to 65535) }
+00610 \textcolor{comment}{  *          Number of data items depends only on the Peripheral data format.}
+00611 \textcolor{comment}{  *            }
+00612 \textcolor{comment}{  * @note   If Peripheral data format is Bytes: number of data units is equal }
+00613 \textcolor{comment}{  *         to total number of bytes to be transferred.}
+00614 \textcolor{comment}{  *           }
+00615 \textcolor{comment}{  * @note   If Peripheral data format is Half-Word: number of data units is  }
+00616 \textcolor{comment}{  *         equal to total number of bytes to be transferred / 2.}
+00617 \textcolor{comment}{  *           }
+00618 \textcolor{comment}{  * @note   If Peripheral data format is Word: number of data units is equal }
+00619 \textcolor{comment}{  *         to total  number of bytes to be transferred / 4.}
+00620 \textcolor{comment}{  *      }
+00621 \textcolor{comment}{  * @note   In Memory-to-Memory transfer mode, the memory buffer pointed by }
+00622 \textcolor{comment}{  *         DMAy\_SxPAR register is considered as Peripheral.}
+00623 \textcolor{comment}{  *      }
+00624 \textcolor{comment}{  * @retval The number of remaining data units in the current DMAy Streamx transfer.}
+00625 \textcolor{comment}{  */}
+00626 \textcolor{keywordtype}{void} DMA_SetCurrDataCounter(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint16\_t Counter)
+00627 \{
+00628   \textcolor{comment}{/* Check the parameters */}
+00629   assert_param(IS\_DMA\_ALL\_PERIPH(DMAy\_Streamx));
+00630 
+00631   \textcolor{comment}{/* Write the number of data units to be transferred */}
+00632   DMAy\_Streamx->NDTR = (uint16\_t)Counter;
+00633 \}
+00634 
+00635 \textcolor{comment}{/**}
+00636 \textcolor{comment}{  * @brief  Returns the number of remaining data units in the current DMAy Streamx transfer.}
+00637 \textcolor{comment}{  * @param  DMAy\_Streamx: where y can be 1 or 2 to select the DMA and x can be 0}
+00638 \textcolor{comment}{  *          to 7 to select the DMA Stream.}
+00639 \textcolor{comment}{  * @retval The number of remaining data units in the current DMAy Streamx transfer.}
+00640 \textcolor{comment}{  */}
+00641 uint16\_t DMA_GetCurrDataCounter(DMA\_Stream\_TypeDef* DMAy\_Streamx)
+00642 \{
+00643   \textcolor{comment}{/* Check the parameters */}
+00644   assert_param(IS\_DMA\_ALL\_PERIPH(DMAy\_Streamx));
+00645 
+00646   \textcolor{comment}{/* Return the number of remaining data units for DMAy Streamx */}
+00647   \textcolor{keywordflow}{return} ((uint16\_t)(DMAy\_Streamx->NDTR));
+00648 \}
+00649 \textcolor{comment}{/**}
+00650 \textcolor{comment}{  * @\}}
+00651 \textcolor{comment}{  */}
+00652 
+00653 \textcolor{comment}{/** @defgroup DMA\_Group3 Double Buffer mode functions}
+00654 \textcolor{comment}{ *  @brief   Double Buffer mode functions }
+00655 \textcolor{comment}{ *}
+00656 \textcolor{comment}{@verbatim   }
+00657 \textcolor{comment}{ ===============================================================================}
+00658 \textcolor{comment}{                         Double Buffer mode functions}
+00659 \textcolor{comment}{ ===============================================================================  }
+00660 \textcolor{comment}{}
+00661 \textcolor{comment}{  This subsection provides function allowing to configure and control the double }
+00662 \textcolor{comment}{  buffer mode parameters.}
+00663 \textcolor{comment}{  }
+00664 \textcolor{comment}{  The Double Buffer mode can be used only when Circular mode is enabled.}
+00665 \textcolor{comment}{  The Double Buffer mode cannot be used when transferring data from Memory to Memory.}
+00666 \textcolor{comment}{  }
+00667 \textcolor{comment}{  The Double Buffer mode allows to set two different Memory addresses from/to which}
+00668 \textcolor{comment}{  the DMA controller will access alternatively (after completing transfer to/from target}
+00669 \textcolor{comment}{  memory 0, it will start transfer to/from target memory 1).}
+00670 \textcolor{comment}{  This allows to reduce software overhead for double buffering and reduce the CPU}
+00671 \textcolor{comment}{  access time.}
+00672 \textcolor{comment}{}
+00673 \textcolor{comment}{  Two functions must be called before calling the DMA\_Init() function:}
+00674 \textcolor{comment}{   - void DMA\_DoubleBufferModeConfig(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t Memory1BaseAddr,}
+00675 \textcolor{comment}{                                uint32\_t DMA\_CurrentMemory);}
+00676 \textcolor{comment}{   - void DMA\_DoubleBufferModeCmd(DMA\_Stream\_TypeDef* DMAy\_Streamx, FunctionalState NewState);}
+00677 \textcolor{comment}{   }
+00678 \textcolor{comment}{  DMA\_DoubleBufferModeConfig() is called to configure the Memory 1 base address and the first}
+00679 \textcolor{comment}{  Memory target from/to which the transfer will start after enabling the DMA Stream.}
+00680 \textcolor{comment}{  Then DMA\_DoubleBufferModeCmd() must be called to enable the Double Buffer mode (or disable }
+00681 \textcolor{comment}{  it when it should not be used).}
+00682 \textcolor{comment}{  }
+00683 \textcolor{comment}{   }
+00684 \textcolor{comment}{  Two functions can be called dynamically when the transfer is ongoing (or when the DMA Stream is }
+00685 \textcolor{comment}{  stopped) to modify on of the target Memories addresses or to check wich Memory target is currently}
+00686 \textcolor{comment}{   used:}
+00687 \textcolor{comment}{    - void DMA\_MemoryTargetConfig(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t MemoryBaseAddr,}
+00688 \textcolor{comment}{                            uint32\_t DMA\_MemoryTarget);}
+00689 \textcolor{comment}{    - uint32\_t DMA\_GetCurrentMemoryTarget(DMA\_Stream\_TypeDef* DMAy\_Streamx);}
+00690 \textcolor{comment}{}
+00691 \textcolor{comment}{  DMA\_MemoryTargetConfig() can be called to modify the base address of one of the two target Memories.}
+00692 \textcolor{comment}{  The Memory of which the base address will be modified must not be currently be used by the DMA
+       Stream}
+00693 \textcolor{comment}{  (ie. if the DMA Stream is currently transferring from Memory 1 then you can only modify base address}
+00694 \textcolor{comment}{  of target Memory 0 and vice versa).}
+00695 \textcolor{comment}{  To check this condition, it is recommended to use the function DMA\_GetCurrentMemoryTarget() which}
+00696 \textcolor{comment}{  returns the index of the Memory target currently in use by the DMA Stream.}
+00697 \textcolor{comment}{}
+00698 \textcolor{comment}{@endverbatim}
+00699 \textcolor{comment}{  * @\{}
+00700 \textcolor{comment}{  */}
+00701 
+00702 \textcolor{comment}{/**}
+00703 \textcolor{comment}{  * @brief  Configures, when the DMAy Streamx is disabled, the double buffer mode }
+00704 \textcolor{comment}{  *         and the current memory target.}
+00705 \textcolor{comment}{  * @param  DMAy\_Streamx: where y can be 1 or 2 to select the DMA and x can be 0}
+00706 \textcolor{comment}{  *          to 7 to select the DMA Stream.}
+00707 \textcolor{comment}{  * @param  Memory1BaseAddr: the base address of the second buffer (Memory 1)  }
+00708 \textcolor{comment}{  * @param  DMA\_CurrentMemory: specifies which memory will be first buffer for}
+00709 \textcolor{comment}{  *         the transactions when the Stream will be enabled. }
+00710 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00711 \textcolor{comment}{  *            @arg DMA\_Memory\_0: Memory 0 is the current buffer.}
+00712 \textcolor{comment}{  *            @arg DMA\_Memory\_1: Memory 1 is the current buffer.  }
+00713 \textcolor{comment}{  *       }
+00714 \textcolor{comment}{  * @note   Memory0BaseAddr is set by the DMA structure configuration in DMA\_Init().}
+00715 \textcolor{comment}{  *   }
+00716 \textcolor{comment}{  * @retval None}
+00717 \textcolor{comment}{  */}
+00718 \textcolor{keywordtype}{void} DMA_DoubleBufferModeConfig(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t Memory1BaseAddr,
+00719                                 uint32\_t DMA\_CurrentMemory)
+00720 \{
+00721   \textcolor{comment}{/* Check the parameters */}
+00722   assert_param(IS\_DMA\_ALL\_PERIPH(DMAy\_Streamx));
+00723   assert_param(IS\_DMA\_CURRENT\_MEM(DMA\_CurrentMemory));
+00724 
+00725   \textcolor{keywordflow}{if} (DMA\_CurrentMemory != DMA_Memory_0)
+00726   \{
+00727     \textcolor{comment}{/* Set Memory 1 as current memory address */}
+00728     DMAy\_Streamx->CR |= (uint32\_t)(DMA_SxCR_CT);
+00729   \}
+00730   \textcolor{keywordflow}{else}
+00731   \{
+00732     \textcolor{comment}{/* Set Memory 0 as current memory address */}
+00733     DMAy\_Streamx->CR &= ~(uint32\_t)(DMA_SxCR_CT);
+00734   \}
+00735 
+00736   \textcolor{comment}{/* Write to DMAy Streamx M1AR */}
+00737   DMAy\_Streamx->M1AR = Memory1BaseAddr;
+00738 \}
+00739 
+00740 \textcolor{comment}{/**}
+00741 \textcolor{comment}{  * @brief  Enables or disables the double buffer mode for the selected DMA stream.}
+00742 \textcolor{comment}{  * @note   This function can be called only when the DMA Stream is disabled.  }
+00743 \textcolor{comment}{  * @param  DMAy\_Streamx: where y can be 1 or 2 to select the DMA and x can be 0}
+00744 \textcolor{comment}{  *          to 7 to select the DMA Stream.}
+00745 \textcolor{comment}{  * @param  NewState: new state of the DMAy Streamx double buffer mode. }
+00746 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00747 \textcolor{comment}{  * @retval None}
+00748 \textcolor{comment}{  */}
+00749 \textcolor{keywordtype}{void} DMA_DoubleBufferModeCmd(DMA\_Stream\_TypeDef* DMAy\_Streamx, FunctionalState NewState)
+00750 \{
+00751   \textcolor{comment}{/* Check the parameters */}
+00752   assert_param(IS\_DMA\_ALL\_PERIPH(DMAy\_Streamx));
+00753   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00754 
+00755   \textcolor{comment}{/* Configure the Double Buffer mode */}
+00756   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00757   \{
+00758     \textcolor{comment}{/* Enable the Double buffer mode */}
+00759     DMAy\_Streamx->CR |= (uint32\_t)DMA_SxCR_DBM;
+00760   \}
+00761   \textcolor{keywordflow}{else}
+00762   \{
+00763     \textcolor{comment}{/* Disable the Double buffer mode */}
+00764     DMAy\_Streamx->CR &= ~(uint32\_t)DMA_SxCR_DBM;
+00765   \}
+00766 \}
+00767 
+00768 \textcolor{comment}{/**}
+00769 \textcolor{comment}{  * @brief  Configures the Memory address for the next buffer transfer in double}
+00770 \textcolor{comment}{  *         buffer mode (for dynamic use). This function can be called when the}
+00771 \textcolor{comment}{  *         DMA Stream is enabled and when the transfer is ongoing.  }
+00772 \textcolor{comment}{  * @param  DMAy\_Streamx: where y can be 1 or 2 to select the DMA and x can be 0}
+00773 \textcolor{comment}{  *          to 7 to select the DMA Stream.}
+00774 \textcolor{comment}{  * @param  MemoryBaseAddr: The base address of the target memory buffer}
+00775 \textcolor{comment}{  * @param  DMA\_MemoryTarget: Next memory target to be used. }
+00776 \textcolor{comment}{  *         This parameter can be one of the following values:}
+00777 \textcolor{comment}{  *            @arg DMA\_Memory\_0: To use the memory address 0}
+00778 \textcolor{comment}{  *            @arg DMA\_Memory\_1: To use the memory address 1}
+00779 \textcolor{comment}{  * }
+00780 \textcolor{comment}{  * @note    It is not allowed to modify the Base Address of a target Memory when}
+00781 \textcolor{comment}{  *          this target is involved in the current transfer. ie. If the DMA Stream}
+00782 \textcolor{comment}{  *          is currently transferring to/from Memory 1, then it not possible to}
+00783 \textcolor{comment}{  *          modify Base address of Memory 1, but it is possible to modify Base}
+00784 \textcolor{comment}{  *          address of Memory 0.}
+00785 \textcolor{comment}{  *          To know which Memory is currently used, you can use the function}
+00786 \textcolor{comment}{  *          DMA\_GetCurrentMemoryTarget().             }
+00787 \textcolor{comment}{  *  }
+00788 \textcolor{comment}{  * @retval None}
+00789 \textcolor{comment}{  */}
+00790 \textcolor{keywordtype}{void} DMA_MemoryTargetConfig(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t MemoryBaseAddr,
+00791                            uint32\_t DMA\_MemoryTarget)
+00792 \{
+00793   \textcolor{comment}{/* Check the parameters */}
+00794   assert_param(IS\_DMA\_ALL\_PERIPH(DMAy\_Streamx));
+00795   assert_param(IS\_DMA\_CURRENT\_MEM(DMA\_MemoryTarget));
+00796 
+00797   \textcolor{comment}{/* Check the Memory target to be configured */}
+00798   \textcolor{keywordflow}{if} (DMA\_MemoryTarget != DMA_Memory_0)
+00799   \{
+00800     \textcolor{comment}{/* Write to DMAy Streamx M1AR */}
+00801     DMAy\_Streamx->M1AR = MemoryBaseAddr;
+00802   \}
+00803   \textcolor{keywordflow}{else}
+00804   \{
+00805     \textcolor{comment}{/* Write to DMAy Streamx M0AR */}
+00806     DMAy\_Streamx->M0AR = MemoryBaseAddr;
+00807   \}
+00808 \}
+00809 
+00810 \textcolor{comment}{/**}
+00811 \textcolor{comment}{  * @brief  Returns the current memory target used by double buffer transfer.}
+00812 \textcolor{comment}{  * @param  DMAy\_Streamx: where y can be 1 or 2 to select the DMA and x can be 0}
+00813 \textcolor{comment}{  *          to 7 to select the DMA Stream.}
+00814 \textcolor{comment}{  * @retval The memory target number: 0 for Memory0 or 1 for Memory1. }
+00815 \textcolor{comment}{  */}
+00816 uint32\_t DMA_GetCurrentMemoryTarget(DMA\_Stream\_TypeDef* DMAy\_Streamx)
+00817 \{
+00818   uint32\_t tmp = 0;
+00819 
+00820   \textcolor{comment}{/* Check the parameters */}
+00821   assert_param(IS\_DMA\_ALL\_PERIPH(DMAy\_Streamx));
+00822 
+00823   \textcolor{comment}{/* Get the current memory target */}
+00824   \textcolor{keywordflow}{if} ((DMAy\_Streamx->CR & DMA_SxCR_CT) != 0)
+00825   \{
+00826     \textcolor{comment}{/* Current memory buffer used is Memory 1 */}
+00827     tmp = 1;
+00828   \}
+00829   \textcolor{keywordflow}{else}
+00830   \{
+00831     \textcolor{comment}{/* Current memory buffer used is Memory 0 */}
+00832     tmp = 0;
+00833   \}
+00834   \textcolor{keywordflow}{return} tmp;
+00835 \}
+00836 \textcolor{comment}{/**}
+00837 \textcolor{comment}{  * @\}}
+00838 \textcolor{comment}{  */}
+00839 
+00840 \textcolor{comment}{/** @defgroup DMA\_Group4 Interrupts and flags management functions}
+00841 \textcolor{comment}{ *  @brief   Interrupts and flags management functions }
+00842 \textcolor{comment}{ *}
+00843 \textcolor{comment}{@verbatim   }
+00844 \textcolor{comment}{ ===============================================================================}
+00845 \textcolor{comment}{                  Interrupts and flags management functions}
+00846 \textcolor{comment}{ ===============================================================================  }
+00847 \textcolor{comment}{}
+00848 \textcolor{comment}{  This subsection provides functions allowing to}
+00849 \textcolor{comment}{   - Check the DMA enable status}
+00850 \textcolor{comment}{   - Check the FIFO status }
+00851 \textcolor{comment}{   - Configure the DMA Interrupts sources and check or clear the flags or pending bits status.   }
+00852 \textcolor{comment}{   }
+00853 \textcolor{comment}{ 1. DMA Enable status:}
+00854 \textcolor{comment}{   After configuring the DMA Stream (DMA\_Init() function) and enabling the stream,}
+00855 \textcolor{comment}{   it is recommended to check (or wait until) the DMA Stream is effectively enabled.}
+00856 \textcolor{comment}{   A Stream may remain disabled if a configuration parameter is wrong.}
+00857 \textcolor{comment}{   After disabling a DMA Stream, it is also recommended to check (or wait until) the DMA}
+00858 \textcolor{comment}{   Stream is effectively disabled. If a Stream is disabled while a data transfer is ongoing, }
+00859 \textcolor{comment}{   the current data will be transferred and the Stream will be effectively disabled only after}
+00860 \textcolor{comment}{   this data transfer completion.}
+00861 \textcolor{comment}{   To monitor this state it is possible to use the following function:}
+00862 \textcolor{comment}{     - FunctionalState DMA\_GetCmdStatus(DMA\_Stream\_TypeDef* DMAy\_Streamx); }
+00863 \textcolor{comment}{ }
+00864 \textcolor{comment}{ 2. FIFO Status:}
+00865 \textcolor{comment}{   It is possible to monitor the FIFO status when a transfer is ongoing using the following }
+00866 \textcolor{comment}{   function:}
+00867 \textcolor{comment}{     - uint32\_t DMA\_GetFIFOStatus(DMA\_Stream\_TypeDef* DMAy\_Streamx); }
+00868 \textcolor{comment}{ }
+00869 \textcolor{comment}{ 3. DMA Interrupts and Flags:}
+00870 \textcolor{comment}{  The user should identify which mode will be used in his application to manage the}
+00871 \textcolor{comment}{  DMA controller events: Polling mode or Interrupt mode. }
+00872 \textcolor{comment}{    }
+00873 \textcolor{comment}{  Polling Mode}
+00874 \textcolor{comment}{  =============}
+00875 \textcolor{comment}{    Each DMA stream can be managed through 4 event Flags:}
+00876 \textcolor{comment}{    (x : DMA Stream number )}
+00877 \textcolor{comment}{       1. DMA\_FLAG\_FEIFx  : to indicate that a FIFO Mode Transfer Error event occurred.}
+00878 \textcolor{comment}{       2. DMA\_FLAG\_DMEIFx : to indicate that a Direct Mode Transfer Error event occurred.}
+00879 \textcolor{comment}{       3. DMA\_FLAG\_TEIFx  : to indicate that a Transfer Error event occurred.}
+00880 \textcolor{comment}{       4. DMA\_FLAG\_HTIFx  : to indicate that a Half-Transfer Complete event occurred.}
+00881 \textcolor{comment}{       5. DMA\_FLAG\_TCIFx  : to indicate that a Transfer Complete event occurred .       }
+00882 \textcolor{comment}{}
+00883 \textcolor{comment}{   In this Mode it is advised to use the following functions:}
+00884 \textcolor{comment}{      - FlagStatus DMA\_GetFlagStatus(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t DMA\_FLAG);}
+00885 \textcolor{comment}{      - void DMA\_ClearFlag(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t DMA\_FLAG);}
+00886 \textcolor{comment}{}
+00887 \textcolor{comment}{  Interrupt Mode}
+00888 \textcolor{comment}{  ===============}
+00889 \textcolor{comment}{    Each DMA Stream can be managed through 4 Interrupts:}
+00890 \textcolor{comment}{}
+00891 \textcolor{comment}{    Interrupt Source}
+00892 \textcolor{comment}{    ----------------}
+00893 \textcolor{comment}{       1. DMA\_IT\_FEIFx  : specifies the interrupt source for the  FIFO Mode Transfer Error event.}
+00894 \textcolor{comment}{       2. DMA\_IT\_DMEIFx : specifies the interrupt source for the Direct Mode Transfer Error event.}
+00895 \textcolor{comment}{       3. DMA\_IT\_TEIFx  : specifies the interrupt source for the Transfer Error event.}
+00896 \textcolor{comment}{       4. DMA\_IT\_HTIFx  : specifies the interrupt source for the Half-Transfer Complete event.}
+00897 \textcolor{comment}{       5. DMA\_IT\_TCIFx  : specifies the interrupt source for the a Transfer Complete event. }
+00898 \textcolor{comment}{     }
+00899 \textcolor{comment}{  In this Mode it is advised to use the following functions:}
+00900 \textcolor{comment}{     - void DMA\_ITConfig(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t DMA\_IT, FunctionalState NewState);}
+00901 \textcolor{comment}{     - ITStatus DMA\_GetITStatus(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t DMA\_IT);}
+00902 \textcolor{comment}{     - void DMA\_ClearITPendingBit(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t DMA\_IT);}
+00903 \textcolor{comment}{}
+00904 \textcolor{comment}{@endverbatim}
+00905 \textcolor{comment}{  * @\{}
+00906 \textcolor{comment}{  */}
+00907 
+00908 \textcolor{comment}{/**}
+00909 \textcolor{comment}{  * @brief  Returns the status of EN bit for the specified DMAy Streamx.}
+00910 \textcolor{comment}{  * @param  DMAy\_Streamx: where y can be 1 or 2 to select the DMA and x can be 0}
+00911 \textcolor{comment}{  *          to 7 to select the DMA Stream.}
+00912 \textcolor{comment}{  *   }
+00913 \textcolor{comment}{  * @note    After configuring the DMA Stream (DMA\_Init() function) and enabling}
+00914 \textcolor{comment}{  *          the stream, it is recommended to check (or wait until) the DMA Stream}
+00915 \textcolor{comment}{  *          is effectively enabled. A Stream may remain disabled if a configuration}
+00916 \textcolor{comment}{  *          parameter is wrong.}
+00917 \textcolor{comment}{  *          After disabling a DMA Stream, it is also recommended to check (or wait }
+00918 \textcolor{comment}{  *          until) the DMA Stream is effectively disabled. If a Stream is disabled}
+00919 \textcolor{comment}{  *          while a data transfer is ongoing, the current data will be transferred}
+00920 \textcolor{comment}{  *          and the Stream will be effectively disabled only after the transfer}
+00921 \textcolor{comment}{  *          of this single data is finished.  }
+00922 \textcolor{comment}{  *      }
+00923 \textcolor{comment}{  * @retval Current state of the DMAy Streamx (ENABLE or DISABLE).}
+00924 \textcolor{comment}{  */}
+00925 FunctionalState DMA_GetCmdStatus(DMA\_Stream\_TypeDef* DMAy\_Streamx)
+00926 \{
+00927   FunctionalState state = DISABLE;
+00928 
+00929   \textcolor{comment}{/* Check the parameters */}
+00930   assert_param(IS\_DMA\_ALL\_PERIPH(DMAy\_Streamx));
+00931 
+00932   \textcolor{keywordflow}{if} ((DMAy\_Streamx->CR & (uint32\_t)DMA_SxCR_EN) != 0)
+00933   \{
+00934     \textcolor{comment}{/* The selected DMAy Streamx EN bit is set (DMA is still transferring) */}
+00935     state = ENABLE;
+00936   \}
+00937   \textcolor{keywordflow}{else}
+00938   \{
+00939     \textcolor{comment}{/* The selected DMAy Streamx EN bit is cleared (DMA is disabled and }
+00940 \textcolor{comment}{        all transfers are complete) */}
+00941     state = DISABLE;
+00942   \}
+00943   \textcolor{keywordflow}{return} state;
+00944 \}
+00945 
+00946 \textcolor{comment}{/**}
+00947 \textcolor{comment}{  * @brief  Returns the current DMAy Streamx FIFO filled level.}
+00948 \textcolor{comment}{  * @param  DMAy\_Streamx: where y can be 1 or 2 to select the DMA and x can be 0 }
+00949 \textcolor{comment}{  *         to 7 to select the DMA Stream.}
+00950 \textcolor{comment}{  * @retval The FIFO filling state.}
+00951 \textcolor{comment}{  *           - DMA\_FIFOStatus\_Less1QuarterFull: when FIFO is less than 1 quarter-full }
+00952 \textcolor{comment}{  *                                               and not empty.}
+00953 \textcolor{comment}{  *           - DMA\_FIFOStatus\_1QuarterFull: if more than 1 quarter-full.}
+00954 \textcolor{comment}{  *           - DMA\_FIFOStatus\_HalfFull: if more than 1 half-full.}
+00955 \textcolor{comment}{  *           - DMA\_FIFOStatus\_3QuartersFull: if more than 3 quarters-full.}
+00956 \textcolor{comment}{  *           - DMA\_FIFOStatus\_Empty: when FIFO is empty}
+00957 \textcolor{comment}{  *           - DMA\_FIFOStatus\_Full: when FIFO is full}
+00958 \textcolor{comment}{  */}
+00959 uint32\_t DMA_GetFIFOStatus(DMA\_Stream\_TypeDef* DMAy\_Streamx)
+00960 \{
+00961   uint32\_t tmpreg = 0;
+00962 
+00963   \textcolor{comment}{/* Check the parameters */}
+00964   assert_param(IS\_DMA\_ALL\_PERIPH(DMAy\_Streamx));
+00965 
+00966   \textcolor{comment}{/* Get the FIFO level bits */}
+00967   tmpreg = (uint32\_t)((DMAy\_Streamx->FCR & DMA_SxFCR_FS));
+00968 
+00969   \textcolor{keywordflow}{return} tmpreg;
+00970 \}
+00971 
+00972 \textcolor{comment}{/**}
+00973 \textcolor{comment}{  * @brief  Checks whether the specified DMAy Streamx flag is set or not.}
+00974 \textcolor{comment}{  * @param  DMAy\_Streamx: where y can be 1 or 2 to select the DMA and x can be 0}
+00975 \textcolor{comment}{  *          to 7 to select the DMA Stream.}
+00976 \textcolor{comment}{  * @param  DMA\_FLAG: specifies the flag to check.}
+00977 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00978 \textcolor{comment}{  *            @arg DMA\_FLAG\_TCIFx:  Streamx transfer complete flag}
+00979 \textcolor{comment}{  *            @arg DMA\_FLAG\_HTIFx:  Streamx half transfer complete flag}
+00980 \textcolor{comment}{  *            @arg DMA\_FLAG\_TEIFx:  Streamx transfer error flag}
+00981 \textcolor{comment}{  *            @arg DMA\_FLAG\_DMEIFx: Streamx direct mode error flag}
+00982 \textcolor{comment}{  *            @arg DMA\_FLAG\_FEIFx:  Streamx FIFO error flag}
+00983 \textcolor{comment}{  *         Where x can be 0 to 7 to select the DMA Stream.}
+00984 \textcolor{comment}{  * @retval The new state of DMA\_FLAG (SET or RESET).}
+00985 \textcolor{comment}{  */}
+00986 FlagStatus DMA_GetFlagStatus(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t DMA\_FLAG)
+00987 \{
+00988   FlagStatus bitstatus = RESET;
+00989   DMA\_TypeDef* DMAy;
+00990   uint32\_t tmpreg = 0;
+00991 
+00992   \textcolor{comment}{/* Check the parameters */}
+00993   assert_param(IS\_DMA\_ALL\_PERIPH(DMAy\_Streamx));
+00994   assert_param(IS\_DMA\_GET\_FLAG(DMA\_FLAG));
+00995 
+00996   \textcolor{comment}{/* Determine the DMA to which belongs the stream */}
+00997   \textcolor{keywordflow}{if} (DMAy\_Streamx < DMA2_Stream0)
+00998   \{
+00999     \textcolor{comment}{/* DMAy\_Streamx belongs to DMA1 */}
+01000     DMAy = DMA1;
+01001   \}
+01002   \textcolor{keywordflow}{else}
+01003   \{
+01004     \textcolor{comment}{/* DMAy\_Streamx belongs to DMA2 */}
+01005     DMAy = DMA2;
+01006   \}
+01007 
+01008   \textcolor{comment}{/* Check if the flag is in HISR or LISR */}
+01009   \textcolor{keywordflow}{if} ((DMA\_FLAG & HIGH_ISR_MASK) != (uint32\_t)RESET)
+01010   \{
+01011     \textcolor{comment}{/* Get DMAy HISR register value */}
+01012     tmpreg = DMAy->HISR;
+01013   \}
+01014   \textcolor{keywordflow}{else}
+01015   \{
+01016     \textcolor{comment}{/* Get DMAy LISR register value */}
+01017     tmpreg = DMAy->LISR;
+01018   \}
+01019 
+01020   \textcolor{comment}{/* Mask the reserved bits */}
+01021   tmpreg &= (uint32\_t)RESERVED_MASK;
+01022 
+01023   \textcolor{comment}{/* Check the status of the specified DMA flag */}
+01024   \textcolor{keywordflow}{if} ((tmpreg & DMA\_FLAG) != (uint32\_t)RESET)
+01025   \{
+01026     \textcolor{comment}{/* DMA\_FLAG is set */}
+01027     bitstatus = SET;
+01028   \}
+01029   \textcolor{keywordflow}{else}
+01030   \{
+01031     \textcolor{comment}{/* DMA\_FLAG is reset */}
+01032     bitstatus = RESET;
+01033   \}
+01034 
+01035   \textcolor{comment}{/* Return the DMA\_FLAG status */}
+01036   \textcolor{keywordflow}{return}  bitstatus;
+01037 \}
+01038 
+01039 \textcolor{comment}{/**}
+01040 \textcolor{comment}{  * @brief  Clears the DMAy Streamx's pending flags.}
+01041 \textcolor{comment}{  * @param  DMAy\_Streamx: where y can be 1 or 2 to select the DMA and x can be 0}
+01042 \textcolor{comment}{  *          to 7 to select the DMA Stream.}
+01043 \textcolor{comment}{  * @param  DMA\_FLAG: specifies the flag to clear.}
+01044 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+01045 \textcolor{comment}{  *            @arg DMA\_FLAG\_TCIFx:  Streamx transfer complete flag}
+01046 \textcolor{comment}{  *            @arg DMA\_FLAG\_HTIFx:  Streamx half transfer complete flag}
+01047 \textcolor{comment}{  *            @arg DMA\_FLAG\_TEIFx:  Streamx transfer error flag}
+01048 \textcolor{comment}{  *            @arg DMA\_FLAG\_DMEIFx: Streamx direct mode error flag}
+01049 \textcolor{comment}{  *            @arg DMA\_FLAG\_FEIFx:  Streamx FIFO error flag}
+01050 \textcolor{comment}{  *         Where x can be 0 to 7 to select the DMA Stream.   }
+01051 \textcolor{comment}{  * @retval None}
+01052 \textcolor{comment}{  */}
+01053 \textcolor{keywordtype}{void} DMA_ClearFlag(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t DMA\_FLAG)
+01054 \{
+01055   DMA\_TypeDef* DMAy;
+01056 
+01057   \textcolor{comment}{/* Check the parameters */}
+01058   assert_param(IS\_DMA\_ALL\_PERIPH(DMAy\_Streamx));
+01059   assert_param(IS\_DMA\_CLEAR\_FLAG(DMA\_FLAG));
+01060 
+01061   \textcolor{comment}{/* Determine the DMA to which belongs the stream */}
+01062   \textcolor{keywordflow}{if} (DMAy\_Streamx < DMA2_Stream0)
+01063   \{
+01064     \textcolor{comment}{/* DMAy\_Streamx belongs to DMA1 */}
+01065     DMAy = DMA1;
+01066   \}
+01067   \textcolor{keywordflow}{else}
+01068   \{
+01069     \textcolor{comment}{/* DMAy\_Streamx belongs to DMA2 */}
+01070     DMAy = DMA2;
+01071   \}
+01072 
+01073   \textcolor{comment}{/* Check if LIFCR or HIFCR register is targeted */}
+01074   \textcolor{keywordflow}{if} ((DMA\_FLAG & HIGH_ISR_MASK) != (uint32\_t)RESET)
+01075   \{
+01076     \textcolor{comment}{/* Set DMAy HIFCR register clear flag bits */}
+01077     DMAy->HIFCR = (uint32\_t)(DMA\_FLAG & RESERVED_MASK);
+01078   \}
+01079   \textcolor{keywordflow}{else}
+01080   \{
+01081     \textcolor{comment}{/* Set DMAy LIFCR register clear flag bits */}
+01082     DMAy->LIFCR = (uint32\_t)(DMA\_FLAG & RESERVED_MASK);
+01083   \}
+01084 \}
+01085 
+01086 \textcolor{comment}{/**}
+01087 \textcolor{comment}{  * @brief  Enables or disables the specified DMAy Streamx interrupts.}
+01088 \textcolor{comment}{  * @param  DMAy\_Streamx: where y can be 1 or 2 to select the DMA and x can be 0}
+01089 \textcolor{comment}{  *          to 7 to select the DMA Stream.}
+01090 \textcolor{comment}{  * @param DMA\_IT: specifies the DMA interrupt sources to be enabled or disabled. }
+01091 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+01092 \textcolor{comment}{  *            @arg DMA\_IT\_TC:  Transfer complete interrupt mask}
+01093 \textcolor{comment}{  *            @arg DMA\_IT\_HT:  Half transfer complete interrupt mask}
+01094 \textcolor{comment}{  *            @arg DMA\_IT\_TE:  Transfer error interrupt mask}
+01095 \textcolor{comment}{  *            @arg DMA\_IT\_FE:  FIFO error interrupt mask}
+01096 \textcolor{comment}{  * @param  NewState: new state of the specified DMA interrupts.}
+01097 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01098 \textcolor{comment}{  * @retval None}
+01099 \textcolor{comment}{  */}
+01100 \textcolor{keywordtype}{void} DMA_ITConfig(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t DMA\_IT, FunctionalState NewState)
+01101 \{
+01102   \textcolor{comment}{/* Check the parameters */}
+01103   assert_param(IS\_DMA\_ALL\_PERIPH(DMAy\_Streamx));
+01104   assert_param(IS\_DMA\_CONFIG\_IT(DMA\_IT));
+01105   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01106 
+01107   \textcolor{comment}{/* Check if the DMA\_IT parameter contains a FIFO interrupt */}
+01108   \textcolor{keywordflow}{if} ((DMA\_IT & DMA_IT_FE) != 0)
+01109   \{
+01110     \textcolor{keywordflow}{if} (NewState != DISABLE)
+01111     \{
+01112       \textcolor{comment}{/* Enable the selected DMA FIFO interrupts */}
+01113       DMAy\_Streamx->FCR |= (uint32\_t)DMA_IT_FE;
+01114     \}
+01115     \textcolor{keywordflow}{else}
+01116     \{
+01117       \textcolor{comment}{/* Disable the selected DMA FIFO interrupts */}
+01118       DMAy\_Streamx->FCR &= ~(uint32\_t)DMA_IT_FE;
+01119     \}
+01120   \}
+01121 
+01122   \textcolor{comment}{/* Check if the DMA\_IT parameter contains a Transfer interrupt */}
+01123   \textcolor{keywordflow}{if} (DMA\_IT != DMA_IT_FE)
+01124   \{
+01125     \textcolor{keywordflow}{if} (NewState != DISABLE)
+01126     \{
+01127       \textcolor{comment}{/* Enable the selected DMA transfer interrupts */}
+01128       DMAy\_Streamx->CR |= (uint32\_t)(DMA\_IT  & TRANSFER_IT_ENABLE_MASK);
+01129     \}
+01130     \textcolor{keywordflow}{else}
+01131     \{
+01132       \textcolor{comment}{/* Disable the selected DMA transfer interrupts */}
+01133       DMAy\_Streamx->CR &= ~(uint32\_t)(DMA\_IT & TRANSFER_IT_ENABLE_MASK);
+01134     \}
+01135   \}
+01136 \}
+01137 
+01138 \textcolor{comment}{/**}
+01139 \textcolor{comment}{  * @brief  Checks whether the specified DMAy Streamx interrupt has occurred or not.}
+01140 \textcolor{comment}{  * @param  DMAy\_Streamx: where y can be 1 or 2 to select the DMA and x can be 0}
+01141 \textcolor{comment}{  *          to 7 to select the DMA Stream.}
+01142 \textcolor{comment}{  * @param  DMA\_IT: specifies the DMA interrupt source to check.}
+01143 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01144 \textcolor{comment}{  *            @arg DMA\_IT\_TCIFx:  Streamx transfer complete interrupt}
+01145 \textcolor{comment}{  *            @arg DMA\_IT\_HTIFx:  Streamx half transfer complete interrupt}
+01146 \textcolor{comment}{  *            @arg DMA\_IT\_TEIFx:  Streamx transfer error interrupt}
+01147 \textcolor{comment}{  *            @arg DMA\_IT\_DMEIFx: Streamx direct mode error interrupt}
+01148 \textcolor{comment}{  *            @arg DMA\_IT\_FEIFx:  Streamx FIFO error interrupt}
+01149 \textcolor{comment}{  *         Where x can be 0 to 7 to select the DMA Stream.}
+01150 \textcolor{comment}{  * @retval The new state of DMA\_IT (SET or RESET).}
+01151 \textcolor{comment}{  */}
+01152 ITStatus DMA_GetITStatus(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t DMA\_IT)
+01153 \{
+01154   ITStatus bitstatus = RESET;
+01155   DMA\_TypeDef* DMAy;
+01156   uint32\_t tmpreg = 0, enablestatus = 0;
+01157 
+01158   \textcolor{comment}{/* Check the parameters */}
+01159   assert_param(IS\_DMA\_ALL\_PERIPH(DMAy\_Streamx));
+01160   assert_param(IS\_DMA\_GET\_IT(DMA\_IT));
+01161 
+01162   \textcolor{comment}{/* Determine the DMA to which belongs the stream */}
+01163   \textcolor{keywordflow}{if} (DMAy\_Streamx < DMA2_Stream0)
+01164   \{
+01165     \textcolor{comment}{/* DMAy\_Streamx belongs to DMA1 */}
+01166     DMAy = DMA1;
+01167   \}
+01168   \textcolor{keywordflow}{else}
+01169   \{
+01170     \textcolor{comment}{/* DMAy\_Streamx belongs to DMA2 */}
+01171     DMAy = DMA2;
+01172   \}
+01173 
+01174   \textcolor{comment}{/* Check if the interrupt enable bit is in the CR or FCR register */}
+01175   \textcolor{keywordflow}{if} ((DMA\_IT & TRANSFER_IT_MASK) != (uint32\_t)RESET)
+01176   \{
+01177     \textcolor{comment}{/* Get the interrupt enable position mask in CR register */}
+01178     tmpreg = (uint32\_t)((DMA\_IT >> 11) & TRANSFER_IT_ENABLE_MASK);
+01179 
+01180     \textcolor{comment}{/* Check the enable bit in CR register */}
+01181     enablestatus = (uint32\_t)(DMAy\_Streamx->CR & tmpreg);
+01182   \}
+01183   \textcolor{keywordflow}{else}
+01184   \{
+01185     \textcolor{comment}{/* Check the enable bit in FCR register */}
+01186     enablestatus = (uint32\_t)(DMAy\_Streamx->FCR & DMA_IT_FE);
+01187   \}
+01188 
+01189   \textcolor{comment}{/* Check if the interrupt pending flag is in LISR or HISR */}
+01190   \textcolor{keywordflow}{if} ((DMA\_IT & HIGH_ISR_MASK) != (uint32\_t)RESET)
+01191   \{
+01192     \textcolor{comment}{/* Get DMAy HISR register value */}
+01193     tmpreg = DMAy->HISR ;
+01194   \}
+01195   \textcolor{keywordflow}{else}
+01196   \{
+01197     \textcolor{comment}{/* Get DMAy LISR register value */}
+01198     tmpreg = DMAy->LISR ;
+01199   \}
+01200 
+01201   \textcolor{comment}{/* mask all reserved bits */}
+01202   tmpreg &= (uint32\_t)RESERVED_MASK;
+01203 
+01204   \textcolor{comment}{/* Check the status of the specified DMA interrupt */}
+01205   \textcolor{keywordflow}{if} (((tmpreg & DMA\_IT) != (uint32\_t)RESET) && (enablestatus != (uint32\_t)
+      RESET))
+01206   \{
+01207     \textcolor{comment}{/* DMA\_IT is set */}
+01208     bitstatus = SET;
+01209   \}
+01210   \textcolor{keywordflow}{else}
+01211   \{
+01212     \textcolor{comment}{/* DMA\_IT is reset */}
+01213     bitstatus = RESET;
+01214   \}
+01215 
+01216   \textcolor{comment}{/* Return the DMA\_IT status */}
+01217   \textcolor{keywordflow}{return}  bitstatus;
+01218 \}
+01219 
+01220 \textcolor{comment}{/**}
+01221 \textcolor{comment}{  * @brief  Clears the DMAy Streamx's interrupt pending bits.}
+01222 \textcolor{comment}{  * @param  DMAy\_Streamx: where y can be 1 or 2 to select the DMA and x can be 0}
+01223 \textcolor{comment}{  *          to 7 to select the DMA Stream.}
+01224 \textcolor{comment}{  * @param  DMA\_IT: specifies the DMA interrupt pending bit to clear.}
+01225 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+01226 \textcolor{comment}{  *            @arg DMA\_IT\_TCIFx:  Streamx transfer complete interrupt}
+01227 \textcolor{comment}{  *            @arg DMA\_IT\_HTIFx:  Streamx half transfer complete interrupt}
+01228 \textcolor{comment}{  *            @arg DMA\_IT\_TEIFx:  Streamx transfer error interrupt}
+01229 \textcolor{comment}{  *            @arg DMA\_IT\_DMEIFx: Streamx direct mode error interrupt}
+01230 \textcolor{comment}{  *            @arg DMA\_IT\_FEIFx:  Streamx FIFO error interrupt}
+01231 \textcolor{comment}{  *         Where x can be 0 to 7 to select the DMA Stream.}
+01232 \textcolor{comment}{  * @retval None}
+01233 \textcolor{comment}{  */}
+01234 \textcolor{keywordtype}{void} DMA_ClearITPendingBit(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t DMA\_IT)
+01235 \{
+01236   DMA\_TypeDef* DMAy;
+01237 
+01238   \textcolor{comment}{/* Check the parameters */}
+01239   assert_param(IS\_DMA\_ALL\_PERIPH(DMAy\_Streamx));
+01240   assert_param(IS\_DMA\_CLEAR\_IT(DMA\_IT));
+01241 
+01242   \textcolor{comment}{/* Determine the DMA to which belongs the stream */}
+01243   \textcolor{keywordflow}{if} (DMAy\_Streamx < DMA2_Stream0)
+01244   \{
+01245     \textcolor{comment}{/* DMAy\_Streamx belongs to DMA1 */}
+01246     DMAy = DMA1;
+01247   \}
+01248   \textcolor{keywordflow}{else}
+01249   \{
+01250     \textcolor{comment}{/* DMAy\_Streamx belongs to DMA2 */}
+01251     DMAy = DMA2;
+01252   \}
+01253 
+01254   \textcolor{comment}{/* Check if LIFCR or HIFCR register is targeted */}
+01255   \textcolor{keywordflow}{if} ((DMA\_IT & HIGH_ISR_MASK) != (uint32\_t)RESET)
+01256   \{
+01257     \textcolor{comment}{/* Set DMAy HIFCR register clear interrupt bits */}
+01258     DMAy->HIFCR = (uint32\_t)(DMA\_IT & RESERVED_MASK);
+01259   \}
+01260   \textcolor{keywordflow}{else}
+01261   \{
+01262     \textcolor{comment}{/* Set DMAy LIFCR register clear interrupt bits */}
+01263     DMAy->LIFCR = (uint32\_t)(DMA\_IT & RESERVED_MASK);
+01264   \}
+01265 \}
+01266 
+01267 \textcolor{comment}{/**}
+01268 \textcolor{comment}{  * @\}}
+01269 \textcolor{comment}{  */}
+01270 
+01271 \textcolor{comment}{/**}
+01272 \textcolor{comment}{  * @\}}
+01273 \textcolor{comment}{  */}
+01274 
+01275 \textcolor{comment}{/**}
+01276 \textcolor{comment}{  * @\}}
+01277 \textcolor{comment}{  */}
+01278 
+01279 \textcolor{comment}{/**}
+01280 \textcolor{comment}{  * @\}}
+01281 \textcolor{comment}{  */}
+01282 
+01283 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

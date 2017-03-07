@@ -1,0 +1,592 @@
+\section{Interrupts events and flags management functions}
+\label{group__I2C__Group5}\index{Interrupts events and flags management functions@{Interrupts events and flags management functions}}
+
+
+Interrupts, events and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint16\+\_\+t \textbf{ I2\+C\+\_\+\+Read\+Register} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint8\+\_\+t I2\+C\+\_\+\+Register)
+\begin{DoxyCompactList}\small\item\em Reads the specified I2C register and returns its value. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+I\+T\+Config} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint16\+\_\+t I2\+C\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C interrupts. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ I2\+C\+\_\+\+Check\+Event} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint32\+\_\+t I2\+C\+\_\+\+E\+V\+E\+NT)
+\begin{DoxyCompactList}\small\item\em Checks whether the last I2\+Cx Event is equal to the one passed as parameter. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ I2\+C\+\_\+\+Get\+Last\+Event} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx)
+\begin{DoxyCompactList}\small\item\em Returns the last I2\+Cx Event. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ I2\+C\+\_\+\+Get\+Flag\+Status} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint32\+\_\+t I2\+C\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified I2C flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Clear\+Flag} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint32\+\_\+t I2\+C\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the I2\+Cx\textquotesingle{}s pending flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ I2\+C\+\_\+\+Get\+I\+T\+Status} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint32\+\_\+t I2\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified I2C interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint32\+\_\+t I2\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the I2\+Cx\textquotesingle{}s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts, events and flags management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                Interrupts, events and flags management functions
+ ===============================================================================  
+  This section provides functions allowing to configure the I2C Interrupts 
+  sources and check or clear the flags or pending bits status.
+  The user should identify which mode will be used in his application to manage 
+  the communication: Polling mode, Interrupt mode or DMA mode. 
+
+ ===============================================================================
+                          I2C State Monitoring Functions                    
+ ===============================================================================   
+  This I2C driver provides three different ways for I2C state monitoring
+  depending on the application requirements and constraints:
+         
+   
+     1. Basic state monitoring (Using I2C_CheckEvent() function)
+     -----------------------------------------------------------
+        It compares the status registers (SR1 and SR2) content to a given event
+        (can be the combination of one or more flags).
+        It returns SUCCESS if the current status includes the given flags 
+        and returns ERROR if one or more flags are missing in the current status.
+
+          - When to use
+             - This function is suitable for most applications as well as for startup 
+               activity since the events are fully described in the product reference 
+               manual (RM0090).
+             - It is also suitable for users who need to define their own events.
+
+          - Limitations
+             - If an error occurs (ie. error flags are set besides to the monitored 
+               flags), the I2C_CheckEvent() function may return SUCCESS despite 
+               the communication hold or corrupted real state. 
+               In this case, it is advised to use error interrupts to monitor 
+               the error events and handle them in the interrupt IRQ handler.
+         
+     @note 
+         For error management, it is advised to use the following functions:
+           - I2C_ITConfig() to configure and enable the error interrupts (I2C_IT_ERR).
+           - I2Cx_ER_IRQHandler() which is called when the error interrupt occurs.
+             Where x is the peripheral instance (I2C1, I2C2 ...)
+           - I2C_GetFlagStatus() or I2C_GetITStatus()  to be called into the 
+             I2Cx_ER_IRQHandler() function in order to determine which error occurred.
+           - I2C_ClearFlag() or I2C_ClearITPendingBit() and/or I2C_SoftwareResetCmd() 
+             and/or I2C_GenerateStop() in order to clear the error flag and source 
+             and return to correct  communication status.
+             
+ 
+     2. Advanced state monitoring (Using the function I2C_GetLastEvent())
+     -------------------------------------------------------------------- 
+        Using the function I2C_GetLastEvent() which returns the image of both status 
+        registers in a single word (uint32_t) (Status Register 2 value is shifted left 
+        by 16 bits and concatenated to Status Register 1).
+
+          - When to use
+             - This function is suitable for the same applications above but it 
+               allows to overcome the mentioned limitation of I2C_GetFlagStatus() 
+               function.
+             - The returned value could be compared to events already defined in 
+               the library (stm32f4xx_i2c.h) or to custom values defined by user.
+               This function is suitable when multiple flags are monitored at the 
+               same time.
+             - At the opposite of I2C_CheckEvent() function, this function allows 
+               user to choose when an event is accepted (when all events flags are 
+               set and no other flags are set or just when the needed flags are set 
+               like I2C_CheckEvent() function.
+
+          - Limitations
+             - User may need to define his own events.
+             - Same remark concerning the error management is applicable for this 
+               function if user decides to check only regular communication flags 
+               (and ignores error flags).
+      
+ 
+     3. Flag-based state monitoring (Using the function I2C_GetFlagStatus())
+     -----------------------------------------------------------------------
+     
+      Using the function I2C_GetFlagStatus() which simply returns the status of 
+      one single flag (ie. I2C_FLAG_RXNE ...). 
+
+          - When to use
+             - This function could be used for specific applications or in debug 
+               phase.
+             - It is suitable when only one flag checking is needed (most I2C 
+               events are monitored through multiple flags).
+          - Limitations: 
+             - When calling this function, the Status register is accessed. 
+               Some flags are cleared when the status register is accessed. 
+               So checking the status of one Flag, may clear other ones.
+             - Function may need to be called twice or more in order to monitor 
+               one single event.
+ 
+   For detailed description of Events, please refer to section I2C_Events in 
+   stm32f4xx_i2c.h file.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__I2C__Group5_ga2d5701342f9d4c1f09bf9d3cdcacc326}} 
+\index{Interrupts events and flags management functions@{Interrupts events and flags management functions}!I2\+C\+\_\+\+Check\+Event@{I2\+C\+\_\+\+Check\+Event}}
+\index{I2\+C\+\_\+\+Check\+Event@{I2\+C\+\_\+\+Check\+Event}!Interrupts events and flags management functions@{Interrupts events and flags management functions}}
+\subsubsection{I2\+C\+\_\+\+Check\+Event()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} I2\+C\+\_\+\+Check\+Event (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint32\+\_\+t}]{I2\+C\+\_\+\+E\+V\+E\+NT }\end{DoxyParamCaption})}
+
+
+
+Checks whether the last I2\+Cx Event is equal to the one passed as parameter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em I2\+C\+\_\+\+E\+V\+E\+NT} & specifies the event to be checked. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+E\+R\+\_\+\+A\+D\+D\+R\+E\+S\+S\+\_\+\+M\+A\+T\+C\+H\+ED\+: E\+V1 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+R\+E\+C\+E\+I\+V\+E\+R\+\_\+\+A\+D\+D\+R\+E\+S\+S\+\_\+\+M\+A\+T\+C\+H\+ED\+: E\+V1 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+E\+R\+\_\+\+S\+E\+C\+O\+N\+D\+A\+D\+D\+R\+E\+S\+S\+\_\+\+M\+A\+T\+C\+H\+ED\+: E\+V1 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+R\+E\+C\+E\+I\+V\+E\+R\+\_\+\+S\+E\+C\+O\+N\+D\+A\+D\+D\+R\+E\+S\+S\+\_\+\+M\+A\+T\+C\+H\+ED\+: E\+V1 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+G\+E\+N\+E\+R\+A\+L\+C\+A\+L\+L\+A\+D\+D\+R\+E\+S\+S\+\_\+\+M\+A\+T\+C\+H\+ED\+: E\+V1 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+B\+Y\+T\+E\+\_\+\+R\+E\+C\+E\+I\+V\+ED\+: E\+V2 \item (I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+B\+Y\+T\+E\+\_\+\+R\+E\+C\+E\+I\+V\+ED $\vert$ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+D\+U\+A\+LF)\+: E\+V2 \item (I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+B\+Y\+T\+E\+\_\+\+R\+E\+C\+E\+I\+V\+ED $\vert$ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+G\+E\+N\+C\+A\+LL)\+: E\+V2 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+B\+Y\+T\+E\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+ED\+: E\+V3 \item (I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+B\+Y\+T\+E\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+ED $\vert$ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+D\+U\+A\+LF)\+: E\+V3 \item (I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+B\+Y\+T\+E\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+ED $\vert$ I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+G\+E\+N\+C\+A\+LL)\+: E\+V3 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+A\+C\+K\+\_\+\+F\+A\+I\+L\+U\+RE\+: E\+V3\+\_\+2 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+S\+L\+A\+V\+E\+\_\+\+S\+T\+O\+P\+\_\+\+D\+E\+T\+E\+C\+T\+ED\+: E\+V4 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+M\+A\+S\+T\+E\+R\+\_\+\+M\+O\+D\+E\+\_\+\+S\+E\+L\+E\+CT\+: E\+V5 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+M\+A\+S\+T\+E\+R\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+E\+R\+\_\+\+M\+O\+D\+E\+\_\+\+S\+E\+L\+E\+C\+T\+ED\+: E\+V6 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+M\+A\+S\+T\+E\+R\+\_\+\+R\+E\+C\+E\+I\+V\+E\+R\+\_\+\+M\+O\+D\+E\+\_\+\+S\+E\+L\+E\+C\+T\+ED\+: E\+V6 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+M\+A\+S\+T\+E\+R\+\_\+\+B\+Y\+T\+E\+\_\+\+R\+E\+C\+E\+I\+V\+ED\+: E\+V7 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+M\+A\+S\+T\+E\+R\+\_\+\+B\+Y\+T\+E\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+I\+NG\+: E\+V8 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+M\+A\+S\+T\+E\+R\+\_\+\+B\+Y\+T\+E\+\_\+\+T\+R\+A\+N\+S\+M\+I\+T\+T\+ED\+: E\+V8\+\_\+2 \item I2\+C\+\_\+\+E\+V\+E\+N\+T\+\_\+\+M\+A\+S\+T\+E\+R\+\_\+\+M\+O\+D\+E\+\_\+\+A\+D\+D\+R\+E\+S\+S10\+: E\+V9\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+For detailed description of Events, please refer to section I2\+C\+\_\+\+Events in \doxyref{stm32f4xx\+\_\+i2c.\+h}{p.}{stm32f4xx__i2c_8h} file.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: Last event is equal to the I2\+C\+\_\+\+E\+V\+E\+NT
+\item E\+R\+R\+OR\+: Last event is different from the I2\+C\+\_\+\+E\+V\+E\+NT 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1091} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+01092 \{
+01093   uint32\_t lastevent = 0;
+01094   uint32\_t flag1 = 0, flag2 = 0;
+01095   ErrorStatus status = ERROR;
+01096 
+01097   \textcolor{comment}{/* Check the parameters */}
+01098   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+01099   assert_param(IS_I2C_EVENT(I2C\_EVENT));
+01100 
+01101   \textcolor{comment}{/* Read the I2Cx status register */}
+01102   flag1 = I2Cx->SR1;
+01103   flag2 = I2Cx->SR2;
+01104   flag2 = flag2 << 16;
+01105 
+01106   \textcolor{comment}{/* Get the last event value from I2C status register */}
+01107   lastevent = (flag1 | flag2) & FLAG_MASK;
+01108 
+01109   \textcolor{comment}{/* Check whether the last event contains the I2C\_EVENT */}
+01110   \textcolor{keywordflow}{if} ((lastevent & I2C\_EVENT) == I2C\_EVENT)
+01111   \{
+01112     \textcolor{comment}{/* SUCCESS: last event is equal to I2C\_EVENT */}
+01113     status = SUCCESS;
+01114   \}
+01115   \textcolor{keywordflow}{else}
+01116   \{
+01117     \textcolor{comment}{/* ERROR: last event is different from I2C\_EVENT */}
+01118     status = ERROR;
+01119   \}
+01120   \textcolor{comment}{/* Return status */}
+01121   \textcolor{keywordflow}{return} status;
+01122 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C__Group5_ga9d4f8fe9f7232696114b5578b1223963}} 
+\index{Interrupts events and flags management functions@{Interrupts events and flags management functions}!I2\+C\+\_\+\+Clear\+Flag@{I2\+C\+\_\+\+Clear\+Flag}}
+\index{I2\+C\+\_\+\+Clear\+Flag@{I2\+C\+\_\+\+Clear\+Flag}!Interrupts events and flags management functions@{Interrupts events and flags management functions}}
+\subsubsection{I2\+C\+\_\+\+Clear\+Flag()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Clear\+Flag (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint32\+\_\+t}]{I2\+C\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Clears the I2\+Cx\textquotesingle{}s pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em I2\+C\+\_\+\+F\+L\+AG} & specifies the flag to clear. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+S\+M\+B\+A\+L\+E\+RT\+: S\+M\+Bus Alert flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+I\+M\+E\+O\+UT\+: Timeout or Tlow error flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+P\+E\+C\+E\+RR\+: P\+EC error in reception flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+O\+VR\+: Overrun/\+Underrun flag (Slave mode) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+AF\+: Acknowledge failure flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+R\+LO\+: Arbitration lost flag (Master mode) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+B\+E\+RR\+: Bus error flag\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+S\+T\+O\+PF (S\+T\+OP detection) is cleared by software sequence\+: a read operation to I2\+C\+\_\+\+S\+R1 register (\doxyref{I2\+C\+\_\+\+Get\+Flag\+Status()}{p.}{group__I2C__Group5_ga15c95d0ed124f029621a2061b1677ee7}) followed by a write operation to I2\+C\+\_\+\+C\+R1 register (\doxyref{I2\+C\+\_\+\+Cmd()}{p.}{group__I2C__Group1_ga7e1323c9133c2cb424dfb5b10b7d2f0b} to re-\/enable the I2C peripheral). 
+
+A\+D\+D10 (10-\/bit header sent) is cleared by software sequence\+: a read operation to I2\+C\+\_\+\+S\+R1 (\doxyref{I2\+C\+\_\+\+Get\+Flag\+Status()}{p.}{group__I2C__Group5_ga15c95d0ed124f029621a2061b1677ee7}) followed by writing the second byte of the address in DR register. 
+
+B\+TF (Byte Transfer Finished) is cleared by software sequence\+: a read operation to I2\+C\+\_\+\+S\+R1 register (\doxyref{I2\+C\+\_\+\+Get\+Flag\+Status()}{p.}{group__I2C__Group5_ga15c95d0ed124f029621a2061b1677ee7}) followed by a read/write to I2\+C\+\_\+\+DR register (\doxyref{I2\+C\+\_\+\+Send\+Data()}{p.}{group__I2C__Group2_ga7bd9e70b8eafde0dd5eb42b0d95fe1a9}). 
+
+A\+D\+DR (Address sent) is cleared by software sequence\+: a read operation to I2\+C\+\_\+\+S\+R1 register (\doxyref{I2\+C\+\_\+\+Get\+Flag\+Status()}{p.}{group__I2C__Group5_ga15c95d0ed124f029621a2061b1677ee7}) followed by a read operation to I2\+C\+\_\+\+S\+R2 register ((void)(I2\+Cx-\/$>$S\+R2)). 
+
+SB (Start Bit) is cleared software sequence\+: a read operation to I2\+C\+\_\+\+S\+R1 register (\doxyref{I2\+C\+\_\+\+Get\+Flag\+Status()}{p.}{group__I2C__Group5_ga15c95d0ed124f029621a2061b1677ee7}) followed by a write operation to I2\+C\+\_\+\+DR register (\doxyref{I2\+C\+\_\+\+Send\+Data()}{p.}{group__I2C__Group2_ga7bd9e70b8eafde0dd5eb42b0d95fe1a9}).
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1271} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+\begin{DoxyCode}
+01272 \{
+01273   uint32\_t flagpos = 0;
+01274   \textcolor{comment}{/* Check the parameters */}
+01275   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+01276   assert_param(IS_I2C_CLEAR_FLAG(I2C\_FLAG));
+01277   \textcolor{comment}{/* Get the I2C flag position */}
+01278   flagpos = I2C\_FLAG & FLAG_MASK;
+01279   \textcolor{comment}{/* Clear the selected I2C flag */}
+01280   I2Cx->SR1 = (uint16\_t)~flagpos;
+01281 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C__Group5_ga110dda440fa200b5f77349df19b3e6bb}} 
+\index{Interrupts events and flags management functions@{Interrupts events and flags management functions}!I2\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit@{I2\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit}}
+\index{I2\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit@{I2\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit}!Interrupts events and flags management functions@{Interrupts events and flags management functions}}
+\subsubsection{I2\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint32\+\_\+t}]{I2\+C\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Clears the I2\+Cx\textquotesingle{}s interrupt pending bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em I2\+C\+\_\+\+IT} & specifies the interrupt pending bit to clear. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item I2\+C\+\_\+\+I\+T\+\_\+\+S\+M\+B\+A\+L\+E\+RT\+: S\+M\+Bus Alert interrupt \item I2\+C\+\_\+\+I\+T\+\_\+\+T\+I\+M\+E\+O\+UT\+: Timeout or Tlow error interrupt \item I2\+C\+\_\+\+I\+T\+\_\+\+P\+E\+C\+E\+RR\+: P\+EC error in reception interrupt \item I2\+C\+\_\+\+I\+T\+\_\+\+O\+VR\+: Overrun/\+Underrun interrupt (Slave mode) \item I2\+C\+\_\+\+I\+T\+\_\+\+AF\+: Acknowledge failure interrupt \item I2\+C\+\_\+\+I\+T\+\_\+\+A\+R\+LO\+: Arbitration lost interrupt (Master mode) \item I2\+C\+\_\+\+I\+T\+\_\+\+B\+E\+RR\+: Bus error interrupt\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+S\+T\+O\+PF (S\+T\+OP detection) is cleared by software sequence\+: a read operation to I2\+C\+\_\+\+S\+R1 register (\doxyref{I2\+C\+\_\+\+Get\+I\+T\+Status()}{p.}{group__I2C__Group5_ga447771fbbd94a56f3570b9f430a069ba}) followed by a write operation to I2\+C\+\_\+\+C\+R1 register (\doxyref{I2\+C\+\_\+\+Cmd()}{p.}{group__I2C__Group1_ga7e1323c9133c2cb424dfb5b10b7d2f0b} to re-\/enable the I2C peripheral). 
+
+A\+D\+D10 (10-\/bit header sent) is cleared by software sequence\+: a read operation to I2\+C\+\_\+\+S\+R1 (\doxyref{I2\+C\+\_\+\+Get\+I\+T\+Status()}{p.}{group__I2C__Group5_ga447771fbbd94a56f3570b9f430a069ba}) followed by writing the second byte of the address in I2\+C\+\_\+\+DR register. 
+
+B\+TF (Byte Transfer Finished) is cleared by software sequence\+: a read operation to I2\+C\+\_\+\+S\+R1 register (\doxyref{I2\+C\+\_\+\+Get\+I\+T\+Status()}{p.}{group__I2C__Group5_ga447771fbbd94a56f3570b9f430a069ba}) followed by a read/write to I2\+C\+\_\+\+DR register (\doxyref{I2\+C\+\_\+\+Send\+Data()}{p.}{group__I2C__Group2_ga7bd9e70b8eafde0dd5eb42b0d95fe1a9}). 
+
+A\+D\+DR (Address sent) is cleared by software sequence\+: a read operation to I2\+C\+\_\+\+S\+R1 register (\doxyref{I2\+C\+\_\+\+Get\+I\+T\+Status()}{p.}{group__I2C__Group5_ga447771fbbd94a56f3570b9f430a069ba}) followed by a read operation to I2\+C\+\_\+\+S\+R2 register ((void)(I2\+Cx-\/$>$S\+R2)). 
+
+SB (Start Bit) is cleared by software sequence\+: a read operation to I2\+C\+\_\+\+S\+R1 register (\doxyref{I2\+C\+\_\+\+Get\+I\+T\+Status()}{p.}{group__I2C__Group5_ga447771fbbd94a56f3570b9f430a069ba}) followed by a write operation to I2\+C\+\_\+\+DR register (\doxyref{I2\+C\+\_\+\+Send\+Data()}{p.}{group__I2C__Group2_ga7bd9e70b8eafde0dd5eb42b0d95fe1a9}). 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1365} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+\begin{DoxyCode}
+01366 \{
+01367   uint32\_t flagpos = 0;
+01368   \textcolor{comment}{/* Check the parameters */}
+01369   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+01370   assert_param(IS_I2C_CLEAR_IT(I2C\_IT));
+01371 
+01372   \textcolor{comment}{/* Get the I2C flag position */}
+01373   flagpos = I2C\_IT & FLAG_MASK;
+01374 
+01375   \textcolor{comment}{/* Clear the selected I2C flag */}
+01376   I2Cx->SR1 = (uint16\_t)~flagpos;
+01377 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C__Group5_ga15c95d0ed124f029621a2061b1677ee7}} 
+\index{Interrupts events and flags management functions@{Interrupts events and flags management functions}!I2\+C\+\_\+\+Get\+Flag\+Status@{I2\+C\+\_\+\+Get\+Flag\+Status}}
+\index{I2\+C\+\_\+\+Get\+Flag\+Status@{I2\+C\+\_\+\+Get\+Flag\+Status}!Interrupts events and flags management functions@{Interrupts events and flags management functions}}
+\subsubsection{I2\+C\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} I2\+C\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint32\+\_\+t}]{I2\+C\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified I2C flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em I2\+C\+\_\+\+F\+L\+AG} & specifies the flag to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+D\+U\+A\+LF\+: Dual flag (Slave mode) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+S\+M\+B\+H\+O\+ST\+: S\+M\+Bus host header (Slave mode) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+S\+M\+B\+D\+E\+F\+A\+U\+LT\+: S\+M\+Bus default header (Slave mode) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+G\+E\+N\+C\+A\+LL\+: General call header flag (Slave mode) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+RA\+: Transmitter/\+Receiver flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+B\+U\+SY\+: Bus busy flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+M\+SL\+: Master/\+Slave flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+S\+M\+B\+A\+L\+E\+RT\+: S\+M\+Bus Alert flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+I\+M\+E\+O\+UT\+: Timeout or Tlow error flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+P\+E\+C\+E\+RR\+: P\+EC error in reception flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+O\+VR\+: Overrun/\+Underrun flag (Slave mode) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+AF\+: Acknowledge failure flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+R\+LO\+: Arbitration lost flag (Master mode) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+B\+E\+RR\+: Bus error flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+XE\+: Data register empty flag (Transmitter) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+NE\+: Data register not empty (Receiver) flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+S\+T\+O\+PF\+: Stop detection flag (Slave mode) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+D\+D10\+: 10-\/bit header sent flag (Master mode) \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+B\+TF\+: Byte transfer finished flag \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+D\+DR\+: Address sent flag (Master mode) \char`\"{}\+A\+D\+S\+L\char`\"{} Address matched flag (Slave mode)\char`\"{}\+E\+N\+D\+A\+D\char`\"{} \item I2\+C\+\_\+\+F\+L\+A\+G\+\_\+\+SB\+: Start bit flag (Master mode) \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of I2\+C\+\_\+\+F\+L\+AG (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1194} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+01195 \{
+01196   FlagStatus bitstatus = RESET;
+01197   \_\_IO uint32\_t i2creg = 0, i2cxbase = 0;
+01198 
+01199   \textcolor{comment}{/* Check the parameters */}
+01200   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+01201   assert_param(IS_I2C_GET_FLAG(I2C\_FLAG));
+01202 
+01203   \textcolor{comment}{/* Get the I2Cx peripheral base address */}
+01204   i2cxbase = (uint32\_t)I2Cx;
+01205   
+01206   \textcolor{comment}{/* Read flag register index */}
+01207   i2creg = I2C\_FLAG >> 28;
+01208   
+01209   \textcolor{comment}{/* Get bit[23:0] of the flag */}
+01210   I2C\_FLAG &= FLAG_MASK;
+01211   
+01212   \textcolor{keywordflow}{if}(i2creg != 0)
+01213   \{
+01214     \textcolor{comment}{/* Get the I2Cx SR1 register address */}
+01215     i2cxbase += 0x14;
+01216   \}
+01217   \textcolor{keywordflow}{else}
+01218   \{
+01219     \textcolor{comment}{/* Flag in I2Cx SR2 Register */}
+01220     I2C\_FLAG = (uint32\_t)(I2C\_FLAG >> 16);
+01221     \textcolor{comment}{/* Get the I2Cx SR2 register address */}
+01222     i2cxbase += 0x18;
+01223   \}
+01224   
+01225   \textcolor{keywordflow}{if}(((*(\_\_IO uint32\_t *)i2cxbase) & I2C\_FLAG) != (uint32\_t)RESET)
+01226   \{
+01227     \textcolor{comment}{/* I2C\_FLAG is set */}
+01228     bitstatus = SET;
+01229   \}
+01230   \textcolor{keywordflow}{else}
+01231   \{
+01232     \textcolor{comment}{/* I2C\_FLAG is reset */}
+01233     bitstatus = RESET;
+01234   \}
+01235   
+01236   \textcolor{comment}{/* Return the I2C\_FLAG status */}
+01237   \textcolor{keywordflow}{return}  bitstatus;
+01238 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C__Group5_ga447771fbbd94a56f3570b9f430a069ba}} 
+\index{Interrupts events and flags management functions@{Interrupts events and flags management functions}!I2\+C\+\_\+\+Get\+I\+T\+Status@{I2\+C\+\_\+\+Get\+I\+T\+Status}}
+\index{I2\+C\+\_\+\+Get\+I\+T\+Status@{I2\+C\+\_\+\+Get\+I\+T\+Status}!Interrupts events and flags management functions@{Interrupts events and flags management functions}}
+\subsubsection{I2\+C\+\_\+\+Get\+I\+T\+Status()}
+{\footnotesize\ttfamily \textbf{ I\+T\+Status} I2\+C\+\_\+\+Get\+I\+T\+Status (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint32\+\_\+t}]{I2\+C\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified I2C interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em I2\+C\+\_\+\+IT} & specifies the interrupt source to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item I2\+C\+\_\+\+I\+T\+\_\+\+S\+M\+B\+A\+L\+E\+RT\+: S\+M\+Bus Alert flag \item I2\+C\+\_\+\+I\+T\+\_\+\+T\+I\+M\+E\+O\+UT\+: Timeout or Tlow error flag \item I2\+C\+\_\+\+I\+T\+\_\+\+P\+E\+C\+E\+RR\+: P\+EC error in reception flag \item I2\+C\+\_\+\+I\+T\+\_\+\+O\+VR\+: Overrun/\+Underrun flag (Slave mode) \item I2\+C\+\_\+\+I\+T\+\_\+\+AF\+: Acknowledge failure flag \item I2\+C\+\_\+\+I\+T\+\_\+\+A\+R\+LO\+: Arbitration lost flag (Master mode) \item I2\+C\+\_\+\+I\+T\+\_\+\+B\+E\+RR\+: Bus error flag \item I2\+C\+\_\+\+I\+T\+\_\+\+T\+XE\+: Data register empty flag (Transmitter) \item I2\+C\+\_\+\+I\+T\+\_\+\+R\+X\+NE\+: Data register not empty (Receiver) flag \item I2\+C\+\_\+\+I\+T\+\_\+\+S\+T\+O\+PF\+: Stop detection flag (Slave mode) \item I2\+C\+\_\+\+I\+T\+\_\+\+A\+D\+D10\+: 10-\/bit header sent flag (Master mode) \item I2\+C\+\_\+\+I\+T\+\_\+\+B\+TF\+: Byte transfer finished flag \item I2\+C\+\_\+\+I\+T\+\_\+\+A\+D\+DR\+: Address sent flag (Master mode) \char`\"{}\+A\+D\+S\+L\char`\"{} Address matched flag (Slave mode)\char`\"{}\+E\+N\+D\+A\+D\char`\"{} \item I2\+C\+\_\+\+I\+T\+\_\+\+SB\+: Start bit flag (Master mode) \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of I2\+C\+\_\+\+IT (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1305} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+01306 \{
+01307   ITStatus bitstatus = RESET;
+01308   uint32\_t enablestatus = 0;
+01309 
+01310   \textcolor{comment}{/* Check the parameters */}
+01311   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+01312   assert_param(IS_I2C_GET_IT(I2C\_IT));
+01313 
+01314   \textcolor{comment}{/* Check if the interrupt source is enabled or not */}
+01315   enablestatus = (uint32\_t)(((I2C\_IT & ITEN_MASK) >> 16) & (I2Cx->CR2)) ;
+01316   
+01317   \textcolor{comment}{/* Get bit[23:0] of the flag */}
+01318   I2C\_IT &= FLAG_MASK;
+01319 
+01320   \textcolor{comment}{/* Check the status of the specified I2C flag */}
+01321   \textcolor{keywordflow}{if} (((I2Cx->SR1 & I2C\_IT) != (uint32\_t)RESET) && enablestatus)
+01322   \{
+01323     \textcolor{comment}{/* I2C\_IT is set */}
+01324     bitstatus = SET;
+01325   \}
+01326   \textcolor{keywordflow}{else}
+01327   \{
+01328     \textcolor{comment}{/* I2C\_IT is reset */}
+01329     bitstatus = RESET;
+01330   \}
+01331   \textcolor{comment}{/* Return the I2C\_IT status */}
+01332   \textcolor{keywordflow}{return}  bitstatus;
+01333 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C__Group5_ga29237aea9b5a3ead33167e1d027e9f1a}} 
+\index{Interrupts events and flags management functions@{Interrupts events and flags management functions}!I2\+C\+\_\+\+Get\+Last\+Event@{I2\+C\+\_\+\+Get\+Last\+Event}}
+\index{I2\+C\+\_\+\+Get\+Last\+Event@{I2\+C\+\_\+\+Get\+Last\+Event}!Interrupts events and flags management functions@{Interrupts events and flags management functions}}
+\subsubsection{I2\+C\+\_\+\+Get\+Last\+Event()}
+{\footnotesize\ttfamily uint32\+\_\+t I2\+C\+\_\+\+Get\+Last\+Event (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx }\end{DoxyParamCaption})}
+
+
+
+Returns the last I2\+Cx Event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+For detailed description of Events, please refer to section I2\+C\+\_\+\+Events in \doxyref{stm32f4xx\+\_\+i2c.\+h}{p.}{stm32f4xx__i2c_8h} file.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & last event \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1139} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+\begin{DoxyCode}
+01140 \{
+01141   uint32\_t lastevent = 0;
+01142   uint32\_t flag1 = 0, flag2 = 0;
+01143 
+01144   \textcolor{comment}{/* Check the parameters */}
+01145   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+01146 
+01147   \textcolor{comment}{/* Read the I2Cx status register */}
+01148   flag1 = I2Cx->SR1;
+01149   flag2 = I2Cx->SR2;
+01150   flag2 = flag2 << 16;
+01151 
+01152   \textcolor{comment}{/* Get the last event value from I2C status register */}
+01153   lastevent = (flag1 | flag2) & FLAG_MASK;
+01154 
+01155   \textcolor{comment}{/* Return status */}
+01156   \textcolor{keywordflow}{return} lastevent;
+01157 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C__Group5_ga58fed146a06cb81d2940604e460de047}} 
+\index{Interrupts events and flags management functions@{Interrupts events and flags management functions}!I2\+C\+\_\+\+I\+T\+Config@{I2\+C\+\_\+\+I\+T\+Config}}
+\index{I2\+C\+\_\+\+I\+T\+Config@{I2\+C\+\_\+\+I\+T\+Config}!Interrupts events and flags management functions@{Interrupts events and flags management functions}}
+\subsubsection{I2\+C\+\_\+\+I\+T\+Config()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+I\+T\+Config (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint16\+\_\+t}]{I2\+C\+\_\+\+IT,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified I2C interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em I2\+C\+\_\+\+IT} & specifies the I2C interrupts sources to be enabled or disabled. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item I2\+C\+\_\+\+I\+T\+\_\+\+B\+UF\+: Buffer interrupt mask \item I2\+C\+\_\+\+I\+T\+\_\+\+E\+VT\+: Event interrupt mask \item I2\+C\+\_\+\+I\+T\+\_\+\+E\+RR\+: Error interrupt mask \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the specified I2C interrupts. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1032} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+01033 \{
+01034   \textcolor{comment}{/* Check the parameters */}
+01035   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+01036   assert_param(IS_FUNCTIONAL_STATE(NewState));
+01037   assert_param(IS_I2C_CONFIG_IT(I2C\_IT));
+01038   
+01039   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01040   \{
+01041     \textcolor{comment}{/* Enable the selected I2C interrupts */}
+01042     I2Cx->CR2 |= I2C\_IT;
+01043   \}
+01044   \textcolor{keywordflow}{else}
+01045   \{
+01046     \textcolor{comment}{/* Disable the selected I2C interrupts */}
+01047     I2Cx->CR2 &= (uint16\_t)~I2C\_IT;
+01048   \}
+01049 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C__Group5_ga8021dc796d15f997356b0583d6346805}} 
+\index{Interrupts events and flags management functions@{Interrupts events and flags management functions}!I2\+C\+\_\+\+Read\+Register@{I2\+C\+\_\+\+Read\+Register}}
+\index{I2\+C\+\_\+\+Read\+Register@{I2\+C\+\_\+\+Read\+Register}!Interrupts events and flags management functions@{Interrupts events and flags management functions}}
+\subsubsection{I2\+C\+\_\+\+Read\+Register()}
+{\footnotesize\ttfamily uint16\+\_\+t I2\+C\+\_\+\+Read\+Register (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint8\+\_\+t}]{I2\+C\+\_\+\+Register }\end{DoxyParamCaption})}
+
+
+
+Reads the specified I2C register and returns its value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+C\+\_\+\+Register} & specifies the register to read. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item I2\+C\+\_\+\+Register\+\_\+\+C\+R1\+: C\+R1 register. \item I2\+C\+\_\+\+Register\+\_\+\+C\+R2\+: C\+R2 register. \item I2\+C\+\_\+\+Register\+\_\+\+O\+A\+R1\+: O\+A\+R1 register. \item I2\+C\+\_\+\+Register\+\_\+\+O\+A\+R2\+: O\+A\+R2 register. \item I2\+C\+\_\+\+Register\+\_\+\+DR\+: DR register. \item I2\+C\+\_\+\+Register\+\_\+\+S\+R1\+: S\+R1 register. \item I2\+C\+\_\+\+Register\+\_\+\+S\+R2\+: S\+R2 register. \item I2\+C\+\_\+\+Register\+\_\+\+C\+CR\+: C\+CR register. \item I2\+C\+\_\+\+Register\+\_\+\+T\+R\+I\+SE\+: T\+R\+I\+SE register. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & value of the read register. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1005} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+\begin{DoxyCode}
+01006 \{
+01007   \_\_IO uint32\_t tmp = 0;
+01008 
+01009   \textcolor{comment}{/* Check the parameters */}
+01010   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+01011   assert_param(IS_I2C_REGISTER(I2C\_Register));
+01012 
+01013   tmp = (uint32\_t) I2Cx;
+01014   tmp += I2C\_Register;
+01015 
+01016   \textcolor{comment}{/* Return the selected register value */}
+01017   \textcolor{keywordflow}{return} (*(\_\_IO uint16\_t *) tmp);
+01018 \}
+\end{DoxyCode}

@@ -1,0 +1,346 @@
+\section{N\+O\+R/\+S\+R\+AM Controller functions}
+\label{group__FSMC__Group1}\index{N\+O\+R/\+S\+R\+A\+M Controller functions@{N\+O\+R/\+S\+R\+A\+M Controller functions}}
+
+
+N\+O\+R/\+S\+R\+AM Controller functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+De\+Init} (uint32\+\_\+t F\+S\+M\+C\+\_\+\+Bank)
+\begin{DoxyCompactList}\small\item\em Deinitializes the F\+S\+MC N\+O\+R/\+S\+R\+AM Banks registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init} (\textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def} $\ast$F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the F\+S\+MC N\+O\+R/\+S\+R\+AM Banks according to the specified parameters in the F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Struct\+Init} (\textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def} $\ast$F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Cmd} (uint32\+\_\+t F\+S\+M\+C\+\_\+\+Bank, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified N\+O\+R/\+S\+R\+AM Memory Bank. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+N\+O\+R/\+S\+R\+AM Controller functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                    NOR/SRAM Controller functions
+ ===============================================================================  
+
+ The following sequence should be followed to configure the FSMC to interface with
+ SRAM, PSRAM, NOR or OneNAND memory connected to the NOR/SRAM Bank:
+ 
+   1. Enable the clock for the FSMC and associated GPIOs using the following functions:
+          RCC_AHB3PeriphClockCmd(RCC_AHB3Periph_FSMC, ENABLE);
+          RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOx, ENABLE);
+
+   2. FSMC pins configuration 
+       - Connect the involved FSMC pins to AF12 using the following function 
+          GPIO_PinAFConfig(GPIOx, GPIO_PinSourcex, GPIO_AF_FSMC); 
+       - Configure these FSMC pins in alternate function mode by calling the function
+          GPIO_Init();    
+       
+   3. Declare a FSMC_NORSRAMInitTypeDef structure, for example:
+          FSMC_NORSRAMInitTypeDef  FSMC_NORSRAMInitStructure;
+      and fill the FSMC_NORSRAMInitStructure variable with the allowed values of
+      the structure member.
+      
+   4. Initialize the NOR/SRAM Controller by calling the function
+          FSMC_NORSRAMInit(&FSMC_NORSRAMInitStructure); 
+
+   5. Then enable the NOR/SRAM Bank, for example:
+          FSMC_NORSRAMCmd(FSMC_Bank1_NORSRAM2, ENABLE);  
+
+   6. At this stage you can read/write from/to the memory connected to the NOR/SRAM Bank. \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__FSMC__Group1_gaf943f0f2680168d3a95a3c2c9f3eca2a}} 
+\index{N\+O\+R/\+S\+R\+A\+M Controller functions@{N\+O\+R/\+S\+R\+A\+M Controller functions}!F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Cmd@{F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Cmd}}
+\index{F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Cmd@{F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Cmd}!N\+O\+R/\+S\+R\+A\+M Controller functions@{N\+O\+R/\+S\+R\+A\+M Controller functions}}
+\subsubsection{F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Cmd()}
+{\footnotesize\ttfamily void F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Cmd (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{F\+S\+M\+C\+\_\+\+Bank,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified N\+O\+R/\+S\+R\+AM Memory Bank. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\+S\+M\+C\+\_\+\+Bank} & specifies the F\+S\+MC Bank to be used This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item F\+S\+M\+C\+\_\+\+Bank1\+\_\+\+N\+O\+R\+S\+R\+A\+M1\+: F\+S\+MC Bank1 N\+O\+R/\+S\+R\+A\+M1 \item F\+S\+M\+C\+\_\+\+Bank1\+\_\+\+N\+O\+R\+S\+R\+A\+M2\+: F\+S\+MC Bank1 N\+O\+R/\+S\+R\+A\+M2 \item F\+S\+M\+C\+\_\+\+Bank1\+\_\+\+N\+O\+R\+S\+R\+A\+M3\+: F\+S\+MC Bank1 N\+O\+R/\+S\+R\+A\+M3 \item F\+S\+M\+C\+\_\+\+Bank1\+\_\+\+N\+O\+R\+S\+R\+A\+M4\+: F\+S\+MC Bank1 N\+O\+R/\+S\+R\+A\+M4 \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the F\+S\+M\+C\+\_\+\+Bank. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 268} of file \textbf{ stm32f4xx\+\_\+fsmc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00269 \{
+00270   assert_param(IS_FSMC_NORSRAM_BANK(FSMC\_Bank));
+00271   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00272   
+00273   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00274   \{
+00275     \textcolor{comment}{/* Enable the selected NOR/SRAM Bank by setting the PBKEN bit in the BCRx register */}
+00276     FSMC_Bank1->BTCR[FSMC\_Bank] |= BCR_MBKEN_SET;
+00277   \}
+00278   \textcolor{keywordflow}{else}
+00279   \{
+00280     \textcolor{comment}{/* Disable the selected NOR/SRAM Bank by clearing the PBKEN bit in the BCRx register */}
+00281     FSMC_Bank1->BTCR[FSMC\_Bank] &= BCR_MBKEN_RESET;
+00282   \}
+00283 \}
+\end{DoxyCode}
+\mbox{\label{group__FSMC__Group1_gaab3e6648e8a584e73785361ac960eded}} 
+\index{N\+O\+R/\+S\+R\+A\+M Controller functions@{N\+O\+R/\+S\+R\+A\+M Controller functions}!F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+De\+Init@{F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+De\+Init}}
+\index{F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+De\+Init@{F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+De\+Init}!N\+O\+R/\+S\+R\+A\+M Controller functions@{N\+O\+R/\+S\+R\+A\+M Controller functions}}
+\subsubsection{F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+De\+Init()}
+{\footnotesize\ttfamily void F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+De\+Init (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{F\+S\+M\+C\+\_\+\+Bank }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the F\+S\+MC N\+O\+R/\+S\+R\+AM Banks registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\+S\+M\+C\+\_\+\+Bank} & specifies the F\+S\+MC Bank to be used This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item F\+S\+M\+C\+\_\+\+Bank1\+\_\+\+N\+O\+R\+S\+R\+A\+M1\+: F\+S\+MC Bank1 N\+O\+R/\+S\+R\+A\+M1 \item F\+S\+M\+C\+\_\+\+Bank1\+\_\+\+N\+O\+R\+S\+R\+A\+M2\+: F\+S\+MC Bank1 N\+O\+R/\+S\+R\+A\+M2 \item F\+S\+M\+C\+\_\+\+Bank1\+\_\+\+N\+O\+R\+S\+R\+A\+M3\+: F\+S\+MC Bank1 N\+O\+R/\+S\+R\+A\+M3 \item F\+S\+M\+C\+\_\+\+Bank1\+\_\+\+N\+O\+R\+S\+R\+A\+M4\+: F\+S\+MC Bank1 N\+O\+R/\+S\+R\+A\+M4 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 116} of file \textbf{ stm32f4xx\+\_\+fsmc.\+c}.
+
+
+\begin{DoxyCode}
+00117 \{
+00118   \textcolor{comment}{/* Check the parameter */}
+00119   assert_param(IS_FSMC_NORSRAM_BANK(FSMC\_Bank));
+00120   
+00121   \textcolor{comment}{/* FSMC\_Bank1\_NORSRAM1 */}
+00122   \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank1_NORSRAM1)
+00123   \{
+00124     FSMC_Bank1->BTCR[FSMC\_Bank] = 0x000030DB;    
+00125   \}
+00126   \textcolor{comment}{/* FSMC\_Bank1\_NORSRAM2,  FSMC\_Bank1\_NORSRAM3 or FSMC\_Bank1\_NORSRAM4 */}
+00127   \textcolor{keywordflow}{else}
+00128   \{   
+00129     FSMC_Bank1->BTCR[FSMC\_Bank] = 0x000030D2; 
+00130   \}
+00131   FSMC_Bank1->BTCR[FSMC\_Bank + 1] = 0x0FFFFFFF;
+00132   FSMC_Bank1E->BWTR[FSMC\_Bank] = 0x0FFFFFFF;  
+00133 \}
+\end{DoxyCode}
+\mbox{\label{group__FSMC__Group1_ga9c27816e8b17394c9ee1ce9298917b4a}} 
+\index{N\+O\+R/\+S\+R\+A\+M Controller functions@{N\+O\+R/\+S\+R\+A\+M Controller functions}!F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init@{F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init}}
+\index{F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init@{F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init}!N\+O\+R/\+S\+R\+A\+M Controller functions@{N\+O\+R/\+S\+R\+A\+M Controller functions}}
+\subsubsection{F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init()}
+{\footnotesize\ttfamily void F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init (\begin{DoxyParamCaption}\item[{\textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def} $\ast$}]{F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the F\+S\+MC N\+O\+R/\+S\+R\+AM Banks according to the specified parameters in the F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Struct} & \+: pointer to a \doxyref{F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def}{p.}{structFSMC__NORSRAMInitTypeDef} structure that contains the configuration information for the F\+S\+MC N\+O\+R/\+S\+R\+AM specified Banks. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 143} of file \textbf{ stm32f4xx\+\_\+fsmc.\+c}.
+
+
+
+References \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Extended\+Mode}, and \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Memory\+Type}.
+
+
+\begin{DoxyCode}
+00144 \{ 
+00145   \textcolor{comment}{/* Check the parameters */}
+00146   assert_param(IS_FSMC_NORSRAM_BANK(FSMC\_NORSRAMInitStruct->FSMC_Bank));
+00147   assert_param(IS_FSMC_MUX(FSMC\_NORSRAMInitStruct->FSMC_DataAddressMux));
+00148   assert_param(IS_FSMC_MEMORY(FSMC\_NORSRAMInitStruct->FSMC_MemoryType));
+00149   assert_param(IS_FSMC_MEMORY_WIDTH(FSMC\_NORSRAMInitStruct->FSMC_MemoryDataWidth));
+00150   assert_param(IS_FSMC_BURSTMODE(FSMC\_NORSRAMInitStruct->FSMC_BurstAccessMode));
+00151   assert_param(IS_FSMC_ASYNWAIT(FSMC\_NORSRAMInitStruct->FSMC_AsynchronousWait));
+00152   assert_param(IS_FSMC_WAIT_POLARITY(FSMC\_NORSRAMInitStruct->
+      FSMC_WaitSignalPolarity));
+00153   assert_param(IS_FSMC_WRAP_MODE(FSMC\_NORSRAMInitStruct->FSMC_WrapMode));
+00154   assert_param(IS_FSMC_WAIT_SIGNAL_ACTIVE(FSMC\_NORSRAMInitStruct->
+      FSMC_WaitSignalActive));
+00155   assert_param(IS_FSMC_WRITE_OPERATION(FSMC\_NORSRAMInitStruct->
+      FSMC_WriteOperation));
+00156   assert_param(IS_FSMC_WAITE_SIGNAL(FSMC\_NORSRAMInitStruct->FSMC_WaitSignal));
+00157   assert_param(IS_FSMC_EXTENDED_MODE(FSMC\_NORSRAMInitStruct->FSMC_ExtendedMode));
+00158   assert_param(IS_FSMC_WRITE_BURST(FSMC\_NORSRAMInitStruct->FSMC_WriteBurst));  
+00159   assert_param(IS_FSMC_ADDRESS_SETUP_TIME(FSMC\_NORSRAMInitStruct->
+      FSMC_ReadWriteTimingStruct->FSMC_AddressSetupTime));
+00160   assert_param(IS_FSMC_ADDRESS_HOLD_TIME(FSMC\_NORSRAMInitStruct->
+      FSMC_ReadWriteTimingStruct->FSMC_AddressHoldTime));
+00161   assert_param(IS_FSMC_DATASETUP_TIME(FSMC\_NORSRAMInitStruct->
+      FSMC_ReadWriteTimingStruct->FSMC_DataSetupTime));
+00162   assert_param(IS_FSMC_TURNAROUND_TIME(FSMC\_NORSRAMInitStruct->
+      FSMC_ReadWriteTimingStruct->FSMC_BusTurnAroundDuration));
+00163   assert_param(IS_FSMC_CLK_DIV(FSMC\_NORSRAMInitStruct->
+      FSMC_ReadWriteTimingStruct->FSMC_CLKDivision));
+00164   assert_param(IS_FSMC_DATA_LATENCY(FSMC\_NORSRAMInitStruct->
+      FSMC_ReadWriteTimingStruct->FSMC_DataLatency));
+00165   assert_param(IS_FSMC_ACCESS_MODE(FSMC\_NORSRAMInitStruct->
+      FSMC_ReadWriteTimingStruct->FSMC_AccessMode)); 
+00166   
+00167   \textcolor{comment}{/* Bank1 NOR/SRAM control register configuration */} 
+00168   FSMC_Bank1->BTCR[FSMC\_NORSRAMInitStruct->FSMC_Bank] = 
+00169             (uint32\_t)FSMC\_NORSRAMInitStruct->FSMC_DataAddressMux |
+00170             FSMC\_NORSRAMInitStruct->FSMC_MemoryType |
+00171             FSMC\_NORSRAMInitStruct->FSMC_MemoryDataWidth |
+00172             FSMC\_NORSRAMInitStruct->FSMC_BurstAccessMode |
+00173             FSMC\_NORSRAMInitStruct->FSMC_AsynchronousWait |
+00174             FSMC\_NORSRAMInitStruct->FSMC_WaitSignalPolarity |
+00175             FSMC\_NORSRAMInitStruct->FSMC_WrapMode |
+00176             FSMC\_NORSRAMInitStruct->FSMC_WaitSignalActive |
+00177             FSMC\_NORSRAMInitStruct->FSMC_WriteOperation |
+00178             FSMC\_NORSRAMInitStruct->FSMC_WaitSignal |
+00179             FSMC\_NORSRAMInitStruct->FSMC_ExtendedMode |
+00180             FSMC\_NORSRAMInitStruct->FSMC_WriteBurst;
+00181   \textcolor{keywordflow}{if}(FSMC\_NORSRAMInitStruct->FSMC_MemoryType == FSMC_MemoryType_NOR)
+00182   \{
+00183     FSMC_Bank1->BTCR[FSMC\_NORSRAMInitStruct->FSMC_Bank] |= (uint32\_t)
+      BCR_FACCEN_SET;
+00184   \}
+00185   \textcolor{comment}{/* Bank1 NOR/SRAM timing register configuration */}
+00186   FSMC_Bank1->BTCR[FSMC\_NORSRAMInitStruct->FSMC_Bank+1] = 
+00187             (uint32\_t)FSMC\_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->
+      FSMC_AddressSetupTime |
+00188             (FSMC\_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->
+      FSMC_AddressHoldTime << 4) |
+00189             (FSMC\_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->
+      FSMC_DataSetupTime << 8) |
+00190             (FSMC\_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->
+      FSMC_BusTurnAroundDuration << 16) |
+00191             (FSMC\_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->
+      FSMC_CLKDivision << 20) |
+00192             (FSMC\_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->
+      FSMC_DataLatency << 24) |
+00193              FSMC\_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->FSMC_AccessMode;
+00194             
+00195     
+00196   \textcolor{comment}{/* Bank1 NOR/SRAM timing register for write configuration, if extended mode is used */}
+00197   \textcolor{keywordflow}{if}(FSMC\_NORSRAMInitStruct->FSMC_ExtendedMode == FSMC_ExtendedMode_Enable)
+00198   \{
+00199     assert_param(IS_FSMC_ADDRESS_SETUP_TIME(FSMC\_NORSRAMInitStruct->
+      FSMC_WriteTimingStruct->FSMC_AddressSetupTime));
+00200     assert_param(IS_FSMC_ADDRESS_HOLD_TIME(FSMC\_NORSRAMInitStruct->
+      FSMC_WriteTimingStruct->FSMC_AddressHoldTime));
+00201     assert_param(IS_FSMC_DATASETUP_TIME(FSMC\_NORSRAMInitStruct->
+      FSMC_WriteTimingStruct->FSMC_DataSetupTime));
+00202     assert_param(IS_FSMC_CLK_DIV(FSMC\_NORSRAMInitStruct->FSMC_WriteTimingStruct->
+      FSMC_CLKDivision));
+00203     assert_param(IS_FSMC_DATA_LATENCY(FSMC\_NORSRAMInitStruct->
+      FSMC_WriteTimingStruct->FSMC_DataLatency));
+00204     assert_param(IS_FSMC_ACCESS_MODE(FSMC\_NORSRAMInitStruct->
+      FSMC_WriteTimingStruct->FSMC_AccessMode));
+00205     FSMC_Bank1E->BWTR[FSMC\_NORSRAMInitStruct->FSMC_Bank] = 
+00206               (uint32\_t)FSMC\_NORSRAMInitStruct->FSMC_WriteTimingStruct->
+      FSMC_AddressSetupTime |
+00207               (FSMC\_NORSRAMInitStruct->FSMC_WriteTimingStruct->
+      FSMC_AddressHoldTime << 4 )|
+00208               (FSMC\_NORSRAMInitStruct->FSMC_WriteTimingStruct->
+      FSMC_DataSetupTime << 8) |
+00209               (FSMC\_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_CLKDivision << 20) |
+00210               (FSMC\_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_DataLatency << 24) |
+00211                FSMC\_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_AccessMode;
+00212   \}
+00213   \textcolor{keywordflow}{else}
+00214   \{
+00215     FSMC_Bank1E->BWTR[FSMC\_NORSRAMInitStruct->FSMC_Bank] = 0x0FFFFFFF;
+00216   \}
+00217 \}
+\end{DoxyCode}
+\mbox{\label{group__FSMC__Group1_gaf33e6dfc34f62d16a0cb416de9e83d28}} 
+\index{N\+O\+R/\+S\+R\+A\+M Controller functions@{N\+O\+R/\+S\+R\+A\+M Controller functions}!F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Struct\+Init@{F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Struct\+Init}}
+\index{F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Struct\+Init@{F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Struct\+Init}!N\+O\+R/\+S\+R\+A\+M Controller functions@{N\+O\+R/\+S\+R\+A\+M Controller functions}}
+\subsubsection{F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Struct\+Init()}
+{\footnotesize\ttfamily void F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def} $\ast$}]{F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Struct} & pointer to a \doxyref{F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def}{p.}{structFSMC__NORSRAMInitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 225} of file \textbf{ stm32f4xx\+\_\+fsmc.\+c}.
+
+
+
+References \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Timing\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Access\+Mode}, \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Timing\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Address\+Hold\+Time}, \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Timing\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Address\+Setup\+Time}, \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Asynchronous\+Wait}, \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Bank}, \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Burst\+Access\+Mode}, \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Timing\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Bus\+Turn\+Around\+Duration}, \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Timing\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+C\+L\+K\+Division}, \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Data\+Address\+Mux}, \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Timing\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Data\+Latency}, \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Timing\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Data\+Setup\+Time}, \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Extended\+Mode}, \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Memory\+Data\+Width}, \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Memory\+Type}, \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Read\+Write\+Timing\+Struct}, \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Wait\+Signal}, \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Wait\+Signal\+Active}, \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Wait\+Signal\+Polarity}, \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Wrap\+Mode}, \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Write\+Burst}, \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Write\+Operation}, and \textbf{ F\+S\+M\+C\+\_\+\+N\+O\+R\+S\+R\+A\+M\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Write\+Timing\+Struct}.
+
+
+\begin{DoxyCode}
+00226 \{  
+00227   \textcolor{comment}{/* Reset NOR/SRAM Init structure parameters values */}
+00228   FSMC\_NORSRAMInitStruct->FSMC_Bank = FSMC_Bank1_NORSRAM1;
+00229   FSMC\_NORSRAMInitStruct->FSMC_DataAddressMux = FSMC_DataAddressMux_Enable;
+00230   FSMC\_NORSRAMInitStruct->FSMC_MemoryType = FSMC_MemoryType_SRAM;
+00231   FSMC\_NORSRAMInitStruct->FSMC_MemoryDataWidth = FSMC_MemoryDataWidth_8b;
+00232   FSMC\_NORSRAMInitStruct->FSMC_BurstAccessMode = FSMC_BurstAccessMode_Disable;
+00233   FSMC\_NORSRAMInitStruct->FSMC_AsynchronousWait = FSMC_AsynchronousWait_Disable;
+00234   FSMC\_NORSRAMInitStruct->FSMC_WaitSignalPolarity = FSMC_WaitSignalPolarity_Low;
+00235   FSMC\_NORSRAMInitStruct->FSMC_WrapMode = FSMC_WrapMode_Disable;
+00236   FSMC\_NORSRAMInitStruct->FSMC_WaitSignalActive = 
+      FSMC_WaitSignalActive_BeforeWaitState;
+00237   FSMC\_NORSRAMInitStruct->FSMC_WriteOperation = FSMC_WriteOperation_Enable;
+00238   FSMC\_NORSRAMInitStruct->FSMC_WaitSignal = FSMC_WaitSignal_Enable;
+00239   FSMC\_NORSRAMInitStruct->FSMC_ExtendedMode = FSMC_ExtendedMode_Disable;
+00240   FSMC\_NORSRAMInitStruct->FSMC_WriteBurst = FSMC_WriteBurst_Disable;
+00241   FSMC\_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->FSMC_AddressSetupTime = 0xF;
+00242   FSMC\_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->FSMC_AddressHoldTime = 0xF;
+00243   FSMC\_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->FSMC_DataSetupTime = 0xFF;
+00244   FSMC\_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->FSMC_BusTurnAroundDuration = 0xF;
+00245   FSMC\_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->FSMC_CLKDivision = 0xF;
+00246   FSMC\_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->FSMC_DataLatency = 0xF;
+00247   FSMC\_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->FSMC_AccessMode = 
+      FSMC_AccessMode_A; 
+00248   FSMC\_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_AddressSetupTime = 0xF;
+00249   FSMC\_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_AddressHoldTime = 0xF;
+00250   FSMC\_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_DataSetupTime = 0xFF;
+00251   FSMC\_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_BusTurnAroundDuration = 0xF;
+00252   FSMC\_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_CLKDivision = 0xF;
+00253   FSMC\_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_DataLatency = 0xF;
+00254   FSMC\_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_AccessMode = 
+      FSMC_AccessMode_A;
+00255 \}
+\end{DoxyCode}

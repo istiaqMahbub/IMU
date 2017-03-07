@@ -1,0 +1,1758 @@
+\section{stm32f4xx\+\_\+adc.\+c}
+\label{stm32f4xx__adc_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+adc.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+adc.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_adc.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides firmware functions to manage the following }
+00008 \textcolor{comment}{  *          functionalities of the Analog to Digital Convertor (ADC) peripheral:}
+00009 \textcolor{comment}{  *           - Initialization and Configuration (in addition to ADC multi mode }
+00010 \textcolor{comment}{  *             selection)}
+00011 \textcolor{comment}{  *           - Analog Watchdog configuration}
+00012 \textcolor{comment}{  *           - Temperature Sensor & Vrefint (Voltage Reference internal) & VBAT}
+00013 \textcolor{comment}{  *             management }
+00014 \textcolor{comment}{  *           - Regular Channels Configuration}
+00015 \textcolor{comment}{  *           - Regular Channels DMA Configuration}
+00016 \textcolor{comment}{  *           - Injected channels Configuration}
+00017 \textcolor{comment}{  *           - Interrupts and flags management}
+00018 \textcolor{comment}{  *         }
+00019 \textcolor{comment}{  *  @verbatim}
+00020 \textcolor{comment}{  *}
+00021 \textcolor{comment}{  *          ===================================================================}
+00022 \textcolor{comment}{  *                                   How to use this driver}
+00023 \textcolor{comment}{  *          ===================================================================}
+00024 \textcolor{comment}{}
+00025 \textcolor{comment}{  *          1.  Enable the ADC interface clock using }
+00026 \textcolor{comment}{  *                  RCC\_APB2PeriphClockCmd(RCC\_APB2Periph\_ADCx, ENABLE); }
+00027 \textcolor{comment}{  *     }
+00028 \textcolor{comment}{  *          2. ADC pins configuration}
+00029 \textcolor{comment}{  *               - Enable the clock for the ADC GPIOs using the following function:}
+00030 \textcolor{comment}{  *                   RCC\_AHB1PeriphClockCmd(RCC\_AHB1Periph\_GPIOx, ENABLE);   }
+00031 \textcolor{comment}{  *                - Configure these ADC pins in analog mode using GPIO\_Init();  }
+00032 \textcolor{comment}{  *}
+00033 \textcolor{comment}{  *          3. Configure the ADC Prescaler, conversion resolution and data }
+00034 \textcolor{comment}{  *              alignment using the ADC\_Init() function.}
+00035 \textcolor{comment}{  *          4. Activate the ADC peripheral using ADC\_Cmd() function.}
+00036 \textcolor{comment}{  *}
+00037 \textcolor{comment}{  *          Regular channels group configuration}
+00038 \textcolor{comment}{  *          ====================================    }
+00039 \textcolor{comment}{  *            - To configure the ADC regular channels group features, use }
+00040 \textcolor{comment}{  *              ADC\_Init() and ADC\_RegularChannelConfig() functions.}
+00041 \textcolor{comment}{  *            - To activate the continuous mode, use the ADC\_continuousModeCmd()}
+00042 \textcolor{comment}{  *              function.}
+00043 \textcolor{comment}{  *            - To configurate and activate the Discontinuous mode, use the }
+00044 \textcolor{comment}{  *              ADC\_DiscModeChannelCountConfig() and ADC\_DiscModeCmd() functions.}
+00045 \textcolor{comment}{  *            - To read the ADC converted values, use the ADC\_GetConversionValue()}
+00046 \textcolor{comment}{  *              function.}
+00047 \textcolor{comment}{  *}
+00048 \textcolor{comment}{  *          Multi mode ADCs Regular channels configuration}
+00049 \textcolor{comment}{  *          ===============================================}
+00050 \textcolor{comment}{  *            - Refer to "Regular channels group configuration" description to}
+00051 \textcolor{comment}{  *              configure the ADC1, ADC2 and ADC3 regular channels.        }
+00052 \textcolor{comment}{  *            - Select the Multi mode ADC regular channels features (dual or }
+00053 \textcolor{comment}{  *              triple mode) using ADC\_CommonInit() function and configure }
+00054 \textcolor{comment}{  *              the DMA mode using ADC\_MultiModeDMARequestAfterLastTransferCmd() }
+00055 \textcolor{comment}{  *              functions.        }
+00056 \textcolor{comment}{  *            - Read the ADCs converted values using the }
+00057 \textcolor{comment}{  *              ADC\_GetMultiModeConversionValue() function.}
+00058 \textcolor{comment}{  *}
+00059 \textcolor{comment}{  *          DMA for Regular channels group features configuration}
+00060 \textcolor{comment}{  *          ====================================================== }
+00061 \textcolor{comment}{  *           - To enable the DMA mode for regular channels group, use the }
+00062 \textcolor{comment}{  *             ADC\_DMACmd() function.}
+00063 \textcolor{comment}{  *           - To enable the generation of DMA requests continuously at the end}
+00064 \textcolor{comment}{  *             of the last DMA transfer, use the ADC\_DMARequestAfterLastTransferCmd() }
+00065 \textcolor{comment}{  *             function.}
+00066 \textcolor{comment}{  *}
+00067 \textcolor{comment}{  *          Injected channels group configuration}
+00068 \textcolor{comment}{  *          =====================================    }
+00069 \textcolor{comment}{  *            - To configure the ADC Injected channels group features, use }
+00070 \textcolor{comment}{  *              ADC\_InjectedChannelConfig() and  ADC\_InjectedSequencerLengthConfig()}
+00071 \textcolor{comment}{  *              functions.}
+00072 \textcolor{comment}{  *            - To activate the continuous mode, use the ADC\_continuousModeCmd()}
+00073 \textcolor{comment}{  *              function.}
+00074 \textcolor{comment}{  *            - To activate the Injected Discontinuous mode, use the }
+00075 \textcolor{comment}{  *              ADC\_InjectedDiscModeCmd() function.  }
+00076 \textcolor{comment}{  *            - To activate the AutoInjected mode, use the ADC\_AutoInjectedConvCmd() }
+00077 \textcolor{comment}{  *              function.        }
+00078 \textcolor{comment}{  *            - To read the ADC converted values, use the ADC\_GetInjectedConversionValue() }
+00079 \textcolor{comment}{  *              function.}
+00080 \textcolor{comment}{  *}
+00081 \textcolor{comment}{  *  @endverbatim}
+00082 \textcolor{comment}{  *}
+00083 \textcolor{comment}{  ******************************************************************************}
+00084 \textcolor{comment}{  * @attention}
+00085 \textcolor{comment}{  *}
+00086 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00087 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00088 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00089 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00090 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00091 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00092 \textcolor{comment}{  *}
+00093 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00094 \textcolor{comment}{  ******************************************************************************  }
+00095 \textcolor{comment}{  */}
+00096 
+00097 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00098 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_adc.h"
+00099 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rcc.h"
+00100 
+00101 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00102 \textcolor{comment}{  * @\{}
+00103 \textcolor{comment}{  */}
+00104 
+00105 \textcolor{comment}{/** @defgroup ADC }
+00106 \textcolor{comment}{  * @brief ADC driver modules}
+00107 \textcolor{comment}{  * @\{}
+00108 \textcolor{comment}{  */}
+00109 
+00110 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00111 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00112 
+00113 \textcolor{comment}{/* ADC DISCNUM mask */}
+00114 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR1\_DISCNUM\_RESET}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFFF1FFF\textcolor{preprocessor}{)}
+00115 
+00116 \textcolor{comment}{/* ADC AWDCH mask */}
+00117 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR1\_AWDCH\_RESET}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFFFFFE0\textcolor{preprocessor}{)}
+00118 
+00119 \textcolor{comment}{/* ADC Analog watchdog enable mode mask */}
+00120 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR1\_AWDMode\_RESET}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFF3FFDFF\textcolor{preprocessor}{)}
+00121 
+00122 \textcolor{comment}{/* CR1 register Mask */}
+00123 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR1\_CLEAR\_MASK}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFCFFFEFF\textcolor{preprocessor}{)}
+00124 
+00125 \textcolor{comment}{/* ADC EXTEN mask */}
+00126 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR2\_EXTEN\_RESET}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xCFFFFFFF\textcolor{preprocessor}{)}
+00127 
+00128 \textcolor{comment}{/* ADC JEXTEN mask */}
+00129 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR2\_JEXTEN\_RESET}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFCFFFFF\textcolor{preprocessor}{)}
+00130 
+00131 \textcolor{comment}{/* ADC JEXTSEL mask */}
+00132 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR2\_JEXTSEL\_RESET}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFF0FFFF\textcolor{preprocessor}{)}
+00133 
+00134 \textcolor{comment}{/* CR2 register Mask */}
+00135 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR2\_CLEAR\_MASK}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xC0FFF7FD\textcolor{preprocessor}{)}
+00136 
+00137 \textcolor{comment}{/* ADC SQx mask */}
+00138 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SQR3\_SQ\_SET}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0000001F\textcolor{preprocessor}{)}
+00139 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SQR2\_SQ\_SET}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0000001F\textcolor{preprocessor}{)}
+00140 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SQR1\_SQ\_SET}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0000001F\textcolor{preprocessor}{)}
+00141 
+00142 \textcolor{comment}{/* ADC L Mask */}
+00143 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SQR1\_L\_RESET}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFF0FFFFF\textcolor{preprocessor}{)}
+00144 
+00145 \textcolor{comment}{/* ADC JSQx mask */}
+00146 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{JSQR\_JSQ\_SET}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0000001F\textcolor{preprocessor}{)}
+00147 
+00148 \textcolor{comment}{/* ADC JL mask */}
+00149 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{JSQR\_JL\_SET}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00300000\textcolor{preprocessor}{)}
+00150 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{JSQR\_JL\_RESET}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFCFFFFF\textcolor{preprocessor}{)}
+00151 
+00152 \textcolor{comment}{/* ADC SMPx mask */}
+00153 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SMPR1\_SMP\_SET}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000007\textcolor{preprocessor}{)}
+00154 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SMPR2\_SMP\_SET}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000007\textcolor{preprocessor}{)}
+00155 
+00156 \textcolor{comment}{/* ADC JDRx registers offset */}
+00157 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{JDR\_OFFSET}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x28\textcolor{preprocessor}{)}
+00158 
+00159 \textcolor{comment}{/* ADC CDR register base address */}
+00160 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CDR\_ADDRESS}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x40012308\textcolor{preprocessor}{)}
+00161 
+00162 \textcolor{comment}{/* ADC CCR register Mask */}
+00163 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR\_CLEAR\_MASK}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFFC30E0\textcolor{preprocessor}{)}
+00164 
+00165 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00166 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00167 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00168 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00169 
+00170 \textcolor{comment}{/** @defgroup ADC\_Private\_Functions}
+00171 \textcolor{comment}{  * @\{}
+00172 \textcolor{comment}{  */}
+00173 
+00174 \textcolor{comment}{/** @defgroup ADC\_Group1 Initialization and Configuration functions}
+00175 \textcolor{comment}{ *  @brief    Initialization and Configuration functions }
+00176 \textcolor{comment}{ *}
+00177 \textcolor{comment}{@verbatim    }
+00178 \textcolor{comment}{ ===============================================================================}
+00179 \textcolor{comment}{                      Initialization and Configuration functions}
+00180 \textcolor{comment}{ ===============================================================================  }
+00181 \textcolor{comment}{  This section provides functions allowing to:}
+00182 \textcolor{comment}{   - Initialize and configure the ADC Prescaler}
+00183 \textcolor{comment}{   - ADC Conversion Resolution (12bit..6bit)}
+00184 \textcolor{comment}{   - Scan Conversion Mode (multichannels or one channel) for regular group}
+00185 \textcolor{comment}{   - ADC Continuous Conversion Mode (Continuous or Single conversion) for }
+00186 \textcolor{comment}{     regular group}
+00187 \textcolor{comment}{   - External trigger Edge and source of regular group, }
+00188 \textcolor{comment}{   - Converted data alignment (left or right)}
+00189 \textcolor{comment}{   - The number of ADC conversions that will be done using the sequencer for }
+00190 \textcolor{comment}{     regular channel group}
+00191 \textcolor{comment}{   - Multi ADC mode selection}
+00192 \textcolor{comment}{   - Direct memory access mode selection for multi ADC mode  }
+00193 \textcolor{comment}{   - Delay between 2 sampling phases (used in dual or triple interleaved modes)}
+00194 \textcolor{comment}{   - Enable or disable the ADC peripheral}
+00195 \textcolor{comment}{   }
+00196 \textcolor{comment}{@endverbatim}
+00197 \textcolor{comment}{  * @\{}
+00198 \textcolor{comment}{  */}
+00199 
+00200 \textcolor{comment}{/**}
+00201 \textcolor{comment}{  * @brief  Deinitializes all ADCs peripherals registers to their default reset }
+00202 \textcolor{comment}{  *         values.}
+00203 \textcolor{comment}{  * @param  None}
+00204 \textcolor{comment}{  * @retval None}
+00205 \textcolor{comment}{  */}
+00206 \textcolor{keywordtype}{void} ADC_DeInit(\textcolor{keywordtype}{void})
+00207 \{
+00208   \textcolor{comment}{/* Enable all ADCs reset state */}
+00209   RCC_APB2PeriphResetCmd(RCC_APB2Periph_ADC, ENABLE);
+00210 
+00211   \textcolor{comment}{/* Release all ADCs from reset state */}
+00212   RCC_APB2PeriphResetCmd(RCC_APB2Periph_ADC, DISABLE);
+00213 \}
+00214 
+00215 \textcolor{comment}{/**}
+00216 \textcolor{comment}{  * @brief  Initializes the ADCx peripheral according to the specified parameters }
+00217 \textcolor{comment}{  *         in the ADC\_InitStruct.}
+00218 \textcolor{comment}{  * @note   This function is used to configure the global features of the ADC ( }
+00219 \textcolor{comment}{  *         Resolution and Data Alignment), however, the rest of the configuration}
+00220 \textcolor{comment}{  *         parameters are specific to the regular channels group (scan mode }
+00221 \textcolor{comment}{  *         activation, continuous mode activation, External trigger source and }
+00222 \textcolor{comment}{  *         edge, number of conversion in the regular channels group sequencer).  }
+00223 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+00224 \textcolor{comment}{  * @param  ADC\_InitStruct: pointer to an ADC\_InitTypeDef structure that contains}
+00225 \textcolor{comment}{  *         the configuration information for the specified ADC peripheral.}
+00226 \textcolor{comment}{  * @retval None}
+00227 \textcolor{comment}{  */}
+00228 \textcolor{keywordtype}{void} ADC_Init(ADC\_TypeDef* ADCx, ADC\_InitTypeDef* ADC\_InitStruct)
+00229 \{
+00230   uint32\_t tmpreg1 = 0;
+00231   uint8\_t tmpreg2 = 0;
+00232   \textcolor{comment}{/* Check the parameters */}
+00233   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+00234   assert_param(IS\_ADC\_RESOLUTION(ADC\_InitStruct->ADC\_Resolution));
+00235   assert_param(IS\_FUNCTIONAL\_STATE(ADC\_InitStruct->ADC\_ScanConvMode));
+00236   assert_param(IS\_FUNCTIONAL\_STATE(ADC\_InitStruct->ADC\_ContinuousConvMode));
+00237   assert_param(IS\_ADC\_EXT\_TRIG\_EDGE(ADC\_InitStruct->ADC\_ExternalTrigConvEdge));
+00238   assert_param(IS\_ADC\_EXT\_TRIG(ADC\_InitStruct->ADC\_ExternalTrigConv));
+00239   assert_param(IS\_ADC\_DATA\_ALIGN(ADC\_InitStruct->ADC\_DataAlign));
+00240   assert_param(IS\_ADC\_REGULAR\_LENGTH(ADC\_InitStruct->ADC\_NbrOfConversion));
+00241 
+00242   \textcolor{comment}{/*---------------------------- ADCx CR1 Configuration -----------------*/}
+00243   \textcolor{comment}{/* Get the ADCx CR1 value */}
+00244   tmpreg1 = ADCx->CR1;
+00245 
+00246   \textcolor{comment}{/* Clear RES and SCAN bits */}
+00247   tmpreg1 &= CR1_CLEAR_MASK;
+00248 
+00249   \textcolor{comment}{/* Configure ADCx: scan conversion mode and resolution */}
+00250   \textcolor{comment}{/* Set SCAN bit according to ADC\_ScanConvMode value */}
+00251   \textcolor{comment}{/* Set RES bit according to ADC\_Resolution value */}
+00252   tmpreg1 |= (uint32\_t)(((uint32\_t)ADC\_InitStruct->ADC_ScanConvMode << 8) |
+00253                                    ADC\_InitStruct->ADC_Resolution);
+00254   \textcolor{comment}{/* Write to ADCx CR1 */}
+00255   ADCx->CR1 = tmpreg1;
+00256   \textcolor{comment}{/*---------------------------- ADCx CR2 Configuration -----------------*/}
+00257   \textcolor{comment}{/* Get the ADCx CR2 value */}
+00258   tmpreg1 = ADCx->CR2;
+00259 
+00260   \textcolor{comment}{/* Clear CONT, ALIGN, EXTEN and EXTSEL bits */}
+00261   tmpreg1 &= CR2_CLEAR_MASK;
+00262 
+00263   \textcolor{comment}{/* Configure ADCx: external trigger event and edge, data alignment and }
+00264 \textcolor{comment}{     continuous conversion mode */}
+00265   \textcolor{comment}{/* Set ALIGN bit according to ADC\_DataAlign value */}
+00266   \textcolor{comment}{/* Set EXTEN bits according to ADC\_ExternalTrigConvEdge value */}
+00267   \textcolor{comment}{/* Set EXTSEL bits according to ADC\_ExternalTrigConv value */}
+00268   \textcolor{comment}{/* Set CONT bit according to ADC\_ContinuousConvMode value */}
+00269   tmpreg1 |= (uint32\_t)(ADC\_InitStruct->ADC_DataAlign |
+00270                         ADC\_InitStruct->ADC_ExternalTrigConv |
+00271                         ADC\_InitStruct->ADC_ExternalTrigConvEdge |
+00272                         ((uint32\_t)ADC\_InitStruct->ADC_ContinuousConvMode << 1));
+00273 
+00274   \textcolor{comment}{/* Write to ADCx CR2 */}
+00275   ADCx->CR2 = tmpreg1;
+00276   \textcolor{comment}{/*---------------------------- ADCx SQR1 Configuration -----------------*/}
+00277   \textcolor{comment}{/* Get the ADCx SQR1 value */}
+00278   tmpreg1 = ADCx->SQR1;
+00279 
+00280   \textcolor{comment}{/* Clear L bits */}
+00281   tmpreg1 &= SQR1_L_RESET;
+00282 
+00283   \textcolor{comment}{/* Configure ADCx: regular channel sequence length */}
+00284   \textcolor{comment}{/* Set L bits according to ADC\_NbrOfConversion value */}
+00285   tmpreg2 |= (uint8\_t)(ADC\_InitStruct->ADC_NbrOfConversion - (uint8\_t)1);
+00286   tmpreg1 |= ((uint32\_t)tmpreg2 << 20);
+00287 
+00288   \textcolor{comment}{/* Write to ADCx SQR1 */}
+00289   ADCx->SQR1 = tmpreg1;
+00290 \}
+00291 
+00292 \textcolor{comment}{/**}
+00293 \textcolor{comment}{  * @brief  Fills each ADC\_InitStruct member with its default value.}
+00294 \textcolor{comment}{  * @note   This function is used to initialize the global features of the ADC ( }
+00295 \textcolor{comment}{  *         Resolution and Data Alignment), however, the rest of the configuration}
+00296 \textcolor{comment}{  *         parameters are specific to the regular channels group (scan mode }
+00297 \textcolor{comment}{  *         activation, continuous mode activation, External trigger source and }
+00298 \textcolor{comment}{  *         edge, number of conversion in the regular channels group sequencer).  }
+00299 \textcolor{comment}{  * @param  ADC\_InitStruct: pointer to an ADC\_InitTypeDef structure which will }
+00300 \textcolor{comment}{  *         be initialized.}
+00301 \textcolor{comment}{  * @retval None}
+00302 \textcolor{comment}{  */}
+00303 \textcolor{keywordtype}{void} ADC_StructInit(ADC\_InitTypeDef* ADC\_InitStruct)
+00304 \{
+00305   \textcolor{comment}{/* Initialize the ADC\_Mode member */}
+00306   ADC\_InitStruct->ADC_Resolution = ADC_Resolution_12b;
+00307 
+00308   \textcolor{comment}{/* initialize the ADC\_ScanConvMode member */}
+00309   ADC\_InitStruct->ADC_ScanConvMode = DISABLE;
+00310 
+00311   \textcolor{comment}{/* Initialize the ADC\_ContinuousConvMode member */}
+00312   ADC\_InitStruct->ADC_ContinuousConvMode = DISABLE;
+00313 
+00314   \textcolor{comment}{/* Initialize the ADC\_ExternalTrigConvEdge member */}
+00315   ADC\_InitStruct->ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_None;
+00316 
+00317   \textcolor{comment}{/* Initialize the ADC\_ExternalTrigConv member */}
+00318   ADC\_InitStruct->ADC_ExternalTrigConv = ADC_ExternalTrigConv_T1_CC1;
+00319 
+00320   \textcolor{comment}{/* Initialize the ADC\_DataAlign member */}
+00321   ADC\_InitStruct->ADC_DataAlign = ADC_DataAlign_Right;
+00322 
+00323   \textcolor{comment}{/* Initialize the ADC\_NbrOfConversion member */}
+00324   ADC\_InitStruct->ADC_NbrOfConversion = 1;
+00325 \}
+00326 
+00327 \textcolor{comment}{/**}
+00328 \textcolor{comment}{  * @brief  Initializes the ADCs peripherals according to the specified parameters }
+00329 \textcolor{comment}{  *         in the ADC\_CommonInitStruct.}
+00330 \textcolor{comment}{  * @param  ADC\_CommonInitStruct: pointer to an ADC\_CommonInitTypeDef structure }
+00331 \textcolor{comment}{  *         that contains the configuration information for  All ADCs peripherals.}
+00332 \textcolor{comment}{  * @retval None}
+00333 \textcolor{comment}{  */}
+00334 \textcolor{keywordtype}{void} ADC_CommonInit(ADC\_CommonInitTypeDef* ADC\_CommonInitStruct)
+00335 \{
+00336   uint32\_t tmpreg1 = 0;
+00337   \textcolor{comment}{/* Check the parameters */}
+00338   assert_param(IS\_ADC\_MODE(ADC\_CommonInitStruct->ADC\_Mode));
+00339   assert_param(IS\_ADC\_PRESCALER(ADC\_CommonInitStruct->ADC\_Prescaler));
+00340   assert_param(IS\_ADC\_DMA\_ACCESS\_MODE(ADC\_CommonInitStruct->ADC\_DMAAccessMode));
+00341   assert_param(IS\_ADC\_SAMPLING\_DELAY(ADC\_CommonInitStruct->ADC\_TwoSamplingDelay));
+00342   \textcolor{comment}{/*---------------------------- ADC CCR Configuration -----------------*/}
+00343   \textcolor{comment}{/* Get the ADC CCR value */}
+00344   tmpreg1 = ADC->CCR;
+00345 
+00346   \textcolor{comment}{/* Clear MULTI, DELAY, DMA and ADCPRE bits */}
+00347   tmpreg1 &= CR_CLEAR_MASK;
+00348 
+00349   \textcolor{comment}{/* Configure ADCx: Multi mode, Delay between two sampling time, ADC prescaler,}
+00350 \textcolor{comment}{     and DMA access mode for multimode */}
+00351   \textcolor{comment}{/* Set MULTI bits according to ADC\_Mode value */}
+00352   \textcolor{comment}{/* Set ADCPRE bits according to ADC\_Prescaler value */}
+00353   \textcolor{comment}{/* Set DMA bits according to ADC\_DMAAccessMode value */}
+00354   \textcolor{comment}{/* Set DELAY bits according to ADC\_TwoSamplingDelay value */}
+00355   tmpreg1 |= (uint32\_t)(ADC\_CommonInitStruct->ADC_Mode |
+00356                         ADC\_CommonInitStruct->ADC_Prescaler |
+00357                         ADC\_CommonInitStruct->ADC_DMAAccessMode |
+00358                         ADC\_CommonInitStruct->ADC_TwoSamplingDelay);
+00359 
+00360   \textcolor{comment}{/* Write to ADC CCR */}
+00361   ADC->CCR = tmpreg1;
+00362 \}
+00363 
+00364 \textcolor{comment}{/**}
+00365 \textcolor{comment}{  * @brief  Fills each ADC\_CommonInitStruct member with its default value.}
+00366 \textcolor{comment}{  * @param  ADC\_CommonInitStruct: pointer to an ADC\_CommonInitTypeDef structure}
+00367 \textcolor{comment}{  *         which will be initialized.}
+00368 \textcolor{comment}{  * @retval None}
+00369 \textcolor{comment}{  */}
+00370 \textcolor{keywordtype}{void} ADC_CommonStructInit(ADC\_CommonInitTypeDef* ADC\_CommonInitStruct)
+00371 \{
+00372   \textcolor{comment}{/* Initialize the ADC\_Mode member */}
+00373   ADC\_CommonInitStruct->ADC_Mode = ADC_Mode_Independent;
+00374 
+00375   \textcolor{comment}{/* initialize the ADC\_Prescaler member */}
+00376   ADC\_CommonInitStruct->ADC_Prescaler = ADC_Prescaler_Div2;
+00377 
+00378   \textcolor{comment}{/* Initialize the ADC\_DMAAccessMode member */}
+00379   ADC\_CommonInitStruct->ADC_DMAAccessMode = ADC_DMAAccessMode_Disabled;
+00380 
+00381   \textcolor{comment}{/* Initialize the ADC\_TwoSamplingDelay member */}
+00382   ADC\_CommonInitStruct->ADC_TwoSamplingDelay = ADC_TwoSamplingDelay_5Cycles;
+00383 \}
+00384 
+00385 \textcolor{comment}{/**}
+00386 \textcolor{comment}{  * @brief  Enables or disables the specified ADC peripheral.}
+00387 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+00388 \textcolor{comment}{  * @param  NewState: new state of the ADCx peripheral. }
+00389 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00390 \textcolor{comment}{  * @retval None}
+00391 \textcolor{comment}{  */}
+00392 \textcolor{keywordtype}{void} ADC_Cmd(ADC\_TypeDef* ADCx, FunctionalState NewState)
+00393 \{
+00394   \textcolor{comment}{/* Check the parameters */}
+00395   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+00396   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00397   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00398   \{
+00399     \textcolor{comment}{/* Set the ADON bit to wake up the ADC from power down mode */}
+00400     ADCx->CR2 |= (uint32\_t)ADC_CR2_ADON;
+00401   \}
+00402   \textcolor{keywordflow}{else}
+00403   \{
+00404     \textcolor{comment}{/* Disable the selected ADC peripheral */}
+00405     ADCx->CR2 &= (uint32\_t)(~ADC_CR2_ADON);
+00406   \}
+00407 \}
+00408 \textcolor{comment}{/**}
+00409 \textcolor{comment}{  * @\}}
+00410 \textcolor{comment}{  */}
+00411 
+00412 \textcolor{comment}{/** @defgroup ADC\_Group2 Analog Watchdog configuration functions}
+00413 \textcolor{comment}{ *  @brief    Analog Watchdog configuration functions }
+00414 \textcolor{comment}{ *}
+00415 \textcolor{comment}{@verbatim   }
+00416 \textcolor{comment}{ ===============================================================================}
+00417 \textcolor{comment}{                    Analog Watchdog configuration functions}
+00418 \textcolor{comment}{ ===============================================================================  }
+00419 \textcolor{comment}{}
+00420 \textcolor{comment}{  This section provides functions allowing to configure the Analog Watchdog}
+00421 \textcolor{comment}{  (AWD) feature in the ADC.}
+00422 \textcolor{comment}{  }
+00423 \textcolor{comment}{  A typical configuration Analog Watchdog is done following these steps :}
+00424 \textcolor{comment}{   1. the ADC guarded channel(s) is (are) selected using the }
+00425 \textcolor{comment}{      ADC\_AnalogWatchdogSingleChannelConfig() function.}
+00426 \textcolor{comment}{   2. The Analog watchdog lower and higher threshold are configured using the  }
+00427 \textcolor{comment}{     ADC\_AnalogWatchdogThresholdsConfig() function.}
+00428 \textcolor{comment}{   3. The Analog watchdog is enabled and configured to enable the check, on one}
+00429 \textcolor{comment}{      or more channels, using the  ADC\_AnalogWatchdogCmd() function.}
+00430 \textcolor{comment}{}
+00431 \textcolor{comment}{@endverbatim}
+00432 \textcolor{comment}{  * @\{}
+00433 \textcolor{comment}{  */}
+00434 
+00435 \textcolor{comment}{/**}
+00436 \textcolor{comment}{  * @brief  Enables or disables the analog watchdog on single/all regular or }
+00437 \textcolor{comment}{  *         injected channels}
+00438 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+00439 \textcolor{comment}{  * @param  ADC\_AnalogWatchdog: the ADC analog watchdog configuration.}
+00440 \textcolor{comment}{  *         This parameter can be one of the following values:}
+00441 \textcolor{comment}{  *            @arg ADC\_AnalogWatchdog\_SingleRegEnable: Analog watchdog on a single regular channel}
+00442 \textcolor{comment}{  *            @arg ADC\_AnalogWatchdog\_SingleInjecEnable: Analog watchdog on a single injected channel}
+00443 \textcolor{comment}{  *            @arg ADC\_AnalogWatchdog\_SingleRegOrInjecEnable: Analog watchdog on a single regular or
+       injected channel}
+00444 \textcolor{comment}{  *            @arg ADC\_AnalogWatchdog\_AllRegEnable: Analog watchdog on all regular channel}
+00445 \textcolor{comment}{  *            @arg ADC\_AnalogWatchdog\_AllInjecEnable: Analog watchdog on all injected channel}
+00446 \textcolor{comment}{  *            @arg ADC\_AnalogWatchdog\_AllRegAllInjecEnable: Analog watchdog on all regular and
+       injected channels}
+00447 \textcolor{comment}{  *            @arg ADC\_AnalogWatchdog\_None: No channel guarded by the analog watchdog}
+00448 \textcolor{comment}{  * @retval None      }
+00449 \textcolor{comment}{  */}
+00450 \textcolor{keywordtype}{void} ADC_AnalogWatchdogCmd(ADC\_TypeDef* ADCx, uint32\_t ADC\_AnalogWatchdog)
+00451 \{
+00452   uint32\_t tmpreg = 0;
+00453   \textcolor{comment}{/* Check the parameters */}
+00454   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+00455   assert_param(IS\_ADC\_ANALOG\_WATCHDOG(ADC\_AnalogWatchdog));
+00456 
+00457   \textcolor{comment}{/* Get the old register value */}
+00458   tmpreg = ADCx->CR1;
+00459 
+00460   \textcolor{comment}{/* Clear AWDEN, JAWDEN and AWDSGL bits */}
+00461   tmpreg &= CR1_AWDMode_RESET;
+00462 
+00463   \textcolor{comment}{/* Set the analog watchdog enable mode */}
+00464   tmpreg |= ADC\_AnalogWatchdog;
+00465 
+00466   \textcolor{comment}{/* Store the new register value */}
+00467   ADCx->CR1 = tmpreg;
+00468 \}
+00469 
+00470 \textcolor{comment}{/**}
+00471 \textcolor{comment}{  * @brief  Configures the high and low thresholds of the analog watchdog.}
+00472 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+00473 \textcolor{comment}{  * @param  HighThreshold: the ADC analog watchdog High threshold value.}
+00474 \textcolor{comment}{  *          This parameter must be a 12-bit value.}
+00475 \textcolor{comment}{  * @param  LowThreshold:  the ADC analog watchdog Low threshold value.}
+00476 \textcolor{comment}{  *          This parameter must be a 12-bit value.}
+00477 \textcolor{comment}{  * @retval None}
+00478 \textcolor{comment}{  */}
+00479 \textcolor{keywordtype}{void} ADC_AnalogWatchdogThresholdsConfig(ADC\_TypeDef* ADCx, uint16\_t HighThreshold,
+00480                                         uint16\_t LowThreshold)
+00481 \{
+00482   \textcolor{comment}{/* Check the parameters */}
+00483   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+00484   assert_param(IS\_ADC\_THRESHOLD(HighThreshold));
+00485   assert_param(IS\_ADC\_THRESHOLD(LowThreshold));
+00486 
+00487   \textcolor{comment}{/* Set the ADCx high threshold */}
+00488   ADCx->HTR = HighThreshold;
+00489 
+00490   \textcolor{comment}{/* Set the ADCx low threshold */}
+00491   ADCx->LTR = LowThreshold;
+00492 \}
+00493 
+00494 \textcolor{comment}{/**}
+00495 \textcolor{comment}{  * @brief  Configures the analog watchdog guarded single channel}
+00496 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+00497 \textcolor{comment}{  * @param  ADC\_Channel: the ADC channel to configure for the analog watchdog. }
+00498 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00499 \textcolor{comment}{  *            @arg ADC\_Channel\_0: ADC Channel0 selected}
+00500 \textcolor{comment}{  *            @arg ADC\_Channel\_1: ADC Channel1 selected}
+00501 \textcolor{comment}{  *            @arg ADC\_Channel\_2: ADC Channel2 selected}
+00502 \textcolor{comment}{  *            @arg ADC\_Channel\_3: ADC Channel3 selected}
+00503 \textcolor{comment}{  *            @arg ADC\_Channel\_4: ADC Channel4 selected}
+00504 \textcolor{comment}{  *            @arg ADC\_Channel\_5: ADC Channel5 selected}
+00505 \textcolor{comment}{  *            @arg ADC\_Channel\_6: ADC Channel6 selected}
+00506 \textcolor{comment}{  *            @arg ADC\_Channel\_7: ADC Channel7 selected}
+00507 \textcolor{comment}{  *            @arg ADC\_Channel\_8: ADC Channel8 selected}
+00508 \textcolor{comment}{  *            @arg ADC\_Channel\_9: ADC Channel9 selected}
+00509 \textcolor{comment}{  *            @arg ADC\_Channel\_10: ADC Channel10 selected}
+00510 \textcolor{comment}{  *            @arg ADC\_Channel\_11: ADC Channel11 selected}
+00511 \textcolor{comment}{  *            @arg ADC\_Channel\_12: ADC Channel12 selected}
+00512 \textcolor{comment}{  *            @arg ADC\_Channel\_13: ADC Channel13 selected}
+00513 \textcolor{comment}{  *            @arg ADC\_Channel\_14: ADC Channel14 selected}
+00514 \textcolor{comment}{  *            @arg ADC\_Channel\_15: ADC Channel15 selected}
+00515 \textcolor{comment}{  *            @arg ADC\_Channel\_16: ADC Channel16 selected}
+00516 \textcolor{comment}{  *            @arg ADC\_Channel\_17: ADC Channel17 selected}
+00517 \textcolor{comment}{  *            @arg ADC\_Channel\_18: ADC Channel18 selected}
+00518 \textcolor{comment}{  * @retval None}
+00519 \textcolor{comment}{  */}
+00520 \textcolor{keywordtype}{void} ADC_AnalogWatchdogSingleChannelConfig(ADC\_TypeDef* ADCx, uint8\_t ADC\_Channel)
+00521 \{
+00522   uint32\_t tmpreg = 0;
+00523   \textcolor{comment}{/* Check the parameters */}
+00524   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+00525   assert_param(IS\_ADC\_CHANNEL(ADC\_Channel));
+00526 
+00527   \textcolor{comment}{/* Get the old register value */}
+00528   tmpreg = ADCx->CR1;
+00529 
+00530   \textcolor{comment}{/* Clear the Analog watchdog channel select bits */}
+00531   tmpreg &= CR1_AWDCH_RESET;
+00532 
+00533   \textcolor{comment}{/* Set the Analog watchdog channel */}
+00534   tmpreg |= ADC\_Channel;
+00535 
+00536   \textcolor{comment}{/* Store the new register value */}
+00537   ADCx->CR1 = tmpreg;
+00538 \}
+00539 \textcolor{comment}{/**}
+00540 \textcolor{comment}{  * @\}}
+00541 \textcolor{comment}{  */}
+00542 
+00543 \textcolor{comment}{/** @defgroup ADC\_Group3 Temperature Sensor, Vrefint (Voltage Reference internal) }
+00544 \textcolor{comment}{ *            and VBAT (Voltage BATtery) management functions}
+00545 \textcolor{comment}{ *  @brief   Temperature Sensor, Vrefint and VBAT management functions }
+00546 \textcolor{comment}{ *}
+00547 \textcolor{comment}{@verbatim   }
+00548 \textcolor{comment}{ ===============================================================================}
+00549 \textcolor{comment}{               Temperature Sensor, Vrefint and VBAT management functions}
+00550 \textcolor{comment}{ ===============================================================================  }
+00551 \textcolor{comment}{}
+00552 \textcolor{comment}{  This section provides functions allowing to enable/ disable the internal }
+00553 \textcolor{comment}{  connections between the ADC and the Temperature Sensor, the Vrefint and the}
+00554 \textcolor{comment}{  Vbat sources.}
+00555 \textcolor{comment}{     }
+00556 \textcolor{comment}{  A typical configuration to get the Temperature sensor and Vrefint channels }
+00557 \textcolor{comment}{  voltages is done following these steps :}
+00558 \textcolor{comment}{   1. Enable the internal connection of Temperature sensor and Vrefint sources }
+00559 \textcolor{comment}{      with the ADC channels using ADC\_TempSensorVrefintCmd() function. }
+00560 \textcolor{comment}{   2. Select the ADC\_Channel\_TempSensor and/or ADC\_Channel\_Vrefint using }
+00561 \textcolor{comment}{      ADC\_RegularChannelConfig() or  ADC\_InjectedChannelConfig() functions }
+00562 \textcolor{comment}{   3. Get the voltage values, using ADC\_GetConversionValue() or  }
+00563 \textcolor{comment}{      ADC\_GetInjectedConversionValue().}
+00564 \textcolor{comment}{}
+00565 \textcolor{comment}{  A typical configuration to get the VBAT channel voltage is done following }
+00566 \textcolor{comment}{  these steps :}
+00567 \textcolor{comment}{   1. Enable the internal connection of VBAT source with the ADC channel using }
+00568 \textcolor{comment}{      ADC\_VBATCmd() function. }
+00569 \textcolor{comment}{   2. Select the ADC\_Channel\_Vbat using ADC\_RegularChannelConfig() or  }
+00570 \textcolor{comment}{      ADC\_InjectedChannelConfig() functions }
+00571 \textcolor{comment}{   3. Get the voltage value, using ADC\_GetConversionValue() or  }
+00572 \textcolor{comment}{      ADC\_GetInjectedConversionValue().}
+00573 \textcolor{comment}{ }
+00574 \textcolor{comment}{@endverbatim}
+00575 \textcolor{comment}{  * @\{}
+00576 \textcolor{comment}{  */}
+00577 
+00578 
+00579 \textcolor{comment}{/**}
+00580 \textcolor{comment}{  * @brief  Enables or disables the temperature sensor and Vrefint channels.}
+00581 \textcolor{comment}{  * @param  NewState: new state of the temperature sensor and Vrefint channels.}
+00582 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00583 \textcolor{comment}{  * @retval None}
+00584 \textcolor{comment}{  */}
+00585 \textcolor{keywordtype}{void} ADC_TempSensorVrefintCmd(FunctionalState NewState)
+00586 \{
+00587   \textcolor{comment}{/* Check the parameters */}
+00588   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00589   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00590   \{
+00591     \textcolor{comment}{/* Enable the temperature sensor and Vrefint channel*/}
+00592     ADC->CCR |= (uint32\_t)ADC_CCR_TSVREFE;
+00593   \}
+00594   \textcolor{keywordflow}{else}
+00595   \{
+00596     \textcolor{comment}{/* Disable the temperature sensor and Vrefint channel*/}
+00597     ADC->CCR &= (uint32\_t)(~ADC_CCR_TSVREFE);
+00598   \}
+00599 \}
+00600 
+00601 \textcolor{comment}{/**}
+00602 \textcolor{comment}{  * @brief  Enables or disables the VBAT (Voltage Battery) channel.}
+00603 \textcolor{comment}{  * @param  NewState: new state of the VBAT channel.}
+00604 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00605 \textcolor{comment}{  * @retval None}
+00606 \textcolor{comment}{  */}
+00607 \textcolor{keywordtype}{void} ADC_VBATCmd(FunctionalState NewState)
+00608 \{
+00609   \textcolor{comment}{/* Check the parameters */}
+00610   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00611   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00612   \{
+00613     \textcolor{comment}{/* Enable the VBAT channel*/}
+00614     ADC->CCR |= (uint32\_t)ADC_CCR_VBATE;
+00615   \}
+00616   \textcolor{keywordflow}{else}
+00617   \{
+00618     \textcolor{comment}{/* Disable the VBAT channel*/}
+00619     ADC->CCR &= (uint32\_t)(~ADC_CCR_VBATE);
+00620   \}
+00621 \}
+00622 
+00623 \textcolor{comment}{/**}
+00624 \textcolor{comment}{  * @\}}
+00625 \textcolor{comment}{  */}
+00626 
+00627 \textcolor{comment}{/** @defgroup ADC\_Group4 Regular Channels Configuration functions}
+00628 \textcolor{comment}{ *  @brief   Regular Channels Configuration functions }
+00629 \textcolor{comment}{ *}
+00630 \textcolor{comment}{@verbatim   }
+00631 \textcolor{comment}{ ===============================================================================}
+00632 \textcolor{comment}{                  Regular Channels Configuration functions}
+00633 \textcolor{comment}{ ===============================================================================  }
+00634 \textcolor{comment}{}
+00635 \textcolor{comment}{  This section provides functions allowing to manage the ADC's regular channels,}
+00636 \textcolor{comment}{  it is composed of 2 sub sections : }
+00637 \textcolor{comment}{  }
+00638 \textcolor{comment}{  1. Configuration and management functions for regular channels: This subsection }
+00639 \textcolor{comment}{     provides functions allowing to configure the ADC regular channels :    }
+00640 \textcolor{comment}{          - Configure the rank in the regular group sequencer for each channel}
+00641 \textcolor{comment}{          - Configure the sampling time for each channel}
+00642 \textcolor{comment}{          - select the conversion Trigger for regular channels}
+00643 \textcolor{comment}{          - select the desired EOC event behavior configuration}
+00644 \textcolor{comment}{          - Activate the continuous Mode  (*)}
+00645 \textcolor{comment}{          - Activate the Discontinuous Mode }
+00646 \textcolor{comment}{     Please Note that the following features for regular channels are configurated}
+00647 \textcolor{comment}{     using the ADC\_Init() function : }
+00648 \textcolor{comment}{          - scan mode activation }
+00649 \textcolor{comment}{          - continuous mode activation (**) }
+00650 \textcolor{comment}{          - External trigger source  }
+00651 \textcolor{comment}{          - External trigger edge }
+00652 \textcolor{comment}{          - number of conversion in the regular channels group sequencer.}
+00653 \textcolor{comment}{     }
+00654 \textcolor{comment}{     @note (*) and (**) are performing the same configuration}
+00655 \textcolor{comment}{     }
+00656 \textcolor{comment}{  2. Get the conversion data: This subsection provides an important function in }
+00657 \textcolor{comment}{     the ADC peripheral since it returns the converted data of the current }
+00658 \textcolor{comment}{     regular channel. When the Conversion value is read, the EOC Flag is }
+00659 \textcolor{comment}{     automatically cleared.}
+00660 \textcolor{comment}{     }
+00661 \textcolor{comment}{     @note For multi ADC mode, the last ADC1, ADC2 and ADC3 regular conversions }
+00662 \textcolor{comment}{           results data (in the selected multi mode) can be returned in the same }
+00663 \textcolor{comment}{           time using ADC\_GetMultiModeConversionValue() function. }
+00664 \textcolor{comment}{       }
+00665 \textcolor{comment}{  }
+00666 \textcolor{comment}{@endverbatim}
+00667 \textcolor{comment}{  * @\{}
+00668 \textcolor{comment}{  */}
+00669 \textcolor{comment}{/**}
+00670 \textcolor{comment}{  * @brief  Configures for the selected ADC regular channel its corresponding}
+00671 \textcolor{comment}{  *         rank in the sequencer and its sample time.}
+00672 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+00673 \textcolor{comment}{  * @param  ADC\_Channel: the ADC channel to configure. }
+00674 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00675 \textcolor{comment}{  *            @arg ADC\_Channel\_0: ADC Channel0 selected}
+00676 \textcolor{comment}{  *            @arg ADC\_Channel\_1: ADC Channel1 selected}
+00677 \textcolor{comment}{  *            @arg ADC\_Channel\_2: ADC Channel2 selected}
+00678 \textcolor{comment}{  *            @arg ADC\_Channel\_3: ADC Channel3 selected}
+00679 \textcolor{comment}{  *            @arg ADC\_Channel\_4: ADC Channel4 selected}
+00680 \textcolor{comment}{  *            @arg ADC\_Channel\_5: ADC Channel5 selected}
+00681 \textcolor{comment}{  *            @arg ADC\_Channel\_6: ADC Channel6 selected}
+00682 \textcolor{comment}{  *            @arg ADC\_Channel\_7: ADC Channel7 selected}
+00683 \textcolor{comment}{  *            @arg ADC\_Channel\_8: ADC Channel8 selected}
+00684 \textcolor{comment}{  *            @arg ADC\_Channel\_9: ADC Channel9 selected}
+00685 \textcolor{comment}{  *            @arg ADC\_Channel\_10: ADC Channel10 selected}
+00686 \textcolor{comment}{  *            @arg ADC\_Channel\_11: ADC Channel11 selected}
+00687 \textcolor{comment}{  *            @arg ADC\_Channel\_12: ADC Channel12 selected}
+00688 \textcolor{comment}{  *            @arg ADC\_Channel\_13: ADC Channel13 selected}
+00689 \textcolor{comment}{  *            @arg ADC\_Channel\_14: ADC Channel14 selected}
+00690 \textcolor{comment}{  *            @arg ADC\_Channel\_15: ADC Channel15 selected}
+00691 \textcolor{comment}{  *            @arg ADC\_Channel\_16: ADC Channel16 selected}
+00692 \textcolor{comment}{  *            @arg ADC\_Channel\_17: ADC Channel17 selected}
+00693 \textcolor{comment}{  *            @arg ADC\_Channel\_18: ADC Channel18 selected                       }
+00694 \textcolor{comment}{  * @param  Rank: The rank in the regular group sequencer.}
+00695 \textcolor{comment}{  *          This parameter must be between 1 to 16.}
+00696 \textcolor{comment}{  * @param  ADC\_SampleTime: The sample time value to be set for the selected channel. }
+00697 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00698 \textcolor{comment}{  *            @arg ADC\_SampleTime\_3Cycles: Sample time equal to 3 cycles}
+00699 \textcolor{comment}{  *            @arg ADC\_SampleTime\_15Cycles: Sample time equal to 15 cycles}
+00700 \textcolor{comment}{  *            @arg ADC\_SampleTime\_28Cycles: Sample time equal to 28 cycles}
+00701 \textcolor{comment}{  *            @arg ADC\_SampleTime\_56Cycles: Sample time equal to 56 cycles }
+00702 \textcolor{comment}{  *            @arg ADC\_SampleTime\_84Cycles: Sample time equal to 84 cycles }
+00703 \textcolor{comment}{  *            @arg ADC\_SampleTime\_112Cycles: Sample time equal to 112 cycles   }
+00704 \textcolor{comment}{  *            @arg ADC\_SampleTime\_144Cycles: Sample time equal to 144 cycles   }
+00705 \textcolor{comment}{  *            @arg ADC\_SampleTime\_480Cycles: Sample time equal to 480 cycles   }
+00706 \textcolor{comment}{  * @retval None}
+00707 \textcolor{comment}{  */}
+00708 \textcolor{keywordtype}{void} ADC_RegularChannelConfig(ADC\_TypeDef* ADCx, uint8\_t ADC\_Channel, uint8\_t Rank, uint8\_t 
+      ADC\_SampleTime)
+00709 \{
+00710   uint32\_t tmpreg1 = 0, tmpreg2 = 0;
+00711   \textcolor{comment}{/* Check the parameters */}
+00712   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+00713   assert_param(IS\_ADC\_CHANNEL(ADC\_Channel));
+00714   assert_param(IS\_ADC\_REGULAR\_RANK(Rank));
+00715   assert_param(IS\_ADC\_SAMPLE\_TIME(ADC\_SampleTime));
+00716 
+00717   \textcolor{comment}{/* if ADC\_Channel\_10 ... ADC\_Channel\_18 is selected */}
+00718   \textcolor{keywordflow}{if} (ADC\_Channel > ADC_Channel_9)
+00719   \{
+00720     \textcolor{comment}{/* Get the old register value */}
+00721     tmpreg1 = ADCx->SMPR1;
+00722 
+00723     \textcolor{comment}{/* Calculate the mask to clear */}
+00724     tmpreg2 = SMPR1_SMP_SET << (3 * (ADC\_Channel - 10));
+00725 
+00726     \textcolor{comment}{/* Clear the old sample time */}
+00727     tmpreg1 &= ~tmpreg2;
+00728 
+00729     \textcolor{comment}{/* Calculate the mask to set */}
+00730     tmpreg2 = (uint32\_t)ADC\_SampleTime << (3 * (ADC\_Channel - 10));
+00731 
+00732     \textcolor{comment}{/* Set the new sample time */}
+00733     tmpreg1 |= tmpreg2;
+00734 
+00735     \textcolor{comment}{/* Store the new register value */}
+00736     ADCx->SMPR1 = tmpreg1;
+00737   \}
+00738   \textcolor{keywordflow}{else} \textcolor{comment}{/* ADC\_Channel include in ADC\_Channel\_[0..9] */}
+00739   \{
+00740     \textcolor{comment}{/* Get the old register value */}
+00741     tmpreg1 = ADCx->SMPR2;
+00742 
+00743     \textcolor{comment}{/* Calculate the mask to clear */}
+00744     tmpreg2 = SMPR2_SMP_SET << (3 * ADC\_Channel);
+00745 
+00746     \textcolor{comment}{/* Clear the old sample time */}
+00747     tmpreg1 &= ~tmpreg2;
+00748 
+00749     \textcolor{comment}{/* Calculate the mask to set */}
+00750     tmpreg2 = (uint32\_t)ADC\_SampleTime << (3 * ADC\_Channel);
+00751 
+00752     \textcolor{comment}{/* Set the new sample time */}
+00753     tmpreg1 |= tmpreg2;
+00754 
+00755     \textcolor{comment}{/* Store the new register value */}
+00756     ADCx->SMPR2 = tmpreg1;
+00757   \}
+00758   \textcolor{comment}{/* For Rank 1 to 6 */}
+00759   \textcolor{keywordflow}{if} (Rank < 7)
+00760   \{
+00761     \textcolor{comment}{/* Get the old register value */}
+00762     tmpreg1 = ADCx->SQR3;
+00763 
+00764     \textcolor{comment}{/* Calculate the mask to clear */}
+00765     tmpreg2 = SQR3_SQ_SET << (5 * (Rank - 1));
+00766 
+00767     \textcolor{comment}{/* Clear the old SQx bits for the selected rank */}
+00768     tmpreg1 &= ~tmpreg2;
+00769 
+00770     \textcolor{comment}{/* Calculate the mask to set */}
+00771     tmpreg2 = (uint32\_t)ADC\_Channel << (5 * (Rank - 1));
+00772 
+00773     \textcolor{comment}{/* Set the SQx bits for the selected rank */}
+00774     tmpreg1 |= tmpreg2;
+00775 
+00776     \textcolor{comment}{/* Store the new register value */}
+00777     ADCx->SQR3 = tmpreg1;
+00778   \}
+00779   \textcolor{comment}{/* For Rank 7 to 12 */}
+00780   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (Rank < 13)
+00781   \{
+00782     \textcolor{comment}{/* Get the old register value */}
+00783     tmpreg1 = ADCx->SQR2;
+00784 
+00785     \textcolor{comment}{/* Calculate the mask to clear */}
+00786     tmpreg2 = SQR2_SQ_SET << (5 * (Rank - 7));
+00787 
+00788     \textcolor{comment}{/* Clear the old SQx bits for the selected rank */}
+00789     tmpreg1 &= ~tmpreg2;
+00790 
+00791     \textcolor{comment}{/* Calculate the mask to set */}
+00792     tmpreg2 = (uint32\_t)ADC\_Channel << (5 * (Rank - 7));
+00793 
+00794     \textcolor{comment}{/* Set the SQx bits for the selected rank */}
+00795     tmpreg1 |= tmpreg2;
+00796 
+00797     \textcolor{comment}{/* Store the new register value */}
+00798     ADCx->SQR2 = tmpreg1;
+00799   \}
+00800   \textcolor{comment}{/* For Rank 13 to 16 */}
+00801   \textcolor{keywordflow}{else}
+00802   \{
+00803     \textcolor{comment}{/* Get the old register value */}
+00804     tmpreg1 = ADCx->SQR1;
+00805 
+00806     \textcolor{comment}{/* Calculate the mask to clear */}
+00807     tmpreg2 = SQR1_SQ_SET << (5 * (Rank - 13));
+00808 
+00809     \textcolor{comment}{/* Clear the old SQx bits for the selected rank */}
+00810     tmpreg1 &= ~tmpreg2;
+00811 
+00812     \textcolor{comment}{/* Calculate the mask to set */}
+00813     tmpreg2 = (uint32\_t)ADC\_Channel << (5 * (Rank - 13));
+00814 
+00815     \textcolor{comment}{/* Set the SQx bits for the selected rank */}
+00816     tmpreg1 |= tmpreg2;
+00817 
+00818     \textcolor{comment}{/* Store the new register value */}
+00819     ADCx->SQR1 = tmpreg1;
+00820   \}
+00821 \}
+00822 
+00823 \textcolor{comment}{/**}
+00824 \textcolor{comment}{  * @brief  Enables the selected ADC software start conversion of the regular channels.}
+00825 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+00826 \textcolor{comment}{  * @retval None}
+00827 \textcolor{comment}{  */}
+00828 \textcolor{keywordtype}{void} ADC_SoftwareStartConv(ADC\_TypeDef* ADCx)
+00829 \{
+00830   \textcolor{comment}{/* Check the parameters */}
+00831   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+00832 
+00833   \textcolor{comment}{/* Enable the selected ADC conversion for regular group */}
+00834   ADCx->CR2 |= (uint32\_t)ADC_CR2_SWSTART;
+00835 \}
+00836 
+00837 \textcolor{comment}{/**}
+00838 \textcolor{comment}{  * @brief  Gets the selected ADC Software start regular conversion Status.}
+00839 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+00840 \textcolor{comment}{  * @retval The new state of ADC software start conversion (SET or RESET).}
+00841 \textcolor{comment}{  */}
+00842 FlagStatus ADC_GetSoftwareStartConvStatus(ADC\_TypeDef* ADCx)
+00843 \{
+00844   FlagStatus bitstatus = RESET;
+00845   \textcolor{comment}{/* Check the parameters */}
+00846   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+00847 
+00848   \textcolor{comment}{/* Check the status of SWSTART bit */}
+00849   \textcolor{keywordflow}{if} ((ADCx->CR2 & ADC_CR2_JSWSTART) != (uint32\_t)RESET)
+00850   \{
+00851     \textcolor{comment}{/* SWSTART bit is set */}
+00852     bitstatus = SET;
+00853   \}
+00854   \textcolor{keywordflow}{else}
+00855   \{
+00856     \textcolor{comment}{/* SWSTART bit is reset */}
+00857     bitstatus = RESET;
+00858   \}
+00859 
+00860   \textcolor{comment}{/* Return the SWSTART bit status */}
+00861   \textcolor{keywordflow}{return}  bitstatus;
+00862 \}
+00863 
+00864 
+00865 \textcolor{comment}{/**}
+00866 \textcolor{comment}{  * @brief  Enables or disables the EOC on each regular channel conversion}
+00867 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+00868 \textcolor{comment}{  * @param  NewState: new state of the selected ADC EOC flag rising}
+00869 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00870 \textcolor{comment}{  * @retval None}
+00871 \textcolor{comment}{  */}
+00872 \textcolor{keywordtype}{void} ADC_EOCOnEachRegularChannelCmd(ADC\_TypeDef* ADCx, FunctionalState NewState)
+00873 \{
+00874   \textcolor{comment}{/* Check the parameters */}
+00875   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+00876   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00877 
+00878   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00879   \{
+00880     \textcolor{comment}{/* Enable the selected ADC EOC rising on each regular channel conversion */}
+00881     ADCx->CR2 |= (uint32\_t)ADC_CR2_EOCS;
+00882   \}
+00883   \textcolor{keywordflow}{else}
+00884   \{
+00885     \textcolor{comment}{/* Disable the selected ADC EOC rising on each regular channel conversion */}
+00886     ADCx->CR2 &= (uint32\_t)(~ADC_CR2_EOCS);
+00887   \}
+00888 \}
+00889 
+00890 \textcolor{comment}{/**}
+00891 \textcolor{comment}{  * @brief  Enables or disables the ADC continuous conversion mode }
+00892 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+00893 \textcolor{comment}{  * @param  NewState: new state of the selected ADC continuous conversion mode}
+00894 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00895 \textcolor{comment}{  * @retval None}
+00896 \textcolor{comment}{  */}
+00897 \textcolor{keywordtype}{void} ADC_ContinuousModeCmd(ADC\_TypeDef* ADCx, FunctionalState NewState)
+00898 \{
+00899   \textcolor{comment}{/* Check the parameters */}
+00900   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+00901   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00902 
+00903   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00904   \{
+00905     \textcolor{comment}{/* Enable the selected ADC continuous conversion mode */}
+00906     ADCx->CR2 |= (uint32\_t)ADC_CR2_CONT;
+00907   \}
+00908   \textcolor{keywordflow}{else}
+00909   \{
+00910     \textcolor{comment}{/* Disable the selected ADC continuous conversion mode */}
+00911     ADCx->CR2 &= (uint32\_t)(~ADC_CR2_CONT);
+00912   \}
+00913 \}
+00914 
+00915 \textcolor{comment}{/**}
+00916 \textcolor{comment}{  * @brief  Configures the discontinuous mode for the selected ADC regular group }
+00917 \textcolor{comment}{  *         channel.}
+00918 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+00919 \textcolor{comment}{  * @param  Number: specifies the discontinuous mode regular channel count value.}
+00920 \textcolor{comment}{  *          This number must be between 1 and 8.}
+00921 \textcolor{comment}{  * @retval None}
+00922 \textcolor{comment}{  */}
+00923 \textcolor{keywordtype}{void} ADC_DiscModeChannelCountConfig(ADC\_TypeDef* ADCx, uint8\_t Number)
+00924 \{
+00925   uint32\_t tmpreg1 = 0;
+00926   uint32\_t tmpreg2 = 0;
+00927 
+00928   \textcolor{comment}{/* Check the parameters */}
+00929   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+00930   assert_param(IS\_ADC\_REGULAR\_DISC\_NUMBER(Number));
+00931 
+00932   \textcolor{comment}{/* Get the old register value */}
+00933   tmpreg1 = ADCx->CR1;
+00934 
+00935   \textcolor{comment}{/* Clear the old discontinuous mode channel count */}
+00936   tmpreg1 &= CR1_DISCNUM_RESET;
+00937 
+00938   \textcolor{comment}{/* Set the discontinuous mode channel count */}
+00939   tmpreg2 = Number - 1;
+00940   tmpreg1 |= tmpreg2 << 13;
+00941 
+00942   \textcolor{comment}{/* Store the new register value */}
+00943   ADCx->CR1 = tmpreg1;
+00944 \}
+00945 
+00946 \textcolor{comment}{/**}
+00947 \textcolor{comment}{  * @brief  Enables or disables the discontinuous mode on regular group channel }
+00948 \textcolor{comment}{  *         for the specified ADC}
+00949 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+00950 \textcolor{comment}{  * @param  NewState: new state of the selected ADC discontinuous mode on }
+00951 \textcolor{comment}{  *         regular group channel.}
+00952 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00953 \textcolor{comment}{  * @retval None}
+00954 \textcolor{comment}{  */}
+00955 \textcolor{keywordtype}{void} ADC_DiscModeCmd(ADC\_TypeDef* ADCx, FunctionalState NewState)
+00956 \{
+00957   \textcolor{comment}{/* Check the parameters */}
+00958   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+00959   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00960 
+00961   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00962   \{
+00963     \textcolor{comment}{/* Enable the selected ADC regular discontinuous mode */}
+00964     ADCx->CR1 |= (uint32\_t)ADC_CR1_DISCEN;
+00965   \}
+00966   \textcolor{keywordflow}{else}
+00967   \{
+00968     \textcolor{comment}{/* Disable the selected ADC regular discontinuous mode */}
+00969     ADCx->CR1 &= (uint32\_t)(~ADC_CR1_DISCEN);
+00970   \}
+00971 \}
+00972 
+00973 \textcolor{comment}{/**}
+00974 \textcolor{comment}{  * @brief  Returns the last ADCx conversion result data for regular channel.}
+00975 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+00976 \textcolor{comment}{  * @retval The Data conversion value.}
+00977 \textcolor{comment}{  */}
+00978 uint16\_t ADC_GetConversionValue(ADC\_TypeDef* ADCx)
+00979 \{
+00980   \textcolor{comment}{/* Check the parameters */}
+00981   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+00982 
+00983   \textcolor{comment}{/* Return the selected ADC conversion value */}
+00984   \textcolor{keywordflow}{return} (uint16\_t) ADCx->DR;
+00985 \}
+00986 
+00987 \textcolor{comment}{/**}
+00988 \textcolor{comment}{  * @brief  Returns the last ADC1, ADC2 and ADC3 regular conversions results }
+00989 \textcolor{comment}{  *         data in the selected multi mode.}
+00990 \textcolor{comment}{  * @param  None  }
+00991 \textcolor{comment}{  * @retval The Data conversion value.}
+00992 \textcolor{comment}{  * @note   In dual mode, the value returned by this function is as following}
+00993 \textcolor{comment}{  *           Data[15:0] : these bits contain the regular data of ADC1.}
+00994 \textcolor{comment}{  *           Data[31:16]: these bits contain the regular data of ADC2.}
+00995 \textcolor{comment}{  * @note   In triple mode, the value returned by this function is as following}
+00996 \textcolor{comment}{  *           Data[15:0] : these bits contain alternatively the regular data of ADC1, ADC3 and ADC2.}
+00997 \textcolor{comment}{  *           Data[31:16]: these bits contain alternatively the regular data of ADC2, ADC1 and ADC3.  
+               }
+00998 \textcolor{comment}{  */}
+00999 uint32\_t ADC_GetMultiModeConversionValue(\textcolor{keywordtype}{void})
+01000 \{
+01001   \textcolor{comment}{/* Return the multi mode conversion value */}
+01002   \textcolor{keywordflow}{return} (*(\_\_IO uint32\_t *) CDR_ADDRESS);
+01003 \}
+01004 \textcolor{comment}{/**}
+01005 \textcolor{comment}{  * @\}}
+01006 \textcolor{comment}{  */}
+01007 
+01008 \textcolor{comment}{/** @defgroup ADC\_Group5 Regular Channels DMA Configuration functions}
+01009 \textcolor{comment}{ *  @brief   Regular Channels DMA Configuration functions }
+01010 \textcolor{comment}{ *}
+01011 \textcolor{comment}{@verbatim   }
+01012 \textcolor{comment}{ ===============================================================================}
+01013 \textcolor{comment}{                   Regular Channels DMA Configuration functions}
+01014 \textcolor{comment}{ ===============================================================================  }
+01015 \textcolor{comment}{}
+01016 \textcolor{comment}{  This section provides functions allowing to configure the DMA for ADC regular }
+01017 \textcolor{comment}{  channels.}
+01018 \textcolor{comment}{  Since converted regular channel values are stored into a unique data register, }
+01019 \textcolor{comment}{  it is useful to use DMA for conversion of more than one regular channel. This }
+01020 \textcolor{comment}{  avoids the loss of the data already stored in the ADC Data register. }
+01021 \textcolor{comment}{  }
+01022 \textcolor{comment}{  When the DMA mode is enabled (using the ADC\_DMACmd() function), after each}
+01023 \textcolor{comment}{  conversion of a regular channel, a DMA request is generated.}
+01024 \textcolor{comment}{  }
+01025 \textcolor{comment}{  Depending on the "DMA disable selection for Independent ADC mode" }
+01026 \textcolor{comment}{  configuration (using the ADC\_DMARequestAfterLastTransferCmd() function), }
+01027 \textcolor{comment}{  at the end of the last DMA transfer, two possibilities are allowed:}
+01028 \textcolor{comment}{  - No new DMA request is issued to the DMA controller (feature DISABLED) }
+01029 \textcolor{comment}{  - Requests can continue to be generated (feature ENABLED).}
+01030 \textcolor{comment}{  }
+01031 \textcolor{comment}{  Depending on the "DMA disable selection for multi ADC mode" configuration }
+01032 \textcolor{comment}{  (using the void ADC\_MultiModeDMARequestAfterLastTransferCmd() function), }
+01033 \textcolor{comment}{  at the end of the last DMA transfer, two possibilities are allowed:}
+01034 \textcolor{comment}{  - No new DMA request is issued to the DMA controller (feature DISABLED) }
+01035 \textcolor{comment}{  - Requests can continue to be generated (feature ENABLED).}
+01036 \textcolor{comment}{}
+01037 \textcolor{comment}{@endverbatim}
+01038 \textcolor{comment}{  * @\{}
+01039 \textcolor{comment}{  */}
+01040 
+01041  \textcolor{comment}{/**}
+01042 \textcolor{comment}{  * @brief  Enables or disables the specified ADC DMA request.}
+01043 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+01044 \textcolor{comment}{  * @param  NewState: new state of the selected ADC DMA transfer.}
+01045 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01046 \textcolor{comment}{  * @retval None}
+01047 \textcolor{comment}{  */}
+01048 \textcolor{keywordtype}{void} ADC_DMACmd(ADC\_TypeDef* ADCx, FunctionalState NewState)
+01049 \{
+01050   \textcolor{comment}{/* Check the parameters */}
+01051   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+01052   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01053   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01054   \{
+01055     \textcolor{comment}{/* Enable the selected ADC DMA request */}
+01056     ADCx->CR2 |= (uint32\_t)ADC_CR2_DMA;
+01057   \}
+01058   \textcolor{keywordflow}{else}
+01059   \{
+01060     \textcolor{comment}{/* Disable the selected ADC DMA request */}
+01061     ADCx->CR2 &= (uint32\_t)(~ADC_CR2_DMA);
+01062   \}
+01063 \}
+01064 
+01065 \textcolor{comment}{/**}
+01066 \textcolor{comment}{  * @brief  Enables or disables the ADC DMA request after last transfer (Single-ADC mode)  }
+01067 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+01068 \textcolor{comment}{  * @param  NewState: new state of the selected ADC DMA request after last transfer.}
+01069 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01070 \textcolor{comment}{  * @retval None}
+01071 \textcolor{comment}{  */}
+01072 \textcolor{keywordtype}{void} ADC_DMARequestAfterLastTransferCmd(ADC\_TypeDef* ADCx, FunctionalState NewState)
+01073 \{
+01074   \textcolor{comment}{/* Check the parameters */}
+01075   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+01076   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01077   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01078   \{
+01079     \textcolor{comment}{/* Enable the selected ADC DMA request after last transfer */}
+01080     ADCx->CR2 |= (uint32\_t)ADC_CR2_DDS;
+01081   \}
+01082   \textcolor{keywordflow}{else}
+01083   \{
+01084     \textcolor{comment}{/* Disable the selected ADC DMA request after last transfer */}
+01085     ADCx->CR2 &= (uint32\_t)(~ADC_CR2_DDS);
+01086   \}
+01087 \}
+01088 
+01089 \textcolor{comment}{/**}
+01090 \textcolor{comment}{  * @brief  Enables or disables the ADC DMA request after last transfer in multi ADC mode       }
+01091 \textcolor{comment}{  * @param  NewState: new state of the selected ADC DMA request after last transfer.}
+01092 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01093 \textcolor{comment}{  * @note   if Enabled, DMA requests are issued as long as data are converted and }
+01094 \textcolor{comment}{  *         DMA mode for multi ADC mode (selected using ADC\_CommonInit() function }
+01095 \textcolor{comment}{  *         by ADC\_CommonInitStruct.ADC\_DMAAccessMode structure member) is }
+01096 \textcolor{comment}{  *          ADC\_DMAAccessMode\_1, ADC\_DMAAccessMode\_2 or ADC\_DMAAccessMode\_3.     }
+01097 \textcolor{comment}{  * @retval None}
+01098 \textcolor{comment}{  */}
+01099 \textcolor{keywordtype}{void} ADC_MultiModeDMARequestAfterLastTransferCmd(FunctionalState NewState)
+01100 \{
+01101   \textcolor{comment}{/* Check the parameters */}
+01102   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01103   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01104   \{
+01105     \textcolor{comment}{/* Enable the selected ADC DMA request after last transfer */}
+01106     ADC->CCR |= (uint32\_t)ADC_CCR_DDS;
+01107   \}
+01108   \textcolor{keywordflow}{else}
+01109   \{
+01110     \textcolor{comment}{/* Disable the selected ADC DMA request after last transfer */}
+01111     ADC->CCR &= (uint32\_t)(~ADC_CCR_DDS);
+01112   \}
+01113 \}
+01114 \textcolor{comment}{/**}
+01115 \textcolor{comment}{  * @\}}
+01116 \textcolor{comment}{  */}
+01117 
+01118 \textcolor{comment}{/** @defgroup ADC\_Group6 Injected channels Configuration functions}
+01119 \textcolor{comment}{ *  @brief   Injected channels Configuration functions }
+01120 \textcolor{comment}{ *}
+01121 \textcolor{comment}{@verbatim   }
+01122 \textcolor{comment}{ ===============================================================================}
+01123 \textcolor{comment}{                     Injected channels Configuration functions}
+01124 \textcolor{comment}{ ===============================================================================  }
+01125 \textcolor{comment}{}
+01126 \textcolor{comment}{  This section provide functions allowing to configure the ADC Injected channels,}
+01127 \textcolor{comment}{  it is composed of 2 sub sections : }
+01128 \textcolor{comment}{    }
+01129 \textcolor{comment}{  1. Configuration functions for Injected channels: This subsection provides }
+01130 \textcolor{comment}{     functions allowing to configure the ADC injected channels :    }
+01131 \textcolor{comment}{    - Configure the rank in the injected group sequencer for each channel}
+01132 \textcolor{comment}{    - Configure the sampling time for each channel    }
+01133 \textcolor{comment}{    - Activate the Auto injected Mode  }
+01134 \textcolor{comment}{    - Activate the Discontinuous Mode }
+01135 \textcolor{comment}{    - scan mode activation  }
+01136 \textcolor{comment}{    - External/software trigger source   }
+01137 \textcolor{comment}{    - External trigger edge }
+01138 \textcolor{comment}{    - injected channels sequencer.}
+01139 \textcolor{comment}{    }
+01140 \textcolor{comment}{   2. Get the Specified Injected channel conversion data: This subsection }
+01141 \textcolor{comment}{      provides an important function in the ADC peripheral since it returns the }
+01142 \textcolor{comment}{      converted data of the specific injected channel.}
+01143 \textcolor{comment}{}
+01144 \textcolor{comment}{@endverbatim}
+01145 \textcolor{comment}{  * @\{}
+01146 \textcolor{comment}{  */}
+01147 \textcolor{comment}{/**}
+01148 \textcolor{comment}{  * @brief  Configures for the selected ADC injected channel its corresponding}
+01149 \textcolor{comment}{  *         rank in the sequencer and its sample time.}
+01150 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+01151 \textcolor{comment}{  * @param  ADC\_Channel: the ADC channel to configure. }
+01152 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01153 \textcolor{comment}{  *            @arg ADC\_Channel\_0: ADC Channel0 selected}
+01154 \textcolor{comment}{  *            @arg ADC\_Channel\_1: ADC Channel1 selected}
+01155 \textcolor{comment}{  *            @arg ADC\_Channel\_2: ADC Channel2 selected}
+01156 \textcolor{comment}{  *            @arg ADC\_Channel\_3: ADC Channel3 selected}
+01157 \textcolor{comment}{  *            @arg ADC\_Channel\_4: ADC Channel4 selected}
+01158 \textcolor{comment}{  *            @arg ADC\_Channel\_5: ADC Channel5 selected}
+01159 \textcolor{comment}{  *            @arg ADC\_Channel\_6: ADC Channel6 selected}
+01160 \textcolor{comment}{  *            @arg ADC\_Channel\_7: ADC Channel7 selected}
+01161 \textcolor{comment}{  *            @arg ADC\_Channel\_8: ADC Channel8 selected}
+01162 \textcolor{comment}{  *            @arg ADC\_Channel\_9: ADC Channel9 selected}
+01163 \textcolor{comment}{  *            @arg ADC\_Channel\_10: ADC Channel10 selected}
+01164 \textcolor{comment}{  *            @arg ADC\_Channel\_11: ADC Channel11 selected}
+01165 \textcolor{comment}{  *            @arg ADC\_Channel\_12: ADC Channel12 selected}
+01166 \textcolor{comment}{  *            @arg ADC\_Channel\_13: ADC Channel13 selected}
+01167 \textcolor{comment}{  *            @arg ADC\_Channel\_14: ADC Channel14 selected}
+01168 \textcolor{comment}{  *            @arg ADC\_Channel\_15: ADC Channel15 selected}
+01169 \textcolor{comment}{  *            @arg ADC\_Channel\_16: ADC Channel16 selected}
+01170 \textcolor{comment}{  *            @arg ADC\_Channel\_17: ADC Channel17 selected}
+01171 \textcolor{comment}{  *            @arg ADC\_Channel\_18: ADC Channel18 selected                       }
+01172 \textcolor{comment}{  * @param  Rank: The rank in the injected group sequencer. }
+01173 \textcolor{comment}{  *          This parameter must be between 1 to 4.}
+01174 \textcolor{comment}{  * @param  ADC\_SampleTime: The sample time value to be set for the selected channel. }
+01175 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01176 \textcolor{comment}{  *            @arg ADC\_SampleTime\_3Cycles: Sample time equal to 3 cycles}
+01177 \textcolor{comment}{  *            @arg ADC\_SampleTime\_15Cycles: Sample time equal to 15 cycles}
+01178 \textcolor{comment}{  *            @arg ADC\_SampleTime\_28Cycles: Sample time equal to 28 cycles}
+01179 \textcolor{comment}{  *            @arg ADC\_SampleTime\_56Cycles: Sample time equal to 56 cycles }
+01180 \textcolor{comment}{  *            @arg ADC\_SampleTime\_84Cycles: Sample time equal to 84 cycles }
+01181 \textcolor{comment}{  *            @arg ADC\_SampleTime\_112Cycles: Sample time equal to 112 cycles   }
+01182 \textcolor{comment}{  *            @arg ADC\_SampleTime\_144Cycles: Sample time equal to 144 cycles   }
+01183 \textcolor{comment}{  *            @arg ADC\_SampleTime\_480Cycles: Sample time equal to 480 cycles   }
+01184 \textcolor{comment}{  * @retval None}
+01185 \textcolor{comment}{  */}
+01186 \textcolor{keywordtype}{void} ADC_InjectedChannelConfig(ADC\_TypeDef* ADCx, uint8\_t ADC\_Channel, uint8\_t Rank, uint8\_t 
+      ADC\_SampleTime)
+01187 \{
+01188   uint32\_t tmpreg1 = 0, tmpreg2 = 0, tmpreg3 = 0;
+01189   \textcolor{comment}{/* Check the parameters */}
+01190   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+01191   assert_param(IS\_ADC\_CHANNEL(ADC\_Channel));
+01192   assert_param(IS\_ADC\_INJECTED\_RANK(Rank));
+01193   assert_param(IS\_ADC\_SAMPLE\_TIME(ADC\_SampleTime));
+01194   \textcolor{comment}{/* if ADC\_Channel\_10 ... ADC\_Channel\_18 is selected */}
+01195   \textcolor{keywordflow}{if} (ADC\_Channel > ADC_Channel_9)
+01196   \{
+01197     \textcolor{comment}{/* Get the old register value */}
+01198     tmpreg1 = ADCx->SMPR1;
+01199     \textcolor{comment}{/* Calculate the mask to clear */}
+01200     tmpreg2 = SMPR1_SMP_SET << (3*(ADC\_Channel - 10));
+01201     \textcolor{comment}{/* Clear the old sample time */}
+01202     tmpreg1 &= ~tmpreg2;
+01203     \textcolor{comment}{/* Calculate the mask to set */}
+01204     tmpreg2 = (uint32\_t)ADC\_SampleTime << (3*(ADC\_Channel - 10));
+01205     \textcolor{comment}{/* Set the new sample time */}
+01206     tmpreg1 |= tmpreg2;
+01207     \textcolor{comment}{/* Store the new register value */}
+01208     ADCx->SMPR1 = tmpreg1;
+01209   \}
+01210   \textcolor{keywordflow}{else} \textcolor{comment}{/* ADC\_Channel include in ADC\_Channel\_[0..9] */}
+01211   \{
+01212     \textcolor{comment}{/* Get the old register value */}
+01213     tmpreg1 = ADCx->SMPR2;
+01214     \textcolor{comment}{/* Calculate the mask to clear */}
+01215     tmpreg2 = SMPR2_SMP_SET << (3 * ADC\_Channel);
+01216     \textcolor{comment}{/* Clear the old sample time */}
+01217     tmpreg1 &= ~tmpreg2;
+01218     \textcolor{comment}{/* Calculate the mask to set */}
+01219     tmpreg2 = (uint32\_t)ADC\_SampleTime << (3 * ADC\_Channel);
+01220     \textcolor{comment}{/* Set the new sample time */}
+01221     tmpreg1 |= tmpreg2;
+01222     \textcolor{comment}{/* Store the new register value */}
+01223     ADCx->SMPR2 = tmpreg1;
+01224   \}
+01225   \textcolor{comment}{/* Rank configuration */}
+01226   \textcolor{comment}{/* Get the old register value */}
+01227   tmpreg1 = ADCx->JSQR;
+01228   \textcolor{comment}{/* Get JL value: Number = JL+1 */}
+01229   tmpreg3 =  (tmpreg1 & JSQR_JL_SET)>> 20;
+01230   \textcolor{comment}{/* Calculate the mask to clear: ((Rank-1)+(4-JL-1)) */}
+01231   tmpreg2 = JSQR_JSQ_SET << (5 * (uint8\_t)((Rank + 3) - (tmpreg3 + 1)));
+01232   \textcolor{comment}{/* Clear the old JSQx bits for the selected rank */}
+01233   tmpreg1 &= ~tmpreg2;
+01234   \textcolor{comment}{/* Calculate the mask to set: ((Rank-1)+(4-JL-1)) */}
+01235   tmpreg2 = (uint32\_t)ADC\_Channel << (5 * (uint8\_t)((Rank + 3) - (tmpreg3 + 1)));
+01236   \textcolor{comment}{/* Set the JSQx bits for the selected rank */}
+01237   tmpreg1 |= tmpreg2;
+01238   \textcolor{comment}{/* Store the new register value */}
+01239   ADCx->JSQR = tmpreg1;
+01240 \}
+01241 
+01242 \textcolor{comment}{/**}
+01243 \textcolor{comment}{  * @brief  Configures the sequencer length for injected channels}
+01244 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+01245 \textcolor{comment}{  * @param  Length: The sequencer length. }
+01246 \textcolor{comment}{  *          This parameter must be a number between 1 to 4.}
+01247 \textcolor{comment}{  * @retval None}
+01248 \textcolor{comment}{  */}
+01249 \textcolor{keywordtype}{void} ADC_InjectedSequencerLengthConfig(ADC\_TypeDef* ADCx, uint8\_t Length)
+01250 \{
+01251   uint32\_t tmpreg1 = 0;
+01252   uint32\_t tmpreg2 = 0;
+01253   \textcolor{comment}{/* Check the parameters */}
+01254   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+01255   assert_param(IS\_ADC\_INJECTED\_LENGTH(Length));
+01256 
+01257   \textcolor{comment}{/* Get the old register value */}
+01258   tmpreg1 = ADCx->JSQR;
+01259 
+01260   \textcolor{comment}{/* Clear the old injected sequence length JL bits */}
+01261   tmpreg1 &= JSQR_JL_RESET;
+01262 
+01263   \textcolor{comment}{/* Set the injected sequence length JL bits */}
+01264   tmpreg2 = Length - 1;
+01265   tmpreg1 |= tmpreg2 << 20;
+01266 
+01267   \textcolor{comment}{/* Store the new register value */}
+01268   ADCx->JSQR = tmpreg1;
+01269 \}
+01270 
+01271 \textcolor{comment}{/**}
+01272 \textcolor{comment}{  * @brief  Set the injected channels conversion value offset}
+01273 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+01274 \textcolor{comment}{  * @param  ADC\_InjectedChannel: the ADC injected channel to set its offset. }
+01275 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01276 \textcolor{comment}{  *            @arg ADC\_InjectedChannel\_1: Injected Channel1 selected}
+01277 \textcolor{comment}{  *            @arg ADC\_InjectedChannel\_2: Injected Channel2 selected}
+01278 \textcolor{comment}{  *            @arg ADC\_InjectedChannel\_3: Injected Channel3 selected}
+01279 \textcolor{comment}{  *            @arg ADC\_InjectedChannel\_4: Injected Channel4 selected}
+01280 \textcolor{comment}{  * @param  Offset: the offset value for the selected ADC injected channel}
+01281 \textcolor{comment}{  *          This parameter must be a 12bit value.}
+01282 \textcolor{comment}{  * @retval None}
+01283 \textcolor{comment}{  */}
+01284 \textcolor{keywordtype}{void} ADC_SetInjectedOffset(ADC\_TypeDef* ADCx, uint8\_t ADC\_InjectedChannel, uint16\_t Offset)
+01285 \{
+01286     \_\_IO uint32\_t tmp = 0;
+01287   \textcolor{comment}{/* Check the parameters */}
+01288   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+01289   assert_param(IS\_ADC\_INJECTED\_CHANNEL(ADC\_InjectedChannel));
+01290   assert_param(IS\_ADC\_OFFSET(Offset));
+01291 
+01292   tmp = (uint32\_t)ADCx;
+01293   tmp += ADC\_InjectedChannel;
+01294 
+01295   \textcolor{comment}{/* Set the selected injected channel data offset */}
+01296  *(\_\_IO uint32\_t *) tmp = (uint32\_t)Offset;
+01297 \}
+01298 
+01299  \textcolor{comment}{/**}
+01300 \textcolor{comment}{  * @brief  Configures the ADCx external trigger for injected channels conversion.}
+01301 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+01302 \textcolor{comment}{  * @param  ADC\_ExternalTrigInjecConv: specifies the ADC trigger to start injected conversion.}
+01303 \textcolor{comment}{  *          This parameter can be one of the following values:                    }
+01304 \textcolor{comment}{  *            @arg ADC\_ExternalTrigInjecConv\_T1\_CC4: Timer1 capture compare4 selected }
+01305 \textcolor{comment}{  *            @arg ADC\_ExternalTrigInjecConv\_T1\_TRGO: Timer1 TRGO event selected }
+01306 \textcolor{comment}{  *            @arg ADC\_ExternalTrigInjecConv\_T2\_CC1: Timer2 capture compare1 selected }
+01307 \textcolor{comment}{  *            @arg ADC\_ExternalTrigInjecConv\_T2\_TRGO: Timer2 TRGO event selected }
+01308 \textcolor{comment}{  *            @arg ADC\_ExternalTrigInjecConv\_T3\_CC2: Timer3 capture compare2 selected }
+01309 \textcolor{comment}{  *            @arg ADC\_ExternalTrigInjecConv\_T3\_CC4: Timer3 capture compare4 selected }
+01310 \textcolor{comment}{  *            @arg ADC\_ExternalTrigInjecConv\_T4\_CC1: Timer4 capture compare1 selected                
+             }
+01311 \textcolor{comment}{  *            @arg ADC\_ExternalTrigInjecConv\_T4\_CC2: Timer4 capture compare2 selected }
+01312 \textcolor{comment}{  *            @arg ADC\_ExternalTrigInjecConv\_T4\_CC3: Timer4 capture compare3 selected                
+              }
+01313 \textcolor{comment}{  *            @arg ADC\_ExternalTrigInjecConv\_T4\_TRGO: Timer4 TRGO event selected }
+01314 \textcolor{comment}{  *            @arg ADC\_ExternalTrigInjecConv\_T5\_CC4: Timer5 capture compare4 selected                
+              }
+01315 \textcolor{comment}{  *            @arg ADC\_ExternalTrigInjecConv\_T5\_TRGO: Timer5 TRGO event selected                     
+         }
+01316 \textcolor{comment}{  *            @arg ADC\_ExternalTrigInjecConv\_T8\_CC2: Timer8 capture compare2 selected}
+01317 \textcolor{comment}{  *            @arg ADC\_ExternalTrigInjecConv\_T8\_CC3: Timer8 capture compare3 selected                
+              }
+01318 \textcolor{comment}{  *            @arg ADC\_ExternalTrigInjecConv\_T8\_CC4: Timer8 capture compare4 selected }
+01319 \textcolor{comment}{  *            @arg ADC\_ExternalTrigInjecConv\_Ext\_IT15: External interrupt line 15 event selected     
+                           }
+01320 \textcolor{comment}{  * @retval None}
+01321 \textcolor{comment}{  */}
+01322 \textcolor{keywordtype}{void} ADC_ExternalTrigInjectedConvConfig(ADC\_TypeDef* ADCx, uint32\_t ADC\_ExternalTrigInjecConv)
+01323 \{
+01324   uint32\_t tmpreg = 0;
+01325   \textcolor{comment}{/* Check the parameters */}
+01326   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+01327   assert_param(IS\_ADC\_EXT\_INJEC\_TRIG(ADC\_ExternalTrigInjecConv));
+01328 
+01329   \textcolor{comment}{/* Get the old register value */}
+01330   tmpreg = ADCx->CR2;
+01331 
+01332   \textcolor{comment}{/* Clear the old external event selection for injected group */}
+01333   tmpreg &= CR2_JEXTSEL_RESET;
+01334 
+01335   \textcolor{comment}{/* Set the external event selection for injected group */}
+01336   tmpreg |= ADC\_ExternalTrigInjecConv;
+01337 
+01338   \textcolor{comment}{/* Store the new register value */}
+01339   ADCx->CR2 = tmpreg;
+01340 \}
+01341 
+01342 \textcolor{comment}{/**}
+01343 \textcolor{comment}{  * @brief  Configures the ADCx external trigger edge for injected channels conversion.}
+01344 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+01345 \textcolor{comment}{  * @param  ADC\_ExternalTrigInjecConvEdge: specifies the ADC external trigger edge}
+01346 \textcolor{comment}{  *         to start injected conversion. }
+01347 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01348 \textcolor{comment}{  *            @arg ADC\_ExternalTrigInjecConvEdge\_None: external trigger disabled for }
+01349 \textcolor{comment}{  *                                                     injected conversion}
+01350 \textcolor{comment}{  *            @arg ADC\_ExternalTrigInjecConvEdge\_Rising: detection on rising edge}
+01351 \textcolor{comment}{  *            @arg ADC\_ExternalTrigInjecConvEdge\_Falling: detection on falling edge}
+01352 \textcolor{comment}{  *            @arg ADC\_ExternalTrigInjecConvEdge\_RisingFalling: detection on both rising }
+01353 \textcolor{comment}{  *                                                               and falling edge}
+01354 \textcolor{comment}{  * @retval None}
+01355 \textcolor{comment}{  */}
+01356 \textcolor{keywordtype}{void} ADC_ExternalTrigInjectedConvEdgeConfig(ADC\_TypeDef* ADCx, uint32\_t ADC\_ExternalTrigInjecConvEdge)
+01357 \{
+01358   uint32\_t tmpreg = 0;
+01359   \textcolor{comment}{/* Check the parameters */}
+01360   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+01361   assert_param(IS\_ADC\_EXT\_INJEC\_TRIG\_EDGE(ADC\_ExternalTrigInjecConvEdge));
+01362   \textcolor{comment}{/* Get the old register value */}
+01363   tmpreg = ADCx->CR2;
+01364   \textcolor{comment}{/* Clear the old external trigger edge for injected group */}
+01365   tmpreg &= CR2_JEXTEN_RESET;
+01366   \textcolor{comment}{/* Set the new external trigger edge for injected group */}
+01367   tmpreg |= ADC\_ExternalTrigInjecConvEdge;
+01368   \textcolor{comment}{/* Store the new register value */}
+01369   ADCx->CR2 = tmpreg;
+01370 \}
+01371 
+01372 \textcolor{comment}{/**}
+01373 \textcolor{comment}{  * @brief  Enables the selected ADC software start conversion of the injected channels.}
+01374 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+01375 \textcolor{comment}{  * @retval None}
+01376 \textcolor{comment}{  */}
+01377 \textcolor{keywordtype}{void} ADC_SoftwareStartInjectedConv(ADC\_TypeDef* ADCx)
+01378 \{
+01379   \textcolor{comment}{/* Check the parameters */}
+01380   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+01381   \textcolor{comment}{/* Enable the selected ADC conversion for injected group */}
+01382   ADCx->CR2 |= (uint32\_t)ADC_CR2_JSWSTART;
+01383 \}
+01384 
+01385 \textcolor{comment}{/**}
+01386 \textcolor{comment}{  * @brief  Gets the selected ADC Software start injected conversion Status.}
+01387 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+01388 \textcolor{comment}{  * @retval The new state of ADC software start injected conversion (SET or RESET).}
+01389 \textcolor{comment}{  */}
+01390 FlagStatus ADC_GetSoftwareStartInjectedConvCmdStatus(ADC\_TypeDef* ADCx)
+01391 \{
+01392   FlagStatus bitstatus = RESET;
+01393   \textcolor{comment}{/* Check the parameters */}
+01394   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+01395 
+01396   \textcolor{comment}{/* Check the status of JSWSTART bit */}
+01397   \textcolor{keywordflow}{if} ((ADCx->CR2 & ADC_CR2_JSWSTART) != (uint32\_t)RESET)
+01398   \{
+01399     \textcolor{comment}{/* JSWSTART bit is set */}
+01400     bitstatus = SET;
+01401   \}
+01402   \textcolor{keywordflow}{else}
+01403   \{
+01404     \textcolor{comment}{/* JSWSTART bit is reset */}
+01405     bitstatus = RESET;
+01406   \}
+01407   \textcolor{comment}{/* Return the JSWSTART bit status */}
+01408   \textcolor{keywordflow}{return}  bitstatus;
+01409 \}
+01410 
+01411 \textcolor{comment}{/**}
+01412 \textcolor{comment}{  * @brief  Enables or disables the selected ADC automatic injected group }
+01413 \textcolor{comment}{  *         conversion after regular one.}
+01414 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+01415 \textcolor{comment}{  * @param  NewState: new state of the selected ADC auto injected conversion}
+01416 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01417 \textcolor{comment}{  * @retval None}
+01418 \textcolor{comment}{  */}
+01419 \textcolor{keywordtype}{void} ADC_AutoInjectedConvCmd(ADC\_TypeDef* ADCx, FunctionalState NewState)
+01420 \{
+01421   \textcolor{comment}{/* Check the parameters */}
+01422   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+01423   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01424   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01425   \{
+01426     \textcolor{comment}{/* Enable the selected ADC automatic injected group conversion */}
+01427     ADCx->CR1 |= (uint32\_t)ADC_CR1_JAUTO;
+01428   \}
+01429   \textcolor{keywordflow}{else}
+01430   \{
+01431     \textcolor{comment}{/* Disable the selected ADC automatic injected group conversion */}
+01432     ADCx->CR1 &= (uint32\_t)(~ADC_CR1_JAUTO);
+01433   \}
+01434 \}
+01435 
+01436 \textcolor{comment}{/**}
+01437 \textcolor{comment}{  * @brief  Enables or disables the discontinuous mode for injected group }
+01438 \textcolor{comment}{  *         channel for the specified ADC}
+01439 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+01440 \textcolor{comment}{  * @param  NewState: new state of the selected ADC discontinuous mode on injected}
+01441 \textcolor{comment}{  *         group channel.}
+01442 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01443 \textcolor{comment}{  * @retval None}
+01444 \textcolor{comment}{  */}
+01445 \textcolor{keywordtype}{void} ADC_InjectedDiscModeCmd(ADC\_TypeDef* ADCx, FunctionalState NewState)
+01446 \{
+01447   \textcolor{comment}{/* Check the parameters */}
+01448   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+01449   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01450   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01451   \{
+01452     \textcolor{comment}{/* Enable the selected ADC injected discontinuous mode */}
+01453     ADCx->CR1 |= (uint32\_t)ADC_CR1_JDISCEN;
+01454   \}
+01455   \textcolor{keywordflow}{else}
+01456   \{
+01457     \textcolor{comment}{/* Disable the selected ADC injected discontinuous mode */}
+01458     ADCx->CR1 &= (uint32\_t)(~ADC_CR1_JDISCEN);
+01459   \}
+01460 \}
+01461 
+01462 \textcolor{comment}{/**}
+01463 \textcolor{comment}{  * @brief  Returns the ADC injected channel conversion result}
+01464 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+01465 \textcolor{comment}{  * @param  ADC\_InjectedChannel: the converted ADC injected channel.}
+01466 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01467 \textcolor{comment}{  *            @arg ADC\_InjectedChannel\_1: Injected Channel1 selected}
+01468 \textcolor{comment}{  *            @arg ADC\_InjectedChannel\_2: Injected Channel2 selected}
+01469 \textcolor{comment}{  *            @arg ADC\_InjectedChannel\_3: Injected Channel3 selected}
+01470 \textcolor{comment}{  *            @arg ADC\_InjectedChannel\_4: Injected Channel4 selected}
+01471 \textcolor{comment}{  * @retval The Data conversion value.}
+01472 \textcolor{comment}{  */}
+01473 uint16\_t ADC_GetInjectedConversionValue(ADC\_TypeDef* ADCx, uint8\_t ADC\_InjectedChannel)
+01474 \{
+01475   \_\_IO uint32\_t tmp = 0;
+01476 
+01477   \textcolor{comment}{/* Check the parameters */}
+01478   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+01479   assert_param(IS\_ADC\_INJECTED\_CHANNEL(ADC\_InjectedChannel));
+01480 
+01481   tmp = (uint32\_t)ADCx;
+01482   tmp += ADC\_InjectedChannel + JDR_OFFSET;
+01483 
+01484   \textcolor{comment}{/* Returns the selected injected channel conversion data value */}
+01485   \textcolor{keywordflow}{return} (uint16\_t) (*(\_\_IO uint32\_t*)  tmp);
+01486 \}
+01487 \textcolor{comment}{/**}
+01488 \textcolor{comment}{  * @\}}
+01489 \textcolor{comment}{  */}
+01490 
+01491 \textcolor{comment}{/** @defgroup ADC\_Group7 Interrupts and flags management functions}
+01492 \textcolor{comment}{ *  @brief   Interrupts and flags management functions}
+01493 \textcolor{comment}{ *}
+01494 \textcolor{comment}{@verbatim   }
+01495 \textcolor{comment}{ ===============================================================================}
+01496 \textcolor{comment}{                   Interrupts and flags management functions}
+01497 \textcolor{comment}{ ===============================================================================  }
+01498 \textcolor{comment}{}
+01499 \textcolor{comment}{  This section provides functions allowing to configure the ADC Interrupts and }
+01500 \textcolor{comment}{  to get the status and clear flags and Interrupts pending bits.}
+01501 \textcolor{comment}{  }
+01502 \textcolor{comment}{  Each ADC provides 4 Interrupts sources and 6 Flags which can be divided into }
+01503 \textcolor{comment}{  3 groups:}
+01504 \textcolor{comment}{  }
+01505 \textcolor{comment}{  I. Flags and Interrupts for ADC regular channels}
+01506 \textcolor{comment}{  =================================================}
+01507 \textcolor{comment}{  Flags :}
+01508 \textcolor{comment}{  ---------- }
+01509 \textcolor{comment}{     1. ADC\_FLAG\_OVR : Overrun detection when regular converted data are lost}
+01510 \textcolor{comment}{}
+01511 \textcolor{comment}{     2. ADC\_FLAG\_EOC : Regular channel end of conversion ==> to indicate (depending }
+01512 \textcolor{comment}{              on EOCS bit, managed by ADC\_EOCOnEachRegularChannelCmd() ) the end of:}
+01513 \textcolor{comment}{               ==> a regular CHANNEL conversion }
+01514 \textcolor{comment}{               ==> sequence of regular GROUP conversions .}
+01515 \textcolor{comment}{}
+01516 \textcolor{comment}{     3. ADC\_FLAG\_STRT: Regular channel start ==> to indicate when regular CHANNEL }
+01517 \textcolor{comment}{              conversion starts.}
+01518 \textcolor{comment}{}
+01519 \textcolor{comment}{  Interrupts :}
+01520 \textcolor{comment}{  ------------}
+01521 \textcolor{comment}{     1. ADC\_IT\_OVR : specifies the interrupt source for Overrun detection event.  }
+01522 \textcolor{comment}{     2. ADC\_IT\_EOC : specifies the interrupt source for Regular channel end of }
+01523 \textcolor{comment}{                     conversion event.}
+01524 \textcolor{comment}{  }
+01525 \textcolor{comment}{  }
+01526 \textcolor{comment}{  II. Flags and Interrupts for ADC Injected channels}
+01527 \textcolor{comment}{  =================================================}
+01528 \textcolor{comment}{  Flags :}
+01529 \textcolor{comment}{  ---------- }
+01530 \textcolor{comment}{     1. ADC\_FLAG\_JEOC : Injected channel end of conversion ==> to indicate at }
+01531 \textcolor{comment}{               the end of injected GROUP conversion  }
+01532 \textcolor{comment}{              }
+01533 \textcolor{comment}{     2. ADC\_FLAG\_JSTRT: Injected channel start ==> to indicate hardware when }
+01534 \textcolor{comment}{               injected GROUP conversion starts.}
+01535 \textcolor{comment}{}
+01536 \textcolor{comment}{  Interrupts :}
+01537 \textcolor{comment}{  ------------}
+01538 \textcolor{comment}{     1. ADC\_IT\_JEOC : specifies the interrupt source for Injected channel end of }
+01539 \textcolor{comment}{                      conversion event.     }
+01540 \textcolor{comment}{}
+01541 \textcolor{comment}{  III. General Flags and Interrupts for the ADC}
+01542 \textcolor{comment}{  ================================================= }
+01543 \textcolor{comment}{  Flags :}
+01544 \textcolor{comment}{  ---------- }
+01545 \textcolor{comment}{     1. ADC\_FLAG\_AWD: Analog watchdog ==> to indicate if the converted voltage }
+01546 \textcolor{comment}{              crosses the programmed thresholds values.}
+01547 \textcolor{comment}{              }
+01548 \textcolor{comment}{  Interrupts :}
+01549 \textcolor{comment}{  ------------}
+01550 \textcolor{comment}{     1. ADC\_IT\_AWD : specifies the interrupt source for Analog watchdog event. }
+01551 \textcolor{comment}{}
+01552 \textcolor{comment}{  }
+01553 \textcolor{comment}{  The user should identify which mode will be used in his application to manage }
+01554 \textcolor{comment}{  the ADC controller events: Polling mode or Interrupt mode.}
+01555 \textcolor{comment}{  }
+01556 \textcolor{comment}{  In the Polling Mode it is advised to use the following functions:}
+01557 \textcolor{comment}{      - ADC\_GetFlagStatus() : to check if flags events occur. }
+01558 \textcolor{comment}{      - ADC\_ClearFlag()     : to clear the flags events.}
+01559 \textcolor{comment}{      }
+01560 \textcolor{comment}{  In the Interrupt Mode it is advised to use the following functions:}
+01561 \textcolor{comment}{     - ADC\_ITConfig()          : to enable or disable the interrupt source.}
+01562 \textcolor{comment}{     - ADC\_GetITStatus()       : to check if Interrupt occurs.}
+01563 \textcolor{comment}{     - ADC\_ClearITPendingBit() : to clear the Interrupt pending Bit }
+01564 \textcolor{comment}{                                 (corresponding Flag). }
+01565 \textcolor{comment}{@endverbatim}
+01566 \textcolor{comment}{  * @\{}
+01567 \textcolor{comment}{  */}
+01568 \textcolor{comment}{/**}
+01569 \textcolor{comment}{  * @brief  Enables or disables the specified ADC interrupts.}
+01570 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+01571 \textcolor{comment}{  * @param  ADC\_IT: specifies the ADC interrupt sources to be enabled or disabled. }
+01572 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01573 \textcolor{comment}{  *            @arg ADC\_IT\_EOC: End of conversion interrupt mask}
+01574 \textcolor{comment}{  *            @arg ADC\_IT\_AWD: Analog watchdog interrupt mask}
+01575 \textcolor{comment}{  *            @arg ADC\_IT\_JEOC: End of injected conversion interrupt mask}
+01576 \textcolor{comment}{  *            @arg ADC\_IT\_OVR: Overrun interrupt enable                       }
+01577 \textcolor{comment}{  * @param  NewState: new state of the specified ADC interrupts.}
+01578 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01579 \textcolor{comment}{  * @retval None}
+01580 \textcolor{comment}{  */}
+01581 \textcolor{keywordtype}{void} ADC_ITConfig(ADC\_TypeDef* ADCx, uint16\_t ADC\_IT, FunctionalState NewState)
+01582 \{
+01583   uint32\_t itmask = 0;
+01584   \textcolor{comment}{/* Check the parameters */}
+01585   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+01586   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01587   assert_param(IS\_ADC\_IT(ADC\_IT));
+01588 
+01589   \textcolor{comment}{/* Get the ADC IT index */}
+01590   itmask = (uint8\_t)ADC\_IT;
+01591   itmask = (uint32\_t)0x01 << itmask;
+01592 
+01593   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01594   \{
+01595     \textcolor{comment}{/* Enable the selected ADC interrupts */}
+01596     ADCx->CR1 |= itmask;
+01597   \}
+01598   \textcolor{keywordflow}{else}
+01599   \{
+01600     \textcolor{comment}{/* Disable the selected ADC interrupts */}
+01601     ADCx->CR1 &= (~(uint32\_t)itmask);
+01602   \}
+01603 \}
+01604 
+01605 \textcolor{comment}{/**}
+01606 \textcolor{comment}{  * @brief  Checks whether the specified ADC flag is set or not.}
+01607 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+01608 \textcolor{comment}{  * @param  ADC\_FLAG: specifies the flag to check. }
+01609 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01610 \textcolor{comment}{  *            @arg ADC\_FLAG\_AWD: Analog watchdog flag}
+01611 \textcolor{comment}{  *            @arg ADC\_FLAG\_EOC: End of conversion flag}
+01612 \textcolor{comment}{  *            @arg ADC\_FLAG\_JEOC: End of injected group conversion flag}
+01613 \textcolor{comment}{  *            @arg ADC\_FLAG\_JSTRT: Start of injected group conversion flag}
+01614 \textcolor{comment}{  *            @arg ADC\_FLAG\_STRT: Start of regular group conversion flag}
+01615 \textcolor{comment}{  *            @arg ADC\_FLAG\_OVR: Overrun flag                                                 }
+01616 \textcolor{comment}{  * @retval The new state of ADC\_FLAG (SET or RESET).}
+01617 \textcolor{comment}{  */}
+01618 FlagStatus ADC_GetFlagStatus(ADC\_TypeDef* ADCx, uint8\_t ADC\_FLAG)
+01619 \{
+01620   FlagStatus bitstatus = RESET;
+01621   \textcolor{comment}{/* Check the parameters */}
+01622   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+01623   assert_param(IS\_ADC\_GET\_FLAG(ADC\_FLAG));
+01624 
+01625   \textcolor{comment}{/* Check the status of the specified ADC flag */}
+01626   \textcolor{keywordflow}{if} ((ADCx->SR & ADC\_FLAG) != (uint8\_t)RESET)
+01627   \{
+01628     \textcolor{comment}{/* ADC\_FLAG is set */}
+01629     bitstatus = SET;
+01630   \}
+01631   \textcolor{keywordflow}{else}
+01632   \{
+01633     \textcolor{comment}{/* ADC\_FLAG is reset */}
+01634     bitstatus = RESET;
+01635   \}
+01636   \textcolor{comment}{/* Return the ADC\_FLAG status */}
+01637   \textcolor{keywordflow}{return}  bitstatus;
+01638 \}
+01639 
+01640 \textcolor{comment}{/**}
+01641 \textcolor{comment}{  * @brief  Clears the ADCx's pending flags.}
+01642 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+01643 \textcolor{comment}{  * @param  ADC\_FLAG: specifies the flag to clear. }
+01644 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+01645 \textcolor{comment}{  *            @arg ADC\_FLAG\_AWD: Analog watchdog flag}
+01646 \textcolor{comment}{  *            @arg ADC\_FLAG\_EOC: End of conversion flag}
+01647 \textcolor{comment}{  *            @arg ADC\_FLAG\_JEOC: End of injected group conversion flag}
+01648 \textcolor{comment}{  *            @arg ADC\_FLAG\_JSTRT: Start of injected group conversion flag}
+01649 \textcolor{comment}{  *            @arg ADC\_FLAG\_STRT: Start of regular group conversion flag}
+01650 \textcolor{comment}{  *            @arg ADC\_FLAG\_OVR: Overrun flag                          }
+01651 \textcolor{comment}{  * @retval None}
+01652 \textcolor{comment}{  */}
+01653 \textcolor{keywordtype}{void} ADC_ClearFlag(ADC\_TypeDef* ADCx, uint8\_t ADC\_FLAG)
+01654 \{
+01655   \textcolor{comment}{/* Check the parameters */}
+01656   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+01657   assert_param(IS\_ADC\_CLEAR\_FLAG(ADC\_FLAG));
+01658 
+01659   \textcolor{comment}{/* Clear the selected ADC flags */}
+01660   ADCx->SR = ~(uint32\_t)ADC\_FLAG;
+01661 \}
+01662 
+01663 \textcolor{comment}{/**}
+01664 \textcolor{comment}{  * @brief  Checks whether the specified ADC interrupt has occurred or not.}
+01665 \textcolor{comment}{  * @param  ADCx:   where x can be 1, 2 or 3 to select the ADC peripheral.}
+01666 \textcolor{comment}{  * @param  ADC\_IT: specifies the ADC interrupt source to check. }
+01667 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01668 \textcolor{comment}{  *            @arg ADC\_IT\_EOC: End of conversion interrupt mask}
+01669 \textcolor{comment}{  *            @arg ADC\_IT\_AWD: Analog watchdog interrupt mask}
+01670 \textcolor{comment}{  *            @arg ADC\_IT\_JEOC: End of injected conversion interrupt mask}
+01671 \textcolor{comment}{  *            @arg ADC\_IT\_OVR: Overrun interrupt mask                        }
+01672 \textcolor{comment}{  * @retval The new state of ADC\_IT (SET or RESET).}
+01673 \textcolor{comment}{  */}
+01674 ITStatus ADC_GetITStatus(ADC\_TypeDef* ADCx, uint16\_t ADC\_IT)
+01675 \{
+01676   ITStatus bitstatus = RESET;
+01677   uint32\_t itmask = 0, enablestatus = 0;
+01678 
+01679   \textcolor{comment}{/* Check the parameters */}
+01680   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+01681   assert_param(IS\_ADC\_IT(ADC\_IT));
+01682 
+01683   \textcolor{comment}{/* Get the ADC IT index */}
+01684   itmask = ADC\_IT >> 8;
+01685 
+01686   \textcolor{comment}{/* Get the ADC\_IT enable bit status */}
+01687   enablestatus = (ADCx->CR1 & ((uint32\_t)0x01 << (uint8\_t)ADC\_IT)) ;
+01688 
+01689   \textcolor{comment}{/* Check the status of the specified ADC interrupt */}
+01690   \textcolor{keywordflow}{if} (((ADCx->SR & itmask) != (uint32\_t)RESET) && enablestatus)
+01691   \{
+01692     \textcolor{comment}{/* ADC\_IT is set */}
+01693     bitstatus = SET;
+01694   \}
+01695   \textcolor{keywordflow}{else}
+01696   \{
+01697     \textcolor{comment}{/* ADC\_IT is reset */}
+01698     bitstatus = RESET;
+01699   \}
+01700   \textcolor{comment}{/* Return the ADC\_IT status */}
+01701   \textcolor{keywordflow}{return}  bitstatus;
+01702 \}
+01703 
+01704 \textcolor{comment}{/**}
+01705 \textcolor{comment}{  * @brief  Clears the ADCx's interrupt pending bits.}
+01706 \textcolor{comment}{  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.}
+01707 \textcolor{comment}{  * @param  ADC\_IT: specifies the ADC interrupt pending bit to clear.}
+01708 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01709 \textcolor{comment}{  *            @arg ADC\_IT\_EOC: End of conversion interrupt mask}
+01710 \textcolor{comment}{  *            @arg ADC\_IT\_AWD: Analog watchdog interrupt mask}
+01711 \textcolor{comment}{  *            @arg ADC\_IT\_JEOC: End of injected conversion interrupt mask}
+01712 \textcolor{comment}{  *            @arg ADC\_IT\_OVR: Overrun interrupt mask                         }
+01713 \textcolor{comment}{  * @retval None}
+01714 \textcolor{comment}{  */}
+01715 \textcolor{keywordtype}{void} ADC_ClearITPendingBit(ADC\_TypeDef* ADCx, uint16\_t ADC\_IT)
+01716 \{
+01717   uint8\_t itmask = 0;
+01718   \textcolor{comment}{/* Check the parameters */}
+01719   assert_param(IS\_ADC\_ALL\_PERIPH(ADCx));
+01720   assert_param(IS\_ADC\_IT(ADC\_IT));
+01721   \textcolor{comment}{/* Get the ADC IT index */}
+01722   itmask = (uint8\_t)(ADC\_IT >> 8);
+01723   \textcolor{comment}{/* Clear the selected ADC interrupt pending bits */}
+01724   ADCx->SR = ~(uint32\_t)itmask;
+01725 \}
+01726 \textcolor{comment}{/**}
+01727 \textcolor{comment}{  * @\}}
+01728 \textcolor{comment}{  */}
+01729 
+01730 \textcolor{comment}{/**}
+01731 \textcolor{comment}{  * @\}}
+01732 \textcolor{comment}{  */}
+01733 
+01734 \textcolor{comment}{/**}
+01735 \textcolor{comment}{  * @\}}
+01736 \textcolor{comment}{  */}
+01737 
+01738 \textcolor{comment}{/**}
+01739 \textcolor{comment}{  * @\}}
+01740 \textcolor{comment}{  */}
+01741 
+01742 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

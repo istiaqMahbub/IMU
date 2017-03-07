@@ -1,0 +1,342 @@
+\section{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+sdio.h File Reference}
+\label{stm32f4xx__sdio_8h}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+sdio.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+sdio.\+h}}
+
+
+This file contains all the functions prototypes for the S\+D\+IO firmware library.  
+
+
+{\ttfamily \#include \char`\"{}stm32f4xx.\+h\char`\"{}}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def}
+\item 
+struct \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def}
+\item 
+struct \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Clock\+Edge\+\_\+\+Rising}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Clock\+Edge\+\_\+\+Falling}~((uint32\+\_\+t)0x00002000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+C\+L\+O\+C\+K\+\_\+\+E\+D\+GE}(E\+D\+GE)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Clock\+Bypass\+\_\+\+Disable}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Clock\+Bypass\+\_\+\+Enable}~((uint32\+\_\+t)0x00000400)
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+C\+L\+O\+C\+K\+\_\+\+B\+Y\+P\+A\+SS}(B\+Y\+P\+A\+SS)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Clock\+Power\+Save\+\_\+\+Disable}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Clock\+Power\+Save\+\_\+\+Enable}~((uint32\+\_\+t)0x00000200)
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+C\+L\+O\+C\+K\+\_\+\+P\+O\+W\+E\+R\+\_\+\+S\+A\+VE}(S\+A\+VE)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Bus\+Wide\+\_\+1b}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Bus\+Wide\+\_\+4b}~((uint32\+\_\+t)0x00000800)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Bus\+Wide\+\_\+8b}~((uint32\+\_\+t)0x00001000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+B\+U\+S\+\_\+\+W\+I\+DE}(W\+I\+DE)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Hardware\+Flow\+Control\+\_\+\+Disable}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Hardware\+Flow\+Control\+\_\+\+Enable}~((uint32\+\_\+t)0x00004000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+H\+A\+R\+D\+W\+A\+R\+E\+\_\+\+F\+L\+O\+W\+\_\+\+C\+O\+N\+T\+R\+OL}(C\+O\+N\+T\+R\+OL)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Power\+State\+\_\+\+O\+FF}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Power\+State\+\_\+\+ON}~((uint32\+\_\+t)0x00000003)
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+P\+O\+W\+E\+R\+\_\+\+S\+T\+A\+TE}(S\+T\+A\+TE)~(((S\+T\+A\+TE) == \textbf{ S\+D\+I\+O\+\_\+\+Power\+State\+\_\+\+O\+FF}) $\vert$$\vert$ ((S\+T\+A\+TE) == \textbf{ S\+D\+I\+O\+\_\+\+Power\+State\+\_\+\+ON}))
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+C\+R\+C\+F\+A\+IL}~((uint32\+\_\+t)0x00000001)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+C\+R\+C\+F\+A\+IL}~((uint32\+\_\+t)0x00000002)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+T\+I\+M\+E\+O\+UT}~((uint32\+\_\+t)0x00000004)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+T\+I\+M\+E\+O\+UT}~((uint32\+\_\+t)0x00000008)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+U\+N\+D\+E\+RR}~((uint32\+\_\+t)0x00000010)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+O\+V\+E\+RR}~((uint32\+\_\+t)0x00000020)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+M\+D\+R\+E\+ND}~((uint32\+\_\+t)0x00000040)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+M\+D\+S\+E\+NT}~((uint32\+\_\+t)0x00000080)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+A\+T\+A\+E\+ND}~((uint32\+\_\+t)0x00000100)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+S\+T\+B\+I\+T\+E\+RR}~((uint32\+\_\+t)0x00000200)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+B\+C\+K\+E\+ND}~((uint32\+\_\+t)0x00000400)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+M\+D\+A\+CT}~((uint32\+\_\+t)0x00000800)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+A\+CT}~((uint32\+\_\+t)0x00001000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+A\+CT}~((uint32\+\_\+t)0x00002000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+F\+I\+F\+O\+HE}~((uint32\+\_\+t)0x00004000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+F\+I\+F\+O\+HF}~((uint32\+\_\+t)0x00008000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+F\+I\+F\+OF}~((uint32\+\_\+t)0x00010000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+F\+I\+F\+OF}~((uint32\+\_\+t)0x00020000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+F\+I\+F\+OE}~((uint32\+\_\+t)0x00040000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+F\+I\+F\+OE}~((uint32\+\_\+t)0x00080000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+D\+A\+VL}~((uint32\+\_\+t)0x00100000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+D\+A\+VL}~((uint32\+\_\+t)0x00200000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+S\+D\+I\+O\+IT}~((uint32\+\_\+t)0x00400000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+E\+A\+T\+A\+E\+ND}~((uint32\+\_\+t)0x00800000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+IT}(IT)~((((IT) \& (uint32\+\_\+t)0x\+F\+F000000) == 0x00) \&\& ((\+I\+T) != (uint32\+\_\+t)0x00))
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+C\+M\+D\+\_\+\+I\+N\+D\+EX}(I\+N\+D\+EX)~((I\+N\+D\+EX) $<$ 0x40)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Response\+\_\+\+No}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Response\+\_\+\+Short}~((uint32\+\_\+t)0x00000040)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Response\+\_\+\+Long}~((uint32\+\_\+t)0x000000\+C0)
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+R\+E\+S\+P\+O\+N\+SE}(R\+E\+S\+P\+O\+N\+SE)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Wait\+\_\+\+No}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Wait\+\_\+\+IT}~((uint32\+\_\+t)0x00000100)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Wait\+\_\+\+Pend}~((uint32\+\_\+t)0x00000200)
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+W\+A\+IT}(W\+A\+IT)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+C\+P\+S\+M\+\_\+\+Disable}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+C\+P\+S\+M\+\_\+\+Enable}~((uint32\+\_\+t)0x00000400)
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+C\+P\+SM}(C\+P\+SM)~(((C\+P\+SM) == \textbf{ S\+D\+I\+O\+\_\+\+C\+P\+S\+M\+\_\+\+Enable}) $\vert$$\vert$ ((C\+P\+SM) == \textbf{ S\+D\+I\+O\+\_\+\+C\+P\+S\+M\+\_\+\+Disable}))
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+R\+E\+S\+P1}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+R\+E\+S\+P2}~((uint32\+\_\+t)0x00000004)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+R\+E\+S\+P3}~((uint32\+\_\+t)0x00000008)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+R\+E\+S\+P4}~((uint32\+\_\+t)0x0000000\+C)
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+R\+E\+SP}(R\+E\+SP)
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+D\+A\+T\+A\+\_\+\+L\+E\+N\+G\+TH}(L\+E\+N\+G\+TH)~((L\+E\+N\+G\+TH) $<$= 0x01\+F\+F\+F\+F\+F\+F)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Data\+Block\+Size\+\_\+1b}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Data\+Block\+Size\+\_\+2b}~((uint32\+\_\+t)0x00000010)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Data\+Block\+Size\+\_\+4b}~((uint32\+\_\+t)0x00000020)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Data\+Block\+Size\+\_\+8b}~((uint32\+\_\+t)0x00000030)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Data\+Block\+Size\+\_\+16b}~((uint32\+\_\+t)0x00000040)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Data\+Block\+Size\+\_\+32b}~((uint32\+\_\+t)0x00000050)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Data\+Block\+Size\+\_\+64b}~((uint32\+\_\+t)0x00000060)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Data\+Block\+Size\+\_\+128b}~((uint32\+\_\+t)0x00000070)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Data\+Block\+Size\+\_\+256b}~((uint32\+\_\+t)0x00000080)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Data\+Block\+Size\+\_\+512b}~((uint32\+\_\+t)0x00000090)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Data\+Block\+Size\+\_\+1024b}~((uint32\+\_\+t)0x000000\+A0)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Data\+Block\+Size\+\_\+2048b}~((uint32\+\_\+t)0x000000\+B0)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Data\+Block\+Size\+\_\+4096b}~((uint32\+\_\+t)0x000000\+C0)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Data\+Block\+Size\+\_\+8192b}~((uint32\+\_\+t)0x000000\+D0)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Data\+Block\+Size\+\_\+16384b}~((uint32\+\_\+t)0x000000\+E0)
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+B\+L\+O\+C\+K\+\_\+\+S\+I\+ZE}(S\+I\+ZE)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Transfer\+Dir\+\_\+\+To\+Card}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Transfer\+Dir\+\_\+\+To\+S\+D\+IO}~((uint32\+\_\+t)0x00000002)
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+D\+IR}(D\+IR)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Transfer\+Mode\+\_\+\+Block}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Transfer\+Mode\+\_\+\+Stream}~((uint32\+\_\+t)0x00000004)
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+T\+R\+A\+N\+S\+F\+E\+R\+\_\+\+M\+O\+DE}(M\+O\+DE)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+D\+P\+S\+M\+\_\+\+Disable}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+D\+P\+S\+M\+\_\+\+Enable}~((uint32\+\_\+t)0x00000001)
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+D\+P\+SM}(D\+P\+SM)~(((D\+P\+SM) == \textbf{ S\+D\+I\+O\+\_\+\+D\+P\+S\+M\+\_\+\+Enable}) $\vert$$\vert$ ((D\+P\+SM) == \textbf{ S\+D\+I\+O\+\_\+\+D\+P\+S\+M\+\_\+\+Disable}))
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+C\+R\+C\+F\+A\+IL}~((uint32\+\_\+t)0x00000001)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+D\+C\+R\+C\+F\+A\+IL}~((uint32\+\_\+t)0x00000002)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+T\+I\+M\+E\+O\+UT}~((uint32\+\_\+t)0x00000004)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+D\+T\+I\+M\+E\+O\+UT}~((uint32\+\_\+t)0x00000008)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+T\+X\+U\+N\+D\+E\+RR}~((uint32\+\_\+t)0x00000010)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+O\+V\+E\+RR}~((uint32\+\_\+t)0x00000020)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+M\+D\+R\+E\+ND}~((uint32\+\_\+t)0x00000040)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+M\+D\+S\+E\+NT}~((uint32\+\_\+t)0x00000080)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+D\+A\+T\+A\+E\+ND}~((uint32\+\_\+t)0x00000100)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+S\+T\+B\+I\+T\+E\+RR}~((uint32\+\_\+t)0x00000200)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+D\+B\+C\+K\+E\+ND}~((uint32\+\_\+t)0x00000400)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+M\+D\+A\+CT}~((uint32\+\_\+t)0x00000800)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+T\+X\+A\+CT}~((uint32\+\_\+t)0x00001000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+A\+CT}~((uint32\+\_\+t)0x00002000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+T\+X\+F\+I\+F\+O\+HE}~((uint32\+\_\+t)0x00004000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+F\+I\+F\+O\+HF}~((uint32\+\_\+t)0x00008000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+T\+X\+F\+I\+F\+OF}~((uint32\+\_\+t)0x00010000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+F\+I\+F\+OF}~((uint32\+\_\+t)0x00020000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+T\+X\+F\+I\+F\+OE}~((uint32\+\_\+t)0x00040000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+F\+I\+F\+OE}~((uint32\+\_\+t)0x00080000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+T\+X\+D\+A\+VL}~((uint32\+\_\+t)0x00100000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+D\+A\+VL}~((uint32\+\_\+t)0x00200000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+S\+D\+I\+O\+IT}~((uint32\+\_\+t)0x00400000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+E\+A\+T\+A\+E\+ND}~((uint32\+\_\+t)0x00800000)
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+F\+L\+AG}(F\+L\+AG)
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+C\+L\+E\+A\+R\+\_\+\+F\+L\+AG}(F\+L\+AG)~((((F\+L\+AG) \& (uint32\+\_\+t)0x\+F\+F3\+F\+F800) == 0x00) \&\& ((\+F\+L\+A\+G) != (uint32\+\_\+t)0x00))
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+G\+E\+T\+\_\+\+IT}(IT)
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+C\+L\+E\+A\+R\+\_\+\+IT}(IT)~((((IT) \& (uint32\+\_\+t)0x\+F\+F3\+F\+F800) == 0x00) \&\& ((\+I\+T) != (uint32\+\_\+t)0x00))
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Read\+Wait\+Mode\+\_\+\+C\+LK}~((uint32\+\_\+t)0x00000000)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+Read\+Wait\+Mode\+\_\+\+D\+A\+T\+A2}~((uint32\+\_\+t)0x00000001)
+\item 
+\#define \textbf{ I\+S\+\_\+\+S\+D\+I\+O\+\_\+\+R\+E\+A\+D\+W\+A\+I\+T\+\_\+\+M\+O\+DE}(M\+O\+DE)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the S\+D\+IO peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Init} (\textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the S\+D\+IO peripheral according to the specified parameters in the S\+D\+I\+O\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Struct\+Init} (\textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each S\+D\+I\+O\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Clock\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the S\+D\+IO Clock. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Set\+Power\+State} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+Power\+State)
+\begin{DoxyCompactList}\small\item\em Sets the power status of the controller. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Get\+Power\+State} (void)
+\begin{DoxyCompactList}\small\item\em Gets the power status of the controller. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Send\+Command} (\textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the S\+D\+IO Command according to the specified parameters in the S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct and send the command. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Struct\+Init} (\textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Get\+Command\+Response} (void)
+\begin{DoxyCompactList}\small\item\em Returns command index of last command for which response received. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Get\+Response} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+R\+E\+SP)
+\begin{DoxyCompactList}\small\item\em Returns response received from the card for the last command. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Data\+Config} (\textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Data\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the S\+D\+IO data path according to the specified parameters in the S\+D\+I\+O\+\_\+\+Data\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Data\+Struct\+Init} (\textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Data\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each S\+D\+I\+O\+\_\+\+Data\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Get\+Data\+Counter} (void)
+\begin{DoxyCompactList}\small\item\em Returns number of remaining data bytes to be transferred. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Read\+Data} (void)
+\begin{DoxyCompactList}\small\item\em Read one data word from Rx F\+I\+FO. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Write\+Data} (uint32\+\_\+t Data)
+\begin{DoxyCompactList}\small\item\em Write one data word to Tx F\+I\+FO. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Get\+F\+I\+F\+O\+Count} (void)
+\begin{DoxyCompactList}\small\item\em Returns the number of words left to be written to or read from F\+I\+FO. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Start\+S\+D\+I\+O\+Read\+Wait} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Starts the SD I/O Read Wait operation. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Stop\+S\+D\+I\+O\+Read\+Wait} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Stops the SD I/O Read Wait operation. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Read\+Wait\+Mode} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+Read\+Wait\+Mode)
+\begin{DoxyCompactList}\small\item\em Sets one of the two options of inserting read wait interval. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Operation} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the SD I/O Mode Operation. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Send\+S\+D\+I\+O\+Suspend\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the SD I/O Mode suspend command sending. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Command\+Completion\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the command completion signal. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+C\+E\+A\+T\+A\+I\+T\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the C\+E-\/\+A\+TA interrupt. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Send\+C\+E\+A\+T\+A\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Sends C\+E-\/\+A\+TA command (C\+M\+D61). \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+D\+M\+A\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the S\+D\+IO D\+MA request. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+Config} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the S\+D\+IO interrupts. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ S\+D\+I\+O\+\_\+\+Get\+Flag\+Status} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified S\+D\+IO flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Clear\+Flag} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the S\+D\+IO\textquotesingle{}s pending flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ S\+D\+I\+O\+\_\+\+Get\+I\+T\+Status} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified S\+D\+IO interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Clear\+I\+T\+Pending\+Bit} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the S\+D\+IO\textquotesingle{}s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file contains all the functions prototypes for the S\+D\+IO firmware library. 
+
+\begin{DoxyAuthor}{Author}
+M\+CD Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\+0.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+30-\/\+September-\/2011 
+\end{DoxyDate}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+T\+HE P\+R\+E\+S\+E\+NT F\+I\+R\+M\+W\+A\+RE W\+H\+I\+CH IS F\+OR G\+U\+I\+D\+A\+N\+CE O\+N\+LY A\+I\+MS AT P\+R\+O\+V\+I\+D\+I\+NG C\+U\+S\+T\+O\+M\+E\+RS W\+I\+TH C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON R\+E\+G\+A\+R\+D\+I\+NG T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS IN O\+R\+D\+ER F\+OR T\+H\+EM TO S\+A\+VE T\+I\+ME. AS A R\+E\+S\+U\+LT, S\+T\+M\+I\+C\+R\+O\+E\+L\+E\+C\+T\+R\+O\+N\+I\+CS S\+H\+A\+LL N\+OT BE H\+E\+LD L\+I\+A\+B\+LE F\+OR A\+NY D\+I\+R\+E\+CT, I\+N\+D\+I\+R\+E\+CT OR C\+O\+N\+S\+E\+Q\+U\+E\+N\+T\+I\+AL D\+A\+M\+A\+G\+ES W\+I\+TH R\+E\+S\+P\+E\+CT TO A\+NY C\+L\+A\+I\+MS A\+R\+I\+S\+I\+NG F\+R\+OM T\+HE C\+O\+N\+T\+E\+NT OF S\+U\+CH F\+I\+R\+M\+W\+A\+RE A\+N\+D/\+OR T\+HE U\+SE M\+A\+DE BY C\+U\+S\+T\+O\+M\+E\+RS OF T\+HE C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON C\+O\+N\+T\+A\+I\+N\+ED H\+E\+R\+E\+IN IN C\+O\+N\+N\+E\+C\+T\+I\+ON W\+I\+TH T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS.
+
+\subsubsection*{\begin{center}\copyright{} C\+O\+P\+Y\+R\+I\+G\+HT 2011 S\+T\+Microelectronics\end{center} }
+
+Definition in file \textbf{ stm32f4xx\+\_\+sdio.\+h}.
+

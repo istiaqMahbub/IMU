@@ -1,0 +1,275 @@
+\section{Initialization and Configuration functions}
+\label{group__SDIO__Group1}\index{Initialization and Configuration functions@{Initialization and Configuration functions}}
+
+
+Initialization and Configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the S\+D\+IO peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Init} (\textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the S\+D\+IO peripheral according to the specified parameters in the S\+D\+I\+O\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Struct\+Init} (\textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each S\+D\+I\+O\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Clock\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the S\+D\+IO Clock. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Set\+Power\+State} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+Power\+State)
+\begin{DoxyCompactList}\small\item\em Sets the power status of the controller. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Get\+Power\+State} (void)
+\begin{DoxyCompactList}\small\item\em Gets the power status of the controller. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Initialization and Configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                 Initialization and Configuration functions
+ ===============================================================================\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__SDIO__Group1_ga7243b857d6b323748ff3a493b265bedc}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!S\+D\+I\+O\+\_\+\+Clock\+Cmd@{S\+D\+I\+O\+\_\+\+Clock\+Cmd}}
+\index{S\+D\+I\+O\+\_\+\+Clock\+Cmd@{S\+D\+I\+O\+\_\+\+Clock\+Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Clock\+Cmd()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Clock\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the S\+D\+IO Clock. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the S\+D\+IO Clock. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 327} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00328 \{
+00329   \textcolor{comment}{/* Check the parameters */}
+00330   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00331   
+00332   *(\_\_IO uint32\_t *) CLKCR_CLKEN_BB = (uint32\_t)NewState;
+00333 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group1_gac359d2c6c67a2590f8f9b720c0e4ff1b}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!S\+D\+I\+O\+\_\+\+De\+Init@{S\+D\+I\+O\+\_\+\+De\+Init}}
+\index{S\+D\+I\+O\+\_\+\+De\+Init@{S\+D\+I\+O\+\_\+\+De\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the S\+D\+IO peripheral registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 259} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, and \textbf{ R\+C\+C\+\_\+\+A\+P\+B2\+Periph\+Reset\+Cmd()}.
+
+
+\begin{DoxyCode}
+00260 \{
+00261   RCC_APB2PeriphResetCmd(RCC_APB2Periph_SDIO, ENABLE);
+00262   RCC_APB2PeriphResetCmd(RCC_APB2Periph_SDIO, DISABLE);
+00263 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group1_ga3a19de2c7cd51645702213f64a1758ed}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!S\+D\+I\+O\+\_\+\+Get\+Power\+State@{S\+D\+I\+O\+\_\+\+Get\+Power\+State}}
+\index{S\+D\+I\+O\+\_\+\+Get\+Power\+State@{S\+D\+I\+O\+\_\+\+Get\+Power\+State}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Get\+Power\+State()}
+{\footnotesize\ttfamily uint32\+\_\+t S\+D\+I\+O\+\_\+\+Get\+Power\+State (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Gets the power status of the controller. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Power} & status of the controller. The returned value can be one of the following values\+:
+\begin{DoxyItemize}
+\item 0x00\+: Power O\+FF
+\item 0x02\+: Power UP
+\item 0x03\+: Power ON 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 360} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00361 \{
+00362   \textcolor{keywordflow}{return} (SDIO->POWER & (~PWR_PWRCTRL_MASK));
+00363 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group1_gad40764a8e37c0ed5c9141ae338ff0203}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!S\+D\+I\+O\+\_\+\+Init@{S\+D\+I\+O\+\_\+\+Init}}
+\index{S\+D\+I\+O\+\_\+\+Init@{S\+D\+I\+O\+\_\+\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Init()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Init (\begin{DoxyParamCaption}\item[{\textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def} $\ast$}]{S\+D\+I\+O\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the S\+D\+IO peripheral according to the specified parameters in the S\+D\+I\+O\+\_\+\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+Init\+Struct} & \+: pointer to a \doxyref{S\+D\+I\+O\+\_\+\+Init\+Type\+Def}{p.}{structSDIO__InitTypeDef} structure that contains the configuration information for the S\+D\+IO peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 272} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+
+References \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Bus\+Wide}, \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Clock\+Bypass}, \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Clock\+Div}, \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Clock\+Edge}, \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Clock\+Power\+Save}, and \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Hardware\+Flow\+Control}.
+
+
+\begin{DoxyCode}
+00273 \{
+00274   uint32\_t tmpreg = 0;
+00275     
+00276   \textcolor{comment}{/* Check the parameters */}
+00277   assert_param(IS_SDIO_CLOCK_EDGE(SDIO\_InitStruct->SDIO_ClockEdge));
+00278   assert_param(IS_SDIO_CLOCK_BYPASS(SDIO\_InitStruct->SDIO_ClockBypass));
+00279   assert_param(IS_SDIO_CLOCK_POWER_SAVE(SDIO\_InitStruct->SDIO_ClockPowerSave));
+00280   assert_param(IS_SDIO_BUS_WIDE(SDIO\_InitStruct->SDIO_BusWide));
+00281   assert_param(IS_SDIO_HARDWARE_FLOW_CONTROL(SDIO\_InitStruct->
+      SDIO_HardwareFlowControl)); 
+00282    
+00283 \textcolor{comment}{/*---------------------------- SDIO CLKCR Configuration ------------------------*/}  
+00284   \textcolor{comment}{/* Get the SDIO CLKCR value */}
+00285   tmpreg = SDIO->CLKCR;
+00286   
+00287   \textcolor{comment}{/* Clear CLKDIV, PWRSAV, BYPASS, WIDBUS, NEGEDGE, HWFC\_EN bits */}
+00288   tmpreg &= CLKCR_CLEAR_MASK;
+00289   
+00290   \textcolor{comment}{/* Set CLKDIV bits according to SDIO\_ClockDiv value */}
+00291   \textcolor{comment}{/* Set PWRSAV bit according to SDIO\_ClockPowerSave value */}
+00292   \textcolor{comment}{/* Set BYPASS bit according to SDIO\_ClockBypass value */}
+00293   \textcolor{comment}{/* Set WIDBUS bits according to SDIO\_BusWide value */}
+00294   \textcolor{comment}{/* Set NEGEDGE bits according to SDIO\_ClockEdge value */}
+00295   \textcolor{comment}{/* Set HWFC\_EN bits according to SDIO\_HardwareFlowControl value */}
+00296   tmpreg |= (SDIO\_InitStruct->SDIO_ClockDiv  | SDIO\_InitStruct->
+      SDIO_ClockPowerSave |
+00297              SDIO\_InitStruct->SDIO_ClockBypass | SDIO\_InitStruct->SDIO_BusWide |
+00298              SDIO\_InitStruct->SDIO_ClockEdge | SDIO\_InitStruct->
+      SDIO_HardwareFlowControl); 
+00299   
+00300   \textcolor{comment}{/* Write to SDIO CLKCR */}
+00301   SDIO->CLKCR = tmpreg;
+00302 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group1_ga36ecca32b904de74218fbe65cd5f5270}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!S\+D\+I\+O\+\_\+\+Set\+Power\+State@{S\+D\+I\+O\+\_\+\+Set\+Power\+State}}
+\index{S\+D\+I\+O\+\_\+\+Set\+Power\+State@{S\+D\+I\+O\+\_\+\+Set\+Power\+State}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Set\+Power\+State()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Set\+Power\+State (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{S\+D\+I\+O\+\_\+\+Power\+State }\end{DoxyParamCaption})}
+
+
+
+Sets the power status of the controller. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+Power\+State} & new state of the Power state. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item S\+D\+I\+O\+\_\+\+Power\+State\+\_\+\+O\+FF\+: S\+D\+IO Power O\+FF \item S\+D\+I\+O\+\_\+\+Power\+State\+\_\+\+ON\+: S\+D\+IO Power ON \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 343} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00344 \{
+00345   \textcolor{comment}{/* Check the parameters */}
+00346   assert_param(IS_SDIO_POWER_STATE(SDIO\_PowerState));
+00347   
+00348   SDIO->POWER = SDIO\_PowerState;
+00349 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group1_ga778d338c29df4fae9ef69432e6df32ad}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!S\+D\+I\+O\+\_\+\+Struct\+Init@{S\+D\+I\+O\+\_\+\+Struct\+Init}}
+\index{S\+D\+I\+O\+\_\+\+Struct\+Init@{S\+D\+I\+O\+\_\+\+Struct\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Struct\+Init()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def} $\ast$}]{S\+D\+I\+O\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each S\+D\+I\+O\+\_\+\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+Init\+Struct} & pointer to an \doxyref{S\+D\+I\+O\+\_\+\+Init\+Type\+Def}{p.}{structSDIO__InitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 310} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+
+References \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Bus\+Wide}, \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Clock\+Bypass}, \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Clock\+Div}, \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Clock\+Edge}, \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Clock\+Power\+Save}, and \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Hardware\+Flow\+Control}.
+
+
+\begin{DoxyCode}
+00311 \{
+00312   \textcolor{comment}{/* SDIO\_InitStruct members default value */}
+00313   SDIO\_InitStruct->SDIO_ClockDiv = 0x00;
+00314   SDIO\_InitStruct->SDIO_ClockEdge = SDIO_ClockEdge_Rising;
+00315   SDIO\_InitStruct->SDIO_ClockBypass = SDIO_ClockBypass_Disable;
+00316   SDIO\_InitStruct->SDIO_ClockPowerSave = SDIO_ClockPowerSave_Disable;
+00317   SDIO\_InitStruct->SDIO_BusWide = SDIO_BusWide_1b;
+00318   SDIO\_InitStruct->SDIO_HardwareFlowControl = SDIO_HardwareFlowControl_Disable;
+00319 \}
+\end{DoxyCode}

@@ -1,0 +1,322 @@
+\section{stm32f4xx\+\_\+hash\+\_\+sha1.\+c}
+\label{stm32f4xx__hash__sha1_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+hash\+\_\+sha1.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+hash\+\_\+sha1.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_hash\_sha1.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides high level functions to compute the HASH SHA1 and}
+00008 \textcolor{comment}{  *          HMAC SHA1 Digest of an input message.}
+00009 \textcolor{comment}{  *          It uses the stm32f4xx\_hash.c/.h drivers to access the STM32F4xx HASH}
+00010 \textcolor{comment}{  *          peripheral.}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  *  @verbatim}
+00013 \textcolor{comment}{  * }
+00014 \textcolor{comment}{  *          ===================================================================}
+00015 \textcolor{comment}{  *                                   How to use this driver}
+00016 \textcolor{comment}{  *          ===================================================================}
+00017 \textcolor{comment}{  *          1. Enable The HASH controller clock using }
+00018 \textcolor{comment}{  *            RCC\_AHB2PeriphClockCmd(RCC\_AHB2Periph\_HASH, ENABLE); function.}
+00019 \textcolor{comment}{  *}
+00020 \textcolor{comment}{  *          2. Calculate the HASH SHA1 Digest using HASH\_SHA1() function.}
+00021 \textcolor{comment}{  *}
+00022 \textcolor{comment}{  *          3. Calculate the HMAC SHA1 Digest using HMAC\_SHA1() function.}
+00023 \textcolor{comment}{  *}
+00024 \textcolor{comment}{  *  @endverbatim}
+00025 \textcolor{comment}{  *}
+00026 \textcolor{comment}{  ******************************************************************************}
+00027 \textcolor{comment}{  * @attention}
+00028 \textcolor{comment}{  *}
+00029 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00030 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00031 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00032 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00033 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00034 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00035 \textcolor{comment}{  *}
+00036 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00037 \textcolor{comment}{  ******************************************************************************}
+00038 \textcolor{comment}{  */}
+00039 
+00040 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00041 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_hash.h"
+00042 
+00043 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00044 \textcolor{comment}{  * @\{}
+00045 \textcolor{comment}{  */}
+00046 
+00047 \textcolor{comment}{/** @defgroup HASH }
+00048 \textcolor{comment}{  * @brief HASH driver modules}
+00049 \textcolor{comment}{  * @\{}
+00050 \textcolor{comment}{  */}
+00051 
+00052 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00053 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00054 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SHA1BUSY\_TIMEOUT}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)} 0x00010000\textcolor{preprocessor}{)}
+00055 
+00056 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00057 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00058 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00059 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00060 
+00061 \textcolor{comment}{/** @defgroup HASH\_Private\_Functions}
+00062 \textcolor{comment}{  * @\{}
+00063 \textcolor{comment}{  */}
+00064 
+00065 \textcolor{comment}{/** @defgroup HASH\_Group6 High Level SHA1 functions}
+00066 \textcolor{comment}{ *  @brief   High Level SHA1 Hash and HMAC functions }
+00067 \textcolor{comment}{ *}
+00068 \textcolor{comment}{@verbatim   }
+00069 \textcolor{comment}{ ===============================================================================}
+00070 \textcolor{comment}{                          High Level SHA1 Hash and HMAC functions}
+00071 \textcolor{comment}{ ===============================================================================}
+00072 \textcolor{comment}{}
+00073 \textcolor{comment}{}
+00074 \textcolor{comment}{@endverbatim}
+00075 \textcolor{comment}{  * @\{}
+00076 \textcolor{comment}{  */}
+00077 
+00078 \textcolor{comment}{/**}
+00079 \textcolor{comment}{  * @brief  Compute the HASH SHA1 digest.}
+00080 \textcolor{comment}{  * @param  Input: pointer to the Input buffer to be treated.}
+00081 \textcolor{comment}{  * @param  Ilen: length of the Input buffer.}
+00082 \textcolor{comment}{  * @param  Output: the returned digest}
+00083 \textcolor{comment}{  * @retval An ErrorStatus enumeration value:}
+00084 \textcolor{comment}{  *          - SUCCESS: digest computation done}
+00085 \textcolor{comment}{  *          - ERROR: digest computation failed}
+00086 \textcolor{comment}{  */}
+00087 ErrorStatus HASH_SHA1(uint8\_t *Input, uint32\_t Ilen, uint8\_t Output[20])
+00088 \{
+00089   HASH\_InitTypeDef SHA1\_HASH\_InitStructure;
+00090   HASH\_MsgDigest SHA1\_MessageDigest;
+00091   \_\_IO uint16\_t nbvalidbitsdata = 0;
+00092   uint32\_t i = 0;
+00093   \_\_IO uint32\_t counter = 0;
+00094   uint32\_t busystatus = 0;
+00095   ErrorStatus status = SUCCESS;
+00096   uint32\_t inputaddr  = (uint32\_t)Input;
+00097   uint32\_t outputaddr = (uint32\_t)Output;
+00098 
+00099   \textcolor{comment}{/* Number of valid bits in last word of the Input data */}
+00100   nbvalidbitsdata = 8 * (Ilen % 4);
+00101 
+00102   \textcolor{comment}{/* HASH peripheral initialization */}
+00103   HASH_DeInit();
+00104 
+00105   \textcolor{comment}{/* HASH Configuration */}
+00106   SHA1\_HASH\_InitStructure.HASH\_AlgoSelection = HASH_AlgoSelection_SHA1;
+00107   SHA1\_HASH\_InitStructure.HASH\_AlgoMode = HASH_AlgoMode_HASH;
+00108   SHA1\_HASH\_InitStructure.HASH\_DataType = HASH_DataType_8b;
+00109   HASH_Init(&SHA1\_HASH\_InitStructure);
+00110 
+00111   \textcolor{comment}{/* Configure the number of valid bits in last word of the data */}
+00112   HASH\_SetLastWordValidBitsNbr(nbvalidbitsdata);
+00113 
+00114   \textcolor{comment}{/* Write the Input block in the IN FIFO */}
+00115   \textcolor{keywordflow}{for}(i=0; i<Ilen; i+=4)
+00116   \{
+00117     HASH\_DataIn(*(uint32\_t*)inputaddr);
+00118     inputaddr+=4;
+00119   \}
+00120 
+00121   \textcolor{comment}{/* Start the HASH processor */}
+00122   HASH_StartDigest();
+00123 
+00124   \textcolor{comment}{/* wait until the Busy flag is RESET */}
+00125   \textcolor{keywordflow}{do}
+00126   \{
+00127     busystatus = HASH\_GetFlagStatus(HASH_FLAG_BUSY);
+00128     counter++;
+00129   \}\textcolor{keywordflow}{while} ((counter != SHA1BUSY_TIMEOUT) && (busystatus != RESET));
+00130 
+00131   \textcolor{keywordflow}{if} (busystatus != RESET)
+00132   \{
+00133      status = ERROR;
+00134   \}
+00135   \textcolor{keywordflow}{else}
+00136   \{
+00137     \textcolor{comment}{/* Read the message digest */}
+00138     HASH\_GetDigest(&SHA1\_MessageDigest);
+00139     *(uint32\_t*)(outputaddr)  = \_\_REV(SHA1\_MessageDigest.Data[0]);
+00140     outputaddr+=4;
+00141     *(uint32\_t*)(outputaddr)  = \_\_REV(SHA1\_MessageDigest.Data[1]);
+00142     outputaddr+=4;
+00143     *(uint32\_t*)(outputaddr)  = \_\_REV(SHA1\_MessageDigest.Data[2]);
+00144     outputaddr+=4;
+00145     *(uint32\_t*)(outputaddr)  = \_\_REV(SHA1\_MessageDigest.Data[3]);
+00146     outputaddr+=4;
+00147     *(uint32\_t*)(outputaddr)  = \_\_REV(SHA1\_MessageDigest.Data[4]);
+00148   \}
+00149   \textcolor{keywordflow}{return} status;
+00150 \}
+00151 
+00152 \textcolor{comment}{/**}
+00153 \textcolor{comment}{  * @brief  Compute the HMAC SHA1 digest.}
+00154 \textcolor{comment}{  * @param  Key: pointer to the Key used for HMAC.}
+00155 \textcolor{comment}{  * @param  Keylen: length of the Key used for HMAC.  }
+00156 \textcolor{comment}{  * @param  Input: pointer to the Input buffer to be treated.}
+00157 \textcolor{comment}{  * @param  Ilen: length of the Input buffer.}
+00158 \textcolor{comment}{  * @param  Output: the returned digest}
+00159 \textcolor{comment}{  * @retval An ErrorStatus enumeration value:}
+00160 \textcolor{comment}{  *          - SUCCESS: digest computation done}
+00161 \textcolor{comment}{  *          - ERROR: digest computation failed}
+00162 \textcolor{comment}{  */}
+00163 ErrorStatus HMAC_SHA1(uint8\_t *Key, uint32\_t Keylen, uint8\_t *Input,
+00164                       uint32\_t Ilen, uint8\_t Output[20])
+00165 \{
+00166   HASH\_InitTypeDef SHA1\_HASH\_InitStructure;
+00167   HASH\_MsgDigest SHA1\_MessageDigest;
+00168   \_\_IO uint16\_t nbvalidbitsdata = 0;
+00169   \_\_IO uint16\_t nbvalidbitskey = 0;
+00170   uint32\_t i = 0;
+00171   \_\_IO uint32\_t counter = 0;
+00172   uint32\_t busystatus = 0;
+00173   ErrorStatus status = SUCCESS;
+00174   uint32\_t keyaddr    = (uint32\_t)Key;
+00175   uint32\_t inputaddr  = (uint32\_t)Input;
+00176   uint32\_t outputaddr = (uint32\_t)Output;
+00177 
+00178   \textcolor{comment}{/* Number of valid bits in last word of the Input data */}
+00179   nbvalidbitsdata = 8 * (Ilen % 4);
+00180 
+00181   \textcolor{comment}{/* Number of valid bits in last word of the Key */}
+00182   nbvalidbitskey = 8 * (Keylen % 4);
+00183 
+00184   \textcolor{comment}{/* HASH peripheral initialization */}
+00185   HASH_DeInit();
+00186 
+00187   \textcolor{comment}{/* HASH Configuration */}
+00188   SHA1\_HASH\_InitStructure.HASH\_AlgoSelection = HASH_AlgoSelection_SHA1;
+00189   SHA1\_HASH\_InitStructure.HASH\_AlgoMode = HASH_AlgoMode_HMAC;
+00190   SHA1\_HASH\_InitStructure.HASH\_DataType = HASH_DataType_8b;
+00191   \textcolor{keywordflow}{if}(Keylen > 64)
+00192   \{
+00193     \textcolor{comment}{/* HMAC long Key */}
+00194     SHA1\_HASH\_InitStructure.HASH\_HMACKeyType = HASH_HMACKeyType_LongKey;
+00195   \}
+00196   \textcolor{keywordflow}{else}
+00197   \{
+00198     \textcolor{comment}{/* HMAC short Key */}
+00199     SHA1\_HASH\_InitStructure.HASH\_HMACKeyType = HASH_HMACKeyType_ShortKey;
+00200   \}
+00201   HASH_Init(&SHA1\_HASH\_InitStructure);
+00202 
+00203   \textcolor{comment}{/* Configure the number of valid bits in last word of the Key */}
+00204   HASH\_SetLastWordValidBitsNbr(nbvalidbitskey);
+00205 
+00206   \textcolor{comment}{/* Write the Key */}
+00207   \textcolor{keywordflow}{for}(i=0; i<Keylen; i+=4)
+00208   \{
+00209     HASH\_DataIn(*(uint32\_t*)keyaddr);
+00210     keyaddr+=4;
+00211   \}
+00212 
+00213   \textcolor{comment}{/* Start the HASH processor */}
+00214   HASH_StartDigest();
+00215 
+00216   \textcolor{comment}{/* wait until the Busy flag is RESET */}
+00217   \textcolor{keywordflow}{do}
+00218   \{
+00219     busystatus = HASH\_GetFlagStatus(HASH_FLAG_BUSY);
+00220     counter++;
+00221   \}\textcolor{keywordflow}{while} ((counter != SHA1BUSY_TIMEOUT) && (busystatus != RESET));
+00222 
+00223   \textcolor{keywordflow}{if} (busystatus != RESET)
+00224   \{
+00225      status = ERROR;
+00226   \}
+00227   \textcolor{keywordflow}{else}
+00228   \{
+00229     \textcolor{comment}{/* Configure the number of valid bits in last word of the Input data */}
+00230     HASH\_SetLastWordValidBitsNbr(nbvalidbitsdata);
+00231 
+00232     \textcolor{comment}{/* Write the Input block in the IN FIFO */}
+00233     \textcolor{keywordflow}{for}(i=0; i<Ilen; i+=4)
+00234     \{
+00235       HASH\_DataIn(*(uint32\_t*)inputaddr);
+00236       inputaddr+=4;
+00237     \}
+00238 
+00239     \textcolor{comment}{/* Start the HASH processor */}
+00240     HASH\_StartDigest();
+00241 
+00242 
+00243     \textcolor{comment}{/* wait until the Busy flag is RESET */}
+00244     counter =0;
+00245     \textcolor{keywordflow}{do}
+00246     \{
+00247       busystatus = HASH\_GetFlagStatus(HASH_FLAG_BUSY);
+00248       counter++;
+00249     \}\textcolor{keywordflow}{while} ((counter != SHA1BUSY_TIMEOUT) && (busystatus != RESET));
+00250 
+00251     \textcolor{keywordflow}{if} (busystatus != RESET)
+00252     \{
+00253       status = ERROR;
+00254     \}
+00255     \textcolor{keywordflow}{else}
+00256     \{
+00257       \textcolor{comment}{/* Configure the number of valid bits in last word of the Key */}
+00258       HASH\_SetLastWordValidBitsNbr(nbvalidbitskey);
+00259 
+00260       \textcolor{comment}{/* Write the Key */}
+00261       keyaddr = (uint32\_t)Key;
+00262       \textcolor{keywordflow}{for}(i=0; i<Keylen; i+=4)
+00263       \{
+00264         HASH\_DataIn(*(uint32\_t*)keyaddr);
+00265         keyaddr+=4;
+00266       \}
+00267 
+00268       \textcolor{comment}{/* Start the HASH processor */}
+00269       HASH\_StartDigest();
+00270 
+00271       \textcolor{comment}{/* wait until the Busy flag is RESET */}
+00272       counter =0;
+00273       \textcolor{keywordflow}{do}
+00274       \{
+00275         busystatus = HASH\_GetFlagStatus(HASH_FLAG_BUSY);
+00276         counter++;
+00277       \}\textcolor{keywordflow}{while} ((counter != SHA1BUSY_TIMEOUT) && (busystatus != RESET));
+00278 
+00279       \textcolor{keywordflow}{if} (busystatus != RESET)
+00280       \{
+00281         status = ERROR;
+00282       \}
+00283       \textcolor{keywordflow}{else}
+00284       \{
+00285         \textcolor{comment}{/* Read the message digest */}
+00286         HASH\_GetDigest(&SHA1\_MessageDigest);
+00287         *(uint32\_t*)(outputaddr)  = \_\_REV(SHA1\_MessageDigest.Data[0]);
+00288         outputaddr+=4;
+00289         *(uint32\_t*)(outputaddr)  = \_\_REV(SHA1\_MessageDigest.Data[1]);
+00290         outputaddr+=4;
+00291         *(uint32\_t*)(outputaddr)  = \_\_REV(SHA1\_MessageDigest.Data[2]);
+00292         outputaddr+=4;
+00293         *(uint32\_t*)(outputaddr)  = \_\_REV(SHA1\_MessageDigest.Data[3]);
+00294         outputaddr+=4;
+00295         *(uint32\_t*)(outputaddr)  = \_\_REV(SHA1\_MessageDigest.Data[4]);
+00296       \}
+00297     \}
+00298   \}
+00299   \textcolor{keywordflow}{return} status;
+00300 \}
+00301 \textcolor{comment}{/**}
+00302 \textcolor{comment}{  * @\}}
+00303 \textcolor{comment}{  */}
+00304 
+00305 \textcolor{comment}{/**}
+00306 \textcolor{comment}{  * @\}}
+00307 \textcolor{comment}{  */}
+00308 
+00309 \textcolor{comment}{/**}
+00310 \textcolor{comment}{  * @\}}
+00311 \textcolor{comment}{  */}
+00312 
+00313 \textcolor{comment}{/**}
+00314 \textcolor{comment}{  * @\}}
+00315 \textcolor{comment}{  */}
+00316 
+00317 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

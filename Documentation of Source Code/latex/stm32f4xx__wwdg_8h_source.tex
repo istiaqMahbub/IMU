@@ -1,0 +1,110 @@
+\section{stm32f4xx\+\_\+wwdg.\+h}
+\label{stm32f4xx__wwdg_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+wwdg.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+wwdg.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_wwdg.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the WWDG firmware}
+00008 \textcolor{comment}{  *          library.}
+00009 \textcolor{comment}{  ******************************************************************************}
+00010 \textcolor{comment}{  * @attention}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00013 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00014 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00015 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00016 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00017 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00020 \textcolor{comment}{  ******************************************************************************}
+00021 \textcolor{comment}{  */}
+00022 
+00023 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_WWDG\_H}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_WWDG\_H}
+00026 
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00028  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00033 
+00034 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00035 \textcolor{comment}{  * @\{}
+00036 \textcolor{comment}{  */}
+00037 
+00038 \textcolor{comment}{/** @addtogroup WWDG}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00043 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00044 
+00045 \textcolor{comment}{/** @defgroup WWDG\_Exported\_Constants}
+00046 \textcolor{comment}{  * @\{}
+00047 \textcolor{comment}{  */}
+00048 
+00049 \textcolor{comment}{/** @defgroup WWDG\_Prescaler }
+00050 \textcolor{comment}{  * @\{}
+00051 \textcolor{comment}{  */}
+00052 
+00053 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{WWDG\_Prescaler\_1}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00054 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{WWDG\_Prescaler\_2}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000080\textcolor{preprocessor}{)}
+00055 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{WWDG\_Prescaler\_4}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000100\textcolor{preprocessor}{)}
+00056 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{WWDG\_Prescaler\_8}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000180\textcolor{preprocessor}{)}
+00057 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_WWDG\_PRESCALER}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} WWDG_Prescaler_1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00058                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} WWDG_Prescaler_2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00059                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} WWDG_Prescaler_4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00060                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} WWDG_Prescaler_8\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00061 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_WWDG\_WINDOW\_VALUE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0x7F\textcolor{preprocessor}{)}
+00062 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_WWDG\_COUNTER}\textcolor{preprocessor}{(}\textcolor{preprocessor}{COUNTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{COUNTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{>=} 0x40\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{COUNTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0x7F\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00063 
+00064 \textcolor{comment}{/**}
+00065 \textcolor{comment}{  * @\}}
+00066 \textcolor{comment}{  */}
+00067 
+00068 \textcolor{comment}{/**}
+00069 \textcolor{comment}{  * @\}}
+00070 \textcolor{comment}{  */}
+00071 
+00072 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00073 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00074 
+00075 \textcolor{comment}{/*  Function used to set the WWDG configuration to the default reset state ****/}
+00076 \textcolor{keywordtype}{void} WWDG_DeInit(\textcolor{keywordtype}{void});
+00077 
+00078 \textcolor{comment}{/* Prescaler, Refresh window and Counter configuration functions **************/}
+00079 \textcolor{keywordtype}{void} WWDG_SetPrescaler(uint32\_t WWDG\_Prescaler);
+00080 \textcolor{keywordtype}{void} WWDG_SetWindowValue(uint8\_t WindowValue);
+00081 \textcolor{keywordtype}{void} WWDG_EnableIT(\textcolor{keywordtype}{void});
+00082 \textcolor{keywordtype}{void} WWDG_SetCounter(uint8\_t Counter);
+00083 
+00084 \textcolor{comment}{/* WWDG activation function ***************************************************/}
+00085 \textcolor{keywordtype}{void} WWDG_Enable(uint8\_t Counter);
+00086 
+00087 \textcolor{comment}{/* Interrupts and flags management functions **********************************/}
+00088 FlagStatus WWDG_GetFlagStatus(\textcolor{keywordtype}{void});
+00089 \textcolor{keywordtype}{void} WWDG_ClearFlag(\textcolor{keywordtype}{void});
+00090 
+00091 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00092 \}
+00093 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00094 
+00095 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/* \_\_STM32F4xx\_WWDG\_H */}
+00096 
+00097 \textcolor{comment}{/**}
+00098 \textcolor{comment}{  * @\}}
+00099 \textcolor{comment}{  */}
+00100 
+00101 \textcolor{comment}{/**}
+00102 \textcolor{comment}{  * @\}}
+00103 \textcolor{comment}{  */}
+00104 
+00105 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

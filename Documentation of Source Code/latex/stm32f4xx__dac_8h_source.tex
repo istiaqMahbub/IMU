@@ -1,0 +1,371 @@
+\section{stm32f4xx\+\_\+dac.\+h}
+\label{stm32f4xx__dac_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+dac.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+dac.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_dac.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the DAC firmware }
+00008 \textcolor{comment}{  *          library.}
+00009 \textcolor{comment}{  ******************************************************************************}
+00010 \textcolor{comment}{  * @attention}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00013 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00014 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00015 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00016 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00017 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00020 \textcolor{comment}{  ******************************************************************************}
+00021 \textcolor{comment}{  */}
+00022 
+00023 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_DAC\_H}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_DAC\_H}
+00026 
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00028  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00033 
+00034 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00035 \textcolor{comment}{  * @\{}
+00036 \textcolor{comment}{  */}
+00037 
+00038 \textcolor{comment}{/** @addtogroup DAC}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00043 
+00044 \textcolor{comment}{/** }
+00045 \textcolor{comment}{  * @brief  DAC Init structure definition}
+00046 \textcolor{comment}{  */}
+00047 
+00048 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00049 \{
+00050   uint32\_t DAC_Trigger;                      \textcolor{comment}{/*!< Specifies the external trigger for the selected DAC
+       channel.}
+00051 \textcolor{comment}{                                                  This parameter can be a value of @ref
+       DAC\_trigger\_selection */}
+00052 
+00053   uint32\_t DAC_WaveGeneration;               \textcolor{comment}{/*!< Specifies whether DAC channel noise waves or
+       triangle waves}
+00054 \textcolor{comment}{                                                  are generated, or whether no wave is generated.}
+00055 \textcolor{comment}{                                                  This parameter can be a value of @ref
+       DAC\_wave\_generation */}
+00056 
+00057   uint32\_t DAC_LFSRUnmask_TriangleAmplitude; \textcolor{comment}{/*!< Specifies the LFSR mask for noise wave generation or}
+00058 \textcolor{comment}{                                                  the maximum amplitude triangle generation for the
+       DAC channel. }
+00059 \textcolor{comment}{                                                  This parameter can be a value of @ref
+       DAC\_lfsrunmask\_triangleamplitude */}
+00060 
+00061   uint32\_t DAC_OutputBuffer;                 \textcolor{comment}{/*!< Specifies whether the DAC channel output buffer is
+       enabled or disabled.}
+00062 \textcolor{comment}{                                                  This parameter can be a value of @ref
+       DAC\_output\_buffer */}
+00063 \}DAC\_InitTypeDef;
+00064 
+00065 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00066 
+00067 \textcolor{comment}{/** @defgroup DAC\_Exported\_Constants}
+00068 \textcolor{comment}{  * @\{}
+00069 \textcolor{comment}{  */}
+00070 
+00071 \textcolor{comment}{/** @defgroup DAC\_trigger\_selection }
+00072 \textcolor{comment}{  * @\{}
+00073 \textcolor{comment}{  */}
+00074 
+00075 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_Trigger\_None}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Conversion is automatic once
+       the DAC1\_DHRxxxx register }
+00076 \textcolor{comment}{                                                                       has been loaded, and not by
+       external trigger */}
+00077 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_Trigger\_T2\_TRGO}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000024\textcolor{preprocessor}{)} \textcolor{comment}{/*!< TIM2 TRGO selected as external
+       conversion trigger for DAC channel */}
+00078 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_Trigger\_T4\_TRGO}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0000002C\textcolor{preprocessor}{)} \textcolor{comment}{/*!< TIM4 TRGO selected as external
+       conversion trigger for DAC channel */}
+00079 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_Trigger\_T5\_TRGO}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0000001C\textcolor{preprocessor}{)} \textcolor{comment}{/*!< TIM5 TRGO selected as external
+       conversion trigger for DAC channel */}
+00080 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_Trigger\_T6\_TRGO}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)} \textcolor{comment}{/*!< TIM6 TRGO selected as external
+       conversion trigger for DAC channel */}
+00081 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_Trigger\_T7\_TRGO}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000014\textcolor{preprocessor}{)} \textcolor{comment}{/*!< TIM7 TRGO selected as external
+       conversion trigger for DAC channel */}
+00082 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_Trigger\_T8\_TRGO}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0000000C\textcolor{preprocessor}{)} \textcolor{comment}{/*!< TIM8 TRGO selected as external
+       conversion trigger for DAC channel */}
+00083 
+00084 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_Trigger\_Ext\_IT9}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000034\textcolor{preprocessor}{)} \textcolor{comment}{/*!< EXTI Line9 event selected as
+       external conversion trigger for DAC channel */}
+00085 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_Trigger\_Software}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0000003C\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Conversion started by software
+       trigger for DAC channel */}
+00086 
+00087 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DAC\_TRIGGER}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TRIGGER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TRIGGER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DAC_Trigger_None\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00088                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TRIGGER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DAC_Trigger_T6_TRGO\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00089                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TRIGGER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DAC_Trigger_T8_TRGO\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00090                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TRIGGER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DAC_Trigger_T7_TRGO\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00091                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TRIGGER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DAC_Trigger_T5_TRGO\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00092                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TRIGGER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DAC_Trigger_T2_TRGO\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00093                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TRIGGER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DAC_Trigger_T4_TRGO\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00094                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TRIGGER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DAC_Trigger_Ext_IT9\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00095                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TRIGGER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DAC_Trigger_Software\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00096 
+00097 \textcolor{comment}{/**}
+00098 \textcolor{comment}{  * @\}}
+00099 \textcolor{comment}{  */}
+00100 
+00101 \textcolor{comment}{/** @defgroup DAC\_wave\_generation }
+00102 \textcolor{comment}{  * @\{}
+00103 \textcolor{comment}{  */}
+00104 
+00105 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_WaveGeneration\_None}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00106 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_WaveGeneration\_Noise}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000040\textcolor{preprocessor}{)}
+00107 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_WaveGeneration\_Triangle}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000080\textcolor{preprocessor}{)}
+00108 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DAC\_GENERATE\_WAVE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WAVE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WAVE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DAC_WaveGeneration_None\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00109                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WAVE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DAC_WaveGeneration_Noise\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00110                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WAVE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DAC_WaveGeneration_Triangle\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00111 \textcolor{comment}{/**}
+00112 \textcolor{comment}{  * @\}}
+00113 \textcolor{comment}{  */}
+00114 
+00115 \textcolor{comment}{/** @defgroup DAC\_lfsrunmask\_triangleamplitude}
+00116 \textcolor{comment}{  * @\{}
+00117 \textcolor{comment}{  */}
+00118 
+00119 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_LFSRUnmask\_Bit0}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Unmask DAC channel LFSR bit0
+       for noise wave generation */}
+00120 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_LFSRUnmask\_Bits1\_0}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000100\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Unmask DAC channel LFSR
+       bit[1:0] for noise wave generation */}
+00121 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_LFSRUnmask\_Bits2\_0}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000200\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Unmask DAC channel LFSR
+       bit[2:0] for noise wave generation */}
+00122 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_LFSRUnmask\_Bits3\_0}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000300\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Unmask DAC channel LFSR
+       bit[3:0] for noise wave generation */}
+00123 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_LFSRUnmask\_Bits4\_0}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000400\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Unmask DAC channel LFSR
+       bit[4:0] for noise wave generation */}
+00124 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_LFSRUnmask\_Bits5\_0}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000500\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Unmask DAC channel LFSR
+       bit[5:0] for noise wave generation */}
+00125 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_LFSRUnmask\_Bits6\_0}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000600\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Unmask DAC channel LFSR
+       bit[6:0] for noise wave generation */}
+00126 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_LFSRUnmask\_Bits7\_0}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000700\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Unmask DAC channel LFSR
+       bit[7:0] for noise wave generation */}
+00127 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_LFSRUnmask\_Bits8\_0}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000800\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Unmask DAC channel LFSR
+       bit[8:0] for noise wave generation */}
+00128 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_LFSRUnmask\_Bits9\_0}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000900\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Unmask DAC channel LFSR
+       bit[9:0] for noise wave generation */}
+00129 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_LFSRUnmask\_Bits10\_0}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000A00\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Unmask DAC channel LFSR
+       bit[10:0] for noise wave generation */}
+00130 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_LFSRUnmask\_Bits11\_0}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000B00\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Unmask DAC channel LFSR
+       bit[11:0] for noise wave generation */}
+00131 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_TriangleAmplitude\_1}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Select max triangle amplitude
+       of 1 */}
+00132 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_TriangleAmplitude\_3}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000100\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Select max triangle amplitude
+       of 3 */}
+00133 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_TriangleAmplitude\_7}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000200\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Select max triangle amplitude
+       of 7 */}
+00134 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_TriangleAmplitude\_15}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000300\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Select max triangle amplitude
+       of 15 */}
+00135 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_TriangleAmplitude\_31}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000400\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Select max triangle amplitude
+       of 31 */}
+00136 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_TriangleAmplitude\_63}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000500\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Select max triangle amplitude
+       of 63 */}
+00137 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_TriangleAmplitude\_127}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000600\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Select max triangle amplitude
+       of 127 */}
+00138 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_TriangleAmplitude\_255}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000700\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Select max triangle amplitude
+       of 255 */}
+00139 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_TriangleAmplitude\_511}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000800\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Select max triangle amplitude
+       of 511 */}
+00140 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_TriangleAmplitude\_1023}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000900\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Select max triangle amplitude
+       of 1023 */}
+00141 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_TriangleAmplitude\_2047}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000A00\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Select max triangle amplitude
+       of 2047 */}
+00142 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_TriangleAmplitude\_4095}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000B00\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Select max triangle amplitude
+       of 4095 */}
+00143 
+00144 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DAC\_LFSR\_UNMASK\_TRIANGLE\_AMPLITUDE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_LFSRUnmask_Bit0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00145                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_LFSRUnmask_Bits1_0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00146                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_LFSRUnmask_Bits2_0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00147                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_LFSRUnmask_Bits3_0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00148                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_LFSRUnmask_Bits4_0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00149                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_LFSRUnmask_Bits5_0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00150                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_LFSRUnmask_Bits6_0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00151                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_LFSRUnmask_Bits7_0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00152                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_LFSRUnmask_Bits8_0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00153                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_LFSRUnmask_Bits9_0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00154                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_LFSRUnmask_Bits10_0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00155                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_LFSRUnmask_Bits11_0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00156                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_TriangleAmplitude_1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00157                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_TriangleAmplitude_3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00158                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_TriangleAmplitude_7\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00159                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_TriangleAmplitude_15\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00160                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_TriangleAmplitude_31\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00161                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_TriangleAmplitude_63\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00162                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_TriangleAmplitude_127\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00163                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_TriangleAmplitude_255\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00164                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_TriangleAmplitude_511\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00165                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_TriangleAmplitude_1023\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00166                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_TriangleAmplitude_2047\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00167                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_TriangleAmplitude_4095\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00168 \textcolor{comment}{/**}
+00169 \textcolor{comment}{  * @\}}
+00170 \textcolor{comment}{  */}
+00171 
+00172 \textcolor{comment}{/** @defgroup DAC\_output\_buffer }
+00173 \textcolor{comment}{  * @\{}
+00174 \textcolor{comment}{  */}
+00175 
+00176 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_OutputBuffer\_Enable}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00177 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_OutputBuffer\_Disable}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}
+00178 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DAC\_OUTPUT\_BUFFER\_STATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_OutputBuffer_Enable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00179                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DAC_OutputBuffer_Disable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00180 \textcolor{comment}{/**}
+00181 \textcolor{comment}{  * @\}}
+00182 \textcolor{comment}{  */}
+00183 
+00184 \textcolor{comment}{/** @defgroup DAC\_Channel\_selection }
+00185 \textcolor{comment}{  * @\{}
+00186 \textcolor{comment}{  */}
+00187 
+00188 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_Channel\_1}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00189 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_Channel\_2}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000010\textcolor{preprocessor}{)}
+00190 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DAC\_CHANNEL}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DAC_Channel_1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00191                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DAC_Channel_2\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00192 \textcolor{comment}{/**}
+00193 \textcolor{comment}{  * @\}}
+00194 \textcolor{comment}{  */}
+00195 
+00196 \textcolor{comment}{/** @defgroup DAC\_data\_alignement }
+00197 \textcolor{comment}{  * @\{}
+00198 \textcolor{comment}{  */}
+00199 
+00200 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_Align\_12b\_R}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00201 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_Align\_12b\_L}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)}
+00202 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_Align\_8b\_R}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000008\textcolor{preprocessor}{)}
+00203 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DAC\_ALIGN}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALIGN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALIGN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DAC_Align_12b_R\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00204                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALIGN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DAC_Align_12b_L\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00205                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALIGN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DAC_Align_8b_R\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00206 \textcolor{comment}{/**}
+00207 \textcolor{comment}{  * @\}}
+00208 \textcolor{comment}{  */}
+00209 
+00210 \textcolor{comment}{/** @defgroup DAC\_wave\_generation }
+00211 \textcolor{comment}{  * @\{}
+00212 \textcolor{comment}{  */}
+00213 
+00214 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_Wave\_Noise}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000040\textcolor{preprocessor}{)}
+00215 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_Wave\_Triangle}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000080\textcolor{preprocessor}{)}
+00216 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DAC\_WAVE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WAVE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WAVE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DAC_Wave_Noise\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00217                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WAVE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DAC_Wave_Triangle\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00218 \textcolor{comment}{/**}
+00219 \textcolor{comment}{  * @\}}
+00220 \textcolor{comment}{  */}
+00221 
+00222 \textcolor{comment}{/** @defgroup DAC\_data }
+00223 \textcolor{comment}{  * @\{}
+00224 \textcolor{comment}{  */}
+00225 
+00226 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DAC\_DATA}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATA}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATA}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0xFFF0\textcolor{preprocessor}{)}
+00227 \textcolor{comment}{/**}
+00228 \textcolor{comment}{  * @\}}
+00229 \textcolor{comment}{  */}
+00230 
+00231 \textcolor{comment}{/** @defgroup DAC\_interrupts\_definition }
+00232 \textcolor{comment}{  * @\{}
+00233 \textcolor{comment}{  */}
+00234 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_IT\_DMAUDR}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00002000\textcolor{preprocessor}{)}
+00235 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DAC\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DAC_IT_DMAUDR\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00236 
+00237 \textcolor{comment}{/**}
+00238 \textcolor{comment}{  * @\}}
+00239 \textcolor{comment}{  */}
+00240 
+00241 \textcolor{comment}{/** @defgroup DAC\_flags\_definition }
+00242 \textcolor{comment}{  * @\{}
+00243 \textcolor{comment}{  */}
+00244 
+00245 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DAC\_FLAG\_DMAUDR}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00002000\textcolor{preprocessor}{)}
+00246 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DAC\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DAC_FLAG_DMAUDR\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00247 
+00248 \textcolor{comment}{/**}
+00249 \textcolor{comment}{  * @\}}
+00250 \textcolor{comment}{  */}
+00251 
+00252 \textcolor{comment}{/**}
+00253 \textcolor{comment}{  * @\}}
+00254 \textcolor{comment}{  */}
+00255 
+00256 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00257 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00258 
+00259 \textcolor{comment}{/*  Function used to set the DAC configuration to the default reset state *****/}
+00260 \textcolor{keywordtype}{void} DAC_DeInit(\textcolor{keywordtype}{void});
+00261 
+00262 \textcolor{comment}{/*  DAC channels configuration: trigger, output buffer, data format functions */}
+00263 \textcolor{keywordtype}{void} DAC_Init(uint32\_t DAC\_Channel, DAC\_InitTypeDef* DAC\_InitStruct);
+00264 \textcolor{keywordtype}{void} DAC_StructInit(DAC\_InitTypeDef* DAC\_InitStruct);
+00265 \textcolor{keywordtype}{void} DAC_Cmd(uint32\_t DAC\_Channel, FunctionalState NewState);
+00266 \textcolor{keywordtype}{void} DAC_SoftwareTriggerCmd(uint32\_t DAC\_Channel, FunctionalState NewState);
+00267 \textcolor{keywordtype}{void} DAC_DualSoftwareTriggerCmd(FunctionalState NewState);
+00268 \textcolor{keywordtype}{void} DAC_WaveGenerationCmd(uint32\_t DAC\_Channel, uint32\_t DAC\_Wave, FunctionalState NewState);
+00269 \textcolor{keywordtype}{void} DAC_SetChannel1Data(uint32\_t DAC\_Align, uint16\_t Data);
+00270 \textcolor{keywordtype}{void} DAC_SetChannel2Data(uint32\_t DAC\_Align, uint16\_t Data);
+00271 \textcolor{keywordtype}{void} DAC_SetDualChannelData(uint32\_t DAC\_Align, uint16\_t Data2, uint16\_t Data1);
+00272 uint16\_t DAC_GetDataOutputValue(uint32\_t DAC\_Channel);
+00273 
+00274 \textcolor{comment}{/* DMA management functions ***************************************************/}
+00275 \textcolor{keywordtype}{void} DAC_DMACmd(uint32\_t DAC\_Channel, FunctionalState NewState);
+00276 
+00277 \textcolor{comment}{/* Interrupts and flags management functions **********************************/}
+00278 \textcolor{keywordtype}{void} DAC_ITConfig(uint32\_t DAC\_Channel, uint32\_t DAC\_IT, FunctionalState NewState);
+00279 FlagStatus DAC_GetFlagStatus(uint32\_t DAC\_Channel, uint32\_t DAC\_FLAG);
+00280 \textcolor{keywordtype}{void} DAC_ClearFlag(uint32\_t DAC\_Channel, uint32\_t DAC\_FLAG);
+00281 ITStatus DAC_GetITStatus(uint32\_t DAC\_Channel, uint32\_t DAC\_IT);
+00282 \textcolor{keywordtype}{void} DAC_ClearITPendingBit(uint32\_t DAC\_Channel, uint32\_t DAC\_IT);
+00283 
+00284 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00285 \}
+00286 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00287 
+00288 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/*\_\_STM32F4xx\_DAC\_H */}
+00289 
+00290 \textcolor{comment}{/**}
+00291 \textcolor{comment}{  * @\}}
+00292 \textcolor{comment}{  */}
+00293 
+00294 \textcolor{comment}{/**}
+00295 \textcolor{comment}{  * @\}}
+00296 \textcolor{comment}{  */}
+00297 
+00298 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

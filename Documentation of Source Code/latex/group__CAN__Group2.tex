@@ -1,0 +1,248 @@
+\section{C\+AN Frames Transmission functions}
+\label{group__CAN__Group2}\index{C\+A\+N Frames Transmission functions@{C\+A\+N Frames Transmission functions}}
+
+
+C\+AN Frames Transmission functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \textbf{ C\+A\+N\+\_\+\+Transmit} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, \textbf{ Can\+Tx\+Msg} $\ast$Tx\+Message)
+\begin{DoxyCompactList}\small\item\em Initiates and transmits a C\+AN frame message. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ C\+A\+N\+\_\+\+Transmit\+Status} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint8\+\_\+t Transmit\+Mailbox)
+\begin{DoxyCompactList}\small\item\em Checks the transmission status of a C\+AN Frame. \end{DoxyCompactList}\item 
+void \textbf{ C\+A\+N\+\_\+\+Cancel\+Transmit} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint8\+\_\+t Mailbox)
+\begin{DoxyCompactList}\small\item\em Cancels a transmit request. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+C\+AN Frames Transmission functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                      CAN Frames Transmission functions
+ ===============================================================================  
+  This section provides functions allowing to 
+   - Initiate and transmit a CAN frame message (if there is an empty mailbox).
+   - Check the transmission status of a CAN Frame
+   - Cancel a transmit request\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__CAN__Group2_ga81106cdf5395a1947bfc87ec1685829e}} 
+\index{C\+A\+N Frames Transmission functions@{C\+A\+N Frames Transmission functions}!C\+A\+N\+\_\+\+Cancel\+Transmit@{C\+A\+N\+\_\+\+Cancel\+Transmit}}
+\index{C\+A\+N\+\_\+\+Cancel\+Transmit@{C\+A\+N\+\_\+\+Cancel\+Transmit}!C\+A\+N Frames Transmission functions@{C\+A\+N Frames Transmission functions}}
+\subsubsection{C\+A\+N\+\_\+\+Cancel\+Transmit()}
+{\footnotesize\ttfamily void C\+A\+N\+\_\+\+Cancel\+Transmit (\begin{DoxyParamCaption}\item[{\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$}]{C\+A\+Nx,  }\item[{uint8\+\_\+t}]{Mailbox }\end{DoxyParamCaption})}
+
+
+
+Cancels a transmit request. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+Nx} & where x can be 1 or 2 to select the C\+AN peripheral. \\
+\hline
+{\em Mailbox} & Mailbox number. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 698} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+\begin{DoxyCode}
+00699 \{
+00700   \textcolor{comment}{/* Check the parameters */}
+00701   assert_param(IS_CAN_ALL_PERIPH(CANx));
+00702   assert_param(IS_CAN_TRANSMITMAILBOX(Mailbox));
+00703   \textcolor{comment}{/* abort transmission */}
+00704   \textcolor{keywordflow}{switch} (Mailbox)
+00705   \{
+00706     \textcolor{keywordflow}{case} (CAN_TXMAILBOX_0): CANx->TSR |= CAN_TSR_ABRQ0;
+00707       \textcolor{keywordflow}{break};
+00708     \textcolor{keywordflow}{case} (CAN_TXMAILBOX_1): CANx->TSR |= CAN_TSR_ABRQ1;
+00709       \textcolor{keywordflow}{break};
+00710     \textcolor{keywordflow}{case} (CAN_TXMAILBOX_2): CANx->TSR |= CAN_TSR_ABRQ2;
+00711       \textcolor{keywordflow}{break};
+00712     \textcolor{keywordflow}{default}:
+00713       \textcolor{keywordflow}{break};
+00714   \}
+00715 \}
+\end{DoxyCode}
+\mbox{\label{group__CAN__Group2_gaccfcb81f76f58400077c7b2d8641dd83}} 
+\index{C\+A\+N Frames Transmission functions@{C\+A\+N Frames Transmission functions}!C\+A\+N\+\_\+\+Transmit@{C\+A\+N\+\_\+\+Transmit}}
+\index{C\+A\+N\+\_\+\+Transmit@{C\+A\+N\+\_\+\+Transmit}!C\+A\+N Frames Transmission functions@{C\+A\+N Frames Transmission functions}}
+\subsubsection{C\+A\+N\+\_\+\+Transmit()}
+{\footnotesize\ttfamily uint8\+\_\+t C\+A\+N\+\_\+\+Transmit (\begin{DoxyParamCaption}\item[{\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$}]{C\+A\+Nx,  }\item[{\textbf{ Can\+Tx\+Msg} $\ast$}]{Tx\+Message }\end{DoxyParamCaption})}
+
+
+
+Initiates and transmits a C\+AN frame message. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+Nx} & where x can be 1 or 2 to to select the C\+AN peripheral. \\
+\hline
+{\em Tx\+Message} & pointer to a structure which contains C\+AN Id, C\+AN D\+LC and C\+AN data. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & number of the mailbox that is used for transmission or C\+A\+N\+\_\+\+Tx\+Status\+\_\+\+No\+Mail\+Box if there is no empty mailbox. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 572} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+
+References \textbf{ Can\+Tx\+Msg\+::\+D\+LC}, and \textbf{ Can\+Tx\+Msg\+::\+I\+DE}.
+
+
+\begin{DoxyCode}
+00573 \{
+00574   uint8\_t transmit\_mailbox = 0;
+00575   \textcolor{comment}{/* Check the parameters */}
+00576   assert_param(IS_CAN_ALL_PERIPH(CANx));
+00577   assert_param(IS_CAN_IDTYPE(TxMessage->IDE));
+00578   assert_param(IS_CAN_RTR(TxMessage->RTR));
+00579   assert_param(IS_CAN_DLC(TxMessage->DLC));
+00580 
+00581   \textcolor{comment}{/* Select one empty transmit mailbox */}
+00582   \textcolor{keywordflow}{if} ((CANx->TSR&CAN_TSR_TME0) == CAN_TSR_TME0)
+00583   \{
+00584     transmit\_mailbox = 0;
+00585   \}
+00586   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((CANx->TSR&CAN_TSR_TME1) == CAN_TSR_TME1)
+00587   \{
+00588     transmit\_mailbox = 1;
+00589   \}
+00590   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} ((CANx->TSR&CAN_TSR_TME2) == CAN_TSR_TME2)
+00591   \{
+00592     transmit\_mailbox = 2;
+00593   \}
+00594   \textcolor{keywordflow}{else}
+00595   \{
+00596     transmit\_mailbox = CAN_TxStatus_NoMailBox;
+00597   \}
+00598 
+00599   \textcolor{keywordflow}{if} (transmit\_mailbox != CAN_TxStatus_NoMailBox)
+00600   \{
+00601     \textcolor{comment}{/* Set up the Id */}
+00602     CANx->sTxMailBox[transmit\_mailbox].TIR &= TMIDxR_TXRQ;
+00603     \textcolor{keywordflow}{if} (TxMessage->IDE == CAN_Id_Standard)
+00604     \{
+00605       assert_param(IS_CAN_STDID(TxMessage->StdId));  
+00606       CANx->sTxMailBox[transmit\_mailbox].TIR |= ((TxMessage->StdId << 21) | \(\backslash\)
+00607                                                   TxMessage->RTR);
+00608     \}
+00609     \textcolor{keywordflow}{else}
+00610     \{
+00611       assert_param(IS_CAN_EXTID(TxMessage->ExtId));
+00612       CANx->sTxMailBox[transmit\_mailbox].TIR |= ((TxMessage->ExtId << 3) | \(\backslash\)
+00613                                                   TxMessage->IDE | \(\backslash\)
+00614                                                   TxMessage->RTR);
+00615     \}
+00616     
+00617     \textcolor{comment}{/* Set up the DLC */}
+00618     TxMessage->DLC &= (uint8\_t)0x0000000F;
+00619     CANx->sTxMailBox[transmit\_mailbox].TDTR &= (uint32\_t)0xFFFFFFF0;
+00620     CANx->sTxMailBox[transmit\_mailbox].TDTR |= TxMessage->DLC;
+00621 
+00622     \textcolor{comment}{/* Set up the data field */}
+00623     CANx->sTxMailBox[transmit\_mailbox].TDLR = (((uint32\_t)TxMessage->Data[3] << 24) | 
+00624                                              ((uint32\_t)TxMessage->Data[2] << 16) |
+00625                                              ((uint32\_t)TxMessage->Data[1] << 8) | 
+00626                                              ((uint32\_t)TxMessage->Data[0]));
+00627     CANx->sTxMailBox[transmit\_mailbox].TDHR = (((uint32\_t)TxMessage->Data[7] << 24) | 
+00628                                              ((uint32\_t)TxMessage->Data[6] << 16) |
+00629                                              ((uint32\_t)TxMessage->Data[5] << 8) |
+00630                                              ((uint32\_t)TxMessage->Data[4]));
+00631     \textcolor{comment}{/* Request transmission */}
+00632     CANx->sTxMailBox[transmit\_mailbox].TIR |= TMIDxR_TXRQ;
+00633   \}
+00634   \textcolor{keywordflow}{return} transmit\_mailbox;
+00635 \}
+\end{DoxyCode}
+\mbox{\label{group__CAN__Group2_ga68ab05a0a6cdfcc2b6f6b6b2c10848e2}} 
+\index{C\+A\+N Frames Transmission functions@{C\+A\+N Frames Transmission functions}!C\+A\+N\+\_\+\+Transmit\+Status@{C\+A\+N\+\_\+\+Transmit\+Status}}
+\index{C\+A\+N\+\_\+\+Transmit\+Status@{C\+A\+N\+\_\+\+Transmit\+Status}!C\+A\+N Frames Transmission functions@{C\+A\+N Frames Transmission functions}}
+\subsubsection{C\+A\+N\+\_\+\+Transmit\+Status()}
+{\footnotesize\ttfamily uint8\+\_\+t C\+A\+N\+\_\+\+Transmit\+Status (\begin{DoxyParamCaption}\item[{\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$}]{C\+A\+Nx,  }\item[{uint8\+\_\+t}]{Transmit\+Mailbox }\end{DoxyParamCaption})}
+
+
+
+Checks the transmission status of a C\+AN Frame. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+Nx} & where x can be 1 or 2 to select the C\+AN peripheral. \\
+\hline
+{\em Transmit\+Mailbox} & the number of the mailbox that is used for transmission. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em C\+A\+N\+\_\+\+Tx\+Status\+\_\+\+Ok} & if the C\+AN driver transmits the message, C\+A\+N\+\_\+\+Tx\+Status\+\_\+\+Failed in an other case. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 644} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+\begin{DoxyCode}
+00645 \{
+00646   uint32\_t state = 0;
+00647 
+00648   \textcolor{comment}{/* Check the parameters */}
+00649   assert_param(IS_CAN_ALL_PERIPH(CANx));
+00650   assert_param(IS_CAN_TRANSMITMAILBOX(TransmitMailbox));
+00651  
+00652   \textcolor{keywordflow}{switch} (TransmitMailbox)
+00653   \{
+00654     \textcolor{keywordflow}{case} (CAN_TXMAILBOX_0): 
+00655       state =   CANx->TSR &  (CAN_TSR_RQCP0 | CAN_TSR_TXOK0 | CAN_TSR_TME0);
+00656       \textcolor{keywordflow}{break};
+00657     \textcolor{keywordflow}{case} (CAN_TXMAILBOX_1): 
+00658       state =   CANx->TSR &  (CAN_TSR_RQCP1 | CAN_TSR_TXOK1 | CAN_TSR_TME1);
+00659       \textcolor{keywordflow}{break};
+00660     \textcolor{keywordflow}{case} (CAN_TXMAILBOX_2): 
+00661       state =   CANx->TSR &  (CAN_TSR_RQCP2 | CAN_TSR_TXOK2 | CAN_TSR_TME2);
+00662       \textcolor{keywordflow}{break};
+00663     \textcolor{keywordflow}{default}:
+00664       state = CAN_TxStatus_Failed;
+00665       \textcolor{keywordflow}{break};
+00666   \}
+00667   \textcolor{keywordflow}{switch} (state)
+00668   \{
+00669       \textcolor{comment}{/* transmit pending  */}
+00670     \textcolor{keywordflow}{case} (0x0): state = CAN_TxStatus_Pending;
+00671       \textcolor{keywordflow}{break};
+00672       \textcolor{comment}{/* transmit failed  */}
+00673      \textcolor{keywordflow}{case} (CAN_TSR_RQCP0 | CAN_TSR_TME0): state = CAN_TxStatus_Failed;
+00674       \textcolor{keywordflow}{break};
+00675      \textcolor{keywordflow}{case} (CAN_TSR_RQCP1 | CAN_TSR_TME1): state = CAN_TxStatus_Failed;
+00676       \textcolor{keywordflow}{break};
+00677      \textcolor{keywordflow}{case} (CAN_TSR_RQCP2 | CAN_TSR_TME2): state = CAN_TxStatus_Failed;
+00678       \textcolor{keywordflow}{break};
+00679       \textcolor{comment}{/* transmit succeeded  */}
+00680     \textcolor{keywordflow}{case} (CAN_TSR_RQCP0 | CAN_TSR_TXOK0 | CAN_TSR_TME0):state = CAN_TxStatus_Ok;
+00681       \textcolor{keywordflow}{break};
+00682     \textcolor{keywordflow}{case} (CAN_TSR_RQCP1 | CAN_TSR_TXOK1 | CAN_TSR_TME1):state = CAN_TxStatus_Ok;
+00683       \textcolor{keywordflow}{break};
+00684     \textcolor{keywordflow}{case} (CAN_TSR_RQCP2 | CAN_TSR_TXOK2 | CAN_TSR_TME2):state = CAN_TxStatus_Ok;
+00685       \textcolor{keywordflow}{break};
+00686     \textcolor{keywordflow}{default}: state = CAN_TxStatus_Failed;
+00687       \textcolor{keywordflow}{break};
+00688   \}
+00689   \textcolor{keywordflow}{return} (uint8\_t) state;
+00690 \}
+\end{DoxyCode}

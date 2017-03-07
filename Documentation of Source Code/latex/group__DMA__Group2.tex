@@ -1,0 +1,133 @@
+\section{Data Counter functions}
+\label{group__DMA__Group2}\index{Data Counter functions@{Data Counter functions}}
+
+
+Data Counter functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ D\+M\+A\+\_\+\+Set\+Curr\+Data\+Counter} (\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$D\+M\+Ay\+\_\+\+Streamx, uint16\+\_\+t Counter)
+\begin{DoxyCompactList}\small\item\em Writes the number of data units to be transferred on the D\+M\+Ay Streamx. \end{DoxyCompactList}\item 
+uint16\+\_\+t \textbf{ D\+M\+A\+\_\+\+Get\+Curr\+Data\+Counter} (\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$D\+M\+Ay\+\_\+\+Streamx)
+\begin{DoxyCompactList}\small\item\em Returns the number of remaining data units in the current D\+M\+Ay Streamx transfer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Data Counter functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                           Data Counter functions
+ ===============================================================================  
+
+  This subsection provides function allowing to configure and read the buffer size
+  (number of data to be transferred). 
+
+  The DMA data counter can be written only when the DMA Stream is disabled 
+  (ie. after transfer complete event).
+
+  The following function can be used to write the Stream data counter value:
+    - void DMA_SetCurrDataCounter(DMA_Stream_TypeDef* DMAy_Streamx, uint16_t Counter);
+
+@note It is advised to use this function rather than DMA_Init() in situations where
+      only the Data buffer needs to be reloaded.
+
+@note If the Source and Destination Data Sizes are different, then the value written in
+      data counter, expressing the number of transfers, is relative to the number of 
+      transfers from the Peripheral point of view.
+      ie. If Memory data size is Word, Peripheral data size is Half-Words, then the value
+      to be configured in the data counter is the number of Half-Words to be transferred
+      from/to the peripheral.
+
+  The DMA data counter can be read to indicate the number of remaining transfers for
+  the relative DMA Stream. This counter is decremented at the end of each data 
+  transfer and when the transfer is complete: 
+   - If Normal mode is selected: the counter is set to 0.
+   - If Circular mode is selected: the counter is reloaded with the initial value
+     (configured before enabling the DMA Stream)
+   
+  The following function can be used to read the Stream data counter value:
+     - uint16_t DMA_GetCurrDataCounter(DMA_Stream_TypeDef* DMAy_Streamx);\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__DMA__Group2_ga4a76444a92423f5f15a4328738d6dc46}} 
+\index{Data Counter functions@{Data Counter functions}!D\+M\+A\+\_\+\+Get\+Curr\+Data\+Counter@{D\+M\+A\+\_\+\+Get\+Curr\+Data\+Counter}}
+\index{D\+M\+A\+\_\+\+Get\+Curr\+Data\+Counter@{D\+M\+A\+\_\+\+Get\+Curr\+Data\+Counter}!Data Counter functions@{Data Counter functions}}
+\subsubsection{D\+M\+A\+\_\+\+Get\+Curr\+Data\+Counter()}
+{\footnotesize\ttfamily uint16\+\_\+t D\+M\+A\+\_\+\+Get\+Curr\+Data\+Counter (\begin{DoxyParamCaption}\item[{\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$}]{D\+M\+Ay\+\_\+\+Streamx }\end{DoxyParamCaption})}
+
+
+
+Returns the number of remaining data units in the current D\+M\+Ay Streamx transfer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+M\+Ay\+\_\+\+Streamx} & where y can be 1 or 2 to select the D\+MA and x can be 0 to 7 to select the D\+MA Stream. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & number of remaining data units in the current D\+M\+Ay Streamx transfer. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 641} of file \textbf{ stm32f4xx\+\_\+dma.\+c}.
+
+
+\begin{DoxyCode}
+00642 \{
+00643   \textcolor{comment}{/* Check the parameters */}
+00644   assert_param(IS_DMA_ALL_PERIPH(DMAy\_Streamx));
+00645 
+00646   \textcolor{comment}{/* Return the number of remaining data units for DMAy Streamx */}
+00647   \textcolor{keywordflow}{return} ((uint16\_t)(DMAy\_Streamx->NDTR));
+00648 \}
+\end{DoxyCode}
+\mbox{\label{group__DMA__Group2_ga6a11a2c951cff59b125ba8857d44e3f3}} 
+\index{Data Counter functions@{Data Counter functions}!D\+M\+A\+\_\+\+Set\+Curr\+Data\+Counter@{D\+M\+A\+\_\+\+Set\+Curr\+Data\+Counter}}
+\index{D\+M\+A\+\_\+\+Set\+Curr\+Data\+Counter@{D\+M\+A\+\_\+\+Set\+Curr\+Data\+Counter}!Data Counter functions@{Data Counter functions}}
+\subsubsection{D\+M\+A\+\_\+\+Set\+Curr\+Data\+Counter()}
+{\footnotesize\ttfamily void D\+M\+A\+\_\+\+Set\+Curr\+Data\+Counter (\begin{DoxyParamCaption}\item[{\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$}]{D\+M\+Ay\+\_\+\+Streamx,  }\item[{uint16\+\_\+t}]{Counter }\end{DoxyParamCaption})}
+
+
+
+Writes the number of data units to be transferred on the D\+M\+Ay Streamx. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+M\+Ay\+\_\+\+Streamx} & where y can be 1 or 2 to select the D\+MA and x can be 0 to 7 to select the D\+MA Stream. \\
+\hline
+{\em Counter} & Number of data units to be transferred (from 0 to 65535) Number of data items depends only on the Peripheral data format.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+If Peripheral data format is Bytes\+: number of data units is equal to total number of bytes to be transferred.
+
+If Peripheral data format is Half-\/\+Word\+: number of data units is equal to total number of bytes to be transferred / 2.
+
+If Peripheral data format is Word\+: number of data units is equal to total number of bytes to be transferred / 4.
+
+In Memory-\/to-\/\+Memory transfer mode, the memory buffer pointed by D\+M\+Ay\+\_\+\+Sx\+P\+AR register is considered as Peripheral.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & number of remaining data units in the current D\+M\+Ay Streamx transfer. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 626} of file \textbf{ stm32f4xx\+\_\+dma.\+c}.
+
+
+\begin{DoxyCode}
+00627 \{
+00628   \textcolor{comment}{/* Check the parameters */}
+00629   assert_param(IS_DMA_ALL_PERIPH(DMAy\_Streamx));
+00630 
+00631   \textcolor{comment}{/* Write the number of data units to be transferred */}
+00632   DMAy\_Streamx->NDTR = (uint16\_t)Counter;
+00633 \}
+\end{DoxyCode}

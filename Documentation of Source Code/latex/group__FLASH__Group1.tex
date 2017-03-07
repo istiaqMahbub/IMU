@@ -1,0 +1,313 @@
+\section{F\+L\+A\+SH Interface configuration functions}
+\label{group__FLASH__Group1}\index{F\+L\+A\+S\+H Interface configuration functions@{F\+L\+A\+S\+H Interface configuration functions}}
+
+
+F\+L\+A\+SH Interface configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ F\+L\+A\+S\+H\+\_\+\+Set\+Latency} (uint32\+\_\+t F\+L\+A\+S\+H\+\_\+\+Latency)
+\begin{DoxyCompactList}\small\item\em Sets the code latency value. \end{DoxyCompactList}\item 
+void \textbf{ F\+L\+A\+S\+H\+\_\+\+Prefetch\+Buffer\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Prefetch Buffer. \end{DoxyCompactList}\item 
+void \textbf{ F\+L\+A\+S\+H\+\_\+\+Instruction\+Cache\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Instruction Cache feature. \end{DoxyCompactList}\item 
+void \textbf{ F\+L\+A\+S\+H\+\_\+\+Data\+Cache\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Data Cache feature. \end{DoxyCompactList}\item 
+void \textbf{ F\+L\+A\+S\+H\+\_\+\+Instruction\+Cache\+Reset} (void)
+\begin{DoxyCompactList}\small\item\em Resets the Instruction Cache. \end{DoxyCompactList}\item 
+void \textbf{ F\+L\+A\+S\+H\+\_\+\+Data\+Cache\+Reset} (void)
+\begin{DoxyCompactList}\small\item\em Resets the Data Cache. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+F\+L\+A\+SH Interface configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                       FLASH Interface configuration functions
+ ===============================================================================
+
+   This group includes the following functions:
+    - void FLASH_SetLatency(uint32_t FLASH_Latency)
+       To correctly read data from FLASH memory, the number of wait states (LATENCY) 
+       must be correctly programmed according to the frequency of the CPU clock 
+      (HCLK) and the supply voltage of the device.
+ +-------------------------------------------------------------------------------------+     
+ | Latency       |                HCLK clock frequency (MHz)                           |
+ |               |---------------------------------------------------------------------|     
+ |               | voltage range  | voltage range  | voltage range   | voltage range   |
+ |               | 2.7 V - 3.6 V  | 2.4 V - 2.7 V  | 2.1 V - 2.4 V   | 1.8 V - 2.1 V   |
+ |---------------|----------------|----------------|-----------------|-----------------|              
+ |0WS(1CPU cycle)|0 < HCLK <= 30  |0 < HCLK <= 24  |0 < HCLK <= 18   |0 < HCLK <= 16   |
+ |---------------|----------------|----------------|-----------------|-----------------|   
+ |1WS(2CPU cycle)|30 < HCLK <= 60 |24 < HCLK <= 48 |18 < HCLK <= 36  |16 < HCLK <= 32  | 
+ |---------------|----------------|----------------|-----------------|-----------------|   
+ |2WS(3CPU cycle)|60 < HCLK <= 90 |48 < HCLK <= 72 |36 < HCLK <= 54  |32 < HCLK <= 48  |
+ |---------------|----------------|----------------|-----------------|-----------------| 
+ |3WS(4CPU cycle)|90 < HCLK <= 120|72 < HCLK <= 96 |54 < HCLK <= 72  |48 < HCLK <= 64  |
+ |---------------|----------------|----------------|-----------------|-----------------| 
+ |4WS(5CPU cycle)|120< HCLK <= 150|96 < HCLK <= 120|72 < HCLK <= 90  |64 < HCLK <= 80  |
+ |---------------|----------------|----------------|-----------------|-----------------| 
+ |5WS(6CPU cycle)|120< HCLK <= 168|120< HCLK <= 144|90 < HCLK <= 108 |80 < HCLK <= 96  | 
+ |---------------|----------------|----------------|-----------------|-----------------| 
+ |6WS(7CPU cycle)|      NA        |144< HCLK <= 168|108 < HCLK <= 120|96 < HCLK <= 112 | 
+ |---------------|----------------|----------------|-----------------|-----------------| 
+ |7WS(8CPU cycle)|      NA        |      NA        |120 < HCLK <= 138|112 < HCLK <= 120| 
+ |***************|****************|****************|*****************|*****************|*****************************+
+ |               | voltage range  | voltage range  | voltage range   | voltage range   | voltage range 2.7 V - 3.6 V |
+ |               | 2.7 V - 3.6 V  | 2.4 V - 2.7 V  | 2.1 V - 2.4 V   | 1.8 V - 2.1 V   | with External Vpp = 9V      |
+ |---------------|----------------|----------------|-----------------|-----------------|-----------------------------| 
+ |Max Parallelism|      x32       |               x16                |       x8        |          x64                |              
+ |---------------|----------------|----------------|-----------------|-----------------|-----------------------------|   
+ |PSIZE[1:0]     |      10        |               01                 |       00        |           11                |
+ +-------------------------------------------------------------------------------------------------------------------+  
+   @note When VOS bit (in PWR_CR register) is reset to '0’, the maximum value of HCLK is 144 MHz.
+         You can use PWR_MainRegulatorModeConfig() function to set or reset this bit.
+             
+    - void FLASH_PrefetchBufferCmd(FunctionalState NewState)
+    - void FLASH_InstructionCacheCmd(FunctionalState NewState)
+    - void FLASH_DataCacheCmd(FunctionalState NewState)
+    - void FLASH_InstructionCacheReset(void)
+    - void FLASH_DataCacheReset(void)
+   
+   The unlock sequence is not needed for these functions.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__FLASH__Group1_ga937a824493f3c6949289401a767a0360}} 
+\index{F\+L\+A\+S\+H Interface configuration functions@{F\+L\+A\+S\+H Interface configuration functions}!F\+L\+A\+S\+H\+\_\+\+Data\+Cache\+Cmd@{F\+L\+A\+S\+H\+\_\+\+Data\+Cache\+Cmd}}
+\index{F\+L\+A\+S\+H\+\_\+\+Data\+Cache\+Cmd@{F\+L\+A\+S\+H\+\_\+\+Data\+Cache\+Cmd}!F\+L\+A\+S\+H Interface configuration functions@{F\+L\+A\+S\+H Interface configuration functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+Data\+Cache\+Cmd()}
+{\footnotesize\ttfamily void F\+L\+A\+S\+H\+\_\+\+Data\+Cache\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the Data Cache feature. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the Data Cache. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 224} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00225 \{
+00226   \textcolor{comment}{/* Check the parameters */}
+00227   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00228   
+00229   \textcolor{keywordflow}{if}(NewState != DISABLE)
+00230   \{
+00231     FLASH->ACR |= FLASH_ACR_DCEN;
+00232   \}
+00233   \textcolor{keywordflow}{else}
+00234   \{
+00235     FLASH->ACR &= (~FLASH_ACR_DCEN);
+00236   \}
+00237 \}
+\end{DoxyCode}
+\mbox{\label{group__FLASH__Group1_ga8332da89b072373b7f116e0b7c137a22}} 
+\index{F\+L\+A\+S\+H Interface configuration functions@{F\+L\+A\+S\+H Interface configuration functions}!F\+L\+A\+S\+H\+\_\+\+Data\+Cache\+Reset@{F\+L\+A\+S\+H\+\_\+\+Data\+Cache\+Reset}}
+\index{F\+L\+A\+S\+H\+\_\+\+Data\+Cache\+Reset@{F\+L\+A\+S\+H\+\_\+\+Data\+Cache\+Reset}!F\+L\+A\+S\+H Interface configuration functions@{F\+L\+A\+S\+H Interface configuration functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+Data\+Cache\+Reset()}
+{\footnotesize\ttfamily void F\+L\+A\+S\+H\+\_\+\+Data\+Cache\+Reset (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Resets the Data Cache. 
+
+\begin{DoxyNote}{Note}
+This function must be used only when the Data Cache is disabled. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 256} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+\begin{DoxyCode}
+00257 \{
+00258   FLASH->ACR |= FLASH_ACR_DCRST;
+00259 \}
+\end{DoxyCode}
+\mbox{\label{group__FLASH__Group1_ga7d5a9a35e792d844c329d7f1656b50ae}} 
+\index{F\+L\+A\+S\+H Interface configuration functions@{F\+L\+A\+S\+H Interface configuration functions}!F\+L\+A\+S\+H\+\_\+\+Instruction\+Cache\+Cmd@{F\+L\+A\+S\+H\+\_\+\+Instruction\+Cache\+Cmd}}
+\index{F\+L\+A\+S\+H\+\_\+\+Instruction\+Cache\+Cmd@{F\+L\+A\+S\+H\+\_\+\+Instruction\+Cache\+Cmd}!F\+L\+A\+S\+H Interface configuration functions@{F\+L\+A\+S\+H Interface configuration functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+Instruction\+Cache\+Cmd()}
+{\footnotesize\ttfamily void F\+L\+A\+S\+H\+\_\+\+Instruction\+Cache\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the Instruction Cache feature. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the Instruction Cache. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 203} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00204 \{
+00205   \textcolor{comment}{/* Check the parameters */}
+00206   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00207   
+00208   \textcolor{keywordflow}{if}(NewState != DISABLE)
+00209   \{
+00210     FLASH->ACR |= FLASH_ACR_ICEN;
+00211   \}
+00212   \textcolor{keywordflow}{else}
+00213   \{
+00214     FLASH->ACR &= (~FLASH_ACR_ICEN);
+00215   \}
+00216 \}
+\end{DoxyCode}
+\mbox{\label{group__FLASH__Group1_gaf6f1e54d9df32f3c196d67e59eb80a49}} 
+\index{F\+L\+A\+S\+H Interface configuration functions@{F\+L\+A\+S\+H Interface configuration functions}!F\+L\+A\+S\+H\+\_\+\+Instruction\+Cache\+Reset@{F\+L\+A\+S\+H\+\_\+\+Instruction\+Cache\+Reset}}
+\index{F\+L\+A\+S\+H\+\_\+\+Instruction\+Cache\+Reset@{F\+L\+A\+S\+H\+\_\+\+Instruction\+Cache\+Reset}!F\+L\+A\+S\+H Interface configuration functions@{F\+L\+A\+S\+H Interface configuration functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+Instruction\+Cache\+Reset()}
+{\footnotesize\ttfamily void F\+L\+A\+S\+H\+\_\+\+Instruction\+Cache\+Reset (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Resets the Instruction Cache. 
+
+\begin{DoxyNote}{Note}
+This function must be used only when the Instruction Cache is disabled. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 245} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+\begin{DoxyCode}
+00246 \{
+00247   FLASH->ACR |= FLASH_ACR_ICRST;
+00248 \}
+\end{DoxyCode}
+\mbox{\label{group__FLASH__Group1_gafaa24b6176b587bdda46abbe755af986}} 
+\index{F\+L\+A\+S\+H Interface configuration functions@{F\+L\+A\+S\+H Interface configuration functions}!F\+L\+A\+S\+H\+\_\+\+Prefetch\+Buffer\+Cmd@{F\+L\+A\+S\+H\+\_\+\+Prefetch\+Buffer\+Cmd}}
+\index{F\+L\+A\+S\+H\+\_\+\+Prefetch\+Buffer\+Cmd@{F\+L\+A\+S\+H\+\_\+\+Prefetch\+Buffer\+Cmd}!F\+L\+A\+S\+H Interface configuration functions@{F\+L\+A\+S\+H Interface configuration functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+Prefetch\+Buffer\+Cmd()}
+{\footnotesize\ttfamily void F\+L\+A\+S\+H\+\_\+\+Prefetch\+Buffer\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the Prefetch Buffer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the Prefetch Buffer. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 181} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00182 \{
+00183   \textcolor{comment}{/* Check the parameters */}
+00184   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00185   
+00186   \textcolor{comment}{/* Enable or disable the Prefetch Buffer */}
+00187   \textcolor{keywordflow}{if}(NewState != DISABLE)
+00188   \{
+00189     FLASH->ACR |= FLASH_ACR_PRFTEN;
+00190   \}
+00191   \textcolor{keywordflow}{else}
+00192   \{
+00193     FLASH->ACR &= (~FLASH_ACR_PRFTEN);
+00194   \}
+00195 \}
+\end{DoxyCode}
+\mbox{\label{group__FLASH__Group1_ga54bcb96270215c752c3479c8c9e438c0}} 
+\index{F\+L\+A\+S\+H Interface configuration functions@{F\+L\+A\+S\+H Interface configuration functions}!F\+L\+A\+S\+H\+\_\+\+Set\+Latency@{F\+L\+A\+S\+H\+\_\+\+Set\+Latency}}
+\index{F\+L\+A\+S\+H\+\_\+\+Set\+Latency@{F\+L\+A\+S\+H\+\_\+\+Set\+Latency}!F\+L\+A\+S\+H Interface configuration functions@{F\+L\+A\+S\+H Interface configuration functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+Set\+Latency()}
+{\footnotesize\ttfamily void F\+L\+A\+S\+H\+\_\+\+Set\+Latency (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{F\+L\+A\+S\+H\+\_\+\+Latency }\end{DoxyParamCaption})}
+
+
+
+Sets the code latency value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\+L\+A\+S\+H\+\_\+\+Latency} & specifies the F\+L\+A\+SH Latency value. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item F\+L\+A\+S\+H\+\_\+\+Latency\+\_\+0\+: F\+L\+A\+SH Zero Latency cycle \item F\+L\+A\+S\+H\+\_\+\+Latency\+\_\+1\+: F\+L\+A\+SH One Latency cycle \item F\+L\+A\+S\+H\+\_\+\+Latency\+\_\+2\+: F\+L\+A\+SH Two Latency cycles \item F\+L\+A\+S\+H\+\_\+\+Latency\+\_\+3\+: F\+L\+A\+SH Three Latency cycles \item F\+L\+A\+S\+H\+\_\+\+Latency\+\_\+4\+: F\+L\+A\+SH Four Latency cycles \item F\+L\+A\+S\+H\+\_\+\+Latency\+\_\+5\+: F\+L\+A\+SH Five Latency cycles \item F\+L\+A\+S\+H\+\_\+\+Latency\+\_\+6\+: F\+L\+A\+SH Six Latency cycles \item F\+L\+A\+S\+H\+\_\+\+Latency\+\_\+7\+: F\+L\+A\+SH Seven Latency cycles \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 166} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+\begin{DoxyCode}
+00167 \{
+00168   \textcolor{comment}{/* Check the parameters */}
+00169   assert_param(IS_FLASH_LATENCY(FLASH\_Latency));
+00170   
+00171   \textcolor{comment}{/* Perform Byte access to FLASH\_ACR[8:0] to set the Latency value */}
+00172   *(\_\_IO uint8\_t *)ACR_BYTE0_ADDRESS = (uint8\_t)FLASH\_Latency;
+00173 \}
+\end{DoxyCode}

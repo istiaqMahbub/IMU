@@ -1,0 +1,1601 @@
+\section{S\+D\+IO}
+\label{group__SDIO}\index{S\+D\+IO@{S\+D\+IO}}
+
+
+S\+D\+IO driver modules.  
+
+
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ S\+D\+I\+O\+\_\+\+Exported\+\_\+\+Constants}
+\item 
+\textbf{ S\+D\+I\+O\+\_\+\+Private\+\_\+\+Functions}
+\end{DoxyCompactItemize}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def}
+\item 
+struct \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def}
+\item 
+struct \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+O\+F\+F\+S\+ET}~(\textbf{ S\+D\+I\+O\+\_\+\+B\+A\+SE} -\/ \textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+A\+SE})
+\item 
+\#define \textbf{ C\+L\+K\+C\+R\+\_\+\+O\+F\+F\+S\+ET}~(\textbf{ S\+D\+I\+O\+\_\+\+O\+F\+F\+S\+ET} + 0x04)
+\item 
+\#define \textbf{ C\+L\+K\+E\+N\+\_\+\+Bit\+Number}~0x08
+\item 
+\#define \textbf{ C\+L\+K\+C\+R\+\_\+\+C\+L\+K\+E\+N\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+L\+K\+C\+R\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ C\+L\+K\+E\+N\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ C\+M\+D\+\_\+\+O\+F\+F\+S\+ET}~(\textbf{ S\+D\+I\+O\+\_\+\+O\+F\+F\+S\+ET} + 0x0\+C)
+\item 
+\#define \textbf{ S\+D\+I\+O\+S\+U\+S\+P\+E\+N\+D\+\_\+\+Bit\+Number}~0x0B
+\item 
+\#define \textbf{ C\+M\+D\+\_\+\+S\+D\+I\+O\+S\+U\+S\+P\+E\+N\+D\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+M\+D\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ S\+D\+I\+O\+S\+U\+S\+P\+E\+N\+D\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ E\+N\+C\+M\+D\+C\+O\+M\+P\+L\+\_\+\+Bit\+Number}~0x0C
+\item 
+\#define \textbf{ C\+M\+D\+\_\+\+E\+N\+C\+M\+D\+C\+O\+M\+P\+L\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+M\+D\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ E\+N\+C\+M\+D\+C\+O\+M\+P\+L\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ N\+I\+E\+N\+\_\+\+Bit\+Number}~0x0D
+\item 
+\#define \textbf{ C\+M\+D\+\_\+\+N\+I\+E\+N\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+M\+D\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ N\+I\+E\+N\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ A\+T\+A\+C\+M\+D\+\_\+\+Bit\+Number}~0x0E
+\item 
+\#define \textbf{ C\+M\+D\+\_\+\+A\+T\+A\+C\+M\+D\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+M\+D\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ A\+T\+A\+C\+M\+D\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET}~(\textbf{ S\+D\+I\+O\+\_\+\+O\+F\+F\+S\+ET} + 0x2\+C)
+\item 
+\#define \textbf{ D\+M\+A\+E\+N\+\_\+\+Bit\+Number}~0x03
+\item 
+\#define \textbf{ D\+C\+T\+R\+L\+\_\+\+D\+M\+A\+E\+N\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ D\+M\+A\+E\+N\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ R\+W\+S\+T\+A\+R\+T\+\_\+\+Bit\+Number}~0x08
+\item 
+\#define \textbf{ D\+C\+T\+R\+L\+\_\+\+R\+W\+S\+T\+A\+R\+T\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ R\+W\+S\+T\+A\+R\+T\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ R\+W\+S\+T\+O\+P\+\_\+\+Bit\+Number}~0x09
+\item 
+\#define \textbf{ D\+C\+T\+R\+L\+\_\+\+R\+W\+S\+T\+O\+P\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ R\+W\+S\+T\+O\+P\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ R\+W\+M\+O\+D\+\_\+\+Bit\+Number}~0x0A
+\item 
+\#define \textbf{ D\+C\+T\+R\+L\+\_\+\+R\+W\+M\+O\+D\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ R\+W\+M\+O\+D\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ S\+D\+I\+O\+E\+N\+\_\+\+Bit\+Number}~0x0B
+\item 
+\#define \textbf{ D\+C\+T\+R\+L\+\_\+\+S\+D\+I\+O\+E\+N\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ S\+D\+I\+O\+E\+N\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ C\+L\+K\+C\+R\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}~((uint32\+\_\+t)0x\+F\+F\+F\+F8100)
+\item 
+\#define \textbf{ P\+W\+R\+\_\+\+P\+W\+R\+C\+T\+R\+L\+\_\+\+M\+A\+SK}~((uint32\+\_\+t)0x\+F\+F\+F\+F\+F\+F\+F\+C)
+\item 
+\#define \textbf{ D\+C\+T\+R\+L\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}~((uint32\+\_\+t)0x\+F\+F\+F\+F\+F\+F08)
+\item 
+\#define \textbf{ C\+M\+D\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}~((uint32\+\_\+t)0x\+F\+F\+F\+F\+F800)
+\item 
+\#define \textbf{ S\+D\+I\+O\+\_\+\+R\+E\+S\+P\+\_\+\+A\+D\+DR}~((uint32\+\_\+t)(\textbf{ S\+D\+I\+O\+\_\+\+B\+A\+SE} + 0x14))
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the S\+D\+IO peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Init} (\textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the S\+D\+IO peripheral according to the specified parameters in the S\+D\+I\+O\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Struct\+Init} (\textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each S\+D\+I\+O\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Clock\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the S\+D\+IO Clock. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Set\+Power\+State} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+Power\+State)
+\begin{DoxyCompactList}\small\item\em Sets the power status of the controller. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Get\+Power\+State} (void)
+\begin{DoxyCompactList}\small\item\em Gets the power status of the controller. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Send\+Command} (\textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the S\+D\+IO Command according to the specified parameters in the S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct and send the command. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Struct\+Init} (\textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Get\+Command\+Response} (void)
+\begin{DoxyCompactList}\small\item\em Returns command index of last command for which response received. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Get\+Response} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+R\+E\+SP)
+\begin{DoxyCompactList}\small\item\em Returns response received from the card for the last command. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Data\+Config} (\textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Data\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the S\+D\+IO data path according to the specified parameters in the S\+D\+I\+O\+\_\+\+Data\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Data\+Struct\+Init} (\textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Data\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each S\+D\+I\+O\+\_\+\+Data\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Get\+Data\+Counter} (void)
+\begin{DoxyCompactList}\small\item\em Returns number of remaining data bytes to be transferred. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Read\+Data} (void)
+\begin{DoxyCompactList}\small\item\em Read one data word from Rx F\+I\+FO. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Write\+Data} (uint32\+\_\+t Data)
+\begin{DoxyCompactList}\small\item\em Write one data word to Tx F\+I\+FO. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Get\+F\+I\+F\+O\+Count} (void)
+\begin{DoxyCompactList}\small\item\em Returns the number of words left to be written to or read from F\+I\+FO. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Start\+S\+D\+I\+O\+Read\+Wait} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Starts the SD I/O Read Wait operation. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Stop\+S\+D\+I\+O\+Read\+Wait} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Stops the SD I/O Read Wait operation. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Read\+Wait\+Mode} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+Read\+Wait\+Mode)
+\begin{DoxyCompactList}\small\item\em Sets one of the two options of inserting read wait interval. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Operation} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the SD I/O Mode Operation. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Send\+S\+D\+I\+O\+Suspend\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the SD I/O Mode suspend command sending. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Command\+Completion\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the command completion signal. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+C\+E\+A\+T\+A\+I\+T\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the C\+E-\/\+A\+TA interrupt. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Send\+C\+E\+A\+T\+A\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Sends C\+E-\/\+A\+TA command (C\+M\+D61). \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+D\+M\+A\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the S\+D\+IO D\+MA request. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+Config} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the S\+D\+IO interrupts. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ S\+D\+I\+O\+\_\+\+Get\+Flag\+Status} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified S\+D\+IO flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Clear\+Flag} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the S\+D\+IO\textquotesingle{}s pending flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ S\+D\+I\+O\+\_\+\+Get\+I\+T\+Status} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified S\+D\+IO interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Clear\+I\+T\+Pending\+Bit} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the S\+D\+IO\textquotesingle{}s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+S\+D\+IO driver modules. 
+
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\label{group__SDIO_gabd4fd3bb700b879f843ccc867db1832e}} 
+\index{S\+D\+IO@{S\+D\+IO}!A\+T\+A\+C\+M\+D\+\_\+\+Bit\+Number@{A\+T\+A\+C\+M\+D\+\_\+\+Bit\+Number}}
+\index{A\+T\+A\+C\+M\+D\+\_\+\+Bit\+Number@{A\+T\+A\+C\+M\+D\+\_\+\+Bit\+Number}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{A\+T\+A\+C\+M\+D\+\_\+\+Bit\+Number}
+{\footnotesize\ttfamily \#define A\+T\+A\+C\+M\+D\+\_\+\+Bit\+Number~0x0E}
+
+
+
+Definition at line \textbf{ 188} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_gac8d10dd1e49ca9e8a6954146654e9a01}} 
+\index{S\+D\+IO@{S\+D\+IO}!C\+L\+K\+C\+R\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK@{C\+L\+K\+C\+R\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}}
+\index{C\+L\+K\+C\+R\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK@{C\+L\+K\+C\+R\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{C\+L\+K\+C\+R\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}
+{\footnotesize\ttfamily \#define C\+L\+K\+C\+R\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK~((uint32\+\_\+t)0x\+F\+F\+F\+F8100)}
+
+
+
+Definition at line \textbf{ 216} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_gabfb5772b9b734972b576309f7ca8bf92}} 
+\index{S\+D\+IO@{S\+D\+IO}!C\+L\+K\+C\+R\+\_\+\+C\+L\+K\+E\+N\+\_\+\+BB@{C\+L\+K\+C\+R\+\_\+\+C\+L\+K\+E\+N\+\_\+\+BB}}
+\index{C\+L\+K\+C\+R\+\_\+\+C\+L\+K\+E\+N\+\_\+\+BB@{C\+L\+K\+C\+R\+\_\+\+C\+L\+K\+E\+N\+\_\+\+BB}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{C\+L\+K\+C\+R\+\_\+\+C\+L\+K\+E\+N\+\_\+\+BB}
+{\footnotesize\ttfamily \#define C\+L\+K\+C\+R\+\_\+\+C\+L\+K\+E\+N\+\_\+\+BB~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+L\+K\+C\+R\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ C\+L\+K\+E\+N\+\_\+\+Bit\+Number} $\ast$ 4))}
+
+
+
+Definition at line \textbf{ 171} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_gac5d642be874338519fdec175204ca8ed}} 
+\index{S\+D\+IO@{S\+D\+IO}!C\+L\+K\+C\+R\+\_\+\+O\+F\+F\+S\+ET@{C\+L\+K\+C\+R\+\_\+\+O\+F\+F\+S\+ET}}
+\index{C\+L\+K\+C\+R\+\_\+\+O\+F\+F\+S\+ET@{C\+L\+K\+C\+R\+\_\+\+O\+F\+F\+S\+ET}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{C\+L\+K\+C\+R\+\_\+\+O\+F\+F\+S\+ET}
+{\footnotesize\ttfamily \#define C\+L\+K\+C\+R\+\_\+\+O\+F\+F\+S\+ET~(\textbf{ S\+D\+I\+O\+\_\+\+O\+F\+F\+S\+ET} + 0x04)}
+
+
+
+Definition at line \textbf{ 169} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_ga6ad1da47f9d84c54eb620b9231ebec86}} 
+\index{S\+D\+IO@{S\+D\+IO}!C\+L\+K\+E\+N\+\_\+\+Bit\+Number@{C\+L\+K\+E\+N\+\_\+\+Bit\+Number}}
+\index{C\+L\+K\+E\+N\+\_\+\+Bit\+Number@{C\+L\+K\+E\+N\+\_\+\+Bit\+Number}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{C\+L\+K\+E\+N\+\_\+\+Bit\+Number}
+{\footnotesize\ttfamily \#define C\+L\+K\+E\+N\+\_\+\+Bit\+Number~0x08}
+
+
+
+Definition at line \textbf{ 170} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_gabb7e537f931b6fdd3b49e826f2e19d7c}} 
+\index{S\+D\+IO@{S\+D\+IO}!C\+M\+D\+\_\+\+A\+T\+A\+C\+M\+D\+\_\+\+BB@{C\+M\+D\+\_\+\+A\+T\+A\+C\+M\+D\+\_\+\+BB}}
+\index{C\+M\+D\+\_\+\+A\+T\+A\+C\+M\+D\+\_\+\+BB@{C\+M\+D\+\_\+\+A\+T\+A\+C\+M\+D\+\_\+\+BB}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{C\+M\+D\+\_\+\+A\+T\+A\+C\+M\+D\+\_\+\+BB}
+{\footnotesize\ttfamily \#define C\+M\+D\+\_\+\+A\+T\+A\+C\+M\+D\+\_\+\+BB~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+M\+D\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ A\+T\+A\+C\+M\+D\+\_\+\+Bit\+Number} $\ast$ 4))}
+
+
+
+Definition at line \textbf{ 189} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_ga2325d77090e44221b07f8fba5bc9217e}} 
+\index{S\+D\+IO@{S\+D\+IO}!C\+M\+D\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK@{C\+M\+D\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}}
+\index{C\+M\+D\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK@{C\+M\+D\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{C\+M\+D\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}
+{\footnotesize\ttfamily \#define C\+M\+D\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK~((uint32\+\_\+t)0x\+F\+F\+F\+F\+F800)}
+
+
+
+Definition at line \textbf{ 228} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_gade06098d1616639ce5f1b70675280b7c}} 
+\index{S\+D\+IO@{S\+D\+IO}!C\+M\+D\+\_\+\+E\+N\+C\+M\+D\+C\+O\+M\+P\+L\+\_\+\+BB@{C\+M\+D\+\_\+\+E\+N\+C\+M\+D\+C\+O\+M\+P\+L\+\_\+\+BB}}
+\index{C\+M\+D\+\_\+\+E\+N\+C\+M\+D\+C\+O\+M\+P\+L\+\_\+\+BB@{C\+M\+D\+\_\+\+E\+N\+C\+M\+D\+C\+O\+M\+P\+L\+\_\+\+BB}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{C\+M\+D\+\_\+\+E\+N\+C\+M\+D\+C\+O\+M\+P\+L\+\_\+\+BB}
+{\footnotesize\ttfamily \#define C\+M\+D\+\_\+\+E\+N\+C\+M\+D\+C\+O\+M\+P\+L\+\_\+\+BB~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+M\+D\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ E\+N\+C\+M\+D\+C\+O\+M\+P\+L\+\_\+\+Bit\+Number} $\ast$ 4))}
+
+
+
+Definition at line \textbf{ 181} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_ga08623f1d053677de8b20a6f5f5090edd}} 
+\index{S\+D\+IO@{S\+D\+IO}!C\+M\+D\+\_\+\+N\+I\+E\+N\+\_\+\+BB@{C\+M\+D\+\_\+\+N\+I\+E\+N\+\_\+\+BB}}
+\index{C\+M\+D\+\_\+\+N\+I\+E\+N\+\_\+\+BB@{C\+M\+D\+\_\+\+N\+I\+E\+N\+\_\+\+BB}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{C\+M\+D\+\_\+\+N\+I\+E\+N\+\_\+\+BB}
+{\footnotesize\ttfamily \#define C\+M\+D\+\_\+\+N\+I\+E\+N\+\_\+\+BB~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+M\+D\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ N\+I\+E\+N\+\_\+\+Bit\+Number} $\ast$ 4))}
+
+
+
+Definition at line \textbf{ 185} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_gaf12d26702ce7a88d2a3dae87f000b75e}} 
+\index{S\+D\+IO@{S\+D\+IO}!C\+M\+D\+\_\+\+O\+F\+F\+S\+ET@{C\+M\+D\+\_\+\+O\+F\+F\+S\+ET}}
+\index{C\+M\+D\+\_\+\+O\+F\+F\+S\+ET@{C\+M\+D\+\_\+\+O\+F\+F\+S\+ET}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{C\+M\+D\+\_\+\+O\+F\+F\+S\+ET}
+{\footnotesize\ttfamily \#define C\+M\+D\+\_\+\+O\+F\+F\+S\+ET~(\textbf{ S\+D\+I\+O\+\_\+\+O\+F\+F\+S\+ET} + 0x0\+C)}
+
+
+
+Definition at line \textbf{ 175} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_ga931e48aa282e2a937308f57f807e0781}} 
+\index{S\+D\+IO@{S\+D\+IO}!C\+M\+D\+\_\+\+S\+D\+I\+O\+S\+U\+S\+P\+E\+N\+D\+\_\+\+BB@{C\+M\+D\+\_\+\+S\+D\+I\+O\+S\+U\+S\+P\+E\+N\+D\+\_\+\+BB}}
+\index{C\+M\+D\+\_\+\+S\+D\+I\+O\+S\+U\+S\+P\+E\+N\+D\+\_\+\+BB@{C\+M\+D\+\_\+\+S\+D\+I\+O\+S\+U\+S\+P\+E\+N\+D\+\_\+\+BB}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{C\+M\+D\+\_\+\+S\+D\+I\+O\+S\+U\+S\+P\+E\+N\+D\+\_\+\+BB}
+{\footnotesize\ttfamily \#define C\+M\+D\+\_\+\+S\+D\+I\+O\+S\+U\+S\+P\+E\+N\+D\+\_\+\+BB~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+M\+D\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ S\+D\+I\+O\+S\+U\+S\+P\+E\+N\+D\+\_\+\+Bit\+Number} $\ast$ 4))}
+
+
+
+Definition at line \textbf{ 177} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_ga9e9fc7810b95805aeeb760bbdd87fa9b}} 
+\index{S\+D\+IO@{S\+D\+IO}!D\+C\+T\+R\+L\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK@{D\+C\+T\+R\+L\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}}
+\index{D\+C\+T\+R\+L\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK@{D\+C\+T\+R\+L\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{D\+C\+T\+R\+L\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK}
+{\footnotesize\ttfamily \#define D\+C\+T\+R\+L\+\_\+\+C\+L\+E\+A\+R\+\_\+\+M\+A\+SK~((uint32\+\_\+t)0x\+F\+F\+F\+F\+F\+F08)}
+
+
+
+Definition at line \textbf{ 224} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_ga43f7336d4f955c6cf1f676ccbc043fe9}} 
+\index{S\+D\+IO@{S\+D\+IO}!D\+C\+T\+R\+L\+\_\+\+D\+M\+A\+E\+N\+\_\+\+BB@{D\+C\+T\+R\+L\+\_\+\+D\+M\+A\+E\+N\+\_\+\+BB}}
+\index{D\+C\+T\+R\+L\+\_\+\+D\+M\+A\+E\+N\+\_\+\+BB@{D\+C\+T\+R\+L\+\_\+\+D\+M\+A\+E\+N\+\_\+\+BB}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{D\+C\+T\+R\+L\+\_\+\+D\+M\+A\+E\+N\+\_\+\+BB}
+{\footnotesize\ttfamily \#define D\+C\+T\+R\+L\+\_\+\+D\+M\+A\+E\+N\+\_\+\+BB~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ D\+M\+A\+E\+N\+\_\+\+Bit\+Number} $\ast$ 4))}
+
+
+
+Definition at line \textbf{ 195} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_ga948c1382c4cfd3af3e406c4d0cdd4240}} 
+\index{S\+D\+IO@{S\+D\+IO}!D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET@{D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET}}
+\index{D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET@{D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET}
+{\footnotesize\ttfamily \#define D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET~(\textbf{ S\+D\+I\+O\+\_\+\+O\+F\+F\+S\+ET} + 0x2\+C)}
+
+
+
+Definition at line \textbf{ 193} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_gad34bfe8650534ce24320ae83886c91e3}} 
+\index{S\+D\+IO@{S\+D\+IO}!D\+C\+T\+R\+L\+\_\+\+R\+W\+M\+O\+D\+\_\+\+BB@{D\+C\+T\+R\+L\+\_\+\+R\+W\+M\+O\+D\+\_\+\+BB}}
+\index{D\+C\+T\+R\+L\+\_\+\+R\+W\+M\+O\+D\+\_\+\+BB@{D\+C\+T\+R\+L\+\_\+\+R\+W\+M\+O\+D\+\_\+\+BB}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{D\+C\+T\+R\+L\+\_\+\+R\+W\+M\+O\+D\+\_\+\+BB}
+{\footnotesize\ttfamily \#define D\+C\+T\+R\+L\+\_\+\+R\+W\+M\+O\+D\+\_\+\+BB~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ R\+W\+M\+O\+D\+\_\+\+Bit\+Number} $\ast$ 4))}
+
+
+
+Definition at line \textbf{ 207} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_gac776c39dfac0e1ed007217133e1145c3}} 
+\index{S\+D\+IO@{S\+D\+IO}!D\+C\+T\+R\+L\+\_\+\+R\+W\+S\+T\+A\+R\+T\+\_\+\+BB@{D\+C\+T\+R\+L\+\_\+\+R\+W\+S\+T\+A\+R\+T\+\_\+\+BB}}
+\index{D\+C\+T\+R\+L\+\_\+\+R\+W\+S\+T\+A\+R\+T\+\_\+\+BB@{D\+C\+T\+R\+L\+\_\+\+R\+W\+S\+T\+A\+R\+T\+\_\+\+BB}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{D\+C\+T\+R\+L\+\_\+\+R\+W\+S\+T\+A\+R\+T\+\_\+\+BB}
+{\footnotesize\ttfamily \#define D\+C\+T\+R\+L\+\_\+\+R\+W\+S\+T\+A\+R\+T\+\_\+\+BB~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ R\+W\+S\+T\+A\+R\+T\+\_\+\+Bit\+Number} $\ast$ 4))}
+
+
+
+Definition at line \textbf{ 199} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_ga678da1db835676b0fb1976cf3408e2d1}} 
+\index{S\+D\+IO@{S\+D\+IO}!D\+C\+T\+R\+L\+\_\+\+R\+W\+S\+T\+O\+P\+\_\+\+BB@{D\+C\+T\+R\+L\+\_\+\+R\+W\+S\+T\+O\+P\+\_\+\+BB}}
+\index{D\+C\+T\+R\+L\+\_\+\+R\+W\+S\+T\+O\+P\+\_\+\+BB@{D\+C\+T\+R\+L\+\_\+\+R\+W\+S\+T\+O\+P\+\_\+\+BB}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{D\+C\+T\+R\+L\+\_\+\+R\+W\+S\+T\+O\+P\+\_\+\+BB}
+{\footnotesize\ttfamily \#define D\+C\+T\+R\+L\+\_\+\+R\+W\+S\+T\+O\+P\+\_\+\+BB~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ R\+W\+S\+T\+O\+P\+\_\+\+Bit\+Number} $\ast$ 4))}
+
+
+
+Definition at line \textbf{ 203} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_ga894f7da62b89ddd9f4b79d066056a3c7}} 
+\index{S\+D\+IO@{S\+D\+IO}!D\+C\+T\+R\+L\+\_\+\+S\+D\+I\+O\+E\+N\+\_\+\+BB@{D\+C\+T\+R\+L\+\_\+\+S\+D\+I\+O\+E\+N\+\_\+\+BB}}
+\index{D\+C\+T\+R\+L\+\_\+\+S\+D\+I\+O\+E\+N\+\_\+\+BB@{D\+C\+T\+R\+L\+\_\+\+S\+D\+I\+O\+E\+N\+\_\+\+BB}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{D\+C\+T\+R\+L\+\_\+\+S\+D\+I\+O\+E\+N\+\_\+\+BB}
+{\footnotesize\ttfamily \#define D\+C\+T\+R\+L\+\_\+\+S\+D\+I\+O\+E\+N\+\_\+\+BB~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ D\+C\+T\+R\+L\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ S\+D\+I\+O\+E\+N\+\_\+\+Bit\+Number} $\ast$ 4))}
+
+
+
+Definition at line \textbf{ 211} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_gab2af311e327213503f0dbf3d013b7944}} 
+\index{S\+D\+IO@{S\+D\+IO}!D\+M\+A\+E\+N\+\_\+\+Bit\+Number@{D\+M\+A\+E\+N\+\_\+\+Bit\+Number}}
+\index{D\+M\+A\+E\+N\+\_\+\+Bit\+Number@{D\+M\+A\+E\+N\+\_\+\+Bit\+Number}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{D\+M\+A\+E\+N\+\_\+\+Bit\+Number}
+{\footnotesize\ttfamily \#define D\+M\+A\+E\+N\+\_\+\+Bit\+Number~0x03}
+
+
+
+Definition at line \textbf{ 194} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_ga1d1112c7b804791a0fffd8b317085aeb}} 
+\index{S\+D\+IO@{S\+D\+IO}!E\+N\+C\+M\+D\+C\+O\+M\+P\+L\+\_\+\+Bit\+Number@{E\+N\+C\+M\+D\+C\+O\+M\+P\+L\+\_\+\+Bit\+Number}}
+\index{E\+N\+C\+M\+D\+C\+O\+M\+P\+L\+\_\+\+Bit\+Number@{E\+N\+C\+M\+D\+C\+O\+M\+P\+L\+\_\+\+Bit\+Number}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{E\+N\+C\+M\+D\+C\+O\+M\+P\+L\+\_\+\+Bit\+Number}
+{\footnotesize\ttfamily \#define E\+N\+C\+M\+D\+C\+O\+M\+P\+L\+\_\+\+Bit\+Number~0x0C}
+
+
+
+Definition at line \textbf{ 180} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_gab6d83a7ccd4a0d9ea9a09fec263fb25f}} 
+\index{S\+D\+IO@{S\+D\+IO}!N\+I\+E\+N\+\_\+\+Bit\+Number@{N\+I\+E\+N\+\_\+\+Bit\+Number}}
+\index{N\+I\+E\+N\+\_\+\+Bit\+Number@{N\+I\+E\+N\+\_\+\+Bit\+Number}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{N\+I\+E\+N\+\_\+\+Bit\+Number}
+{\footnotesize\ttfamily \#define N\+I\+E\+N\+\_\+\+Bit\+Number~0x0D}
+
+
+
+Definition at line \textbf{ 184} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_ga7e6ec7be68d0fbb8fb4e3725cca9a05c}} 
+\index{S\+D\+IO@{S\+D\+IO}!P\+W\+R\+\_\+\+P\+W\+R\+C\+T\+R\+L\+\_\+\+M\+A\+SK@{P\+W\+R\+\_\+\+P\+W\+R\+C\+T\+R\+L\+\_\+\+M\+A\+SK}}
+\index{P\+W\+R\+\_\+\+P\+W\+R\+C\+T\+R\+L\+\_\+\+M\+A\+SK@{P\+W\+R\+\_\+\+P\+W\+R\+C\+T\+R\+L\+\_\+\+M\+A\+SK}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{P\+W\+R\+\_\+\+P\+W\+R\+C\+T\+R\+L\+\_\+\+M\+A\+SK}
+{\footnotesize\ttfamily \#define P\+W\+R\+\_\+\+P\+W\+R\+C\+T\+R\+L\+\_\+\+M\+A\+SK~((uint32\+\_\+t)0x\+F\+F\+F\+F\+F\+F\+F\+C)}
+
+
+
+Definition at line \textbf{ 220} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_gad7b722671f65e79d1be2899b643278ad}} 
+\index{S\+D\+IO@{S\+D\+IO}!R\+W\+M\+O\+D\+\_\+\+Bit\+Number@{R\+W\+M\+O\+D\+\_\+\+Bit\+Number}}
+\index{R\+W\+M\+O\+D\+\_\+\+Bit\+Number@{R\+W\+M\+O\+D\+\_\+\+Bit\+Number}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{R\+W\+M\+O\+D\+\_\+\+Bit\+Number}
+{\footnotesize\ttfamily \#define R\+W\+M\+O\+D\+\_\+\+Bit\+Number~0x0A}
+
+
+
+Definition at line \textbf{ 206} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_ga773045c51d3e8daee0c181517c44a2df}} 
+\index{S\+D\+IO@{S\+D\+IO}!R\+W\+S\+T\+A\+R\+T\+\_\+\+Bit\+Number@{R\+W\+S\+T\+A\+R\+T\+\_\+\+Bit\+Number}}
+\index{R\+W\+S\+T\+A\+R\+T\+\_\+\+Bit\+Number@{R\+W\+S\+T\+A\+R\+T\+\_\+\+Bit\+Number}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{R\+W\+S\+T\+A\+R\+T\+\_\+\+Bit\+Number}
+{\footnotesize\ttfamily \#define R\+W\+S\+T\+A\+R\+T\+\_\+\+Bit\+Number~0x08}
+
+
+
+Definition at line \textbf{ 198} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_gae8c0654ad5cba23281bcfa77ef19b9cf}} 
+\index{S\+D\+IO@{S\+D\+IO}!R\+W\+S\+T\+O\+P\+\_\+\+Bit\+Number@{R\+W\+S\+T\+O\+P\+\_\+\+Bit\+Number}}
+\index{R\+W\+S\+T\+O\+P\+\_\+\+Bit\+Number@{R\+W\+S\+T\+O\+P\+\_\+\+Bit\+Number}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{R\+W\+S\+T\+O\+P\+\_\+\+Bit\+Number}
+{\footnotesize\ttfamily \#define R\+W\+S\+T\+O\+P\+\_\+\+Bit\+Number~0x09}
+
+
+
+Definition at line \textbf{ 202} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_gabf07aced03df5f46d57cea1d4f56d1e3}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+O\+F\+F\+S\+ET@{S\+D\+I\+O\+\_\+\+O\+F\+F\+S\+ET}}
+\index{S\+D\+I\+O\+\_\+\+O\+F\+F\+S\+ET@{S\+D\+I\+O\+\_\+\+O\+F\+F\+S\+ET}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+O\+F\+F\+S\+ET}
+{\footnotesize\ttfamily \#define S\+D\+I\+O\+\_\+\+O\+F\+F\+S\+ET~(\textbf{ S\+D\+I\+O\+\_\+\+B\+A\+SE} -\/ \textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+A\+SE})}
+
+
+
+Definition at line \textbf{ 165} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_ga4285ce49b005e3d03ddf9fdc491c4d70}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+R\+E\+S\+P\+\_\+\+A\+D\+DR@{S\+D\+I\+O\+\_\+\+R\+E\+S\+P\+\_\+\+A\+D\+DR}}
+\index{S\+D\+I\+O\+\_\+\+R\+E\+S\+P\+\_\+\+A\+D\+DR@{S\+D\+I\+O\+\_\+\+R\+E\+S\+P\+\_\+\+A\+D\+DR}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+R\+E\+S\+P\+\_\+\+A\+D\+DR}
+{\footnotesize\ttfamily \#define S\+D\+I\+O\+\_\+\+R\+E\+S\+P\+\_\+\+A\+D\+DR~((uint32\+\_\+t)(\textbf{ S\+D\+I\+O\+\_\+\+B\+A\+SE} + 0x14))}
+
+
+
+Definition at line \textbf{ 231} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_ga37f3e1612e0dae8160be978ebfa54301}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+E\+N\+\_\+\+Bit\+Number@{S\+D\+I\+O\+E\+N\+\_\+\+Bit\+Number}}
+\index{S\+D\+I\+O\+E\+N\+\_\+\+Bit\+Number@{S\+D\+I\+O\+E\+N\+\_\+\+Bit\+Number}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+E\+N\+\_\+\+Bit\+Number}
+{\footnotesize\ttfamily \#define S\+D\+I\+O\+E\+N\+\_\+\+Bit\+Number~0x0B}
+
+
+
+Definition at line \textbf{ 210} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+\mbox{\label{group__SDIO_gaf88f03a42d76974b55dfb8bda65ade97}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+S\+U\+S\+P\+E\+N\+D\+\_\+\+Bit\+Number@{S\+D\+I\+O\+S\+U\+S\+P\+E\+N\+D\+\_\+\+Bit\+Number}}
+\index{S\+D\+I\+O\+S\+U\+S\+P\+E\+N\+D\+\_\+\+Bit\+Number@{S\+D\+I\+O\+S\+U\+S\+P\+E\+N\+D\+\_\+\+Bit\+Number}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+S\+U\+S\+P\+E\+N\+D\+\_\+\+Bit\+Number}
+{\footnotesize\ttfamily \#define S\+D\+I\+O\+S\+U\+S\+P\+E\+N\+D\+\_\+\+Bit\+Number~0x0B}
+
+
+
+Definition at line \textbf{ 176} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+
+\subsection{Function Documentation}
+\mbox{\label{group__SDIO_gab44b8cbc21be000a291563076159503b}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+C\+E\+A\+T\+A\+I\+T\+Cmd@{S\+D\+I\+O\+\_\+\+C\+E\+A\+T\+A\+I\+T\+Cmd}}
+\index{S\+D\+I\+O\+\_\+\+C\+E\+A\+T\+A\+I\+T\+Cmd@{S\+D\+I\+O\+\_\+\+C\+E\+A\+T\+A\+I\+T\+Cmd}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+C\+E\+A\+T\+A\+I\+T\+Cmd()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+C\+E\+A\+T\+A\+I\+T\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the C\+E-\/\+A\+TA interrupt. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of C\+E-\/\+A\+TA interrupt. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 716} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00717 \{ 
+00718   \textcolor{comment}{/* Check the parameters */}
+00719   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00720   
+00721   *(\_\_IO uint32\_t *) CMD_NIEN_BB = (uint32\_t)((~((uint32\_t)NewState)) & ((uint32\_t)0x1));
+00722 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga7aff4efdeb528229135f9f285e53518a}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Clear\+Flag@{S\+D\+I\+O\+\_\+\+Clear\+Flag}}
+\index{S\+D\+I\+O\+\_\+\+Clear\+Flag@{S\+D\+I\+O\+\_\+\+Clear\+Flag}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Clear\+Flag()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Clear\+Flag (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{S\+D\+I\+O\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Clears the S\+D\+IO\textquotesingle{}s pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+F\+L\+AG} & specifies the flag to clear. This parameter can be one or a combination of the following values\+: \begin{DoxyItemize}
+\item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+C\+R\+C\+F\+A\+IL\+: Command response received (C\+RC check failed) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+D\+C\+R\+C\+F\+A\+IL\+: Data block sent/received (C\+RC check failed) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+T\+I\+M\+E\+O\+UT\+: Command response timeout \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+D\+T\+I\+M\+E\+O\+UT\+: Data timeout \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+T\+X\+U\+N\+D\+E\+RR\+: Transmit F\+I\+FO underrun error \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+O\+V\+E\+RR\+: Received F\+I\+FO overrun error \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+M\+D\+R\+E\+ND\+: Command response received (C\+RC check passed) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+M\+D\+S\+E\+NT\+: Command sent (no response required) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+D\+A\+T\+A\+E\+ND\+: Data end (data counter, S\+D\+I\+D\+C\+O\+U\+NT, is zero) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+S\+T\+B\+I\+T\+E\+RR\+: Start bit not detected on all data signals in wide bus mode \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+D\+B\+C\+K\+E\+ND\+: Data block sent/received (C\+RC check passed) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+S\+D\+I\+O\+IT\+: SD I/O interrupt received \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+E\+A\+T\+A\+E\+ND\+: C\+E-\/\+A\+TA command completion signal received for C\+M\+D61 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 905} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00906 \{ 
+00907   \textcolor{comment}{/* Check the parameters */}
+00908   assert_param(IS_SDIO_CLEAR_FLAG(SDIO\_FLAG));
+00909    
+00910   SDIO->ICR = SDIO\_FLAG;
+00911 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga048e07fd86321cd01b2a22c071c3149b}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Clear\+I\+T\+Pending\+Bit@{S\+D\+I\+O\+\_\+\+Clear\+I\+T\+Pending\+Bit}}
+\index{S\+D\+I\+O\+\_\+\+Clear\+I\+T\+Pending\+Bit@{S\+D\+I\+O\+\_\+\+Clear\+I\+T\+Pending\+Bit}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Clear\+I\+T\+Pending\+Bit()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Clear\+I\+T\+Pending\+Bit (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{S\+D\+I\+O\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Clears the S\+D\+IO\textquotesingle{}s interrupt pending bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+IT} & specifies the interrupt pending bit to clear. This parameter can be one or a combination of the following values\+: \begin{DoxyItemize}
+\item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+C\+R\+C\+F\+A\+IL\+: Command response received (C\+RC check failed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+C\+R\+C\+F\+A\+IL\+: Data block sent/received (C\+RC check failed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+T\+I\+M\+E\+O\+UT\+: Command response timeout interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+T\+I\+M\+E\+O\+UT\+: Data timeout interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+U\+N\+D\+E\+RR\+: Transmit F\+I\+FO underrun error interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+O\+V\+E\+RR\+: Received F\+I\+FO overrun error interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+M\+D\+R\+E\+ND\+: Command response received (C\+RC check passed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+M\+D\+S\+E\+NT\+: Command sent (no response required) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+A\+T\+A\+E\+ND\+: Data end (data counter, S\+D\+I\+O\+\_\+\+D\+C\+O\+U\+NT, is zero) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+S\+T\+B\+I\+T\+E\+RR\+: Start bit not detected on all data signals in wide bus mode interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+S\+D\+I\+O\+IT\+: SD I/O interrupt received interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+E\+A\+T\+A\+E\+ND\+: C\+E-\/\+A\+TA command completion signal received for C\+M\+D61 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 980} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00981 \{ 
+00982   \textcolor{comment}{/* Check the parameters */}
+00983   assert_param(IS_SDIO_CLEAR_IT(SDIO\_IT));
+00984    
+00985   SDIO->ICR = SDIO\_IT;
+00986 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga7243b857d6b323748ff3a493b265bedc}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Clock\+Cmd@{S\+D\+I\+O\+\_\+\+Clock\+Cmd}}
+\index{S\+D\+I\+O\+\_\+\+Clock\+Cmd@{S\+D\+I\+O\+\_\+\+Clock\+Cmd}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Clock\+Cmd()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Clock\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the S\+D\+IO Clock. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the S\+D\+IO Clock. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 327} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00328 \{
+00329   \textcolor{comment}{/* Check the parameters */}
+00330   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00331   
+00332   *(\_\_IO uint32\_t *) CLKCR_CLKEN_BB = (uint32\_t)NewState;
+00333 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga09d9e89f49c87c82aec79c97b7068e24}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Cmd\+Struct\+Init@{S\+D\+I\+O\+\_\+\+Cmd\+Struct\+Init}}
+\index{S\+D\+I\+O\+\_\+\+Cmd\+Struct\+Init@{S\+D\+I\+O\+\_\+\+Cmd\+Struct\+Init}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Cmd\+Struct\+Init()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Cmd\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def} $\ast$}]{S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct} & pointer to an \doxyref{S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def}{p.}{structSDIO__CmdInitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 428} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+
+References \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Argument}, \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Cmd\+Index}, \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+C\+P\+SM}, \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Response}, and \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Wait}.
+
+
+\begin{DoxyCode}
+00429 \{
+00430   \textcolor{comment}{/* SDIO\_CmdInitStruct members default value */}
+00431   SDIO\_CmdInitStruct->SDIO_Argument = 0x00;
+00432   SDIO\_CmdInitStruct->SDIO_CmdIndex = 0x00;
+00433   SDIO\_CmdInitStruct->SDIO_Response = SDIO_Response_No;
+00434   SDIO\_CmdInitStruct->SDIO_Wait = SDIO_Wait_No;
+00435   SDIO\_CmdInitStruct->SDIO_CPSM = SDIO_CPSM_Disable;
+00436 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga1bbe98c629812bc62121d9c8b2c5e21b}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Command\+Completion\+Cmd@{S\+D\+I\+O\+\_\+\+Command\+Completion\+Cmd}}
+\index{S\+D\+I\+O\+\_\+\+Command\+Completion\+Cmd@{S\+D\+I\+O\+\_\+\+Command\+Completion\+Cmd}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Command\+Completion\+Cmd()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Command\+Completion\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the command completion signal. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of command completion signal. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 702} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00703 \{ 
+00704   \textcolor{comment}{/* Check the parameters */}
+00705   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00706   
+00707   *(\_\_IO uint32\_t *) CMD_ENCMDCOMPL_BB = (uint32\_t)NewState;
+00708 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_gad65d896ae919683585bda44a1e2afae4}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Data\+Config@{S\+D\+I\+O\+\_\+\+Data\+Config}}
+\index{S\+D\+I\+O\+\_\+\+Data\+Config@{S\+D\+I\+O\+\_\+\+Data\+Config}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Data\+Config()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Data\+Config (\begin{DoxyParamCaption}\item[{\textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def} $\ast$}]{S\+D\+I\+O\+\_\+\+Data\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the S\+D\+IO data path according to the specified parameters in the S\+D\+I\+O\+\_\+\+Data\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+Data\+Init\+Struct} & \+: pointer to a \doxyref{S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def}{p.}{structSDIO__DataInitTypeDef} structure that contains the configuration information for the S\+D\+IO command. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 496} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+
+References \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Data\+Block\+Size}, \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+D\+P\+SM}, \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Transfer\+Dir}, and \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Transfer\+Mode}.
+
+
+\begin{DoxyCode}
+00497 \{
+00498   uint32\_t tmpreg = 0;
+00499   
+00500   \textcolor{comment}{/* Check the parameters */}
+00501   assert_param(IS_SDIO_DATA_LENGTH(SDIO\_DataInitStruct->SDIO_DataLength));
+00502   assert_param(IS_SDIO_BLOCK_SIZE(SDIO\_DataInitStruct->SDIO_DataBlockSize));
+00503   assert_param(IS_SDIO_TRANSFER_DIR(SDIO\_DataInitStruct->SDIO_TransferDir));
+00504   assert_param(IS_SDIO_TRANSFER_MODE(SDIO\_DataInitStruct->SDIO_TransferMode));
+00505   assert_param(IS_SDIO_DPSM(SDIO\_DataInitStruct->SDIO_DPSM));
+00506 
+00507 \textcolor{comment}{/*---------------------------- SDIO DTIMER Configuration ---------------------*/}
+00508   \textcolor{comment}{/* Set the SDIO Data TimeOut value */}
+00509   SDIO->DTIMER = SDIO\_DataInitStruct->SDIO_DataTimeOut;
+00510 
+00511 \textcolor{comment}{/*---------------------------- SDIO DLEN Configuration -----------------------*/}
+00512   \textcolor{comment}{/* Set the SDIO DataLength value */}
+00513   SDIO->DLEN = SDIO\_DataInitStruct->SDIO_DataLength;
+00514 
+00515 \textcolor{comment}{/*---------------------------- SDIO DCTRL Configuration ----------------------*/}  
+00516   \textcolor{comment}{/* Get the SDIO DCTRL value */}
+00517   tmpreg = SDIO->DCTRL;
+00518   \textcolor{comment}{/* Clear DEN, DTMODE, DTDIR and DBCKSIZE bits */}
+00519   tmpreg &= DCTRL_CLEAR_MASK;
+00520   \textcolor{comment}{/* Set DEN bit according to SDIO\_DPSM value */}
+00521   \textcolor{comment}{/* Set DTMODE bit according to SDIO\_TransferMode value */}
+00522   \textcolor{comment}{/* Set DTDIR bit according to SDIO\_TransferDir value */}
+00523   \textcolor{comment}{/* Set DBCKSIZE bits according to SDIO\_DataBlockSize value */}
+00524   tmpreg |= (uint32\_t)SDIO\_DataInitStruct->SDIO_DataBlockSize | SDIO\_DataInitStruct->
+      SDIO_TransferDir
+00525            | SDIO\_DataInitStruct->SDIO_TransferMode | SDIO\_DataInitStruct->
+      SDIO_DPSM;
+00526 
+00527   \textcolor{comment}{/* Write to SDIO DCTRL */}
+00528   SDIO->DCTRL = tmpreg;
+00529 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_gaa83209c09e921521aca2587fb5b22ea2}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Data\+Struct\+Init@{S\+D\+I\+O\+\_\+\+Data\+Struct\+Init}}
+\index{S\+D\+I\+O\+\_\+\+Data\+Struct\+Init@{S\+D\+I\+O\+\_\+\+Data\+Struct\+Init}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Data\+Struct\+Init()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Data\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def} $\ast$}]{S\+D\+I\+O\+\_\+\+Data\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each S\+D\+I\+O\+\_\+\+Data\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+Data\+Init\+Struct} & pointer to an \doxyref{S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def}{p.}{structSDIO__DataInitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 537} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+
+References \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Data\+Block\+Size}, \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Data\+Length}, \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Data\+Time\+Out}, \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+D\+P\+SM}, \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Transfer\+Dir}, and \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Transfer\+Mode}.
+
+
+\begin{DoxyCode}
+00538 \{
+00539   \textcolor{comment}{/* SDIO\_DataInitStruct members default value */}
+00540   SDIO\_DataInitStruct->SDIO_DataTimeOut = 0xFFFFFFFF;
+00541   SDIO\_DataInitStruct->SDIO_DataLength = 0x00;
+00542   SDIO\_DataInitStruct->SDIO_DataBlockSize = SDIO_DataBlockSize_1b;
+00543   SDIO\_DataInitStruct->SDIO_TransferDir = SDIO_TransferDir_ToCard;
+00544   SDIO\_DataInitStruct->SDIO_TransferMode = SDIO_TransferMode_Block;  
+00545   SDIO\_DataInitStruct->SDIO_DPSM = SDIO_DPSM_Disable;
+00546 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_gac359d2c6c67a2590f8f9b720c0e4ff1b}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+De\+Init@{S\+D\+I\+O\+\_\+\+De\+Init}}
+\index{S\+D\+I\+O\+\_\+\+De\+Init@{S\+D\+I\+O\+\_\+\+De\+Init}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the S\+D\+IO peripheral registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 259} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, and \textbf{ R\+C\+C\+\_\+\+A\+P\+B2\+Periph\+Reset\+Cmd()}.
+
+
+\begin{DoxyCode}
+00260 \{
+00261   RCC_APB2PeriphResetCmd(RCC_APB2Periph_SDIO, ENABLE);
+00262   RCC_APB2PeriphResetCmd(RCC_APB2Periph_SDIO, DISABLE);
+00263 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_gad36fde5ec0ce0c2089b9d971c2271e6e}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+D\+M\+A\+Cmd@{S\+D\+I\+O\+\_\+\+D\+M\+A\+Cmd}}
+\index{S\+D\+I\+O\+\_\+\+D\+M\+A\+Cmd@{S\+D\+I\+O\+\_\+\+D\+M\+A\+Cmd}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+D\+M\+A\+Cmd()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+D\+M\+A\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the S\+D\+IO D\+MA request. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the selected S\+D\+IO D\+MA request. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 762} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00763 \{
+00764   \textcolor{comment}{/* Check the parameters */}
+00765   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00766   
+00767   *(\_\_IO uint32\_t *) DCTRL_DMAEN_BB = (uint32\_t)NewState;
+00768 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga9badf271c818e09da301d715c4ad0e5b}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Get\+Command\+Response@{S\+D\+I\+O\+\_\+\+Get\+Command\+Response}}
+\index{S\+D\+I\+O\+\_\+\+Get\+Command\+Response@{S\+D\+I\+O\+\_\+\+Get\+Command\+Response}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Get\+Command\+Response()}
+{\footnotesize\ttfamily uint8\+\_\+t S\+D\+I\+O\+\_\+\+Get\+Command\+Response (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns command index of last command for which response received. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Returns} & the command index of the last command response received. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 443} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00444 \{
+00445   \textcolor{keywordflow}{return} (uint8\_t)(SDIO->RESPCMD);
+00446 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga7a28aaa2c25a9a5a8db1f49b0e8c9d0a}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Get\+Data\+Counter@{S\+D\+I\+O\+\_\+\+Get\+Data\+Counter}}
+\index{S\+D\+I\+O\+\_\+\+Get\+Data\+Counter@{S\+D\+I\+O\+\_\+\+Get\+Data\+Counter}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Get\+Data\+Counter()}
+{\footnotesize\ttfamily uint32\+\_\+t S\+D\+I\+O\+\_\+\+Get\+Data\+Counter (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns number of remaining data bytes to be transferred. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Number} & of remaining data bytes to be transferred \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 553} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00554 \{ 
+00555   \textcolor{keywordflow}{return} SDIO->DCOUNT;
+00556 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga9a3343983a2d68b5164a1c89797d2dd6}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Get\+F\+I\+F\+O\+Count@{S\+D\+I\+O\+\_\+\+Get\+F\+I\+F\+O\+Count}}
+\index{S\+D\+I\+O\+\_\+\+Get\+F\+I\+F\+O\+Count@{S\+D\+I\+O\+\_\+\+Get\+F\+I\+F\+O\+Count}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Get\+F\+I\+F\+O\+Count()}
+{\footnotesize\ttfamily uint32\+\_\+t S\+D\+I\+O\+\_\+\+Get\+F\+I\+F\+O\+Count (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns the number of words left to be written to or read from F\+I\+FO. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Remaining} & number of words. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 583} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00584 \{ 
+00585   \textcolor{keywordflow}{return} SDIO->FIFOCNT;
+00586 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga644514b4b3c95c5c4326d99cd166f6f9}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Get\+Flag\+Status@{S\+D\+I\+O\+\_\+\+Get\+Flag\+Status}}
+\index{S\+D\+I\+O\+\_\+\+Get\+Flag\+Status@{S\+D\+I\+O\+\_\+\+Get\+Flag\+Status}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} S\+D\+I\+O\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{S\+D\+I\+O\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified S\+D\+IO flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+F\+L\+AG} & specifies the flag to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+C\+R\+C\+F\+A\+IL\+: Command response received (C\+RC check failed) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+D\+C\+R\+C\+F\+A\+IL\+: Data block sent/received (C\+RC check failed) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+T\+I\+M\+E\+O\+UT\+: Command response timeout \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+D\+T\+I\+M\+E\+O\+UT\+: Data timeout \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+T\+X\+U\+N\+D\+E\+RR\+: Transmit F\+I\+FO underrun error \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+O\+V\+E\+RR\+: Received F\+I\+FO overrun error \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+M\+D\+R\+E\+ND\+: Command response received (C\+RC check passed) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+M\+D\+S\+E\+NT\+: Command sent (no response required) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+D\+A\+T\+A\+E\+ND\+: Data end (data counter, S\+D\+I\+D\+C\+O\+U\+NT, is zero) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+S\+T\+B\+I\+T\+E\+RR\+: Start bit not detected on all data signals in wide bus mode. \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+D\+B\+C\+K\+E\+ND\+: Data block sent/received (C\+RC check passed) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+M\+D\+A\+CT\+: Command transfer in progress \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+T\+X\+A\+CT\+: Data transmit in progress \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+A\+CT\+: Data receive in progress \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+T\+X\+F\+I\+F\+O\+HE\+: Transmit F\+I\+FO Half Empty \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+F\+I\+F\+O\+HF\+: Receive F\+I\+FO Half Full \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+T\+X\+F\+I\+F\+OF\+: Transmit F\+I\+FO full \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+F\+I\+F\+OF\+: Receive F\+I\+FO full \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+T\+X\+F\+I\+F\+OE\+: Transmit F\+I\+FO empty \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+F\+I\+F\+OE\+: Receive F\+I\+FO empty \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+T\+X\+D\+A\+VL\+: Data available in transmit F\+I\+FO \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+D\+A\+VL\+: Data available in receive F\+I\+FO \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+S\+D\+I\+O\+IT\+: SD I/O interrupt received \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+E\+A\+T\+A\+E\+ND\+: C\+E-\/\+A\+TA command completion signal received for C\+M\+D61 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of S\+D\+I\+O\+\_\+\+F\+L\+AG (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 868} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00869 \{ 
+00870   FlagStatus bitstatus = RESET;
+00871   
+00872   \textcolor{comment}{/* Check the parameters */}
+00873   assert_param(IS_SDIO_FLAG(SDIO\_FLAG));
+00874   
+00875   \textcolor{keywordflow}{if} ((SDIO->STA & SDIO\_FLAG) != (uint32\_t)RESET)
+00876   \{
+00877     bitstatus = SET;
+00878   \}
+00879   \textcolor{keywordflow}{else}
+00880   \{
+00881     bitstatus = RESET;
+00882   \}
+00883   \textcolor{keywordflow}{return} bitstatus;
+00884 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga2d64af1f3df0f99cb518f9a89bbd02ac}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Get\+I\+T\+Status@{S\+D\+I\+O\+\_\+\+Get\+I\+T\+Status}}
+\index{S\+D\+I\+O\+\_\+\+Get\+I\+T\+Status@{S\+D\+I\+O\+\_\+\+Get\+I\+T\+Status}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Get\+I\+T\+Status()}
+{\footnotesize\ttfamily \textbf{ I\+T\+Status} S\+D\+I\+O\+\_\+\+Get\+I\+T\+Status (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{S\+D\+I\+O\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified S\+D\+IO interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+IT} & specifies the S\+D\+IO interrupt source to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+C\+R\+C\+F\+A\+IL\+: Command response received (C\+RC check failed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+C\+R\+C\+F\+A\+IL\+: Data block sent/received (C\+RC check failed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+T\+I\+M\+E\+O\+UT\+: Command response timeout interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+T\+I\+M\+E\+O\+UT\+: Data timeout interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+U\+N\+D\+E\+RR\+: Transmit F\+I\+FO underrun error interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+O\+V\+E\+RR\+: Received F\+I\+FO overrun error interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+M\+D\+R\+E\+ND\+: Command response received (C\+RC check passed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+M\+D\+S\+E\+NT\+: Command sent (no response required) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+A\+T\+A\+E\+ND\+: Data end (data counter, S\+D\+I\+D\+C\+O\+U\+NT, is zero) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+S\+T\+B\+I\+T\+E\+RR\+: Start bit not detected on all data signals in wide bus mode interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+B\+C\+K\+E\+ND\+: Data block sent/received (C\+RC check passed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+M\+D\+A\+CT\+: Command transfer in progress interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+A\+CT\+: Data transmit in progress interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+A\+CT\+: Data receive in progress interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+F\+I\+F\+O\+HE\+: Transmit F\+I\+FO Half Empty interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+F\+I\+F\+O\+HF\+: Receive F\+I\+FO Half Full interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+F\+I\+F\+OF\+: Transmit F\+I\+FO full interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+F\+I\+F\+OF\+: Receive F\+I\+FO full interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+F\+I\+F\+OE\+: Transmit F\+I\+FO empty interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+F\+I\+F\+OE\+: Receive F\+I\+FO empty interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+D\+A\+VL\+: Data available in transmit F\+I\+FO interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+D\+A\+VL\+: Data available in receive F\+I\+FO interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+S\+D\+I\+O\+IT\+: SD I/O interrupt received interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+E\+A\+T\+A\+E\+ND\+: C\+E-\/\+A\+TA command completion signal received for C\+M\+D61 interrupt \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of S\+D\+I\+O\+\_\+\+IT (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 944} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00945 \{ 
+00946   ITStatus bitstatus = RESET;
+00947   
+00948   \textcolor{comment}{/* Check the parameters */}
+00949   assert_param(IS_SDIO_GET_IT(SDIO\_IT));
+00950   \textcolor{keywordflow}{if} ((SDIO->STA & SDIO\_IT) != (uint32\_t)RESET)  
+00951   \{
+00952     bitstatus = SET;
+00953   \}
+00954   \textcolor{keywordflow}{else}
+00955   \{
+00956     bitstatus = RESET;
+00957   \}
+00958   \textcolor{keywordflow}{return} bitstatus;
+00959 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga3a19de2c7cd51645702213f64a1758ed}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Get\+Power\+State@{S\+D\+I\+O\+\_\+\+Get\+Power\+State}}
+\index{S\+D\+I\+O\+\_\+\+Get\+Power\+State@{S\+D\+I\+O\+\_\+\+Get\+Power\+State}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Get\+Power\+State()}
+{\footnotesize\ttfamily uint32\+\_\+t S\+D\+I\+O\+\_\+\+Get\+Power\+State (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Gets the power status of the controller. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Power} & status of the controller. The returned value can be one of the following values\+:
+\begin{DoxyItemize}
+\item 0x00\+: Power O\+FF
+\item 0x02\+: Power UP
+\item 0x03\+: Power ON 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 360} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00361 \{
+00362   \textcolor{keywordflow}{return} (SDIO->POWER & (~PWR_PWRCTRL_MASK));
+00363 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga5c1e859511840e8cca6a9a768bce220b}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Get\+Response@{S\+D\+I\+O\+\_\+\+Get\+Response}}
+\index{S\+D\+I\+O\+\_\+\+Get\+Response@{S\+D\+I\+O\+\_\+\+Get\+Response}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Get\+Response()}
+{\footnotesize\ttfamily uint32\+\_\+t S\+D\+I\+O\+\_\+\+Get\+Response (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{S\+D\+I\+O\+\_\+\+R\+E\+SP }\end{DoxyParamCaption})}
+
+
+
+Returns response received from the card for the last command. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+R\+E\+SP} & Specifies the S\+D\+IO response register. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item S\+D\+I\+O\+\_\+\+R\+E\+S\+P1\+: Response Register 1 \item S\+D\+I\+O\+\_\+\+R\+E\+S\+P2\+: Response Register 2 \item S\+D\+I\+O\+\_\+\+R\+E\+S\+P3\+: Response Register 3 \item S\+D\+I\+O\+\_\+\+R\+E\+S\+P4\+: Response Register 4 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & Corresponding response register value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 458} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00459 \{
+00460   \_\_IO uint32\_t tmp = 0;
+00461 
+00462   \textcolor{comment}{/* Check the parameters */}
+00463   assert_param(IS_SDIO_RESP(SDIO\_RESP));
+00464 
+00465   tmp = SDIO_RESP_ADDR + SDIO\_RESP;
+00466   
+00467   \textcolor{keywordflow}{return} (*(\_\_IO uint32\_t *) tmp); 
+00468 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_gad40764a8e37c0ed5c9141ae338ff0203}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Init@{S\+D\+I\+O\+\_\+\+Init}}
+\index{S\+D\+I\+O\+\_\+\+Init@{S\+D\+I\+O\+\_\+\+Init}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Init()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Init (\begin{DoxyParamCaption}\item[{\textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def} $\ast$}]{S\+D\+I\+O\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the S\+D\+IO peripheral according to the specified parameters in the S\+D\+I\+O\+\_\+\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+Init\+Struct} & \+: pointer to a \doxyref{S\+D\+I\+O\+\_\+\+Init\+Type\+Def}{p.}{structSDIO__InitTypeDef} structure that contains the configuration information for the S\+D\+IO peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 272} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+
+References \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Bus\+Wide}, \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Clock\+Bypass}, \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Clock\+Div}, \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Clock\+Edge}, \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Clock\+Power\+Save}, and \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Hardware\+Flow\+Control}.
+
+
+\begin{DoxyCode}
+00273 \{
+00274   uint32\_t tmpreg = 0;
+00275     
+00276   \textcolor{comment}{/* Check the parameters */}
+00277   assert_param(IS_SDIO_CLOCK_EDGE(SDIO\_InitStruct->SDIO_ClockEdge));
+00278   assert_param(IS_SDIO_CLOCK_BYPASS(SDIO\_InitStruct->SDIO_ClockBypass));
+00279   assert_param(IS_SDIO_CLOCK_POWER_SAVE(SDIO\_InitStruct->SDIO_ClockPowerSave));
+00280   assert_param(IS_SDIO_BUS_WIDE(SDIO\_InitStruct->SDIO_BusWide));
+00281   assert_param(IS_SDIO_HARDWARE_FLOW_CONTROL(SDIO\_InitStruct->
+      SDIO_HardwareFlowControl)); 
+00282    
+00283 \textcolor{comment}{/*---------------------------- SDIO CLKCR Configuration ------------------------*/}  
+00284   \textcolor{comment}{/* Get the SDIO CLKCR value */}
+00285   tmpreg = SDIO->CLKCR;
+00286   
+00287   \textcolor{comment}{/* Clear CLKDIV, PWRSAV, BYPASS, WIDBUS, NEGEDGE, HWFC\_EN bits */}
+00288   tmpreg &= CLKCR_CLEAR_MASK;
+00289   
+00290   \textcolor{comment}{/* Set CLKDIV bits according to SDIO\_ClockDiv value */}
+00291   \textcolor{comment}{/* Set PWRSAV bit according to SDIO\_ClockPowerSave value */}
+00292   \textcolor{comment}{/* Set BYPASS bit according to SDIO\_ClockBypass value */}
+00293   \textcolor{comment}{/* Set WIDBUS bits according to SDIO\_BusWide value */}
+00294   \textcolor{comment}{/* Set NEGEDGE bits according to SDIO\_ClockEdge value */}
+00295   \textcolor{comment}{/* Set HWFC\_EN bits according to SDIO\_HardwareFlowControl value */}
+00296   tmpreg |= (SDIO\_InitStruct->SDIO_ClockDiv  | SDIO\_InitStruct->
+      SDIO_ClockPowerSave |
+00297              SDIO\_InitStruct->SDIO_ClockBypass | SDIO\_InitStruct->SDIO_BusWide |
+00298              SDIO\_InitStruct->SDIO_ClockEdge | SDIO\_InitStruct->
+      SDIO_HardwareFlowControl); 
+00299   
+00300   \textcolor{comment}{/* Write to SDIO CLKCR */}
+00301   SDIO->CLKCR = tmpreg;
+00302 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga208f51237ef43288735829dbaed37f00}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+I\+T\+Config@{S\+D\+I\+O\+\_\+\+I\+T\+Config}}
+\index{S\+D\+I\+O\+\_\+\+I\+T\+Config@{S\+D\+I\+O\+\_\+\+I\+T\+Config}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+I\+T\+Config()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+I\+T\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{S\+D\+I\+O\+\_\+\+IT,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the S\+D\+IO interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+IT} & specifies the S\+D\+IO interrupt sources to be enabled or disabled. This parameter can be one or a combination of the following values\+: \begin{DoxyItemize}
+\item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+C\+R\+C\+F\+A\+IL\+: Command response received (C\+RC check failed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+C\+R\+C\+F\+A\+IL\+: Data block sent/received (C\+RC check failed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+T\+I\+M\+E\+O\+UT\+: Command response timeout interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+T\+I\+M\+E\+O\+UT\+: Data timeout interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+U\+N\+D\+E\+RR\+: Transmit F\+I\+FO underrun error interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+O\+V\+E\+RR\+: Received F\+I\+FO overrun error interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+M\+D\+R\+E\+ND\+: Command response received (C\+RC check passed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+M\+D\+S\+E\+NT\+: Command sent (no response required) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+A\+T\+A\+E\+ND\+: Data end (data counter, S\+D\+I\+D\+C\+O\+U\+NT, is zero) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+S\+T\+B\+I\+T\+E\+RR\+: Start bit not detected on all data signals in wide bus mode interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+B\+C\+K\+E\+ND\+: Data block sent/received (C\+RC check passed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+M\+D\+A\+CT\+: Command transfer in progress interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+A\+CT\+: Data transmit in progress interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+A\+CT\+: Data receive in progress interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+F\+I\+F\+O\+HE\+: Transmit F\+I\+FO Half Empty interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+F\+I\+F\+O\+HF\+: Receive F\+I\+FO Half Full interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+F\+I\+F\+OF\+: Transmit F\+I\+FO full interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+F\+I\+F\+OF\+: Receive F\+I\+FO full interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+F\+I\+F\+OE\+: Transmit F\+I\+FO empty interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+F\+I\+F\+OE\+: Receive F\+I\+FO empty interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+D\+A\+VL\+: Data available in transmit F\+I\+FO interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+D\+A\+VL\+: Data available in receive F\+I\+FO interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+S\+D\+I\+O\+IT\+: SD I/O interrupt received interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+E\+A\+T\+A\+E\+ND\+: C\+E-\/\+A\+TA command completion signal received for C\+M\+D61 interrupt \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the specified S\+D\+IO interrupts. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 820} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00821 \{
+00822   \textcolor{comment}{/* Check the parameters */}
+00823   assert_param(IS_SDIO_IT(SDIO\_IT));
+00824   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00825   
+00826   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00827   \{
+00828     \textcolor{comment}{/* Enable the SDIO interrupts */}
+00829     SDIO->MASK |= SDIO\_IT;
+00830   \}
+00831   \textcolor{keywordflow}{else}
+00832   \{
+00833     \textcolor{comment}{/* Disable the SDIO interrupts */}
+00834     SDIO->MASK &= ~SDIO\_IT;
+00835   \} 
+00836 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga4e8ac755ef3c31ecd4ed2708df19187e}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Read\+Data@{S\+D\+I\+O\+\_\+\+Read\+Data}}
+\index{S\+D\+I\+O\+\_\+\+Read\+Data@{S\+D\+I\+O\+\_\+\+Read\+Data}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Read\+Data()}
+{\footnotesize\ttfamily uint32\+\_\+t S\+D\+I\+O\+\_\+\+Read\+Data (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Read one data word from Rx F\+I\+FO. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Data} & received \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 563} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00564 \{ 
+00565   \textcolor{keywordflow}{return} SDIO->FIFO;
+00566 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga8dc7f17804bdb745b42f6647c8487b4c}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Send\+C\+E\+A\+T\+A\+Cmd@{S\+D\+I\+O\+\_\+\+Send\+C\+E\+A\+T\+A\+Cmd}}
+\index{S\+D\+I\+O\+\_\+\+Send\+C\+E\+A\+T\+A\+Cmd@{S\+D\+I\+O\+\_\+\+Send\+C\+E\+A\+T\+A\+Cmd}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Send\+C\+E\+A\+T\+A\+Cmd()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Send\+C\+E\+A\+T\+A\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Sends C\+E-\/\+A\+TA command (C\+M\+D61). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of C\+E-\/\+A\+TA command. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 730} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00731 \{ 
+00732   \textcolor{comment}{/* Check the parameters */}
+00733   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00734   
+00735   *(\_\_IO uint32\_t *) CMD_ATACMD_BB = (uint32\_t)NewState;
+00736 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga7117d2f702703f6c0a66bc07707cab23}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Send\+Command@{S\+D\+I\+O\+\_\+\+Send\+Command}}
+\index{S\+D\+I\+O\+\_\+\+Send\+Command@{S\+D\+I\+O\+\_\+\+Send\+Command}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Send\+Command()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Send\+Command (\begin{DoxyParamCaption}\item[{\textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def} $\ast$}]{S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the S\+D\+IO Command according to the specified parameters in the S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct and send the command. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct} & \+: pointer to a \doxyref{S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def}{p.}{structSDIO__CmdInitTypeDef} structure that contains the configuration information for the S\+D\+IO command. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 392} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+
+References \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Cmd\+Index}, \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+C\+P\+SM}, \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Response}, and \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Wait}.
+
+
+\begin{DoxyCode}
+00393 \{
+00394   uint32\_t tmpreg = 0;
+00395   
+00396   \textcolor{comment}{/* Check the parameters */}
+00397   assert_param(IS_SDIO_CMD_INDEX(SDIO\_CmdInitStruct->SDIO_CmdIndex));
+00398   assert_param(IS_SDIO_RESPONSE(SDIO\_CmdInitStruct->SDIO_Response));
+00399   assert_param(IS_SDIO_WAIT(SDIO\_CmdInitStruct->SDIO_Wait));
+00400   assert_param(IS_SDIO_CPSM(SDIO\_CmdInitStruct->SDIO_CPSM));
+00401   
+00402 \textcolor{comment}{/*---------------------------- SDIO ARG Configuration ------------------------*/}
+00403   \textcolor{comment}{/* Set the SDIO Argument value */}
+00404   SDIO->ARG = SDIO\_CmdInitStruct->SDIO_Argument;
+00405   
+00406 \textcolor{comment}{/*---------------------------- SDIO CMD Configuration ------------------------*/}  
+00407   \textcolor{comment}{/* Get the SDIO CMD value */}
+00408   tmpreg = SDIO->CMD;
+00409   \textcolor{comment}{/* Clear CMDINDEX, WAITRESP, WAITINT, WAITPEND, CPSMEN bits */}
+00410   tmpreg &= CMD_CLEAR_MASK;
+00411   \textcolor{comment}{/* Set CMDINDEX bits according to SDIO\_CmdIndex value */}
+00412   \textcolor{comment}{/* Set WAITRESP bits according to SDIO\_Response value */}
+00413   \textcolor{comment}{/* Set WAITINT and WAITPEND bits according to SDIO\_Wait value */}
+00414   \textcolor{comment}{/* Set CPSMEN bits according to SDIO\_CPSM value */}
+00415   tmpreg |= (uint32\_t)SDIO\_CmdInitStruct->SDIO_CmdIndex | SDIO\_CmdInitStruct->
+      SDIO_Response
+00416            | SDIO\_CmdInitStruct->SDIO_Wait | SDIO\_CmdInitStruct->SDIO_CPSM;
+00417   
+00418   \textcolor{comment}{/* Write to SDIO CMD */}
+00419   SDIO->CMD = tmpreg;
+00420 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga9264137a01a1ab81d03bc80a3b3120fc}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Send\+S\+D\+I\+O\+Suspend\+Cmd@{S\+D\+I\+O\+\_\+\+Send\+S\+D\+I\+O\+Suspend\+Cmd}}
+\index{S\+D\+I\+O\+\_\+\+Send\+S\+D\+I\+O\+Suspend\+Cmd@{S\+D\+I\+O\+\_\+\+Send\+S\+D\+I\+O\+Suspend\+Cmd}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Send\+S\+D\+I\+O\+Suspend\+Cmd()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Send\+S\+D\+I\+O\+Suspend\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the SD I/O Mode suspend command sending. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the SD I/O Mode suspend command. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 670} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00671 \{ 
+00672   \textcolor{comment}{/* Check the parameters */}
+00673   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00674   
+00675   *(\_\_IO uint32\_t *) CMD_SDIOSUSPEND_BB = (uint32\_t)NewState;
+00676 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga36ecca32b904de74218fbe65cd5f5270}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Set\+Power\+State@{S\+D\+I\+O\+\_\+\+Set\+Power\+State}}
+\index{S\+D\+I\+O\+\_\+\+Set\+Power\+State@{S\+D\+I\+O\+\_\+\+Set\+Power\+State}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Set\+Power\+State()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Set\+Power\+State (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{S\+D\+I\+O\+\_\+\+Power\+State }\end{DoxyParamCaption})}
+
+
+
+Sets the power status of the controller. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+Power\+State} & new state of the Power state. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item S\+D\+I\+O\+\_\+\+Power\+State\+\_\+\+O\+FF\+: S\+D\+IO Power O\+FF \item S\+D\+I\+O\+\_\+\+Power\+State\+\_\+\+ON\+: S\+D\+IO Power ON \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 343} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00344 \{
+00345   \textcolor{comment}{/* Check the parameters */}
+00346   assert_param(IS_SDIO_POWER_STATE(SDIO\_PowerState));
+00347   
+00348   SDIO->POWER = SDIO\_PowerState;
+00349 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga24e210c185d5a7855cbaff4472a8f8d1}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Operation@{S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Operation}}
+\index{S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Operation@{S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Operation}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Operation()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Operation (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the SD I/O Mode Operation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of S\+D\+IO specific operation. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 656} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00657 \{ 
+00658   \textcolor{comment}{/* Check the parameters */}
+00659   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00660   
+00661   *(\_\_IO uint32\_t *) DCTRL_SDIOEN_BB = (uint32\_t)NewState;
+00662 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga2baac4ea1bb6c2d94345d2712604338a}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Read\+Wait\+Mode@{S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Read\+Wait\+Mode}}
+\index{S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Read\+Wait\+Mode@{S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Read\+Wait\+Mode}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Read\+Wait\+Mode()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Set\+S\+D\+I\+O\+Read\+Wait\+Mode (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{S\+D\+I\+O\+\_\+\+Read\+Wait\+Mode }\end{DoxyParamCaption})}
+
+
+
+Sets one of the two options of inserting read wait interval. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+Read\+Wait\+Mode} & SD I/O Read Wait operation mode. This parameter can be\+: \begin{DoxyItemize}
+\item S\+D\+I\+O\+\_\+\+Read\+Wait\+Mode\+\_\+\+C\+LK\+: Read Wait control by stopping S\+D\+I\+O\+C\+LK \item S\+D\+I\+O\+\_\+\+Read\+Wait\+Mode\+\_\+\+D\+A\+T\+A2\+: Read Wait control using S\+D\+I\+O\+\_\+\+D\+A\+T\+A2 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 642} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00643 \{
+00644   \textcolor{comment}{/* Check the parameters */}
+00645   assert_param(IS_SDIO_READWAIT_MODE(SDIO\_ReadWaitMode));
+00646   
+00647   *(\_\_IO uint32\_t *) DCTRL_RWMOD_BB = SDIO\_ReadWaitMode;
+00648 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_gac88f914d9a68a83abc2265ec8a7b79fc}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Start\+S\+D\+I\+O\+Read\+Wait@{S\+D\+I\+O\+\_\+\+Start\+S\+D\+I\+O\+Read\+Wait}}
+\index{S\+D\+I\+O\+\_\+\+Start\+S\+D\+I\+O\+Read\+Wait@{S\+D\+I\+O\+\_\+\+Start\+S\+D\+I\+O\+Read\+Wait}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Start\+S\+D\+I\+O\+Read\+Wait()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Start\+S\+D\+I\+O\+Read\+Wait (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Starts the SD I/O Read Wait operation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the Start S\+D\+IO Read Wait operation. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 612} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00613 \{ 
+00614   \textcolor{comment}{/* Check the parameters */}
+00615   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00616   
+00617   *(\_\_IO uint32\_t *) DCTRL_RWSTART_BB = (uint32\_t) NewState;
+00618 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_gaca6b25eb2debb73ac827c66f0ebcf837}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Stop\+S\+D\+I\+O\+Read\+Wait@{S\+D\+I\+O\+\_\+\+Stop\+S\+D\+I\+O\+Read\+Wait}}
+\index{S\+D\+I\+O\+\_\+\+Stop\+S\+D\+I\+O\+Read\+Wait@{S\+D\+I\+O\+\_\+\+Stop\+S\+D\+I\+O\+Read\+Wait}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Stop\+S\+D\+I\+O\+Read\+Wait()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Stop\+S\+D\+I\+O\+Read\+Wait (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Stops the SD I/O Read Wait operation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the Stop S\+D\+IO Read Wait operation. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 626} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00627 \{ 
+00628   \textcolor{comment}{/* Check the parameters */}
+00629   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00630   
+00631   *(\_\_IO uint32\_t *) DCTRL_RWSTOP_BB = (uint32\_t) NewState;
+00632 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga778d338c29df4fae9ef69432e6df32ad}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Struct\+Init@{S\+D\+I\+O\+\_\+\+Struct\+Init}}
+\index{S\+D\+I\+O\+\_\+\+Struct\+Init@{S\+D\+I\+O\+\_\+\+Struct\+Init}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Struct\+Init()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def} $\ast$}]{S\+D\+I\+O\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each S\+D\+I\+O\+\_\+\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+Init\+Struct} & pointer to an \doxyref{S\+D\+I\+O\+\_\+\+Init\+Type\+Def}{p.}{structSDIO__InitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 310} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+
+References \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Bus\+Wide}, \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Clock\+Bypass}, \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Clock\+Div}, \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Clock\+Edge}, \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Clock\+Power\+Save}, and \textbf{ S\+D\+I\+O\+\_\+\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Hardware\+Flow\+Control}.
+
+
+\begin{DoxyCode}
+00311 \{
+00312   \textcolor{comment}{/* SDIO\_InitStruct members default value */}
+00313   SDIO\_InitStruct->SDIO_ClockDiv = 0x00;
+00314   SDIO\_InitStruct->SDIO_ClockEdge = SDIO_ClockEdge_Rising;
+00315   SDIO\_InitStruct->SDIO_ClockBypass = SDIO_ClockBypass_Disable;
+00316   SDIO\_InitStruct->SDIO_ClockPowerSave = SDIO_ClockPowerSave_Disable;
+00317   SDIO\_InitStruct->SDIO_BusWide = SDIO_BusWide_1b;
+00318   SDIO\_InitStruct->SDIO_HardwareFlowControl = SDIO_HardwareFlowControl_Disable;
+00319 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO_ga361008b5252aa33b5f2b5823ee3d7240}} 
+\index{S\+D\+IO@{S\+D\+IO}!S\+D\+I\+O\+\_\+\+Write\+Data@{S\+D\+I\+O\+\_\+\+Write\+Data}}
+\index{S\+D\+I\+O\+\_\+\+Write\+Data@{S\+D\+I\+O\+\_\+\+Write\+Data}!S\+D\+IO@{S\+D\+IO}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Write\+Data()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Write\+Data (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{Data }\end{DoxyParamCaption})}
+
+
+
+Write one data word to Tx F\+I\+FO. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Data} & 32-\/bit data word to write. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 573} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00574 \{ 
+00575   SDIO->FIFO = Data;
+00576 \}
+\end{DoxyCode}

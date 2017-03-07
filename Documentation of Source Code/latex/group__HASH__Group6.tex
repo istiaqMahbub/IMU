@@ -1,0 +1,306 @@
+\section{High Level S\+H\+A1 functions}
+\label{group__HASH__Group6}\index{High Level S\+H\+A1 functions@{High Level S\+H\+A1 functions}}
+
+
+High Level S\+H\+A1 Hash and H\+M\+AC functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Error\+Status} \textbf{ H\+A\+S\+H\+\_\+\+S\+H\+A1} (uint8\+\_\+t $\ast$Input, uint32\+\_\+t Ilen, uint8\+\_\+t Output[20])
+\begin{DoxyCompactList}\small\item\em Compute the H\+A\+SH S\+H\+A1 digest. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ H\+M\+A\+C\+\_\+\+S\+H\+A1} (uint8\+\_\+t $\ast$Key, uint32\+\_\+t Keylen, uint8\+\_\+t $\ast$Input, uint32\+\_\+t Ilen, uint8\+\_\+t Output[20])
+\begin{DoxyCompactList}\small\item\em Compute the H\+M\+AC S\+H\+A1 digest. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+High Level S\+H\+A1 Hash and H\+M\+AC functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                          High Level SHA1 Hash and HMAC functions
+ ===============================================================================\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__HASH__Group6_ga2728c02c36de6d800e1ede56ea7789cb}} 
+\index{High Level S\+H\+A1 functions@{High Level S\+H\+A1 functions}!H\+A\+S\+H\+\_\+\+S\+H\+A1@{H\+A\+S\+H\+\_\+\+S\+H\+A1}}
+\index{H\+A\+S\+H\+\_\+\+S\+H\+A1@{H\+A\+S\+H\+\_\+\+S\+H\+A1}!High Level S\+H\+A1 functions@{High Level S\+H\+A1 functions}}
+\subsubsection{H\+A\+S\+H\+\_\+\+S\+H\+A1()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} H\+A\+S\+H\+\_\+\+S\+H\+A1 (\begin{DoxyParamCaption}\item[{uint8\+\_\+t $\ast$}]{Input,  }\item[{uint32\+\_\+t}]{Ilen,  }\item[{uint8\+\_\+t}]{Output[20] }\end{DoxyParamCaption})}
+
+
+
+Compute the H\+A\+SH S\+H\+A1 digest. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Input} & pointer to the Input buffer to be treated. \\
+\hline
+{\em Ilen} & length of the Input buffer. \\
+\hline
+{\em Output} & the returned digest \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: digest computation done
+\item E\+R\+R\+OR\+: digest computation failed 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 87} of file \textbf{ stm32f4xx\+\_\+hash\+\_\+sha1.\+c}.
+
+
+
+References \textbf{ H\+A\+S\+H\+\_\+\+De\+Init()}, \textbf{ H\+A\+S\+H\+\_\+\+Init()}, \textbf{ H\+A\+S\+H\+\_\+\+Start\+Digest()}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+00088 \{
+00089   HASH_InitTypeDef SHA1\_HASH\_InitStructure;
+00090   HASH_MsgDigest SHA1\_MessageDigest;
+00091   \_\_IO uint16\_t nbvalidbitsdata = 0;
+00092   uint32\_t i = 0;
+00093   \_\_IO uint32\_t counter = 0;
+00094   uint32\_t busystatus = 0;
+00095   ErrorStatus status = SUCCESS;
+00096   uint32\_t inputaddr  = (uint32\_t)Input;
+00097   uint32\_t outputaddr = (uint32\_t)Output;
+00098 
+00099   \textcolor{comment}{/* Number of valid bits in last word of the Input data */}
+00100   nbvalidbitsdata = 8 * (Ilen % 4);
+00101 
+00102   \textcolor{comment}{/* HASH peripheral initialization */}
+00103   HASH_DeInit();
+00104 
+00105   \textcolor{comment}{/* HASH Configuration */}
+00106   SHA1\_HASH\_InitStructure.HASH_AlgoSelection = HASH_AlgoSelection_SHA1;
+00107   SHA1\_HASH\_InitStructure.HASH_AlgoMode = HASH_AlgoMode_HASH;
+00108   SHA1\_HASH\_InitStructure.HASH_DataType = HASH_DataType_8b;
+00109   HASH_Init(&SHA1\_HASH\_InitStructure);
+00110 
+00111   \textcolor{comment}{/* Configure the number of valid bits in last word of the data */}
+00112   HASH_SetLastWordValidBitsNbr(nbvalidbitsdata);
+00113 
+00114   \textcolor{comment}{/* Write the Input block in the IN FIFO */}
+00115   \textcolor{keywordflow}{for}(i=0; i<Ilen; i+=4)
+00116   \{
+00117     HASH_DataIn(*(uint32\_t*)inputaddr);
+00118     inputaddr+=4;
+00119   \}
+00120 
+00121   \textcolor{comment}{/* Start the HASH processor */}
+00122   HASH_StartDigest();
+00123 
+00124   \textcolor{comment}{/* wait until the Busy flag is RESET */}
+00125   \textcolor{keywordflow}{do}
+00126   \{
+00127     busystatus = HASH_GetFlagStatus(HASH_FLAG_BUSY);
+00128     counter++;
+00129   \}\textcolor{keywordflow}{while} ((counter != SHA1BUSY_TIMEOUT) && (busystatus != RESET));
+00130 
+00131   \textcolor{keywordflow}{if} (busystatus != RESET)
+00132   \{
+00133      status = ERROR;
+00134   \}
+00135   \textcolor{keywordflow}{else}
+00136   \{
+00137     \textcolor{comment}{/* Read the message digest */}
+00138     HASH_GetDigest(&SHA1\_MessageDigest);
+00139     *(uint32\_t*)(outputaddr)  = \_\_REV(SHA1\_MessageDigest.Data[0]);
+00140     outputaddr+=4;
+00141     *(uint32\_t*)(outputaddr)  = \_\_REV(SHA1\_MessageDigest.Data[1]);
+00142     outputaddr+=4;
+00143     *(uint32\_t*)(outputaddr)  = \_\_REV(SHA1\_MessageDigest.Data[2]);
+00144     outputaddr+=4;
+00145     *(uint32\_t*)(outputaddr)  = \_\_REV(SHA1\_MessageDigest.Data[3]);
+00146     outputaddr+=4;
+00147     *(uint32\_t*)(outputaddr)  = \_\_REV(SHA1\_MessageDigest.Data[4]);
+00148   \}
+00149   \textcolor{keywordflow}{return} status;
+00150 \}
+\end{DoxyCode}
+\mbox{\label{group__HASH__Group6_ga2e38e900ca7838c1cea17cef19953a5e}} 
+\index{High Level S\+H\+A1 functions@{High Level S\+H\+A1 functions}!H\+M\+A\+C\+\_\+\+S\+H\+A1@{H\+M\+A\+C\+\_\+\+S\+H\+A1}}
+\index{H\+M\+A\+C\+\_\+\+S\+H\+A1@{H\+M\+A\+C\+\_\+\+S\+H\+A1}!High Level S\+H\+A1 functions@{High Level S\+H\+A1 functions}}
+\subsubsection{H\+M\+A\+C\+\_\+\+S\+H\+A1()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} H\+M\+A\+C\+\_\+\+S\+H\+A1 (\begin{DoxyParamCaption}\item[{uint8\+\_\+t $\ast$}]{Key,  }\item[{uint32\+\_\+t}]{Keylen,  }\item[{uint8\+\_\+t $\ast$}]{Input,  }\item[{uint32\+\_\+t}]{Ilen,  }\item[{uint8\+\_\+t}]{Output[20] }\end{DoxyParamCaption})}
+
+
+
+Compute the H\+M\+AC S\+H\+A1 digest. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Key} & pointer to the Key used for H\+M\+AC. \\
+\hline
+{\em Keylen} & length of the Key used for H\+M\+AC. \\
+\hline
+{\em Input} & pointer to the Input buffer to be treated. \\
+\hline
+{\em Ilen} & length of the Input buffer. \\
+\hline
+{\em Output} & the returned digest \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: digest computation done
+\item E\+R\+R\+OR\+: digest computation failed 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 163} of file \textbf{ stm32f4xx\+\_\+hash\+\_\+sha1.\+c}.
+
+
+
+References \textbf{ H\+A\+S\+H\+\_\+\+De\+Init()}, \textbf{ H\+A\+S\+H\+\_\+\+Init()}, \textbf{ H\+A\+S\+H\+\_\+\+Start\+Digest()}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+00165 \{
+00166   HASH_InitTypeDef SHA1\_HASH\_InitStructure;
+00167   HASH_MsgDigest SHA1\_MessageDigest;
+00168   \_\_IO uint16\_t nbvalidbitsdata = 0;
+00169   \_\_IO uint16\_t nbvalidbitskey = 0;
+00170   uint32\_t i = 0;
+00171   \_\_IO uint32\_t counter = 0;
+00172   uint32\_t busystatus = 0;
+00173   ErrorStatus status = SUCCESS;
+00174   uint32\_t keyaddr    = (uint32\_t)Key;
+00175   uint32\_t inputaddr  = (uint32\_t)Input;
+00176   uint32\_t outputaddr = (uint32\_t)Output;
+00177 
+00178   \textcolor{comment}{/* Number of valid bits in last word of the Input data */}
+00179   nbvalidbitsdata = 8 * (Ilen % 4);
+00180 
+00181   \textcolor{comment}{/* Number of valid bits in last word of the Key */}
+00182   nbvalidbitskey = 8 * (Keylen % 4);
+00183 
+00184   \textcolor{comment}{/* HASH peripheral initialization */}
+00185   HASH_DeInit();
+00186 
+00187   \textcolor{comment}{/* HASH Configuration */}
+00188   SHA1\_HASH\_InitStructure.HASH_AlgoSelection = HASH_AlgoSelection_SHA1;
+00189   SHA1\_HASH\_InitStructure.HASH_AlgoMode = HASH_AlgoMode_HMAC;
+00190   SHA1\_HASH\_InitStructure.HASH_DataType = HASH_DataType_8b;
+00191   \textcolor{keywordflow}{if}(Keylen > 64)
+00192   \{
+00193     \textcolor{comment}{/* HMAC long Key */}
+00194     SHA1\_HASH\_InitStructure.HASH_HMACKeyType = HASH_HMACKeyType_LongKey;
+00195   \}
+00196   \textcolor{keywordflow}{else}
+00197   \{
+00198     \textcolor{comment}{/* HMAC short Key */}
+00199     SHA1\_HASH\_InitStructure.HASH_HMACKeyType = HASH_HMACKeyType_ShortKey;
+00200   \}
+00201   HASH_Init(&SHA1\_HASH\_InitStructure);
+00202 
+00203   \textcolor{comment}{/* Configure the number of valid bits in last word of the Key */}
+00204   HASH_SetLastWordValidBitsNbr(nbvalidbitskey);
+00205 
+00206   \textcolor{comment}{/* Write the Key */}
+00207   \textcolor{keywordflow}{for}(i=0; i<Keylen; i+=4)
+00208   \{
+00209     HASH_DataIn(*(uint32\_t*)keyaddr);
+00210     keyaddr+=4;
+00211   \}
+00212 
+00213   \textcolor{comment}{/* Start the HASH processor */}
+00214   HASH_StartDigest();
+00215 
+00216   \textcolor{comment}{/* wait until the Busy flag is RESET */}
+00217   \textcolor{keywordflow}{do}
+00218   \{
+00219     busystatus = HASH_GetFlagStatus(HASH_FLAG_BUSY);
+00220     counter++;
+00221   \}\textcolor{keywordflow}{while} ((counter != SHA1BUSY_TIMEOUT) && (busystatus != RESET));
+00222 
+00223   \textcolor{keywordflow}{if} (busystatus != RESET)
+00224   \{
+00225      status = ERROR;
+00226   \}
+00227   \textcolor{keywordflow}{else}
+00228   \{
+00229     \textcolor{comment}{/* Configure the number of valid bits in last word of the Input data */}
+00230     HASH_SetLastWordValidBitsNbr(nbvalidbitsdata);
+00231 
+00232     \textcolor{comment}{/* Write the Input block in the IN FIFO */}
+00233     \textcolor{keywordflow}{for}(i=0; i<Ilen; i+=4)
+00234     \{
+00235       HASH_DataIn(*(uint32\_t*)inputaddr);
+00236       inputaddr+=4;
+00237     \}
+00238 
+00239     \textcolor{comment}{/* Start the HASH processor */}
+00240     HASH_StartDigest();
+00241 
+00242 
+00243     \textcolor{comment}{/* wait until the Busy flag is RESET */}
+00244     counter =0;
+00245     \textcolor{keywordflow}{do}
+00246     \{
+00247       busystatus = HASH_GetFlagStatus(HASH_FLAG_BUSY);
+00248       counter++;
+00249     \}\textcolor{keywordflow}{while} ((counter != SHA1BUSY_TIMEOUT) && (busystatus != RESET));
+00250 
+00251     \textcolor{keywordflow}{if} (busystatus != RESET)
+00252     \{
+00253       status = ERROR;
+00254     \}
+00255     \textcolor{keywordflow}{else}
+00256     \{  
+00257       \textcolor{comment}{/* Configure the number of valid bits in last word of the Key */}
+00258       HASH_SetLastWordValidBitsNbr(nbvalidbitskey);
+00259 
+00260       \textcolor{comment}{/* Write the Key */}
+00261       keyaddr = (uint32\_t)Key;
+00262       \textcolor{keywordflow}{for}(i=0; i<Keylen; i+=4)
+00263       \{
+00264         HASH_DataIn(*(uint32\_t*)keyaddr);
+00265         keyaddr+=4;
+00266       \}
+00267 
+00268       \textcolor{comment}{/* Start the HASH processor */}
+00269       HASH_StartDigest();
+00270 
+00271       \textcolor{comment}{/* wait until the Busy flag is RESET */}
+00272       counter =0;
+00273       \textcolor{keywordflow}{do}
+00274       \{
+00275         busystatus = HASH_GetFlagStatus(HASH_FLAG_BUSY);
+00276         counter++;
+00277       \}\textcolor{keywordflow}{while} ((counter != SHA1BUSY_TIMEOUT) && (busystatus != RESET));
+00278 
+00279       \textcolor{keywordflow}{if} (busystatus != RESET)
+00280       \{
+00281         status = ERROR;
+00282       \}
+00283       \textcolor{keywordflow}{else}
+00284       \{
+00285         \textcolor{comment}{/* Read the message digest */}
+00286         HASH_GetDigest(&SHA1\_MessageDigest);
+00287         *(uint32\_t*)(outputaddr)  = \_\_REV(SHA1\_MessageDigest.Data[0]);
+00288         outputaddr+=4;
+00289         *(uint32\_t*)(outputaddr)  = \_\_REV(SHA1\_MessageDigest.Data[1]);
+00290         outputaddr+=4;
+00291         *(uint32\_t*)(outputaddr)  = \_\_REV(SHA1\_MessageDigest.Data[2]);
+00292         outputaddr+=4;
+00293         *(uint32\_t*)(outputaddr)  = \_\_REV(SHA1\_MessageDigest.Data[3]);
+00294         outputaddr+=4;
+00295         *(uint32\_t*)(outputaddr)  = \_\_REV(SHA1\_MessageDigest.Data[4]);
+00296       \}
+00297     \}  
+00298   \}
+00299   \textcolor{keywordflow}{return} status;  
+00300 \}
+\end{DoxyCode}

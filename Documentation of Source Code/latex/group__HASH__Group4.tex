@@ -1,0 +1,78 @@
+\section{H\+A\+SH\textquotesingle{}s D\+MA interface Configuration function}
+\label{group__HASH__Group4}\index{H\+A\+S\+H\textquotesingle{}s D\+M\+A interface Configuration function@{H\+A\+S\+H\textquotesingle{}s D\+M\+A interface Configuration function}}
+
+
+H\+A\+SH\textquotesingle{}s D\+MA interface Configuration function.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+D\+M\+A\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the H\+A\+SH D\+MA interface. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+H\+A\+SH\textquotesingle{}s D\+MA interface Configuration function. 
+
+\begin{DoxyVerb} ===============================================================================
+                   HASH's DMA interface Configuration function
+ ===============================================================================  
+
+  This section provides functions allowing to configure the DMA interface for 
+  HASH/ HMAC data input transfer.
+   
+  When the DMA mode is enabled (using the HASH_DMACmd() function), data can be 
+  sent to the IN FIFO using the DMA peripheral.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__HASH__Group4_ga6bc756803b0b3a03eecc47cb570e1bd3}} 
+\index{H\+A\+S\+H\textquotesingle{}s D\+M\+A interface Configuration function@{H\+A\+S\+H\textquotesingle{}s D\+M\+A interface Configuration function}!H\+A\+S\+H\+\_\+\+D\+M\+A\+Cmd@{H\+A\+S\+H\+\_\+\+D\+M\+A\+Cmd}}
+\index{H\+A\+S\+H\+\_\+\+D\+M\+A\+Cmd@{H\+A\+S\+H\+\_\+\+D\+M\+A\+Cmd}!H\+A\+S\+H\textquotesingle{}s D\+M\+A interface Configuration function@{H\+A\+S\+H\textquotesingle{}s D\+M\+A interface Configuration function}}
+\subsubsection{H\+A\+S\+H\+\_\+\+D\+M\+A\+Cmd()}
+{\footnotesize\ttfamily void H\+A\+S\+H\+\_\+\+D\+M\+A\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the H\+A\+SH D\+MA interface. 
+
+\begin{DoxyNote}{Note}
+The D\+MA is disabled by hardware after the end of transfer. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the selected H\+A\+SH D\+MA transfer request. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 460} of file \textbf{ stm32f4xx\+\_\+hash.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00461 \{
+00462   \textcolor{comment}{/* Check the parameters */}
+00463   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00464 
+00465   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00466   \{
+00467     \textcolor{comment}{/* Enable the HASH DMA request */}
+00468     HASH->CR |= HASH_CR_DMAE;
+00469   \}
+00470   \textcolor{keywordflow}{else}
+00471   \{
+00472     \textcolor{comment}{/* Disable the HASH DMA request */}
+00473     HASH->CR &= ~HASH_CR_DMAE;
+00474   \}
+00475 \}
+\end{DoxyCode}

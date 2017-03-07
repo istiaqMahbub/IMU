@@ -1,0 +1,193 @@
+\section{stm32f4xx\+\_\+syscfg.\+h}
+\label{stm32f4xx__syscfg_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+syscfg.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+syscfg.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_syscfg.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the SYSCFG firmware}
+00008 \textcolor{comment}{  *          library.}
+00009 \textcolor{comment}{  ******************************************************************************}
+00010 \textcolor{comment}{  * @attention}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00013 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00014 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00015 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00016 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00017 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00020 \textcolor{comment}{  ******************************************************************************}
+00021 \textcolor{comment}{  */}
+00022 
+00023 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_SYSCFG\_H}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_SYSCFG\_H}
+00026 
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00028  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00033 
+00034 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00035 \textcolor{comment}{  * @\{}
+00036 \textcolor{comment}{  */}
+00037 
+00038 \textcolor{comment}{/** @addtogroup SYSCFG}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00043 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00044 
+00045 \textcolor{comment}{/** @defgroup SYSCFG\_Exported\_Constants }
+00046 \textcolor{comment}{  * @\{}
+00047 \textcolor{comment}{  */}
+00048 
+00049 \textcolor{comment}{/** @defgroup SYSCFG\_EXTI\_Port\_Sources }
+00050 \textcolor{comment}{  * @\{}
+00051 \textcolor{comment}{  */}
+00052 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PortSourceGPIOA}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}
+00053 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PortSourceGPIOB}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}
+00054 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PortSourceGPIOC}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}
+00055 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PortSourceGPIOD}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x03\textcolor{preprocessor}{)}
+00056 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PortSourceGPIOE}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x04\textcolor{preprocessor}{)}
+00057 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PortSourceGPIOF}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x05\textcolor{preprocessor}{)}
+00058 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PortSourceGPIOG}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x06\textcolor{preprocessor}{)}
+00059 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PortSourceGPIOH}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x07\textcolor{preprocessor}{)}
+00060 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PortSourceGPIOI}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x08\textcolor{preprocessor}{)}
+00061 
+00062 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_EXTI\_PORT\_SOURCE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PORTSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PORTSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      EXTI_PortSourceGPIOA\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00063                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PORTSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      EXTI_PortSourceGPIOB\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00064                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PORTSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      EXTI_PortSourceGPIOC\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00065                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PORTSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      EXTI_PortSourceGPIOD\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00066                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PORTSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      EXTI_PortSourceGPIOE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00067                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PORTSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      EXTI_PortSourceGPIOF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00068                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PORTSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      EXTI_PortSourceGPIOG\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00069                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PORTSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      EXTI_PortSourceGPIOH\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00070                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PORTSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      EXTI_PortSourceGPIOI\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00071 \textcolor{comment}{/**}
+00072 \textcolor{comment}{  * @\}}
+00073 \textcolor{comment}{  */}
+00074 
+00075 
+00076 \textcolor{comment}{/** @defgroup SYSCFG\_EXTI\_Pin\_Sources }
+00077 \textcolor{comment}{  * @\{}
+00078 \textcolor{comment}{  */}
+00079 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PinSource0}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}
+00080 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PinSource1}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}
+00081 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PinSource2}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}
+00082 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PinSource3}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x03\textcolor{preprocessor}{)}
+00083 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PinSource4}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x04\textcolor{preprocessor}{)}
+00084 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PinSource5}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x05\textcolor{preprocessor}{)}
+00085 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PinSource6}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x06\textcolor{preprocessor}{)}
+00086 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PinSource7}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x07\textcolor{preprocessor}{)}
+00087 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PinSource8}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x08\textcolor{preprocessor}{)}
+00088 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PinSource9}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x09\textcolor{preprocessor}{)}
+00089 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PinSource10}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0A\textcolor{preprocessor}{)}
+00090 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PinSource11}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0B\textcolor{preprocessor}{)}
+00091 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PinSource12}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0C\textcolor{preprocessor}{)}
+00092 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PinSource13}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0D\textcolor{preprocessor}{)}
+00093 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PinSource14}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0E\textcolor{preprocessor}{)}
+00094 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EXTI\_PinSource15}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0F\textcolor{preprocessor}{)}
+00095 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_EXTI\_PIN\_SOURCE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_PinSource0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00096                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_PinSource1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00097                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_PinSource2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00098                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_PinSource3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00099                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_PinSource4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00100                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_PinSource5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00101                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_PinSource6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00102                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_PinSource7\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00103                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_PinSource8\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00104                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_PinSource9\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00105                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_PinSource10\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00106                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_PinSource11\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00107                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_PinSource12\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00108                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_PinSource13\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00109                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_PinSource14\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00110                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} EXTI_PinSource15\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00111 \textcolor{comment}{/**}
+00112 \textcolor{comment}{  * @\}}
+00113 \textcolor{comment}{  */}
+00114 
+00115 
+00116 \textcolor{comment}{/** @defgroup SYSCFG\_Memory\_Remap\_Config }
+00117 \textcolor{comment}{  * @\{}
+00118 \textcolor{comment}{  */}
+00119 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SYSCFG\_MemoryRemap\_Flash}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}
+00120 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SYSCFG\_MemoryRemap\_SystemFlash} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}
+00121 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SYSCFG\_MemoryRemap\_FSMC}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}
+00122 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SYSCFG\_MemoryRemap\_SRAM}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x03\textcolor{preprocessor}{)}
+00123 
+00124 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SYSCFG\_MEMORY\_REMAP\_CONFING}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REMAP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REMAP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SYSCFG_MemoryRemap_Flash\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00125                                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REMAP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SYSCFG_MemoryRemap_SystemFlash\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00126                                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REMAP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SYSCFG_MemoryRemap_SRAM\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00127                                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REMAP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SYSCFG_MemoryRemap_FSMC\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00128 \textcolor{comment}{/**}
+00129 \textcolor{comment}{  * @\}}
+00130 \textcolor{comment}{  */}
+00131 
+00132 
+00133 \textcolor{comment}{/** @defgroup SYSCFG\_ETHERNET\_Media\_Interface }
+00134 \textcolor{comment}{  * @\{}
+00135 \textcolor{comment}{  */}
+00136 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SYSCFG\_ETH\_MediaInterface\_MII}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00137 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SYSCFG\_ETH\_MediaInterface\_RMII}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00138 
+00139 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SYSCFG\_ETH\_MEDIA\_INTERFACE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INTERFACE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INTERFACE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SYSCFG_ETH_MediaInterface_MII\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00140                                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{INTERFACE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SYSCFG_ETH_MediaInterface_RMII\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00141 \textcolor{comment}{/**}
+00142 \textcolor{comment}{  * @\}}
+00143 \textcolor{comment}{  */}
+00144 
+00145 \textcolor{comment}{/**}
+00146 \textcolor{comment}{  * @\}}
+00147 \textcolor{comment}{  */}
+00148 
+00149 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00150 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00151 
+00152 \textcolor{keywordtype}{void} SYSCFG_DeInit(\textcolor{keywordtype}{void});
+00153 \textcolor{keywordtype}{void} SYSCFG_MemoryRemapConfig(uint8\_t SYSCFG\_MemoryRemap);
+00154 \textcolor{keywordtype}{void} SYSCFG_EXTILineConfig(uint8\_t EXTI\_PortSourceGPIOx, uint8\_t EXTI\_PinSourcex);
+00155 \textcolor{keywordtype}{void} SYSCFG_ETH_MediaInterfaceConfig(uint32\_t SYSCFG\_ETH\_MediaInterface);
+00156 \textcolor{keywordtype}{void} SYSCFG_CompensationCellCmd(FunctionalState NewState);
+00157 FlagStatus SYSCFG_GetCompensationCellStatus(\textcolor{keywordtype}{void});
+00158 
+00159 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00160 \}
+00161 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00162 
+00163 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/*\_\_STM32F4xx\_SYSCFG\_H */}
+00164 
+00165 \textcolor{comment}{/**}
+00166 \textcolor{comment}{  * @\}}
+00167 \textcolor{comment}{  */}
+00168 
+00169 \textcolor{comment}{/**}
+00170 \textcolor{comment}{  * @\}}
+00171 \textcolor{comment}{  */}
+00172 
+00173 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

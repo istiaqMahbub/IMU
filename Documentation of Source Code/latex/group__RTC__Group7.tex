@@ -1,0 +1,364 @@
+\section{Digital Calibration configuration functions}
+\label{group__RTC__Group7}\index{Digital Calibration configuration functions@{Digital Calibration configuration functions}}
+
+
+Coarse Calibration configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Coarse\+Calib\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Calib\+Sign, uint32\+\_\+t Value)
+\begin{DoxyCompactList}\small\item\em Configures the Coarse calibration parameters. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Coarse\+Calib\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Coarse calibration process. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Calib\+Output\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the R\+TC clock to be output through the relative pin. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Calib\+Output\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Calib\+Output)
+\begin{DoxyCompactList}\small\item\em Configure the Calibration Pinout (R\+T\+C\+\_\+\+C\+A\+L\+IB) Selection (1\+Hz or 512\+Hz). \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Smooth\+Calib\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Smooth\+Calib\+Period, uint32\+\_\+t R\+T\+C\+\_\+\+Smooth\+Calib\+Plus\+Pulses, uint32\+\_\+t R\+T\+C\+\_\+\+Smouth\+Calib\+Minus\+Pulses\+Value)
+\begin{DoxyCompactList}\small\item\em Configures the Smooth Calibration Settings. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Coarse Calibration configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                  Digital Calibration configuration functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__RTC__Group7_ga25eaa2de5ee858a4572d5fb1eb146ff8}} 
+\index{Digital Calibration configuration functions@{Digital Calibration configuration functions}!R\+T\+C\+\_\+\+Calib\+Output\+Cmd@{R\+T\+C\+\_\+\+Calib\+Output\+Cmd}}
+\index{R\+T\+C\+\_\+\+Calib\+Output\+Cmd@{R\+T\+C\+\_\+\+Calib\+Output\+Cmd}!Digital Calibration configuration functions@{Digital Calibration configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Calib\+Output\+Cmd()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Calib\+Output\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the R\+TC clock to be output through the relative pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the digital calibration Output. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1811} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+01812 \{
+01813   \textcolor{comment}{/* Check the parameters */}
+01814   assert_param(IS_FUNCTIONAL_STATE(NewState));
+01815   
+01816   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01817   RTC->WPR = 0xCA;
+01818   RTC->WPR = 0x53;
+01819   
+01820   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01821   \{
+01822     \textcolor{comment}{/* Enable the RTC clock output */}
+01823     RTC->CR |= (uint32\_t)RTC_CR_COE;
+01824   \}
+01825   \textcolor{keywordflow}{else}
+01826   \{ 
+01827     \textcolor{comment}{/* Disable the RTC clock output */}
+01828     RTC->CR &= (uint32\_t)~RTC_CR_COE;
+01829   \}
+01830   
+01831   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01832   RTC->WPR = 0xFF; 
+01833 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group7_ga2139adc802bdb6882904c0b855d50b29}} 
+\index{Digital Calibration configuration functions@{Digital Calibration configuration functions}!R\+T\+C\+\_\+\+Calib\+Output\+Config@{R\+T\+C\+\_\+\+Calib\+Output\+Config}}
+\index{R\+T\+C\+\_\+\+Calib\+Output\+Config@{R\+T\+C\+\_\+\+Calib\+Output\+Config}!Digital Calibration configuration functions@{Digital Calibration configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Calib\+Output\+Config()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Calib\+Output\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Calib\+Output }\end{DoxyParamCaption})}
+
+
+
+Configure the Calibration Pinout (R\+T\+C\+\_\+\+C\+A\+L\+IB) Selection (1\+Hz or 512\+Hz). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Calib\+Output} & \+: Select the Calibration output Selection . This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Calib\+Output\+\_\+512\+Hz\+: A signal has a regular waveform at 512\+Hz. \item R\+T\+C\+\_\+\+Calib\+Output\+\_\+1\+Hz \+: A signal has a regular waveform at 1\+Hz. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1843} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+01844 \{
+01845   \textcolor{comment}{/* Check the parameters */}
+01846   assert_param(IS_RTC_CALIB_OUTPUT(RTC\_CalibOutput));
+01847 
+01848   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01849   RTC->WPR = 0xCA;
+01850   RTC->WPR = 0x53;
+01851   
+01852   \textcolor{comment}{/*clear flags before config*/}
+01853   RTC->CR &= (uint32\_t)~(RTC_CR_COSEL);
+01854 
+01855   \textcolor{comment}{/* Configure the RTC\_CR register */}
+01856   RTC->CR |= (uint32\_t)RTC\_CalibOutput;
+01857 
+01858   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01859   RTC->WPR = 0xFF;
+01860 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group7_ga008ae7173b2befe876f5e76686bc9089}} 
+\index{Digital Calibration configuration functions@{Digital Calibration configuration functions}!R\+T\+C\+\_\+\+Coarse\+Calib\+Cmd@{R\+T\+C\+\_\+\+Coarse\+Calib\+Cmd}}
+\index{R\+T\+C\+\_\+\+Coarse\+Calib\+Cmd@{R\+T\+C\+\_\+\+Coarse\+Calib\+Cmd}!Digital Calibration configuration functions@{Digital Calibration configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Coarse\+Calib\+Cmd()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Coarse\+Calib\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the Coarse calibration process. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the Coarse calibration. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC Coarse calibration are enabled/disabled
+\item E\+R\+R\+OR\+: R\+TC Coarse calibration are not enabled/disabled 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1765} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+R\+R\+OR}, \textbf{ R\+T\+C\+\_\+\+Enter\+Init\+Mode()}, \textbf{ R\+T\+C\+\_\+\+Exit\+Init\+Mode()}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+01766 \{
+01767   ErrorStatus status = ERROR;
+01768   
+01769   \textcolor{comment}{/* Check the parameters */}
+01770   assert_param(IS_FUNCTIONAL_STATE(NewState));
+01771 
+01772   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01773   RTC->WPR = 0xCA;
+01774   RTC->WPR = 0x53;
+01775   
+01776   \textcolor{comment}{/* Set Initialization mode */}
+01777   \textcolor{keywordflow}{if} (RTC_EnterInitMode() == ERROR)
+01778   \{
+01779     status =  ERROR;
+01780   \}
+01781   \textcolor{keywordflow}{else}
+01782   \{
+01783     \textcolor{keywordflow}{if} (NewState != DISABLE)
+01784     \{
+01785       \textcolor{comment}{/* Enable the Coarse Calibration */}
+01786       RTC->CR |= (uint32\_t)RTC_CR_DCE;
+01787     \}
+01788     \textcolor{keywordflow}{else}
+01789     \{ 
+01790       \textcolor{comment}{/* Disable the Coarse Calibration */}
+01791       RTC->CR &= (uint32\_t)~RTC_CR_DCE;
+01792     \}
+01793     \textcolor{comment}{/* Exit Initialization mode */}
+01794     RTC_ExitInitMode();
+01795     
+01796     status = SUCCESS;
+01797   \} 
+01798   
+01799   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01800   RTC->WPR = 0xFF; 
+01801   
+01802   \textcolor{keywordflow}{return} status;
+01803 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group7_gaa3bb10170a2c70ac9ce3e41c611bdd43}} 
+\index{Digital Calibration configuration functions@{Digital Calibration configuration functions}!R\+T\+C\+\_\+\+Coarse\+Calib\+Config@{R\+T\+C\+\_\+\+Coarse\+Calib\+Config}}
+\index{R\+T\+C\+\_\+\+Coarse\+Calib\+Config@{R\+T\+C\+\_\+\+Coarse\+Calib\+Config}!Digital Calibration configuration functions@{Digital Calibration configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Coarse\+Calib\+Config()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Coarse\+Calib\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Calib\+Sign,  }\item[{uint32\+\_\+t}]{Value }\end{DoxyParamCaption})}
+
+
+
+Configures the Coarse calibration parameters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Calib\+Sign} & specifies the sign of the coarse calibration value. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Calib\+Sign\+\_\+\+Positive\+: The value sign is positive \item R\+T\+C\+\_\+\+Calib\+Sign\+\_\+\+Negative\+: The value sign is negative \end{DoxyItemize}
+\\
+\hline
+{\em Value} & value of coarse calibration expressed in ppm (coded on 5 bits).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This Calibration value should be between 0 and 63 when using negative sign with a 2-\/ppm step.
+
+This Calibration value should be between 0 and 126 when using positive sign with a 4-\/ppm step.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC Coarse calibration are initialized
+\item E\+R\+R\+OR\+: R\+TC Coarse calibration are not initialized 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1724} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}, \textbf{ R\+T\+C\+\_\+\+Enter\+Init\+Mode()}, \textbf{ R\+T\+C\+\_\+\+Exit\+Init\+Mode()}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+01725 \{
+01726   ErrorStatus status = ERROR;
+01727    
+01728   \textcolor{comment}{/* Check the parameters */}
+01729   assert_param(IS_RTC_CALIB_SIGN(RTC\_CalibSign));
+01730   assert_param(IS_RTC_CALIB_VALUE(Value)); 
+01731 
+01732   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01733   RTC->WPR = 0xCA;
+01734   RTC->WPR = 0x53;
+01735 
+01736   \textcolor{comment}{/* Set Initialization mode */}
+01737   \textcolor{keywordflow}{if} (RTC_EnterInitMode() == ERROR)
+01738   \{
+01739     status = ERROR;
+01740   \} 
+01741   \textcolor{keywordflow}{else}
+01742   \{
+01743     \textcolor{comment}{/* Set the coarse calibration value */}
+01744     RTC->CALIBR = (uint32\_t)(RTC\_CalibSign | Value);
+01745     \textcolor{comment}{/* Exit Initialization mode */}
+01746     RTC_ExitInitMode();
+01747     
+01748     status = SUCCESS;
+01749   \} 
+01750 
+01751   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01752   RTC->WPR = 0xFF; 
+01753   
+01754   \textcolor{keywordflow}{return} status;
+01755 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group7_ga91a28dcc7d45340a469dd8b8c029f841}} 
+\index{Digital Calibration configuration functions@{Digital Calibration configuration functions}!R\+T\+C\+\_\+\+Smooth\+Calib\+Config@{R\+T\+C\+\_\+\+Smooth\+Calib\+Config}}
+\index{R\+T\+C\+\_\+\+Smooth\+Calib\+Config@{R\+T\+C\+\_\+\+Smooth\+Calib\+Config}!Digital Calibration configuration functions@{Digital Calibration configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Smooth\+Calib\+Config()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Smooth\+Calib\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Smooth\+Calib\+Period,  }\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Smooth\+Calib\+Plus\+Pulses,  }\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Smouth\+Calib\+Minus\+Pulses\+Value }\end{DoxyParamCaption})}
+
+
+
+Configures the Smooth Calibration Settings. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Smooth\+Calib\+Period} & \+: Select the Smooth Calibration Period. This parameter can be can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Smooth\+Calib\+Period\+\_\+32sec \+: The smooth calibration periode is 32s. \item R\+T\+C\+\_\+\+Smooth\+Calib\+Period\+\_\+16sec \+: The smooth calibration periode is 16s. \item R\+T\+C\+\_\+\+Smooth\+Calib\+Period\+\_\+8sec \+: The smooth calibartion periode is 8s. \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Smooth\+Calib\+Plus\+Pulses} & \+: Select to Set or reset the C\+A\+LP bit. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Smooth\+Calib\+Plus\+Pulses\+\_\+\+Set \+: Add one R\+T\+C\+C\+LK puls every 2$\ast$$\ast$11 pulses. \item R\+T\+C\+\_\+\+Smooth\+Calib\+Plus\+Pulses\+\_\+\+Reset\+: No R\+T\+C\+C\+LK pulses are added. \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Smouth\+Calib\+Minus\+Pulses\+Value} & Select the value of C\+A\+LM[8\+:0] bits. This parameter can be one any value from 0 to 0x000001\+FF. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC Calib registers are configured
+\item E\+R\+R\+OR\+: R\+TC Calib registers are not configured 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1879} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}.
+
+
+\begin{DoxyCode}
+01882 \{
+01883   ErrorStatus status = ERROR;
+01884   uint32\_t recalpfcount = 0;
+01885 
+01886   \textcolor{comment}{/* Check the parameters */}
+01887   assert_param(IS_RTC_SMOOTH_CALIB_PERIOD(RTC\_SmoothCalibPeriod));
+01888   assert_param(IS_RTC_SMOOTH_CALIB_PLUS(RTC\_SmoothCalibPlusPulses));
+01889   assert_param(IS_RTC_SMOOTH_CALIB_MINUS(RTC\_SmouthCalibMinusPulsesValue));
+01890 
+01891   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01892   RTC->WPR = 0xCA;
+01893   RTC->WPR = 0x53;
+01894   
+01895   \textcolor{comment}{/* check if a calibration is pending*/}
+01896   \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_RECALPF) != RESET)
+01897   \{
+01898     \textcolor{comment}{/* wait until the Calibration is completed*/}
+01899     \textcolor{keywordflow}{while} (((RTC->ISR & RTC_ISR_RECALPF) != RESET) && (recalpfcount != 
+      RECALPF_TIMEOUT))
+01900     \{
+01901       recalpfcount++;
+01902     \}
+01903   \}
+01904 
+01905   \textcolor{comment}{/* check if the calibration pending is completed or if there is no calibration operation at all*/}
+01906   \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_RECALPF) == RESET)
+01907   \{
+01908     \textcolor{comment}{/* Configure the Smooth calibration settings */}
+01909     RTC->CALR = (uint32\_t)((uint32\_t)RTC\_SmoothCalibPeriod | (uint32\_t)RTC\_SmoothCalibPlusPulses | (
+      uint32\_t)RTC\_SmouthCalibMinusPulsesValue);
+01910 
+01911     status = SUCCESS;
+01912   \}
+01913   \textcolor{keywordflow}{else}
+01914   \{
+01915     status = ERROR;
+01916   \}
+01917 
+01918   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01919   RTC->WPR = 0xFF;
+01920   
+01921   \textcolor{keywordflow}{return} (ErrorStatus)(status);
+01922 \}
+\end{DoxyCode}

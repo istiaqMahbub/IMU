@@ -1,0 +1,207 @@
+\section{P\+EC management functions}
+\label{group__I2C__Group3}\index{P\+E\+C management functions@{P\+E\+C management functions}}
+
+
+P\+EC management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ I2\+C\+\_\+\+Transmit\+P\+EC} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C P\+EC transfer. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+P\+E\+C\+Position\+Config} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, uint16\+\_\+t I2\+C\+\_\+\+P\+E\+C\+Position)
+\begin{DoxyCompactList}\small\item\em Selects the specified I2C P\+EC position. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+Calculate\+P\+EC} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the P\+EC value calculation of the transferred bytes. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ I2\+C\+\_\+\+Get\+P\+EC} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx)
+\begin{DoxyCompactList}\small\item\em Returns the P\+EC value for the specified I2C. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+P\+EC management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                         PEC management functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__I2C__Group3_gae86801251359226c35745e0a258388b0}} 
+\index{P\+E\+C management functions@{P\+E\+C management functions}!I2\+C\+\_\+\+Calculate\+P\+EC@{I2\+C\+\_\+\+Calculate\+P\+EC}}
+\index{I2\+C\+\_\+\+Calculate\+P\+EC@{I2\+C\+\_\+\+Calculate\+P\+EC}!P\+E\+C management functions@{P\+E\+C management functions}}
+\subsubsection{I2\+C\+\_\+\+Calculate\+P\+E\+C()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Calculate\+P\+EC (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the P\+EC value calculation of the transferred bytes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em New\+State} & new state of the I2\+Cx P\+EC value calculation. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 788} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00789 \{
+00790   \textcolor{comment}{/* Check the parameters */}
+00791   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00792   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00793   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00794   \{
+00795     \textcolor{comment}{/* Enable the selected I2C PEC calculation */}
+00796     I2Cx->CR1 |= I2C_CR1_ENPEC;
+00797   \}
+00798   \textcolor{keywordflow}{else}
+00799   \{
+00800     \textcolor{comment}{/* Disable the selected I2C PEC calculation */}
+00801     I2Cx->CR1 &= (uint16\_t)~((uint16\_t)I2C_CR1_ENPEC);
+00802   \}
+00803 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C__Group3_ga7bf75e7c27c0e1d73e70fc0e1c7cd1dd}} 
+\index{P\+E\+C management functions@{P\+E\+C management functions}!I2\+C\+\_\+\+Get\+P\+EC@{I2\+C\+\_\+\+Get\+P\+EC}}
+\index{I2\+C\+\_\+\+Get\+P\+EC@{I2\+C\+\_\+\+Get\+P\+EC}!P\+E\+C management functions@{P\+E\+C management functions}}
+\subsubsection{I2\+C\+\_\+\+Get\+P\+E\+C()}
+{\footnotesize\ttfamily uint8\+\_\+t I2\+C\+\_\+\+Get\+P\+EC (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx }\end{DoxyParamCaption})}
+
+
+
+Returns the P\+EC value for the specified I2C. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & P\+EC value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 810} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+\begin{DoxyCode}
+00811 \{
+00812   \textcolor{comment}{/* Check the parameters */}
+00813   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00814   \textcolor{comment}{/* Return the selected I2C PEC value */}
+00815   \textcolor{keywordflow}{return} ((I2Cx->SR2) >> 8);
+00816 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C__Group3_ga5d0f939bdd45542502827bf408f24161}} 
+\index{P\+E\+C management functions@{P\+E\+C management functions}!I2\+C\+\_\+\+P\+E\+C\+Position\+Config@{I2\+C\+\_\+\+P\+E\+C\+Position\+Config}}
+\index{I2\+C\+\_\+\+P\+E\+C\+Position\+Config@{I2\+C\+\_\+\+P\+E\+C\+Position\+Config}!P\+E\+C management functions@{P\+E\+C management functions}}
+\subsubsection{I2\+C\+\_\+\+P\+E\+C\+Position\+Config()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+P\+E\+C\+Position\+Config (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{uint16\+\_\+t}]{I2\+C\+\_\+\+P\+E\+C\+Position }\end{DoxyParamCaption})}
+
+
+
+Selects the specified I2C P\+EC position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em I2\+C\+\_\+\+P\+E\+C\+Position} & specifies the P\+EC position. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item I2\+C\+\_\+\+P\+E\+C\+Position\+\_\+\+Next\+: indicates that the next byte is P\+EC \item I2\+C\+\_\+\+P\+E\+C\+Position\+\_\+\+Current\+: indicates that current byte is P\+EC\end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This function configures the same bit (P\+OS) as \doxyref{I2\+C\+\_\+\+N\+A\+C\+K\+Position\+Config()}{p.}{group__I2C__Group1_gad08ebffc3a234d84e6405ec115bd74f1} but is intended to be used in S\+M\+B\+US mode while \doxyref{I2\+C\+\_\+\+N\+A\+C\+K\+Position\+Config()}{p.}{group__I2C__Group1_gad08ebffc3a234d84e6405ec115bd74f1} is intended to used in I2C mode.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 764} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+\begin{DoxyCode}
+00765 \{
+00766   \textcolor{comment}{/* Check the parameters */}
+00767   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00768   assert_param(IS_I2C_PEC_POSITION(I2C\_PECPosition));
+00769   \textcolor{keywordflow}{if} (I2C\_PECPosition == I2C_PECPosition_Next)
+00770   \{
+00771     \textcolor{comment}{/* Next byte in shift register is PEC */}
+00772     I2Cx->CR1 |= I2C_PECPosition_Next;
+00773   \}
+00774   \textcolor{keywordflow}{else}
+00775   \{
+00776     \textcolor{comment}{/* Current byte in shift register is PEC */}
+00777     I2Cx->CR1 &= I2C_PECPosition_Current;
+00778   \}
+00779 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C__Group3_gaa27d1440290fe601e730b6980999afe3}} 
+\index{P\+E\+C management functions@{P\+E\+C management functions}!I2\+C\+\_\+\+Transmit\+P\+EC@{I2\+C\+\_\+\+Transmit\+P\+EC}}
+\index{I2\+C\+\_\+\+Transmit\+P\+EC@{I2\+C\+\_\+\+Transmit\+P\+EC}!P\+E\+C management functions@{P\+E\+C management functions}}
+\subsubsection{I2\+C\+\_\+\+Transmit\+P\+E\+C()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+Transmit\+P\+EC (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified I2C P\+EC transfer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em New\+State} & new state of the I2C P\+EC transmission. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 733} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00734 \{
+00735   \textcolor{comment}{/* Check the parameters */}
+00736   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00737   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00738   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00739   \{
+00740     \textcolor{comment}{/* Enable the selected I2C PEC transmission */}
+00741     I2Cx->CR1 |= I2C_CR1_PEC;
+00742   \}
+00743   \textcolor{keywordflow}{else}
+00744   \{
+00745     \textcolor{comment}{/* Disable the selected I2C PEC transmission */}
+00746     I2Cx->CR1 &= (uint16\_t)~((uint16\_t)I2C_CR1_PEC);
+00747   \}
+00748 \}
+\end{DoxyCode}

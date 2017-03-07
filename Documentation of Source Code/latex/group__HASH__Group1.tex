@@ -1,0 +1,224 @@
+\section{Initialization and Configuration functions}
+\label{group__HASH__Group1}\index{Initialization and Configuration functions@{Initialization and Configuration functions}}
+
+
+Initialization and Configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the H\+A\+SH peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+Init} (\textbf{ H\+A\+S\+H\+\_\+\+Init\+Type\+Def} $\ast$H\+A\+S\+H\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the H\+A\+SH peripheral according to the specified parameters in the H\+A\+S\+H\+\_\+\+Init\+Struct structure. \end{DoxyCompactList}\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+Struct\+Init} (\textbf{ H\+A\+S\+H\+\_\+\+Init\+Type\+Def} $\ast$H\+A\+S\+H\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each H\+A\+S\+H\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+Reset} (void)
+\begin{DoxyCompactList}\small\item\em Resets the H\+A\+SH processor core, so that the H\+A\+SH will be ready to compute the message digest of a new message. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Initialization and Configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                      Initialization and Configuration functions
+ ===============================================================================  
+  This section provides functions allowing to 
+   - Initialize the HASH peripheral
+   - Configure the HASH Processor 
+      - MD5/SHA1, 
+      - HASH/HMAC, 
+      - datatype 
+      - HMAC Key (if mode = HMAC)
+   - Reset the HASH Processor \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__HASH__Group1_ga88717fe3a4f557182841a958e1dcd9c7}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!H\+A\+S\+H\+\_\+\+De\+Init@{H\+A\+S\+H\+\_\+\+De\+Init}}
+\index{H\+A\+S\+H\+\_\+\+De\+Init@{H\+A\+S\+H\+\_\+\+De\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{H\+A\+S\+H\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void H\+A\+S\+H\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the H\+A\+SH peripheral registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 171} of file \textbf{ stm32f4xx\+\_\+hash.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, and \textbf{ R\+C\+C\+\_\+\+A\+H\+B2\+Periph\+Reset\+Cmd()}.
+
+
+
+Referenced by \textbf{ H\+A\+S\+H\+\_\+\+M\+D5()}, \textbf{ H\+A\+S\+H\+\_\+\+S\+H\+A1()}, \textbf{ H\+M\+A\+C\+\_\+\+M\+D5()}, and \textbf{ H\+M\+A\+C\+\_\+\+S\+H\+A1()}.
+
+
+\begin{DoxyCode}
+00172 \{
+00173   \textcolor{comment}{/* Enable HASH reset state */}
+00174   RCC_AHB2PeriphResetCmd(RCC_AHB2Periph_HASH, ENABLE);
+00175   \textcolor{comment}{/* Release HASH from reset state */}
+00176   RCC_AHB2PeriphResetCmd(RCC_AHB2Periph_HASH, DISABLE);
+00177 \}
+\end{DoxyCode}
+\mbox{\label{group__HASH__Group1_ga4a7d33f0954ac0463a6cda81121635cf}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!H\+A\+S\+H\+\_\+\+Init@{H\+A\+S\+H\+\_\+\+Init}}
+\index{H\+A\+S\+H\+\_\+\+Init@{H\+A\+S\+H\+\_\+\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{H\+A\+S\+H\+\_\+\+Init()}
+{\footnotesize\ttfamily void H\+A\+S\+H\+\_\+\+Init (\begin{DoxyParamCaption}\item[{\textbf{ H\+A\+S\+H\+\_\+\+Init\+Type\+Def} $\ast$}]{H\+A\+S\+H\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the H\+A\+SH peripheral according to the specified parameters in the H\+A\+S\+H\+\_\+\+Init\+Struct structure. 
+
+\begin{DoxyNote}{Note}
+the hash processor is reset when calling this function so that the H\+A\+SH will be ready to compute the message digest of a new message. There is no need to call \doxyref{H\+A\+S\+H\+\_\+\+Reset()}{p.}{group__HASH__Group1_ga11745813cf85a08b2058aac3bd026e4d} function. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em H\+A\+S\+H\+\_\+\+Init\+Struct} & pointer to a \doxyref{H\+A\+S\+H\+\_\+\+Init\+Type\+Def}{p.}{structHASH__InitTypeDef} structure that contains the configuration information for the H\+A\+SH peripheral. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The field H\+A\+S\+H\+\_\+\+H\+M\+A\+C\+Key\+Type in \doxyref{H\+A\+S\+H\+\_\+\+Init\+Type\+Def}{p.}{structHASH__InitTypeDef} must be filled only if the algorithm mode is H\+M\+AC. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 191} of file \textbf{ stm32f4xx\+\_\+hash.\+c}.
+
+
+
+References \textbf{ H\+A\+S\+H\+\_\+\+Init\+Type\+Def\+::\+H\+A\+S\+H\+\_\+\+Algo\+Mode}.
+
+
+
+Referenced by \textbf{ H\+A\+S\+H\+\_\+\+M\+D5()}, \textbf{ H\+A\+S\+H\+\_\+\+S\+H\+A1()}, \textbf{ H\+M\+A\+C\+\_\+\+M\+D5()}, and \textbf{ H\+M\+A\+C\+\_\+\+S\+H\+A1()}.
+
+
+\begin{DoxyCode}
+00192 \{
+00193   \textcolor{comment}{/* Check the parameters */}
+00194   assert_param(IS_HASH_ALGOSELECTION(HASH\_InitStruct->HASH_AlgoSelection));
+00195   assert_param(IS_HASH_DATATYPE(HASH\_InitStruct->HASH_DataType));
+00196   assert_param(IS_HASH_ALGOMODE(HASH\_InitStruct->HASH_AlgoMode));
+00197   
+00198   \textcolor{comment}{/* Configure the Algorithm used, algorithm mode and the datatype */}
+00199   HASH->CR &= ~ (HASH_CR_ALGO | HASH_CR_DATATYPE | HASH_CR_MODE);
+00200   HASH->CR |= (HASH\_InitStruct->HASH_AlgoSelection | \(\backslash\)
+00201                HASH\_InitStruct->HASH\_DataType | \(\backslash\)
+00202                HASH\_InitStruct->HASH\_AlgoMode);
+00203   
+00204   \textcolor{comment}{/* if algorithm mode is HMAC, set the Key */}  
+00205   \textcolor{keywordflow}{if}(HASH\_InitStruct->HASH_AlgoMode == HASH_AlgoMode_HMAC) 
+00206   \{
+00207     assert_param(IS_HASH_HMAC_KEYTYPE(HASH\_InitStruct->HASH_HMACKeyType));
+00208     HASH->CR &= ~HASH_CR_LKEY;
+00209     HASH->CR |= HASH\_InitStruct->HASH_HMACKeyType;
+00210   \}
+00211 
+00212   \textcolor{comment}{/* Reset the HASH processor core, so that the HASH will be ready to compute }
+00213 \textcolor{comment}{     the message digest of a new message */}
+00214   HASH->CR |= HASH_CR_INIT;  
+00215 \}
+\end{DoxyCode}
+\mbox{\label{group__HASH__Group1_ga11745813cf85a08b2058aac3bd026e4d}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!H\+A\+S\+H\+\_\+\+Reset@{H\+A\+S\+H\+\_\+\+Reset}}
+\index{H\+A\+S\+H\+\_\+\+Reset@{H\+A\+S\+H\+\_\+\+Reset}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{H\+A\+S\+H\+\_\+\+Reset()}
+{\footnotesize\ttfamily void H\+A\+S\+H\+\_\+\+Reset (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Resets the H\+A\+SH processor core, so that the H\+A\+SH will be ready to compute the message digest of a new message. 
+
+\begin{DoxyNote}{Note}
+Calling this function will clear the H\+A\+S\+H\+\_\+\+S\+R\+\_\+\+D\+C\+IS (Digest calculation completion interrupt status) bit corresponding to H\+A\+S\+H\+\_\+\+I\+T\+\_\+\+D\+CI interrupt and H\+A\+S\+H\+\_\+\+F\+L\+A\+G\+\_\+\+D\+C\+IS flag. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 249} of file \textbf{ stm32f4xx\+\_\+hash.\+c}.
+
+
+\begin{DoxyCode}
+00250 \{
+00251   \textcolor{comment}{/* Reset the HASH processor core */}
+00252   HASH->CR |= HASH_CR_INIT;
+00253 \}
+\end{DoxyCode}
+\mbox{\label{group__HASH__Group1_ga9cfaaa73eafec40a06154f58d48adeb5}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!H\+A\+S\+H\+\_\+\+Struct\+Init@{H\+A\+S\+H\+\_\+\+Struct\+Init}}
+\index{H\+A\+S\+H\+\_\+\+Struct\+Init@{H\+A\+S\+H\+\_\+\+Struct\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{H\+A\+S\+H\+\_\+\+Struct\+Init()}
+{\footnotesize\ttfamily void H\+A\+S\+H\+\_\+\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ H\+A\+S\+H\+\_\+\+Init\+Type\+Def} $\ast$}]{H\+A\+S\+H\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each H\+A\+S\+H\+\_\+\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em H\+A\+S\+H\+\_\+\+Init\+Struct} & \+: pointer to a \doxyref{H\+A\+S\+H\+\_\+\+Init\+Type\+Def}{p.}{structHASH__InitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The default values set are \+: Processor mode is H\+A\+SH, Algorithm selected is S\+H\+A1, Data type selected is 32b and H\+M\+AC Key Type is short key. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 225} of file \textbf{ stm32f4xx\+\_\+hash.\+c}.
+
+
+
+References \textbf{ H\+A\+S\+H\+\_\+\+Init\+Type\+Def\+::\+H\+A\+S\+H\+\_\+\+Algo\+Mode}, \textbf{ H\+A\+S\+H\+\_\+\+Init\+Type\+Def\+::\+H\+A\+S\+H\+\_\+\+Algo\+Selection}, \textbf{ H\+A\+S\+H\+\_\+\+Init\+Type\+Def\+::\+H\+A\+S\+H\+\_\+\+Data\+Type}, and \textbf{ H\+A\+S\+H\+\_\+\+Init\+Type\+Def\+::\+H\+A\+S\+H\+\_\+\+H\+M\+A\+C\+Key\+Type}.
+
+
+\begin{DoxyCode}
+00226 \{
+00227   \textcolor{comment}{/* Initialize the HASH\_AlgoSelection member */}
+00228   HASH\_InitStruct->HASH_AlgoSelection = HASH_AlgoSelection_SHA1;
+00229 
+00230   \textcolor{comment}{/* Initialize the HASH\_AlgoMode member */}
+00231   HASH\_InitStruct->HASH_AlgoMode = HASH_AlgoMode_HASH;
+00232 
+00233   \textcolor{comment}{/* Initialize the HASH\_DataType member */}
+00234   HASH\_InitStruct->HASH_DataType = HASH_DataType_32b;
+00235 
+00236   \textcolor{comment}{/* Initialize the HASH\_HMACKeyType member */}
+00237   HASH\_InitStruct->HASH_HMACKeyType = HASH_HMACKeyType_ShortKey;
+00238 \}
+\end{DoxyCode}

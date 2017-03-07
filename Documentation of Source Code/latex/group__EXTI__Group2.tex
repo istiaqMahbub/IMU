@@ -1,0 +1,193 @@
+\section{Interrupts and flags management functions}
+\label{group__EXTI__Group2}\index{Interrupts and flags management functions@{Interrupts and flags management functions}}
+
+
+Interrupts and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Flag\+Status} \textbf{ E\+X\+T\+I\+\_\+\+Get\+Flag\+Status} (uint32\+\_\+t E\+X\+T\+I\+\_\+\+Line)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified E\+X\+TI line flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ E\+X\+T\+I\+\_\+\+Clear\+Flag} (uint32\+\_\+t E\+X\+T\+I\+\_\+\+Line)
+\begin{DoxyCompactList}\small\item\em Clears the E\+X\+TI\textquotesingle{}s line pending flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ E\+X\+T\+I\+\_\+\+Get\+I\+T\+Status} (uint32\+\_\+t E\+X\+T\+I\+\_\+\+Line)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified E\+X\+TI line is asserted or not. \end{DoxyCompactList}\item 
+void \textbf{ E\+X\+T\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit} (uint32\+\_\+t E\+X\+T\+I\+\_\+\+Line)
+\begin{DoxyCompactList}\small\item\em Clears the E\+X\+TI\textquotesingle{}s line pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts and flags management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                  Interrupts and flags management functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__EXTI__Group2_ga8e07aaaa286dea4803605d5968850a92}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!E\+X\+T\+I\+\_\+\+Clear\+Flag@{E\+X\+T\+I\+\_\+\+Clear\+Flag}}
+\index{E\+X\+T\+I\+\_\+\+Clear\+Flag@{E\+X\+T\+I\+\_\+\+Clear\+Flag}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{E\+X\+T\+I\+\_\+\+Clear\+Flag()}
+{\footnotesize\ttfamily void E\+X\+T\+I\+\_\+\+Clear\+Flag (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{E\+X\+T\+I\+\_\+\+Line }\end{DoxyParamCaption})}
+
+
+
+Clears the E\+X\+TI\textquotesingle{}s line pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em E\+X\+T\+I\+\_\+\+Line} & specifies the E\+X\+TI lines flags to clear. This parameter can be any combination of E\+X\+T\+I\+\_\+\+Linex where x can be (0..22) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 243} of file \textbf{ stm32f4xx\+\_\+exti.\+c}.
+
+
+\begin{DoxyCode}
+00244 \{
+00245   \textcolor{comment}{/* Check the parameters */}
+00246   assert_param(IS_EXTI_LINE(EXTI\_Line));
+00247   
+00248   EXTI->PR = EXTI\_Line;
+00249 \}
+\end{DoxyCode}
+\mbox{\label{group__EXTI__Group2_ga3652a7e682728b310c124e7e974d1468}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!E\+X\+T\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit@{E\+X\+T\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit}}
+\index{E\+X\+T\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit@{E\+X\+T\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{E\+X\+T\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit()}
+{\footnotesize\ttfamily void E\+X\+T\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{E\+X\+T\+I\+\_\+\+Line }\end{DoxyParamCaption})}
+
+
+
+Clears the E\+X\+TI\textquotesingle{}s line pending bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em E\+X\+T\+I\+\_\+\+Line} & specifies the E\+X\+TI lines to clear. This parameter can be any combination of E\+X\+T\+I\+\_\+\+Linex where x can be (0..22) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 282} of file \textbf{ stm32f4xx\+\_\+exti.\+c}.
+
+
+
+Referenced by \textbf{ Disable\+Inv\+Interrupt()}, \textbf{ E\+X\+T\+I1\+\_\+\+I\+R\+Q\+Handler()}, and \textbf{ Inv\+Int\+Handler()}.
+
+
+\begin{DoxyCode}
+00283 \{
+00284   \textcolor{comment}{/* Check the parameters */}
+00285   assert_param(IS_EXTI_LINE(EXTI\_Line));
+00286   
+00287   EXTI->PR = EXTI\_Line;
+00288 \}
+\end{DoxyCode}
+\mbox{\label{group__EXTI__Group2_ga0ce06e6b312592df149800d63218cffa}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!E\+X\+T\+I\+\_\+\+Get\+Flag\+Status@{E\+X\+T\+I\+\_\+\+Get\+Flag\+Status}}
+\index{E\+X\+T\+I\+\_\+\+Get\+Flag\+Status@{E\+X\+T\+I\+\_\+\+Get\+Flag\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{E\+X\+T\+I\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} E\+X\+T\+I\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{E\+X\+T\+I\+\_\+\+Line }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified E\+X\+TI line flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em E\+X\+T\+I\+\_\+\+Line} & specifies the E\+X\+TI line flag to check. This parameter can be E\+X\+T\+I\+\_\+\+Linex where x can be(0..22) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of E\+X\+T\+I\+\_\+\+Line (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 220} of file \textbf{ stm32f4xx\+\_\+exti.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00221 \{
+00222   FlagStatus bitstatus = RESET;
+00223   \textcolor{comment}{/* Check the parameters */}
+00224   assert_param(IS_GET_EXTI_LINE(EXTI\_Line));
+00225   
+00226   \textcolor{keywordflow}{if} ((EXTI->PR & EXTI\_Line) != (uint32\_t)RESET)
+00227   \{
+00228     bitstatus = SET;
+00229   \}
+00230   \textcolor{keywordflow}{else}
+00231   \{
+00232     bitstatus = RESET;
+00233   \}
+00234   \textcolor{keywordflow}{return} bitstatus;
+00235 \}
+\end{DoxyCode}
+\mbox{\label{group__EXTI__Group2_gaf7b51519062ae42fd27ee689cab364aa}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!E\+X\+T\+I\+\_\+\+Get\+I\+T\+Status@{E\+X\+T\+I\+\_\+\+Get\+I\+T\+Status}}
+\index{E\+X\+T\+I\+\_\+\+Get\+I\+T\+Status@{E\+X\+T\+I\+\_\+\+Get\+I\+T\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{E\+X\+T\+I\+\_\+\+Get\+I\+T\+Status()}
+{\footnotesize\ttfamily \textbf{ I\+T\+Status} E\+X\+T\+I\+\_\+\+Get\+I\+T\+Status (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{E\+X\+T\+I\+\_\+\+Line }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified E\+X\+TI line is asserted or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em E\+X\+T\+I\+\_\+\+Line} & specifies the E\+X\+TI line to check. This parameter can be E\+X\+T\+I\+\_\+\+Linex where x can be(0..22) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of E\+X\+T\+I\+\_\+\+Line (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 257} of file \textbf{ stm32f4xx\+\_\+exti.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00258 \{
+00259   ITStatus bitstatus = RESET;
+00260   uint32\_t enablestatus = 0;
+00261   \textcolor{comment}{/* Check the parameters */}
+00262   assert_param(IS_GET_EXTI_LINE(EXTI\_Line));
+00263   
+00264   enablestatus =  EXTI->IMR & EXTI\_Line;
+00265   \textcolor{keywordflow}{if} (((EXTI->PR & EXTI\_Line) != (uint32\_t)RESET) && (enablestatus != (uint32\_t)RESET))
+00266   \{
+00267     bitstatus = SET;
+00268   \}
+00269   \textcolor{keywordflow}{else}
+00270   \{
+00271     bitstatus = RESET;
+00272   \}
+00273   \textcolor{keywordflow}{return} bitstatus;
+00274 \}
+\end{DoxyCode}

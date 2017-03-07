@@ -1,0 +1,218 @@
+\section{Message Digest generation functions}
+\label{group__HASH__Group2}\index{Message Digest generation functions@{Message Digest generation functions}}
+
+
+Message Digest generation functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+Set\+Last\+Word\+Valid\+Bits\+Nbr} (uint16\+\_\+t Valid\+Number)
+\begin{DoxyCompactList}\small\item\em Configure the Number of valid bits in last word of the message. \end{DoxyCompactList}\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+Data\+In} (uint32\+\_\+t Data)
+\begin{DoxyCompactList}\small\item\em Writes data in the Data Input F\+I\+FO. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ H\+A\+S\+H\+\_\+\+Get\+In\+F\+I\+F\+O\+Words\+Nbr} (void)
+\begin{DoxyCompactList}\small\item\em Returns the number of words already pushed into the IN F\+I\+FO. \end{DoxyCompactList}\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+Get\+Digest} (\textbf{ H\+A\+S\+H\+\_\+\+Msg\+Digest} $\ast$H\+A\+S\+H\+\_\+\+Message\+Digest)
+\begin{DoxyCompactList}\small\item\em Provides the message digest result. \end{DoxyCompactList}\item 
+void \textbf{ H\+A\+S\+H\+\_\+\+Start\+Digest} (void)
+\begin{DoxyCompactList}\small\item\em Starts the message padding and calculation of the final message. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Message Digest generation functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                      Message Digest generation functions
+ ===============================================================================  
+  This section provides functions allowing the generation of message digest: 
+  - Push data in the IN FIFO : using HASH_DataIn()
+  - Get the number of words set in IN FIFO, use HASH_GetInFIFOWordsNbr()  
+  - set the last word valid bits number using HASH_SetLastWordValidBitsNbr() 
+  - start digest calculation : using HASH_StartDigest()
+  - Get the Digest message : using HASH_GetDigest()\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__HASH__Group2_ga9c4c0cebdeb1ce2631dd2eeab82107ef}} 
+\index{Message Digest generation functions@{Message Digest generation functions}!H\+A\+S\+H\+\_\+\+Data\+In@{H\+A\+S\+H\+\_\+\+Data\+In}}
+\index{H\+A\+S\+H\+\_\+\+Data\+In@{H\+A\+S\+H\+\_\+\+Data\+In}!Message Digest generation functions@{Message Digest generation functions}}
+\subsubsection{H\+A\+S\+H\+\_\+\+Data\+In()}
+{\footnotesize\ttfamily void H\+A\+S\+H\+\_\+\+Data\+In (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{Data }\end{DoxyParamCaption})}
+
+
+
+Writes data in the Data Input F\+I\+FO. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Data} & new data of the message to be processed. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 306} of file \textbf{ stm32f4xx\+\_\+hash.\+c}.
+
+
+\begin{DoxyCode}
+00307 \{
+00308   \textcolor{comment}{/* Write in the DIN register a new data */}
+00309   HASH->DIN = Data;
+00310 \}
+\end{DoxyCode}
+\mbox{\label{group__HASH__Group2_ga23018d770837d6ab9f46941f105cc017}} 
+\index{Message Digest generation functions@{Message Digest generation functions}!H\+A\+S\+H\+\_\+\+Get\+Digest@{H\+A\+S\+H\+\_\+\+Get\+Digest}}
+\index{H\+A\+S\+H\+\_\+\+Get\+Digest@{H\+A\+S\+H\+\_\+\+Get\+Digest}!Message Digest generation functions@{Message Digest generation functions}}
+\subsubsection{H\+A\+S\+H\+\_\+\+Get\+Digest()}
+{\footnotesize\ttfamily void H\+A\+S\+H\+\_\+\+Get\+Digest (\begin{DoxyParamCaption}\item[{\textbf{ H\+A\+S\+H\+\_\+\+Msg\+Digest} $\ast$}]{H\+A\+S\+H\+\_\+\+Message\+Digest }\end{DoxyParamCaption})}
+
+
+
+Provides the message digest result. 
+
+\begin{DoxyNote}{Note}
+In M\+D5 mode, Data[4] filed of \doxyref{H\+A\+S\+H\+\_\+\+Msg\+Digest}{p.}{structHASH__MsgDigest} structure is not used and is read as zero. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em H\+A\+S\+H\+\_\+\+Message\+Digest} & pointer to a \doxyref{H\+A\+S\+H\+\_\+\+Msg\+Digest}{p.}{structHASH__MsgDigest} structure which will hold the message digest result \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 331} of file \textbf{ stm32f4xx\+\_\+hash.\+c}.
+
+
+\begin{DoxyCode}
+00332 \{
+00333   \textcolor{comment}{/* Get the data field */}
+00334   HASH\_MessageDigest->Data[0] = HASH->HR[0];
+00335   HASH\_MessageDigest->Data[1] = HASH->HR[1];
+00336   HASH\_MessageDigest->Data[2] = HASH->HR[2];
+00337   HASH\_MessageDigest->Data[3] = HASH->HR[3];
+00338   HASH\_MessageDigest->Data[4] = HASH->HR[4];
+00339 \}
+\end{DoxyCode}
+\mbox{\label{group__HASH__Group2_ga37bec5e637a57124f3179185d03537ab}} 
+\index{Message Digest generation functions@{Message Digest generation functions}!H\+A\+S\+H\+\_\+\+Get\+In\+F\+I\+F\+O\+Words\+Nbr@{H\+A\+S\+H\+\_\+\+Get\+In\+F\+I\+F\+O\+Words\+Nbr}}
+\index{H\+A\+S\+H\+\_\+\+Get\+In\+F\+I\+F\+O\+Words\+Nbr@{H\+A\+S\+H\+\_\+\+Get\+In\+F\+I\+F\+O\+Words\+Nbr}!Message Digest generation functions@{Message Digest generation functions}}
+\subsubsection{H\+A\+S\+H\+\_\+\+Get\+In\+F\+I\+F\+O\+Words\+Nbr()}
+{\footnotesize\ttfamily uint8\+\_\+t H\+A\+S\+H\+\_\+\+Get\+In\+F\+I\+F\+O\+Words\+Nbr (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns the number of words already pushed into the IN F\+I\+FO. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & value of words already pushed into the IN F\+I\+FO. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 317} of file \textbf{ stm32f4xx\+\_\+hash.\+c}.
+
+
+\begin{DoxyCode}
+00318 \{
+00319   \textcolor{comment}{/* Return the value of NBW bits */}
+00320   \textcolor{keywordflow}{return} ((HASH->CR & HASH_CR_NBW) >> 8);
+00321 \}
+\end{DoxyCode}
+\mbox{\label{group__HASH__Group2_gac4d1fa51c9240ad0287b371564b5d2a6}} 
+\index{Message Digest generation functions@{Message Digest generation functions}!H\+A\+S\+H\+\_\+\+Set\+Last\+Word\+Valid\+Bits\+Nbr@{H\+A\+S\+H\+\_\+\+Set\+Last\+Word\+Valid\+Bits\+Nbr}}
+\index{H\+A\+S\+H\+\_\+\+Set\+Last\+Word\+Valid\+Bits\+Nbr@{H\+A\+S\+H\+\_\+\+Set\+Last\+Word\+Valid\+Bits\+Nbr}!Message Digest generation functions@{Message Digest generation functions}}
+\subsubsection{H\+A\+S\+H\+\_\+\+Set\+Last\+Word\+Valid\+Bits\+Nbr()}
+{\footnotesize\ttfamily void H\+A\+S\+H\+\_\+\+Set\+Last\+Word\+Valid\+Bits\+Nbr (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{Valid\+Number }\end{DoxyParamCaption})}
+
+
+
+Configure the Number of valid bits in last word of the message. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Valid\+Number} & Number of valid bits in last word of the message. This parameter must be a number between 0 and 0x1F.
+\begin{DoxyItemize}
+\item 0x00\+: All 32 bits of the last data written are valid
+\item 0x01\+: Only bit [0] of the last data written is valid
+\item 0x02\+: Only bits[1\+:0] of the last data written are valid
+\item 0x03\+: Only bits[2\+:0] of the last data written are valid
+\item ...
+\item 0x1F\+: Only bits[30\+:0] of the last data written are valid 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The Number of valid bits must be set before to start the message digest competition (in Hash and H\+M\+AC) and key treatment(in H\+M\+A\+C). 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 291} of file \textbf{ stm32f4xx\+\_\+hash.\+c}.
+
+
+\begin{DoxyCode}
+00292 \{
+00293   \textcolor{comment}{/* Check the parameters */}
+00294   assert_param(IS_HASH_VALIDBITSNUMBER(ValidNumber));
+00295   
+00296   \textcolor{comment}{/* Configure the Number of valid bits in last word of the message */}
+00297   HASH->STR &= ~(HASH_STR_NBW);
+00298   HASH->STR |= ValidNumber;
+00299 \}
+\end{DoxyCode}
+\mbox{\label{group__HASH__Group2_ga84ac2b64179fd37b75c4d5f665126e93}} 
+\index{Message Digest generation functions@{Message Digest generation functions}!H\+A\+S\+H\+\_\+\+Start\+Digest@{H\+A\+S\+H\+\_\+\+Start\+Digest}}
+\index{H\+A\+S\+H\+\_\+\+Start\+Digest@{H\+A\+S\+H\+\_\+\+Start\+Digest}!Message Digest generation functions@{Message Digest generation functions}}
+\subsubsection{H\+A\+S\+H\+\_\+\+Start\+Digest()}
+{\footnotesize\ttfamily void H\+A\+S\+H\+\_\+\+Start\+Digest (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Starts the message padding and calculation of the final message. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 346} of file \textbf{ stm32f4xx\+\_\+hash.\+c}.
+
+
+
+Referenced by \textbf{ H\+A\+S\+H\+\_\+\+M\+D5()}, \textbf{ H\+A\+S\+H\+\_\+\+S\+H\+A1()}, \textbf{ H\+M\+A\+C\+\_\+\+M\+D5()}, and \textbf{ H\+M\+A\+C\+\_\+\+S\+H\+A1()}.
+
+
+\begin{DoxyCode}
+00347 \{
+00348   \textcolor{comment}{/* Start the Digest calculation */}
+00349   HASH->STR |= HASH_STR_DCAL;
+00350 \}
+\end{DoxyCode}

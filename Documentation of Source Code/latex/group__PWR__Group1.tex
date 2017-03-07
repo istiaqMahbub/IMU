@@ -1,0 +1,108 @@
+\section{Backup Domain Access function}
+\label{group__PWR__Group1}\index{Backup Domain Access function@{Backup Domain Access function}}
+
+
+Backup Domain Access function.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ P\+W\+R\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the P\+WR peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+Backup\+Access\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables access to the backup domain (R\+TC registers, R\+TC backup data registers and backup S\+R\+AM). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Backup Domain Access function. 
+
+\begin{DoxyVerb} ===============================================================================
+                            Backup Domain Access function 
+ ===============================================================================  
+
+  After reset, the backup domain (RTC registers, RTC backup data 
+  registers and backup SRAM) is protected against possible unwanted 
+  write accesses. 
+  To enable access to the RTC Domain and RTC registers, proceed as follows:
+    - Enable the Power Controller (PWR) APB1 interface clock using the
+      RCC_APB1PeriphClockCmd() function.
+    - Enable access to RTC domain using the PWR_BackupAccessCmd() function.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__PWR__Group1_ga0741aea35572b1a75f82b74de12df800}} 
+\index{Backup Domain Access function@{Backup Domain Access function}!P\+W\+R\+\_\+\+Backup\+Access\+Cmd@{P\+W\+R\+\_\+\+Backup\+Access\+Cmd}}
+\index{P\+W\+R\+\_\+\+Backup\+Access\+Cmd@{P\+W\+R\+\_\+\+Backup\+Access\+Cmd}!Backup Domain Access function@{Backup Domain Access function}}
+\subsubsection{P\+W\+R\+\_\+\+Backup\+Access\+Cmd()}
+{\footnotesize\ttfamily void P\+W\+R\+\_\+\+Backup\+Access\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables access to the backup domain (R\+TC registers, R\+TC backup data registers and backup S\+R\+AM). 
+
+\begin{DoxyNote}{Note}
+If the H\+SE divided by 2, 3, ..31 is used as the R\+TC clock, the Backup Domain Access should be kept enabled. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the access to the backup domain. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 135} of file \textbf{ stm32f4xx\+\_\+pwr.\+c}.
+
+
+
+Referenced by \textbf{ board\+\_\+init()}.
+
+
+\begin{DoxyCode}
+00136 \{
+00137   \textcolor{comment}{/* Check the parameters */}
+00138   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00139   
+00140   *(\_\_IO uint32\_t *) CR_DBP_BB = (uint32\_t)NewState;
+00141 \}
+\end{DoxyCode}
+\mbox{\label{group__PWR__Group1_gad03a0aac7bc3bc3a9fd012f3769a6990}} 
+\index{Backup Domain Access function@{Backup Domain Access function}!P\+W\+R\+\_\+\+De\+Init@{P\+W\+R\+\_\+\+De\+Init}}
+\index{P\+W\+R\+\_\+\+De\+Init@{P\+W\+R\+\_\+\+De\+Init}!Backup Domain Access function@{Backup Domain Access function}}
+\subsubsection{P\+W\+R\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void P\+W\+R\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the P\+WR peripheral registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 120} of file \textbf{ stm32f4xx\+\_\+pwr.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, and \textbf{ R\+C\+C\+\_\+\+A\+P\+B1\+Periph\+Reset\+Cmd()}.
+
+
+\begin{DoxyCode}
+00121 \{
+00122   RCC_APB1PeriphResetCmd(RCC_APB1Periph_PWR, ENABLE);
+00123   RCC_APB1PeriphResetCmd(RCC_APB1Periph_PWR, DISABLE);
+00124 \}
+\end{DoxyCode}

@@ -1,0 +1,390 @@
+\section{Initialization and Configuration functions}
+\label{group__ADC__Group1}\index{Initialization and Configuration functions@{Initialization and Configuration functions}}
+
+
+Initialization and Configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ A\+D\+C\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes all A\+D\+Cs peripherals registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ A\+D\+C\+\_\+\+Init} (\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$A\+D\+Cx, \textbf{ A\+D\+C\+\_\+\+Init\+Type\+Def} $\ast$A\+D\+C\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the A\+D\+Cx peripheral according to the specified parameters in the A\+D\+C\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ A\+D\+C\+\_\+\+Struct\+Init} (\textbf{ A\+D\+C\+\_\+\+Init\+Type\+Def} $\ast$A\+D\+C\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each A\+D\+C\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ A\+D\+C\+\_\+\+Common\+Init} (\textbf{ A\+D\+C\+\_\+\+Common\+Init\+Type\+Def} $\ast$A\+D\+C\+\_\+\+Common\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the A\+D\+Cs peripherals according to the specified parameters in the A\+D\+C\+\_\+\+Common\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ A\+D\+C\+\_\+\+Common\+Struct\+Init} (\textbf{ A\+D\+C\+\_\+\+Common\+Init\+Type\+Def} $\ast$A\+D\+C\+\_\+\+Common\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each A\+D\+C\+\_\+\+Common\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ A\+D\+C\+\_\+\+Cmd} (\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$A\+D\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified A\+DC peripheral. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Initialization and Configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                      Initialization and Configuration functions
+ ===============================================================================  
+  This section provides functions allowing to:
+   - Initialize and configure the ADC Prescaler
+   - ADC Conversion Resolution (12bit..6bit)
+   - Scan Conversion Mode (multichannels or one channel) for regular group
+   - ADC Continuous Conversion Mode (Continuous or Single conversion) for 
+     regular group
+   - External trigger Edge and source of regular group, 
+   - Converted data alignment (left or right)
+   - The number of ADC conversions that will be done using the sequencer for 
+     regular channel group
+   - Multi ADC mode selection
+   - Direct memory access mode selection for multi ADC mode  
+   - Delay between 2 sampling phases (used in dual or triple interleaved modes)
+   - Enable or disable the ADC peripheral\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__ADC__Group1_ga40882d399e3371755ed610c1134e634e}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!A\+D\+C\+\_\+\+Cmd@{A\+D\+C\+\_\+\+Cmd}}
+\index{A\+D\+C\+\_\+\+Cmd@{A\+D\+C\+\_\+\+Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{A\+D\+C\+\_\+\+Cmd()}
+{\footnotesize\ttfamily void A\+D\+C\+\_\+\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$}]{A\+D\+Cx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified A\+DC peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+Cx} & where x can be 1, 2 or 3 to select the A\+DC peripheral. \\
+\hline
+{\em New\+State} & new state of the A\+D\+Cx peripheral. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 392} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00393 \{
+00394   \textcolor{comment}{/* Check the parameters */}
+00395   assert_param(IS_ADC_ALL_PERIPH(ADCx));
+00396   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00397   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00398   \{
+00399     \textcolor{comment}{/* Set the ADON bit to wake up the ADC from power down mode */}
+00400     ADCx->CR2 |= (uint32\_t)ADC_CR2_ADON;
+00401   \}
+00402   \textcolor{keywordflow}{else}
+00403   \{
+00404     \textcolor{comment}{/* Disable the selected ADC peripheral */}
+00405     ADCx->CR2 &= (uint32\_t)(~ADC_CR2_ADON);
+00406   \}
+00407 \}
+\end{DoxyCode}
+\mbox{\label{group__ADC__Group1_ga5803f6581a9cd7e90b6e637067102d94}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!A\+D\+C\+\_\+\+Common\+Init@{A\+D\+C\+\_\+\+Common\+Init}}
+\index{A\+D\+C\+\_\+\+Common\+Init@{A\+D\+C\+\_\+\+Common\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{A\+D\+C\+\_\+\+Common\+Init()}
+{\footnotesize\ttfamily void A\+D\+C\+\_\+\+Common\+Init (\begin{DoxyParamCaption}\item[{\textbf{ A\+D\+C\+\_\+\+Common\+Init\+Type\+Def} $\ast$}]{A\+D\+C\+\_\+\+Common\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the A\+D\+Cs peripherals according to the specified parameters in the A\+D\+C\+\_\+\+Common\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+C\+\_\+\+Common\+Init\+Struct} & pointer to an \doxyref{A\+D\+C\+\_\+\+Common\+Init\+Type\+Def}{p.}{structADC__CommonInitTypeDef} structure that contains the configuration information for All A\+D\+Cs peripherals. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 334} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+
+References \textbf{ A\+D\+C\+\_\+\+Common\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+D\+M\+A\+Access\+Mode}, \textbf{ A\+D\+C\+\_\+\+Common\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+Mode}, \textbf{ A\+D\+C\+\_\+\+Common\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+Prescaler}, and \textbf{ A\+D\+C\+\_\+\+Common\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+Two\+Sampling\+Delay}.
+
+
+\begin{DoxyCode}
+00335 \{
+00336   uint32\_t tmpreg1 = 0;
+00337   \textcolor{comment}{/* Check the parameters */}
+00338   assert_param(IS_ADC_MODE(ADC\_CommonInitStruct->ADC_Mode));
+00339   assert_param(IS_ADC_PRESCALER(ADC\_CommonInitStruct->ADC_Prescaler));
+00340   assert_param(IS_ADC_DMA_ACCESS_MODE(ADC\_CommonInitStruct->ADC_DMAAccessMode));
+00341   assert_param(IS_ADC_SAMPLING_DELAY(ADC\_CommonInitStruct->ADC_TwoSamplingDelay));
+00342   \textcolor{comment}{/*---------------------------- ADC CCR Configuration -----------------*/}
+00343   \textcolor{comment}{/* Get the ADC CCR value */}
+00344   tmpreg1 = ADC->CCR;
+00345   
+00346   \textcolor{comment}{/* Clear MULTI, DELAY, DMA and ADCPRE bits */}
+00347   tmpreg1 &= CR_CLEAR_MASK;
+00348   
+00349   \textcolor{comment}{/* Configure ADCx: Multi mode, Delay between two sampling time, ADC prescaler,}
+00350 \textcolor{comment}{     and DMA access mode for multimode */}
+00351   \textcolor{comment}{/* Set MULTI bits according to ADC\_Mode value */}
+00352   \textcolor{comment}{/* Set ADCPRE bits according to ADC\_Prescaler value */}
+00353   \textcolor{comment}{/* Set DMA bits according to ADC\_DMAAccessMode value */}
+00354   \textcolor{comment}{/* Set DELAY bits according to ADC\_TwoSamplingDelay value */}    
+00355   tmpreg1 |= (uint32\_t)(ADC\_CommonInitStruct->ADC_Mode | 
+00356                         ADC\_CommonInitStruct->ADC_Prescaler | 
+00357                         ADC\_CommonInitStruct->ADC_DMAAccessMode | 
+00358                         ADC\_CommonInitStruct->ADC_TwoSamplingDelay);
+00359                         
+00360   \textcolor{comment}{/* Write to ADC CCR */}
+00361   ADC->CCR = tmpreg1;
+00362 \}
+\end{DoxyCode}
+\mbox{\label{group__ADC__Group1_gad60a6414b4932c704f6f7a7c2963fa2a}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!A\+D\+C\+\_\+\+Common\+Struct\+Init@{A\+D\+C\+\_\+\+Common\+Struct\+Init}}
+\index{A\+D\+C\+\_\+\+Common\+Struct\+Init@{A\+D\+C\+\_\+\+Common\+Struct\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{A\+D\+C\+\_\+\+Common\+Struct\+Init()}
+{\footnotesize\ttfamily void A\+D\+C\+\_\+\+Common\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ A\+D\+C\+\_\+\+Common\+Init\+Type\+Def} $\ast$}]{A\+D\+C\+\_\+\+Common\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each A\+D\+C\+\_\+\+Common\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+C\+\_\+\+Common\+Init\+Struct} & pointer to an \doxyref{A\+D\+C\+\_\+\+Common\+Init\+Type\+Def}{p.}{structADC__CommonInitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 370} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+
+References \textbf{ A\+D\+C\+\_\+\+Common\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+D\+M\+A\+Access\+Mode}, \textbf{ A\+D\+C\+\_\+\+Common\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+Mode}, \textbf{ A\+D\+C\+\_\+\+Common\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+Prescaler}, and \textbf{ A\+D\+C\+\_\+\+Common\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+Two\+Sampling\+Delay}.
+
+
+\begin{DoxyCode}
+00371 \{
+00372   \textcolor{comment}{/* Initialize the ADC\_Mode member */}
+00373   ADC\_CommonInitStruct->ADC_Mode = ADC_Mode_Independent;
+00374 
+00375   \textcolor{comment}{/* initialize the ADC\_Prescaler member */}
+00376   ADC\_CommonInitStruct->ADC_Prescaler = ADC_Prescaler_Div2;
+00377 
+00378   \textcolor{comment}{/* Initialize the ADC\_DMAAccessMode member */}
+00379   ADC\_CommonInitStruct->ADC_DMAAccessMode = ADC_DMAAccessMode_Disabled;
+00380 
+00381   \textcolor{comment}{/* Initialize the ADC\_TwoSamplingDelay member */}
+00382   ADC\_CommonInitStruct->ADC_TwoSamplingDelay = ADC_TwoSamplingDelay_5Cycles;
+00383 \}
+\end{DoxyCode}
+\mbox{\label{group__ADC__Group1_ga1962afdd9eebe5c896bbba2e4f26fe09}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!A\+D\+C\+\_\+\+De\+Init@{A\+D\+C\+\_\+\+De\+Init}}
+\index{A\+D\+C\+\_\+\+De\+Init@{A\+D\+C\+\_\+\+De\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{A\+D\+C\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void A\+D\+C\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Deinitializes all A\+D\+Cs peripherals registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 206} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, and \textbf{ R\+C\+C\+\_\+\+A\+P\+B2\+Periph\+Reset\+Cmd()}.
+
+
+\begin{DoxyCode}
+00207 \{
+00208   \textcolor{comment}{/* Enable all ADCs reset state */}
+00209   RCC_APB2PeriphResetCmd(RCC_APB2Periph_ADC, ENABLE);
+00210   
+00211   \textcolor{comment}{/* Release all ADCs from reset state */}
+00212   RCC_APB2PeriphResetCmd(RCC_APB2Periph_ADC, DISABLE);
+00213 \}
+\end{DoxyCode}
+\mbox{\label{group__ADC__Group1_gabbab6038cf8691404350625e477254f9}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!A\+D\+C\+\_\+\+Init@{A\+D\+C\+\_\+\+Init}}
+\index{A\+D\+C\+\_\+\+Init@{A\+D\+C\+\_\+\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{A\+D\+C\+\_\+\+Init()}
+{\footnotesize\ttfamily void A\+D\+C\+\_\+\+Init (\begin{DoxyParamCaption}\item[{\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$}]{A\+D\+Cx,  }\item[{\textbf{ A\+D\+C\+\_\+\+Init\+Type\+Def} $\ast$}]{A\+D\+C\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the A\+D\+Cx peripheral according to the specified parameters in the A\+D\+C\+\_\+\+Init\+Struct. 
+
+\begin{DoxyNote}{Note}
+This function is used to configure the global features of the A\+DC ( Resolution and Data Alignment), however, the rest of the configuration parameters are specific to the regular channels group (scan mode activation, continuous mode activation, External trigger source and edge, number of conversion in the regular channels group sequencer). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+Cx} & where x can be 1, 2 or 3 to select the A\+DC peripheral. \\
+\hline
+{\em A\+D\+C\+\_\+\+Init\+Struct} & pointer to an \doxyref{A\+D\+C\+\_\+\+Init\+Type\+Def}{p.}{structADC__InitTypeDef} structure that contains the configuration information for the specified A\+DC peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 228} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+
+References \textbf{ A\+D\+C\+\_\+\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+Continuous\+Conv\+Mode}, \textbf{ A\+D\+C\+\_\+\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+Data\+Align}, \textbf{ A\+D\+C\+\_\+\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+External\+Trig\+Conv}, \textbf{ A\+D\+C\+\_\+\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+External\+Trig\+Conv\+Edge}, \textbf{ A\+D\+C\+\_\+\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+Nbr\+Of\+Conversion}, \textbf{ A\+D\+C\+\_\+\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+Resolution}, and \textbf{ A\+D\+C\+\_\+\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+Scan\+Conv\+Mode}.
+
+
+\begin{DoxyCode}
+00229 \{
+00230   uint32\_t tmpreg1 = 0;
+00231   uint8\_t tmpreg2 = 0;
+00232   \textcolor{comment}{/* Check the parameters */}
+00233   assert_param(IS_ADC_ALL_PERIPH(ADCx));
+00234   assert_param(IS_ADC_RESOLUTION(ADC\_InitStruct->ADC_Resolution)); 
+00235   assert_param(IS_FUNCTIONAL_STATE(ADC\_InitStruct->ADC_ScanConvMode));
+00236   assert_param(IS_FUNCTIONAL_STATE(ADC\_InitStruct->ADC_ContinuousConvMode)); 
+00237   assert_param(IS_ADC_EXT_TRIG_EDGE(ADC\_InitStruct->ADC_ExternalTrigConvEdge)); 
+00238   assert_param(IS_ADC_EXT_TRIG(ADC\_InitStruct->ADC_ExternalTrigConv));    
+00239   assert_param(IS_ADC_DATA_ALIGN(ADC\_InitStruct->ADC_DataAlign)); 
+00240   assert_param(IS_ADC_REGULAR_LENGTH(ADC\_InitStruct->ADC_NbrOfConversion));
+00241   
+00242   \textcolor{comment}{/*---------------------------- ADCx CR1 Configuration -----------------*/}
+00243   \textcolor{comment}{/* Get the ADCx CR1 value */}
+00244   tmpreg1 = ADCx->CR1;
+00245   
+00246   \textcolor{comment}{/* Clear RES and SCAN bits */}
+00247   tmpreg1 &= CR1_CLEAR_MASK;
+00248   
+00249   \textcolor{comment}{/* Configure ADCx: scan conversion mode and resolution */}
+00250   \textcolor{comment}{/* Set SCAN bit according to ADC\_ScanConvMode value */}
+00251   \textcolor{comment}{/* Set RES bit according to ADC\_Resolution value */} 
+00252   tmpreg1 |= (uint32\_t)(((uint32\_t)ADC\_InitStruct->ADC_ScanConvMode << 8) | \(\backslash\)
+00253                                    ADC\_InitStruct->ADC\_Resolution);
+00254   \textcolor{comment}{/* Write to ADCx CR1 */}
+00255   ADCx->CR1 = tmpreg1;
+00256   \textcolor{comment}{/*---------------------------- ADCx CR2 Configuration -----------------*/}
+00257   \textcolor{comment}{/* Get the ADCx CR2 value */}
+00258   tmpreg1 = ADCx->CR2;
+00259   
+00260   \textcolor{comment}{/* Clear CONT, ALIGN, EXTEN and EXTSEL bits */}
+00261   tmpreg1 &= CR2_CLEAR_MASK;
+00262   
+00263   \textcolor{comment}{/* Configure ADCx: external trigger event and edge, data alignment and }
+00264 \textcolor{comment}{     continuous conversion mode */}
+00265   \textcolor{comment}{/* Set ALIGN bit according to ADC\_DataAlign value */}
+00266   \textcolor{comment}{/* Set EXTEN bits according to ADC\_ExternalTrigConvEdge value */} 
+00267   \textcolor{comment}{/* Set EXTSEL bits according to ADC\_ExternalTrigConv value */}
+00268   \textcolor{comment}{/* Set CONT bit according to ADC\_ContinuousConvMode value */}
+00269   tmpreg1 |= (uint32\_t)(ADC\_InitStruct->ADC_DataAlign | \(\backslash\)
+00270                         ADC\_InitStruct->ADC_ExternalTrigConv | 
+00271                         ADC\_InitStruct->ADC_ExternalTrigConvEdge | \(\backslash\)
+00272                         ((uint32\_t)ADC\_InitStruct->ADC_ContinuousConvMode << 1));
+00273                         
+00274   \textcolor{comment}{/* Write to ADCx CR2 */}
+00275   ADCx->CR2 = tmpreg1;
+00276   \textcolor{comment}{/*---------------------------- ADCx SQR1 Configuration -----------------*/}
+00277   \textcolor{comment}{/* Get the ADCx SQR1 value */}
+00278   tmpreg1 = ADCx->SQR1;
+00279   
+00280   \textcolor{comment}{/* Clear L bits */}
+00281   tmpreg1 &= SQR1_L_RESET;
+00282   
+00283   \textcolor{comment}{/* Configure ADCx: regular channel sequence length */}
+00284   \textcolor{comment}{/* Set L bits according to ADC\_NbrOfConversion value */}
+00285   tmpreg2 |= (uint8\_t)(ADC\_InitStruct->ADC_NbrOfConversion - (uint8\_t)1);
+00286   tmpreg1 |= ((uint32\_t)tmpreg2 << 20);
+00287   
+00288   \textcolor{comment}{/* Write to ADCx SQR1 */}
+00289   ADCx->SQR1 = tmpreg1;
+00290 \}
+\end{DoxyCode}
+\mbox{\label{group__ADC__Group1_ga6c6e754d1d0a98d56e465efaf73272ec}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!A\+D\+C\+\_\+\+Struct\+Init@{A\+D\+C\+\_\+\+Struct\+Init}}
+\index{A\+D\+C\+\_\+\+Struct\+Init@{A\+D\+C\+\_\+\+Struct\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{A\+D\+C\+\_\+\+Struct\+Init()}
+{\footnotesize\ttfamily void A\+D\+C\+\_\+\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ A\+D\+C\+\_\+\+Init\+Type\+Def} $\ast$}]{A\+D\+C\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each A\+D\+C\+\_\+\+Init\+Struct member with its default value. 
+
+\begin{DoxyNote}{Note}
+This function is used to initialize the global features of the A\+DC ( Resolution and Data Alignment), however, the rest of the configuration parameters are specific to the regular channels group (scan mode activation, continuous mode activation, External trigger source and edge, number of conversion in the regular channels group sequencer). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+C\+\_\+\+Init\+Struct} & pointer to an \doxyref{A\+D\+C\+\_\+\+Init\+Type\+Def}{p.}{structADC__InitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 303} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+
+References \textbf{ A\+D\+C\+\_\+\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+Continuous\+Conv\+Mode}, \textbf{ A\+D\+C\+\_\+\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+Data\+Align}, \textbf{ A\+D\+C\+\_\+\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+External\+Trig\+Conv}, \textbf{ A\+D\+C\+\_\+\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+External\+Trig\+Conv\+Edge}, \textbf{ A\+D\+C\+\_\+\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+Nbr\+Of\+Conversion}, \textbf{ A\+D\+C\+\_\+\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+Resolution}, \textbf{ A\+D\+C\+\_\+\+Init\+Type\+Def\+::\+A\+D\+C\+\_\+\+Scan\+Conv\+Mode}, and \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00304 \{
+00305   \textcolor{comment}{/* Initialize the ADC\_Mode member */}
+00306   ADC\_InitStruct->ADC_Resolution = ADC_Resolution_12b;
+00307 
+00308   \textcolor{comment}{/* initialize the ADC\_ScanConvMode member */}
+00309   ADC\_InitStruct->ADC_ScanConvMode = DISABLE;
+00310 
+00311   \textcolor{comment}{/* Initialize the ADC\_ContinuousConvMode member */}
+00312   ADC\_InitStruct->ADC_ContinuousConvMode = DISABLE;
+00313 
+00314   \textcolor{comment}{/* Initialize the ADC\_ExternalTrigConvEdge member */}
+00315   ADC\_InitStruct->ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_None;
+00316 
+00317   \textcolor{comment}{/* Initialize the ADC\_ExternalTrigConv member */}
+00318   ADC\_InitStruct->ADC_ExternalTrigConv = ADC_ExternalTrigConv_T1_CC1;
+00319 
+00320   \textcolor{comment}{/* Initialize the ADC\_DataAlign member */}
+00321   ADC\_InitStruct->ADC_DataAlign = ADC_DataAlign_Right;
+00322 
+00323   \textcolor{comment}{/* Initialize the ADC\_NbrOfConversion member */}
+00324   ADC\_InitStruct->ADC_NbrOfConversion = 1;
+00325 \}
+\end{DoxyCode}

@@ -1,0 +1,55 @@
+\section{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+hash\+\_\+md5.c File Reference}
+\label{stm32f4xx__hash__md5_8c}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+hash\+\_\+md5.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+hash\+\_\+md5.\+c}}
+
+
+This file provides high level functions to compute the H\+A\+SH M\+D5 and H\+M\+AC M\+D5 Digest of an input message. It uses the \doxyref{stm32f4xx\+\_\+hash.\+c}{p.}{stm32f4xx__hash_8c}/.h drivers to access the S\+T\+M32\+F4xx H\+A\+SH peripheral.  
+
+
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+hash.\+h\char`\"{}}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ M\+D5\+B\+U\+S\+Y\+\_\+\+T\+I\+M\+E\+O\+UT}~((uint32\+\_\+t) 0x00010000)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Error\+Status} \textbf{ H\+A\+S\+H\+\_\+\+M\+D5} (uint8\+\_\+t $\ast$Input, uint32\+\_\+t Ilen, uint8\+\_\+t Output[16])
+\begin{DoxyCompactList}\small\item\em Compute the H\+A\+SH M\+D5 digest. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ H\+M\+A\+C\+\_\+\+M\+D5} (uint8\+\_\+t $\ast$Key, uint32\+\_\+t Keylen, uint8\+\_\+t $\ast$Input, uint32\+\_\+t Ilen, uint8\+\_\+t Output[16])
+\begin{DoxyCompactList}\small\item\em Compute the H\+M\+AC M\+D5 digest. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file provides high level functions to compute the H\+A\+SH M\+D5 and H\+M\+AC M\+D5 Digest of an input message. It uses the \doxyref{stm32f4xx\+\_\+hash.\+c}{p.}{stm32f4xx__hash_8c}/.h drivers to access the S\+T\+M32\+F4xx H\+A\+SH peripheral. 
+
+\begin{DoxyAuthor}{Author}
+M\+CD Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\+0.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+30-\/\+September-\/2011 \begin{DoxyVerb}*    
+*          ===================================================================
+*                                   How to use this driver
+*          ===================================================================
+*          1. Enable The HASH controller clock using 
+*            RCC_AHB2PeriphClockCmd(RCC_AHB2Periph_HASH, ENABLE); function.
+*
+*          2. Calculate the HASH MD5 Digest using HASH_MD5() function.
+*
+*          3. Calculate the HMAC MD5 Digest using HMAC_MD5() function.
+*
+*  \end{DoxyVerb}
+
+\end{DoxyDate}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+T\+HE P\+R\+E\+S\+E\+NT F\+I\+R\+M\+W\+A\+RE W\+H\+I\+CH IS F\+OR G\+U\+I\+D\+A\+N\+CE O\+N\+LY A\+I\+MS AT P\+R\+O\+V\+I\+D\+I\+NG C\+U\+S\+T\+O\+M\+E\+RS W\+I\+TH C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON R\+E\+G\+A\+R\+D\+I\+NG T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS IN O\+R\+D\+ER F\+OR T\+H\+EM TO S\+A\+VE T\+I\+ME. AS A R\+E\+S\+U\+LT, S\+T\+M\+I\+C\+R\+O\+E\+L\+E\+C\+T\+R\+O\+N\+I\+CS S\+H\+A\+LL N\+OT BE H\+E\+LD L\+I\+A\+B\+LE F\+OR A\+NY D\+I\+R\+E\+CT, I\+N\+D\+I\+R\+E\+CT OR C\+O\+N\+S\+E\+Q\+U\+E\+N\+T\+I\+AL D\+A\+M\+A\+G\+ES W\+I\+TH R\+E\+S\+P\+E\+CT TO A\+NY C\+L\+A\+I\+MS A\+R\+I\+S\+I\+NG F\+R\+OM T\+HE C\+O\+N\+T\+E\+NT OF S\+U\+CH F\+I\+R\+M\+W\+A\+RE A\+N\+D/\+OR T\+HE U\+SE M\+A\+DE BY C\+U\+S\+T\+O\+M\+E\+RS OF T\+HE C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON C\+O\+N\+T\+A\+I\+N\+ED H\+E\+R\+E\+IN IN C\+O\+N\+N\+E\+C\+T\+I\+ON W\+I\+TH T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS.
+
+\subsubsection*{\begin{center}\copyright{} C\+O\+P\+Y\+R\+I\+G\+HT 2011 S\+T\+Microelectronics\end{center} }
+
+Definition in file \textbf{ stm32f4xx\+\_\+hash\+\_\+md5.\+c}.
+

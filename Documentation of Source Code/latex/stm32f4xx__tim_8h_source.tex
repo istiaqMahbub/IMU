@@ -1,0 +1,1211 @@
+\section{stm32f4xx\+\_\+tim.\+h}
+\label{stm32f4xx__tim_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+tim.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+tim.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_tim.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the TIM firmware }
+00008 \textcolor{comment}{  *          library.}
+00009 \textcolor{comment}{  ******************************************************************************}
+00010 \textcolor{comment}{  * @attention}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00013 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00014 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00015 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00016 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00017 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00020 \textcolor{comment}{  ******************************************************************************}
+00021 \textcolor{comment}{  */}
+00022 
+00023 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_TIM\_H}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_TIM\_H}
+00026 
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00028  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00033 
+00034 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00035 \textcolor{comment}{  * @\{}
+00036 \textcolor{comment}{  */}
+00037 
+00038 \textcolor{comment}{/** @addtogroup TIM}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00043 
+00044 \textcolor{comment}{/** }
+00045 \textcolor{comment}{  * @brief  TIM Time Base Init structure definition  }
+00046 \textcolor{comment}{  * @note   This structure is used with all TIMx except for TIM6 and TIM7.  }
+00047 \textcolor{comment}{  */}
+00048 
+00049 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00050 \{
+00051   uint16\_t TIM_Prescaler;         \textcolor{comment}{/*!< Specifies the prescaler value used to divide the TIM clock.}
+00052 \textcolor{comment}{                                       This parameter can be a number between 0x0000 and 0xFFFF */}
+00053 
+00054   uint16\_t TIM_CounterMode;       \textcolor{comment}{/*!< Specifies the counter mode.}
+00055 \textcolor{comment}{                                       This parameter can be a value of @ref TIM\_Counter\_Mode */}
+00056 
+00057   uint32\_t TIM_Period;            \textcolor{comment}{/*!< Specifies the period value to be loaded into the active}
+00058 \textcolor{comment}{                                       Auto-Reload Register at the next update event.}
+00059 \textcolor{comment}{                                       This parameter must be a number between 0x0000 and 0xFFFF.  */}
+00060 
+00061   uint16\_t TIM_ClockDivision;     \textcolor{comment}{/*!< Specifies the clock division.}
+00062 \textcolor{comment}{                                      This parameter can be a value of @ref TIM\_Clock\_Division\_CKD */}
+00063 
+00064   uint8\_t TIM_RepetitionCounter;  \textcolor{comment}{/*!< Specifies the repetition counter value. Each time the RCR
+       downcounter}
+00065 \textcolor{comment}{                                       reaches zero, an update event is generated and counting
+       restarts}
+00066 \textcolor{comment}{                                       from the RCR value (N).}
+00067 \textcolor{comment}{                                       This means in PWM mode that (N+1) corresponds to:}
+00068 \textcolor{comment}{                                          - the number of PWM periods in edge-aligned mode}
+00069 \textcolor{comment}{                                          - the number of half PWM period in center-aligned mode}
+00070 \textcolor{comment}{                                       This parameter must be a number between 0x00 and 0xFF. }
+00071 \textcolor{comment}{                                       @note This parameter is valid only for TIM1 and TIM8. */}
+00072 \} TIM\_TimeBaseInitTypeDef;
+00073 
+00074 \textcolor{comment}{/** }
+00075 \textcolor{comment}{  * @brief  TIM Output Compare Init structure definition  }
+00076 \textcolor{comment}{  */}
+00077 
+00078 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00079 \{
+00080   uint16\_t TIM_OCMode;        \textcolor{comment}{/*!< Specifies the TIM mode.}
+00081 \textcolor{comment}{                                   This parameter can be a value of @ref
+       TIM\_Output\_Compare\_and\_PWM\_modes */}
+00082 
+00083   uint16\_t TIM_OutputState;   \textcolor{comment}{/*!< Specifies the TIM Output Compare state.}
+00084 \textcolor{comment}{                                   This parameter can be a value of @ref TIM\_Output\_Compare\_State */}
+00085 
+00086   uint16\_t TIM_OutputNState;  \textcolor{comment}{/*!< Specifies the TIM complementary Output Compare state.}
+00087 \textcolor{comment}{                                   This parameter can be a value of @ref TIM\_Output\_Compare\_N\_State}
+00088 \textcolor{comment}{                                   @note This parameter is valid only for TIM1 and TIM8. */}
+00089 
+00090   uint32\_t TIM_Pulse;         \textcolor{comment}{/*!< Specifies the pulse value to be loaded into the Capture Compare
+       Register. }
+00091 \textcolor{comment}{                                   This parameter can be a number between 0x0000 and 0xFFFF */}
+00092 
+00093   uint16\_t TIM_OCPolarity;    \textcolor{comment}{/*!< Specifies the output polarity.}
+00094 \textcolor{comment}{                                   This parameter can be a value of @ref TIM\_Output\_Compare\_Polarity
+       */}
+00095 
+00096   uint16\_t TIM_OCNPolarity;   \textcolor{comment}{/*!< Specifies the complementary output polarity.}
+00097 \textcolor{comment}{                                   This parameter can be a value of @ref TIM\_Output\_Compare\_N\_Polarity}
+00098 \textcolor{comment}{                                   @note This parameter is valid only for TIM1 and TIM8. */}
+00099 
+00100   uint16\_t TIM_OCIdleState;   \textcolor{comment}{/*!< Specifies the TIM Output Compare pin state during Idle state.}
+00101 \textcolor{comment}{                                   This parameter can be a value of @ref TIM\_Output\_Compare\_Idle\_State}
+00102 \textcolor{comment}{                                   @note This parameter is valid only for TIM1 and TIM8. */}
+00103 
+00104   uint16\_t TIM_OCNIdleState;  \textcolor{comment}{/*!< Specifies the TIM Output Compare pin state during Idle state.}
+00105 \textcolor{comment}{                                   This parameter can be a value of @ref
+       TIM\_Output\_Compare\_N\_Idle\_State}
+00106 \textcolor{comment}{                                   @note This parameter is valid only for TIM1 and TIM8. */}
+00107 \} TIM\_OCInitTypeDef;
+00108 
+00109 \textcolor{comment}{/** }
+00110 \textcolor{comment}{  * @brief  TIM Input Capture Init structure definition  }
+00111 \textcolor{comment}{  */}
+00112 
+00113 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00114 \{
+00115 
+00116   uint16\_t TIM_Channel;      \textcolor{comment}{/*!< Specifies the TIM channel.}
+00117 \textcolor{comment}{                                  This parameter can be a value of @ref TIM\_Channel */}
+00118 
+00119   uint16\_t TIM_ICPolarity;   \textcolor{comment}{/*!< Specifies the active edge of the input signal.}
+00120 \textcolor{comment}{                                  This parameter can be a value of @ref TIM\_Input\_Capture\_Polarity */}
+00121 
+00122   uint16\_t TIM_ICSelection;  \textcolor{comment}{/*!< Specifies the input.}
+00123 \textcolor{comment}{                                  This parameter can be a value of @ref TIM\_Input\_Capture\_Selection */}
+00124 
+00125   uint16\_t TIM_ICPrescaler;  \textcolor{comment}{/*!< Specifies the Input Capture Prescaler.}
+00126 \textcolor{comment}{                                  This parameter can be a value of @ref TIM\_Input\_Capture\_Prescaler */}
+00127 
+00128   uint16\_t TIM_ICFilter;     \textcolor{comment}{/*!< Specifies the input capture filter.}
+00129 \textcolor{comment}{                                  This parameter can be a number between 0x0 and 0xF */}
+00130 \} TIM\_ICInitTypeDef;
+00131 
+00132 \textcolor{comment}{/** }
+00133 \textcolor{comment}{  * @brief  BDTR structure definition }
+00134 \textcolor{comment}{  * @note   This structure is used only with TIM1 and TIM8.    }
+00135 \textcolor{comment}{  */}
+00136 
+00137 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00138 \{
+00139 
+00140   uint16\_t TIM_OSSRState;        \textcolor{comment}{/*!< Specifies the Off-State selection used in Run mode.}
+00141 \textcolor{comment}{                                      This parameter can be a value of @ref
+       TIM\_OSSR\_Off\_State\_Selection\_for\_Run\_mode\_state */}
+00142 
+00143   uint16\_t TIM_OSSIState;        \textcolor{comment}{/*!< Specifies the Off-State used in Idle state.}
+00144 \textcolor{comment}{                                      This parameter can be a value of @ref
+       TIM\_OSSI\_Off\_State\_Selection\_for\_Idle\_mode\_state */}
+00145 
+00146   uint16\_t TIM_LOCKLevel;        \textcolor{comment}{/*!< Specifies the LOCK level parameters.}
+00147 \textcolor{comment}{                                      This parameter can be a value of @ref TIM\_Lock\_level */}
+00148 
+00149   uint16\_t TIM_DeadTime;         \textcolor{comment}{/*!< Specifies the delay time between the switching-off and the}
+00150 \textcolor{comment}{                                      switching-on of the outputs.}
+00151 \textcolor{comment}{                                      This parameter can be a number between 0x00 and 0xFF  */}
+00152 
+00153   uint16\_t TIM_Break;            \textcolor{comment}{/*!< Specifies whether the TIM Break input is enabled or not. }
+00154 \textcolor{comment}{                                      This parameter can be a value of @ref
+       TIM\_Break\_Input\_enable\_disable */}
+00155 
+00156   uint16\_t TIM_BreakPolarity;    \textcolor{comment}{/*!< Specifies the TIM Break Input pin polarity.}
+00157 \textcolor{comment}{                                      This parameter can be a value of @ref TIM\_Break\_Polarity */}
+00158 
+00159   uint16\_t TIM_AutomaticOutput;  \textcolor{comment}{/*!< Specifies whether the TIM Automatic Output feature is enabled or
+       not. }
+00160 \textcolor{comment}{                                      This parameter can be a value of @ref TIM\_AOE\_Bit\_Set\_Reset */}
+00161 \} TIM\_BDTRInitTypeDef;
+00162 
+00163 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00164 
+00165 \textcolor{comment}{/** @defgroup TIM\_Exported\_constants }
+00166 \textcolor{comment}{  * @\{}
+00167 \textcolor{comment}{  */}
+00168 
+00169 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_ALL\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00170                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00171                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00172                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00173                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00174                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00175                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM7\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00176                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM8\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00177                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM9\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00178                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM10\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00179                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM11\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00180                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM12\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00181                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM13\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00182                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM14\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00183 \textcolor{comment}{/* LIST1: TIM1, TIM2, TIM3, TIM4, TIM5, TIM8, TIM9, TIM10, TIM11, TIM12, TIM13 and TIM14 */}
+00184 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_LIST1\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00185                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00186                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00187                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00188                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00189                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM8\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00190                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM9\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00191                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM10\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00192                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM11\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00193                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM12\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00194                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM13\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00195                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM14\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00196 
+00197 \textcolor{comment}{/* LIST2: TIM1, TIM2, TIM3, TIM4, TIM5, TIM8, TIM9 and TIM12 */}
+00198 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_LIST2\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00199                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00200                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00201                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00202                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00203                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM8\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00204                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM9\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00205                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM12\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00206 \textcolor{comment}{/* LIST3: TIM1, TIM2, TIM3, TIM4, TIM5 and TIM8 */}
+00207 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_LIST3\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00208                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00209                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00210                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00211                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00212                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM8\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00213 \textcolor{comment}{/* LIST4: TIM1 and TIM8 */}
+00214 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_LIST4\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00215                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM8\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00216 \textcolor{comment}{/* LIST5: TIM1, TIM2, TIM3, TIM4, TIM5, TIM6, TIM7 and TIM8 */}
+00217 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_LIST5\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00218                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00219                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00220                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00221                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00222                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00223                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM7\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00224                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM8\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00225 \textcolor{comment}{/* LIST6: TIM2, TIM5 and TIM11 */}
+00226 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_LIST6\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIMx}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIMx}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00227                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIMx}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00228                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIMx}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM11\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00229 
+00230 \textcolor{comment}{/** @defgroup TIM\_Output\_Compare\_and\_PWM\_modes }
+00231 \textcolor{comment}{  * @\{}
+00232 \textcolor{comment}{  */}
+00233 
+00234 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OCMode\_Timing}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00235 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OCMode\_Active}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0010\textcolor{preprocessor}{)}
+00236 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OCMode\_Inactive}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0020\textcolor{preprocessor}{)}
+00237 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OCMode\_Toggle}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0030\textcolor{preprocessor}{)}
+00238 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OCMode\_PWM1}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0060\textcolor{preprocessor}{)}
+00239 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OCMode\_PWM2}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0070\textcolor{preprocessor}{)}
+00240 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_OC\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCMode_Timing\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00241                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCMode_Active\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00242                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCMode_Inactive\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00243                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCMode_Toggle\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00244                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCMode_PWM1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00245                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCMode_PWM2\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00246 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_OCM}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCMode_Timing\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00247                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCMode_Active\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00248                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCMode_Inactive\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00249                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCMode_Toggle\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00250                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCMode_PWM1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00251                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCMode_PWM2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00252                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_ForcedAction_Active\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00253                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_ForcedAction_InActive\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00254 \textcolor{comment}{/**}
+00255 \textcolor{comment}{  * @\}}
+00256 \textcolor{comment}{  */}
+00257 
+00258 \textcolor{comment}{/** @defgroup TIM\_One\_Pulse\_Mode }
+00259 \textcolor{comment}{  * @\{}
+00260 \textcolor{comment}{  */}
+00261 
+00262 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OPMode\_Single}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0008\textcolor{preprocessor}{)}
+00263 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OPMode\_Repetitive}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00264 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_OPM\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OPMode_Single\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00265                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OPMode_Repetitive\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00266 \textcolor{comment}{/**}
+00267 \textcolor{comment}{  * @\}}
+00268 \textcolor{comment}{  */}
+00269 
+00270 \textcolor{comment}{/** @defgroup TIM\_Channel }
+00271 \textcolor{comment}{  * @\{}
+00272 \textcolor{comment}{  */}
+00273 
+00274 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_Channel\_1}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00275 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_Channel\_2}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0004\textcolor{preprocessor}{)}
+00276 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_Channel\_3}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0008\textcolor{preprocessor}{)}
+00277 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_Channel\_4}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x000C\textcolor{preprocessor}{)}
+00278 
+00279 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_CHANNEL}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_Channel_1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00280                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_Channel_2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00281                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_Channel_3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00282                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_Channel_4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00283 
+00284 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_PWMI\_CHANNEL}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_Channel_1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00285                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_Channel_2\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00286 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_COMPLEMENTARY\_CHANNEL}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_Channel_1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00287                                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_Channel_2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00288                                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_Channel_3\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00289 \textcolor{comment}{/**}
+00290 \textcolor{comment}{  * @\}}
+00291 \textcolor{comment}{  */}
+00292 
+00293 \textcolor{comment}{/** @defgroup TIM\_Clock\_Division\_CKD }
+00294 \textcolor{comment}{  * @\{}
+00295 \textcolor{comment}{  */}
+00296 
+00297 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_CKD\_DIV1}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00298 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_CKD\_DIV2}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0100\textcolor{preprocessor}{)}
+00299 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_CKD\_DIV4}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0200\textcolor{preprocessor}{)}
+00300 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_CKD\_DIV}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIV}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIV}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_CKD_DIV1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00301                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIV}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_CKD_DIV2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00302                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIV}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_CKD_DIV4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00303 \textcolor{comment}{/**}
+00304 \textcolor{comment}{  * @\}}
+00305 \textcolor{comment}{  */}
+00306 
+00307 \textcolor{comment}{/** @defgroup TIM\_Counter\_Mode }
+00308 \textcolor{comment}{  * @\{}
+00309 \textcolor{comment}{  */}
+00310 
+00311 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_CounterMode\_Up}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00312 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_CounterMode\_Down}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0010\textcolor{preprocessor}{)}
+00313 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_CounterMode\_CenterAligned1}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0020\textcolor{preprocessor}{)}
+00314 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_CounterMode\_CenterAligned2}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0040\textcolor{preprocessor}{)}
+00315 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_CounterMode\_CenterAligned3}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0060\textcolor{preprocessor}{)}
+00316 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_COUNTER\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_CounterMode_Up\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00317                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_CounterMode_Down\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00318                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_CounterMode_CenterAligned1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00319                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_CounterMode_CenterAligned2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00320                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_CounterMode_CenterAligned3\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00321 \textcolor{comment}{/**}
+00322 \textcolor{comment}{  * @\}}
+00323 \textcolor{comment}{  */}
+00324 
+00325 \textcolor{comment}{/** @defgroup TIM\_Output\_Compare\_Polarity }
+00326 \textcolor{comment}{  * @\{}
+00327 \textcolor{comment}{  */}
+00328 
+00329 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OCPolarity\_High}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00330 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OCPolarity\_Low}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0002\textcolor{preprocessor}{)}
+00331 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_OC\_POLARITY}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCPolarity_High\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00332                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCPolarity_Low\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00333 \textcolor{comment}{/**}
+00334 \textcolor{comment}{  * @\}}
+00335 \textcolor{comment}{  */}
+00336 
+00337 \textcolor{comment}{/** @defgroup TIM\_Output\_Compare\_N\_Polarity }
+00338 \textcolor{comment}{  * @\{}
+00339 \textcolor{comment}{  */}
+00340 
+00341 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OCNPolarity\_High}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00342 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OCNPolarity\_Low}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0008\textcolor{preprocessor}{)}
+00343 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_OCN\_POLARITY}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCNPolarity_High\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00344                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCNPolarity_Low\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00345 \textcolor{comment}{/**}
+00346 \textcolor{comment}{  * @\}}
+00347 \textcolor{comment}{  */}
+00348 
+00349 \textcolor{comment}{/** @defgroup TIM\_Output\_Compare\_State }
+00350 \textcolor{comment}{  * @\{}
+00351 \textcolor{comment}{  */}
+00352 
+00353 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OutputState\_Disable}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00354 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OutputState\_Enable}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0001\textcolor{preprocessor}{)}
+00355 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_OUTPUT\_STATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OutputState_Disable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00356                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OutputState_Enable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00357 \textcolor{comment}{/**}
+00358 \textcolor{comment}{  * @\}}
+00359 \textcolor{comment}{  */}
+00360 
+00361 \textcolor{comment}{/** @defgroup TIM\_Output\_Compare\_N\_State}
+00362 \textcolor{comment}{  * @\{}
+00363 \textcolor{comment}{  */}
+00364 
+00365 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OutputNState\_Disable}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00366 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OutputNState\_Enable}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0004\textcolor{preprocessor}{)}
+00367 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_OUTPUTN\_STATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OutputNState_Disable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00368                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OutputNState_Enable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00369 \textcolor{comment}{/**}
+00370 \textcolor{comment}{  * @\}}
+00371 \textcolor{comment}{  */}
+00372 
+00373 \textcolor{comment}{/** @defgroup TIM\_Capture\_Compare\_State}
+00374 \textcolor{comment}{  * @\{}
+00375 \textcolor{comment}{  */}
+00376 
+00377 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_CCx\_Enable}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0001\textcolor{preprocessor}{)}
+00378 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_CCx\_Disable}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00379 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_CCX}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CCX}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CCX}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_CCx_Enable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00380                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CCX}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_CCx_Disable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00381 \textcolor{comment}{/**}
+00382 \textcolor{comment}{  * @\}}
+00383 \textcolor{comment}{  */}
+00384 
+00385 \textcolor{comment}{/** @defgroup TIM\_Capture\_Compare\_N\_State}
+00386 \textcolor{comment}{  * @\{}
+00387 \textcolor{comment}{  */}
+00388 
+00389 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_CCxN\_Enable}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0004\textcolor{preprocessor}{)}
+00390 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_CCxN\_Disable}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00391 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_CCXN}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CCXN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CCXN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_CCxN_Enable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00392                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CCXN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_CCxN_Disable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00393 \textcolor{comment}{/**}
+00394 \textcolor{comment}{  * @\}}
+00395 \textcolor{comment}{  */}
+00396 
+00397 \textcolor{comment}{/** @defgroup TIM\_Break\_Input\_enable\_disable }
+00398 \textcolor{comment}{  * @\{}
+00399 \textcolor{comment}{  */}
+00400 
+00401 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_Break\_Enable}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x1000\textcolor{preprocessor}{)}
+00402 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_Break\_Disable}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00403 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_BREAK\_STATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_Break_Enable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00404                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_Break_Disable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00405 \textcolor{comment}{/**}
+00406 \textcolor{comment}{  * @\}}
+00407 \textcolor{comment}{  */}
+00408 
+00409 \textcolor{comment}{/** @defgroup TIM\_Break\_Polarity }
+00410 \textcolor{comment}{  * @\{}
+00411 \textcolor{comment}{  */}
+00412 
+00413 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_BreakPolarity\_Low}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00414 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_BreakPolarity\_High}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x2000\textcolor{preprocessor}{)}
+00415 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_BREAK\_POLARITY}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_BreakPolarity_Low\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00416                                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_BreakPolarity_High\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00417 \textcolor{comment}{/**}
+00418 \textcolor{comment}{  * @\}}
+00419 \textcolor{comment}{  */}
+00420 
+00421 \textcolor{comment}{/** @defgroup TIM\_AOE\_Bit\_Set\_Reset }
+00422 \textcolor{comment}{  * @\{}
+00423 \textcolor{comment}{  */}
+00424 
+00425 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_AutomaticOutput\_Enable}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x4000\textcolor{preprocessor}{)}
+00426 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_AutomaticOutput\_Disable}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00427 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_AUTOMATIC\_OUTPUT\_STATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_AutomaticOutput_Enable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00428                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_AutomaticOutput_Disable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00429 \textcolor{comment}{/**}
+00430 \textcolor{comment}{  * @\}}
+00431 \textcolor{comment}{  */}
+00432 
+00433 \textcolor{comment}{/** @defgroup TIM\_Lock\_level}
+00434 \textcolor{comment}{  * @\{}
+00435 \textcolor{comment}{  */}
+00436 
+00437 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_LOCKLevel\_OFF}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00438 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_LOCKLevel\_1}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0100\textcolor{preprocessor}{)}
+00439 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_LOCKLevel\_2}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0200\textcolor{preprocessor}{)}
+00440 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_LOCKLevel\_3}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0300\textcolor{preprocessor}{)}
+00441 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_LOCK\_LEVEL}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_LOCKLevel_OFF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00442                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_LOCKLevel_1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00443                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_LOCKLevel_2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00444                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_LOCKLevel_3\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00445 \textcolor{comment}{/**}
+00446 \textcolor{comment}{  * @\}}
+00447 \textcolor{comment}{  */}
+00448 
+00449 \textcolor{comment}{/** @defgroup TIM\_OSSI\_Off\_State\_Selection\_for\_Idle\_mode\_state }
+00450 \textcolor{comment}{  * @\{}
+00451 \textcolor{comment}{  */}
+00452 
+00453 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OSSIState\_Enable}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0400\textcolor{preprocessor}{)}
+00454 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OSSIState\_Disable}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00455 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_OSSI\_STATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OSSIState_Enable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00456                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OSSIState_Disable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00457 \textcolor{comment}{/**}
+00458 \textcolor{comment}{  * @\}}
+00459 \textcolor{comment}{  */}
+00460 
+00461 \textcolor{comment}{/** @defgroup TIM\_OSSR\_Off\_State\_Selection\_for\_Run\_mode\_state}
+00462 \textcolor{comment}{  * @\{}
+00463 \textcolor{comment}{  */}
+00464 
+00465 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OSSRState\_Enable}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0800\textcolor{preprocessor}{)}
+00466 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OSSRState\_Disable}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00467 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_OSSR\_STATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OSSRState_Enable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00468                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OSSRState_Disable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00469 \textcolor{comment}{/**}
+00470 \textcolor{comment}{  * @\}}
+00471 \textcolor{comment}{  */}
+00472 
+00473 \textcolor{comment}{/** @defgroup TIM\_Output\_Compare\_Idle\_State }
+00474 \textcolor{comment}{  * @\{}
+00475 \textcolor{comment}{  */}
+00476 
+00477 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OCIdleState\_Set}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0100\textcolor{preprocessor}{)}
+00478 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OCIdleState\_Reset}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00479 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_OCIDLE\_STATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCIdleState_Set\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00480                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCIdleState_Reset\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00481 \textcolor{comment}{/**}
+00482 \textcolor{comment}{  * @\}}
+00483 \textcolor{comment}{  */}
+00484 
+00485 \textcolor{comment}{/** @defgroup TIM\_Output\_Compare\_N\_Idle\_State }
+00486 \textcolor{comment}{  * @\{}
+00487 \textcolor{comment}{  */}
+00488 
+00489 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OCNIdleState\_Set}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0200\textcolor{preprocessor}{)}
+00490 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OCNIdleState\_Reset}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00491 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_OCNIDLE\_STATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCNIdleState_Set\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00492                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCNIdleState_Reset\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00493 \textcolor{comment}{/**}
+00494 \textcolor{comment}{  * @\}}
+00495 \textcolor{comment}{  */}
+00496 
+00497 \textcolor{comment}{/** @defgroup TIM\_Input\_Capture\_Polarity }
+00498 \textcolor{comment}{  * @\{}
+00499 \textcolor{comment}{  */}
+00500 
+00501 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{TIM\_ICPolarity\_Rising}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00502 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{TIM\_ICPolarity\_Falling}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0002\textcolor{preprocessor}{)}
+00503 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{TIM\_ICPolarity\_BothEdge}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x000A\textcolor{preprocessor}{)}
+00504 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_IC\_POLARITY}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_ICPolarity_Rising\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00505                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_ICPolarity_Falling\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00506                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_ICPolarity_BothEdge\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00507 \textcolor{comment}{/**}
+00508 \textcolor{comment}{  * @\}}
+00509 \textcolor{comment}{  */}
+00510 
+00511 \textcolor{comment}{/** @defgroup TIM\_Input\_Capture\_Selection }
+00512 \textcolor{comment}{  * @\{}
+00513 \textcolor{comment}{  */}
+00514 
+00515 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_ICSelection\_DirectTI}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0001\textcolor{preprocessor}{)} \textcolor{comment}{/*!< TIM Input 1, 2, 3 or 4 is selected
+       to be }
+00516 \textcolor{comment}{                                                                   connected to IC1, IC2, IC3 or IC4,
+       respectively */}
+00517 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_ICSelection\_IndirectTI}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0002\textcolor{preprocessor}{)} \textcolor{comment}{/*!< TIM Input 1, 2, 3 or 4 is selected
+       to be}
+00518 \textcolor{comment}{                                                                   connected to IC2, IC1, IC4 or IC3,
+       respectively. */}
+00519 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_ICSelection\_TRC}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0003\textcolor{preprocessor}{)} \textcolor{comment}{/*!< TIM Input 1, 2, 3 or 4 is selected
+       to be connected to TRC. */}
+00520 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_IC\_SELECTION}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SELECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SELECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_ICSelection_DirectTI\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00521                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SELECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_ICSelection_IndirectTI\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00522                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SELECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_ICSelection_TRC\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00523 \textcolor{comment}{/**}
+00524 \textcolor{comment}{  * @\}}
+00525 \textcolor{comment}{  */}
+00526 
+00527 \textcolor{comment}{/** @defgroup TIM\_Input\_Capture\_Prescaler }
+00528 \textcolor{comment}{  * @\{}
+00529 \textcolor{comment}{  */}
+00530 
+00531 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_ICPSC\_DIV1}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Capture performed each time an edge
+       is detected on the capture input. */}
+00532 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_ICPSC\_DIV2}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0004\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Capture performed once every 2
+       events. */}
+00533 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_ICPSC\_DIV4}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0008\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Capture performed once every 4
+       events. */}
+00534 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_ICPSC\_DIV8}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x000C\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Capture performed once every 8
+       events. */}
+00535 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_IC\_PRESCALER}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_ICPSC_DIV1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00536                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_ICPSC_DIV2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00537                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_ICPSC_DIV4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00538                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_ICPSC_DIV8\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00539 \textcolor{comment}{/**}
+00540 \textcolor{comment}{  * @\}}
+00541 \textcolor{comment}{  */}
+00542 
+00543 \textcolor{comment}{/** @defgroup TIM\_interrupt\_sources }
+00544 \textcolor{comment}{  * @\{}
+00545 \textcolor{comment}{  */}
+00546 
+00547 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_IT\_Update}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0001\textcolor{preprocessor}{)}
+00548 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_IT\_CC1}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0002\textcolor{preprocessor}{)}
+00549 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_IT\_CC2}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0004\textcolor{preprocessor}{)}
+00550 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_IT\_CC3}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0008\textcolor{preprocessor}{)}
+00551 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_IT\_CC4}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0010\textcolor{preprocessor}{)}
+00552 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_IT\_COM}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0020\textcolor{preprocessor}{)}
+00553 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_IT\_Trigger}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0040\textcolor{preprocessor}{)}
+00554 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_IT\_Break}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0080\textcolor{preprocessor}{)}
+00555 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xFF00\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x0000\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x0000\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00556 
+00557 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_GET\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_IT_Update\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00558                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_IT_CC1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00559                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_IT_CC2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00560                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_IT_CC3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00561                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_IT_CC4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00562                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_IT_COM\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00563                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_IT_Trigger\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00564                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_IT_Break\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00565 \textcolor{comment}{/**}
+00566 \textcolor{comment}{  * @\}}
+00567 \textcolor{comment}{  */}
+00568 
+00569 \textcolor{comment}{/** @defgroup TIM\_DMA\_Base\_address }
+00570 \textcolor{comment}{  * @\{}
+00571 \textcolor{comment}{  */}
+00572 
+00573 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABase\_CR1}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00574 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABase\_CR2}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0001\textcolor{preprocessor}{)}
+00575 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABase\_SMCR}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0002\textcolor{preprocessor}{)}
+00576 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABase\_DIER}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0003\textcolor{preprocessor}{)}
+00577 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABase\_SR}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0004\textcolor{preprocessor}{)}
+00578 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABase\_EGR}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0005\textcolor{preprocessor}{)}
+00579 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABase\_CCMR1}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0006\textcolor{preprocessor}{)}
+00580 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABase\_CCMR2}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0007\textcolor{preprocessor}{)}
+00581 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABase\_CCER}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0008\textcolor{preprocessor}{)}
+00582 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABase\_CNT}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0009\textcolor{preprocessor}{)}
+00583 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABase\_PSC}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x000A\textcolor{preprocessor}{)}
+00584 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABase\_ARR}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x000B\textcolor{preprocessor}{)}
+00585 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABase\_RCR}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x000C\textcolor{preprocessor}{)}
+00586 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABase\_CCR1}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x000D\textcolor{preprocessor}{)}
+00587 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABase\_CCR2}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x000E\textcolor{preprocessor}{)}
+00588 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABase\_CCR3}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x000F\textcolor{preprocessor}{)}
+00589 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABase\_CCR4}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0010\textcolor{preprocessor}{)}
+00590 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABase\_BDTR}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0011\textcolor{preprocessor}{)}
+00591 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABase\_DCR}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0012\textcolor{preprocessor}{)}
+00592 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABase\_OR}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0013\textcolor{preprocessor}{)}
+00593 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_DMA\_BASE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BASE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BASE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_DMABase_CR1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00594                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BASE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_DMABase_CR2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00595                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BASE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_DMABase_SMCR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00596                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BASE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_DMABase_DIER\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00597                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BASE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_DMABase_SR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00598                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BASE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_DMABase_EGR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00599                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BASE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_DMABase_CCMR1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00600                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BASE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_DMABase_CCMR2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00601                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BASE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_DMABase_CCER\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00602                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BASE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_DMABase_CNT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00603                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BASE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_DMABase_PSC\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00604                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BASE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_DMABase_ARR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00605                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BASE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_DMABase_RCR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00606                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BASE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_DMABase_CCR1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00607                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BASE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_DMABase_CCR2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00608                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BASE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_DMABase_CCR3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00609                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BASE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_DMABase_CCR4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00610                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BASE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_DMABase_BDTR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00611                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BASE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_DMABase_DCR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00612                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BASE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_DMABase_OR\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00613 \textcolor{comment}{/**}
+00614 \textcolor{comment}{  * @\}}
+00615 \textcolor{comment}{  */}
+00616 
+00617 \textcolor{comment}{/** @defgroup TIM\_DMA\_Burst\_Length }
+00618 \textcolor{comment}{  * @\{}
+00619 \textcolor{comment}{  */}
+00620 
+00621 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_1Transfer}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00622 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_2Transfers}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0100\textcolor{preprocessor}{)}
+00623 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_3Transfers}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0200\textcolor{preprocessor}{)}
+00624 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_4Transfers}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0300\textcolor{preprocessor}{)}
+00625 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_5Transfers}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0400\textcolor{preprocessor}{)}
+00626 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_6Transfers}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0500\textcolor{preprocessor}{)}
+00627 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_7Transfers}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0600\textcolor{preprocessor}{)}
+00628 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_8Transfers}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0700\textcolor{preprocessor}{)}
+00629 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_9Transfers}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0800\textcolor{preprocessor}{)}
+00630 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_10Transfers}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0900\textcolor{preprocessor}{)}
+00631 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_11Transfers}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0A00\textcolor{preprocessor}{)}
+00632 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_12Transfers}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0B00\textcolor{preprocessor}{)}
+00633 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_13Transfers}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0C00\textcolor{preprocessor}{)}
+00634 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_14Transfers}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0D00\textcolor{preprocessor}{)}
+00635 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_15Transfers}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0E00\textcolor{preprocessor}{)}
+00636 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_16Transfers}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0F00\textcolor{preprocessor}{)}
+00637 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_17Transfers}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x1000\textcolor{preprocessor}{)}
+00638 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_18Transfers}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x1100\textcolor{preprocessor}{)}
+00639 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_DMA\_LENGTH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_DMABurstLength_1Transfer\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00640                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_DMABurstLength_2Transfers\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00641                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_DMABurstLength_3Transfers\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00642                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_DMABurstLength_4Transfers\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00643                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_DMABurstLength_5Transfers\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00644                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_DMABurstLength_6Transfers\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00645                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_DMABurstLength_7Transfers\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00646                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_DMABurstLength_8Transfers\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00647                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_DMABurstLength_9Transfers\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00648                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_DMABurstLength_10Transfers\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00649                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_DMABurstLength_11Transfers\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00650                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_DMABurstLength_12Transfers\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00651                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_DMABurstLength_13Transfers\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00652                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_DMABurstLength_14Transfers\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00653                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_DMABurstLength_15Transfers\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00654                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_DMABurstLength_16Transfers\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00655                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_DMABurstLength_17Transfers\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00656                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LENGTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_DMABurstLength_18Transfers\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00657 \textcolor{comment}{/**}
+00658 \textcolor{comment}{  * @\}}
+00659 \textcolor{comment}{  */}
+00660 
+00661 \textcolor{comment}{/** @defgroup TIM\_DMA\_sources }
+00662 \textcolor{comment}{  * @\{}
+00663 \textcolor{comment}{  */}
+00664 
+00665 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMA\_Update}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0100\textcolor{preprocessor}{)}
+00666 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMA\_CC1}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0200\textcolor{preprocessor}{)}
+00667 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMA\_CC2}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0400\textcolor{preprocessor}{)}
+00668 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMA\_CC3}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0800\textcolor{preprocessor}{)}
+00669 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMA\_CC4}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x1000\textcolor{preprocessor}{)}
+00670 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMA\_COM}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x2000\textcolor{preprocessor}{)}
+00671 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMA\_Trigger}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x4000\textcolor{preprocessor}{)}
+00672 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_DMA\_SOURCE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x80FF\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x0000\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x0000\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00673 
+00674 \textcolor{comment}{/**}
+00675 \textcolor{comment}{  * @\}}
+00676 \textcolor{comment}{  */}
+00677 
+00678 \textcolor{comment}{/** @defgroup TIM\_External\_Trigger\_Prescaler }
+00679 \textcolor{comment}{  * @\{}
+00680 \textcolor{comment}{  */}
+00681 
+00682 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_ExtTRGPSC\_OFF}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00683 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_ExtTRGPSC\_DIV2}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x1000\textcolor{preprocessor}{)}
+00684 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_ExtTRGPSC\_DIV4}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x2000\textcolor{preprocessor}{)}
+00685 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_ExtTRGPSC\_DIV8}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x3000\textcolor{preprocessor}{)}
+00686 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_EXT\_PRESCALER}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_ExtTRGPSC_OFF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00687                                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_ExtTRGPSC_DIV2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00688                                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_ExtTRGPSC_DIV4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00689                                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRESCALER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_ExtTRGPSC_DIV8\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00690 \textcolor{comment}{/**}
+00691 \textcolor{comment}{  * @\}}
+00692 \textcolor{comment}{  */}
+00693 
+00694 \textcolor{comment}{/** @defgroup TIM\_Internal\_Trigger\_Selection }
+00695 \textcolor{comment}{  * @\{}
+00696 \textcolor{comment}{  */}
+00697 
+00698 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_TS\_ITR0}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00699 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_TS\_ITR1}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0010\textcolor{preprocessor}{)}
+00700 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_TS\_ITR2}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0020\textcolor{preprocessor}{)}
+00701 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_TS\_ITR3}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0030\textcolor{preprocessor}{)}
+00702 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_TS\_TI1F\_ED}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0040\textcolor{preprocessor}{)}
+00703 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_TS\_TI1FP1}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0050\textcolor{preprocessor}{)}
+00704 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_TS\_TI2FP2}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0060\textcolor{preprocessor}{)}
+00705 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_TS\_ETRF}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0070\textcolor{preprocessor}{)}
+00706 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_TRIGGER\_SELECTION}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SELECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SELECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_TS_ITR0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00707                                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SELECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_TS_ITR1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00708                                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SELECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_TS_ITR2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00709                                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SELECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_TS_ITR3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00710                                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SELECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_TS_TI1F_ED\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00711                                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SELECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_TS_TI1FP1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00712                                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SELECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_TS_TI2FP2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00713                                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SELECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_TS_ETRF\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00714 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_INTERNAL\_TRIGGER\_SELECTION}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SELECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SELECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_TS_ITR0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00715                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SELECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_TS_ITR1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00716                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SELECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_TS_ITR2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00717                                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SELECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_TS_ITR3\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00718 \textcolor{comment}{/**}
+00719 \textcolor{comment}{  * @\}}
+00720 \textcolor{comment}{  */}
+00721 
+00722 \textcolor{comment}{/** @defgroup TIM\_TIx\_External\_Clock\_Source }
+00723 \textcolor{comment}{  * @\{}
+00724 \textcolor{comment}{  */}
+00725 
+00726 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_TIxExternalCLK1Source\_TI1}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0050\textcolor{preprocessor}{)}
+00727 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_TIxExternalCLK1Source\_TI2}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0060\textcolor{preprocessor}{)}
+00728 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_TIxExternalCLK1Source\_TI1ED}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0040\textcolor{preprocessor}{)}
+00729 
+00730 \textcolor{comment}{/**}
+00731 \textcolor{comment}{  * @\}}
+00732 \textcolor{comment}{  */}
+00733 
+00734 \textcolor{comment}{/** @defgroup TIM\_External\_Trigger\_Polarity }
+00735 \textcolor{comment}{  * @\{}
+00736 \textcolor{comment}{  */}
+00737 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_ExtTRGPolarity\_Inverted}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x8000\textcolor{preprocessor}{)}
+00738 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_ExtTRGPolarity\_NonInverted}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00739 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_EXT\_POLARITY}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_ExtTRGPolarity_Inverted\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00740                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_ExtTRGPolarity_NonInverted\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00741 \textcolor{comment}{/**}
+00742 \textcolor{comment}{  * @\}}
+00743 \textcolor{comment}{  */}
+00744 
+00745 \textcolor{comment}{/** @defgroup TIM\_Prescaler\_Reload\_Mode }
+00746 \textcolor{comment}{  * @\{}
+00747 \textcolor{comment}{  */}
+00748 
+00749 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_PSCReloadMode\_Update}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00750 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_PSCReloadMode\_Immediate}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0001\textcolor{preprocessor}{)}
+00751 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_PRESCALER\_RELOAD}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RELOAD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RELOAD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_PSCReloadMode_Update\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00752                                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RELOAD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_PSCReloadMode_Immediate\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00753 \textcolor{comment}{/**}
+00754 \textcolor{comment}{  * @\}}
+00755 \textcolor{comment}{  */}
+00756 
+00757 \textcolor{comment}{/** @defgroup TIM\_Forced\_Action }
+00758 \textcolor{comment}{  * @\{}
+00759 \textcolor{comment}{  */}
+00760 
+00761 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_ForcedAction\_Active}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0050\textcolor{preprocessor}{)}
+00762 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_ForcedAction\_InActive}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0040\textcolor{preprocessor}{)}
+00763 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_FORCED\_ACTION}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ACTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ACTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_ForcedAction_Active\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00764                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ACTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      TIM_ForcedAction_InActive\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00765 \textcolor{comment}{/**}
+00766 \textcolor{comment}{  * @\}}
+00767 \textcolor{comment}{  */}
+00768 
+00769 \textcolor{comment}{/** @defgroup TIM\_Encoder\_Mode }
+00770 \textcolor{comment}{  * @\{}
+00771 \textcolor{comment}{  */}
+00772 
+00773 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_EncoderMode\_TI1}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0001\textcolor{preprocessor}{)}
+00774 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_EncoderMode\_TI2}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0002\textcolor{preprocessor}{)}
+00775 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_EncoderMode\_TI12}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0003\textcolor{preprocessor}{)}
+00776 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_ENCODER\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_EncoderMode_TI1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00777                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_EncoderMode_TI2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00778                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_EncoderMode_TI12\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00779 \textcolor{comment}{/**}
+00780 \textcolor{comment}{  * @\}}
+00781 \textcolor{comment}{  */}
+00782 
+00783 
+00784 \textcolor{comment}{/** @defgroup TIM\_Event\_Source }
+00785 \textcolor{comment}{  * @\{}
+00786 \textcolor{comment}{  */}
+00787 
+00788 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_EventSource\_Update}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0001\textcolor{preprocessor}{)}
+00789 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_EventSource\_CC1}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0002\textcolor{preprocessor}{)}
+00790 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_EventSource\_CC2}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0004\textcolor{preprocessor}{)}
+00791 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_EventSource\_CC3}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0008\textcolor{preprocessor}{)}
+00792 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_EventSource\_CC4}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0010\textcolor{preprocessor}{)}
+00793 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_EventSource\_COM}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0020\textcolor{preprocessor}{)}
+00794 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_EventSource\_Trigger}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0040\textcolor{preprocessor}{)}
+00795 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_EventSource\_Break}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0080\textcolor{preprocessor}{)}
+00796 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_EVENT\_SOURCE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xFF00\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x0000\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x0000\textcolor{preprocessor}{)}\textcolor{preprocessor}{
+      )}
+00797 
+00798 \textcolor{comment}{/**}
+00799 \textcolor{comment}{  * @\}}
+00800 \textcolor{comment}{  */}
+00801 
+00802 \textcolor{comment}{/** @defgroup TIM\_Update\_Source }
+00803 \textcolor{comment}{  * @\{}
+00804 \textcolor{comment}{  */}
+00805 
+00806 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_UpdateSource\_Global}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Source of update is the counter
+       overflow/underflow}
+00807 \textcolor{comment}{                                                                   or the setting of UG bit, or an
+       update generation}
+00808 \textcolor{comment}{                                                                   through the slave mode controller.
+       */}
+00809 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_UpdateSource\_Regular}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0001\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Source of update is counter
+       overflow/underflow. */}
+00810 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_UPDATE\_SOURCE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_UpdateSource_Global\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00811                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_UpdateSource_Regular\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00812 \textcolor{comment}{/**}
+00813 \textcolor{comment}{  * @\}}
+00814 \textcolor{comment}{  */}
+00815 
+00816 \textcolor{comment}{/** @defgroup TIM\_Output\_Compare\_Preload\_State }
+00817 \textcolor{comment}{  * @\{}
+00818 \textcolor{comment}{  */}
+00819 
+00820 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OCPreload\_Enable}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0008\textcolor{preprocessor}{)}
+00821 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OCPreload\_Disable}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00822 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_OCPRELOAD\_STATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCPreload_Enable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00823                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCPreload_Disable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00824 \textcolor{comment}{/**}
+00825 \textcolor{comment}{  * @\}}
+00826 \textcolor{comment}{  */}
+00827 
+00828 \textcolor{comment}{/** @defgroup TIM\_Output\_Compare\_Fast\_State }
+00829 \textcolor{comment}{  * @\{}
+00830 \textcolor{comment}{  */}
+00831 
+00832 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OCFast\_Enable}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0004\textcolor{preprocessor}{)}
+00833 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OCFast\_Disable}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00834 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_OCFAST\_STATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCFast_Enable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00835                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCFast_Disable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00836 
+00837 \textcolor{comment}{/**}
+00838 \textcolor{comment}{  * @\}}
+00839 \textcolor{comment}{  */}
+00840 
+00841 \textcolor{comment}{/** @defgroup TIM\_Output\_Compare\_Clear\_State }
+00842 \textcolor{comment}{  * @\{}
+00843 \textcolor{comment}{  */}
+00844 
+00845 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OCClear\_Enable}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0080\textcolor{preprocessor}{)}
+00846 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_OCClear\_Disable}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00847 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_OCCLEAR\_STATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCClear_Enable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00848                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_OCClear_Disable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00849 \textcolor{comment}{/**}
+00850 \textcolor{comment}{  * @\}}
+00851 \textcolor{comment}{  */}
+00852 
+00853 \textcolor{comment}{/** @defgroup TIM\_Trigger\_Output\_Source }
+00854 \textcolor{comment}{  * @\{}
+00855 \textcolor{comment}{  */}
+00856 
+00857 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_TRGOSource\_Reset}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00858 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_TRGOSource\_Enable}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0010\textcolor{preprocessor}{)}
+00859 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_TRGOSource\_Update}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0020\textcolor{preprocessor}{)}
+00860 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_TRGOSource\_OC1}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0030\textcolor{preprocessor}{)}
+00861 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_TRGOSource\_OC1Ref}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0040\textcolor{preprocessor}{)}
+00862 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_TRGOSource\_OC2Ref}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0050\textcolor{preprocessor}{)}
+00863 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_TRGOSource\_OC3Ref}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0060\textcolor{preprocessor}{)}
+00864 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_TRGOSource\_OC4Ref}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0070\textcolor{preprocessor}{)}
+00865 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_TRGO\_SOURCE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_TRGOSource_Reset\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00866                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_TRGOSource_Enable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00867                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_TRGOSource_Update\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00868                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_TRGOSource_OC1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00869                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_TRGOSource_OC1Ref\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00870                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_TRGOSource_OC2Ref\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00871                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_TRGOSource_OC3Ref\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00872                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_TRGOSource_OC4Ref\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00873 \textcolor{comment}{/**}
+00874 \textcolor{comment}{  * @\}}
+00875 \textcolor{comment}{  */}
+00876 
+00877 \textcolor{comment}{/** @defgroup TIM\_Slave\_Mode }
+00878 \textcolor{comment}{  * @\{}
+00879 \textcolor{comment}{  */}
+00880 
+00881 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_SlaveMode\_Reset}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0004\textcolor{preprocessor}{)}
+00882 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_SlaveMode\_Gated}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0005\textcolor{preprocessor}{)}
+00883 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_SlaveMode\_Trigger}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0006\textcolor{preprocessor}{)}
+00884 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_SlaveMode\_External1}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0007\textcolor{preprocessor}{)}
+00885 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_SLAVE\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_SlaveMode_Reset\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00886                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_SlaveMode_Gated\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00887                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_SlaveMode_Trigger\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00888                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_SlaveMode_External1\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00889 \textcolor{comment}{/**}
+00890 \textcolor{comment}{  * @\}}
+00891 \textcolor{comment}{  */}
+00892 
+00893 \textcolor{comment}{/** @defgroup TIM\_Master\_Slave\_Mode }
+00894 \textcolor{comment}{  * @\{}
+00895 \textcolor{comment}{  */}
+00896 
+00897 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_MasterSlaveMode\_Enable}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0080\textcolor{preprocessor}{)}
+00898 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_MasterSlaveMode\_Disable}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00899 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_MSM\_STATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_MasterSlaveMode_Enable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00900                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_MasterSlaveMode_Disable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00901 \textcolor{comment}{/**}
+00902 \textcolor{comment}{  * @\}}
+00903 \textcolor{comment}{  */}
+00904 \textcolor{comment}{/** @defgroup TIM\_Remap }
+00905 \textcolor{comment}{  * @\{}
+00906 \textcolor{comment}{  */}
+00907 
+00908 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM2\_TIM8\_TRGO}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00909 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM2\_ETH\_PTP}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0400\textcolor{preprocessor}{)}
+00910 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM2\_USBFS\_SOF}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0800\textcolor{preprocessor}{)}
+00911 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM2\_USBHS\_SOF}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0C00\textcolor{preprocessor}{)}
+00912 
+00913 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM5\_GPIO}                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00914 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM5\_LSI}                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0040\textcolor{preprocessor}{)}
+00915 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM5\_LSE}                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0080\textcolor{preprocessor}{)}
+00916 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM5\_RTC}                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x00C0\textcolor{preprocessor}{)}
+00917 
+00918 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM11\_GPIO}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00919 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM11\_HSE}                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0002\textcolor{preprocessor}{)}
+00920 
+00921 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_REMAP}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIM\_REMAP}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIM\_REMAP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM2_TIM8_TRGO\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00922                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIM\_REMAP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM2_ETH_PTP\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00923                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIM\_REMAP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM2_USBFS_SOF\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00924                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIM\_REMAP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM2_USBHS_SOF\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00925                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIM\_REMAP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM5_GPIO\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00926                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIM\_REMAP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM5_LSI\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00927                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIM\_REMAP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM5_LSE\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00928                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIM\_REMAP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM5_RTC\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00929                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIM\_REMAP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM11_GPIO\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00930                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIM\_REMAP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM11_HSE\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00931 
+00932 \textcolor{comment}{/**}
+00933 \textcolor{comment}{  * @\}}
+00934 \textcolor{comment}{  */}
+00935 \textcolor{comment}{/** @defgroup TIM\_Flags }
+00936 \textcolor{comment}{  * @\{}
+00937 \textcolor{comment}{  */}
+00938 
+00939 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_FLAG\_Update}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0001\textcolor{preprocessor}{)}
+00940 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_FLAG\_CC1}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0002\textcolor{preprocessor}{)}
+00941 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_FLAG\_CC2}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0004\textcolor{preprocessor}{)}
+00942 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_FLAG\_CC3}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0008\textcolor{preprocessor}{)}
+00943 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_FLAG\_CC4}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0010\textcolor{preprocessor}{)}
+00944 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_FLAG\_COM}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0020\textcolor{preprocessor}{)}
+00945 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_FLAG\_Trigger}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0040\textcolor{preprocessor}{)}
+00946 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_FLAG\_Break}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0080\textcolor{preprocessor}{)}
+00947 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_FLAG\_CC1OF}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0200\textcolor{preprocessor}{)}
+00948 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_FLAG\_CC2OF}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0400\textcolor{preprocessor}{)}
+00949 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_FLAG\_CC3OF}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0800\textcolor{preprocessor}{)}
+00950 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_FLAG\_CC4OF}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x1000\textcolor{preprocessor}{)}
+00951 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_GET\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_FLAG_Update\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00952                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_FLAG_CC1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00953                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_FLAG_CC2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00954                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_FLAG_CC3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00955                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_FLAG_CC4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00956                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_FLAG_COM\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00957                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_FLAG_Trigger\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00958                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_FLAG_Break\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00959                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_FLAG_CC1OF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00960                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_FLAG_CC2OF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00961                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_FLAG_CC3OF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00962                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} TIM_FLAG_CC4OF\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00963 
+00964 \textcolor{comment}{/**}
+00965 \textcolor{comment}{  * @\}}
+00966 \textcolor{comment}{  */}
+00967 
+00968 \textcolor{comment}{/** @defgroup TIM\_Input\_Capture\_Filer\_Value }
+00969 \textcolor{comment}{  * @\{}
+00970 \textcolor{comment}{  */}
+00971 
+00972 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_IC\_FILTER}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ICFILTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ICFILTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0xF\textcolor{preprocessor}{)}
+00973 \textcolor{comment}{/**}
+00974 \textcolor{comment}{  * @\}}
+00975 \textcolor{comment}{  */}
+00976 
+00977 \textcolor{comment}{/** @defgroup TIM\_External\_Trigger\_Filter }
+00978 \textcolor{comment}{  * @\{}
+00979 \textcolor{comment}{  */}
+00980 
+00981 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_TIM\_EXT\_FILTER}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EXTFILTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EXTFILTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0xF\textcolor{preprocessor}{)}
+00982 \textcolor{comment}{/**}
+00983 \textcolor{comment}{  * @\}}
+00984 \textcolor{comment}{  */}
+00985 
+00986 \textcolor{comment}{/** @defgroup TIM\_Legacy }
+00987 \textcolor{comment}{  * @\{}
+00988 \textcolor{comment}{  */}
+00989 
+00990 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_1Byte}           TIM_DMABurstLength_1Transfer
+00991 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_2Bytes}          TIM_DMABurstLength_2Transfers
+00992 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_3Bytes}          TIM_DMABurstLength_3Transfers
+00993 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_4Bytes}          TIM_DMABurstLength_4Transfers
+00994 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_5Bytes}          TIM_DMABurstLength_5Transfers
+00995 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_6Bytes}          TIM_DMABurstLength_6Transfers
+00996 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_7Bytes}          TIM_DMABurstLength_7Transfers
+00997 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_8Bytes}          TIM_DMABurstLength_8Transfers
+00998 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_9Bytes}          TIM_DMABurstLength_9Transfers
+00999 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_10Bytes}         TIM_DMABurstLength_10Transfers
+01000 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_11Bytes}         TIM_DMABurstLength_11Transfers
+01001 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_12Bytes}         TIM_DMABurstLength_12Transfers
+01002 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_13Bytes}         TIM_DMABurstLength_13Transfers
+01003 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_14Bytes}         TIM_DMABurstLength_14Transfers
+01004 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_15Bytes}         TIM_DMABurstLength_15Transfers
+01005 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_16Bytes}         TIM_DMABurstLength_16Transfers
+01006 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_17Bytes}         TIM_DMABurstLength_17Transfers
+01007 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TIM\_DMABurstLength\_18Bytes}         TIM_DMABurstLength_18Transfers
+01008 \textcolor{comment}{/**}
+01009 \textcolor{comment}{  * @\}}
+01010 \textcolor{comment}{  */}
+01011 
+01012 \textcolor{comment}{/**}
+01013 \textcolor{comment}{  * @\}}
+01014 \textcolor{comment}{  */}
+01015 
+01016 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+01017 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+01018 
+01019 \textcolor{comment}{/* TimeBase management ********************************************************/}
+01020 \textcolor{keywordtype}{void} TIM_DeInit(TIM\_TypeDef* TIMx);
+01021 \textcolor{keywordtype}{void} TIM_TimeBaseInit(TIM\_TypeDef* TIMx, TIM\_TimeBaseInitTypeDef* TIM\_TimeBaseInitStruct);
+01022 \textcolor{keywordtype}{void} TIM_TimeBaseStructInit(TIM\_TimeBaseInitTypeDef* TIM\_TimeBaseInitStruct);
+01023 \textcolor{keywordtype}{void} TIM_PrescalerConfig(TIM\_TypeDef* TIMx, uint16\_t Prescaler, uint16\_t TIM\_PSCReloadMode);
+01024 \textcolor{keywordtype}{void} TIM_CounterModeConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_CounterMode);
+01025 \textcolor{keywordtype}{void} TIM_SetCounter(TIM\_TypeDef* TIMx, uint32\_t Counter);
+01026 \textcolor{keywordtype}{void} TIM_SetAutoreload(TIM\_TypeDef* TIMx, uint32\_t Autoreload);
+01027 uint32\_t TIM_GetCounter(TIM\_TypeDef* TIMx);
+01028 uint16\_t TIM_GetPrescaler(TIM\_TypeDef* TIMx);
+01029 \textcolor{keywordtype}{void} TIM_UpdateDisableConfig(TIM\_TypeDef* TIMx, FunctionalState NewState);
+01030 \textcolor{keywordtype}{void} TIM_UpdateRequestConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_UpdateSource);
+01031 \textcolor{keywordtype}{void} TIM_ARRPreloadConfig(TIM\_TypeDef* TIMx, FunctionalState NewState);
+01032 \textcolor{keywordtype}{void} TIM_SelectOnePulseMode(TIM\_TypeDef* TIMx, uint16\_t TIM\_OPMode);
+01033 \textcolor{keywordtype}{void} TIM_SetClockDivision(TIM\_TypeDef* TIMx, uint16\_t TIM\_CKD);
+01034 \textcolor{keywordtype}{void} TIM_Cmd(TIM\_TypeDef* TIMx, FunctionalState NewState);
+01035 
+01036 \textcolor{comment}{/* Output Compare management **************************************************/}
+01037 \textcolor{keywordtype}{void} TIM_OC1Init(TIM\_TypeDef* TIMx, TIM\_OCInitTypeDef* TIM\_OCInitStruct);
+01038 \textcolor{keywordtype}{void} TIM_OC2Init(TIM\_TypeDef* TIMx, TIM\_OCInitTypeDef* TIM\_OCInitStruct);
+01039 \textcolor{keywordtype}{void} TIM_OC3Init(TIM\_TypeDef* TIMx, TIM\_OCInitTypeDef* TIM\_OCInitStruct);
+01040 \textcolor{keywordtype}{void} TIM_OC4Init(TIM\_TypeDef* TIMx, TIM\_OCInitTypeDef* TIM\_OCInitStruct);
+01041 \textcolor{keywordtype}{void} TIM_OCStructInit(TIM\_OCInitTypeDef* TIM\_OCInitStruct);
+01042 \textcolor{keywordtype}{void} TIM_SelectOCxM(TIM\_TypeDef* TIMx, uint16\_t TIM\_Channel, uint16\_t TIM\_OCMode);
+01043 \textcolor{keywordtype}{void} TIM_SetCompare1(TIM\_TypeDef* TIMx, uint32\_t Compare1);
+01044 \textcolor{keywordtype}{void} TIM_SetCompare2(TIM\_TypeDef* TIMx, uint32\_t Compare2);
+01045 \textcolor{keywordtype}{void} TIM_SetCompare3(TIM\_TypeDef* TIMx, uint32\_t Compare3);
+01046 \textcolor{keywordtype}{void} TIM_SetCompare4(TIM\_TypeDef* TIMx, uint32\_t Compare4);
+01047 \textcolor{keywordtype}{void} TIM_ForcedOC1Config(TIM\_TypeDef* TIMx, uint16\_t TIM\_ForcedAction);
+01048 \textcolor{keywordtype}{void} TIM_ForcedOC2Config(TIM\_TypeDef* TIMx, uint16\_t TIM\_ForcedAction);
+01049 \textcolor{keywordtype}{void} TIM_ForcedOC3Config(TIM\_TypeDef* TIMx, uint16\_t TIM\_ForcedAction);
+01050 \textcolor{keywordtype}{void} TIM_ForcedOC4Config(TIM\_TypeDef* TIMx, uint16\_t TIM\_ForcedAction);
+01051 \textcolor{keywordtype}{void} TIM_OC1PreloadConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCPreload);
+01052 \textcolor{keywordtype}{void} TIM_OC2PreloadConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCPreload);
+01053 \textcolor{keywordtype}{void} TIM_OC3PreloadConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCPreload);
+01054 \textcolor{keywordtype}{void} TIM_OC4PreloadConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCPreload);
+01055 \textcolor{keywordtype}{void} TIM_OC1FastConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCFast);
+01056 \textcolor{keywordtype}{void} TIM_OC2FastConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCFast);
+01057 \textcolor{keywordtype}{void} TIM_OC3FastConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCFast);
+01058 \textcolor{keywordtype}{void} TIM_OC4FastConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCFast);
+01059 \textcolor{keywordtype}{void} TIM_ClearOC1Ref(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCClear);
+01060 \textcolor{keywordtype}{void} TIM_ClearOC2Ref(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCClear);
+01061 \textcolor{keywordtype}{void} TIM_ClearOC3Ref(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCClear);
+01062 \textcolor{keywordtype}{void} TIM_ClearOC4Ref(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCClear);
+01063 \textcolor{keywordtype}{void} TIM_OC1PolarityConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCPolarity);
+01064 \textcolor{keywordtype}{void} TIM_OC1NPolarityConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCNPolarity);
+01065 \textcolor{keywordtype}{void} TIM_OC2PolarityConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCPolarity);
+01066 \textcolor{keywordtype}{void} TIM_OC2NPolarityConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCNPolarity);
+01067 \textcolor{keywordtype}{void} TIM_OC3PolarityConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCPolarity);
+01068 \textcolor{keywordtype}{void} TIM_OC3NPolarityConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCNPolarity);
+01069 \textcolor{keywordtype}{void} TIM_OC4PolarityConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_OCPolarity);
+01070 \textcolor{keywordtype}{void} TIM_CCxCmd(TIM\_TypeDef* TIMx, uint16\_t TIM\_Channel, uint16\_t TIM\_CCx);
+01071 \textcolor{keywordtype}{void} TIM_CCxNCmd(TIM\_TypeDef* TIMx, uint16\_t TIM\_Channel, uint16\_t TIM\_CCxN);
+01072 
+01073 \textcolor{comment}{/* Input Capture management ***************************************************/}
+01074 \textcolor{keywordtype}{void} TIM_ICInit(TIM\_TypeDef* TIMx, TIM\_ICInitTypeDef* TIM\_ICInitStruct);
+01075 \textcolor{keywordtype}{void} TIM_ICStructInit(TIM\_ICInitTypeDef* TIM\_ICInitStruct);
+01076 \textcolor{keywordtype}{void} TIM_PWMIConfig(TIM\_TypeDef* TIMx, TIM\_ICInitTypeDef* TIM\_ICInitStruct);
+01077 uint32\_t TIM_GetCapture1(TIM\_TypeDef* TIMx);
+01078 uint32\_t TIM_GetCapture2(TIM\_TypeDef* TIMx);
+01079 uint32\_t TIM_GetCapture3(TIM\_TypeDef* TIMx);
+01080 uint32\_t TIM_GetCapture4(TIM\_TypeDef* TIMx);
+01081 \textcolor{keywordtype}{void} TIM_SetIC1Prescaler(TIM\_TypeDef* TIMx, uint16\_t TIM\_ICPSC);
+01082 \textcolor{keywordtype}{void} TIM_SetIC2Prescaler(TIM\_TypeDef* TIMx, uint16\_t TIM\_ICPSC);
+01083 \textcolor{keywordtype}{void} TIM_SetIC3Prescaler(TIM\_TypeDef* TIMx, uint16\_t TIM\_ICPSC);
+01084 \textcolor{keywordtype}{void} TIM_SetIC4Prescaler(TIM\_TypeDef* TIMx, uint16\_t TIM\_ICPSC);
+01085 
+01086 \textcolor{comment}{/* Advanced-control timers (TIM1 and TIM8) specific features ******************/}
+01087 \textcolor{keywordtype}{void} TIM_BDTRConfig(TIM\_TypeDef* TIMx, TIM\_BDTRInitTypeDef *TIM\_BDTRInitStruct);
+01088 \textcolor{keywordtype}{void} TIM_BDTRStructInit(TIM\_BDTRInitTypeDef* TIM\_BDTRInitStruct);
+01089 \textcolor{keywordtype}{void} TIM_CtrlPWMOutputs(TIM\_TypeDef* TIMx, FunctionalState NewState);
+01090 \textcolor{keywordtype}{void} TIM_SelectCOM(TIM\_TypeDef* TIMx, FunctionalState NewState);
+01091 \textcolor{keywordtype}{void} TIM_CCPreloadControl(TIM\_TypeDef* TIMx, FunctionalState NewState);
+01092 
+01093 \textcolor{comment}{/* Interrupts, DMA and flags management ***************************************/}
+01094 \textcolor{keywordtype}{void} TIM_ITConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_IT, FunctionalState NewState);
+01095 \textcolor{keywordtype}{void} TIM_GenerateEvent(TIM\_TypeDef* TIMx, uint16\_t TIM\_EventSource);
+01096 FlagStatus TIM_GetFlagStatus(TIM\_TypeDef* TIMx, uint16\_t TIM\_FLAG);
+01097 \textcolor{keywordtype}{void} TIM_ClearFlag(TIM\_TypeDef* TIMx, uint16\_t TIM\_FLAG);
+01098 ITStatus TIM_GetITStatus(TIM\_TypeDef* TIMx, uint16\_t TIM\_IT);
+01099 \textcolor{keywordtype}{void} TIM_ClearITPendingBit(TIM\_TypeDef* TIMx, uint16\_t TIM\_IT);
+01100 \textcolor{keywordtype}{void} TIM_DMAConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_DMABase, uint16\_t TIM\_DMABurstLength);
+01101 \textcolor{keywordtype}{void} TIM_DMACmd(TIM\_TypeDef* TIMx, uint16\_t TIM\_DMASource, FunctionalState NewState);
+01102 \textcolor{keywordtype}{void} TIM_SelectCCDMA(TIM\_TypeDef* TIMx, FunctionalState NewState);
+01103 
+01104 \textcolor{comment}{/* Clocks management **********************************************************/}
+01105 \textcolor{keywordtype}{void} TIM_InternalClockConfig(TIM\_TypeDef* TIMx);
+01106 \textcolor{keywordtype}{void} TIM_ITRxExternalClockConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_InputTriggerSource);
+01107 \textcolor{keywordtype}{void} TIM_TIxExternalClockConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_TIxExternalCLKSource,
+01108                                 uint16\_t TIM\_ICPolarity, uint16\_t ICFilter);
+01109 \textcolor{keywordtype}{void} TIM_ETRClockMode1Config(TIM\_TypeDef* TIMx, uint16\_t TIM\_ExtTRGPrescaler, uint16\_t 
+      TIM\_ExtTRGPolarity,
+01110                              uint16\_t ExtTRGFilter);
+01111 \textcolor{keywordtype}{void} TIM_ETRClockMode2Config(TIM\_TypeDef* TIMx, uint16\_t TIM\_ExtTRGPrescaler,
+01112                              uint16\_t TIM\_ExtTRGPolarity, uint16\_t ExtTRGFilter);
+01113 
+01114 \textcolor{comment}{/* Synchronization management *************************************************/}
+01115 \textcolor{keywordtype}{void} TIM_SelectInputTrigger(TIM\_TypeDef* TIMx, uint16\_t TIM\_InputTriggerSource);
+01116 \textcolor{keywordtype}{void} TIM_SelectOutputTrigger(TIM\_TypeDef* TIMx, uint16\_t TIM\_TRGOSource);
+01117 \textcolor{keywordtype}{void} TIM_SelectSlaveMode(TIM\_TypeDef* TIMx, uint16\_t TIM\_SlaveMode);
+01118 \textcolor{keywordtype}{void} TIM_SelectMasterSlaveMode(TIM\_TypeDef* TIMx, uint16\_t TIM\_MasterSlaveMode);
+01119 \textcolor{keywordtype}{void} TIM_ETRConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_ExtTRGPrescaler, uint16\_t TIM\_ExtTRGPolarity,
+01120                    uint16\_t ExtTRGFilter);
+01121 
+01122 \textcolor{comment}{/* Specific interface management **********************************************/}
+01123 \textcolor{keywordtype}{void} TIM_EncoderInterfaceConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_EncoderMode,
+01124                                 uint16\_t TIM\_IC1Polarity, uint16\_t TIM\_IC2Polarity);
+01125 \textcolor{keywordtype}{void} TIM_SelectHallSensor(TIM\_TypeDef* TIMx, FunctionalState NewState);
+01126 
+01127 \textcolor{comment}{/* Specific remapping management **********************************************/}
+01128 \textcolor{keywordtype}{void} TIM_RemapConfig(TIM\_TypeDef* TIMx, uint16\_t TIM\_Remap);
+01129 
+01130 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+01131 \}
+01132 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+01133 
+01134 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/*\_\_STM32F4xx\_TIM\_H */}
+01135 
+01136 \textcolor{comment}{/**}
+01137 \textcolor{comment}{  * @\}}
+01138 \textcolor{comment}{  */}
+01139 
+01140 \textcolor{comment}{/**}
+01141 \textcolor{comment}{  * @\}}
+01142 \textcolor{comment}{  */}
+01143 
+01144 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

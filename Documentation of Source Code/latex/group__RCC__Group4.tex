@@ -1,0 +1,273 @@
+\section{Interrupts and flags management functions}
+\label{group__RCC__Group4}\index{Interrupts and flags management functions@{Interrupts and flags management functions}}
+
+
+Interrupts and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ R\+C\+C\+\_\+\+I\+T\+Config} (uint8\+\_\+t R\+C\+C\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified R\+CC interrupts. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ R\+C\+C\+\_\+\+Get\+Flag\+Status} (uint8\+\_\+t R\+C\+C\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified R\+CC flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ R\+C\+C\+\_\+\+Clear\+Flag} (void)
+\begin{DoxyCompactList}\small\item\em Clears the R\+CC reset flags. The reset flags are\+: R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+P\+I\+N\+R\+ST, R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+P\+O\+R\+R\+ST, R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+S\+F\+T\+R\+ST, R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+I\+W\+D\+G\+R\+ST, R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+W\+W\+D\+G\+R\+ST, R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+L\+P\+W\+R\+R\+ST. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ R\+C\+C\+\_\+\+Get\+I\+T\+Status} (uint8\+\_\+t R\+C\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified R\+CC interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ R\+C\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit} (uint8\+\_\+t R\+C\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the R\+CC\textquotesingle{}s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts and flags management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                   Interrupts and flags management functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__RCC__Group4_ga53f909dbb15a54124419084ebda97d72}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!R\+C\+C\+\_\+\+Clear\+Flag@{R\+C\+C\+\_\+\+Clear\+Flag}}
+\index{R\+C\+C\+\_\+\+Clear\+Flag@{R\+C\+C\+\_\+\+Clear\+Flag}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{R\+C\+C\+\_\+\+Clear\+Flag()}
+{\footnotesize\ttfamily void R\+C\+C\+\_\+\+Clear\+Flag (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Clears the R\+CC reset flags. The reset flags are\+: R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+P\+I\+N\+R\+ST, R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+P\+O\+R\+R\+ST, R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+S\+F\+T\+R\+ST, R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+I\+W\+D\+G\+R\+ST, R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+W\+W\+D\+G\+R\+ST, R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+L\+P\+W\+R\+R\+ST. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1730} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+\begin{DoxyCode}
+01731 \{
+01732   \textcolor{comment}{/* Set RMVF bit to clear the reset flags */}
+01733   RCC->CSR |= RCC_CSR_RMVF;
+01734 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group4_ga529842d165910f8f87e26115da36089b}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!R\+C\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit@{R\+C\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit}}
+\index{R\+C\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit@{R\+C\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{R\+C\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit()}
+{\footnotesize\ttfamily void R\+C\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{R\+C\+C\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Clears the R\+CC\textquotesingle{}s interrupt pending bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+C\+C\+\_\+\+IT} & specifies the interrupt pending bit to clear. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item R\+C\+C\+\_\+\+I\+T\+\_\+\+L\+S\+I\+R\+DY\+: L\+SI ready interrupt \item R\+C\+C\+\_\+\+I\+T\+\_\+\+L\+S\+E\+R\+DY\+: L\+SE ready interrupt \item R\+C\+C\+\_\+\+I\+T\+\_\+\+H\+S\+I\+R\+DY\+: H\+SI ready interrupt \item R\+C\+C\+\_\+\+I\+T\+\_\+\+H\+S\+E\+R\+DY\+: H\+SE ready interrupt \item R\+C\+C\+\_\+\+I\+T\+\_\+\+P\+L\+L\+R\+DY\+: main P\+LL ready interrupt \item R\+C\+C\+\_\+\+I\+T\+\_\+\+P\+L\+L\+I2\+S\+R\+DY\+: P\+L\+L\+I2S ready interrupt \item R\+C\+C\+\_\+\+I\+T\+\_\+\+C\+SS\+: Clock Security System interrupt \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1782} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+\begin{DoxyCode}
+01783 \{
+01784   \textcolor{comment}{/* Check the parameters */}
+01785   assert_param(IS_RCC_CLEAR_IT(RCC\_IT));
+01786 
+01787   \textcolor{comment}{/* Perform Byte access to RCC\_CIR[23:16] bits to clear the selected interrupt}
+01788 \textcolor{comment}{     pending bits */}
+01789   *(\_\_IO uint8\_t *) CIR_BYTE3_ADDRESS = RCC\_IT;
+01790 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group4_ga2897bdc52f272031c44fb1f72205d295}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!R\+C\+C\+\_\+\+Get\+Flag\+Status@{R\+C\+C\+\_\+\+Get\+Flag\+Status}}
+\index{R\+C\+C\+\_\+\+Get\+Flag\+Status@{R\+C\+C\+\_\+\+Get\+Flag\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{R\+C\+C\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} R\+C\+C\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{R\+C\+C\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified R\+CC flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+C\+C\+\_\+\+F\+L\+AG} & specifies the flag to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+H\+S\+I\+R\+DY\+: H\+SI oscillator clock ready \item R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+H\+S\+E\+R\+DY\+: H\+SE oscillator clock ready \item R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+P\+L\+L\+R\+DY\+: main P\+LL clock ready \item R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+P\+L\+L\+I2\+S\+R\+DY\+: P\+L\+L\+I2S clock ready \item R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+L\+S\+E\+R\+DY\+: L\+SE oscillator clock ready \item R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+L\+S\+I\+R\+DY\+: L\+SI oscillator clock ready \item R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+B\+O\+R\+R\+ST\+: P\+O\+R/\+P\+DR or B\+OR reset \item R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+P\+I\+N\+R\+ST\+: Pin reset \item R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+P\+O\+R\+R\+ST\+: P\+O\+R/\+P\+DR reset \item R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+S\+F\+T\+R\+ST\+: Software reset \item R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+I\+W\+D\+G\+R\+ST\+: Independent Watchdog reset \item R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+W\+W\+D\+G\+R\+ST\+: Window Watchdog reset \item R\+C\+C\+\_\+\+F\+L\+A\+G\+\_\+\+L\+P\+W\+R\+R\+ST\+: Low Power reset \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of R\+C\+C\+\_\+\+F\+L\+AG (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1685} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}, and \textbf{ S\+ET}.
+
+
+
+Referenced by \textbf{ R\+C\+C\+\_\+\+Wait\+For\+H\+S\+E\+Start\+Up()}.
+
+
+\begin{DoxyCode}
+01686 \{
+01687   uint32\_t tmp = 0;
+01688   uint32\_t statusreg = 0;
+01689   FlagStatus bitstatus = RESET;
+01690 
+01691   \textcolor{comment}{/* Check the parameters */}
+01692   assert_param(IS_RCC_FLAG(RCC\_FLAG));
+01693 
+01694   \textcolor{comment}{/* Get the RCC register index */}
+01695   tmp = RCC\_FLAG >> 5;
+01696   \textcolor{keywordflow}{if} (tmp == 1)               \textcolor{comment}{/* The flag to check is in CR register */}
+01697   \{
+01698     statusreg = RCC->CR;
+01699   \}
+01700   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (tmp == 2)          \textcolor{comment}{/* The flag to check is in BDCR register */}
+01701   \{
+01702     statusreg = RCC->BDCR;
+01703   \}
+01704   \textcolor{keywordflow}{else}                       \textcolor{comment}{/* The flag to check is in CSR register */}
+01705   \{
+01706     statusreg = RCC->CSR;
+01707   \}
+01708 
+01709   \textcolor{comment}{/* Get the flag position */}
+01710   tmp = RCC\_FLAG & FLAG_MASK;
+01711   \textcolor{keywordflow}{if} ((statusreg & ((uint32\_t)1 << tmp)) != (uint32\_t)RESET)
+01712   \{
+01713     bitstatus = SET;
+01714   \}
+01715   \textcolor{keywordflow}{else}
+01716   \{
+01717     bitstatus = RESET;
+01718   \}
+01719   \textcolor{comment}{/* Return the flag status */}
+01720   \textcolor{keywordflow}{return} bitstatus;
+01721 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group4_ga6126c99f398ee4be410ad76ae3aee18f}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!R\+C\+C\+\_\+\+Get\+I\+T\+Status@{R\+C\+C\+\_\+\+Get\+I\+T\+Status}}
+\index{R\+C\+C\+\_\+\+Get\+I\+T\+Status@{R\+C\+C\+\_\+\+Get\+I\+T\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{R\+C\+C\+\_\+\+Get\+I\+T\+Status()}
+{\footnotesize\ttfamily \textbf{ I\+T\+Status} R\+C\+C\+\_\+\+Get\+I\+T\+Status (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{R\+C\+C\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified R\+CC interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+C\+C\+\_\+\+IT} & specifies the R\+CC interrupt source to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+C\+C\+\_\+\+I\+T\+\_\+\+L\+S\+I\+R\+DY\+: L\+SI ready interrupt \item R\+C\+C\+\_\+\+I\+T\+\_\+\+L\+S\+E\+R\+DY\+: L\+SE ready interrupt \item R\+C\+C\+\_\+\+I\+T\+\_\+\+H\+S\+I\+R\+DY\+: H\+SI ready interrupt \item R\+C\+C\+\_\+\+I\+T\+\_\+\+H\+S\+E\+R\+DY\+: H\+SE ready interrupt \item R\+C\+C\+\_\+\+I\+T\+\_\+\+P\+L\+L\+R\+DY\+: main P\+LL ready interrupt \item R\+C\+C\+\_\+\+I\+T\+\_\+\+P\+L\+L\+I2\+S\+R\+DY\+: P\+L\+L\+I2S ready interrupt \item R\+C\+C\+\_\+\+I\+T\+\_\+\+C\+SS\+: Clock Security System interrupt \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of R\+C\+C\+\_\+\+IT (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1749} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+01750 \{
+01751   ITStatus bitstatus = RESET;
+01752 
+01753   \textcolor{comment}{/* Check the parameters */}
+01754   assert_param(IS_RCC_GET_IT(RCC\_IT));
+01755 
+01756   \textcolor{comment}{/* Check the status of the specified RCC interrupt */}
+01757   \textcolor{keywordflow}{if} ((RCC->CIR & RCC\_IT) != (uint32\_t)RESET)
+01758   \{
+01759     bitstatus = SET;
+01760   \}
+01761   \textcolor{keywordflow}{else}
+01762   \{
+01763     bitstatus = RESET;
+01764   \}
+01765   \textcolor{comment}{/* Return the RCC\_IT status */}
+01766   \textcolor{keywordflow}{return}  bitstatus;
+01767 \}
+\end{DoxyCode}
+\mbox{\label{group__RCC__Group4_gaa953aa226e9ce45300d535941e4dfe2f}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!R\+C\+C\+\_\+\+I\+T\+Config@{R\+C\+C\+\_\+\+I\+T\+Config}}
+\index{R\+C\+C\+\_\+\+I\+T\+Config@{R\+C\+C\+\_\+\+I\+T\+Config}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{R\+C\+C\+\_\+\+I\+T\+Config()}
+{\footnotesize\ttfamily void R\+C\+C\+\_\+\+I\+T\+Config (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{R\+C\+C\+\_\+\+IT,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified R\+CC interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+C\+C\+\_\+\+IT} & specifies the R\+CC interrupt sources to be enabled or disabled. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item R\+C\+C\+\_\+\+I\+T\+\_\+\+L\+S\+I\+R\+DY\+: L\+SI ready interrupt \item R\+C\+C\+\_\+\+I\+T\+\_\+\+L\+S\+E\+R\+DY\+: L\+SE ready interrupt \item R\+C\+C\+\_\+\+I\+T\+\_\+\+H\+S\+I\+R\+DY\+: H\+SI ready interrupt \item R\+C\+C\+\_\+\+I\+T\+\_\+\+H\+S\+E\+R\+DY\+: H\+SE ready interrupt \item R\+C\+C\+\_\+\+I\+T\+\_\+\+P\+L\+L\+R\+DY\+: main P\+LL ready interrupt \item R\+C\+C\+\_\+\+I\+T\+\_\+\+P\+L\+L\+I2\+S\+R\+DY\+: P\+L\+L\+I2S ready interrupt \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the specified R\+CC interrupts. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1649} of file \textbf{ stm32f4xx\+\_\+rcc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+01650 \{
+01651   \textcolor{comment}{/* Check the parameters */}
+01652   assert_param(IS_RCC_IT(RCC\_IT));
+01653   assert_param(IS_FUNCTIONAL_STATE(NewState));
+01654   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01655   \{
+01656     \textcolor{comment}{/* Perform Byte access to RCC\_CIR[14:8] bits to enable the selected interrupts */}
+01657     *(\_\_IO uint8\_t *) CIR_BYTE2_ADDRESS |= RCC\_IT;
+01658   \}
+01659   \textcolor{keywordflow}{else}
+01660   \{
+01661     \textcolor{comment}{/* Perform Byte access to RCC\_CIR[14:8] bits to disable the selected interrupts */}
+01662     *(\_\_IO uint8\_t *) CIR_BYTE2_ADDRESS &= (uint8\_t)~RCC\_IT;
+01663   \}
+01664 \}
+\end{DoxyCode}

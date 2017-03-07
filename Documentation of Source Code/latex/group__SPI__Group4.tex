@@ -1,0 +1,77 @@
+\section{D\+MA transfers management functions}
+\label{group__SPI__Group4}\index{D\+M\+A transfers management functions@{D\+M\+A transfers management functions}}
+
+
+D\+MA transfers management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ S\+P\+I\+\_\+\+I2\+S\+\_\+\+D\+M\+A\+Cmd} (\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$S\+P\+Ix, uint16\+\_\+t S\+P\+I\+\_\+\+I2\+S\+\_\+\+D\+M\+A\+Req, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the S\+P\+Ix/\+I2\+Sx D\+MA interface. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+D\+MA transfers management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                         DMA transfers management functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__SPI__Group4_gabed5b91a8576e6d578f364cc0e807e4a}} 
+\index{D\+M\+A transfers management functions@{D\+M\+A transfers management functions}!S\+P\+I\+\_\+\+I2\+S\+\_\+\+D\+M\+A\+Cmd@{S\+P\+I\+\_\+\+I2\+S\+\_\+\+D\+M\+A\+Cmd}}
+\index{S\+P\+I\+\_\+\+I2\+S\+\_\+\+D\+M\+A\+Cmd@{S\+P\+I\+\_\+\+I2\+S\+\_\+\+D\+M\+A\+Cmd}!D\+M\+A transfers management functions@{D\+M\+A transfers management functions}}
+\subsubsection{S\+P\+I\+\_\+\+I2\+S\+\_\+\+D\+M\+A\+Cmd()}
+{\footnotesize\ttfamily void S\+P\+I\+\_\+\+I2\+S\+\_\+\+D\+M\+A\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ S\+P\+I\+\_\+\+Type\+Def} $\ast$}]{S\+P\+Ix,  }\item[{uint16\+\_\+t}]{S\+P\+I\+\_\+\+I2\+S\+\_\+\+D\+M\+A\+Req,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the S\+P\+Ix/\+I2\+Sx D\+MA interface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+P\+Ix} & To select the S\+P\+Ix/\+I2\+Sx peripheral, where x can be\+: 1, 2 or 3 in S\+PI mode or 2 or 3 in I2S mode or I2\+Sxext for I2S full duplex mode. \\
+\hline
+{\em S\+P\+I\+\_\+\+I2\+S\+\_\+\+D\+M\+A\+Req} & specifies the S\+PI D\+MA transfer request to be enabled or disabled. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item S\+P\+I\+\_\+\+I2\+S\+\_\+\+D\+M\+A\+Req\+\_\+\+Tx\+: Tx buffer D\+MA transfer request \item S\+P\+I\+\_\+\+I2\+S\+\_\+\+D\+M\+A\+Req\+\_\+\+Rx\+: Rx buffer D\+MA transfer request \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the selected S\+PI D\+MA transfer request. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 982} of file \textbf{ stm32f4xx\+\_\+spi.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00983 \{
+00984   \textcolor{comment}{/* Check the parameters */}
+00985   assert_param(IS_SPI_ALL_PERIPH_EXT(SPIx));
+00986   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00987   assert_param(IS_SPI_I2S_DMAREQ(SPI\_I2S\_DMAReq));
+00988 
+00989   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00990   \{
+00991     \textcolor{comment}{/* Enable the selected SPI DMA requests */}
+00992     SPIx->CR2 |= SPI\_I2S\_DMAReq;
+00993   \}
+00994   \textcolor{keywordflow}{else}
+00995   \{
+00996     \textcolor{comment}{/* Disable the selected SPI DMA requests */}
+00997     SPIx->CR2 &= (uint16\_t)~SPI\_I2S\_DMAReq;
+00998   \}
+00999 \}
+\end{DoxyCode}

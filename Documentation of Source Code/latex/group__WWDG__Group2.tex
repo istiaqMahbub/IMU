@@ -1,0 +1,55 @@
+\section{W\+W\+DG activation functions}
+\label{group__WWDG__Group2}\index{W\+W\+D\+G activation functions@{W\+W\+D\+G activation functions}}
+
+
+W\+W\+DG activation functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ W\+W\+D\+G\+\_\+\+Enable} (uint8\+\_\+t Counter)
+\begin{DoxyCompactList}\small\item\em Enables W\+W\+DG and load the counter value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+W\+W\+DG activation functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                       WWDG activation function
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__WWDG__Group2_ga10dc2554d0b504b5472e3ecf0f02a9e6}} 
+\index{W\+W\+D\+G activation functions@{W\+W\+D\+G activation functions}!W\+W\+D\+G\+\_\+\+Enable@{W\+W\+D\+G\+\_\+\+Enable}}
+\index{W\+W\+D\+G\+\_\+\+Enable@{W\+W\+D\+G\+\_\+\+Enable}!W\+W\+D\+G activation functions@{W\+W\+D\+G activation functions}}
+\subsubsection{W\+W\+D\+G\+\_\+\+Enable()}
+{\footnotesize\ttfamily void W\+W\+D\+G\+\_\+\+Enable (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{Counter }\end{DoxyParamCaption})}
+
+
+
+Enables W\+W\+DG and load the counter value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Counter} & specifies the watchdog counter value. This parameter must be a number between 0x40 and 0x7F (to prevent generating an immediate reset) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 235} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+
+\begin{DoxyCode}
+00236 \{
+00237   \textcolor{comment}{/* Check the parameters */}
+00238   assert_param(IS_WWDG_COUNTER(Counter));
+00239   WWDG->CR = WWDG_CR_WDGA | Counter;
+00240 \}
+\end{DoxyCode}

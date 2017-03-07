@@ -1,0 +1,449 @@
+\section{Initialization and Configuration functions}
+\label{group__CRYP__Group1}\index{Initialization and Configuration functions@{Initialization and Configuration functions}}
+
+
+Initialization and Configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the C\+R\+YP peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+Init} (\textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def} $\ast$C\+R\+Y\+P\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the C\+R\+YP peripheral according to the specified parameters in the C\+R\+Y\+P\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+Struct\+Init} (\textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def} $\ast$C\+R\+Y\+P\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each C\+R\+Y\+P\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init} (\textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init\+Type\+Def} $\ast$C\+R\+Y\+P\+\_\+\+Key\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the C\+R\+YP Keys according to the specified parameters in the C\+R\+Y\+P\+\_\+\+Key\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Struct\+Init} (\textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init\+Type\+Def} $\ast$C\+R\+Y\+P\+\_\+\+Key\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each C\+R\+Y\+P\+\_\+\+Key\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+I\+V\+Init} (\textbf{ C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Type\+Def} $\ast$C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the C\+R\+YP Initialization Vectors(\+I\+V) according to the specified parameters in the C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+I\+V\+Struct\+Init} (\textbf{ C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Type\+Def} $\ast$C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+F\+I\+F\+O\+Flush} (void)
+\begin{DoxyCompactList}\small\item\em Flushes the IN and O\+UT F\+I\+F\+Os (that is read and write pointers of the F\+I\+F\+Os are reset) \end{DoxyCompactList}\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the C\+R\+YP peripheral. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Initialization and Configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                      Initialization and Configuration functions
+ ===============================================================================  
+  This section provides functions allowing to 
+   - Initialize the cryptographic Processor using CRYP_Init() function 
+      -  Encrypt or Decrypt 
+      -  mode : TDES-ECB, TDES-CBC, 
+                DES-ECB, DES-CBC, 
+                AES-ECB, AES-CBC, AES-CTR, AES-Key 
+      - DataType :  32-bit data, 16-bit data, bit data or bit-string
+      - Key Size (only in AES modes)
+   - Configure the Encrypt or Decrypt Key using CRYP_KeyInit() function 
+   - Configure the Initialization Vectors(IV) for CBC and CTR modes using 
+     CRYP_IVInit() function.  
+   - Flushes the IN and OUT FIFOs : using CRYP_FIFOFlush() function.                         
+   - Enable or disable the CRYP Processor using CRYP_Cmd() function \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__CRYP__Group1_gad39ccd9b1f2e088e3a227d7a1c410d7c}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\+R\+Y\+P\+\_\+\+Cmd@{C\+R\+Y\+P\+\_\+\+Cmd}}
+\index{C\+R\+Y\+P\+\_\+\+Cmd@{C\+R\+Y\+P\+\_\+\+Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+Cmd()}
+{\footnotesize\ttfamily void C\+R\+Y\+P\+\_\+\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the C\+R\+YP peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the C\+R\+YP peripheral. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 370} of file \textbf{ stm32f4xx\+\_\+cryp.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+
+Referenced by \textbf{ C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+B\+C()}, \textbf{ C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+T\+R()}, \textbf{ C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+E\+C\+B()}, \textbf{ C\+R\+Y\+P\+\_\+\+D\+E\+S\+\_\+\+C\+B\+C()}, \textbf{ C\+R\+Y\+P\+\_\+\+D\+E\+S\+\_\+\+E\+C\+B()}, \textbf{ C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+C\+B\+C()}, and \textbf{ C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+E\+C\+B()}.
+
+
+\begin{DoxyCode}
+00371 \{
+00372   \textcolor{comment}{/* Check the parameters */}
+00373   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00374 
+00375   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00376   \{
+00377     \textcolor{comment}{/* Enable the Cryptographic processor */}
+00378     CRYP->CR |= CRYP_CR_CRYPEN;
+00379   \}
+00380   \textcolor{keywordflow}{else}
+00381   \{
+00382     \textcolor{comment}{/* Disable the Cryptographic processor */}
+00383     CRYP->CR &= ~CRYP_CR_CRYPEN;
+00384   \}
+00385 \}
+\end{DoxyCode}
+\mbox{\label{group__CRYP__Group1_gae19e54c9910b697e38f6c7577704ffae}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\+R\+Y\+P\+\_\+\+De\+Init@{C\+R\+Y\+P\+\_\+\+De\+Init}}
+\index{C\+R\+Y\+P\+\_\+\+De\+Init@{C\+R\+Y\+P\+\_\+\+De\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void C\+R\+Y\+P\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the C\+R\+YP peripheral registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 215} of file \textbf{ stm32f4xx\+\_\+cryp.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, and \textbf{ R\+C\+C\+\_\+\+A\+H\+B2\+Periph\+Reset\+Cmd()}.
+
+
+\begin{DoxyCode}
+00216 \{
+00217   \textcolor{comment}{/* Enable CRYP reset state */}
+00218   RCC_AHB2PeriphResetCmd(RCC_AHB2Periph_CRYP, ENABLE);
+00219 
+00220   \textcolor{comment}{/* Release CRYP from reset state */}
+00221   RCC_AHB2PeriphResetCmd(RCC_AHB2Periph_CRYP, DISABLE);
+00222 \}
+\end{DoxyCode}
+\mbox{\label{group__CRYP__Group1_ga23ada9d9464e1362299d7612a1409a57}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\+R\+Y\+P\+\_\+\+F\+I\+F\+O\+Flush@{C\+R\+Y\+P\+\_\+\+F\+I\+F\+O\+Flush}}
+\index{C\+R\+Y\+P\+\_\+\+F\+I\+F\+O\+Flush@{C\+R\+Y\+P\+\_\+\+F\+I\+F\+O\+Flush}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+F\+I\+F\+O\+Flush()}
+{\footnotesize\ttfamily void C\+R\+Y\+P\+\_\+\+F\+I\+F\+O\+Flush (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Flushes the IN and O\+UT F\+I\+F\+Os (that is read and write pointers of the F\+I\+F\+Os are reset) 
+
+\begin{DoxyNote}{Note}
+The F\+I\+F\+Os must be flushed only when B\+U\+SY flag is reset. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 358} of file \textbf{ stm32f4xx\+\_\+cryp.\+c}.
+
+
+
+Referenced by \textbf{ C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+B\+C()}, \textbf{ C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+T\+R()}, \textbf{ C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+E\+C\+B()}, \textbf{ C\+R\+Y\+P\+\_\+\+D\+E\+S\+\_\+\+C\+B\+C()}, \textbf{ C\+R\+Y\+P\+\_\+\+D\+E\+S\+\_\+\+E\+C\+B()}, \textbf{ C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+C\+B\+C()}, and \textbf{ C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+E\+C\+B()}.
+
+
+\begin{DoxyCode}
+00359 \{
+00360   \textcolor{comment}{/* Reset the read and write pointers of the FIFOs */}
+00361   CRYP->CR |= CRYP_CR_FFLUSH;
+00362 \}
+\end{DoxyCode}
+\mbox{\label{group__CRYP__Group1_ga7b72c458d95581ab0a36be3e017fcf02}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\+R\+Y\+P\+\_\+\+Init@{C\+R\+Y\+P\+\_\+\+Init}}
+\index{C\+R\+Y\+P\+\_\+\+Init@{C\+R\+Y\+P\+\_\+\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+Init()}
+{\footnotesize\ttfamily void C\+R\+Y\+P\+\_\+\+Init (\begin{DoxyParamCaption}\item[{\textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def} $\ast$}]{C\+R\+Y\+P\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the C\+R\+YP peripheral according to the specified parameters in the C\+R\+Y\+P\+\_\+\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+R\+Y\+P\+\_\+\+Init\+Struct} & pointer to a \doxyref{C\+R\+Y\+P\+\_\+\+Init\+Type\+Def}{p.}{structCRYP__InitTypeDef} structure that contains the configuration information for the C\+R\+YP peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 231} of file \textbf{ stm32f4xx\+\_\+cryp.\+c}.
+
+
+
+References \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Algo\+Mode}.
+
+
+
+Referenced by \textbf{ C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+B\+C()}, \textbf{ C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+T\+R()}, \textbf{ C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+E\+C\+B()}, \textbf{ C\+R\+Y\+P\+\_\+\+D\+E\+S\+\_\+\+C\+B\+C()}, \textbf{ C\+R\+Y\+P\+\_\+\+D\+E\+S\+\_\+\+E\+C\+B()}, \textbf{ C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+C\+B\+C()}, and \textbf{ C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+E\+C\+B()}.
+
+
+\begin{DoxyCode}
+00232 \{
+00233   \textcolor{comment}{/* Check the parameters */}
+00234   assert_param(IS_CRYP_ALGOMODE(CRYP\_InitStruct->CRYP_AlgoMode));
+00235   assert_param(IS_CRYP_DATATYPE(CRYP\_InitStruct->CRYP_DataType));
+00236   assert_param(IS_CRYP_ALGODIR(CRYP\_InitStruct->CRYP_AlgoDir));
+00237 
+00238   \textcolor{comment}{/* Select Algorithm mode*/}  
+00239   CRYP->CR &= ~CRYP_CR_ALGOMODE;
+00240   CRYP->CR |= CRYP\_InitStruct->CRYP_AlgoMode;
+00241 
+00242   \textcolor{comment}{/* Select dataType */} 
+00243   CRYP->CR &= ~CRYP_CR_DATATYPE;
+00244   CRYP->CR |= CRYP\_InitStruct->CRYP_DataType;
+00245 
+00246   \textcolor{comment}{/* select Key size (used only with AES algorithm) */}
+00247   \textcolor{keywordflow}{if} ((CRYP\_InitStruct->CRYP_AlgoMode == CRYP_AlgoMode_AES_ECB) ||
+00248       (CRYP\_InitStruct->CRYP_AlgoMode == CRYP_AlgoMode_AES_CBC) ||
+00249       (CRYP\_InitStruct->CRYP_AlgoMode == CRYP_AlgoMode_AES_CTR) ||
+00250       (CRYP\_InitStruct->CRYP_AlgoMode == CRYP_AlgoMode_AES_Key))
+00251   \{
+00252     assert_param(IS_CRYP_KEYSIZE(CRYP\_InitStruct->CRYP_KeySize));
+00253     CRYP->CR &= ~CRYP_CR_KEYSIZE;
+00254     CRYP->CR |= CRYP\_InitStruct->CRYP_KeySize; \textcolor{comment}{/* Key size and value must be }
+00255 \textcolor{comment}{                                                  configured once the key has }
+00256 \textcolor{comment}{                                                  been prepared */}
+00257   \}
+00258 
+00259   \textcolor{comment}{/* Select data Direction */} 
+00260   CRYP->CR &= ~CRYP_CR_ALGODIR;
+00261   CRYP->CR |= CRYP\_InitStruct->CRYP_AlgoDir;
+00262 \}
+\end{DoxyCode}
+\mbox{\label{group__CRYP__Group1_ga133964b50a07db3a32864308f6355a8b}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\+R\+Y\+P\+\_\+\+I\+V\+Init@{C\+R\+Y\+P\+\_\+\+I\+V\+Init}}
+\index{C\+R\+Y\+P\+\_\+\+I\+V\+Init@{C\+R\+Y\+P\+\_\+\+I\+V\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+I\+V\+Init()}
+{\footnotesize\ttfamily void C\+R\+Y\+P\+\_\+\+I\+V\+Init (\begin{DoxyParamCaption}\item[{\textbf{ C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Type\+Def} $\ast$}]{C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the C\+R\+YP Initialization Vectors(\+I\+V) according to the specified parameters in the C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Struct} & pointer to a \doxyref{C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Type\+Def}{p.}{structCRYP__IVInitTypeDef} structure that contains the configuration information for the C\+R\+YP Initialization Vectors(\+I\+V). \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 329} of file \textbf{ stm32f4xx\+\_\+cryp.\+c}.
+
+
+
+Referenced by \textbf{ C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+B\+C()}, \textbf{ C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+T\+R()}, \textbf{ C\+R\+Y\+P\+\_\+\+D\+E\+S\+\_\+\+C\+B\+C()}, and \textbf{ C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+C\+B\+C()}.
+
+
+\begin{DoxyCode}
+00330 \{
+00331   CRYP->IV0LR = CRYP\_IVInitStruct->CRYP_IV0Left;
+00332   CRYP->IV0RR = CRYP\_IVInitStruct->CRYP_IV0Right;
+00333   CRYP->IV1LR = CRYP\_IVInitStruct->CRYP_IV1Left;
+00334   CRYP->IV1RR = CRYP\_IVInitStruct->CRYP_IV1Right;
+00335 \}
+\end{DoxyCode}
+\mbox{\label{group__CRYP__Group1_ga58899074e08bbd65f2ed304cf0f42987}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\+R\+Y\+P\+\_\+\+I\+V\+Struct\+Init@{C\+R\+Y\+P\+\_\+\+I\+V\+Struct\+Init}}
+\index{C\+R\+Y\+P\+\_\+\+I\+V\+Struct\+Init@{C\+R\+Y\+P\+\_\+\+I\+V\+Struct\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+I\+V\+Struct\+Init()}
+{\footnotesize\ttfamily void C\+R\+Y\+P\+\_\+\+I\+V\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Type\+Def} $\ast$}]{C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Struct} & pointer to a \doxyref{C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Type\+Def}{p.}{structCRYP__IVInitTypeDef} Initialization Vectors(\+I\+V) structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 343} of file \textbf{ stm32f4xx\+\_\+cryp.\+c}.
+
+
+
+References \textbf{ C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+I\+V0\+Left}, \textbf{ C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+I\+V0\+Right}, \textbf{ C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+I\+V1\+Left}, and \textbf{ C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+I\+V1\+Right}.
+
+
+\begin{DoxyCode}
+00344 \{
+00345   CRYP\_IVInitStruct->CRYP_IV0Left  = 0;
+00346   CRYP\_IVInitStruct->CRYP_IV0Right = 0;
+00347   CRYP\_IVInitStruct->CRYP_IV1Left  = 0;
+00348   CRYP\_IVInitStruct->CRYP_IV1Right = 0;
+00349 \}
+\end{DoxyCode}
+\mbox{\label{group__CRYP__Group1_gad4baa3865415215cae07c9fbfa131cb9}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\+R\+Y\+P\+\_\+\+Key\+Init@{C\+R\+Y\+P\+\_\+\+Key\+Init}}
+\index{C\+R\+Y\+P\+\_\+\+Key\+Init@{C\+R\+Y\+P\+\_\+\+Key\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+Key\+Init()}
+{\footnotesize\ttfamily void C\+R\+Y\+P\+\_\+\+Key\+Init (\begin{DoxyParamCaption}\item[{\textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init\+Type\+Def} $\ast$}]{C\+R\+Y\+P\+\_\+\+Key\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the C\+R\+YP Keys according to the specified parameters in the C\+R\+Y\+P\+\_\+\+Key\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+R\+Y\+P\+\_\+\+Key\+Init\+Struct} & pointer to a \doxyref{C\+R\+Y\+P\+\_\+\+Key\+Init\+Type\+Def}{p.}{structCRYP__KeyInitTypeDef} structure that contains the configuration information for the C\+R\+YP Keys. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 292} of file \textbf{ stm32f4xx\+\_\+cryp.\+c}.
+
+
+
+Referenced by \textbf{ C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+B\+C()}, \textbf{ C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+T\+R()}, \textbf{ C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+E\+C\+B()}, \textbf{ C\+R\+Y\+P\+\_\+\+D\+E\+S\+\_\+\+C\+B\+C()}, \textbf{ C\+R\+Y\+P\+\_\+\+D\+E\+S\+\_\+\+E\+C\+B()}, \textbf{ C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+C\+B\+C()}, and \textbf{ C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+E\+C\+B()}.
+
+
+\begin{DoxyCode}
+00293 \{
+00294   \textcolor{comment}{/* Key Initialisation */}
+00295   CRYP->K0LR = CRYP\_KeyInitStruct->CRYP_Key0Left;
+00296   CRYP->K0RR = CRYP\_KeyInitStruct->CRYP_Key0Right;
+00297   CRYP->K1LR = CRYP\_KeyInitStruct->CRYP_Key1Left;
+00298   CRYP->K1RR = CRYP\_KeyInitStruct->CRYP_Key1Right;
+00299   CRYP->K2LR = CRYP\_KeyInitStruct->CRYP_Key2Left;
+00300   CRYP->K2RR = CRYP\_KeyInitStruct->CRYP_Key2Right;
+00301   CRYP->K3LR = CRYP\_KeyInitStruct->CRYP_Key3Left;
+00302   CRYP->K3RR = CRYP\_KeyInitStruct->CRYP_Key3Right;
+00303 \}
+\end{DoxyCode}
+\mbox{\label{group__CRYP__Group1_gaeecd86b00d0d0137d97b06108789bcb2}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\+R\+Y\+P\+\_\+\+Key\+Struct\+Init@{C\+R\+Y\+P\+\_\+\+Key\+Struct\+Init}}
+\index{C\+R\+Y\+P\+\_\+\+Key\+Struct\+Init@{C\+R\+Y\+P\+\_\+\+Key\+Struct\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+Key\+Struct\+Init()}
+{\footnotesize\ttfamily void C\+R\+Y\+P\+\_\+\+Key\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init\+Type\+Def} $\ast$}]{C\+R\+Y\+P\+\_\+\+Key\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each C\+R\+Y\+P\+\_\+\+Key\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+R\+Y\+P\+\_\+\+Key\+Init\+Struct} & pointer to a \doxyref{C\+R\+Y\+P\+\_\+\+Key\+Init\+Type\+Def}{p.}{structCRYP__KeyInitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 311} of file \textbf{ stm32f4xx\+\_\+cryp.\+c}.
+
+
+
+References \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Key0\+Left}, \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Key0\+Right}, \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Key1\+Left}, \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Key1\+Right}, \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Key2\+Left}, \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Key2\+Right}, \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Key3\+Left}, and \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Key3\+Right}.
+
+
+
+Referenced by \textbf{ C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+B\+C()}, \textbf{ C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+T\+R()}, \textbf{ C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+E\+C\+B()}, \textbf{ C\+R\+Y\+P\+\_\+\+D\+E\+S\+\_\+\+C\+B\+C()}, \textbf{ C\+R\+Y\+P\+\_\+\+D\+E\+S\+\_\+\+E\+C\+B()}, \textbf{ C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+C\+B\+C()}, and \textbf{ C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+E\+C\+B()}.
+
+
+\begin{DoxyCode}
+00312 \{
+00313   CRYP\_KeyInitStruct->CRYP_Key0Left  = 0;
+00314   CRYP\_KeyInitStruct->CRYP_Key0Right = 0;
+00315   CRYP\_KeyInitStruct->CRYP_Key1Left  = 0;
+00316   CRYP\_KeyInitStruct->CRYP_Key1Right = 0;
+00317   CRYP\_KeyInitStruct->CRYP_Key2Left  = 0;
+00318   CRYP\_KeyInitStruct->CRYP_Key2Right = 0;
+00319   CRYP\_KeyInitStruct->CRYP_Key3Left  = 0;
+00320   CRYP\_KeyInitStruct->CRYP_Key3Right = 0;
+00321 \}
+\end{DoxyCode}
+\mbox{\label{group__CRYP__Group1_ga8fb8ec75fe72d55046c8220825dfe41e}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!C\+R\+Y\+P\+\_\+\+Struct\+Init@{C\+R\+Y\+P\+\_\+\+Struct\+Init}}
+\index{C\+R\+Y\+P\+\_\+\+Struct\+Init@{C\+R\+Y\+P\+\_\+\+Struct\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+Struct\+Init()}
+{\footnotesize\ttfamily void C\+R\+Y\+P\+\_\+\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def} $\ast$}]{C\+R\+Y\+P\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each C\+R\+Y\+P\+\_\+\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+R\+Y\+P\+\_\+\+Init\+Struct} & pointer to a \doxyref{C\+R\+Y\+P\+\_\+\+Init\+Type\+Def}{p.}{structCRYP__InitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 270} of file \textbf{ stm32f4xx\+\_\+cryp.\+c}.
+
+
+
+References \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Algo\+Dir}, \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Algo\+Mode}, \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Data\+Type}, and \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Key\+Size}.
+
+
+\begin{DoxyCode}
+00271 \{
+00272   \textcolor{comment}{/* Initialize the CRYP\_AlgoDir member */}
+00273   CRYP\_InitStruct->CRYP_AlgoDir = CRYP_AlgoDir_Encrypt;
+00274 
+00275   \textcolor{comment}{/* initialize the CRYP\_AlgoMode member */}
+00276   CRYP\_InitStruct->CRYP_AlgoMode = CRYP_AlgoMode_TDES_ECB;
+00277 
+00278   \textcolor{comment}{/* initialize the CRYP\_DataType member */}
+00279   CRYP\_InitStruct->CRYP_DataType = CRYP_DataType_32b;
+00280   
+00281   \textcolor{comment}{/* Initialize the CRYP\_KeySize member */}
+00282   CRYP\_InitStruct->CRYP_KeySize = CRYP_KeySize_128b;
+00283 \}
+\end{DoxyCode}

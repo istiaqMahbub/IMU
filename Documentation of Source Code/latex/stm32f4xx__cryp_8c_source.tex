@@ -1,0 +1,856 @@
+\section{stm32f4xx\+\_\+cryp.\+c}
+\label{stm32f4xx__cryp_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+cryp.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+cryp.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_cryp.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides firmware functions to manage the following }
+00008 \textcolor{comment}{  *          functionalities of the  Cryptographic processor (CRYP) peripheral:           }
+00009 \textcolor{comment}{  *           - Initialization and Configuration functions}
+00010 \textcolor{comment}{  *           - Data treatment functions }
+00011 \textcolor{comment}{  *           - Context swapping functions     }
+00012 \textcolor{comment}{  *           - DMA interface function       }
+00013 \textcolor{comment}{  *           - Interrupts and flags management       }
+00014 \textcolor{comment}{  *}
+00015 \textcolor{comment}{  *  @verbatim}
+00016 \textcolor{comment}{  *                               }
+00017 \textcolor{comment}{  *          ===================================================================      }
+00018 \textcolor{comment}{  *                                 How to use this driver}
+00019 \textcolor{comment}{  *          =================================================================== }
+00020 \textcolor{comment}{  *          1. Enable the CRYP controller clock using }
+00021 \textcolor{comment}{  *              RCC\_AHB2PeriphClockCmd(RCC\_AHB2Periph\_CRYP, ENABLE); function.}
+00022 \textcolor{comment}{  *}
+00023 \textcolor{comment}{  *          2. Initialise the CRYP using CRYP\_Init(), CRYP\_KeyInit() and if }
+00024 \textcolor{comment}{  *             needed CRYP\_IVInit(). }
+00025 \textcolor{comment}{  *}
+00026 \textcolor{comment}{  *          3. Flush the IN and OUT FIFOs by using CRYP\_FIFOFlush() function.}
+00027 \textcolor{comment}{  *}
+00028 \textcolor{comment}{  *          4. Enable the CRYP controller using the CRYP\_Cmd() function. }
+00029 \textcolor{comment}{  *}
+00030 \textcolor{comment}{  *          5. If using DMA for Data input and output transfer, }
+00031 \textcolor{comment}{  *             Activate the needed DMA Requests using CRYP\_DMACmd() function }
+00032 \textcolor{comment}{  }
+00033 \textcolor{comment}{  *          6. If DMA is not used for data transfer, use CRYP\_DataIn() and }
+00034 \textcolor{comment}{  *             CRYP\_DataOut() functions to enter data to IN FIFO and get result}
+00035 \textcolor{comment}{  *             from OUT FIFO.}
+00036 \textcolor{comment}{  *}
+00037 \textcolor{comment}{  *          7. To control CRYP events you can use one of the following }
+00038 \textcolor{comment}{  *              two methods:}
+00039 \textcolor{comment}{  *               - Check on CRYP flags using the CRYP\_GetFlagStatus() function.  }
+00040 \textcolor{comment}{  *               - Use CRYP interrupts through the function CRYP\_ITConfig() at }
+00041 \textcolor{comment}{  *                 initialization phase and CRYP\_GetITStatus() function into }
+00042 \textcolor{comment}{  *                 interrupt routines in processing phase.}
+00043 \textcolor{comment}{  *       }
+00044 \textcolor{comment}{  *          8. Save and restore Cryptographic processor context using  }
+00045 \textcolor{comment}{  *             CRYP\_SaveContext() and CRYP\_RestoreContext() functions.     }
+00046 \textcolor{comment}{  *}
+00047 \textcolor{comment}{  *}
+00048 \textcolor{comment}{  *          ===================================================================  }
+00049 \textcolor{comment}{  *                Procedure to perform an encryption or a decryption}
+00050 \textcolor{comment}{  *          ===================================================================  }
+00051 \textcolor{comment}{  *}
+00052 \textcolor{comment}{  *      Initialization}
+00053 \textcolor{comment}{  *      ===============  }
+00054 \textcolor{comment}{  *     1. Initialize the peripheral using CRYP\_Init(), CRYP\_KeyInit() and }
+00055 \textcolor{comment}{  *        CRYP\_IVInit functions:}
+00056 \textcolor{comment}{  *        - Configure the key size (128-, 192- or 256-bit, in the AES only) }
+00057 \textcolor{comment}{  *        - Enter the symmetric key }
+00058 \textcolor{comment}{  *        - Configure the data type}
+00059 \textcolor{comment}{  *        - In case of decryption in AES-ECB or AES-CBC, you must prepare }
+00060 \textcolor{comment}{  *          the key: configure the key preparation mode. Then Enable the CRYP }
+00061 \textcolor{comment}{  *          peripheral using CRYP\_Cmd() function: the BUSY flag is set. }
+00062 \textcolor{comment}{  *          Wait until BUSY flag is reset : the key is prepared for decryption}
+00063 \textcolor{comment}{  *       - Configure the algorithm and chaining (the DES/TDES in ECB/CBC, the }
+00064 \textcolor{comment}{  *          AES in ECB/CBC/CTR) }
+00065 \textcolor{comment}{  *       - Configure the direction (encryption/decryption).}
+00066 \textcolor{comment}{  *       - Write the initialization vectors (in CBC or CTR modes only)}
+00067 \textcolor{comment}{  *}
+00068 \textcolor{comment}{  *    2. Flush the IN and OUT FIFOs using the CRYP\_FIFOFlush() function}
+00069 \textcolor{comment}{  *}
+00070 \textcolor{comment}{  *}
+00071 \textcolor{comment}{  *    Basic Processing mode (polling mode) }
+00072 \textcolor{comment}{  *    ====================================  }
+00073 \textcolor{comment}{  *    1. Enable the cryptographic processor using CRYP\_Cmd() function.}
+00074 \textcolor{comment}{  *}
+00075 \textcolor{comment}{  *    2. Write the first blocks in the input FIFO (2 to 8 words) using }
+00076 \textcolor{comment}{  *       CRYP\_DataIn() function.}
+00077 \textcolor{comment}{  *}
+00078 \textcolor{comment}{  *    3. Repeat the following sequence until the complete message has been }
+00079 \textcolor{comment}{  *       processed:}
+00080 \textcolor{comment}{  *}
+00081 \textcolor{comment}{  *       a) Wait for flag CRYP\_FLAG\_OFNE occurs (using CRYP\_GetFlagStatus() }
+00082 \textcolor{comment}{  *          function), then read the OUT-FIFO using CRYP\_DataOut() function}
+00083 \textcolor{comment}{  *          (1 block or until the FIFO is empty)}
+00084 \textcolor{comment}{  *}
+00085 \textcolor{comment}{  *       b) Wait for flag CRYP\_FLAG\_IFNF occurs, (using CRYP\_GetFlagStatus() }
+00086 \textcolor{comment}{  *          function then write the IN FIFO using CRYP\_DataIn() function }
+00087 \textcolor{comment}{  *          (1 block or until the FIFO is full)}
+00088 \textcolor{comment}{  *}
+00089 \textcolor{comment}{  *    4. At the end of the processing, CRYP\_FLAG\_BUSY flag will be reset and }
+00090 \textcolor{comment}{  *        both FIFOs are empty (CRYP\_FLAG\_IFEM is set and CRYP\_FLAG\_OFNE is }
+00091 \textcolor{comment}{  *        reset). You can disable the peripheral using CRYP\_Cmd() function.}
+00092 \textcolor{comment}{  *}
+00093 \textcolor{comment}{  *    Interrupts Processing mode }
+00094 \textcolor{comment}{  *    ===========================}
+00095 \textcolor{comment}{  *    In this mode, Processing is done when the data are transferred by the }
+00096 \textcolor{comment}{  *    CPU during interrupts.}
+00097 \textcolor{comment}{  *}
+00098 \textcolor{comment}{  *    1. Enable the interrupts CRYP\_IT\_INI and CRYP\_IT\_OUTI using }
+00099 \textcolor{comment}{  *       CRYP\_ITConfig() function.}
+00100 \textcolor{comment}{  *}
+00101 \textcolor{comment}{  *    2. Enable the cryptographic processor using CRYP\_Cmd() function.}
+00102 \textcolor{comment}{  *}
+00103 \textcolor{comment}{  *    3. In the CRYP\_IT\_INI interrupt handler : load the input message into the }
+00104 \textcolor{comment}{  *       IN FIFO using CRYP\_DataIn() function . You can load 2 or 4 words at a }
+00105 \textcolor{comment}{  *       time, or load data until the IN FIFO is full. When the last word of}
+00106 \textcolor{comment}{  *       the message has been entered into the IN FIFO, disable the CRYP\_IT\_INI }
+00107 \textcolor{comment}{  *       interrupt (using CRYP\_ITConfig() function).}
+00108 \textcolor{comment}{  *}
+00109 \textcolor{comment}{  *    4. In the CRYP\_IT\_OUTI interrupt handler : read the output message from }
+00110 \textcolor{comment}{  *       the OUT FIFO using CRYP\_DataOut() function. You can read 1 block (2 or }
+00111 \textcolor{comment}{  *       4 words) at a time or read data until the FIFO is empty.}
+00112 \textcolor{comment}{  *       When the last word has been read, INIM=0, BUSY=0 and both FIFOs are }
+00113 \textcolor{comment}{  *       empty (CRYP\_FLAG\_IFEM is set and CRYP\_FLAG\_OFNE is reset). }
+00114 \textcolor{comment}{  *       You can disable the CRYP\_IT\_OUTI interrupt (using CRYP\_ITConfig() }
+00115 \textcolor{comment}{  *       function) and you can disable the peripheral using CRYP\_Cmd() function.}
+00116 \textcolor{comment}{  *}
+00117 \textcolor{comment}{  *    DMA Processing mode }
+00118 \textcolor{comment}{  *    ====================}
+00119 \textcolor{comment}{  *    In this mode, Processing is done when the DMA is used to transfer the }
+00120 \textcolor{comment}{  *    data from/to the memory.}
+00121 \textcolor{comment}{  *}
+00122 \textcolor{comment}{  *    1. Configure the DMA controller to transfer the input data from the }
+00123 \textcolor{comment}{  *       memory using DMA\_Init() function. }
+00124 \textcolor{comment}{  *       The transfer length is the length of the message. }
+00125 \textcolor{comment}{  *       As message padding is not managed by the peripheral, the message }
+00126 \textcolor{comment}{  *       length must be an entire number of blocks. The data are transferred }
+00127 \textcolor{comment}{  *       in burst mode. The burst length is 4 words in the AES and 2 or 4 }
+00128 \textcolor{comment}{  *       words in the DES/TDES. The DMA should be configured to set an }
+00129 \textcolor{comment}{  *       interrupt on transfer completion of the output data to indicate that }
+00130 \textcolor{comment}{  *       the processing is finished. }
+00131 \textcolor{comment}{  *       Refer to DMA peripheral driver for more details.  }
+00132 \textcolor{comment}{  *}
+00133 \textcolor{comment}{  *    2. Enable the cryptographic processor using CRYP\_Cmd() function. }
+00134 \textcolor{comment}{  *       Enable the DMA requests CRYP\_DMAReq\_DataIN and CRYP\_DMAReq\_DataOUT }
+00135 \textcolor{comment}{  *       using CRYP\_DMACmd() function.}
+00136 \textcolor{comment}{  *}
+00137 \textcolor{comment}{  *    3. All the transfers and processing are managed by the DMA and the }
+00138 \textcolor{comment}{  *       cryptographic processor. The DMA transfer complete interrupt indicates }
+00139 \textcolor{comment}{  *       that the processing is complete. Both FIFOs are normally empty and }
+00140 \textcolor{comment}{  *       CRYP\_FLAG\_BUSY flag is reset.}
+00141 \textcolor{comment}{  *}
+00142 \textcolor{comment}{  *  @endverbatim}
+00143 \textcolor{comment}{  *}
+00144 \textcolor{comment}{  ******************************************************************************}
+00145 \textcolor{comment}{  * @attention}
+00146 \textcolor{comment}{  *}
+00147 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00148 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00149 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00150 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00151 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00152 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00153 \textcolor{comment}{  *}
+00154 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00155 \textcolor{comment}{  ******************************************************************************  }
+00156 \textcolor{comment}{  */}
+00157 
+00158 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00159 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_cryp.h"
+00160 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rcc.h"
+00161 
+00162 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00163 \textcolor{comment}{  * @\{}
+00164 \textcolor{comment}{  */}
+00165 
+00166 \textcolor{comment}{/** @defgroup CRYP }
+00167 \textcolor{comment}{  * @brief CRYP driver modules}
+00168 \textcolor{comment}{  * @\{}
+00169 \textcolor{comment}{  */}
+00170 
+00171 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00172 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00173 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLAG\_MASK}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x20\textcolor{preprocessor}{)}
+00174 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{MAX\_TIMEOUT}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xFFFF\textcolor{preprocessor}{)}
+00175 
+00176 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00177 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00178 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00179 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00180 
+00181 \textcolor{comment}{/** @defgroup CRYP\_Private\_Functions}
+00182 \textcolor{comment}{  * @\{}
+00183 \textcolor{comment}{  */}
+00184 
+00185 \textcolor{comment}{/** @defgroup CRYP\_Group1 Initialization and Configuration functions}
+00186 \textcolor{comment}{ *  @brief    Initialization and Configuration functions }
+00187 \textcolor{comment}{ *}
+00188 \textcolor{comment}{@verbatim    }
+00189 \textcolor{comment}{ ===============================================================================}
+00190 \textcolor{comment}{                      Initialization and Configuration functions}
+00191 \textcolor{comment}{ ===============================================================================  }
+00192 \textcolor{comment}{  This section provides functions allowing to }
+00193 \textcolor{comment}{   - Initialize the cryptographic Processor using CRYP\_Init() function }
+00194 \textcolor{comment}{      -  Encrypt or Decrypt }
+00195 \textcolor{comment}{      -  mode : TDES-ECB, TDES-CBC, }
+00196 \textcolor{comment}{                DES-ECB, DES-CBC, }
+00197 \textcolor{comment}{                AES-ECB, AES-CBC, AES-CTR, AES-Key }
+00198 \textcolor{comment}{      - DataType :  32-bit data, 16-bit data, bit data or bit-string}
+00199 \textcolor{comment}{      - Key Size (only in AES modes)}
+00200 \textcolor{comment}{   - Configure the Encrypt or Decrypt Key using CRYP\_KeyInit() function }
+00201 \textcolor{comment}{   - Configure the Initialization Vectors(IV) for CBC and CTR modes using }
+00202 \textcolor{comment}{     CRYP\_IVInit() function.  }
+00203 \textcolor{comment}{   - Flushes the IN and OUT FIFOs : using CRYP\_FIFOFlush() function.                         }
+00204 \textcolor{comment}{   - Enable or disable the CRYP Processor using CRYP\_Cmd() function }
+00205 \textcolor{comment}{    }
+00206 \textcolor{comment}{   }
+00207 \textcolor{comment}{@endverbatim}
+00208 \textcolor{comment}{  * @\{}
+00209 \textcolor{comment}{  */}
+00210 \textcolor{comment}{/**}
+00211 \textcolor{comment}{  * @brief  Deinitializes the CRYP peripheral registers to their default reset values}
+00212 \textcolor{comment}{  * @param  None}
+00213 \textcolor{comment}{  * @retval None}
+00214 \textcolor{comment}{  */}
+00215 \textcolor{keywordtype}{void} CRYP_DeInit(\textcolor{keywordtype}{void})
+00216 \{
+00217   \textcolor{comment}{/* Enable CRYP reset state */}
+00218   RCC_AHB2PeriphResetCmd(RCC_AHB2Periph_CRYP, ENABLE);
+00219 
+00220   \textcolor{comment}{/* Release CRYP from reset state */}
+00221   RCC_AHB2PeriphResetCmd(RCC_AHB2Periph_CRYP, DISABLE);
+00222 \}
+00223 
+00224 \textcolor{comment}{/**}
+00225 \textcolor{comment}{  * @brief  Initializes the CRYP peripheral according to the specified parameters}
+00226 \textcolor{comment}{  *         in the CRYP\_InitStruct.}
+00227 \textcolor{comment}{  * @param  CRYP\_InitStruct: pointer to a CRYP\_InitTypeDef structure that contains}
+00228 \textcolor{comment}{  *         the configuration information for the CRYP peripheral.}
+00229 \textcolor{comment}{  * @retval None}
+00230 \textcolor{comment}{  */}
+00231 \textcolor{keywordtype}{void} CRYP_Init(CRYP\_InitTypeDef* CRYP\_InitStruct)
+00232 \{
+00233   \textcolor{comment}{/* Check the parameters */}
+00234   assert_param(IS\_CRYP\_ALGOMODE(CRYP\_InitStruct->CRYP\_AlgoMode));
+00235   assert_param(IS\_CRYP\_DATATYPE(CRYP\_InitStruct->CRYP\_DataType));
+00236   assert_param(IS\_CRYP\_ALGODIR(CRYP\_InitStruct->CRYP\_AlgoDir));
+00237 
+00238   \textcolor{comment}{/* Select Algorithm mode*/}
+00239   CRYP->CR &= ~CRYP_CR_ALGOMODE;
+00240   CRYP->CR |= CRYP\_InitStruct->CRYP\_AlgoMode;
+00241 
+00242   \textcolor{comment}{/* Select dataType */}
+00243   CRYP->CR &= ~CRYP_CR_DATATYPE;
+00244   CRYP->CR |= CRYP\_InitStruct->CRYP\_DataType;
+00245 
+00246   \textcolor{comment}{/* select Key size (used only with AES algorithm) */}
+00247   \textcolor{keywordflow}{if} ((CRYP\_InitStruct->CRYP_AlgoMode == CRYP_AlgoMode_AES_ECB) ||
+00248       (CRYP\_InitStruct->CRYP_AlgoMode == CRYP_AlgoMode_AES_CBC) ||
+00249       (CRYP\_InitStruct->CRYP_AlgoMode == CRYP_AlgoMode_AES_CTR) ||
+00250       (CRYP\_InitStruct->CRYP_AlgoMode == CRYP_AlgoMode_AES_Key))
+00251   \{
+00252     assert_param(IS\_CRYP\_KEYSIZE(CRYP\_InitStruct->CRYP\_KeySize));
+00253     CRYP->CR &= ~CRYP_CR_KEYSIZE;
+00254     CRYP->CR |= CRYP\_InitStruct->CRYP\_KeySize; \textcolor{comment}{/* Key size and value must be }
+00255 \textcolor{comment}{                                                  configured once the key has }
+00256 \textcolor{comment}{                                                  been prepared */}
+00257   \}
+00258 
+00259   \textcolor{comment}{/* Select data Direction */}
+00260   CRYP->CR &= ~CRYP_CR_ALGODIR;
+00261   CRYP->CR |= CRYP\_InitStruct->CRYP\_AlgoDir;
+00262 \}
+00263 
+00264 \textcolor{comment}{/**}
+00265 \textcolor{comment}{  * @brief  Fills each CRYP\_InitStruct member with its default value.}
+00266 \textcolor{comment}{  * @param  CRYP\_InitStruct: pointer to a CRYP\_InitTypeDef structure which will}
+00267 \textcolor{comment}{  *         be initialized.}
+00268 \textcolor{comment}{  * @retval None}
+00269 \textcolor{comment}{  */}
+00270 \textcolor{keywordtype}{void} CRYP_StructInit(CRYP\_InitTypeDef* CRYP\_InitStruct)
+00271 \{
+00272   \textcolor{comment}{/* Initialize the CRYP\_AlgoDir member */}
+00273   CRYP\_InitStruct->CRYP_AlgoDir = CRYP_AlgoDir_Encrypt;
+00274 
+00275   \textcolor{comment}{/* initialize the CRYP\_AlgoMode member */}
+00276   CRYP\_InitStruct->CRYP_AlgoMode = CRYP_AlgoMode_TDES_ECB;
+00277 
+00278   \textcolor{comment}{/* initialize the CRYP\_DataType member */}
+00279   CRYP\_InitStruct->CRYP_DataType = CRYP_DataType_32b;
+00280 
+00281   \textcolor{comment}{/* Initialize the CRYP\_KeySize member */}
+00282   CRYP\_InitStruct->CRYP_KeySize = CRYP_KeySize_128b;
+00283 \}
+00284 
+00285 \textcolor{comment}{/**}
+00286 \textcolor{comment}{  * @brief  Initializes the CRYP Keys according to the specified parameters in}
+00287 \textcolor{comment}{  *         the CRYP\_KeyInitStruct.}
+00288 \textcolor{comment}{  * @param  CRYP\_KeyInitStruct: pointer to a CRYP\_KeyInitTypeDef structure that}
+00289 \textcolor{comment}{  *         contains the configuration information for the CRYP Keys.}
+00290 \textcolor{comment}{  * @retval None}
+00291 \textcolor{comment}{  */}
+00292 \textcolor{keywordtype}{void} CRYP_KeyInit(CRYP\_KeyInitTypeDef* CRYP\_KeyInitStruct)
+00293 \{
+00294   \textcolor{comment}{/* Key Initialisation */}
+00295   CRYP->K0LR = CRYP\_KeyInitStruct->CRYP\_Key0Left;
+00296   CRYP->K0RR = CRYP\_KeyInitStruct->CRYP\_Key0Right;
+00297   CRYP->K1LR = CRYP\_KeyInitStruct->CRYP\_Key1Left;
+00298   CRYP->K1RR = CRYP\_KeyInitStruct->CRYP\_Key1Right;
+00299   CRYP->K2LR = CRYP\_KeyInitStruct->CRYP\_Key2Left;
+00300   CRYP->K2RR = CRYP\_KeyInitStruct->CRYP\_Key2Right;
+00301   CRYP->K3LR = CRYP\_KeyInitStruct->CRYP\_Key3Left;
+00302   CRYP->K3RR = CRYP\_KeyInitStruct->CRYP\_Key3Right;
+00303 \}
+00304 
+00305 \textcolor{comment}{/**}
+00306 \textcolor{comment}{  * @brief  Fills each CRYP\_KeyInitStruct member with its default value.}
+00307 \textcolor{comment}{  * @param  CRYP\_KeyInitStruct: pointer to a CRYP\_KeyInitTypeDef structure }
+00308 \textcolor{comment}{  *         which will be initialized.}
+00309 \textcolor{comment}{  * @retval None}
+00310 \textcolor{comment}{  */}
+00311 \textcolor{keywordtype}{void} CRYP_KeyStructInit(CRYP\_KeyInitTypeDef* CRYP\_KeyInitStruct)
+00312 \{
+00313   CRYP\_KeyInitStruct->CRYP_Key0Left  = 0;
+00314   CRYP\_KeyInitStruct->CRYP_Key0Right = 0;
+00315   CRYP\_KeyInitStruct->CRYP_Key1Left  = 0;
+00316   CRYP\_KeyInitStruct->CRYP_Key1Right = 0;
+00317   CRYP\_KeyInitStruct->CRYP_Key2Left  = 0;
+00318   CRYP\_KeyInitStruct->CRYP_Key2Right = 0;
+00319   CRYP\_KeyInitStruct->CRYP_Key3Left  = 0;
+00320   CRYP\_KeyInitStruct->CRYP_Key3Right = 0;
+00321 \}
+00322 \textcolor{comment}{/**}
+00323 \textcolor{comment}{  * @brief  Initializes the CRYP Initialization Vectors(IV) according to the}
+00324 \textcolor{comment}{  *         specified parameters in the CRYP\_IVInitStruct.}
+00325 \textcolor{comment}{  * @param  CRYP\_IVInitStruct: pointer to a CRYP\_IVInitTypeDef structure that contains}
+00326 \textcolor{comment}{  *         the configuration information for the CRYP Initialization Vectors(IV).}
+00327 \textcolor{comment}{  * @retval None}
+00328 \textcolor{comment}{  */}
+00329 \textcolor{keywordtype}{void} CRYP_IVInit(CRYP\_IVInitTypeDef* CRYP\_IVInitStruct)
+00330 \{
+00331   CRYP->IV0LR = CRYP\_IVInitStruct->CRYP\_IV0Left;
+00332   CRYP->IV0RR = CRYP\_IVInitStruct->CRYP\_IV0Right;
+00333   CRYP->IV1LR = CRYP\_IVInitStruct->CRYP\_IV1Left;
+00334   CRYP->IV1RR = CRYP\_IVInitStruct->CRYP\_IV1Right;
+00335 \}
+00336 
+00337 \textcolor{comment}{/**}
+00338 \textcolor{comment}{  * @brief  Fills each CRYP\_IVInitStruct member with its default value.}
+00339 \textcolor{comment}{  * @param  CRYP\_IVInitStruct: pointer to a CRYP\_IVInitTypeDef Initialization }
+00340 \textcolor{comment}{  *         Vectors(IV) structure which will be initialized.}
+00341 \textcolor{comment}{  * @retval None}
+00342 \textcolor{comment}{  */}
+00343 \textcolor{keywordtype}{void} CRYP_IVStructInit(CRYP\_IVInitTypeDef* CRYP\_IVInitStruct)
+00344 \{
+00345   CRYP\_IVInitStruct->CRYP_IV0Left  = 0;
+00346   CRYP\_IVInitStruct->CRYP_IV0Right = 0;
+00347   CRYP\_IVInitStruct->CRYP_IV1Left  = 0;
+00348   CRYP\_IVInitStruct->CRYP_IV1Right = 0;
+00349 \}
+00350 
+00351 \textcolor{comment}{/**}
+00352 \textcolor{comment}{  * @brief  Flushes the IN and OUT FIFOs (that is read and write pointers of the }
+00353 \textcolor{comment}{  *         FIFOs are reset)}
+00354 \textcolor{comment}{  * @note   The FIFOs must be flushed only when BUSY flag is reset.  }
+00355 \textcolor{comment}{  * @param  None}
+00356 \textcolor{comment}{  * @retval None}
+00357 \textcolor{comment}{  */}
+00358 \textcolor{keywordtype}{void} CRYP_FIFOFlush(\textcolor{keywordtype}{void})
+00359 \{
+00360   \textcolor{comment}{/* Reset the read and write pointers of the FIFOs */}
+00361   CRYP->CR |= CRYP_CR_FFLUSH;
+00362 \}
+00363 
+00364 \textcolor{comment}{/**}
+00365 \textcolor{comment}{  * @brief  Enables or disables the CRYP peripheral.}
+00366 \textcolor{comment}{  * @param  NewState: new state of the CRYP peripheral.}
+00367 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00368 \textcolor{comment}{  * @retval None}
+00369 \textcolor{comment}{  */}
+00370 \textcolor{keywordtype}{void} CRYP_Cmd(FunctionalState NewState)
+00371 \{
+00372   \textcolor{comment}{/* Check the parameters */}
+00373   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00374 
+00375   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00376   \{
+00377     \textcolor{comment}{/* Enable the Cryptographic processor */}
+00378     CRYP->CR |= CRYP_CR_CRYPEN;
+00379   \}
+00380   \textcolor{keywordflow}{else}
+00381   \{
+00382     \textcolor{comment}{/* Disable the Cryptographic processor */}
+00383     CRYP->CR &= ~CRYP_CR_CRYPEN;
+00384   \}
+00385 \}
+00386 \textcolor{comment}{/**}
+00387 \textcolor{comment}{  * @\}}
+00388 \textcolor{comment}{  */}
+00389 
+00390 \textcolor{comment}{/** @defgroup CRYP\_Group2 CRYP Data processing functions}
+00391 \textcolor{comment}{ *  @brief    CRYP Data processing functions}
+00392 \textcolor{comment}{ *}
+00393 \textcolor{comment}{@verbatim    }
+00394 \textcolor{comment}{ ===============================================================================}
+00395 \textcolor{comment}{                      CRYP Data processing functions}
+00396 \textcolor{comment}{ ===============================================================================  }
+00397 \textcolor{comment}{  This section provides functions allowing the encryption and decryption }
+00398 \textcolor{comment}{  operations: }
+00399 \textcolor{comment}{  - Enter data to be treated in the IN FIFO : using CRYP\_DataIn() function.}
+00400 \textcolor{comment}{  - Get the data result from the OUT FIFO : using CRYP\_DataOut() function.}
+00401 \textcolor{comment}{}
+00402 \textcolor{comment}{@endverbatim}
+00403 \textcolor{comment}{  * @\{}
+00404 \textcolor{comment}{  */}
+00405 
+00406 \textcolor{comment}{/**}
+00407 \textcolor{comment}{  * @brief  Writes data in the Data Input register (DIN).}
+00408 \textcolor{comment}{  * @note   After the DIN register has been read once or several times, }
+00409 \textcolor{comment}{  *         the FIFO must be flushed (using CRYP\_FIFOFlush() function).  }
+00410 \textcolor{comment}{  * @param  Data: data to write in Data Input register}
+00411 \textcolor{comment}{  * @retval None}
+00412 \textcolor{comment}{  */}
+00413 \textcolor{keywordtype}{void} CRYP_DataIn(uint32\_t Data)
+00414 \{
+00415   CRYP->DR = Data;
+00416 \}
+00417 
+00418 \textcolor{comment}{/**}
+00419 \textcolor{comment}{  * @brief  Returns the last data entered into the output FIFO.}
+00420 \textcolor{comment}{  * @param  None}
+00421 \textcolor{comment}{  * @retval Last data entered into the output FIFO.}
+00422 \textcolor{comment}{  */}
+00423 uint32\_t CRYP_DataOut(\textcolor{keywordtype}{void})
+00424 \{
+00425   \textcolor{keywordflow}{return} CRYP->DOUT;
+00426 \}
+00427 \textcolor{comment}{/**}
+00428 \textcolor{comment}{  * @\}}
+00429 \textcolor{comment}{  */}
+00430 
+00431 \textcolor{comment}{/** @defgroup CRYP\_Group3 Context swapping functions}
+00432 \textcolor{comment}{ *  @brief   Context swapping functions}
+00433 \textcolor{comment}{ *}
+00434 \textcolor{comment}{@verbatim   }
+00435 \textcolor{comment}{ ===============================================================================}
+00436 \textcolor{comment}{                             Context swapping functions}
+00437 \textcolor{comment}{ ===============================================================================  }
+00438 \textcolor{comment}{}
+00439 \textcolor{comment}{  This section provides functions allowing to save and store CRYP Context}
+00440 \textcolor{comment}{}
+00441 \textcolor{comment}{  It is possible to interrupt an encryption/ decryption/ key generation process }
+00442 \textcolor{comment}{  to perform another processing with a higher priority, and to complete the }
+00443 \textcolor{comment}{  interrupted process later on, when the higher-priority task is complete. To do }
+00444 \textcolor{comment}{  so, the context of the interrupted task must be saved from the CRYP registers }
+00445 \textcolor{comment}{  to memory, and then be restored from memory to the CRYP registers.}
+00446 \textcolor{comment}{   }
+00447 \textcolor{comment}{  1. To save the current context, use CRYP\_SaveContext() function}
+00448 \textcolor{comment}{  2. To restore the saved context, use CRYP\_RestoreContext() function }
+00449 \textcolor{comment}{}
+00450 \textcolor{comment}{}
+00451 \textcolor{comment}{@endverbatim}
+00452 \textcolor{comment}{  * @\{}
+00453 \textcolor{comment}{  */}
+00454 
+00455 \textcolor{comment}{/**}
+00456 \textcolor{comment}{  * @brief  Saves the CRYP peripheral Context. }
+00457 \textcolor{comment}{  * @note   This function stops DMA transfer before to save the context. After }
+00458 \textcolor{comment}{  *         restoring the context, you have to enable the DMA again (if the DMA}
+00459 \textcolor{comment}{  *         was previously used).}
+00460 \textcolor{comment}{  * @param  CRYP\_ContextSave: pointer to a CRYP\_Context structure that contains}
+00461 \textcolor{comment}{  *         the repository for current context.}
+00462 \textcolor{comment}{  * @param  CRYP\_KeyInitStruct: pointer to a CRYP\_KeyInitTypeDef structure that }
+00463 \textcolor{comment}{  *         contains the configuration information for the CRYP Keys.  }
+00464 \textcolor{comment}{  * @retval None}
+00465 \textcolor{comment}{  */}
+00466 ErrorStatus CRYP_SaveContext(CRYP\_Context* CRYP\_ContextSave,
+00467                              CRYP\_KeyInitTypeDef* CRYP\_KeyInitStruct)
+00468 \{
+00469   \_\_IO uint32\_t timeout = 0;
+00470   uint32\_t ckeckmask = 0, bitstatus;
+00471   ErrorStatus status = ERROR;
+00472 
+00473   \textcolor{comment}{/* Stop DMA transfers on the IN FIFO by clearing the DIEN bit in the CRYP\_DMACR */}
+00474   CRYP->DMACR &= ~(uint32\_t)CRYP_DMACR_DIEN;
+00475 
+00476   \textcolor{comment}{/* Wait until both the IN and OUT FIFOs are empty  }
+00477 \textcolor{comment}{    (IFEM=1 and OFNE=0 in the CRYP\_SR register) and the }
+00478 \textcolor{comment}{     BUSY bit is cleared. */}
+00479 
+00480   \textcolor{keywordflow}{if} ((CRYP->CR & (uint32\_t)(CRYP_CR_ALGOMODE_TDES_ECB | 
+      CRYP_CR_ALGOMODE_TDES_CBC)) != (uint32\_t)0 )\textcolor{comment}{/* TDES */}
+00481   \{
+00482     ckeckmask =  CRYP_SR_IFEM | CRYP_SR_BUSY ;
+00483   \}
+00484   \textcolor{keywordflow}{else} \textcolor{comment}{/* AES or DES */}
+00485   \{
+00486     ckeckmask =  CRYP_SR_IFEM | CRYP_SR_BUSY | CRYP_SR_OFNE;
+00487   \}
+00488 
+00489   \textcolor{keywordflow}{do}
+00490   \{
+00491     bitstatus = CRYP->SR & ckeckmask;
+00492     timeout++;
+00493   \}
+00494   \textcolor{keywordflow}{while} ((timeout != MAX_TIMEOUT) && (bitstatus != CRYP_SR_IFEM));
+00495 
+00496   \textcolor{keywordflow}{if} ((CRYP->SR & ckeckmask) != CRYP_SR_IFEM)
+00497   \{
+00498     status = ERROR;
+00499   \}
+00500   \textcolor{keywordflow}{else}
+00501   \{
+00502     \textcolor{comment}{/* Stop DMA transfers on the OUT FIFO by }
+00503 \textcolor{comment}{       - writing the DOEN bit to 0 in the CRYP\_DMACR register }
+00504 \textcolor{comment}{       - and clear the CRYPEN bit. */}
+00505 
+00506     CRYP->DMACR &= ~(uint32\_t)CRYP_DMACR_DOEN;
+00507     CRYP->CR &= ~(uint32\_t)CRYP_CR_CRYPEN;
+00508 
+00509     \textcolor{comment}{/* Save the current configuration (bits [9:2] in the CRYP\_CR register) */}
+00510     CRYP\_ContextSave->CR\_bits9to2  = CRYP->CR & (CRYP_CR_KEYSIZE  |
+00511                                                  CRYP_CR_DATATYPE |
+00512                                                  CRYP_CR_ALGOMODE |
+00513                                                  CRYP_CR_ALGODIR);
+00514 
+00515     \textcolor{comment}{/* and, if not in ECB mode, the initialization vectors. */}
+00516     CRYP\_ContextSave->CRYP\_IV0LR = CRYP->IV0LR;
+00517     CRYP\_ContextSave->CRYP\_IV0RR = CRYP->IV0RR;
+00518     CRYP\_ContextSave->CRYP\_IV1LR = CRYP->IV1LR;
+00519     CRYP\_ContextSave->CRYP\_IV1RR = CRYP->IV1RR;
+00520 
+00521     \textcolor{comment}{/* save The key value */}
+00522     CRYP\_ContextSave->CRYP\_K0LR = CRYP\_KeyInitStruct->CRYP\_Key0Left;
+00523     CRYP\_ContextSave->CRYP\_K0RR = CRYP\_KeyInitStruct->CRYP\_Key0Right;
+00524     CRYP\_ContextSave->CRYP\_K1LR = CRYP\_KeyInitStruct->CRYP\_Key1Left;
+00525     CRYP\_ContextSave->CRYP\_K1RR = CRYP\_KeyInitStruct->CRYP\_Key1Right;
+00526     CRYP\_ContextSave->CRYP\_K2LR = CRYP\_KeyInitStruct->CRYP\_Key2Left;
+00527     CRYP\_ContextSave->CRYP\_K2RR = CRYP\_KeyInitStruct->CRYP\_Key2Right;
+00528     CRYP\_ContextSave->CRYP\_K3LR = CRYP\_KeyInitStruct->CRYP\_Key3Left;
+00529     CRYP\_ContextSave->CRYP\_K3RR = CRYP\_KeyInitStruct->CRYP\_Key3Right;
+00530 
+00531    \textcolor{comment}{/* When needed, save the DMA status (pointers for IN and OUT messages, }
+00532 \textcolor{comment}{      number of remaining bytes, etc.) */}
+00533 
+00534     status = SUCCESS;
+00535   \}
+00536 
+00537    \textcolor{keywordflow}{return} status;
+00538 \}
+00539 
+00540 \textcolor{comment}{/**}
+00541 \textcolor{comment}{  * @brief  Restores the CRYP peripheral Context.}
+00542 \textcolor{comment}{  * @note   Since teh DMA transfer is stopped in CRYP\_SaveContext() function,}
+00543 \textcolor{comment}{  *         after restoring the context, you have to enable the DMA again (if the}
+00544 \textcolor{comment}{  *         DMA was previously used).  }
+00545 \textcolor{comment}{  * @param  CRYP\_ContextRestore: pointer to a CRYP\_Context structure that contains}
+00546 \textcolor{comment}{  *         the repository for saved context.}
+00547 \textcolor{comment}{  * @note   The data that were saved during context saving must be rewrited into}
+00548 \textcolor{comment}{  *         the IN FIFO.}
+00549 \textcolor{comment}{  * @retval None}
+00550 \textcolor{comment}{  */}
+00551 \textcolor{keywordtype}{void} CRYP_RestoreContext(CRYP\_Context* CRYP\_ContextRestore)
+00552 \{
+00553 
+00554   \textcolor{comment}{/* Configure the processor with the saved configuration */}
+00555   CRYP->CR = CRYP\_ContextRestore->CR\_bits9to2;
+00556 
+00557   \textcolor{comment}{/* restore The key value */}
+00558   CRYP->K0LR = CRYP\_ContextRestore->CRYP\_K0LR;
+00559   CRYP->K0RR = CRYP\_ContextRestore->CRYP\_K0RR;
+00560   CRYP->K1LR = CRYP\_ContextRestore->CRYP\_K1LR;
+00561   CRYP->K1RR = CRYP\_ContextRestore->CRYP\_K1RR;
+00562   CRYP->K2LR = CRYP\_ContextRestore->CRYP\_K2LR;
+00563   CRYP->K2RR = CRYP\_ContextRestore->CRYP\_K2RR;
+00564   CRYP->K3LR = CRYP\_ContextRestore->CRYP\_K3LR;
+00565   CRYP->K3RR = CRYP\_ContextRestore->CRYP\_K3RR;
+00566 
+00567   \textcolor{comment}{/* and the initialization vectors. */}
+00568   CRYP->IV0LR = CRYP\_ContextRestore->CRYP\_IV0LR;
+00569   CRYP->IV0RR = CRYP\_ContextRestore->CRYP\_IV0RR;
+00570   CRYP->IV1LR = CRYP\_ContextRestore->CRYP\_IV1LR;
+00571   CRYP->IV1RR = CRYP\_ContextRestore->CRYP\_IV1RR;
+00572 
+00573   \textcolor{comment}{/* Enable the cryptographic processor */}
+00574   CRYP->CR |= CRYP_CR_CRYPEN;
+00575 \}
+00576 \textcolor{comment}{/**}
+00577 \textcolor{comment}{  * @\}}
+00578 \textcolor{comment}{  */}
+00579 
+00580 \textcolor{comment}{/** @defgroup CRYP\_Group4 CRYP's DMA interface Configuration function}
+00581 \textcolor{comment}{ *  @brief   CRYP's DMA interface Configuration function }
+00582 \textcolor{comment}{ *}
+00583 \textcolor{comment}{@verbatim   }
+00584 \textcolor{comment}{ ===============================================================================}
+00585 \textcolor{comment}{                   CRYP's DMA interface Configuration function}
+00586 \textcolor{comment}{ ===============================================================================  }
+00587 \textcolor{comment}{}
+00588 \textcolor{comment}{  This section provides functions allowing to configure the DMA interface for }
+00589 \textcolor{comment}{  CRYP data input and output transfer.}
+00590 \textcolor{comment}{   }
+00591 \textcolor{comment}{  When the DMA mode is enabled (using the CRYP\_DMACmd() function), data can be }
+00592 \textcolor{comment}{  transferred:}
+00593 \textcolor{comment}{  - From memory to the CRYP IN FIFO using the DMA peripheral by enabling }
+00594 \textcolor{comment}{    the CRYP\_DMAReq\_DataIN request.}
+00595 \textcolor{comment}{  - From the CRYP OUT FIFO to the memory using the DMA peripheral by enabling }
+00596 \textcolor{comment}{    the CRYP\_DMAReq\_DataOUT request.}
+00597 \textcolor{comment}{}
+00598 \textcolor{comment}{@endverbatim}
+00599 \textcolor{comment}{  * @\{}
+00600 \textcolor{comment}{  */}
+00601 
+00602 \textcolor{comment}{/**}
+00603 \textcolor{comment}{  * @brief  Enables or disables the CRYP DMA interface.}
+00604 \textcolor{comment}{  * @param  CRYP\_DMAReq: specifies the CRYP DMA transfer request to be enabled or disabled.}
+00605 \textcolor{comment}{  *           This parameter can be any combination of the following values:}
+00606 \textcolor{comment}{  *            @arg CRYP\_DMAReq\_DataOUT: DMA for outgoing(Tx) data transfer}
+00607 \textcolor{comment}{  *            @arg CRYP\_DMAReq\_DataIN: DMA for incoming(Rx) data transfer}
+00608 \textcolor{comment}{  * @param  NewState: new state of the selected CRYP DMA transfer request.}
+00609 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00610 \textcolor{comment}{  * @retval None}
+00611 \textcolor{comment}{  */}
+00612 \textcolor{keywordtype}{void} CRYP_DMACmd(uint8\_t CRYP\_DMAReq, FunctionalState NewState)
+00613 \{
+00614   \textcolor{comment}{/* Check the parameters */}
+00615   assert_param(IS\_CRYP\_DMAREQ(CRYP\_DMAReq));
+00616   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00617 
+00618   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00619   \{
+00620     \textcolor{comment}{/* Enable the selected CRYP DMA request */}
+00621     CRYP->DMACR |= CRYP\_DMAReq;
+00622   \}
+00623   \textcolor{keywordflow}{else}
+00624   \{
+00625     \textcolor{comment}{/* Disable the selected CRYP DMA request */}
+00626     CRYP->DMACR &= (uint8\_t)~CRYP\_DMAReq;
+00627   \}
+00628 \}
+00629 \textcolor{comment}{/**}
+00630 \textcolor{comment}{  * @\}}
+00631 \textcolor{comment}{  */}
+00632 
+00633 \textcolor{comment}{/** @defgroup CRYP\_Group5 Interrupts and flags management functions}
+00634 \textcolor{comment}{ *  @brief   Interrupts and flags management functions}
+00635 \textcolor{comment}{ *}
+00636 \textcolor{comment}{@verbatim   }
+00637 \textcolor{comment}{ ===============================================================================}
+00638 \textcolor{comment}{                   Interrupts and flags management functions}
+00639 \textcolor{comment}{ ===============================================================================  }
+00640 \textcolor{comment}{}
+00641 \textcolor{comment}{  This section provides functions allowing to configure the CRYP Interrupts and }
+00642 \textcolor{comment}{  to get the status and Interrupts pending bits.}
+00643 \textcolor{comment}{}
+00644 \textcolor{comment}{  The CRYP provides 2 Interrupts sources and 7 Flags:}
+00645 \textcolor{comment}{}
+00646 \textcolor{comment}{  Flags :}
+00647 \textcolor{comment}{  ------- }
+00648 \textcolor{comment}{                          }
+00649 \textcolor{comment}{     1. CRYP\_FLAG\_IFEM :  Set when Input FIFO is empty.}
+00650 \textcolor{comment}{                          This Flag is cleared only by hardware.}
+00651 \textcolor{comment}{      }
+00652 \textcolor{comment}{     2. CRYP\_FLAG\_IFNF :  Set when Input FIFO is not full.}
+00653 \textcolor{comment}{                          This Flag is cleared only by hardware.}
+00654 \textcolor{comment}{}
+00655 \textcolor{comment}{}
+00656 \textcolor{comment}{     3. CRYP\_FLAG\_INRIS  : Set when Input FIFO Raw interrupt is pending }
+00657 \textcolor{comment}{                           it gives the raw interrupt state prior to masking }
+00658 \textcolor{comment}{                           of the input FIFO service interrupt.}
+00659 \textcolor{comment}{                           This Flag is cleared only by hardware.}
+00660 \textcolor{comment}{     }
+00661 \textcolor{comment}{     4. CRYP\_FLAG\_OFNE   : Set when Output FIFO not empty.}
+00662 \textcolor{comment}{                           This Flag is cleared only by hardware.}
+00663 \textcolor{comment}{        }
+00664 \textcolor{comment}{     5. CRYP\_FLAG\_OFFU   : Set when Output FIFO is full.}
+00665 \textcolor{comment}{                           This Flag is cleared only by hardware.}
+00666 \textcolor{comment}{                           }
+00667 \textcolor{comment}{     6. CRYP\_FLAG\_OUTRIS : Set when Output FIFO Raw interrupt is pending }
+00668 \textcolor{comment}{                           it gives the raw interrupt state prior to masking }
+00669 \textcolor{comment}{                           of the output FIFO service interrupt.}
+00670 \textcolor{comment}{                           This Flag is cleared only by hardware.}
+00671 \textcolor{comment}{                               }
+00672 \textcolor{comment}{     7. CRYP\_FLAG\_BUSY   : Set when the CRYP core is currently processing a }
+00673 \textcolor{comment}{                           block of data or a key preparation (for AES }
+00674 \textcolor{comment}{                           decryption).}
+00675 \textcolor{comment}{                           This Flag is cleared only by hardware.}
+00676 \textcolor{comment}{                           To clear it, the CRYP core must be disabled and the }
+00677 \textcolor{comment}{                           last processing has completed. }
+00678 \textcolor{comment}{}
+00679 \textcolor{comment}{  Interrupts :}
+00680 \textcolor{comment}{  ------------}
+00681 \textcolor{comment}{}
+00682 \textcolor{comment}{   1. CRYP\_IT\_INI   : The input FIFO service interrupt is asserted when there }
+00683 \textcolor{comment}{                      are less than 4 words in the input FIFO.}
+00684 \textcolor{comment}{                      This interrupt is associated to CRYP\_FLAG\_INRIS flag.}
+00685 \textcolor{comment}{}
+00686 \textcolor{comment}{                @note This interrupt is cleared by performing write operations }
+00687 \textcolor{comment}{                      to the input FIFO until it holds 4 or more words. The }
+00688 \textcolor{comment}{                      input FIFO service interrupt INMIS is enabled with the }
+00689 \textcolor{comment}{                      CRYP enable bit. Consequently, when CRYP is disabled, the }
+00690 \textcolor{comment}{                      INMIS signal is low even if the input FIFO is empty.}
+00691 \textcolor{comment}{}
+00692 \textcolor{comment}{}
+00693 \textcolor{comment}{}
+00694 \textcolor{comment}{   2. CRYP\_IT\_OUTI  : The output FIFO service interrupt is asserted when there }
+00695 \textcolor{comment}{                      is one or more (32-bit word) data items in the output FIFO.}
+00696 \textcolor{comment}{                      This interrupt is associated to CRYP\_FLAG\_OUTRIS flag.}
+00697 \textcolor{comment}{}
+00698 \textcolor{comment}{                @note This interrupt is cleared by reading data from the output }
+00699 \textcolor{comment}{                      FIFO until there is no valid (32-bit) word left (that is, }
+00700 \textcolor{comment}{                      the interrupt follows the state of the OFNE (output FIFO }
+00701 \textcolor{comment}{                      not empty) flag).}
+00702 \textcolor{comment}{}
+00703 \textcolor{comment}{}
+00704 \textcolor{comment}{  Managing the CRYP controller events :}
+00705 \textcolor{comment}{  ------------------------------------ }
+00706 \textcolor{comment}{  The user should identify which mode will be used in his application to manage }
+00707 \textcolor{comment}{  the CRYP controller events: Polling mode or Interrupt mode.}
+00708 \textcolor{comment}{}
+00709 \textcolor{comment}{  1.  In the Polling Mode it is advised to use the following functions:}
+00710 \textcolor{comment}{      - CRYP\_GetFlagStatus() : to check if flags events occur. }
+00711 \textcolor{comment}{}
+00712 \textcolor{comment}{  @note  The CRYPT flags do not need to be cleared since they are cleared as }
+00713 \textcolor{comment}{         soon as the associated event are reset.   }
+00714 \textcolor{comment}{}
+00715 \textcolor{comment}{}
+00716 \textcolor{comment}{  2.  In the Interrupt Mode it is advised to use the following functions:}
+00717 \textcolor{comment}{      - CRYP\_ITConfig()       : to enable or disable the interrupt source.}
+00718 \textcolor{comment}{      - CRYP\_GetITStatus()    : to check if Interrupt occurs.}
+00719 \textcolor{comment}{}
+00720 \textcolor{comment}{  @note  The CRYPT interrupts have no pending bits, the interrupt is cleared as }
+00721 \textcolor{comment}{         soon as the associated event is reset. }
+00722 \textcolor{comment}{}
+00723 \textcolor{comment}{@endverbatim}
+00724 \textcolor{comment}{  * @\{}
+00725 \textcolor{comment}{  */}
+00726 
+00727 \textcolor{comment}{/**}
+00728 \textcolor{comment}{  * @brief  Enables or disables the specified CRYP interrupts.}
+00729 \textcolor{comment}{  * @param  CRYP\_IT: specifies the CRYP interrupt source to be enabled or disabled.}
+00730 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+00731 \textcolor{comment}{  *            @arg CRYP\_IT\_INI: Input FIFO interrupt}
+00732 \textcolor{comment}{  *            @arg CRYP\_IT\_OUTI: Output FIFO interrupt}
+00733 \textcolor{comment}{  * @param  NewState: new state of the specified CRYP interrupt.}
+00734 \textcolor{comment}{  *           This parameter can be: ENABLE or DISABLE.}
+00735 \textcolor{comment}{  * @retval None}
+00736 \textcolor{comment}{  */}
+00737 \textcolor{keywordtype}{void} CRYP_ITConfig(uint8\_t CRYP\_IT, FunctionalState NewState)
+00738 \{
+00739   \textcolor{comment}{/* Check the parameters */}
+00740   assert_param(IS\_CRYP\_CONFIG\_IT(CRYP\_IT));
+00741   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00742 
+00743   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00744   \{
+00745     \textcolor{comment}{/* Enable the selected CRYP interrupt */}
+00746     CRYP->IMSCR |= CRYP\_IT;
+00747   \}
+00748   \textcolor{keywordflow}{else}
+00749   \{
+00750     \textcolor{comment}{/* Disable the selected CRYP interrupt */}
+00751     CRYP->IMSCR &= (uint8\_t)~CRYP\_IT;
+00752   \}
+00753 \}
+00754 
+00755 \textcolor{comment}{/**}
+00756 \textcolor{comment}{  * @brief  Checks whether the specified CRYP interrupt has occurred or not.}
+00757 \textcolor{comment}{  * @note   This function checks the status of the masked interrupt (i.e the }
+00758 \textcolor{comment}{  *         interrupt should be previously enabled).     }
+00759 \textcolor{comment}{  * @param  CRYP\_IT: specifies the CRYP (masked) interrupt source to check.}
+00760 \textcolor{comment}{  *           This parameter can be one of the following values:}
+00761 \textcolor{comment}{  *            @arg CRYP\_IT\_INI: Input FIFO interrupt}
+00762 \textcolor{comment}{  *            @arg CRYP\_IT\_OUTI: Output FIFO interrupt}
+00763 \textcolor{comment}{  * @retval The new state of CRYP\_IT (SET or RESET).}
+00764 \textcolor{comment}{  */}
+00765 ITStatus CRYP_GetITStatus(uint8\_t CRYP\_IT)
+00766 \{
+00767   ITStatus bitstatus = RESET;
+00768   \textcolor{comment}{/* Check the parameters */}
+00769   assert_param(IS\_CRYP\_GET\_IT(CRYP\_IT));
+00770 
+00771   \textcolor{comment}{/* Check the status of the specified CRYP interrupt */}
+00772   \textcolor{keywordflow}{if} ((CRYP->MISR &  CRYP\_IT) != (uint8\_t)RESET)
+00773   \{
+00774     \textcolor{comment}{/* CRYP\_IT is set */}
+00775     bitstatus = SET;
+00776   \}
+00777   \textcolor{keywordflow}{else}
+00778   \{
+00779     \textcolor{comment}{/* CRYP\_IT is reset */}
+00780     bitstatus = RESET;
+00781   \}
+00782   \textcolor{comment}{/* Return the CRYP\_IT status */}
+00783   \textcolor{keywordflow}{return} bitstatus;
+00784 \}
+00785 
+00786 \textcolor{comment}{/**}
+00787 \textcolor{comment}{  * @brief  Checks whether the specified CRYP flag is set or not.}
+00788 \textcolor{comment}{  * @param  CRYP\_FLAG: specifies the CRYP flag to check.}
+00789 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00790 \textcolor{comment}{  *            @arg CRYP\_FLAG\_IFEM: Input FIFO Empty flag.}
+00791 \textcolor{comment}{  *            @arg CRYP\_FLAG\_IFNF: Input FIFO Not Full flag.}
+00792 \textcolor{comment}{  *            @arg CRYP\_FLAG\_OFNE: Output FIFO Not Empty flag.}
+00793 \textcolor{comment}{  *            @arg CRYP\_FLAG\_OFFU: Output FIFO Full flag.}
+00794 \textcolor{comment}{  *            @arg CRYP\_FLAG\_BUSY: Busy flag.}
+00795 \textcolor{comment}{  *            @arg CRYP\_FLAG\_OUTRIS: Output FIFO raw interrupt flag.}
+00796 \textcolor{comment}{  *            @arg CRYP\_FLAG\_INRIS: Input FIFO raw interrupt flag.}
+00797 \textcolor{comment}{  * @retval The new state of CRYP\_FLAG (SET or RESET).}
+00798 \textcolor{comment}{  */}
+00799 FlagStatus CRYP_GetFlagStatus(uint8\_t CRYP\_FLAG)
+00800 \{
+00801   FlagStatus bitstatus = RESET;
+00802   uint32\_t tempreg = 0;
+00803 
+00804   \textcolor{comment}{/* Check the parameters */}
+00805   assert_param(IS\_CRYP\_GET\_FLAG(CRYP\_FLAG));
+00806 
+00807   \textcolor{comment}{/* check if the FLAG is in RISR register */}
+00808   \textcolor{keywordflow}{if} ((CRYP\_FLAG & FLAG_MASK) != 0x00)
+00809   \{
+00810     tempreg = CRYP->RISR;
+00811   \}
+00812   \textcolor{keywordflow}{else}  \textcolor{comment}{/* The FLAG is in SR register */}
+00813   \{
+00814     tempreg = CRYP->SR;
+00815   \}
+00816 
+00817 
+00818   \textcolor{comment}{/* Check the status of the specified CRYP flag */}
+00819   \textcolor{keywordflow}{if} ((tempreg & CRYP\_FLAG ) != (uint8\_t)RESET)
+00820   \{
+00821     \textcolor{comment}{/* CRYP\_FLAG is set */}
+00822     bitstatus = SET;
+00823   \}
+00824   \textcolor{keywordflow}{else}
+00825   \{
+00826     \textcolor{comment}{/* CRYP\_FLAG is reset */}
+00827     bitstatus = RESET;
+00828   \}
+00829 
+00830   \textcolor{comment}{/* Return the CRYP\_FLAG status */}
+00831   \textcolor{keywordflow}{return}  bitstatus;
+00832 \}
+00833 
+00834 \textcolor{comment}{/**}
+00835 \textcolor{comment}{  * @\}}
+00836 \textcolor{comment}{  */}
+00837 
+00838 \textcolor{comment}{/**}
+00839 \textcolor{comment}{  * @\}}
+00840 \textcolor{comment}{  */}
+00841 
+00842 \textcolor{comment}{/**}
+00843 \textcolor{comment}{  * @\}}
+00844 \textcolor{comment}{  */}
+00845 
+00846 \textcolor{comment}{/**}
+00847 \textcolor{comment}{  * @\}}
+00848 \textcolor{comment}{  */}
+00849 
+00850 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

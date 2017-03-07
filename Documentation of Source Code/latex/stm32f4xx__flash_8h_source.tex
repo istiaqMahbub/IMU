@@ -1,0 +1,364 @@
+\section{stm32f4xx\+\_\+flash.\+h}
+\label{stm32f4xx__flash_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+flash.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+flash.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_flash.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the FLASH }
+00008 \textcolor{comment}{  *          firmware library.}
+00009 \textcolor{comment}{  ******************************************************************************}
+00010 \textcolor{comment}{  * @attention}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00013 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00014 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00015 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00016 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00017 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00020 \textcolor{comment}{  ******************************************************************************}
+00021 \textcolor{comment}{  */}
+00022 
+00023 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_FLASH\_H}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_FLASH\_H}
+00026 
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00028  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00033 
+00034 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00035 \textcolor{comment}{  * @\{}
+00036 \textcolor{comment}{  */}
+00037 
+00038 \textcolor{comment}{/** @addtogroup FLASH}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00043 \textcolor{comment}{/** }
+00044 \textcolor{comment}{  * @brief FLASH Status  }
+00045 \textcolor{comment}{  */}
+00046 \textcolor{keyword}{typedef} \textcolor{keyword}{enum}
+00047 \{
+00048   FLASH_BUSY = 1,
+00049   FLASH_ERROR_PGS,
+00050   FLASH_ERROR_PGP,
+00051   FLASH_ERROR_PGA,
+00052   FLASH_ERROR_WRP,
+00053   FLASH_ERROR_PROGRAM,
+00054   FLASH_ERROR_OPERATION,
+00055   FLASH_COMPLETE
+00056 \}FLASH\_Status;
+00057 
+00058 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00059 
+00060 \textcolor{comment}{/** @defgroup FLASH\_Exported\_Constants}
+00061 \textcolor{comment}{  * @\{}
+00062 \textcolor{comment}{  */}
+00063 
+00064 \textcolor{comment}{/** @defgroup Flash\_Latency }
+00065 \textcolor{comment}{  * @\{}
+00066 \textcolor{comment}{  */}
+00067 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_Latency\_0}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< FLASH Zero Latency cycle */}
+00068 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_Latency\_1}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0001\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< FLASH One Latency cycle */}
+00069 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_Latency\_2}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0002\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< FLASH Two Latency cycles */}
+00070 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_Latency\_3}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0003\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< FLASH Three Latency cycles */}
+00071 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_Latency\_4}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0004\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< FLASH Four Latency cycles */}
+00072 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_Latency\_5}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0005\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< FLASH Five Latency cycles */}
+00073 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_Latency\_6}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0006\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< FLASH Six Latency cycles */}
+00074 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_Latency\_7}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0007\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< FLASH Seven Latency cycles */}
+00075 
+00076 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FLASH\_LATENCY}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LATENCY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LATENCY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FLASH_Latency_0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00077                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LATENCY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FLASH_Latency_1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00078                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LATENCY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FLASH_Latency_2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00079                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LATENCY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FLASH_Latency_3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00080                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LATENCY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FLASH_Latency_4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00081                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LATENCY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FLASH_Latency_5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00082                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LATENCY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FLASH_Latency_6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00083                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LATENCY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FLASH_Latency_7\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00084 \textcolor{comment}{/**}
+00085 \textcolor{comment}{  * @\}}
+00086 \textcolor{comment}{  */}
+00087 
+00088 \textcolor{comment}{/** @defgroup FLASH\_Voltage\_Range }
+00089 \textcolor{comment}{  * @\{}
+00090 \textcolor{comment}{  */}
+00091 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{VoltageRange\_1}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Device operating range: 1.8V to 2.1V */}
+00092 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{VoltageRange\_2}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}  \textcolor{comment}{/*!<Device operating range: 2.1V to 2.7V */}
+00093 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{VoltageRange\_3}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}  \textcolor{comment}{/*!<Device operating range: 2.7V to 3.6V */}
+00094 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{VoltageRange\_4}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x03\textcolor{preprocessor}{)}  \textcolor{comment}{/*!<Device operating range: 2.7V to 3.6V + External Vpp
+       */}
+00095 
+00096 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_VOLTAGERANGE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RANGE}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RANGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} VoltageRange_1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00097                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RANGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} VoltageRange_2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00098                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RANGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} VoltageRange_3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00099                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{RANGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} VoltageRange_4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00100 \textcolor{comment}{/**}
+00101 \textcolor{comment}{  * @\}}
+00102 \textcolor{comment}{  */}
+00103 
+00104 \textcolor{comment}{/** @defgroup FLASH\_Sectors}
+00105 \textcolor{comment}{  * @\{}
+00106 \textcolor{comment}{  */}
+00107 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_Sector\_0}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Sector Number 0 */}
+00108 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_Sector\_1}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0008\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Sector Number 1 */}
+00109 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_Sector\_2}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0010\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Sector Number 2 */}
+00110 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_Sector\_3}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0018\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Sector Number 3 */}
+00111 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_Sector\_4}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0020\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Sector Number 4 */}
+00112 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_Sector\_5}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0028\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Sector Number 5 */}
+00113 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_Sector\_6}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0030\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Sector Number 6 */}
+00114 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_Sector\_7}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0038\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Sector Number 7 */}
+00115 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_Sector\_8}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0040\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Sector Number 8 */}
+00116 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_Sector\_9}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0048\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Sector Number 9 */}
+00117 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_Sector\_10}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0050\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Sector Number 10 */}
+00118 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_Sector\_11}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0058\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Sector Number 11 */}
+00119 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FLASH\_SECTOR}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SECTOR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SECTOR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FLASH_Sector_0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SECTOR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      FLASH_Sector_1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00120                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SECTOR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FLASH_Sector_2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SECTOR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      FLASH_Sector_3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00121                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SECTOR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FLASH_Sector_4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SECTOR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      FLASH_Sector_5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00122                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SECTOR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FLASH_Sector_6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SECTOR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      FLASH_Sector_7\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00123                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SECTOR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FLASH_Sector_8\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SECTOR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      FLASH_Sector_9\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00124                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SECTOR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FLASH_Sector_10\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SECTOR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      FLASH_Sector_11\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00125 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FLASH\_ADDRESS}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ADDRESS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ADDRESS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{>=} 0x08000000\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ADDRESS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<} 0x080FFFFF\textcolor{preprocessor}{)}\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00126                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ADDRESS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{>=} 0x1FFF7800\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ADDRESS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<} 0x1FFF7A0F\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00127 \textcolor{comment}{/**}
+00128 \textcolor{comment}{  * @\}}
+00129 \textcolor{comment}{  */}
+00130 
+00131 \textcolor{comment}{/** @defgroup Option\_Bytes\_Write\_Protection }
+00132 \textcolor{comment}{  * @\{}
+00133 \textcolor{comment}{  */}
+00134 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_WRP\_Sector\_0}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Write protection of Sector0 */}
+00135 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_WRP\_Sector\_1}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Write protection of Sector1 */}
+00136 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_WRP\_Sector\_2}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Write protection of Sector2 */}
+00137 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_WRP\_Sector\_3}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000008\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Write protection of Sector3 */}
+00138 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_WRP\_Sector\_4}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000010\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Write protection of Sector4 */}
+00139 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_WRP\_Sector\_5}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000020\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Write protection of Sector5 */}
+00140 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_WRP\_Sector\_6}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000040\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Write protection of Sector6 */}
+00141 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_WRP\_Sector\_7}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000080\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Write protection of Sector7 */}
+00142 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_WRP\_Sector\_8}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000100\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Write protection of Sector8 */}
+00143 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_WRP\_Sector\_9}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000200\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Write protection of Sector9 */}
+00144 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_WRP\_Sector\_10}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000400\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Write protection of Sector10 */}
+00145 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_WRP\_Sector\_11}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000800\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Write protection of Sector11 */}
+00146 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_WRP\_Sector\_All}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000FFF\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Write protection of all Sectors */}
+00147 
+00148 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_OB\_WRP}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SECTOR}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SECTOR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFFFF000\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00000000\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SECTOR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00000000\textcolor{preprocessor}{
+      )}\textcolor{preprocessor}{)}
+00149 \textcolor{comment}{/**}
+00150 \textcolor{comment}{  * @\}}
+00151 \textcolor{comment}{  */}
+00152 
+00153 \textcolor{comment}{/** @defgroup FLASH\_Option\_Bytes\_Read\_Protection }
+00154 \textcolor{comment}{  * @\{}
+00155 \textcolor{comment}{  */}
+00156 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_RDP\_Level\_0}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0xAA\textcolor{preprocessor}{)}
+00157 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_RDP\_Level\_1}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x55\textcolor{preprocessor}{)}
+00158 \textcolor{comment}{/*#define OB\_RDP\_Level\_2   ((uint8\_t)0xCC)*/} \textcolor{comment}{/*!< Warning: When enabling read protection level 2 }
+00159 \textcolor{comment}{                                                  it's no more possible to go back to level 1 or 0 */}
+00160 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_OB\_RDP}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} OB_RDP_Level_0\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00161                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} OB_RDP_Level_1\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}\textcolor{comment}{/*||\(\backslash\)}
+00162 \textcolor{comment}{                          ((LEVEL) == OB\_RDP\_Level\_2))*/}
+00163 \textcolor{comment}{/**}
+00164 \textcolor{comment}{  * @\}}
+00165 \textcolor{comment}{  */}
+00166 
+00167 \textcolor{comment}{/** @defgroup FLASH\_Option\_Bytes\_IWatchdog }
+00168 \textcolor{comment}{  * @\{}
+00169 \textcolor{comment}{  */}
+00170 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_IWDG\_SW}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x20\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Software IWDG selected */}
+00171 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_IWDG\_HW}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Hardware IWDG selected */}
+00172 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_OB\_IWDG\_SOURCE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} OB_IWDG_SW\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      OB_IWDG_HW\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00173 \textcolor{comment}{/**}
+00174 \textcolor{comment}{  * @\}}
+00175 \textcolor{comment}{  */}
+00176 
+00177 \textcolor{comment}{/** @defgroup FLASH\_Option\_Bytes\_nRST\_STOP }
+00178 \textcolor{comment}{  * @\{}
+00179 \textcolor{comment}{  */}
+00180 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_STOP\_NoRST}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x40\textcolor{preprocessor}{)} \textcolor{comment}{/*!< No reset generated when entering in STOP
+       */}
+00181 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_STOP\_RST}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Reset generated when entering in STOP */}
+00182 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_OB\_STOP\_SOURCE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} OB_STOP_NoRST\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      OB_STOP_RST\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00183 \textcolor{comment}{/**}
+00184 \textcolor{comment}{  * @\}}
+00185 \textcolor{comment}{  */}
+00186 
+00187 
+00188 \textcolor{comment}{/** @defgroup FLASH\_Option\_Bytes\_nRST\_STDBY }
+00189 \textcolor{comment}{  * @\{}
+00190 \textcolor{comment}{  */}
+00191 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_STDBY\_NoRST}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x80\textcolor{preprocessor}{)} \textcolor{comment}{/*!< No reset generated when entering in
+       STANDBY */}
+00192 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_STDBY\_RST}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Reset generated when entering in STANDBY
+       */}
+00193 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_OB\_STDBY\_SOURCE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} OB_STDBY_NoRST\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      OB_STDBY_RST\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00194 \textcolor{comment}{/**}
+00195 \textcolor{comment}{  * @\}}
+00196 \textcolor{comment}{  */}
+00197 
+00198 \textcolor{comment}{/** @defgroup FLASH\_BOR\_Reset\_Level }
+00199 \textcolor{comment}{  * @\{}
+00200 \textcolor{comment}{  */}
+00201 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_BOR\_LEVEL3}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Supply voltage ranges from 2.70 to 3.60 V */}
+00202 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_BOR\_LEVEL2}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x04\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Supply voltage ranges from 2.40 to 2.70 V */}
+00203 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_BOR\_LEVEL1}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x08\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Supply voltage ranges from 2.10 to 2.40 V */}
+00204 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OB\_BOR\_OFF}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0C\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Supply voltage ranges from 1.62 to 2.10 V */}
+00205 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_OB\_BOR}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} OB_BOR_LEVEL1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      OB_BOR_LEVEL2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00206                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} OB_BOR_LEVEL3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LEVEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      OB_BOR_OFF\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00207 \textcolor{comment}{/**}
+00208 \textcolor{comment}{  * @\}}
+00209 \textcolor{comment}{  */}
+00210 
+00211 \textcolor{comment}{/** @defgroup FLASH\_Interrupts }
+00212 \textcolor{comment}{  * @\{}
+00213 \textcolor{comment}{  */}
+00214 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_IT\_EOP}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x01000000\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< End of FLASH Operation Interrupt
+       source */}
+00215 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_IT\_ERR}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x02000000\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Error Interrupt source */}
+00216 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FLASH\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFCFFFFFF\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00000000\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00000000\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00217 \textcolor{comment}{/**}
+00218 \textcolor{comment}{  * @\}}
+00219 \textcolor{comment}{  */}
+00220 
+00221 \textcolor{comment}{/** @defgroup FLASH\_Flags }
+00222 \textcolor{comment}{  * @\{}
+00223 \textcolor{comment}{  */}
+00224 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_FLAG\_EOP}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< FLASH End of Operation flag */}
+00225 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_FLAG\_OPERR}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< FLASH operation Error flag */}
+00226 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_FLAG\_WRPERR}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000010\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< FLASH Write protected error flag
+       */}
+00227 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_FLAG\_PGAERR}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000020\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< FLASH Programming Alignment error
+       flag */}
+00228 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_FLAG\_PGPERR}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000040\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< FLASH Programming Parallelism
+       error flag  */}
+00229 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_FLAG\_PGSERR}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000080\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< FLASH Programming Sequence error
+       flag  */}
+00230 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_FLAG\_BSY}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00010000\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< FLASH Busy flag */}
+00231 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FLASH\_CLEAR\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFFFFF0C\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00000000\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 
+      0x00000000\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00232 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FLASH\_GET\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FLASH_FLAG_EOP\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      FLASH_FLAG_OPERR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00233                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FLASH_FLAG_WRPERR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      FLASH_FLAG_PGAERR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00234                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FLASH_FLAG_PGPERR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      FLASH_FLAG_PGSERR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00235                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FLASH_FLAG_BSY\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00236 \textcolor{comment}{/**}
+00237 \textcolor{comment}{  * @\}}
+00238 \textcolor{comment}{  */}
+00239 
+00240 \textcolor{comment}{/** @defgroup FLASH\_Program\_Parallelism   }
+00241 \textcolor{comment}{  * @\{}
+00242 \textcolor{comment}{  */}
+00243 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_PSIZE\_BYTE}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00244 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_PSIZE\_HALF\_WORD}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000100\textcolor{preprocessor}{)}
+00245 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_PSIZE\_WORD}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000200\textcolor{preprocessor}{)}
+00246 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_PSIZE\_DOUBLE\_WORD}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000300\textcolor{preprocessor}{)}
+00247 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR\_PSIZE\_MASK}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFFFFCFF\textcolor{preprocessor}{)}
+00248 \textcolor{comment}{/**}
+00249 \textcolor{comment}{  * @\}}
+00250 \textcolor{comment}{  */}
+00251 
+00252 \textcolor{comment}{/** @defgroup FLASH\_Keys }
+00253 \textcolor{comment}{  * @\{}
+00254 \textcolor{comment}{  */}
+00255 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RDP\_KEY}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x00A5\textcolor{preprocessor}{)}
+00256 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_KEY1}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x45670123\textcolor{preprocessor}{)}
+00257 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_KEY2}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xCDEF89AB\textcolor{preprocessor}{)}
+00258 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_OPT\_KEY1}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x08192A3B\textcolor{preprocessor}{)}
+00259 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_OPT\_KEY2}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x4C5D6E7F\textcolor{preprocessor}{)}
+00260 \textcolor{comment}{/**}
+00261 \textcolor{comment}{  * @\}}
+00262 \textcolor{comment}{  */}
+00263 
+00264 \textcolor{comment}{/** }
+00265 \textcolor{comment}{  * @brief   ACR register byte 0 (Bits[8:0]) base address  }
+00266 \textcolor{comment}{  */}
+00267 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ACR\_BYTE0\_ADDRESS}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x40023C00\textcolor{preprocessor}{)}
+00268 \textcolor{comment}{/** }
+00269 \textcolor{comment}{  * @brief   OPTCR register byte 3 (Bits[24:16]) base address  }
+00270 \textcolor{comment}{  */}
+00271 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OPTCR\_BYTE0\_ADDRESS}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x40023C14\textcolor{preprocessor}{)}
+00272 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OPTCR\_BYTE1\_ADDRESS}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x40023C15\textcolor{preprocessor}{)}
+00273 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{OPTCR\_BYTE2\_ADDRESS}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x40023C16\textcolor{preprocessor}{)}
+00274 
+00275 \textcolor{comment}{/**}
+00276 \textcolor{comment}{  * @\}}
+00277 \textcolor{comment}{  */}
+00278 
+00279 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00280 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00281 
+00282 \textcolor{comment}{/* FLASH Interface configuration functions ************************************/}
+00283 \textcolor{keywordtype}{void} FLASH_SetLatency(uint32\_t FLASH\_Latency);
+00284 \textcolor{keywordtype}{void} FLASH_PrefetchBufferCmd(FunctionalState NewState);
+00285 \textcolor{keywordtype}{void} FLASH_InstructionCacheCmd(FunctionalState NewState);
+00286 \textcolor{keywordtype}{void} FLASH_DataCacheCmd(FunctionalState NewState);
+00287 \textcolor{keywordtype}{void} FLASH_InstructionCacheReset(\textcolor{keywordtype}{void});
+00288 \textcolor{keywordtype}{void} FLASH_DataCacheReset(\textcolor{keywordtype}{void});
+00289 
+00290 \textcolor{comment}{/* FLASH Memory Programming functions *****************************************/}
+00291 \textcolor{keywordtype}{void} FLASH_Unlock(\textcolor{keywordtype}{void});
+00292 \textcolor{keywordtype}{void} FLASH_Lock(\textcolor{keywordtype}{void});
+00293 FLASH\_Status FLASH_EraseSector(uint32\_t FLASH\_Sector, uint8\_t VoltageRange);
+00294 FLASH\_Status FLASH_EraseAllSectors(uint8\_t VoltageRange);
+00295 FLASH\_Status FLASH_ProgramDoubleWord(uint32\_t Address, uint64\_t Data);
+00296 FLASH\_Status FLASH_ProgramWord(uint32\_t Address, uint32\_t Data);
+00297 FLASH\_Status FLASH_ProgramHalfWord(uint32\_t Address, uint16\_t Data);
+00298 FLASH\_Status FLASH_ProgramByte(uint32\_t Address, uint8\_t Data);
+00299 
+00300 \textcolor{comment}{/* Option Bytes Programming functions *****************************************/}
+00301 \textcolor{keywordtype}{void} FLASH_OB_Unlock(\textcolor{keywordtype}{void});
+00302 \textcolor{keywordtype}{void} FLASH_OB_Lock(\textcolor{keywordtype}{void});
+00303 \textcolor{keywordtype}{void} FLASH_OB_WRPConfig(uint32\_t OB\_WRP, FunctionalState NewState);
+00304 \textcolor{keywordtype}{void} FLASH_OB_RDPConfig(uint8\_t OB\_RDP);
+00305 \textcolor{keywordtype}{void} FLASH_OB_UserConfig(uint8\_t OB\_IWDG, uint8\_t OB\_STOP, uint8\_t OB\_STDBY);
+00306 \textcolor{keywordtype}{void} FLASH_OB_BORConfig(uint8\_t OB\_BOR);
+00307 FLASH\_Status FLASH_OB_Launch(\textcolor{keywordtype}{void});
+00308 uint8\_t FLASH_OB_GetUser(\textcolor{keywordtype}{void});
+00309 uint16\_t FLASH_OB_GetWRP(\textcolor{keywordtype}{void});
+00310 FlagStatus FLASH_OB_GetRDP(\textcolor{keywordtype}{void});
+00311 uint8\_t FLASH_OB_GetBOR(\textcolor{keywordtype}{void});
+00312 
+00313 \textcolor{comment}{/* Interrupts and flags management functions **********************************/}
+00314 \textcolor{keywordtype}{void} FLASH_ITConfig(uint32\_t FLASH\_IT, FunctionalState NewState);
+00315 FlagStatus FLASH_GetFlagStatus(uint32\_t FLASH\_FLAG);
+00316 \textcolor{keywordtype}{void} FLASH_ClearFlag(uint32\_t FLASH\_FLAG);
+00317 FLASH\_Status FLASH_GetStatus(\textcolor{keywordtype}{void});
+00318 FLASH\_Status FLASH_WaitForLastOperation(\textcolor{keywordtype}{void});
+00319 
+00320 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00321 \}
+00322 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00323 
+00324 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/* \_\_STM32F4xx\_FLASH\_H */}
+00325 
+00326 \textcolor{comment}{/**}
+00327 \textcolor{comment}{  * @\}}
+00328 \textcolor{comment}{  */}
+00329 
+00330 \textcolor{comment}{/**}
+00331 \textcolor{comment}{  * @\}}
+00332 \textcolor{comment}{  */}
+00333 
+00334 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

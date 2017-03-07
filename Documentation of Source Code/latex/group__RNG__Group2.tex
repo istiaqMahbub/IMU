@@ -1,0 +1,67 @@
+\section{Get 32 bit Random number function}
+\label{group__RNG__Group2}\index{Get 32 bit Random number function@{Get 32 bit Random number function}}
+
+
+Get 32 bit Random number function.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \textbf{ R\+N\+G\+\_\+\+Get\+Random\+Number} (void)
+\begin{DoxyCompactList}\small\item\em Returns a 32-\/bit random number. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Get 32 bit Random number function. 
+
+\begin{DoxyVerb} ===============================================================================
+                      Get 32 bit Random number function
+ ===============================================================================  
+  This section provides a function allowing to get the 32 bit Random number  
+  
+  @note  Before to call this function you have to wait till DRDY flag is set,
+         using RNG_GetFlagStatus(RNG_FLAG_DRDY) function. \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__RNG__Group2_ga2cead4780224fd74a3fc15543c98ed36}} 
+\index{Get 32 bit Random number function@{Get 32 bit Random number function}!R\+N\+G\+\_\+\+Get\+Random\+Number@{R\+N\+G\+\_\+\+Get\+Random\+Number}}
+\index{R\+N\+G\+\_\+\+Get\+Random\+Number@{R\+N\+G\+\_\+\+Get\+Random\+Number}!Get 32 bit Random number function@{Get 32 bit Random number function}}
+\subsubsection{R\+N\+G\+\_\+\+Get\+Random\+Number()}
+{\footnotesize\ttfamily uint32\+\_\+t R\+N\+G\+\_\+\+Get\+Random\+Number (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns a 32-\/bit random number. 
+
+\begin{DoxyNote}{Note}
+Before to call this function you have to wait till D\+R\+DY (data ready) flag is set, using R\+N\+G\+\_\+\+Get\+Flag\+Status(\+R\+N\+G\+\_\+\+F\+L\+A\+G\+\_\+\+D\+R\+D\+Y) function. 
+
+Each time the the Random number data is read (using \doxyref{R\+N\+G\+\_\+\+Get\+Random\+Number()}{p.}{group__RNG__Group2_ga2cead4780224fd74a3fc15543c98ed36} function), the R\+N\+G\+\_\+\+F\+L\+A\+G\+\_\+\+D\+R\+DY flag is automatically cleared. 
+
+In the case of a seed error, the generation of random numbers is interrupted for as long as the S\+E\+CS bit is \textquotesingle{}1\textquotesingle{}. If a number is available in the R\+N\+G\+\_\+\+DR register, it must not be used because it may not have enough entropy. In this case, it is recommended to clear the S\+E\+IS bit(using R\+N\+G\+\_\+\+Clear\+Flag(\+R\+N\+G\+\_\+\+F\+L\+A\+G\+\_\+\+S\+E\+C\+S) function), then disable and enable the R\+NG peripheral (using \doxyref{R\+N\+G\+\_\+\+Cmd()}{p.}{group__RNG__Group1_ga6c1a8372da6e8a06819903c63faecd7b} function) to reinitialize and restart the R\+NG. 
+
+In the case of a clock error, the R\+NG is no more able to generate random numbers because the P\+L\+L48\+C\+LK clock is not correct. User have to check that the clock controller is correctly configured to provide the R\+NG clock and clear the C\+E\+IS bit (using R\+N\+G\+\_\+\+Clear\+Flag(\+R\+N\+G\+\_\+\+F\+L\+A\+G\+\_\+\+C\+E\+C\+S) function) . The clock error has no impact on the previously generated random numbers, and the R\+N\+G\+\_\+\+DR register contents can be used.
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 32-\/bit} & random number. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 171} of file \textbf{ stm32f4xx\+\_\+rng.\+c}.
+
+
+\begin{DoxyCode}
+00172 \{
+00173   \textcolor{comment}{/* Return the 32 bit random number from the DR register */}
+00174   \textcolor{keywordflow}{return} RNG->DR;
+00175 \}
+\end{DoxyCode}

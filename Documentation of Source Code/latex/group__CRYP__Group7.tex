@@ -1,0 +1,293 @@
+\section{High Level T\+D\+ES functions}
+\label{group__CRYP__Group7}\index{High Level T\+D\+E\+S functions@{High Level T\+D\+E\+S functions}}
+
+
+High Level T\+D\+ES functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Error\+Status} \textbf{ C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+E\+CB} (uint8\+\_\+t Mode, uint8\+\_\+t Key[24], uint8\+\_\+t $\ast$Input, uint32\+\_\+t Ilength, uint8\+\_\+t $\ast$Output)
+\begin{DoxyCompactList}\small\item\em Encrypt and decrypt using T\+D\+ES in E\+CB Mode. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+C\+BC} (uint8\+\_\+t Mode, uint8\+\_\+t Key[24], uint8\+\_\+t Init\+Vectors[8], uint8\+\_\+t $\ast$Input, uint32\+\_\+t Ilength, uint8\+\_\+t $\ast$Output)
+\begin{DoxyCompactList}\small\item\em Encrypt and decrypt using T\+D\+ES in C\+BC Mode. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+High Level T\+D\+ES functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                          High Level TDES functions
+ ===============================================================================\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__CRYP__Group7_gabe52a368c4882450c1e82f16bc1eb686}} 
+\index{High Level T\+D\+E\+S functions@{High Level T\+D\+E\+S functions}!C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+C\+BC@{C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+C\+BC}}
+\index{C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+C\+BC@{C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+C\+BC}!High Level T\+D\+E\+S functions@{High Level T\+D\+E\+S functions}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+C\+B\+C()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+C\+BC (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{Mode,  }\item[{uint8\+\_\+t}]{Key[24],  }\item[{uint8\+\_\+t}]{Init\+Vectors[8],  }\item[{uint8\+\_\+t $\ast$}]{Input,  }\item[{uint32\+\_\+t}]{Ilength,  }\item[{uint8\+\_\+t $\ast$}]{Output }\end{DoxyParamCaption})}
+
+
+
+Encrypt and decrypt using T\+D\+ES in C\+BC Mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Mode} & encryption or decryption Mode. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item M\+O\+D\+E\+\_\+\+E\+N\+C\+R\+Y\+PT\+: Encryption \item M\+O\+D\+E\+\_\+\+D\+E\+C\+R\+Y\+PT\+: Decryption \end{DoxyItemize}
+\\
+\hline
+{\em Key} & Key used for T\+D\+ES algorithm. \\
+\hline
+{\em Init\+Vectors} & Initialisation Vectors used for T\+D\+ES algorithm. \\
+\hline
+{\em Input} & pointer to the Input buffer. \\
+\hline
+{\em Ilength} & length of the Input buffer, must be a multiple of 8. \\
+\hline
+{\em Output} & pointer to the returned buffer. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: Operation done
+\item E\+R\+R\+OR\+: Operation failed 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 198} of file \textbf{ stm32f4xx\+\_\+cryp\+\_\+tdes.\+c}.
+
+
+
+References \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Algo\+Dir}, \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Algo\+Mode}, \textbf{ C\+R\+Y\+P\+\_\+\+Cmd()}, \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Data\+Type}, \textbf{ C\+R\+Y\+P\+\_\+\+F\+I\+F\+O\+Flush()}, \textbf{ C\+R\+Y\+P\+\_\+\+Init()}, \textbf{ C\+R\+Y\+P\+\_\+\+I\+V\+Init()}, \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init()}, \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Struct\+Init()}, \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+00200 \{
+00201   CRYP_InitTypeDef TDES\_CRYP\_InitStructure;
+00202   CRYP_KeyInitTypeDef TDES\_CRYP\_KeyInitStructure;
+00203   CRYP_IVInitTypeDef TDES\_CRYP\_IVInitStructure;
+00204   \_\_IO uint32\_t counter = 0;
+00205   uint32\_t busystatus = 0;
+00206   ErrorStatus status = SUCCESS;
+00207   uint32\_t keyaddr    = (uint32\_t)Key;
+00208   uint32\_t inputaddr  = (uint32\_t)Input;
+00209   uint32\_t outputaddr = (uint32\_t)Output;
+00210   uint32\_t ivaddr     = (uint32\_t)InitVectors;
+00211   uint32\_t i = 0;
+00212 
+00213   \textcolor{comment}{/* Crypto structures initialisation*/}
+00214   CRYP_KeyStructInit(&TDES\_CRYP\_KeyInitStructure);
+00215 
+00216   \textcolor{comment}{/* Crypto Init for Encryption process */}
+00217   \textcolor{keywordflow}{if}(Mode == MODE_ENCRYPT) \textcolor{comment}{/* TDES encryption */}
+00218   \{
+00219     TDES\_CRYP\_InitStructure.CRYP_AlgoDir = CRYP_AlgoDir_Encrypt;
+00220   \}
+00221   \textcolor{keywordflow}{else}
+00222   \{
+00223     TDES\_CRYP\_InitStructure.CRYP_AlgoDir = CRYP_AlgoDir_Decrypt;
+00224   \}
+00225   TDES\_CRYP\_InitStructure.CRYP_AlgoMode = CRYP_AlgoMode_TDES_CBC;
+00226   TDES\_CRYP\_InitStructure.CRYP_DataType = CRYP_DataType_8b;
+00227 
+00228   CRYP_Init(&TDES\_CRYP\_InitStructure);
+00229 
+00230   \textcolor{comment}{/* Key Initialisation */}
+00231   TDES\_CRYP\_KeyInitStructure.CRYP_Key1Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00232   keyaddr+=4;
+00233   TDES\_CRYP\_KeyInitStructure.CRYP_Key1Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00234   keyaddr+=4;
+00235   TDES\_CRYP\_KeyInitStructure.CRYP_Key2Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00236   keyaddr+=4;
+00237   TDES\_CRYP\_KeyInitStructure.CRYP_Key2Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00238   keyaddr+=4;
+00239   TDES\_CRYP\_KeyInitStructure.CRYP_Key3Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00240   keyaddr+=4;
+00241   TDES\_CRYP\_KeyInitStructure.CRYP_Key3Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00242   CRYP_KeyInit(& TDES\_CRYP\_KeyInitStructure);
+00243 
+00244   \textcolor{comment}{/* Initialization Vectors */}
+00245   TDES\_CRYP\_IVInitStructure.CRYP_IV0Left = \_\_REV(*(uint32\_t*)(ivaddr));
+00246   ivaddr+=4;
+00247   TDES\_CRYP\_IVInitStructure.CRYP_IV0Right= \_\_REV(*(uint32\_t*)(ivaddr));
+00248   CRYP_IVInit(&TDES\_CRYP\_IVInitStructure);
+00249 
+00250   \textcolor{comment}{/* Flush IN/OUT FIFO */}
+00251   CRYP_FIFOFlush();
+00252 
+00253   \textcolor{comment}{/* Enable Crypto processor */}
+00254   CRYP_Cmd(ENABLE);
+00255 
+00256   \textcolor{keywordflow}{for}(i=0; ((i<Ilength) && (status != ERROR)); i+=8)
+00257   \{
+00258     \textcolor{comment}{/* Write the Input block in the Input FIFO */}
+00259     CRYP_DataIn(*(uint32\_t*)(inputaddr));
+00260     inputaddr+=4;
+00261     CRYP_DataIn(*(uint32\_t*)(inputaddr));
+00262     inputaddr+=4;
+00263 
+00264     \textcolor{comment}{/* Wait until the complete message has been processed */}
+00265     counter = 0;
+00266     \textcolor{keywordflow}{do}
+00267     \{
+00268       busystatus = CRYP_GetFlagStatus(CRYP_FLAG_BUSY);
+00269       counter++;
+00270     \}\textcolor{keywordflow}{while} ((counter != TDESBUSY_TIMEOUT) && (busystatus != RESET));
+00271 
+00272     \textcolor{keywordflow}{if} (busystatus != RESET)
+00273    \{
+00274        status = ERROR;
+00275     \}
+00276     \textcolor{keywordflow}{else}
+00277     \{
+00278 
+00279       \textcolor{comment}{/* Read the Output block from the Output FIFO */}
+00280       *(uint32\_t*)(outputaddr) = CRYP_DataOut();
+00281       outputaddr+=4;
+00282       *(uint32\_t*)(outputaddr) = CRYP_DataOut();
+00283       outputaddr+=4;
+00284     \}
+00285   \}
+00286 
+00287   \textcolor{comment}{/* Disable Crypto */}
+00288   CRYP_Cmd(DISABLE);
+00289 
+00290   \textcolor{keywordflow}{return} status; 
+00291 \}
+\end{DoxyCode}
+\mbox{\label{group__CRYP__Group7_ga17c03ab4f0566fcbc3dd8c052e6f9886}} 
+\index{High Level T\+D\+E\+S functions@{High Level T\+D\+E\+S functions}!C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+E\+CB@{C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+E\+CB}}
+\index{C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+E\+CB@{C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+E\+CB}!High Level T\+D\+E\+S functions@{High Level T\+D\+E\+S functions}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+E\+C\+B()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} C\+R\+Y\+P\+\_\+\+T\+D\+E\+S\+\_\+\+E\+CB (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{Mode,  }\item[{uint8\+\_\+t}]{Key[24],  }\item[{uint8\+\_\+t $\ast$}]{Input,  }\item[{uint32\+\_\+t}]{Ilength,  }\item[{uint8\+\_\+t $\ast$}]{Output }\end{DoxyParamCaption})}
+
+
+
+Encrypt and decrypt using T\+D\+ES in E\+CB Mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Mode} & encryption or decryption Mode. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item M\+O\+D\+E\+\_\+\+E\+N\+C\+R\+Y\+PT\+: Encryption \item M\+O\+D\+E\+\_\+\+D\+E\+C\+R\+Y\+PT\+: Decryption \end{DoxyItemize}
+\\
+\hline
+{\em Key} & Key used for T\+D\+ES algorithm. \\
+\hline
+{\em Ilength} & length of the Input buffer, must be a multiple of 8. \\
+\hline
+{\em Input} & pointer to the Input buffer. \\
+\hline
+{\em Output} & pointer to the returned buffer. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: Operation done
+\item E\+R\+R\+OR\+: Operation failed 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 96} of file \textbf{ stm32f4xx\+\_\+cryp\+\_\+tdes.\+c}.
+
+
+
+References \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Algo\+Dir}, \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Algo\+Mode}, \textbf{ C\+R\+Y\+P\+\_\+\+Cmd()}, \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Data\+Type}, \textbf{ C\+R\+Y\+P\+\_\+\+F\+I\+F\+O\+Flush()}, \textbf{ C\+R\+Y\+P\+\_\+\+Init()}, \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init()}, \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Struct\+Init()}, \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+00098 \{
+00099   CRYP_InitTypeDef TDES\_CRYP\_InitStructure;
+00100   CRYP_KeyInitTypeDef TDES\_CRYP\_KeyInitStructure;
+00101   \_\_IO uint32\_t counter = 0;
+00102   uint32\_t busystatus = 0;
+00103   ErrorStatus status = SUCCESS;
+00104   uint32\_t keyaddr    = (uint32\_t)Key;
+00105   uint32\_t inputaddr  = (uint32\_t)Input;
+00106   uint32\_t outputaddr = (uint32\_t)Output;
+00107   uint32\_t i = 0;
+00108 
+00109   \textcolor{comment}{/* Crypto structures initialisation*/}
+00110   CRYP_KeyStructInit(&TDES\_CRYP\_KeyInitStructure);
+00111 
+00112   \textcolor{comment}{/* Crypto Init for Encryption process */}
+00113   \textcolor{keywordflow}{if}(Mode == MODE_ENCRYPT) \textcolor{comment}{/* TDES encryption */}
+00114   \{
+00115      TDES\_CRYP\_InitStructure.CRYP_AlgoDir = CRYP_AlgoDir_Encrypt;
+00116   \}
+00117   \textcolor{keywordflow}{else} \textcolor{comment}{/*if(Mode == MODE\_DECRYPT)*/} \textcolor{comment}{/* TDES decryption */}
+00118   \{
+00119      TDES\_CRYP\_InitStructure.CRYP_AlgoDir = CRYP_AlgoDir_Decrypt;
+00120   \}
+00121 
+00122   TDES\_CRYP\_InitStructure.CRYP_AlgoMode = CRYP_AlgoMode_TDES_ECB;
+00123   TDES\_CRYP\_InitStructure.CRYP_DataType = CRYP_DataType_8b;
+00124   CRYP_Init(&TDES\_CRYP\_InitStructure);
+00125 
+00126   \textcolor{comment}{/* Key Initialisation */}
+00127   TDES\_CRYP\_KeyInitStructure.CRYP_Key1Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00128   keyaddr+=4;
+00129   TDES\_CRYP\_KeyInitStructure.CRYP_Key1Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00130   keyaddr+=4;
+00131   TDES\_CRYP\_KeyInitStructure.CRYP_Key2Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00132   keyaddr+=4;
+00133   TDES\_CRYP\_KeyInitStructure.CRYP_Key2Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00134   keyaddr+=4;
+00135   TDES\_CRYP\_KeyInitStructure.CRYP_Key3Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00136   keyaddr+=4;
+00137   TDES\_CRYP\_KeyInitStructure.CRYP_Key3Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00138   CRYP_KeyInit(& TDES\_CRYP\_KeyInitStructure);
+00139 
+00140   \textcolor{comment}{/* Flush IN/OUT FIFO */}
+00141   CRYP_FIFOFlush();
+00142 
+00143   \textcolor{comment}{/* Enable Crypto processor */}
+00144   CRYP_Cmd(ENABLE);
+00145 
+00146   \textcolor{keywordflow}{for}(i=0; ((i<Ilength) && (status != ERROR)); i+=8)
+00147   \{
+00148     \textcolor{comment}{/* Write the Input block in the Input FIFO */}
+00149     CRYP_DataIn(*(uint32\_t*)(inputaddr));
+00150     inputaddr+=4;
+00151     CRYP_DataIn(*(uint32\_t*)(inputaddr));
+00152     inputaddr+=4;
+00153 
+00154     \textcolor{comment}{/* Wait until the complete message has been processed */}
+00155     counter = 0;
+00156     \textcolor{keywordflow}{do}
+00157     \{
+00158       busystatus = CRYP_GetFlagStatus(CRYP_FLAG_BUSY);
+00159       counter++;
+00160     \}\textcolor{keywordflow}{while} ((counter != TDESBUSY_TIMEOUT) && (busystatus != RESET));
+00161 
+00162     \textcolor{keywordflow}{if} (busystatus != RESET)
+00163     \{
+00164        status = ERROR;
+00165     \}
+00166     \textcolor{keywordflow}{else}
+00167     \{
+00168 
+00169       \textcolor{comment}{/* Read the Output block from the Output FIFO */}
+00170       *(uint32\_t*)(outputaddr) = CRYP_DataOut();
+00171       outputaddr+=4;
+00172       *(uint32\_t*)(outputaddr) = CRYP_DataOut();
+00173       outputaddr+=4;
+00174     \}
+00175   \}
+00176 
+00177   \textcolor{comment}{/* Disable Crypto */}
+00178   CRYP_Cmd(DISABLE);
+00179 
+00180   \textcolor{keywordflow}{return} status; 
+00181 \}
+\end{DoxyCode}

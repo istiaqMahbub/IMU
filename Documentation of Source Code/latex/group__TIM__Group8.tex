@@ -1,0 +1,154 @@
+\section{Specific interface management functions}
+\label{group__TIM__Group8}\index{Specific interface management functions@{Specific interface management functions}}
+
+
+Specific interface management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ T\+I\+M\+\_\+\+Encoder\+Interface\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+Encoder\+Mode, uint16\+\_\+t T\+I\+M\+\_\+\+I\+C1\+Polarity, uint16\+\_\+t T\+I\+M\+\_\+\+I\+C2\+Polarity)
+\begin{DoxyCompactList}\small\item\em Configures the T\+I\+Mx Encoder Interface. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Select\+Hall\+Sensor} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the T\+I\+Mx\textquotesingle{}s Hall sensor interface. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Specific interface management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                    Specific interface management functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__TIM__Group8_ga0fc7e76c47a3bd1ba1ebc71427832b51}} 
+\index{Specific interface management functions@{Specific interface management functions}!T\+I\+M\+\_\+\+Encoder\+Interface\+Config@{T\+I\+M\+\_\+\+Encoder\+Interface\+Config}}
+\index{T\+I\+M\+\_\+\+Encoder\+Interface\+Config@{T\+I\+M\+\_\+\+Encoder\+Interface\+Config}!Specific interface management functions@{Specific interface management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Encoder\+Interface\+Config()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+Encoder\+Interface\+Config (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{uint16\+\_\+t}]{T\+I\+M\+\_\+\+Encoder\+Mode,  }\item[{uint16\+\_\+t}]{T\+I\+M\+\_\+\+I\+C1\+Polarity,  }\item[{uint16\+\_\+t}]{T\+I\+M\+\_\+\+I\+C2\+Polarity }\end{DoxyParamCaption})}
+
+
+
+Configures the T\+I\+Mx Encoder Interface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1, 2, 3, 4, 5, 8, 9 or 12 to select the T\+IM peripheral. \\
+\hline
+{\em T\+I\+M\+\_\+\+Encoder\+Mode} & specifies the T\+I\+Mx Encoder Mode. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+Encoder\+Mode\+\_\+\+T\+I1\+: Counter counts on T\+I1\+F\+P1 edge depending on T\+I2\+F\+P2 level. \item T\+I\+M\+\_\+\+Encoder\+Mode\+\_\+\+T\+I2\+: Counter counts on T\+I2\+F\+P2 edge depending on T\+I1\+F\+P1 level. \item T\+I\+M\+\_\+\+Encoder\+Mode\+\_\+\+T\+I12\+: Counter counts on both T\+I1\+F\+P1 and T\+I2\+F\+P2 edges depending on the level of the other input. \end{DoxyItemize}
+\\
+\hline
+{\em T\+I\+M\+\_\+\+I\+C1\+Polarity} & specifies the I\+C1 Polarity This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+I\+C\+Polarity\+\_\+\+Falling\+: IC Falling edge. \item T\+I\+M\+\_\+\+I\+C\+Polarity\+\_\+\+Rising\+: IC Rising edge. \end{DoxyItemize}
+\\
+\hline
+{\em T\+I\+M\+\_\+\+I\+C2\+Polarity} & specifies the I\+C2 Polarity This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+I\+C\+Polarity\+\_\+\+Falling\+: IC Falling edge. \item T\+I\+M\+\_\+\+I\+C\+Polarity\+\_\+\+Rising\+: IC Rising edge. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 3057} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+\begin{DoxyCode}
+03059 \{
+03060   uint16\_t tmpsmcr = 0;
+03061   uint16\_t tmpccmr1 = 0;
+03062   uint16\_t tmpccer = 0;
+03063     
+03064   \textcolor{comment}{/* Check the parameters */}
+03065   assert_param(IS_TIM_LIST2_PERIPH(TIMx));
+03066   assert_param(IS_TIM_ENCODER_MODE(TIM\_EncoderMode));
+03067   assert_param(IS_TIM_IC_POLARITY(TIM\_IC1Polarity));
+03068   assert_param(IS_TIM_IC_POLARITY(TIM\_IC2Polarity));
+03069 
+03070   \textcolor{comment}{/* Get the TIMx SMCR register value */}
+03071   tmpsmcr = TIMx->SMCR;
+03072 
+03073   \textcolor{comment}{/* Get the TIMx CCMR1 register value */}
+03074   tmpccmr1 = TIMx->CCMR1;
+03075 
+03076   \textcolor{comment}{/* Get the TIMx CCER register value */}
+03077   tmpccer = TIMx->CCER;
+03078 
+03079   \textcolor{comment}{/* Set the encoder Mode */}
+03080   tmpsmcr &= (uint16\_t)~TIM_SMCR_SMS;
+03081   tmpsmcr |= TIM\_EncoderMode;
+03082 
+03083   \textcolor{comment}{/* Select the Capture Compare 1 and the Capture Compare 2 as input */}
+03084   tmpccmr1 &= ((uint16\_t)~TIM_CCMR1_CC1S) & ((uint16\_t)~TIM_CCMR1_CC2S);
+03085   tmpccmr1 |= TIM_CCMR1_CC1S_0 | TIM_CCMR1_CC2S_0;
+03086 
+03087   \textcolor{comment}{/* Set the TI1 and the TI2 Polarities */}
+03088   tmpccer &= ((uint16\_t)~TIM_CCER_CC1P) & ((uint16\_t)~TIM_CCER_CC2P);
+03089   tmpccer |= (uint16\_t)(TIM\_IC1Polarity | (uint16\_t)(TIM\_IC2Polarity << (uint16\_t)4));
+03090 
+03091   \textcolor{comment}{/* Write to TIMx SMCR */}
+03092   TIMx->SMCR = tmpsmcr;
+03093 
+03094   \textcolor{comment}{/* Write to TIMx CCMR1 */}
+03095   TIMx->CCMR1 = tmpccmr1;
+03096 
+03097   \textcolor{comment}{/* Write to TIMx CCER */}
+03098   TIMx->CCER = tmpccer;
+03099 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group8_ga42c2d1025a3937c9d9f38631af86ffa4}} 
+\index{Specific interface management functions@{Specific interface management functions}!T\+I\+M\+\_\+\+Select\+Hall\+Sensor@{T\+I\+M\+\_\+\+Select\+Hall\+Sensor}}
+\index{T\+I\+M\+\_\+\+Select\+Hall\+Sensor@{T\+I\+M\+\_\+\+Select\+Hall\+Sensor}!Specific interface management functions@{Specific interface management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Select\+Hall\+Sensor()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+Select\+Hall\+Sensor (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the T\+I\+Mx\textquotesingle{}s Hall sensor interface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1, 2, 3, 4, 5, 8, 9 or 12 to select the T\+IM peripheral. \\
+\hline
+{\em New\+State} & new state of the T\+I\+Mx Hall sensor interface. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 3109} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+03110 \{
+03111   \textcolor{comment}{/* Check the parameters */}
+03112   assert_param(IS_TIM_LIST2_PERIPH(TIMx));
+03113   assert_param(IS_FUNCTIONAL_STATE(NewState));
+03114 
+03115   \textcolor{keywordflow}{if} (NewState != DISABLE)
+03116   \{
+03117     \textcolor{comment}{/* Set the TI1S Bit */}
+03118     TIMx->CR2 |= TIM_CR2_TI1S;
+03119   \}
+03120   \textcolor{keywordflow}{else}
+03121   \{
+03122     \textcolor{comment}{/* Reset the TI1S Bit */}
+03123     TIMx->CR2 &= (uint16\_t)~TIM_CR2_TI1S;
+03124   \}
+03125 \}
+\end{DoxyCode}

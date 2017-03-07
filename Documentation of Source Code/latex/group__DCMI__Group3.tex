@@ -1,0 +1,274 @@
+\section{Interrupts and flags management functions}
+\label{group__DCMI__Group3}\index{Interrupts and flags management functions@{Interrupts and flags management functions}}
+
+
+Interrupts and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ D\+C\+M\+I\+\_\+\+I\+T\+Config} (uint16\+\_\+t D\+C\+M\+I\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the D\+C\+MI interface interrupts. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ D\+C\+M\+I\+\_\+\+Get\+Flag\+Status} (uint16\+\_\+t D\+C\+M\+I\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the D\+C\+MI interface flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ D\+C\+M\+I\+\_\+\+Clear\+Flag} (uint16\+\_\+t D\+C\+M\+I\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the D\+C\+MI\textquotesingle{}s pending flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ D\+C\+M\+I\+\_\+\+Get\+I\+T\+Status} (uint16\+\_\+t D\+C\+M\+I\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the D\+C\+MI interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ D\+C\+M\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit} (uint16\+\_\+t D\+C\+M\+I\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the D\+C\+MI\textquotesingle{}s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts and flags management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                  Interrupts and flags management functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__DCMI__Group3_ga1c93caf3ccfecf07cec8e1e0f844ddaa}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\+C\+M\+I\+\_\+\+Clear\+Flag@{D\+C\+M\+I\+\_\+\+Clear\+Flag}}
+\index{D\+C\+M\+I\+\_\+\+Clear\+Flag@{D\+C\+M\+I\+\_\+\+Clear\+Flag}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{D\+C\+M\+I\+\_\+\+Clear\+Flag()}
+{\footnotesize\ttfamily void D\+C\+M\+I\+\_\+\+Clear\+Flag (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{D\+C\+M\+I\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Clears the D\+C\+MI\textquotesingle{}s pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+C\+M\+I\+\_\+\+F\+L\+AG} & specifies the flag to clear. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item D\+C\+M\+I\+\_\+\+F\+L\+A\+G\+\_\+\+F\+R\+A\+M\+E\+RI\+: Frame capture complete Raw flag mask \item D\+C\+M\+I\+\_\+\+F\+L\+A\+G\+\_\+\+O\+V\+F\+RI\+: Overflow Raw flag mask \item D\+C\+M\+I\+\_\+\+F\+L\+A\+G\+\_\+\+E\+R\+R\+RI\+: Synchronization error Raw flag mask \item D\+C\+M\+I\+\_\+\+F\+L\+A\+G\+\_\+\+V\+S\+Y\+N\+C\+RI\+: V\+S\+Y\+NC Raw flag mask \item D\+C\+M\+I\+\_\+\+F\+L\+A\+G\+\_\+\+L\+I\+N\+E\+RI\+: Line Raw flag mask \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 457} of file \textbf{ stm32f4xx\+\_\+dcmi.\+c}.
+
+
+\begin{DoxyCode}
+00458 \{
+00459   \textcolor{comment}{/* Check the parameters */}
+00460   assert_param(IS_DCMI_CLEAR_FLAG(DCMI\_FLAG));
+00461   
+00462   \textcolor{comment}{/* Clear the flag by writing in the ICR register 1 in the corresponding }
+00463 \textcolor{comment}{  Flag position*/}
+00464   
+00465   DCMI->ICR = DCMI\_FLAG;
+00466 \}
+\end{DoxyCode}
+\mbox{\label{group__DCMI__Group3_ga908e6dad7bc5f4f4bbc512f679222c55}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\+C\+M\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit@{D\+C\+M\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit}}
+\index{D\+C\+M\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit@{D\+C\+M\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{D\+C\+M\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit()}
+{\footnotesize\ttfamily void D\+C\+M\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{D\+C\+M\+I\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Clears the D\+C\+MI\textquotesingle{}s interrupt pending bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+C\+M\+I\+\_\+\+IT} & specifies the D\+C\+MI interrupt pending bit to clear. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item D\+C\+M\+I\+\_\+\+I\+T\+\_\+\+F\+R\+A\+ME\+: Frame capture complete interrupt mask \item D\+C\+M\+I\+\_\+\+I\+T\+\_\+\+O\+VF\+: Overflow interrupt mask \item D\+C\+M\+I\+\_\+\+I\+T\+\_\+\+E\+RR\+: Synchronization error interrupt mask \item D\+C\+M\+I\+\_\+\+I\+T\+\_\+\+V\+S\+Y\+NC\+: V\+S\+Y\+NC interrupt mask \item D\+C\+M\+I\+\_\+\+I\+T\+\_\+\+L\+I\+NE\+: Line interrupt mask \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 511} of file \textbf{ stm32f4xx\+\_\+dcmi.\+c}.
+
+
+\begin{DoxyCode}
+00512 \{
+00513   \textcolor{comment}{/* Clear the interrupt pending Bit by writing in the ICR register 1 in the }
+00514 \textcolor{comment}{  corresponding pending Bit position*/}
+00515   
+00516   DCMI->ICR = DCMI\_IT;
+00517 \}
+\end{DoxyCode}
+\mbox{\label{group__DCMI__Group3_ga1b66e1966fbea902a8e7015c56db7587}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\+C\+M\+I\+\_\+\+Get\+Flag\+Status@{D\+C\+M\+I\+\_\+\+Get\+Flag\+Status}}
+\index{D\+C\+M\+I\+\_\+\+Get\+Flag\+Status@{D\+C\+M\+I\+\_\+\+Get\+Flag\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{D\+C\+M\+I\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} D\+C\+M\+I\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{D\+C\+M\+I\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Checks whether the D\+C\+MI interface flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+C\+M\+I\+\_\+\+F\+L\+AG} & specifies the flag to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item D\+C\+M\+I\+\_\+\+F\+L\+A\+G\+\_\+\+F\+R\+A\+M\+E\+RI\+: Frame capture complete Raw flag mask \item D\+C\+M\+I\+\_\+\+F\+L\+A\+G\+\_\+\+O\+V\+F\+RI\+: Overflow Raw flag mask \item D\+C\+M\+I\+\_\+\+F\+L\+A\+G\+\_\+\+E\+R\+R\+RI\+: Synchronization error Raw flag mask \item D\+C\+M\+I\+\_\+\+F\+L\+A\+G\+\_\+\+V\+S\+Y\+N\+C\+RI\+: V\+S\+Y\+NC Raw flag mask \item D\+C\+M\+I\+\_\+\+F\+L\+A\+G\+\_\+\+L\+I\+N\+E\+RI\+: Line Raw flag mask \item D\+C\+M\+I\+\_\+\+F\+L\+A\+G\+\_\+\+F\+R\+A\+M\+E\+MI\+: Frame capture complete Masked flag mask \item D\+C\+M\+I\+\_\+\+F\+L\+A\+G\+\_\+\+O\+V\+F\+MI\+: Overflow Masked flag mask \item D\+C\+M\+I\+\_\+\+F\+L\+A\+G\+\_\+\+E\+R\+R\+MI\+: Synchronization error Masked flag mask \item D\+C\+M\+I\+\_\+\+F\+L\+A\+G\+\_\+\+V\+S\+Y\+N\+C\+MI\+: V\+S\+Y\+NC Masked flag mask \item D\+C\+M\+I\+\_\+\+F\+L\+A\+G\+\_\+\+L\+I\+N\+E\+MI\+: Line Masked flag mask \item D\+C\+M\+I\+\_\+\+F\+L\+A\+G\+\_\+\+H\+S\+Y\+NC\+: H\+S\+Y\+NC flag mask \item D\+C\+M\+I\+\_\+\+F\+L\+A\+G\+\_\+\+V\+S\+Y\+NC\+: V\+S\+Y\+NC flag mask \item D\+C\+M\+I\+\_\+\+F\+L\+A\+G\+\_\+\+F\+NE\+: Fifo not empty flag mask \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of D\+C\+M\+I\+\_\+\+F\+L\+AG (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 410} of file \textbf{ stm32f4xx\+\_\+dcmi.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}, and \textbf{ S\+ET}.
+
+
+\begin{DoxyCode}
+00411 \{
+00412   FlagStatus bitstatus = RESET;
+00413   uint32\_t dcmireg, tempreg = 0;
+00414 
+00415   \textcolor{comment}{/* Check the parameters */}
+00416   assert_param(IS_DCMI_GET_FLAG(DCMI\_FLAG));
+00417   
+00418   \textcolor{comment}{/* Get the DCMI register index */}
+00419   dcmireg = (((uint16\_t)DCMI\_FLAG) >> 12);
+00420   
+00421   \textcolor{keywordflow}{if} (dcmireg == 0x01) \textcolor{comment}{/* The FLAG is in RISR register */}
+00422   \{
+00423     tempreg= DCMI->RISR;
+00424   \}
+00425   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (dcmireg == 0x02) \textcolor{comment}{/* The FLAG is in SR register */}
+00426   \{
+00427     tempreg = DCMI->SR;
+00428   \}
+00429   \textcolor{keywordflow}{else} \textcolor{comment}{/* The FLAG is in MISR register */}
+00430   \{
+00431     tempreg = DCMI->MISR;
+00432   \}
+00433   
+00434   \textcolor{keywordflow}{if} ((tempreg & DCMI\_FLAG) != (uint16\_t)RESET )
+00435   \{
+00436     bitstatus = SET;
+00437   \}
+00438   \textcolor{keywordflow}{else}
+00439   \{
+00440     bitstatus = RESET;
+00441   \}
+00442   \textcolor{comment}{/* Return the DCMI\_FLAG status */}
+00443   \textcolor{keywordflow}{return}  bitstatus;
+00444 \}
+\end{DoxyCode}
+\mbox{\label{group__DCMI__Group3_gac0b27821aab3ee6b73ae8a6c6339fed5}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\+C\+M\+I\+\_\+\+Get\+I\+T\+Status@{D\+C\+M\+I\+\_\+\+Get\+I\+T\+Status}}
+\index{D\+C\+M\+I\+\_\+\+Get\+I\+T\+Status@{D\+C\+M\+I\+\_\+\+Get\+I\+T\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{D\+C\+M\+I\+\_\+\+Get\+I\+T\+Status()}
+{\footnotesize\ttfamily \textbf{ I\+T\+Status} D\+C\+M\+I\+\_\+\+Get\+I\+T\+Status (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{D\+C\+M\+I\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Checks whether the D\+C\+MI interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+C\+M\+I\+\_\+\+IT} & specifies the D\+C\+MI interrupt source to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item D\+C\+M\+I\+\_\+\+I\+T\+\_\+\+F\+R\+A\+ME\+: Frame capture complete interrupt mask \item D\+C\+M\+I\+\_\+\+I\+T\+\_\+\+O\+VF\+: Overflow interrupt mask \item D\+C\+M\+I\+\_\+\+I\+T\+\_\+\+E\+RR\+: Synchronization error interrupt mask \item D\+C\+M\+I\+\_\+\+I\+T\+\_\+\+V\+S\+Y\+NC\+: V\+S\+Y\+NC interrupt mask \item D\+C\+M\+I\+\_\+\+I\+T\+\_\+\+L\+I\+NE\+: Line interrupt mask \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of D\+C\+M\+I\+\_\+\+IT (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 479} of file \textbf{ stm32f4xx\+\_\+dcmi.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}, and \textbf{ S\+ET}.
+
+
+\begin{DoxyCode}
+00480 \{
+00481   ITStatus bitstatus = RESET;
+00482   uint32\_t itstatus = 0;
+00483   
+00484   \textcolor{comment}{/* Check the parameters */}
+00485   assert_param(IS_DCMI_GET_IT(DCMI\_IT));
+00486   
+00487   itstatus = DCMI->MISR & DCMI\_IT; \textcolor{comment}{/* Only masked interrupts are checked */}
+00488   
+00489   \textcolor{keywordflow}{if} ((itstatus != (uint16\_t)RESET))
+00490   \{
+00491     bitstatus = SET;
+00492   \}
+00493   \textcolor{keywordflow}{else}
+00494   \{
+00495     bitstatus = RESET;
+00496   \}
+00497   \textcolor{keywordflow}{return} bitstatus;
+00498 \}
+\end{DoxyCode}
+\mbox{\label{group__DCMI__Group3_ga3d89fb10384dff1dfd9197fbb6c6b2eb}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\+C\+M\+I\+\_\+\+I\+T\+Config@{D\+C\+M\+I\+\_\+\+I\+T\+Config}}
+\index{D\+C\+M\+I\+\_\+\+I\+T\+Config@{D\+C\+M\+I\+\_\+\+I\+T\+Config}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{D\+C\+M\+I\+\_\+\+I\+T\+Config()}
+{\footnotesize\ttfamily void D\+C\+M\+I\+\_\+\+I\+T\+Config (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{D\+C\+M\+I\+\_\+\+IT,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the D\+C\+MI interface interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+C\+M\+I\+\_\+\+IT} & specifies the D\+C\+MI interrupt sources to be enabled or disabled. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item D\+C\+M\+I\+\_\+\+I\+T\+\_\+\+F\+R\+A\+ME\+: Frame capture complete interrupt mask \item D\+C\+M\+I\+\_\+\+I\+T\+\_\+\+O\+VF\+: Overflow interrupt mask \item D\+C\+M\+I\+\_\+\+I\+T\+\_\+\+E\+RR\+: Synchronization error interrupt mask \item D\+C\+M\+I\+\_\+\+I\+T\+\_\+\+V\+S\+Y\+NC\+: V\+S\+Y\+NC interrupt mask \item D\+C\+M\+I\+\_\+\+I\+T\+\_\+\+L\+I\+NE\+: Line interrupt mask \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the specified D\+C\+MI interrupts. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 373} of file \textbf{ stm32f4xx\+\_\+dcmi.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00374 \{
+00375   \textcolor{comment}{/* Check the parameters */}
+00376   assert_param(IS_DCMI_CONFIG_IT(DCMI\_IT));
+00377   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00378   
+00379   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00380   \{
+00381     \textcolor{comment}{/* Enable the Interrupt sources */}
+00382     DCMI->IER |= DCMI\_IT;
+00383   \}
+00384   \textcolor{keywordflow}{else}
+00385   \{
+00386     \textcolor{comment}{/* Disable the Interrupt sources */}
+00387     DCMI->IER &= (uint16\_t)(~DCMI\_IT);
+00388   \}  
+00389 \}
+\end{DoxyCode}

@@ -1,0 +1,190 @@
+\section{misc.\+h}
+\label{misc_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/misc.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/misc.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    misc.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the miscellaneous}
+00008 \textcolor{comment}{  *          firmware library functions (add-on to CMSIS functions).}
+00009 \textcolor{comment}{  ******************************************************************************}
+00010 \textcolor{comment}{  * @attention}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00013 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00014 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00015 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00016 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00017 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00020 \textcolor{comment}{  ******************************************************************************}
+00021 \textcolor{comment}{  */}
+00022 
+00023 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_MISC\_H}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_MISC\_H}
+00026 
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00028  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00033 
+00034 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00035 \textcolor{comment}{  * @\{}
+00036 \textcolor{comment}{  */}
+00037 
+00038 \textcolor{comment}{/** @addtogroup MISC}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00043 
+00044 \textcolor{comment}{/** }
+00045 \textcolor{comment}{  * @brief  NVIC Init Structure definition  }
+00046 \textcolor{comment}{  */}
+00047 
+00048 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00049 \{
+00050   uint8\_t NVIC_IRQChannel;                    \textcolor{comment}{/*!< Specifies the IRQ channel to be enabled or
+       disabled.}
+00051 \textcolor{comment}{                                                   This parameter can be an enumerator of @ref
+       IRQn\_Type }
+00052 \textcolor{comment}{                                                   enumeration (For the complete STM32 Devices IRQ
+       Channels}
+00053 \textcolor{comment}{                                                   list, please refer to stm32f4xx.h file) */}
+00054 
+00055   uint8\_t NVIC_IRQChannelPreemptionPriority;  \textcolor{comment}{/*!< Specifies the pre-emption priority for the IRQ
+       channel}
+00056 \textcolor{comment}{                                                   specified in NVIC\_IRQChannel. This parameter can be
+       a value}
+00057 \textcolor{comment}{                                                   between 0 and 15 as described in the table @ref
+       MISC\_NVIC\_Priority\_Table}
+00058 \textcolor{comment}{                                                   A lower priority value indicates a higher priority
+       */}
+00059 
+00060   uint8\_t NVIC_IRQChannelSubPriority;         \textcolor{comment}{/*!< Specifies the subpriority level for the IRQ channel
+       specified}
+00061 \textcolor{comment}{                                                   in NVIC\_IRQChannel. This parameter can be a value}
+00062 \textcolor{comment}{                                                   between 0 and 15 as described in the table @ref
+       MISC\_NVIC\_Priority\_Table}
+00063 \textcolor{comment}{                                                   A lower priority value indicates a higher priority
+       */}
+00064 
+00065   FunctionalState NVIC_IRQChannelCmd;         \textcolor{comment}{/*!< Specifies whether the IRQ channel defined in
+       NVIC\_IRQChannel}
+00066 \textcolor{comment}{                                                   will be enabled or disabled. }
+00067 \textcolor{comment}{                                                   This parameter can be set either to ENABLE or
+       DISABLE */}
+00068 \} NVIC\_InitTypeDef;
+00069 
+00070 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00071 
+00072 \textcolor{comment}{/** @defgroup MISC\_Exported\_Constants}
+00073 \textcolor{comment}{  * @\{}
+00074 \textcolor{comment}{  */}
+00075 
+00076 \textcolor{comment}{/** @defgroup MISC\_Vector\_Table\_Base }
+00077 \textcolor{comment}{  * @\{}
+00078 \textcolor{comment}{  */}
+00079 
+00080 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{NVIC\_VectTab\_RAM}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000000\textcolor{preprocessor}{)}
+00081 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{NVIC\_VectTab\_FLASH}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x08000000\textcolor{preprocessor}{)}
+00082 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_NVIC\_VECTTAB}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VECTTAB}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VECTTAB}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} NVIC_VectTab_RAM\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00083                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VECTTAB}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} NVIC_VectTab_FLASH\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00084 \textcolor{comment}{/**}
+00085 \textcolor{comment}{  * @\}}
+00086 \textcolor{comment}{  */}
+00087 
+00088 \textcolor{comment}{/** @defgroup MISC\_System\_Low\_Power }
+00089 \textcolor{comment}{  * @\{}
+00090 \textcolor{comment}{  */}
+00091 
+00092 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{NVIC\_LP\_SEVONPEND}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x10\textcolor{preprocessor}{)}
+00093 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{NVIC\_LP\_SLEEPDEEP}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x04\textcolor{preprocessor}{)}
+00094 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{NVIC\_LP\_SLEEPONEXIT}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}
+00095 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_NVIC\_LP}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} NVIC_LP_SEVONPEND\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00096                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} NVIC_LP_SLEEPDEEP\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00097                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} NVIC_LP_SLEEPONEXIT\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00098 \textcolor{comment}{/**}
+00099 \textcolor{comment}{  * @\}}
+00100 \textcolor{comment}{  */}
+00101 
+00102 \textcolor{comment}{/** @defgroup MISC\_Preemption\_Priority\_Group }
+00103 \textcolor{comment}{  * @\{}
+00104 \textcolor{comment}{  */}
+00105 
+00106 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{NVIC\_PriorityGroup\_0}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x700\textcolor{preprocessor}{)} \textcolor{comment}{/*!< 0 bits for pre-emption priority}
+00107 \textcolor{comment}{                                                            4 bits for subpriority */}
+00108 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{NVIC\_PriorityGroup\_1}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x600\textcolor{preprocessor}{)} \textcolor{comment}{/*!< 1 bits for pre-emption priority}
+00109 \textcolor{comment}{                                                            3 bits for subpriority */}
+00110 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{NVIC\_PriorityGroup\_2}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x500\textcolor{preprocessor}{)} \textcolor{comment}{/*!< 2 bits for pre-emption priority}
+00111 \textcolor{comment}{                                                            2 bits for subpriority */}
+00112 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{NVIC\_PriorityGroup\_3}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x400\textcolor{preprocessor}{)} \textcolor{comment}{/*!< 3 bits for pre-emption priority}
+00113 \textcolor{comment}{                                                            1 bits for subpriority */}
+00114 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{NVIC\_PriorityGroup\_4}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x300\textcolor{preprocessor}{)} \textcolor{comment}{/*!< 4 bits for pre-emption priority}
+00115 \textcolor{comment}{                                                            0 bits for subpriority */}
+00116 
+00117 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_NVIC\_PRIORITY\_GROUP}\textcolor{preprocessor}{(}\textcolor{preprocessor}{GROUP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{GROUP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} NVIC_PriorityGroup_0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00118                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{GROUP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} NVIC_PriorityGroup_1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00119                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{GROUP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} NVIC_PriorityGroup_2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00120                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{GROUP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} NVIC_PriorityGroup_3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00121                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{GROUP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} NVIC_PriorityGroup_4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00122 
+00123 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_NVIC\_PREEMPTION\_PRIORITY}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRIORITY}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRIORITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<} 0x10\textcolor{preprocessor}{)}
+00124 
+00125 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_NVIC\_SUB\_PRIORITY}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRIORITY}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRIORITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<} 0x10\textcolor{preprocessor}{)}
+00126 
+00127 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_NVIC\_OFFSET}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OFFSET}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OFFSET}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<} 0x000FFFFF\textcolor{preprocessor}{)}
+00128 
+00129 \textcolor{comment}{/**}
+00130 \textcolor{comment}{  * @\}}
+00131 \textcolor{comment}{  */}
+00132 
+00133 \textcolor{comment}{/** @defgroup MISC\_SysTick\_clock\_source }
+00134 \textcolor{comment}{  * @\{}
+00135 \textcolor{comment}{  */}
+00136 
+00137 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SysTick\_CLKSource\_HCLK\_Div8}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFFFFFFB\textcolor{preprocessor}{)}
+00138 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SysTick\_CLKSource\_HCLK}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)}
+00139 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_SYSTICK\_CLK\_SOURCE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} SysTick_CLKSource_HCLK\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00140                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      SysTick_CLKSource_HCLK_Div8\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00141 \textcolor{comment}{/**}
+00142 \textcolor{comment}{  * @\}}
+00143 \textcolor{comment}{  */}
+00144 
+00145 \textcolor{comment}{/**}
+00146 \textcolor{comment}{  * @\}}
+00147 \textcolor{comment}{  */}
+00148 
+00149 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00150 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00151 
+00152 \textcolor{keywordtype}{void} NVIC_PriorityGroupConfig(uint32\_t NVIC\_PriorityGroup);
+00153 \textcolor{keywordtype}{void} NVIC_Init(NVIC\_InitTypeDef* NVIC\_InitStruct);
+00154 \textcolor{keywordtype}{void} NVIC_SetVectorTable(uint32\_t NVIC\_VectTab, uint32\_t Offset);
+00155 \textcolor{keywordtype}{void} NVIC_SystemLPConfig(uint8\_t LowPowerMode, FunctionalState NewState);
+00156 \textcolor{keywordtype}{void} SysTick_CLKSourceConfig(uint32\_t SysTick\_CLKSource);
+00157 
+00158 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00159 \}
+00160 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00161 
+00162 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/* \_\_MISC\_H */}
+00163 
+00164 \textcolor{comment}{/**}
+00165 \textcolor{comment}{  * @\}}
+00166 \textcolor{comment}{  */}
+00167 
+00168 \textcolor{comment}{/**}
+00169 \textcolor{comment}{  * @\}}
+00170 \textcolor{comment}{  */}
+00171 
+00172 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

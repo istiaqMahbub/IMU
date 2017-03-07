@@ -1,0 +1,705 @@
+\section{stm32f4xx\+\_\+hash.\+c}
+\label{stm32f4xx__hash_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+hash.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+hash.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_hash.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides firmware functions to manage the following }
+00008 \textcolor{comment}{  *          functionalities of the HASH / HMAC Processor (HASH) peripheral:           }
+00009 \textcolor{comment}{  *           - Initialization and Configuration functions}
+00010 \textcolor{comment}{  *           - Message Digest generation functions}
+00011 \textcolor{comment}{  *           - context swapping functions   }
+00012 \textcolor{comment}{  *           - DMA interface function       }
+00013 \textcolor{comment}{  *           - Interrupts and flags management       }
+00014 \textcolor{comment}{  *         }
+00015 \textcolor{comment}{  *  @verbatim}
+00016 \textcolor{comment}{  *                               }
+00017 \textcolor{comment}{  *          ===================================================================      }
+00018 \textcolor{comment}{  *                                   How to use this driver}
+00019 \textcolor{comment}{  *          ===================================================================}
+00020 \textcolor{comment}{  *          HASH operation : }
+00021 \textcolor{comment}{  *          ----------------                   }
+00022 \textcolor{comment}{  *         1. Enable the HASH controller clock using }
+00023 \textcolor{comment}{  *            RCC\_AHB2PeriphClockCmd(RCC\_AHB2Periph\_HASH, ENABLE) function.}
+00024 \textcolor{comment}{  *           }
+00025 \textcolor{comment}{  *         2. Initialise the HASH using HASH\_Init() function. }
+00026 \textcolor{comment}{  *               }
+00027 \textcolor{comment}{  *         3 . Reset the HASH processor core, so that the HASH will be ready }
+00028 \textcolor{comment}{  *             to compute he message digest of a new message by using }
+00029 \textcolor{comment}{  *             HASH\_Reset() function.}
+00030 \textcolor{comment}{  *}
+00031 \textcolor{comment}{  *         4. Enable the HASH controller using the HASH\_Cmd() function. }
+00032 \textcolor{comment}{  *                }
+00033 \textcolor{comment}{  *         5. if using DMA for Data input transfer, Activate the DMA Request }
+00034 \textcolor{comment}{  *            using HASH\_DMACmd() function }
+00035 \textcolor{comment}{  *                    }
+00036 \textcolor{comment}{  *         6. if DMA is not used for data transfer, use HASH\_DataIn() function }
+00037 \textcolor{comment}{  *            to enter data to IN FIFO.}
+00038 \textcolor{comment}{  *             }
+00039 \textcolor{comment}{  *          }
+00040 \textcolor{comment}{  *         7. Configure the Number of valid bits in last word of the message }
+00041 \textcolor{comment}{  *            using HASH\_SetLastWordValidBitsNbr() function.}
+00042 \textcolor{comment}{  *             }
+00043 \textcolor{comment}{  *         8. if the message length is not an exact multiple of 512 bits, }
+00044 \textcolor{comment}{  *            then the function HASH\_StartDigest() must be called to }
+00045 \textcolor{comment}{  *            launch the computation of the final digest.     }
+00046 \textcolor{comment}{  *             }
+00047 \textcolor{comment}{  *         9. Once computed, the digest can be read using HASH\_GetDigest() }
+00048 \textcolor{comment}{  *            function.         }
+00049 \textcolor{comment}{  *                   }
+00050 \textcolor{comment}{  *        10. To control HASH events you can use one of the following }
+00051 \textcolor{comment}{  *              two methods:}
+00052 \textcolor{comment}{  *               a- Check on HASH flags using the HASH\_GetFlagStatus() function.  }
+00053 \textcolor{comment}{  *               b- Use HASH interrupts through the function HASH\_ITConfig() at }
+00054 \textcolor{comment}{  *                  initialization phase and HASH\_GetITStatus() function into }
+00055 \textcolor{comment}{  *                  interrupt routines in hashing phase.}
+00056 \textcolor{comment}{  *          After checking on a flag you should clear it using HASH\_ClearFlag()}
+00057 \textcolor{comment}{  *          function. And after checking on an interrupt event you should }
+00058 \textcolor{comment}{  *          clear it using HASH\_ClearITPendingBit() function.     }
+00059 \textcolor{comment}{  *                     }
+00060 \textcolor{comment}{  *        11. Save and restore hash processor context using }
+00061 \textcolor{comment}{  *            HASH\_SaveContext() and HASH\_RestoreContext() functions.     }
+00062 \textcolor{comment}{  *              }
+00063 \textcolor{comment}{  *}
+00064 \textcolor{comment}{  *            }
+00065 \textcolor{comment}{  *          HMAC operation : }
+00066 \textcolor{comment}{  *          ----------------  }
+00067 \textcolor{comment}{  *          The HMAC algorithm is used for message authentication, by }
+00068 \textcolor{comment}{  *          irreversibly binding the message being processed to a key chosen }
+00069 \textcolor{comment}{  *          by the user. }
+00070 \textcolor{comment}{  *          For HMAC specifications, refer to "HMAC: keyed-hashing for message }
+00071 \textcolor{comment}{  *          authentication, H. Krawczyk, M. Bellare, R. Canetti, February 1997"}
+00072 \textcolor{comment}{  *          }
+00073 \textcolor{comment}{  *          Basically, the HMAC algorithm consists of two nested hash operations:}
+00074 \textcolor{comment}{  *          HMAC(message) = Hash[((key | pad) XOR 0x5C) | Hash(((key | pad) XOR 0x36) | message)]}
+00075 \textcolor{comment}{  *          where:}
+00076 \textcolor{comment}{  *          - "pad" is a sequence of zeroes needed to extend the key to the }
+00077 \textcolor{comment}{  *                  length of the underlying hash function data block (that is }
+00078 \textcolor{comment}{  *                  512 bits for both the SHA-1 and MD5 hash algorithms)}
+00079 \textcolor{comment}{  *          - "|"   represents the concatenation operator }
+00080 \textcolor{comment}{  *          }
+00081 \textcolor{comment}{  *         }
+00082 \textcolor{comment}{  *         To compute the HMAC, four different phases are required:}
+00083 \textcolor{comment}{  *                    }
+00084 \textcolor{comment}{  *         1.  Initialise the HASH using HASH\_Init() function to do HMAC }
+00085 \textcolor{comment}{  *             operation. }
+00086 \textcolor{comment}{  *                }
+00087 \textcolor{comment}{  *         2.  The key (to be used for the inner hash function) is then given }
+00088 \textcolor{comment}{  *             to the core. This operation follows the same mechanism as the }
+00089 \textcolor{comment}{  *             one used to send the message in the hash operation (that is, }
+00090 \textcolor{comment}{  *             by HASH\_DataIn() function and, finally, }
+00091 \textcolor{comment}{  *             HASH\_StartDigest() function.}
+00092 \textcolor{comment}{  *          }
+00093 \textcolor{comment}{  *         3.  Once the last word has been entered and computation has started, }
+00094 \textcolor{comment}{  *             the hash processor elaborates the key. It is then ready to }
+00095 \textcolor{comment}{  *             accept the message text using the same mechanism as the one }
+00096 \textcolor{comment}{  *             used to send the message in the hash operation.}
+00097 \textcolor{comment}{  *       }
+00098 \textcolor{comment}{  *         4.  After the first hash round, the hash processor returns "ready" }
+00099 \textcolor{comment}{  *             to indicate that it is ready to receive the key to be used for }
+00100 \textcolor{comment}{  *             the outer hash function (normally, this key is the same as the }
+00101 \textcolor{comment}{  *             one used for the inner hash function). When the last word of }
+00102 \textcolor{comment}{  *             the key is entered and computation starts, the HMAC result is }
+00103 \textcolor{comment}{  *             made available using HASH\_GetDigest() function.}
+00104 \textcolor{comment}{  *               }
+00105 \textcolor{comment}{  *              }
+00106 \textcolor{comment}{  *  @endverbatim}
+00107 \textcolor{comment}{  *         }
+00108 \textcolor{comment}{  ******************************************************************************}
+00109 \textcolor{comment}{  * @attention}
+00110 \textcolor{comment}{  *}
+00111 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00112 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00113 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00114 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00115 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00116 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00117 \textcolor{comment}{  *}
+00118 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00119 \textcolor{comment}{  ******************************************************************************  }
+00120 \textcolor{comment}{  */}
+00121 
+00122 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00123 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_hash.h"
+00124 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rcc.h"
+00125 
+00126 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00127 \textcolor{comment}{  * @\{}
+00128 \textcolor{comment}{  */}
+00129 
+00130 \textcolor{comment}{/** @defgroup HASH }
+00131 \textcolor{comment}{  * @brief HASH driver modules}
+00132 \textcolor{comment}{  * @\{}
+00133 \textcolor{comment}{  */}
+00134 
+00135 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00136 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00137 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00138 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00139 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00140 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00141 
+00142 \textcolor{comment}{/** @defgroup HASH\_Private\_Functions}
+00143 \textcolor{comment}{  * @\{}
+00144 \textcolor{comment}{  */}
+00145 
+00146 \textcolor{comment}{/** @defgroup HASH\_Group1 Initialization and Configuration functions}
+00147 \textcolor{comment}{ *  @brief    Initialization and Configuration functions }
+00148 \textcolor{comment}{ *}
+00149 \textcolor{comment}{@verbatim    }
+00150 \textcolor{comment}{ ===============================================================================}
+00151 \textcolor{comment}{                      Initialization and Configuration functions}
+00152 \textcolor{comment}{ ===============================================================================  }
+00153 \textcolor{comment}{  This section provides functions allowing to }
+00154 \textcolor{comment}{   - Initialize the HASH peripheral}
+00155 \textcolor{comment}{   - Configure the HASH Processor }
+00156 \textcolor{comment}{      - MD5/SHA1, }
+00157 \textcolor{comment}{      - HASH/HMAC, }
+00158 \textcolor{comment}{      - datatype }
+00159 \textcolor{comment}{      - HMAC Key (if mode = HMAC)}
+00160 \textcolor{comment}{   - Reset the HASH Processor }
+00161 \textcolor{comment}{   }
+00162 \textcolor{comment}{@endverbatim}
+00163 \textcolor{comment}{  * @\{}
+00164 \textcolor{comment}{  */}
+00165 
+00166 \textcolor{comment}{/**}
+00167 \textcolor{comment}{  * @brief  Deinitializes the HASH peripheral registers to their default reset values}
+00168 \textcolor{comment}{  * @param  None}
+00169 \textcolor{comment}{  * @retval None}
+00170 \textcolor{comment}{  */}
+00171 \textcolor{keywordtype}{void} HASH_DeInit(\textcolor{keywordtype}{void})
+00172 \{
+00173   \textcolor{comment}{/* Enable HASH reset state */}
+00174   RCC_AHB2PeriphResetCmd(RCC_AHB2Periph_HASH, ENABLE);
+00175   \textcolor{comment}{/* Release HASH from reset state */}
+00176   RCC_AHB2PeriphResetCmd(RCC_AHB2Periph_HASH, DISABLE);
+00177 \}
+00178 
+00179 \textcolor{comment}{/**}
+00180 \textcolor{comment}{  * @brief  Initializes the HASH peripheral according to the specified parameters}
+00181 \textcolor{comment}{  *         in the HASH\_InitStruct structure.}
+00182 \textcolor{comment}{  * @note   the hash processor is reset when calling this function so that the}
+00183 \textcolor{comment}{  *         HASH will be ready to compute the message digest of a new message.}
+00184 \textcolor{comment}{  *         There is no need to call HASH\_Reset() function.           }
+00185 \textcolor{comment}{  * @param  HASH\_InitStruct: pointer to a HASH\_InitTypeDef structure that contains}
+00186 \textcolor{comment}{  *         the configuration information for the HASH peripheral.}
+00187 \textcolor{comment}{  * @note   The field HASH\_HMACKeyType in HASH\_InitTypeDef must be filled only }
+00188 \textcolor{comment}{  *          if the algorithm mode is HMAC.       }
+00189 \textcolor{comment}{  * @retval None}
+00190 \textcolor{comment}{  */}
+00191 \textcolor{keywordtype}{void} HASH_Init(HASH\_InitTypeDef* HASH\_InitStruct)
+00192 \{
+00193   \textcolor{comment}{/* Check the parameters */}
+00194   assert_param(IS\_HASH\_ALGOSELECTION(HASH\_InitStruct->HASH\_AlgoSelection));
+00195   assert_param(IS\_HASH\_DATATYPE(HASH\_InitStruct->HASH\_DataType));
+00196   assert_param(IS\_HASH\_ALGOMODE(HASH\_InitStruct->HASH\_AlgoMode));
+00197 
+00198   \textcolor{comment}{/* Configure the Algorithm used, algorithm mode and the datatype */}
+00199   HASH->CR &= ~ (HASH_CR_ALGO | HASH_CR_DATATYPE | HASH_CR_MODE);
+00200   HASH->CR |= (HASH\_InitStruct->HASH\_AlgoSelection |
+00201                HASH\_InitStruct->HASH\_DataType |
+00202                HASH\_InitStruct->HASH\_AlgoMode);
+00203 
+00204   \textcolor{comment}{/* if algorithm mode is HMAC, set the Key */}
+00205   \textcolor{keywordflow}{if}(HASH\_InitStruct->HASH_AlgoMode == HASH_AlgoMode_HMAC)
+00206   \{
+00207     assert_param(IS\_HASH\_HMAC\_KEYTYPE(HASH\_InitStruct->HASH\_HMACKeyType));
+00208     HASH->CR &= ~HASH_CR_LKEY;
+00209     HASH->CR |= HASH\_InitStruct->HASH\_HMACKeyType;
+00210   \}
+00211 
+00212   \textcolor{comment}{/* Reset the HASH processor core, so that the HASH will be ready to compute }
+00213 \textcolor{comment}{     the message digest of a new message */}
+00214   HASH->CR |= HASH_CR_INIT;
+00215 \}
+00216 
+00217 \textcolor{comment}{/**}
+00218 \textcolor{comment}{  * @brief  Fills each HASH\_InitStruct member with its default value.}
+00219 \textcolor{comment}{  * @param  HASH\_InitStruct : pointer to a HASH\_InitTypeDef structure which will}
+00220 \textcolor{comment}{  *          be initialized.  }
+00221 \textcolor{comment}{  *  @note  The default values set are : Processor mode is HASH, Algorithm selected is SHA1,}
+00222 \textcolor{comment}{  *          Data type selected is 32b and HMAC Key Type is short key.  }
+00223 \textcolor{comment}{  * @retval None}
+00224 \textcolor{comment}{  */}
+00225 \textcolor{keywordtype}{void} HASH_StructInit(HASH\_InitTypeDef* HASH\_InitStruct)
+00226 \{
+00227   \textcolor{comment}{/* Initialize the HASH\_AlgoSelection member */}
+00228   HASH\_InitStruct->HASH_AlgoSelection = HASH_AlgoSelection_SHA1;
+00229 
+00230   \textcolor{comment}{/* Initialize the HASH\_AlgoMode member */}
+00231   HASH\_InitStruct->HASH_AlgoMode = HASH_AlgoMode_HASH;
+00232 
+00233   \textcolor{comment}{/* Initialize the HASH\_DataType member */}
+00234   HASH\_InitStruct->HASH_DataType = HASH_DataType_32b;
+00235 
+00236   \textcolor{comment}{/* Initialize the HASH\_HMACKeyType member */}
+00237   HASH\_InitStruct->HASH_HMACKeyType = HASH_HMACKeyType_ShortKey;
+00238 \}
+00239 
+00240 \textcolor{comment}{/**}
+00241 \textcolor{comment}{  * @brief  Resets the HASH processor core, so that the HASH will be ready}
+00242 \textcolor{comment}{  *         to compute the message digest of a new message.}
+00243 \textcolor{comment}{  * @note   Calling this function will clear the HASH\_SR\_DCIS (Digest calculation }
+00244 \textcolor{comment}{  *         completion interrupt status) bit corresponding to HASH\_IT\_DCI }
+00245 \textcolor{comment}{  *         interrupt and HASH\_FLAG\_DCIS flag. }
+00246 \textcolor{comment}{  * @param  None}
+00247 \textcolor{comment}{  * @retval None}
+00248 \textcolor{comment}{  */}
+00249 \textcolor{keywordtype}{void} HASH_Reset(\textcolor{keywordtype}{void})
+00250 \{
+00251   \textcolor{comment}{/* Reset the HASH processor core */}
+00252   HASH->CR |= HASH_CR_INIT;
+00253 \}
+00254 \textcolor{comment}{/**}
+00255 \textcolor{comment}{  * @\}}
+00256 \textcolor{comment}{  */}
+00257 
+00258 \textcolor{comment}{/** @defgroup HASH\_Group2 Message Digest generation functions}
+00259 \textcolor{comment}{ *  @brief    Message Digest generation functions}
+00260 \textcolor{comment}{ *}
+00261 \textcolor{comment}{@verbatim    }
+00262 \textcolor{comment}{ ===============================================================================}
+00263 \textcolor{comment}{                      Message Digest generation functions}
+00264 \textcolor{comment}{ ===============================================================================  }
+00265 \textcolor{comment}{  This section provides functions allowing the generation of message digest: }
+00266 \textcolor{comment}{  - Push data in the IN FIFO : using HASH\_DataIn()}
+00267 \textcolor{comment}{  - Get the number of words set in IN FIFO, use HASH\_GetInFIFOWordsNbr()  }
+00268 \textcolor{comment}{  - set the last word valid bits number using HASH\_SetLastWordValidBitsNbr() }
+00269 \textcolor{comment}{  - start digest calculation : using HASH\_StartDigest()}
+00270 \textcolor{comment}{  - Get the Digest message : using HASH\_GetDigest()}
+00271 \textcolor{comment}{ }
+00272 \textcolor{comment}{@endverbatim}
+00273 \textcolor{comment}{  * @\{}
+00274 \textcolor{comment}{  */}
+00275 
+00276 
+00277 \textcolor{comment}{/**}
+00278 \textcolor{comment}{  * @brief  Configure the Number of valid bits in last word of the message}
+00279 \textcolor{comment}{  * @param  ValidNumber: Number of valid bits in last word of the message.}
+00280 \textcolor{comment}{  *           This parameter must be a number between 0 and 0x1F.}
+00281 \textcolor{comment}{  *             - 0x00: All 32 bits of the last data written are valid}
+00282 \textcolor{comment}{  *             - 0x01: Only bit [0] of the last data written is valid}
+00283 \textcolor{comment}{  *             - 0x02: Only bits[1:0] of the last data written are valid}
+00284 \textcolor{comment}{  *             - 0x03: Only bits[2:0] of the last data written are valid}
+00285 \textcolor{comment}{  *             - ...}
+00286 \textcolor{comment}{  *             - 0x1F: Only bits[30:0] of the last data written are valid    }
+00287 \textcolor{comment}{  * @note   The Number of valid bits must be set before to start the message }
+00288 \textcolor{comment}{  *         digest competition (in Hash and HMAC) and key treatment(in HMAC).    }
+00289 \textcolor{comment}{  * @retval None}
+00290 \textcolor{comment}{  */}
+00291 \textcolor{keywordtype}{void} HASH_SetLastWordValidBitsNbr(uint16\_t ValidNumber)
+00292 \{
+00293   \textcolor{comment}{/* Check the parameters */}
+00294   assert_param(IS\_HASH\_VALIDBITSNUMBER(ValidNumber));
+00295 
+00296   \textcolor{comment}{/* Configure the Number of valid bits in last word of the message */}
+00297   HASH->STR &= ~(HASH_STR_NBW);
+00298   HASH->STR |= ValidNumber;
+00299 \}
+00300 
+00301 \textcolor{comment}{/**}
+00302 \textcolor{comment}{  * @brief  Writes data in the Data Input FIFO}
+00303 \textcolor{comment}{  * @param  Data: new data of the message to be processed.}
+00304 \textcolor{comment}{  * @retval None}
+00305 \textcolor{comment}{  */}
+00306 \textcolor{keywordtype}{void} HASH_DataIn(uint32\_t Data)
+00307 \{
+00308   \textcolor{comment}{/* Write in the DIN register a new data */}
+00309   HASH->DIN = Data;
+00310 \}
+00311 
+00312 \textcolor{comment}{/**}
+00313 \textcolor{comment}{  * @brief  Returns the number of words already pushed into the IN FIFO.}
+00314 \textcolor{comment}{  * @param  None}
+00315 \textcolor{comment}{  * @retval The value of words already pushed into the IN FIFO.}
+00316 \textcolor{comment}{  */}
+00317 uint8\_t HASH_GetInFIFOWordsNbr(\textcolor{keywordtype}{void})
+00318 \{
+00319   \textcolor{comment}{/* Return the value of NBW bits */}
+00320   \textcolor{keywordflow}{return} ((HASH->CR & HASH_CR_NBW) >> 8);
+00321 \}
+00322 
+00323 \textcolor{comment}{/**}
+00324 \textcolor{comment}{  * @brief  Provides the message digest result.}
+00325 \textcolor{comment}{  * @note   In MD5 mode, Data[4] filed of HASH\_MsgDigest structure is not used}
+00326 \textcolor{comment}{  *         and is read as zero.  }
+00327 \textcolor{comment}{  * @param  HASH\_MessageDigest: pointer to a HASH\_MsgDigest structure which will }
+00328 \textcolor{comment}{  *         hold the message digest result }
+00329 \textcolor{comment}{  * @retval None}
+00330 \textcolor{comment}{  */}
+00331 \textcolor{keywordtype}{void} HASH_GetDigest(HASH\_MsgDigest* HASH\_MessageDigest)
+00332 \{
+00333   \textcolor{comment}{/* Get the data field */}
+00334   HASH\_MessageDigest->Data[0] = HASH->HR[0];
+00335   HASH\_MessageDigest->Data[1] = HASH->HR[1];
+00336   HASH\_MessageDigest->Data[2] = HASH->HR[2];
+00337   HASH\_MessageDigest->Data[3] = HASH->HR[3];
+00338   HASH\_MessageDigest->Data[4] = HASH->HR[4];
+00339 \}
+00340 
+00341 \textcolor{comment}{/**}
+00342 \textcolor{comment}{  * @brief  Starts the message padding and calculation of the final message     }
+00343 \textcolor{comment}{  * @param  None}
+00344 \textcolor{comment}{  * @retval None}
+00345 \textcolor{comment}{  */}
+00346 \textcolor{keywordtype}{void} HASH_StartDigest(\textcolor{keywordtype}{void})
+00347 \{
+00348   \textcolor{comment}{/* Start the Digest calculation */}
+00349   HASH->STR |= HASH_STR_DCAL;
+00350 \}
+00351 \textcolor{comment}{/**}
+00352 \textcolor{comment}{  * @\}}
+00353 \textcolor{comment}{  */}
+00354 
+00355 \textcolor{comment}{/** @defgroup HASH\_Group3 Context swapping functions}
+00356 \textcolor{comment}{ *  @brief   Context swapping functions}
+00357 \textcolor{comment}{ *}
+00358 \textcolor{comment}{@verbatim   }
+00359 \textcolor{comment}{ ===============================================================================}
+00360 \textcolor{comment}{                             Context swapping functions}
+00361 \textcolor{comment}{ ===============================================================================  }
+00362 \textcolor{comment}{}
+00363 \textcolor{comment}{  This section provides functions allowing to save and store HASH Context}
+00364 \textcolor{comment}{  }
+00365 \textcolor{comment}{  It is possible to interrupt a HASH/HMAC process to perform another processing }
+00366 \textcolor{comment}{  with a higher priority, and to complete the interrupted process later on, when }
+00367 \textcolor{comment}{  the higher priority task is complete. To do so, the context of the interrupted }
+00368 \textcolor{comment}{  task must be saved from the HASH registers to memory, and then be restored }
+00369 \textcolor{comment}{  from memory to the HASH registers.}
+00370 \textcolor{comment}{  }
+00371 \textcolor{comment}{  1. To save the current context, use HASH\_SaveContext() function}
+00372 \textcolor{comment}{  2. To restore the saved context, use HASH\_RestoreContext() function }
+00373 \textcolor{comment}{  }
+00374 \textcolor{comment}{}
+00375 \textcolor{comment}{@endverbatim}
+00376 \textcolor{comment}{  * @\{}
+00377 \textcolor{comment}{  */}
+00378 
+00379 \textcolor{comment}{/**}
+00380 \textcolor{comment}{  * @brief  Save the Hash peripheral Context. }
+00381 \textcolor{comment}{  * @note   The context can be saved only when no block is currently being }
+00382 \textcolor{comment}{  *         processed. So user must wait for DINIS = 1 (the last block has been }
+00383 \textcolor{comment}{  *         processed and the input FIFO is empty) or NBW != 0 (the FIFO is not }
+00384 \textcolor{comment}{  *         full and no processing is ongoing).   }
+00385 \textcolor{comment}{  * @param  HASH\_ContextSave: pointer to a HASH\_Context structure that contains}
+00386 \textcolor{comment}{  *         the repository for current context.}
+00387 \textcolor{comment}{  * @retval None}
+00388 \textcolor{comment}{  */}
+00389 \textcolor{keywordtype}{void} HASH_SaveContext(HASH\_Context* HASH\_ContextSave)
+00390 \{
+00391   uint8\_t i = 0;
+00392 
+00393   \textcolor{comment}{/* save context registers */}
+00394   HASH\_ContextSave->HASH\_IMR = HASH->IMR;
+00395   HASH\_ContextSave->HASH\_STR = HASH->STR;
+00396   HASH\_ContextSave->HASH\_CR  = HASH->CR;
+00397   \textcolor{keywordflow}{for}(i=0; i<=50;i++)
+00398   \{
+00399      HASH\_ContextSave->HASH\_CSR[i] = HASH->CSR[i];
+00400   \}
+00401 \}
+00402 
+00403 \textcolor{comment}{/**}
+00404 \textcolor{comment}{  * @brief  Restore the Hash peripheral Context.  }
+00405 \textcolor{comment}{  * @note   After calling this function, user can restart the processing from the}
+00406 \textcolor{comment}{  *         point where it has been interrupted.  }
+00407 \textcolor{comment}{  * @param  HASH\_ContextRestore: pointer to a HASH\_Context structure that contains}
+00408 \textcolor{comment}{  *         the repository for saved context.}
+00409 \textcolor{comment}{  * @retval None}
+00410 \textcolor{comment}{  */}
+00411 \textcolor{keywordtype}{void} HASH_RestoreContext(HASH\_Context* HASH\_ContextRestore)
+00412 \{
+00413   uint8\_t i = 0;
+00414 
+00415   \textcolor{comment}{/* restore context registers */}
+00416   HASH->IMR = HASH\_ContextRestore->HASH\_IMR;
+00417   HASH->STR = HASH\_ContextRestore->HASH\_STR;
+00418   HASH->CR = HASH\_ContextRestore->HASH\_CR;
+00419 
+00420   \textcolor{comment}{/* Initialize the hash processor */}
+00421   HASH->CR |= HASH_CR_INIT;
+00422 
+00423    \textcolor{comment}{/* continue restoring context registers */}
+00424   \textcolor{keywordflow}{for}(i=0; i<=50;i++)
+00425   \{
+00426      HASH->CSR[i] = HASH\_ContextRestore->HASH\_CSR[i];
+00427   \}
+00428 \}
+00429 \textcolor{comment}{/**}
+00430 \textcolor{comment}{  * @\}}
+00431 \textcolor{comment}{  */}
+00432 
+00433 \textcolor{comment}{/** @defgroup HASH\_Group4 HASH's DMA interface Configuration function}
+00434 \textcolor{comment}{ *  @brief   HASH's DMA interface Configuration function }
+00435 \textcolor{comment}{ *}
+00436 \textcolor{comment}{@verbatim   }
+00437 \textcolor{comment}{ ===============================================================================}
+00438 \textcolor{comment}{                   HASH's DMA interface Configuration function}
+00439 \textcolor{comment}{ ===============================================================================  }
+00440 \textcolor{comment}{}
+00441 \textcolor{comment}{  This section provides functions allowing to configure the DMA interface for }
+00442 \textcolor{comment}{  HASH/ HMAC data input transfer.}
+00443 \textcolor{comment}{   }
+00444 \textcolor{comment}{  When the DMA mode is enabled (using the HASH\_DMACmd() function), data can be }
+00445 \textcolor{comment}{  sent to the IN FIFO using the DMA peripheral.}
+00446 \textcolor{comment}{}
+00447 \textcolor{comment}{}
+00448 \textcolor{comment}{}
+00449 \textcolor{comment}{@endverbatim}
+00450 \textcolor{comment}{  * @\{}
+00451 \textcolor{comment}{  */}
+00452 
+00453 \textcolor{comment}{/**}
+00454 \textcolor{comment}{  * @brief  Enables or disables the HASH DMA interface.}
+00455 \textcolor{comment}{  * @note   The DMA is disabled by hardware after the end of transfer.}
+00456 \textcolor{comment}{  * @param  NewState: new state of the selected HASH DMA transfer request.}
+00457 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00458 \textcolor{comment}{  * @retval None}
+00459 \textcolor{comment}{  */}
+00460 \textcolor{keywordtype}{void} HASH_DMACmd(FunctionalState NewState)
+00461 \{
+00462   \textcolor{comment}{/* Check the parameters */}
+00463   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00464 
+00465   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00466   \{
+00467     \textcolor{comment}{/* Enable the HASH DMA request */}
+00468     HASH->CR |= HASH_CR_DMAE;
+00469   \}
+00470   \textcolor{keywordflow}{else}
+00471   \{
+00472     \textcolor{comment}{/* Disable the HASH DMA request */}
+00473     HASH->CR &= ~HASH_CR_DMAE;
+00474   \}
+00475 \}
+00476 \textcolor{comment}{/**}
+00477 \textcolor{comment}{  * @\}}
+00478 \textcolor{comment}{  */}
+00479 
+00480 \textcolor{comment}{/** @defgroup HASH\_Group5 Interrupts and flags management functions}
+00481 \textcolor{comment}{ *  @brief   Interrupts and flags management functions}
+00482 \textcolor{comment}{ *}
+00483 \textcolor{comment}{@verbatim   }
+00484 \textcolor{comment}{ ===============================================================================}
+00485 \textcolor{comment}{                   Interrupts and flags management functions}
+00486 \textcolor{comment}{ ===============================================================================  }
+00487 \textcolor{comment}{}
+00488 \textcolor{comment}{  This section provides functions allowing to configure the HASH Interrupts and }
+00489 \textcolor{comment}{  to get the status and clear flags and Interrupts pending bits.}
+00490 \textcolor{comment}{  }
+00491 \textcolor{comment}{  The HASH provides 2 Interrupts sources and 5 Flags:}
+00492 \textcolor{comment}{  }
+00493 \textcolor{comment}{  Flags :}
+00494 \textcolor{comment}{  ---------- }
+00495 \textcolor{comment}{     1. HASH\_FLAG\_DINIS : set when 16 locations are free in the Data IN FIFO }
+00496 \textcolor{comment}{                          which means that a  new block (512 bit) can be entered }
+00497 \textcolor{comment}{                          into the input buffer.}
+00498 \textcolor{comment}{                          }
+00499 \textcolor{comment}{     2. HASH\_FLAG\_DCIS :  set when Digest calculation is complete}
+00500 \textcolor{comment}{      }
+00501 \textcolor{comment}{     3. HASH\_FLAG\_DMAS :  set when HASH's DMA interface is enabled (DMAE=1) or }
+00502 \textcolor{comment}{                          a transfer is ongoing.}
+00503 \textcolor{comment}{                          This Flag is cleared only by hardware.}
+00504 \textcolor{comment}{                           }
+00505 \textcolor{comment}{     4. HASH\_FLAG\_BUSY :  set when The hash core is processing a block of data}
+00506 \textcolor{comment}{                          This Flag is cleared only by hardware. }
+00507 \textcolor{comment}{                           }
+00508 \textcolor{comment}{     5. HASH\_FLAG\_DINNE : set when Data IN FIFO is not empty which means that }
+00509 \textcolor{comment}{                          the Data IN FIFO contains at least one word of data.}
+00510 \textcolor{comment}{                          This Flag is cleared only by hardware.}
+00511 \textcolor{comment}{     }
+00512 \textcolor{comment}{  Interrupts :}
+00513 \textcolor{comment}{  ------------}
+00514 \textcolor{comment}{    }
+00515 \textcolor{comment}{   1. HASH\_IT\_DINI  : if enabled, this interrupt source is pending when 16 }
+00516 \textcolor{comment}{                      locations are free in the Data IN FIFO  which means that }
+00517 \textcolor{comment}{                      a new block (512 bit) can be entered into the input buffer.}
+00518 \textcolor{comment}{                      This interrupt source is cleared using }
+00519 \textcolor{comment}{                      HASH\_ClearITPendingBit(HASH\_IT\_DINI) function.}
+00520 \textcolor{comment}{   }
+00521 \textcolor{comment}{   2. HASH\_IT\_DCI   : if enabled, this interrupt source is pending when Digest }
+00522 \textcolor{comment}{                      calculation is complete.}
+00523 \textcolor{comment}{                      This interrupt source is cleared using }
+00524 \textcolor{comment}{                      HASH\_ClearITPendingBit(HASH\_IT\_DCI) function.}
+00525 \textcolor{comment}{}
+00526 \textcolor{comment}{  Managing the HASH controller events :}
+00527 \textcolor{comment}{  ------------------------------------ }
+00528 \textcolor{comment}{  The user should identify which mode will be used in his application to manage }
+00529 \textcolor{comment}{  the HASH controller events: Polling mode or Interrupt mode.}
+00530 \textcolor{comment}{  }
+00531 \textcolor{comment}{  1.  In the Polling Mode it is advised to use the following functions:}
+00532 \textcolor{comment}{      - HASH\_GetFlagStatus() : to check if flags events occur. }
+00533 \textcolor{comment}{      - HASH\_ClearFlag()     : to clear the flags events.}
+00534 \textcolor{comment}{    }
+00535 \textcolor{comment}{  2.  In the Interrupt Mode it is advised to use the following functions:}
+00536 \textcolor{comment}{      - HASH\_ITConfig()       : to enable or disable the interrupt source.}
+00537 \textcolor{comment}{      - HASH\_GetITStatus()    : to check if Interrupt occurs.}
+00538 \textcolor{comment}{      - HASH\_ClearITPendingBit() : to clear the Interrupt pending Bit }
+00539 \textcolor{comment}{                                (corresponding Flag). }
+00540 \textcolor{comment}{}
+00541 \textcolor{comment}{@endverbatim}
+00542 \textcolor{comment}{  * @\{}
+00543 \textcolor{comment}{  */}
+00544 
+00545 \textcolor{comment}{/**}
+00546 \textcolor{comment}{  * @brief  Enables or disables the specified HASH interrupts.}
+00547 \textcolor{comment}{  * @param  HASH\_IT: specifies the HASH interrupt source to be enabled or disabled.}
+00548 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+00549 \textcolor{comment}{  *            @arg HASH\_IT\_DINI: Data Input interrupt}
+00550 \textcolor{comment}{  *            @arg HASH\_IT\_DCI: Digest Calculation Completion Interrupt}
+00551 \textcolor{comment}{  * @param  NewState: new state of the specified HASH interrupt.}
+00552 \textcolor{comment}{  *           This parameter can be: ENABLE or DISABLE.}
+00553 \textcolor{comment}{  * @retval None}
+00554 \textcolor{comment}{  */}
+00555 \textcolor{keywordtype}{void} HASH_ITConfig(uint8\_t HASH\_IT, FunctionalState NewState)
+00556 \{
+00557   \textcolor{comment}{/* Check the parameters */}
+00558   assert_param(IS\_HASH\_IT(HASH\_IT));
+00559   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00560 
+00561   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00562   \{
+00563     \textcolor{comment}{/* Enable the selected HASH interrupt */}
+00564     HASH->IMR |= HASH\_IT;
+00565   \}
+00566   \textcolor{keywordflow}{else}
+00567   \{
+00568     \textcolor{comment}{/* Disable the selected HASH interrupt */}
+00569     HASH->IMR &= (uint8\_t) ~HASH\_IT;
+00570   \}
+00571 \}
+00572 
+00573 \textcolor{comment}{/**}
+00574 \textcolor{comment}{  * @brief  Checks whether the specified HASH flag is set or not.}
+00575 \textcolor{comment}{  * @param  HASH\_FLAG: specifies the HASH flag to check.}
+00576 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00577 \textcolor{comment}{  *            @arg HASH\_FLAG\_DINIS: Data input interrupt status flag}
+00578 \textcolor{comment}{  *            @arg HASH\_FLAG\_DCIS: Digest calculation completion interrupt status flag}
+00579 \textcolor{comment}{  *            @arg HASH\_FLAG\_BUSY: Busy flag}
+00580 \textcolor{comment}{  *            @arg HASH\_FLAG\_DMAS: DMAS Status flag}
+00581 \textcolor{comment}{  *            @arg HASH\_FLAG\_DINNE: Data Input register (DIN) not empty status flag}
+00582 \textcolor{comment}{  * @retval The new state of HASH\_FLAG (SET or RESET)}
+00583 \textcolor{comment}{  */}
+00584 FlagStatus HASH_GetFlagStatus(uint16\_t HASH\_FLAG)
+00585 \{
+00586   FlagStatus bitstatus = RESET;
+00587   uint32\_t tempreg = 0;
+00588 
+00589   \textcolor{comment}{/* Check the parameters */}
+00590   assert_param(IS\_HASH\_GET\_FLAG(HASH\_FLAG));
+00591 
+00592   \textcolor{comment}{/* check if the FLAG is in CR register */}
+00593   \textcolor{keywordflow}{if} ((HASH\_FLAG & HASH_FLAG_DINNE) != (uint16\_t)RESET )
+00594   \{
+00595     tempreg = HASH->CR;
+00596   \}
+00597   \textcolor{keywordflow}{else} \textcolor{comment}{/* The FLAG is in SR register */}
+00598   \{
+00599     tempreg = HASH->SR;
+00600   \}
+00601 
+00602   \textcolor{comment}{/* Check the status of the specified HASH flag */}
+00603   \textcolor{keywordflow}{if} ((tempreg & HASH\_FLAG) != (uint16\_t)RESET)
+00604   \{
+00605     \textcolor{comment}{/* HASH is set */}
+00606     bitstatus = SET;
+00607   \}
+00608   \textcolor{keywordflow}{else}
+00609   \{
+00610     \textcolor{comment}{/* HASH\_FLAG is reset */}
+00611     bitstatus = RESET;
+00612   \}
+00613 
+00614   \textcolor{comment}{/* Return the HASH\_FLAG status */}
+00615   \textcolor{keywordflow}{return}  bitstatus;
+00616 \}
+00617 \textcolor{comment}{/**}
+00618 \textcolor{comment}{  * @brief  Clears the HASH flags.}
+00619 \textcolor{comment}{  * @param  HASH\_FLAG: specifies the flag to clear. }
+00620 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+00621 \textcolor{comment}{  *            @arg HASH\_FLAG\_DINIS: Data Input Flag}
+00622 \textcolor{comment}{  *            @arg HASH\_FLAG\_DCIS: Digest Calculation Completion Flag                       }
+00623 \textcolor{comment}{  * @retval None}
+00624 \textcolor{comment}{  */}
+00625 \textcolor{keywordtype}{void} HASH_ClearFlag(uint16\_t HASH\_FLAG)
+00626 \{
+00627   \textcolor{comment}{/* Check the parameters */}
+00628   assert_param(IS\_HASH\_CLEAR\_FLAG(HASH\_FLAG));
+00629 
+00630   \textcolor{comment}{/* Clear the selected HASH flags */}
+00631   HASH->SR = ~(uint32\_t)HASH\_FLAG;
+00632 \}
+00633 \textcolor{comment}{/**}
+00634 \textcolor{comment}{  * @brief  Checks whether the specified HASH interrupt has occurred or not.}
+00635 \textcolor{comment}{  * @param  HASH\_IT: specifies the HASH interrupt source to check.}
+00636 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00637 \textcolor{comment}{  *            @arg HASH\_IT\_DINI: Data Input interrupt}
+00638 \textcolor{comment}{  *            @arg HASH\_IT\_DCI: Digest Calculation Completion Interrupt}
+00639 \textcolor{comment}{  * @retval The new state of HASH\_IT (SET or RESET).}
+00640 \textcolor{comment}{  */}
+00641 ITStatus HASH_GetITStatus(uint8\_t HASH\_IT)
+00642 \{
+00643   ITStatus bitstatus = RESET;
+00644   uint32\_t tmpreg = 0;
+00645 
+00646   \textcolor{comment}{/* Check the parameters */}
+00647   assert_param(IS\_HASH\_GET\_IT(HASH\_IT));
+00648 
+00649 
+00650   \textcolor{comment}{/* Check the status of the specified HASH interrupt */}
+00651   tmpreg =  HASH->SR;
+00652 
+00653   \textcolor{keywordflow}{if} (((HASH->IMR & tmpreg) & HASH\_IT) != RESET)
+00654   \{
+00655     \textcolor{comment}{/* HASH\_IT is set */}
+00656     bitstatus = SET;
+00657   \}
+00658   \textcolor{keywordflow}{else}
+00659   \{
+00660     \textcolor{comment}{/* HASH\_IT is reset */}
+00661     bitstatus = RESET;
+00662   \}
+00663   \textcolor{comment}{/* Return the HASH\_IT status */}
+00664   \textcolor{keywordflow}{return} bitstatus;
+00665 \}
+00666 
+00667 \textcolor{comment}{/**}
+00668 \textcolor{comment}{  * @brief  Clears the HASH interrupt pending bit(s).}
+00669 \textcolor{comment}{  * @param  HASH\_IT: specifies the HASH interrupt pending bit(s) to clear.}
+00670 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+00671 \textcolor{comment}{  *            @arg HASH\_IT\_DINI: Data Input interrupt}
+00672 \textcolor{comment}{  *            @arg HASH\_IT\_DCI: Digest Calculation Completion Interrupt}
+00673 \textcolor{comment}{  * @retval None}
+00674 \textcolor{comment}{  */}
+00675 \textcolor{keywordtype}{void} HASH_ClearITPendingBit(uint8\_t HASH\_IT)
+00676 \{
+00677   \textcolor{comment}{/* Check the parameters */}
+00678   assert_param(IS\_HASH\_IT(HASH\_IT));
+00679 
+00680   \textcolor{comment}{/* Clear the selected HASH interrupt pending bit */}
+00681   HASH->SR = (uint8\_t)~HASH\_IT;
+00682 \}
+00683 
+00684 \textcolor{comment}{/**}
+00685 \textcolor{comment}{  * @\}}
+00686 \textcolor{comment}{  */}
+00687 
+00688 \textcolor{comment}{/**}
+00689 \textcolor{comment}{  * @\}}
+00690 \textcolor{comment}{  */}
+00691 
+00692 \textcolor{comment}{/**}
+00693 \textcolor{comment}{  * @\}}
+00694 \textcolor{comment}{  */}
+00695 
+00696 \textcolor{comment}{/**}
+00697 \textcolor{comment}{  * @\}}
+00698 \textcolor{comment}{  */}
+00699 
+00700 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

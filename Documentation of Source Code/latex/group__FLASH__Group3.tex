@@ -1,0 +1,536 @@
+\section{Option Bytes Programming functions}
+\label{group__FLASH__Group3}\index{Option Bytes Programming functions@{Option Bytes Programming functions}}
+
+
+Option Bytes Programming functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Unlock} (void)
+\begin{DoxyCompactList}\small\item\em Unlocks the F\+L\+A\+SH Option Control Registers access. \end{DoxyCompactList}\item 
+void \textbf{ F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Lock} (void)
+\begin{DoxyCompactList}\small\item\em Locks the F\+L\+A\+SH Option Control Registers access. \end{DoxyCompactList}\item 
+void \textbf{ F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+W\+R\+P\+Config} (uint32\+\_\+t O\+B\+\_\+\+W\+RP, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the write protection of the desired sectors. \end{DoxyCompactList}\item 
+void \textbf{ F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+R\+D\+P\+Config} (uint8\+\_\+t O\+B\+\_\+\+R\+DP)
+\begin{DoxyCompactList}\small\item\em Sets the read protection level. \end{DoxyCompactList}\item 
+void \textbf{ F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+User\+Config} (uint8\+\_\+t O\+B\+\_\+\+I\+W\+DG, uint8\+\_\+t O\+B\+\_\+\+S\+T\+OP, uint8\+\_\+t O\+B\+\_\+\+S\+T\+D\+BY)
+\begin{DoxyCompactList}\small\item\em Programs the F\+L\+A\+SH User Option Byte\+: I\+W\+D\+G\+\_\+\+SW / R\+S\+T\+\_\+\+S\+T\+OP / R\+S\+T\+\_\+\+S\+T\+D\+BY. \end{DoxyCompactList}\item 
+void \textbf{ F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+B\+O\+R\+Config} (uint8\+\_\+t O\+B\+\_\+\+B\+OR)
+\begin{DoxyCompactList}\small\item\em Sets the B\+OR Level. \end{DoxyCompactList}\item 
+\textbf{ F\+L\+A\+S\+H\+\_\+\+Status} \textbf{ F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Launch} (void)
+\begin{DoxyCompactList}\small\item\em Launch the option byte loading. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+User} (void)
+\begin{DoxyCompactList}\small\item\em Returns the F\+L\+A\+SH User Option Bytes values. \end{DoxyCompactList}\item 
+uint16\+\_\+t \textbf{ F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+W\+RP} (void)
+\begin{DoxyCompactList}\small\item\em Returns the F\+L\+A\+SH Write Protection Option Bytes value. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+R\+DP} (void)
+\begin{DoxyCompactList}\small\item\em Returns the F\+L\+A\+SH Read Protection level. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+B\+OR} (void)
+\begin{DoxyCompactList}\small\item\em Returns the F\+L\+A\+SH B\+OR level. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Option Bytes Programming functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                        Option Bytes Programming functions
+ ===============================================================================  
+ 
+   This group includes the following functions:
+   - void FLASH_OB_Unlock(void)
+   - void FLASH_OB_Lock(void)
+   - void FLASH_OB_WRPConfig(uint32_t OB_WRP, FunctionalState NewState)
+   - void FLASH_OB_RDPConfig(uint8_t OB_RDP)
+   - void FLASH_OB_UserConfig(uint8_t OB_IWDG, uint8_t OB_STOP, uint8_t OB_STDBY)
+   - void FLASH_OB_BORConfig(uint8_t OB_BOR)
+   - FLASH_Status FLASH_ProgramOTP(uint32_t Address, uint32_t Data)                         
+   - FLASH_Status FLASH_OB_Launch(void)
+   - uint32_t FLASH_OB_GetUser(void)                        
+   - uint8_t FLASH_OB_GetWRP(void)                      
+   - uint8_t FLASH_OB_GetRDP(void)                          
+   - uint8_t FLASH_OB_GetBOR(void)
+   
+   Any operation of erase or program should follow these steps:
+   1. Call the FLASH_OB_Unlock() function to enable the FLASH option control register access
+
+   2. Call one or several functions to program the desired Option Bytes:
+      - void FLASH_OB_WRPConfig(uint32_t OB_WRP, FunctionalState NewState) => to Enable/Disable 
+        the desired sector write protection
+      - void FLASH_OB_RDPConfig(uint8_t OB_RDP) => to set the desired read Protection Level
+      - void FLASH_OB_UserConfig(uint8_t OB_IWDG, uint8_t OB_STOP, uint8_t OB_STDBY) => to configure 
+        the user Option Bytes.
+      - void FLASH_OB_BORConfig(uint8_t OB_BOR) => to set the BOR Level              
+
+   3. Once all needed Option Bytes to be programmed are correctly written, call the
+      FLASH_OB_Launch() function to launch the Option Bytes programming process.
+     
+     @note When changing the IWDG mode from HW to SW or from SW to HW, a system 
+           reset is needed to make the change effective.  
+
+   4. Call the FLASH_OB_Lock() function to disable the FLASH option control register
+      access (recommended to protect the Option Bytes against possible unwanted operations)\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__FLASH__Group3_ga621bf052bc381c7a37fb1f8758f5ec2e}} 
+\index{Option Bytes Programming functions@{Option Bytes Programming functions}!F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+B\+O\+R\+Config@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+B\+O\+R\+Config}}
+\index{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+B\+O\+R\+Config@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+B\+O\+R\+Config}!Option Bytes Programming functions@{Option Bytes Programming functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+B\+O\+R\+Config()}
+{\footnotesize\ttfamily void F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+B\+O\+R\+Config (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{O\+B\+\_\+\+B\+OR }\end{DoxyParamCaption})}
+
+
+
+Sets the B\+OR Level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em O\+B\+\_\+\+B\+OR} & specifies the Option Bytes B\+OR Reset Level. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item O\+B\+\_\+\+B\+O\+R\+\_\+\+L\+E\+V\+E\+L3\+: Supply voltage ranges from 2.\+7 to 3.\+6 V \item O\+B\+\_\+\+B\+O\+R\+\_\+\+L\+E\+V\+E\+L2\+: Supply voltage ranges from 2.\+4 to 2.\+7 V \item O\+B\+\_\+\+B\+O\+R\+\_\+\+L\+E\+V\+E\+L1\+: Supply voltage ranges from 2.\+1 to 2.\+4 V \item O\+B\+\_\+\+B\+O\+R\+\_\+\+O\+FF\+: Supply voltage ranges from 1.\+62 to 2.\+1 V \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 789} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+\begin{DoxyCode}
+00790 \{
+00791   \textcolor{comment}{/* Check the parameters */}
+00792   assert_param(IS_OB_BOR(OB\_BOR));
+00793 
+00794   \textcolor{comment}{/* Set the BOR Level */}
+00795   *(\_\_IO uint8\_t *)OPTCR_BYTE0_ADDRESS &= (~FLASH_OPTCR_BOR_LEV);
+00796   *(\_\_IO uint8\_t *)OPTCR_BYTE0_ADDRESS |= OB\_BOR;
+00797 
+00798 \}
+\end{DoxyCode}
+\mbox{\label{group__FLASH__Group3_gab8a8804905929b2edd544d28c2e7b215}} 
+\index{Option Bytes Programming functions@{Option Bytes Programming functions}!F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+B\+OR@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+B\+OR}}
+\index{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+B\+OR@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+B\+OR}!Option Bytes Programming functions@{Option Bytes Programming functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+B\+O\+R()}
+{\footnotesize\ttfamily uint8\+\_\+t F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+B\+OR (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns the F\+L\+A\+SH B\+OR level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & F\+L\+A\+SH B\+OR level\+:
+\begin{DoxyItemize}
+\item O\+B\+\_\+\+B\+O\+R\+\_\+\+L\+E\+V\+E\+L3\+: Supply voltage ranges from 2.\+7 to 3.\+6 V
+\item O\+B\+\_\+\+B\+O\+R\+\_\+\+L\+E\+V\+E\+L2\+: Supply voltage ranges from 2.\+4 to 2.\+7 V
+\item O\+B\+\_\+\+B\+O\+R\+\_\+\+L\+E\+V\+E\+L1\+: Supply voltage ranges from 2.\+1 to 2.\+4 V
+\item O\+B\+\_\+\+B\+O\+R\+\_\+\+O\+FF \+: Supply voltage ranges from 1.\+62 to 2.\+1 V 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 873} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+\begin{DoxyCode}
+00874 \{
+00875   \textcolor{comment}{/* Return the FLASH BOR level */}
+00876   \textcolor{keywordflow}{return} (uint8\_t)(*(\_\_IO uint8\_t *)(OPTCR_BYTE0_ADDRESS) & (uint8\_t)0x0C);
+00877 \}
+\end{DoxyCode}
+\mbox{\label{group__FLASH__Group3_ga2f0151c6c923396eaf96c554a5860c31}} 
+\index{Option Bytes Programming functions@{Option Bytes Programming functions}!F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+R\+DP@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+R\+DP}}
+\index{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+R\+DP@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+R\+DP}!Option Bytes Programming functions@{Option Bytes Programming functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+R\+D\+P()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+R\+DP (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns the F\+L\+A\+SH Read Protection level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em F\+L\+A\+SH} & Read\+Out Protection Status\+:
+\begin{DoxyItemize}
+\item S\+ET, when O\+B\+\_\+\+R\+D\+P\+\_\+\+Level\+\_\+1 or O\+B\+\_\+\+R\+D\+P\+\_\+\+Level\+\_\+2 is set
+\item R\+E\+S\+ET, when O\+B\+\_\+\+R\+D\+P\+\_\+\+Level\+\_\+0 is set 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 849} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00850 \{
+00851   FlagStatus readstatus = RESET;
+00852 
+00853   \textcolor{keywordflow}{if} ((*(\_\_IO uint8\_t*)(OPTCR_BYTE1_ADDRESS) != (uint8\_t)OB_RDP_Level_0))
+00854   \{
+00855     readstatus = SET;
+00856   \}
+00857   \textcolor{keywordflow}{else}
+00858   \{
+00859     readstatus = RESET;
+00860   \}
+00861   \textcolor{keywordflow}{return} readstatus;
+00862 \}
+\end{DoxyCode}
+\mbox{\label{group__FLASH__Group3_ga737dd808489113af7f8df7f7e9f7baae}} 
+\index{Option Bytes Programming functions@{Option Bytes Programming functions}!F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+User@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+User}}
+\index{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+User@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+User}!Option Bytes Programming functions@{Option Bytes Programming functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+User()}
+{\footnotesize\ttfamily uint8\+\_\+t F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+User (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns the F\+L\+A\+SH User Option Bytes values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & F\+L\+A\+SH User Option Bytes values\+: I\+W\+D\+G\+\_\+\+S\+W(\+Bit0), R\+S\+T\+\_\+\+S\+T\+O\+P(\+Bit1) and R\+S\+T\+\_\+\+S\+T\+D\+B\+Y(\+Bit2). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 825} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+\begin{DoxyCode}
+00826 \{
+00827   \textcolor{comment}{/* Return the User Option Byte */}
+00828   \textcolor{keywordflow}{return} (uint8\_t)(FLASH->OPTCR >> 5);
+00829 \}
+\end{DoxyCode}
+\mbox{\label{group__FLASH__Group3_gafa2aec5fa1ea7a73c31f3405f465c525}} 
+\index{Option Bytes Programming functions@{Option Bytes Programming functions}!F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+W\+RP@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+W\+RP}}
+\index{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+W\+RP@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+W\+RP}!Option Bytes Programming functions@{Option Bytes Programming functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+W\+R\+P()}
+{\footnotesize\ttfamily uint16\+\_\+t F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Get\+W\+RP (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns the F\+L\+A\+SH Write Protection Option Bytes value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & F\+L\+A\+SH Write Protection Option Bytes value \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 836} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+\begin{DoxyCode}
+00837 \{
+00838   \textcolor{comment}{/* Return the FLASH write protection Register value */}
+00839   \textcolor{keywordflow}{return} (*(\_\_IO uint16\_t *)(OPTCR_BYTE2_ADDRESS));
+00840 \}
+\end{DoxyCode}
+\mbox{\label{group__FLASH__Group3_gabcbd44a62a2488d8b90aa8562a258ef1}} 
+\index{Option Bytes Programming functions@{Option Bytes Programming functions}!F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Launch@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Launch}}
+\index{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Launch@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Launch}!Option Bytes Programming functions@{Option Bytes Programming functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Launch()}
+{\footnotesize\ttfamily \textbf{ F\+L\+A\+S\+H\+\_\+\+Status} F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Launch (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Launch the option byte loading. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em F\+L\+A\+SH} & Status\+: The returned value can be\+: F\+L\+A\+S\+H\+\_\+\+B\+U\+SY, F\+L\+A\+S\+H\+\_\+\+E\+R\+R\+O\+R\+\_\+\+P\+R\+O\+G\+R\+AM, F\+L\+A\+S\+H\+\_\+\+E\+R\+R\+O\+R\+\_\+\+W\+RP, F\+L\+A\+S\+H\+\_\+\+E\+R\+R\+O\+R\+\_\+\+O\+P\+E\+R\+A\+T\+I\+ON or F\+L\+A\+S\+H\+\_\+\+C\+O\+M\+P\+L\+E\+TE. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 806} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+
+References \textbf{ F\+L\+A\+S\+H\+\_\+\+C\+O\+M\+P\+L\+E\+TE}, and \textbf{ F\+L\+A\+S\+H\+\_\+\+Wait\+For\+Last\+Operation()}.
+
+
+\begin{DoxyCode}
+00807 \{
+00808   FLASH_Status status = FLASH_COMPLETE;
+00809 
+00810   \textcolor{comment}{/* Set the OPTSTRT bit in OPTCR register */}
+00811   *(\_\_IO uint8\_t *)OPTCR_BYTE0_ADDRESS |= FLASH_OPTCR_OPTSTRT;
+00812 
+00813   \textcolor{comment}{/* Wait for last operation to be completed */}
+00814   status = FLASH_WaitForLastOperation();
+00815 
+00816   \textcolor{keywordflow}{return} status;
+00817 \}
+\end{DoxyCode}
+\mbox{\label{group__FLASH__Group3_ga63a33d9af7e29b64c3806e5505c59b74}} 
+\index{Option Bytes Programming functions@{Option Bytes Programming functions}!F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Lock@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Lock}}
+\index{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Lock@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Lock}!Option Bytes Programming functions@{Option Bytes Programming functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Lock()}
+{\footnotesize\ttfamily void F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Lock (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Locks the F\+L\+A\+SH Option Control Registers access. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 673} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+\begin{DoxyCode}
+00674 \{
+00675   \textcolor{comment}{/* Set the OPTLOCK Bit to lock the FLASH Option Byte Registers access */}
+00676   FLASH->OPTCR |= FLASH_OPTCR_OPTLOCK;
+00677 \}
+\end{DoxyCode}
+\mbox{\label{group__FLASH__Group3_ga12cb6799f725a49cd151eef4d6d1789b}} 
+\index{Option Bytes Programming functions@{Option Bytes Programming functions}!F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+R\+D\+P\+Config@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+R\+D\+P\+Config}}
+\index{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+R\+D\+P\+Config@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+R\+D\+P\+Config}!Option Bytes Programming functions@{Option Bytes Programming functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+R\+D\+P\+Config()}
+{\footnotesize\ttfamily void F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+R\+D\+P\+Config (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{O\+B\+\_\+\+R\+DP }\end{DoxyParamCaption})}
+
+
+
+Sets the read protection level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em O\+B\+\_\+\+R\+DP} & specifies the read protection level. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item O\+B\+\_\+\+R\+D\+P\+\_\+\+Level\+\_\+0\+: No protection \item O\+B\+\_\+\+R\+D\+P\+\_\+\+Level\+\_\+1\+: Read protection of the memory \item O\+B\+\_\+\+R\+D\+P\+\_\+\+Level\+\_\+2\+: Full chip protection\end{DoxyItemize}
+!!!\+Warning!!! When enabling O\+B\+\_\+\+R\+DP level 2 it\textquotesingle{}s no more possible to go back to level 1 or 0\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 724} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+
+References \textbf{ F\+L\+A\+S\+H\+\_\+\+C\+O\+M\+P\+L\+E\+TE}, and \textbf{ F\+L\+A\+S\+H\+\_\+\+Wait\+For\+Last\+Operation()}.
+
+
+\begin{DoxyCode}
+00725 \{
+00726   FLASH_Status status = FLASH_COMPLETE;
+00727 
+00728   \textcolor{comment}{/* Check the parameters */}
+00729   assert_param(IS_OB_RDP(OB\_RDP));
+00730 
+00731   status = FLASH_WaitForLastOperation();
+00732 
+00733   \textcolor{keywordflow}{if}(status == FLASH_COMPLETE)
+00734   \{
+00735     *(\_\_IO uint8\_t*)OPTCR_BYTE1_ADDRESS = OB\_RDP;
+00736 
+00737   \}
+00738 \}
+\end{DoxyCode}
+\mbox{\label{group__FLASH__Group3_ga518d6e3bbba2adf1523e8454f62348e9}} 
+\index{Option Bytes Programming functions@{Option Bytes Programming functions}!F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Unlock@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Unlock}}
+\index{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Unlock@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Unlock}!Option Bytes Programming functions@{Option Bytes Programming functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Unlock()}
+{\footnotesize\ttfamily void F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+Unlock (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Unlocks the F\+L\+A\+SH Option Control Registers access. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 658} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+\begin{DoxyCode}
+00659 \{
+00660   \textcolor{keywordflow}{if}((FLASH->OPTCR & FLASH_OPTCR_OPTLOCK) != RESET)
+00661   \{
+00662     \textcolor{comment}{/* Authorizes the Option Byte register programming */}
+00663     FLASH->OPTKEYR = FLASH_OPT_KEY1;
+00664     FLASH->OPTKEYR = FLASH_OPT_KEY2;
+00665   \}  
+00666 \}
+\end{DoxyCode}
+\mbox{\label{group__FLASH__Group3_ga6b605409e4271b4cc6dfb56ed8108a1a}} 
+\index{Option Bytes Programming functions@{Option Bytes Programming functions}!F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+User\+Config@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+User\+Config}}
+\index{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+User\+Config@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+User\+Config}!Option Bytes Programming functions@{Option Bytes Programming functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+User\+Config()}
+{\footnotesize\ttfamily void F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+User\+Config (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{O\+B\+\_\+\+I\+W\+DG,  }\item[{uint8\+\_\+t}]{O\+B\+\_\+\+S\+T\+OP,  }\item[{uint8\+\_\+t}]{O\+B\+\_\+\+S\+T\+D\+BY }\end{DoxyParamCaption})}
+
+
+
+Programs the F\+L\+A\+SH User Option Byte\+: I\+W\+D\+G\+\_\+\+SW / R\+S\+T\+\_\+\+S\+T\+OP / R\+S\+T\+\_\+\+S\+T\+D\+BY. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em O\+B\+\_\+\+I\+W\+DG} & Selects the I\+W\+DG mode This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item O\+B\+\_\+\+I\+W\+D\+G\+\_\+\+SW\+: Software I\+W\+DG selected \item O\+B\+\_\+\+I\+W\+D\+G\+\_\+\+HW\+: Hardware I\+W\+DG selected \end{DoxyItemize}
+\\
+\hline
+{\em O\+B\+\_\+\+S\+T\+OP} & Reset event when entering S\+T\+OP mode. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item O\+B\+\_\+\+S\+T\+O\+P\+\_\+\+No\+R\+ST\+: No reset generated when entering in S\+T\+OP \item O\+B\+\_\+\+S\+T\+O\+P\+\_\+\+R\+ST\+: Reset generated when entering in S\+T\+OP \end{DoxyItemize}
+\\
+\hline
+{\em O\+B\+\_\+\+S\+T\+D\+BY} & Reset event when entering Standby mode. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item O\+B\+\_\+\+S\+T\+D\+B\+Y\+\_\+\+No\+R\+ST\+: No reset generated when entering in S\+T\+A\+N\+D\+BY \item O\+B\+\_\+\+S\+T\+D\+B\+Y\+\_\+\+R\+ST\+: Reset generated when entering in S\+T\+A\+N\+D\+BY \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 756} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+
+References \textbf{ F\+L\+A\+S\+H\+\_\+\+C\+O\+M\+P\+L\+E\+TE}, and \textbf{ F\+L\+A\+S\+H\+\_\+\+Wait\+For\+Last\+Operation()}.
+
+
+\begin{DoxyCode}
+00757 \{
+00758   uint8\_t optiontmp = 0xFF;
+00759   FLASH_Status status = FLASH_COMPLETE; 
+00760 
+00761   \textcolor{comment}{/* Check the parameters */}
+00762   assert_param(IS_OB_IWDG_SOURCE(OB\_IWDG));
+00763   assert_param(IS_OB_STOP_SOURCE(OB\_STOP));
+00764   assert_param(IS_OB_STDBY_SOURCE(OB\_STDBY));
+00765 
+00766   \textcolor{comment}{/* Wait for last operation to be completed */}
+00767   status = FLASH_WaitForLastOperation();
+00768   
+00769   \textcolor{keywordflow}{if}(status == FLASH_COMPLETE)
+00770   \{ 
+00771     \textcolor{comment}{/* Mask OPTLOCK, OPTSTRT and BOR\_LEV bits */}
+00772     optiontmp =  (uint8\_t)((*(\_\_IO uint8\_t *)OPTCR_BYTE0_ADDRESS) & (uint8\_t)0x0F); 
+00773 
+00774     \textcolor{comment}{/* Update User Option Byte */}
+00775     *(\_\_IO uint8\_t *)OPTCR\_BYTE0\_ADDRESS = OB\_IWDG | (uint8\_t)(OB\_STDBY | (uint8\_t)(OB\_STOP | ((uint8\_t)
+      optiontmp))); 
+00776   \}  
+00777 \}
+\end{DoxyCode}
+\mbox{\label{group__FLASH__Group3_gaffe7e91bcce65ac079ae5afa1db568b5}} 
+\index{Option Bytes Programming functions@{Option Bytes Programming functions}!F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+W\+R\+P\+Config@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+W\+R\+P\+Config}}
+\index{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+W\+R\+P\+Config@{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+W\+R\+P\+Config}!Option Bytes Programming functions@{Option Bytes Programming functions}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+W\+R\+P\+Config()}
+{\footnotesize\ttfamily void F\+L\+A\+S\+H\+\_\+\+O\+B\+\_\+\+W\+R\+P\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{O\+B\+\_\+\+W\+RP,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the write protection of the desired sectors. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em O\+B\+\_\+\+W\+RP} & specifies the sector(s) to be write protected or unprotected. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item O\+B\+\_\+\+W\+RP\+: A value between O\+B\+\_\+\+W\+R\+P\+\_\+\+Sector0 and O\+B\+\_\+\+W\+R\+P\+\_\+\+Sector11 \item O\+B\+\_\+\+W\+R\+P\+\_\+\+Sector\+\_\+\+All \end{DoxyItemize}
+\\
+\hline
+{\em Newstate} & new state of the Write Protection. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 689} of file \textbf{ stm32f4xx\+\_\+flash.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ F\+L\+A\+S\+H\+\_\+\+C\+O\+M\+P\+L\+E\+TE}, and \textbf{ F\+L\+A\+S\+H\+\_\+\+Wait\+For\+Last\+Operation()}.
+
+
+\begin{DoxyCode}
+00690 \{ 
+00691   FLASH_Status status = FLASH_COMPLETE;
+00692   
+00693   \textcolor{comment}{/* Check the parameters */}
+00694   assert_param(IS_OB_WRP(OB\_WRP));
+00695   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00696     
+00697   status = FLASH_WaitForLastOperation();
+00698 
+00699   \textcolor{keywordflow}{if}(status == FLASH_COMPLETE)
+00700   \{ 
+00701     \textcolor{keywordflow}{if}(NewState != DISABLE)
+00702     \{
+00703       *(\_\_IO uint16\_t*)OPTCR_BYTE2_ADDRESS &= (~OB\_WRP);
+00704     \}
+00705     \textcolor{keywordflow}{else}
+00706     \{
+00707       *(\_\_IO uint16\_t*)OPTCR_BYTE2_ADDRESS |= (uint16\_t)OB\_WRP;
+00708     \}
+00709   \}
+00710 \}
+\end{DoxyCode}

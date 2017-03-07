@@ -1,0 +1,105 @@
+\section{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+pwr.c File Reference}
+\label{stm32f4xx__pwr_8c}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+pwr.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+pwr.\+c}}
+
+
+This file provides firmware functions to manage the following functionalities of the Power Controller (P\+WR) peripheral\+:  
+
+
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+pwr.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+rcc.\+h\char`\"{}}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ P\+W\+R\+\_\+\+O\+F\+F\+S\+ET}~(\textbf{ P\+W\+R\+\_\+\+B\+A\+SE} -\/ \textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+A\+SE})
+\item 
+\#define \textbf{ C\+R\+\_\+\+O\+F\+F\+S\+ET}~(\textbf{ P\+W\+R\+\_\+\+O\+F\+F\+S\+ET} + 0x00)
+\item 
+\#define \textbf{ D\+B\+P\+\_\+\+Bit\+Number}~0x08
+\item 
+\#define \textbf{ C\+R\+\_\+\+D\+B\+P\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+R\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ D\+B\+P\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ P\+V\+D\+E\+\_\+\+Bit\+Number}~0x04
+\item 
+\#define \textbf{ C\+R\+\_\+\+P\+V\+D\+E\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+R\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ P\+V\+D\+E\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ F\+P\+D\+S\+\_\+\+Bit\+Number}~0x09
+\item 
+\#define \textbf{ C\+R\+\_\+\+F\+P\+D\+S\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+R\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ F\+P\+D\+S\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ P\+M\+O\+D\+E\+\_\+\+Bit\+Number}~0x0E
+\item 
+\#define \textbf{ C\+R\+\_\+\+P\+M\+O\+D\+E\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+R\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ P\+M\+O\+D\+E\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ C\+S\+R\+\_\+\+O\+F\+F\+S\+ET}~(\textbf{ P\+W\+R\+\_\+\+O\+F\+F\+S\+ET} + 0x04)
+\item 
+\#define \textbf{ E\+W\+U\+P\+\_\+\+Bit\+Number}~0x08
+\item 
+\#define \textbf{ C\+S\+R\+\_\+\+E\+W\+U\+P\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+S\+R\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ E\+W\+U\+P\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ B\+R\+E\+\_\+\+Bit\+Number}~0x09
+\item 
+\#define \textbf{ C\+S\+R\+\_\+\+B\+R\+E\+\_\+\+BB}~(\textbf{ P\+E\+R\+I\+P\+H\+\_\+\+B\+B\+\_\+\+B\+A\+SE} + (\textbf{ C\+S\+R\+\_\+\+O\+F\+F\+S\+ET} $\ast$ 32) + (\textbf{ B\+R\+E\+\_\+\+Bit\+Number} $\ast$ 4))
+\item 
+\#define \textbf{ C\+R\+\_\+\+D\+S\+\_\+\+M\+A\+SK}~((uint32\+\_\+t)0x\+F\+F\+F\+F\+F\+F\+F\+C)
+\item 
+\#define \textbf{ C\+R\+\_\+\+P\+L\+S\+\_\+\+M\+A\+SK}~((uint32\+\_\+t)0x\+F\+F\+F\+F\+F\+F1\+F)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ P\+W\+R\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the P\+WR peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+Backup\+Access\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables access to the backup domain (R\+TC registers, R\+TC backup data registers and backup S\+R\+AM). \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+P\+V\+D\+Level\+Config} (uint32\+\_\+t P\+W\+R\+\_\+\+P\+V\+D\+Level)
+\begin{DoxyCompactList}\small\item\em Configures the voltage threshold detected by the Power Voltage Detector(\+P\+V\+D). \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+P\+V\+D\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Power Voltage Detector(\+P\+V\+D). \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+Wake\+Up\+Pin\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Wake\+Up Pin functionality. \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+Backup\+Regulator\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Backup Regulator. \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+Main\+Regulator\+Mode\+Config} (uint32\+\_\+t P\+W\+R\+\_\+\+Regulator\+\_\+\+Voltage)
+\begin{DoxyCompactList}\small\item\em Configures the main internal regulator output voltage. \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+Flash\+Power\+Down\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the Flash Power Down in S\+T\+OP mode. \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+Enter\+S\+T\+O\+P\+Mode} (uint32\+\_\+t P\+W\+R\+\_\+\+Regulator, uint8\+\_\+t P\+W\+R\+\_\+\+S\+T\+O\+P\+Entry)
+\begin{DoxyCompactList}\small\item\em Enters S\+T\+OP mode. \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+Enter\+S\+T\+A\+N\+D\+B\+Y\+Mode} (void)
+\begin{DoxyCompactList}\small\item\em Enters S\+T\+A\+N\+D\+BY mode. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ P\+W\+R\+\_\+\+Get\+Flag\+Status} (uint32\+\_\+t P\+W\+R\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified P\+WR flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+Clear\+Flag} (uint32\+\_\+t P\+W\+R\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the P\+WR\textquotesingle{}s pending flags. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file provides firmware functions to manage the following functionalities of the Power Controller (P\+WR) peripheral\+: 
+
+\begin{DoxyAuthor}{Author}
+M\+CD Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\+0.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+30-\/\+September-\/2011
+\begin{DoxyItemize}
+\item Backup Domain Access
+\item P\+VD configuration
+\item Wake\+Up pin configuration
+\item Main and Backup Regulators configuration
+\item F\+L\+A\+SH Power Down configuration
+\item Low Power modes configuration
+\item Flags management
+\end{DoxyItemize}
+\end{DoxyDate}
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+T\+HE P\+R\+E\+S\+E\+NT F\+I\+R\+M\+W\+A\+RE W\+H\+I\+CH IS F\+OR G\+U\+I\+D\+A\+N\+CE O\+N\+LY A\+I\+MS AT P\+R\+O\+V\+I\+D\+I\+NG C\+U\+S\+T\+O\+M\+E\+RS W\+I\+TH C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON R\+E\+G\+A\+R\+D\+I\+NG T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS IN O\+R\+D\+ER F\+OR T\+H\+EM TO S\+A\+VE T\+I\+ME. AS A R\+E\+S\+U\+LT, S\+T\+M\+I\+C\+R\+O\+E\+L\+E\+C\+T\+R\+O\+N\+I\+CS S\+H\+A\+LL N\+OT BE H\+E\+LD L\+I\+A\+B\+LE F\+OR A\+NY D\+I\+R\+E\+CT, I\+N\+D\+I\+R\+E\+CT OR C\+O\+N\+S\+E\+Q\+U\+E\+N\+T\+I\+AL D\+A\+M\+A\+G\+ES W\+I\+TH R\+E\+S\+P\+E\+CT TO A\+NY C\+L\+A\+I\+MS A\+R\+I\+S\+I\+NG F\+R\+OM T\+HE C\+O\+N\+T\+E\+NT OF S\+U\+CH F\+I\+R\+M\+W\+A\+RE A\+N\+D/\+OR T\+HE U\+SE M\+A\+DE BY C\+U\+S\+T\+O\+M\+E\+RS OF T\+HE C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON C\+O\+N\+T\+A\+I\+N\+ED H\+E\+R\+E\+IN IN C\+O\+N\+N\+E\+C\+T\+I\+ON W\+I\+TH T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS.
+
+\subsubsection*{\begin{center}\copyright{} C\+O\+P\+Y\+R\+I\+G\+HT 2011 S\+T\+Microelectronics\end{center} }
+
+Definition in file \textbf{ stm32f4xx\+\_\+pwr.\+c}.
+

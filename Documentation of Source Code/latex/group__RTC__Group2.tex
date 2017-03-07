@@ -1,0 +1,516 @@
+\section{Time and Date configuration functions}
+\label{group__RTC__Group2}\index{Time and Date configuration functions@{Time and Date configuration functions}}
+
+
+Time and Date configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Set\+Time} (uint32\+\_\+t R\+T\+C\+\_\+\+Format, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Time\+Struct)
+\begin{DoxyCompactList}\small\item\em Set the R\+TC current time. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Time\+Struct\+Init} (\textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Time\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each R\+T\+C\+\_\+\+Time\+Struct member with its default value (Time = 00h\+:00min\+:00sec). \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Get\+Time} (uint32\+\_\+t R\+T\+C\+\_\+\+Format, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Time\+Struct)
+\begin{DoxyCompactList}\small\item\em Get the R\+TC current Time. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ R\+T\+C\+\_\+\+Get\+Sub\+Second} (void)
+\begin{DoxyCompactList}\small\item\em Gets the R\+TC current Calendar Subseconds value. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Set\+Date} (uint32\+\_\+t R\+T\+C\+\_\+\+Format, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Date\+Struct)
+\begin{DoxyCompactList}\small\item\em Set the R\+TC current date. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Date\+Struct\+Init} (\textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Date\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each R\+T\+C\+\_\+\+Date\+Struct member with its default value (Monday, January 01 xx00). \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Get\+Date} (uint32\+\_\+t R\+T\+C\+\_\+\+Format, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Date\+Struct)
+\begin{DoxyCompactList}\small\item\em Get the R\+TC current date. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Time and Date configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                   Time and Date configuration functions
+ ===============================================================================  
+
+  This section provide functions allowing to program and read the RTC Calendar
+  (Time and Date).\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__RTC__Group2_ga6e4e99be910d7759f8910056a2985056}} 
+\index{Time and Date configuration functions@{Time and Date configuration functions}!R\+T\+C\+\_\+\+Date\+Struct\+Init@{R\+T\+C\+\_\+\+Date\+Struct\+Init}}
+\index{R\+T\+C\+\_\+\+Date\+Struct\+Init@{R\+T\+C\+\_\+\+Date\+Struct\+Init}!Time and Date configuration functions@{Time and Date configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Date\+Struct\+Init()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Date\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Date\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each R\+T\+C\+\_\+\+Date\+Struct member with its default value (Monday, January 01 xx00). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Date\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Date\+Type\+Def}{p.}{structRTC__DateTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1009} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Date}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Month}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Week\+Day}, and \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Year}.
+
+
+\begin{DoxyCode}
+01010 \{
+01011   \textcolor{comment}{/* Monday, January 01 xx00 */}
+01012   RTC\_DateStruct->RTC_WeekDay = RTC_Weekday_Monday;
+01013   RTC\_DateStruct->RTC_Date = 1;
+01014   RTC\_DateStruct->RTC_Month = RTC_Month_January;
+01015   RTC\_DateStruct->RTC_Year = 0;
+01016 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group2_ga582645d554cdd4a316213e90f0b4c8ae}} 
+\index{Time and Date configuration functions@{Time and Date configuration functions}!R\+T\+C\+\_\+\+Get\+Date@{R\+T\+C\+\_\+\+Get\+Date}}
+\index{R\+T\+C\+\_\+\+Get\+Date@{R\+T\+C\+\_\+\+Get\+Date}!Time and Date configuration functions@{Time and Date configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Get\+Date()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Get\+Date (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Format,  }\item[{\textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Date\+Struct }\end{DoxyParamCaption})}
+
+
+
+Get the R\+TC current date. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Format} & specifies the format of the returned parameters. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Format\+\_\+\+B\+IN\+: Binary data format \item R\+T\+C\+\_\+\+Format\+\_\+\+B\+CD\+: B\+CD data format \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Date\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Date\+Type\+Def}{p.}{structRTC__DateTypeDef} structure that will contain the returned current date configuration. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1028} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+T\+C\+\_\+\+Bcd2\+To\+Byte()}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Date}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Month}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Week\+Day}, and \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Year}.
+
+
+\begin{DoxyCode}
+01029 \{
+01030   uint32\_t tmpreg = 0;
+01031 
+01032   \textcolor{comment}{/* Check the parameters */}
+01033   assert_param(IS_RTC_FORMAT(RTC\_Format));
+01034   
+01035   \textcolor{comment}{/* Get the RTC\_TR register */}
+01036   tmpreg = (uint32\_t)(RTC->DR & RTC_DR_RESERVED_MASK); 
+01037 
+01038   \textcolor{comment}{/* Fill the structure fields with the read parameters */}
+01039   RTC\_DateStruct->RTC_Year = (uint8\_t)((tmpreg & (RTC_DR_YT | RTC_DR_YU)) >> 16);
+01040   RTC\_DateStruct->RTC_Month = (uint8\_t)((tmpreg & (RTC_DR_MT | RTC_DR_MU)) >> 8);
+01041   RTC\_DateStruct->RTC_Date = (uint8\_t)(tmpreg & (RTC_DR_DT | RTC_DR_DU));
+01042   RTC\_DateStruct->RTC_WeekDay = (uint8\_t)((tmpreg & (RTC_DR_WDU)) >> 13);
+01043 
+01044   \textcolor{comment}{/* Check the input parameters format */}
+01045   \textcolor{keywordflow}{if} (RTC\_Format == RTC_Format_BIN)
+01046   \{
+01047     \textcolor{comment}{/* Convert the structure parameters to Binary format */}
+01048     RTC\_DateStruct->RTC_Year = (uint8\_t)RTC_Bcd2ToByte(RTC\_DateStruct->RTC_Year);
+01049     RTC\_DateStruct->RTC_Month = (uint8\_t)RTC_Bcd2ToByte(RTC\_DateStruct->
+      RTC_Month);
+01050     RTC\_DateStruct->RTC_Date = (uint8\_t)RTC_Bcd2ToByte(RTC\_DateStruct->RTC_Date);
+01051   \}
+01052 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group2_gae59c33fb19e36b6abab0bad58072c01a}} 
+\index{Time and Date configuration functions@{Time and Date configuration functions}!R\+T\+C\+\_\+\+Get\+Sub\+Second@{R\+T\+C\+\_\+\+Get\+Sub\+Second}}
+\index{R\+T\+C\+\_\+\+Get\+Sub\+Second@{R\+T\+C\+\_\+\+Get\+Sub\+Second}!Time and Date configuration functions@{Time and Date configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Get\+Sub\+Second()}
+{\footnotesize\ttfamily uint32\+\_\+t R\+T\+C\+\_\+\+Get\+Sub\+Second (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Gets the R\+TC current Calendar Subseconds value. 
+
+\begin{DoxyNote}{Note}
+This function freeze the Time and Date registers after reading the S\+SR register. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em R\+TC} & current Calendar Subseconds value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 901} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+00902 \{
+00903   uint32\_t tmpreg = 0;
+00904   
+00905   \textcolor{comment}{/* Get subseconds values from the correspondent registers*/}
+00906   tmpreg = (uint32\_t)(RTC->SSR);
+00907   
+00908   \textcolor{comment}{/* Read DR register to unfroze calendar registers */}
+00909   (void) (RTC->DR);
+00910   
+00911   \textcolor{keywordflow}{return} (tmpreg);
+00912 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group2_ga1fcc101339c77aebd25ec3621fd1b61a}} 
+\index{Time and Date configuration functions@{Time and Date configuration functions}!R\+T\+C\+\_\+\+Get\+Time@{R\+T\+C\+\_\+\+Get\+Time}}
+\index{R\+T\+C\+\_\+\+Get\+Time@{R\+T\+C\+\_\+\+Get\+Time}!Time and Date configuration functions@{Time and Date configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Get\+Time()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Get\+Time (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Format,  }\item[{\textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Time\+Struct }\end{DoxyParamCaption})}
+
+
+
+Get the R\+TC current Time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Format} & specifies the format of the returned parameters. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Format\+\_\+\+B\+IN\+: Binary data format \item R\+T\+C\+\_\+\+Format\+\_\+\+B\+CD\+: B\+CD data format \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Time\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Time\+Type\+Def}{p.}{structRTC__TimeTypeDef} structure that will contain the returned current time configuration. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 868} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+T\+C\+\_\+\+Bcd2\+To\+Byte()}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+H12}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Hours}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Minutes}, and \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Seconds}.
+
+
+\begin{DoxyCode}
+00869 \{
+00870   uint32\_t tmpreg = 0;
+00871 
+00872   \textcolor{comment}{/* Check the parameters */}
+00873   assert_param(IS_RTC_FORMAT(RTC\_Format));
+00874 
+00875   \textcolor{comment}{/* Get the RTC\_TR register */}
+00876   tmpreg = (uint32\_t)(RTC->TR & RTC_TR_RESERVED_MASK); 
+00877   
+00878   \textcolor{comment}{/* Fill the structure fields with the read parameters */}
+00879   RTC\_TimeStruct->RTC_Hours = (uint8\_t)((tmpreg & (RTC_TR_HT | RTC_TR_HU)) >> 16);
+00880   RTC\_TimeStruct->RTC_Minutes = (uint8\_t)((tmpreg & (RTC_TR_MNT | RTC_TR_MNU)) >>8);
+00881   RTC\_TimeStruct->RTC_Seconds = (uint8\_t)(tmpreg & (RTC_TR_ST | RTC_TR_SU));
+00882   RTC\_TimeStruct->RTC_H12 = (uint8\_t)((tmpreg & (RTC_TR_PM)) >> 16);  
+00883 
+00884   \textcolor{comment}{/* Check the input parameters format */}
+00885   \textcolor{keywordflow}{if} (RTC\_Format == RTC_Format_BIN)
+00886   \{
+00887     \textcolor{comment}{/* Convert the structure parameters to Binary format */}
+00888     RTC\_TimeStruct->RTC_Hours = (uint8\_t)RTC_Bcd2ToByte(RTC\_TimeStruct->
+      RTC_Hours);
+00889     RTC\_TimeStruct->RTC_Minutes = (uint8\_t)RTC_Bcd2ToByte(RTC\_TimeStruct->
+      RTC_Minutes);
+00890     RTC\_TimeStruct->RTC_Seconds = (uint8\_t)RTC_Bcd2ToByte(RTC\_TimeStruct->
+      RTC_Seconds);   
+00891   \}
+00892 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group2_ga69d08538147f3d89c818dcfabf50e362}} 
+\index{Time and Date configuration functions@{Time and Date configuration functions}!R\+T\+C\+\_\+\+Set\+Date@{R\+T\+C\+\_\+\+Set\+Date}}
+\index{R\+T\+C\+\_\+\+Set\+Date@{R\+T\+C\+\_\+\+Set\+Date}!Time and Date configuration functions@{Time and Date configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Set\+Date()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Set\+Date (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Format,  }\item[{\textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Date\+Struct }\end{DoxyParamCaption})}
+
+
+
+Set the R\+TC current date. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Format} & specifies the format of the entered parameters. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Format\+\_\+\+B\+IN\+: Binary data format \item R\+T\+C\+\_\+\+Format\+\_\+\+B\+CD\+: B\+CD data format \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Date\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Date\+Type\+Def}{p.}{structRTC__DateTypeDef} structure that contains the date configuration information for the R\+TC. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC Date register is configured
+\item E\+R\+R\+OR\+: R\+TC Date register is not configured 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 926} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}, \textbf{ R\+T\+C\+\_\+\+Bcd2\+To\+Byte()}, \textbf{ R\+T\+C\+\_\+\+Byte\+To\+Bcd2()}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Date}, \textbf{ R\+T\+C\+\_\+\+Enter\+Init\+Mode()}, \textbf{ R\+T\+C\+\_\+\+Exit\+Init\+Mode()}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Month}, \textbf{ R\+T\+C\+\_\+\+Wait\+For\+Synchro()}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Week\+Day}, \textbf{ R\+T\+C\+\_\+\+Date\+Type\+Def\+::\+R\+T\+C\+\_\+\+Year}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+00927 \{
+00928   uint32\_t tmpreg = 0;
+00929   ErrorStatus status = ERROR;
+00930   
+00931   \textcolor{comment}{/* Check the parameters */}
+00932   assert_param(IS_RTC_FORMAT(RTC\_Format));
+00933 
+00934   \textcolor{keywordflow}{if} ((RTC\_Format == RTC_Format_BIN) && ((RTC\_DateStruct->RTC_Month & 0x10) == 0x10))
+00935   \{
+00936     RTC\_DateStruct->RTC_Month = (RTC\_DateStruct->RTC_Month & (uint32\_t)~(0x10)) + 0x0A;
+00937   \}  
+00938   \textcolor{keywordflow}{if} (RTC\_Format == RTC_Format_BIN)
+00939   \{
+00940     assert_param(IS_RTC_YEAR(RTC\_DateStruct->RTC_Year));
+00941     assert_param(IS_RTC_MONTH(RTC\_DateStruct->RTC_Month));
+00942     assert_param(IS_RTC_DATE(RTC\_DateStruct->RTC_Date));
+00943   \}
+00944   \textcolor{keywordflow}{else}
+00945   \{
+00946     assert_param(IS_RTC_YEAR(RTC_Bcd2ToByte(RTC\_DateStruct->RTC_Year)));
+00947     tmpreg = RTC_Bcd2ToByte(RTC\_DateStruct->RTC_Month);
+00948     assert_param(IS_RTC_MONTH(tmpreg));
+00949     tmpreg = RTC_Bcd2ToByte(RTC\_DateStruct->RTC_Date);
+00950     assert_param(IS_RTC_DATE(tmpreg));
+00951   \}
+00952   assert_param(IS_RTC_WEEKDAY(RTC\_DateStruct->RTC_WeekDay));
+00953 
+00954   \textcolor{comment}{/* Check the input parameters format */}
+00955   \textcolor{keywordflow}{if} (RTC\_Format != RTC_Format_BIN)
+00956   \{
+00957     tmpreg = ((((uint32\_t)RTC\_DateStruct->RTC_Year) << 16) | \(\backslash\)
+00958               (((uint32\_t)RTC\_DateStruct->RTC_Month) << 8) | \(\backslash\)
+00959               ((uint32\_t)RTC\_DateStruct->RTC_Date) | \(\backslash\)
+00960               (((uint32\_t)RTC\_DateStruct->RTC_WeekDay) << 13)); 
+00961   \}  
+00962   \textcolor{keywordflow}{else}
+00963   \{
+00964     tmpreg = (((uint32\_t)RTC_ByteToBcd2(RTC\_DateStruct->RTC_Year) << 16) | \(\backslash\)
+00965               ((uint32\_t)RTC_ByteToBcd2(RTC\_DateStruct->RTC_Month) << 8) | \(\backslash\)
+00966               ((uint32\_t)RTC_ByteToBcd2(RTC\_DateStruct->RTC_Date)) | \(\backslash\)
+00967               ((uint32\_t)RTC\_DateStruct->RTC_WeekDay << 13));
+00968   \}
+00969 
+00970   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00971   RTC->WPR = 0xCA;
+00972   RTC->WPR = 0x53;
+00973 
+00974   \textcolor{comment}{/* Set Initialization mode */}
+00975   \textcolor{keywordflow}{if} (RTC_EnterInitMode() == ERROR)
+00976   \{
+00977     status = ERROR;
+00978   \} 
+00979   \textcolor{keywordflow}{else}
+00980   \{
+00981     \textcolor{comment}{/* Set the RTC\_DR register */}
+00982     RTC->DR = (uint32\_t)(tmpreg & RTC_DR_RESERVED_MASK);
+00983 
+00984     \textcolor{comment}{/* Exit Initialization mode */}
+00985     RTC_ExitInitMode(); 
+00986 
+00987     \textcolor{keywordflow}{if}(RTC_WaitForSynchro() == ERROR)
+00988     \{
+00989       status = ERROR;
+00990     \}
+00991     \textcolor{keywordflow}{else}
+00992     \{
+00993       status = SUCCESS;
+00994     \}
+00995   \}
+00996   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00997   RTC->WPR = 0xFF;   
+00998   
+00999   \textcolor{keywordflow}{return} status;
+01000 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group2_ga9f9df80cfa82f7a4dd9f4d0cf2ffb3a6}} 
+\index{Time and Date configuration functions@{Time and Date configuration functions}!R\+T\+C\+\_\+\+Set\+Time@{R\+T\+C\+\_\+\+Set\+Time}}
+\index{R\+T\+C\+\_\+\+Set\+Time@{R\+T\+C\+\_\+\+Set\+Time}!Time and Date configuration functions@{Time and Date configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Set\+Time()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Set\+Time (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Format,  }\item[{\textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Time\+Struct }\end{DoxyParamCaption})}
+
+
+
+Set the R\+TC current time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Format} & specifies the format of the entered parameters. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Format\+\_\+\+B\+IN\+: Binary data format \item R\+T\+C\+\_\+\+Format\+\_\+\+B\+CD\+: B\+CD data format \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Time\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Time\+Type\+Def}{p.}{structRTC__TimeTypeDef} structure that contains the time configuration information for the R\+TC. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC Time register is configured
+\item E\+R\+R\+OR\+: R\+TC Time register is not configured 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 753} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}, \textbf{ R\+T\+C\+\_\+\+Byte\+To\+Bcd2()}, \textbf{ R\+T\+C\+\_\+\+Enter\+Init\+Mode()}, \textbf{ R\+T\+C\+\_\+\+Exit\+Init\+Mode()}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+H12}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Hours}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Minutes}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Seconds}, \textbf{ R\+T\+C\+\_\+\+Wait\+For\+Synchro()}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+00754 \{
+00755   uint32\_t tmpreg = 0;
+00756   ErrorStatus status = ERROR;
+00757     
+00758   \textcolor{comment}{/* Check the parameters */}
+00759   assert_param(IS_RTC_FORMAT(RTC\_Format));
+00760   
+00761   \textcolor{keywordflow}{if} (RTC\_Format == RTC_Format_BIN)
+00762   \{
+00763     \textcolor{keywordflow}{if} ((RTC->CR & RTC_CR_FMT) != (uint32\_t)RESET)
+00764     \{
+00765       assert_param(IS_RTC_HOUR12(RTC\_TimeStruct->RTC_Hours));
+00766       assert_param(IS_RTC_H12(RTC\_TimeStruct->RTC_H12));
+00767     \} 
+00768     \textcolor{keywordflow}{else}
+00769     \{
+00770       RTC\_TimeStruct->RTC_H12 = 0x00;
+00771       assert_param(IS_RTC_HOUR24(RTC\_TimeStruct->RTC_Hours));
+00772     \}
+00773     assert_param(IS_RTC_MINUTES(RTC\_TimeStruct->RTC_Minutes));
+00774     assert_param(IS_RTC_SECONDS(RTC\_TimeStruct->RTC_Seconds));
+00775   \}
+00776   \textcolor{keywordflow}{else}
+00777   \{
+00778     \textcolor{keywordflow}{if} ((RTC->CR & RTC_CR_FMT) != (uint32\_t)RESET)
+00779     \{
+00780       tmpreg = RTC_Bcd2ToByte(RTC\_TimeStruct->RTC_Hours);
+00781       assert_param(IS_RTC_HOUR12(tmpreg));
+00782       assert_param(IS_RTC_H12(RTC\_TimeStruct->RTC_H12)); 
+00783     \} 
+00784     \textcolor{keywordflow}{else}
+00785     \{
+00786       RTC\_TimeStruct->RTC_H12 = 0x00;
+00787       assert_param(IS_RTC_HOUR24(RTC_Bcd2ToByte(RTC\_TimeStruct->RTC_Hours)));
+00788     \}
+00789     assert_param(IS_RTC_MINUTES(RTC_Bcd2ToByte(RTC\_TimeStruct->RTC_Minutes)));
+00790     assert_param(IS_RTC_SECONDS(RTC_Bcd2ToByte(RTC\_TimeStruct->RTC_Seconds)));
+00791   \}
+00792   
+00793   \textcolor{comment}{/* Check the input parameters format */}
+00794   \textcolor{keywordflow}{if} (RTC\_Format != RTC_Format_BIN)
+00795   \{
+00796     tmpreg = (((uint32\_t)(RTC\_TimeStruct->RTC_Hours) << 16) | \(\backslash\)
+00797              ((uint32\_t)(RTC\_TimeStruct->RTC_Minutes) << 8) | \(\backslash\)
+00798              ((uint32\_t)RTC\_TimeStruct->RTC_Seconds) | \(\backslash\)
+00799              ((uint32\_t)(RTC\_TimeStruct->RTC_H12) << 16)); 
+00800   \}  
+00801   \textcolor{keywordflow}{else}
+00802   \{
+00803     tmpreg = (uint32\_t)(((uint32\_t)RTC_ByteToBcd2(RTC\_TimeStruct->RTC_Hours) << 16) | \(\backslash\)
+00804                    ((uint32\_t)RTC_ByteToBcd2(RTC\_TimeStruct->RTC_Minutes) << 8) | \(\backslash\)
+00805                    ((uint32\_t)RTC_ByteToBcd2(RTC\_TimeStruct->RTC_Seconds)) | \(\backslash\)
+00806                    (((uint32\_t)RTC\_TimeStruct->RTC_H12) << 16));
+00807   \}  
+00808 
+00809   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00810   RTC->WPR = 0xCA;
+00811   RTC->WPR = 0x53;
+00812 
+00813   \textcolor{comment}{/* Set Initialization mode */}
+00814   \textcolor{keywordflow}{if} (RTC_EnterInitMode() == ERROR)
+00815   \{
+00816     status = ERROR;
+00817   \} 
+00818   \textcolor{keywordflow}{else}
+00819   \{
+00820     \textcolor{comment}{/* Set the RTC\_TR register */}
+00821     RTC->TR = (uint32\_t)(tmpreg & RTC_TR_RESERVED_MASK);
+00822 
+00823     \textcolor{comment}{/* Exit Initialization mode */}
+00824     RTC_ExitInitMode(); 
+00825 
+00826     \textcolor{keywordflow}{if}(RTC_WaitForSynchro() == ERROR)
+00827     \{
+00828       status = ERROR;
+00829     \}
+00830     \textcolor{keywordflow}{else}
+00831     \{
+00832       status = SUCCESS;
+00833     \}
+00834   
+00835   \}
+00836   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00837   RTC->WPR = 0xFF; 
+00838     
+00839   \textcolor{keywordflow}{return} status;
+00840 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group2_ga0404db6e0c70e5a6bbbe4fa58a577365}} 
+\index{Time and Date configuration functions@{Time and Date configuration functions}!R\+T\+C\+\_\+\+Time\+Struct\+Init@{R\+T\+C\+\_\+\+Time\+Struct\+Init}}
+\index{R\+T\+C\+\_\+\+Time\+Struct\+Init@{R\+T\+C\+\_\+\+Time\+Struct\+Init}!Time and Date configuration functions@{Time and Date configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Time\+Struct\+Init()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Time\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Time\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each R\+T\+C\+\_\+\+Time\+Struct member with its default value (Time = 00h\+:00min\+:00sec). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Time\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Time\+Type\+Def}{p.}{structRTC__TimeTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 849} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+H12}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Hours}, \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Minutes}, and \textbf{ R\+T\+C\+\_\+\+Time\+Type\+Def\+::\+R\+T\+C\+\_\+\+Seconds}.
+
+
+\begin{DoxyCode}
+00850 \{
+00851   \textcolor{comment}{/* Time = 00h:00min:00sec */}
+00852   RTC\_TimeStruct->RTC_H12 = RTC_H12_AM;
+00853   RTC\_TimeStruct->RTC_Hours = 0;
+00854   RTC\_TimeStruct->RTC_Minutes = 0;
+00855   RTC\_TimeStruct->RTC_Seconds = 0; 
+00856 \}
+\end{DoxyCode}

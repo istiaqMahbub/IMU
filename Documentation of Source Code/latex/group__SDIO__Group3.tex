@@ -1,0 +1,262 @@
+\section{Data path state machine (D\+P\+SM) management functions}
+\label{group__SDIO__Group3}\index{Data path state machine (\+D\+P\+S\+M) management functions@{Data path state machine (\+D\+P\+S\+M) management functions}}
+
+
+Data path state machine (D\+P\+SM) management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Data\+Config} (\textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Data\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the S\+D\+IO data path according to the specified parameters in the S\+D\+I\+O\+\_\+\+Data\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Data\+Struct\+Init} (\textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Data\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each S\+D\+I\+O\+\_\+\+Data\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Get\+Data\+Counter} (void)
+\begin{DoxyCompactList}\small\item\em Returns number of remaining data bytes to be transferred. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Read\+Data} (void)
+\begin{DoxyCompactList}\small\item\em Read one data word from Rx F\+I\+FO. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Write\+Data} (uint32\+\_\+t Data)
+\begin{DoxyCompactList}\small\item\em Write one data word to Tx F\+I\+FO. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Get\+F\+I\+F\+O\+Count} (void)
+\begin{DoxyCompactList}\small\item\em Returns the number of words left to be written to or read from F\+I\+FO. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Data path state machine (D\+P\+SM) management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+              Data path state machine (DPSM) management functions
+ ===============================================================================  
+
+  This section provide functions allowing to program and read the Data path 
+  state machine (DPSM).\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__SDIO__Group3_gad65d896ae919683585bda44a1e2afae4}} 
+\index{Data path state machine (\+D\+P\+S\+M) management functions@{Data path state machine (\+D\+P\+S\+M) management functions}!S\+D\+I\+O\+\_\+\+Data\+Config@{S\+D\+I\+O\+\_\+\+Data\+Config}}
+\index{S\+D\+I\+O\+\_\+\+Data\+Config@{S\+D\+I\+O\+\_\+\+Data\+Config}!Data path state machine (\+D\+P\+S\+M) management functions@{Data path state machine (\+D\+P\+S\+M) management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Data\+Config()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Data\+Config (\begin{DoxyParamCaption}\item[{\textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def} $\ast$}]{S\+D\+I\+O\+\_\+\+Data\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the S\+D\+IO data path according to the specified parameters in the S\+D\+I\+O\+\_\+\+Data\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+Data\+Init\+Struct} & \+: pointer to a \doxyref{S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def}{p.}{structSDIO__DataInitTypeDef} structure that contains the configuration information for the S\+D\+IO command. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 496} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+
+References \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Data\+Block\+Size}, \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+D\+P\+SM}, \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Transfer\+Dir}, and \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Transfer\+Mode}.
+
+
+\begin{DoxyCode}
+00497 \{
+00498   uint32\_t tmpreg = 0;
+00499   
+00500   \textcolor{comment}{/* Check the parameters */}
+00501   assert_param(IS_SDIO_DATA_LENGTH(SDIO\_DataInitStruct->SDIO_DataLength));
+00502   assert_param(IS_SDIO_BLOCK_SIZE(SDIO\_DataInitStruct->SDIO_DataBlockSize));
+00503   assert_param(IS_SDIO_TRANSFER_DIR(SDIO\_DataInitStruct->SDIO_TransferDir));
+00504   assert_param(IS_SDIO_TRANSFER_MODE(SDIO\_DataInitStruct->SDIO_TransferMode));
+00505   assert_param(IS_SDIO_DPSM(SDIO\_DataInitStruct->SDIO_DPSM));
+00506 
+00507 \textcolor{comment}{/*---------------------------- SDIO DTIMER Configuration ---------------------*/}
+00508   \textcolor{comment}{/* Set the SDIO Data TimeOut value */}
+00509   SDIO->DTIMER = SDIO\_DataInitStruct->SDIO_DataTimeOut;
+00510 
+00511 \textcolor{comment}{/*---------------------------- SDIO DLEN Configuration -----------------------*/}
+00512   \textcolor{comment}{/* Set the SDIO DataLength value */}
+00513   SDIO->DLEN = SDIO\_DataInitStruct->SDIO_DataLength;
+00514 
+00515 \textcolor{comment}{/*---------------------------- SDIO DCTRL Configuration ----------------------*/}  
+00516   \textcolor{comment}{/* Get the SDIO DCTRL value */}
+00517   tmpreg = SDIO->DCTRL;
+00518   \textcolor{comment}{/* Clear DEN, DTMODE, DTDIR and DBCKSIZE bits */}
+00519   tmpreg &= DCTRL_CLEAR_MASK;
+00520   \textcolor{comment}{/* Set DEN bit according to SDIO\_DPSM value */}
+00521   \textcolor{comment}{/* Set DTMODE bit according to SDIO\_TransferMode value */}
+00522   \textcolor{comment}{/* Set DTDIR bit according to SDIO\_TransferDir value */}
+00523   \textcolor{comment}{/* Set DBCKSIZE bits according to SDIO\_DataBlockSize value */}
+00524   tmpreg |= (uint32\_t)SDIO\_DataInitStruct->SDIO_DataBlockSize | SDIO\_DataInitStruct->
+      SDIO_TransferDir
+00525            | SDIO\_DataInitStruct->SDIO_TransferMode | SDIO\_DataInitStruct->
+      SDIO_DPSM;
+00526 
+00527   \textcolor{comment}{/* Write to SDIO DCTRL */}
+00528   SDIO->DCTRL = tmpreg;
+00529 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group3_gaa83209c09e921521aca2587fb5b22ea2}} 
+\index{Data path state machine (\+D\+P\+S\+M) management functions@{Data path state machine (\+D\+P\+S\+M) management functions}!S\+D\+I\+O\+\_\+\+Data\+Struct\+Init@{S\+D\+I\+O\+\_\+\+Data\+Struct\+Init}}
+\index{S\+D\+I\+O\+\_\+\+Data\+Struct\+Init@{S\+D\+I\+O\+\_\+\+Data\+Struct\+Init}!Data path state machine (\+D\+P\+S\+M) management functions@{Data path state machine (\+D\+P\+S\+M) management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Data\+Struct\+Init()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Data\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def} $\ast$}]{S\+D\+I\+O\+\_\+\+Data\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each S\+D\+I\+O\+\_\+\+Data\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+Data\+Init\+Struct} & pointer to an \doxyref{S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def}{p.}{structSDIO__DataInitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 537} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+
+References \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Data\+Block\+Size}, \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Data\+Length}, \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Data\+Time\+Out}, \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+D\+P\+SM}, \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Transfer\+Dir}, and \textbf{ S\+D\+I\+O\+\_\+\+Data\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Transfer\+Mode}.
+
+
+\begin{DoxyCode}
+00538 \{
+00539   \textcolor{comment}{/* SDIO\_DataInitStruct members default value */}
+00540   SDIO\_DataInitStruct->SDIO_DataTimeOut = 0xFFFFFFFF;
+00541   SDIO\_DataInitStruct->SDIO_DataLength = 0x00;
+00542   SDIO\_DataInitStruct->SDIO_DataBlockSize = SDIO_DataBlockSize_1b;
+00543   SDIO\_DataInitStruct->SDIO_TransferDir = SDIO_TransferDir_ToCard;
+00544   SDIO\_DataInitStruct->SDIO_TransferMode = SDIO_TransferMode_Block;  
+00545   SDIO\_DataInitStruct->SDIO_DPSM = SDIO_DPSM_Disable;
+00546 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group3_ga7a28aaa2c25a9a5a8db1f49b0e8c9d0a}} 
+\index{Data path state machine (\+D\+P\+S\+M) management functions@{Data path state machine (\+D\+P\+S\+M) management functions}!S\+D\+I\+O\+\_\+\+Get\+Data\+Counter@{S\+D\+I\+O\+\_\+\+Get\+Data\+Counter}}
+\index{S\+D\+I\+O\+\_\+\+Get\+Data\+Counter@{S\+D\+I\+O\+\_\+\+Get\+Data\+Counter}!Data path state machine (\+D\+P\+S\+M) management functions@{Data path state machine (\+D\+P\+S\+M) management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Get\+Data\+Counter()}
+{\footnotesize\ttfamily uint32\+\_\+t S\+D\+I\+O\+\_\+\+Get\+Data\+Counter (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns number of remaining data bytes to be transferred. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Number} & of remaining data bytes to be transferred \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 553} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00554 \{ 
+00555   \textcolor{keywordflow}{return} SDIO->DCOUNT;
+00556 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group3_ga9a3343983a2d68b5164a1c89797d2dd6}} 
+\index{Data path state machine (\+D\+P\+S\+M) management functions@{Data path state machine (\+D\+P\+S\+M) management functions}!S\+D\+I\+O\+\_\+\+Get\+F\+I\+F\+O\+Count@{S\+D\+I\+O\+\_\+\+Get\+F\+I\+F\+O\+Count}}
+\index{S\+D\+I\+O\+\_\+\+Get\+F\+I\+F\+O\+Count@{S\+D\+I\+O\+\_\+\+Get\+F\+I\+F\+O\+Count}!Data path state machine (\+D\+P\+S\+M) management functions@{Data path state machine (\+D\+P\+S\+M) management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Get\+F\+I\+F\+O\+Count()}
+{\footnotesize\ttfamily uint32\+\_\+t S\+D\+I\+O\+\_\+\+Get\+F\+I\+F\+O\+Count (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns the number of words left to be written to or read from F\+I\+FO. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Remaining} & number of words. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 583} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00584 \{ 
+00585   \textcolor{keywordflow}{return} SDIO->FIFOCNT;
+00586 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group3_ga4e8ac755ef3c31ecd4ed2708df19187e}} 
+\index{Data path state machine (\+D\+P\+S\+M) management functions@{Data path state machine (\+D\+P\+S\+M) management functions}!S\+D\+I\+O\+\_\+\+Read\+Data@{S\+D\+I\+O\+\_\+\+Read\+Data}}
+\index{S\+D\+I\+O\+\_\+\+Read\+Data@{S\+D\+I\+O\+\_\+\+Read\+Data}!Data path state machine (\+D\+P\+S\+M) management functions@{Data path state machine (\+D\+P\+S\+M) management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Read\+Data()}
+{\footnotesize\ttfamily uint32\+\_\+t S\+D\+I\+O\+\_\+\+Read\+Data (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Read one data word from Rx F\+I\+FO. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Data} & received \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 563} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00564 \{ 
+00565   \textcolor{keywordflow}{return} SDIO->FIFO;
+00566 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group3_ga361008b5252aa33b5f2b5823ee3d7240}} 
+\index{Data path state machine (\+D\+P\+S\+M) management functions@{Data path state machine (\+D\+P\+S\+M) management functions}!S\+D\+I\+O\+\_\+\+Write\+Data@{S\+D\+I\+O\+\_\+\+Write\+Data}}
+\index{S\+D\+I\+O\+\_\+\+Write\+Data@{S\+D\+I\+O\+\_\+\+Write\+Data}!Data path state machine (\+D\+P\+S\+M) management functions@{Data path state machine (\+D\+P\+S\+M) management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Write\+Data()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Write\+Data (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{Data }\end{DoxyParamCaption})}
+
+
+
+Write one data word to Tx F\+I\+FO. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Data} & 32-\/bit data word to write. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 573} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00574 \{ 
+00575   SDIO->FIFO = Data;
+00576 \}
+\end{DoxyCode}

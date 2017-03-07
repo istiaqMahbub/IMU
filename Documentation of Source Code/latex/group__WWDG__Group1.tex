@@ -1,0 +1,215 @@
+\section{Prescaler, Refresh window and Counter configuration functions}
+\label{group__WWDG__Group1}\index{Prescaler, Refresh window and Counter configuration functions@{Prescaler, Refresh window and Counter configuration functions}}
+
+
+Prescaler, Refresh window and Counter configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ W\+W\+D\+G\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the W\+W\+DG peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ W\+W\+D\+G\+\_\+\+Set\+Prescaler} (uint32\+\_\+t W\+W\+D\+G\+\_\+\+Prescaler)
+\begin{DoxyCompactList}\small\item\em Sets the W\+W\+DG Prescaler. \end{DoxyCompactList}\item 
+void \textbf{ W\+W\+D\+G\+\_\+\+Set\+Window\+Value} (uint8\+\_\+t Window\+Value)
+\begin{DoxyCompactList}\small\item\em Sets the W\+W\+DG window value. \end{DoxyCompactList}\item 
+void \textbf{ W\+W\+D\+G\+\_\+\+Enable\+IT} (void)
+\begin{DoxyCompactList}\small\item\em Enables the W\+W\+DG Early Wakeup interrupt(\+E\+W\+I). \end{DoxyCompactList}\item 
+void \textbf{ W\+W\+D\+G\+\_\+\+Set\+Counter} (uint8\+\_\+t Counter)
+\begin{DoxyCompactList}\small\item\em Sets the W\+W\+DG counter value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Prescaler, Refresh window and Counter configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+          Prescaler, Refresh window and Counter configuration functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__WWDG__Group1_ga7130f4dc861b9234b62e73f9f57f89a1}} 
+\index{Prescaler, Refresh window and Counter configuration functions@{Prescaler, Refresh window and Counter configuration functions}!W\+W\+D\+G\+\_\+\+De\+Init@{W\+W\+D\+G\+\_\+\+De\+Init}}
+\index{W\+W\+D\+G\+\_\+\+De\+Init@{W\+W\+D\+G\+\_\+\+De\+Init}!Prescaler, Refresh window and Counter configuration functions@{Prescaler, Refresh window and Counter configuration functions}}
+\subsubsection{W\+W\+D\+G\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void W\+W\+D\+G\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the W\+W\+DG peripheral registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 134} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, and \textbf{ R\+C\+C\+\_\+\+A\+P\+B1\+Periph\+Reset\+Cmd()}.
+
+
+\begin{DoxyCode}
+00135 \{
+00136   RCC_APB1PeriphResetCmd(RCC_APB1Periph_WWDG, ENABLE);
+00137   RCC_APB1PeriphResetCmd(RCC_APB1Periph_WWDG, DISABLE);
+00138 \}
+\end{DoxyCode}
+\mbox{\label{group__WWDG__Group1_gac8af66ea5254d3d78b60b9b7c7f29521}} 
+\index{Prescaler, Refresh window and Counter configuration functions@{Prescaler, Refresh window and Counter configuration functions}!W\+W\+D\+G\+\_\+\+Enable\+IT@{W\+W\+D\+G\+\_\+\+Enable\+IT}}
+\index{W\+W\+D\+G\+\_\+\+Enable\+IT@{W\+W\+D\+G\+\_\+\+Enable\+IT}!Prescaler, Refresh window and Counter configuration functions@{Prescaler, Refresh window and Counter configuration functions}}
+\subsubsection{W\+W\+D\+G\+\_\+\+Enable\+I\+T()}
+{\footnotesize\ttfamily void W\+W\+D\+G\+\_\+\+Enable\+IT (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Enables the W\+W\+DG Early Wakeup interrupt(\+E\+W\+I). 
+
+\begin{DoxyNote}{Note}
+Once enabled this interrupt cannot be disabled except by a system reset. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 192} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+
+\begin{DoxyCode}
+00193 \{
+00194   *(\_\_IO uint32\_t *) CFR_EWI_BB = (uint32\_t)ENABLE;
+00195 \}
+\end{DoxyCode}
+\mbox{\label{group__WWDG__Group1_ga6e44cc35f133b28b9ad861f459bf8d76}} 
+\index{Prescaler, Refresh window and Counter configuration functions@{Prescaler, Refresh window and Counter configuration functions}!W\+W\+D\+G\+\_\+\+Set\+Counter@{W\+W\+D\+G\+\_\+\+Set\+Counter}}
+\index{W\+W\+D\+G\+\_\+\+Set\+Counter@{W\+W\+D\+G\+\_\+\+Set\+Counter}!Prescaler, Refresh window and Counter configuration functions@{Prescaler, Refresh window and Counter configuration functions}}
+\subsubsection{W\+W\+D\+G\+\_\+\+Set\+Counter()}
+{\footnotesize\ttfamily void W\+W\+D\+G\+\_\+\+Set\+Counter (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{Counter }\end{DoxyParamCaption})}
+
+
+
+Sets the W\+W\+DG counter value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Counter} & specifies the watchdog counter value. This parameter must be a number between 0x40 and 0x7F (to prevent generating an immediate reset) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 204} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+
+\begin{DoxyCode}
+00205 \{
+00206   \textcolor{comment}{/* Check the parameters */}
+00207   assert_param(IS_WWDG_COUNTER(Counter));
+00208   \textcolor{comment}{/* Write to T[6:0] bits to configure the counter value, no need to do}
+00209 \textcolor{comment}{     a read-modify-write; writing a 0 to WDGA bit does nothing */}
+00210   WWDG->CR = Counter & BIT_MASK;
+00211 \}
+\end{DoxyCode}
+\mbox{\label{group__WWDG__Group1_gafeaa2b52c31ba7baca7eb61d2d42e07b}} 
+\index{Prescaler, Refresh window and Counter configuration functions@{Prescaler, Refresh window and Counter configuration functions}!W\+W\+D\+G\+\_\+\+Set\+Prescaler@{W\+W\+D\+G\+\_\+\+Set\+Prescaler}}
+\index{W\+W\+D\+G\+\_\+\+Set\+Prescaler@{W\+W\+D\+G\+\_\+\+Set\+Prescaler}!Prescaler, Refresh window and Counter configuration functions@{Prescaler, Refresh window and Counter configuration functions}}
+\subsubsection{W\+W\+D\+G\+\_\+\+Set\+Prescaler()}
+{\footnotesize\ttfamily void W\+W\+D\+G\+\_\+\+Set\+Prescaler (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{W\+W\+D\+G\+\_\+\+Prescaler }\end{DoxyParamCaption})}
+
+
+
+Sets the W\+W\+DG Prescaler. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em W\+W\+D\+G\+\_\+\+Prescaler} & specifies the W\+W\+DG Prescaler. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item W\+W\+D\+G\+\_\+\+Prescaler\+\_\+1\+: W\+W\+DG counter clock = (P\+C\+L\+K1/4096)/1 \item W\+W\+D\+G\+\_\+\+Prescaler\+\_\+2\+: W\+W\+DG counter clock = (P\+C\+L\+K1/4096)/2 \item W\+W\+D\+G\+\_\+\+Prescaler\+\_\+4\+: W\+W\+DG counter clock = (P\+C\+L\+K1/4096)/4 \item W\+W\+D\+G\+\_\+\+Prescaler\+\_\+8\+: W\+W\+DG counter clock = (P\+C\+L\+K1/4096)/8 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 150} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+
+\begin{DoxyCode}
+00151 \{
+00152   uint32\_t tmpreg = 0;
+00153   \textcolor{comment}{/* Check the parameters */}
+00154   assert_param(IS_WWDG_PRESCALER(WWDG\_Prescaler));
+00155   \textcolor{comment}{/* Clear WDGTB[1:0] bits */}
+00156   tmpreg = WWDG->CFR & CFR_WDGTB_MASK;
+00157   \textcolor{comment}{/* Set WDGTB[1:0] bits according to WWDG\_Prescaler value */}
+00158   tmpreg |= WWDG\_Prescaler;
+00159   \textcolor{comment}{/* Store the new value */}
+00160   WWDG->CFR = tmpreg;
+00161 \}
+\end{DoxyCode}
+\mbox{\label{group__WWDG__Group1_gaf44a7bf8bf6b11b41cd89ff521fdd5a5}} 
+\index{Prescaler, Refresh window and Counter configuration functions@{Prescaler, Refresh window and Counter configuration functions}!W\+W\+D\+G\+\_\+\+Set\+Window\+Value@{W\+W\+D\+G\+\_\+\+Set\+Window\+Value}}
+\index{W\+W\+D\+G\+\_\+\+Set\+Window\+Value@{W\+W\+D\+G\+\_\+\+Set\+Window\+Value}!Prescaler, Refresh window and Counter configuration functions@{Prescaler, Refresh window and Counter configuration functions}}
+\subsubsection{W\+W\+D\+G\+\_\+\+Set\+Window\+Value()}
+{\footnotesize\ttfamily void W\+W\+D\+G\+\_\+\+Set\+Window\+Value (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{Window\+Value }\end{DoxyParamCaption})}
+
+
+
+Sets the W\+W\+DG window value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Window\+Value} & specifies the window value to be compared to the downcounter. This parameter value must be lower than 0x80. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 169} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+
+\begin{DoxyCode}
+00170 \{
+00171   \_\_IO uint32\_t tmpreg = 0;
+00172 
+00173   \textcolor{comment}{/* Check the parameters */}
+00174   assert_param(IS_WWDG_WINDOW_VALUE(WindowValue));
+00175   \textcolor{comment}{/* Clear W[6:0] bits */}
+00176 
+00177   tmpreg = WWDG->CFR & CFR_W_MASK;
+00178 
+00179   \textcolor{comment}{/* Set W[6:0] bits according to WindowValue value */}
+00180   tmpreg |= WindowValue & (uint32\_t) BIT_MASK;
+00181 
+00182   \textcolor{comment}{/* Store the new value */}
+00183   WWDG->CFR = tmpreg;
+00184 \}
+\end{DoxyCode}

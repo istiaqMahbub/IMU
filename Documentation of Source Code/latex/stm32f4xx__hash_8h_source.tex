@@ -1,0 +1,257 @@
+\section{stm32f4xx\+\_\+hash.\+h}
+\label{stm32f4xx__hash_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+hash.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+hash.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_hash.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the HASH }
+00008 \textcolor{comment}{  *          firmware library.}
+00009 \textcolor{comment}{  ******************************************************************************}
+00010 \textcolor{comment}{  * @attention}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00013 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00014 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00015 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00016 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00017 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00020 \textcolor{comment}{  ******************************************************************************}
+00021 \textcolor{comment}{  */}
+00022 
+00023 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_HASH\_H}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_HASH\_H}
+00026 
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00028  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00033 
+00034 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00035 \textcolor{comment}{  * @\{}
+00036 \textcolor{comment}{  */}
+00037 
+00038 \textcolor{comment}{/** @addtogroup HASH}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00043 
+00044 \textcolor{comment}{/** }
+00045 \textcolor{comment}{  * @brief   HASH Init structure definition}
+00046 \textcolor{comment}{  */}
+00047 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00048 \{
+00049   uint32\_t HASH_AlgoSelection; \textcolor{comment}{/*!< SHA-1 or MD5. This parameter can be a value }
+00050 \textcolor{comment}{                                    of @ref HASH\_Algo\_Selection */}
+00051   uint32\_t HASH_AlgoMode;      \textcolor{comment}{/*!< HASH or HMAC. This parameter can be a value }
+00052 \textcolor{comment}{                                    of @ref HASH\_processor\_Algorithm\_Mode */}
+00053   uint32\_t HASH_DataType;      \textcolor{comment}{/*!< 32-bit data, 16-bit data, 8-bit data or }
+00054 \textcolor{comment}{                                    bit-string. This parameter can be a value of}
+00055 \textcolor{comment}{                                    @ref HASH\_Data\_Type */}
+00056   uint32\_t HASH_HMACKeyType;   \textcolor{comment}{/*!< HMAC Short key or HMAC Long Key. This parameter}
+00057 \textcolor{comment}{                                    can be a value of @ref HASH\_HMAC\_Long\_key\_only\_for\_HMAC\_mode */}
+00058 \}HASH\_InitTypeDef;
+00059 
+00060 \textcolor{comment}{/** }
+00061 \textcolor{comment}{  * @brief  HASH message digest result structure definition  }
+00062 \textcolor{comment}{  */}
+00063 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00064 \{
+00065   uint32\_t Data[5];      \textcolor{comment}{/*!< Message digest result : 5x 32bit words for SHA1 or }
+00066 \textcolor{comment}{                                                      4x 32bit words for MD5  */}
+00067 \} HASH\_MsgDigest;
+00068 
+00069 \textcolor{comment}{/** }
+00070 \textcolor{comment}{  * @brief  HASH context swapping structure definition  }
+00071 \textcolor{comment}{  */}
+00072 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00073 \{
+00074   uint32\_t HASH_IMR;
+00075   uint32\_t HASH_STR;
+00076   uint32\_t HASH_CR;
+00077   uint32\_t HASH_CSR[51];
+00078 \}HASH\_Context;
+00079 
+00080 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00081 
+00082 \textcolor{comment}{/** @defgroup HASH\_Exported\_Constants}
+00083 \textcolor{comment}{  * @\{}
+00084 \textcolor{comment}{  */}
+00085 
+00086 \textcolor{comment}{/** @defgroup HASH\_Algo\_Selection }
+00087 \textcolor{comment}{  * @\{}
+00088 \textcolor{comment}{  */}
+00089 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{HASH\_AlgoSelection\_SHA1}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< HASH function is SHA1 */}
+00090 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{HASH\_AlgoSelection\_MD5}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0080\textcolor{preprocessor}{)} \textcolor{comment}{/*!< HASH function is MD5 */}
+00091 
+00092 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_HASH\_ALGOSELECTION}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALGOSELECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALGOSELECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      HASH_AlgoSelection_SHA1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00093                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALGOSELECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      HASH_AlgoSelection_MD5\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00094 \textcolor{comment}{/**}
+00095 \textcolor{comment}{  * @\}}
+00096 \textcolor{comment}{  */}
+00097 
+00098 \textcolor{comment}{/** @defgroup HASH\_processor\_Algorithm\_Mode }
+00099 \textcolor{comment}{  * @\{}
+00100 \textcolor{comment}{  */}
+00101 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{HASH\_AlgoMode\_HASH}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Algorithm is HASH */}
+00102 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{HASH\_AlgoMode\_HMAC}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0040\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Algorithm is HMAC */}
+00103 
+00104 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_HASH\_ALGOMODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALGOMODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALGOMODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} HASH_AlgoMode_HASH\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00105                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALGOMODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} HASH_AlgoMode_HMAC\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00106 \textcolor{comment}{/**}
+00107 \textcolor{comment}{  * @\}}
+00108 \textcolor{comment}{  */}
+00109 
+00110 \textcolor{comment}{/** @defgroup HASH\_Data\_Type  }
+00111 \textcolor{comment}{  * @\{}
+00112 \textcolor{comment}{  */}
+00113 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{HASH\_DataType\_32b}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00114 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{HASH\_DataType\_16b}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0010\textcolor{preprocessor}{)}
+00115 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{HASH\_DataType\_8b}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0020\textcolor{preprocessor}{)}
+00116 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{HASH\_DataType\_1b}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0030\textcolor{preprocessor}{)}
+00117 
+00118 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_HASH\_DATATYPE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATATYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATATYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} HASH_DataType_32b\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00119                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATATYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} HASH_DataType_16b\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00120                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATATYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} HASH_DataType_8b\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00121                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATATYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} HASH_DataType_1b\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00122 \textcolor{comment}{/**}
+00123 \textcolor{comment}{  * @\}}
+00124 \textcolor{comment}{  */}
+00125 
+00126 \textcolor{comment}{/** @defgroup HASH\_HMAC\_Long\_key\_only\_for\_HMAC\_mode  }
+00127 \textcolor{comment}{  * @\{}
+00128 \textcolor{comment}{  */}
+00129 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{HASH\_HMACKeyType\_ShortKey}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< HMAC Key is <= 64 bytes */}
+00130 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{HASH\_HMACKeyType\_LongKey}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00010000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< HMAC Key is > 64 bytes */}
+00131 
+00132 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_HASH\_HMAC\_KEYTYPE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{KEYTYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{KEYTYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      HASH_HMACKeyType_ShortKey\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00133                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{KEYTYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} HASH_HMACKeyType_LongKey\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00134 \textcolor{comment}{/**}
+00135 \textcolor{comment}{  * @\}}
+00136 \textcolor{comment}{  */}
+00137 
+00138 \textcolor{comment}{/** @defgroup Number\_of\_valid\_bits\_in\_last\_word\_of\_the\_message   }
+00139 \textcolor{comment}{  * @\{}
+00140 \textcolor{comment}{  */}
+00141 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_HASH\_VALIDBITSNUMBER}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALIDBITS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALIDBITS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0x1F\textcolor{preprocessor}{)}
+00142 
+00143 \textcolor{comment}{/**}
+00144 \textcolor{comment}{  * @\}}
+00145 \textcolor{comment}{  */}
+00146 
+00147 \textcolor{comment}{/** @defgroup HASH\_interrupts\_definition   }
+00148 \textcolor{comment}{  * @\{}
+00149 \textcolor{comment}{  */}
+00150 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{HASH\_IT\_DINI}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< A new block can be entered into the input
+       buffer (DIN)*/}
+00151 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{HASH\_IT\_DCI}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Digest calculation complete */}
+00152 
+00153 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_HASH\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0xFC\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00154 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_HASH\_GET\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} HASH_IT_DINI\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} HASH_IT_DCI\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00155 
+00156 \textcolor{comment}{/**}
+00157 \textcolor{comment}{  * @\}}
+00158 \textcolor{comment}{  */}
+00159 
+00160 \textcolor{comment}{/** @defgroup HASH\_flags\_definition   }
+00161 \textcolor{comment}{  * @\{}
+00162 \textcolor{comment}{  */}
+00163 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{HASH\_FLAG\_DINIS}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0001\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< 16 locations are free in the DIN : A new
+       block can be entered into the input buffer.*/}
+00164 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{HASH\_FLAG\_DCIS}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0002\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Digest calculation complete */}
+00165 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{HASH\_FLAG\_DMAS}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0004\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< DMA interface is enabled (DMAE=1) or a
+       transfer is ongoing */}
+00166 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{HASH\_FLAG\_BUSY}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0008\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< The hash core is Busy : processing a block
+       of data */}
+00167 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{HASH\_FLAG\_DINNE}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x1000\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< DIN not empty : The input buffer contains
+       at least one word of data */}
+00168 
+00169 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_HASH\_GET\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} HASH_FLAG_DINIS\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00170                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} HASH_FLAG_DCIS\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00171                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} HASH_FLAG_DMAS\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00172                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} HASH_FLAG_BUSY\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00173                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} HASH_FLAG_DINNE\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00174 
+00175 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_HASH\_CLEAR\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} HASH_FLAG_DINIS\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00176                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} HASH_FLAG_DCIS\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00177 
+00178 \textcolor{comment}{/**}
+00179 \textcolor{comment}{  * @\}}
+00180 \textcolor{comment}{  */}
+00181 
+00182 \textcolor{comment}{/**}
+00183 \textcolor{comment}{  * @\}}
+00184 \textcolor{comment}{  */}
+00185 
+00186 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00187 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00188 
+00189 \textcolor{comment}{/*  Function used to set the HASH configuration to the default reset state ****/}
+00190 \textcolor{keywordtype}{void} HASH_DeInit(\textcolor{keywordtype}{void});
+00191 
+00192 \textcolor{comment}{/* HASH Configuration function ************************************************/}
+00193 \textcolor{keywordtype}{void} HASH_Init(HASH\_InitTypeDef* HASH\_InitStruct);
+00194 \textcolor{keywordtype}{void} HASH_StructInit(HASH\_InitTypeDef* HASH\_InitStruct);
+00195 \textcolor{keywordtype}{void} HASH_Reset(\textcolor{keywordtype}{void});
+00196 
+00197 \textcolor{comment}{/* HASH Message Digest generation functions ***********************************/}
+00198 \textcolor{keywordtype}{void} HASH_DataIn(uint32\_t Data);
+00199 uint8\_t HASH_GetInFIFOWordsNbr(\textcolor{keywordtype}{void});
+00200 \textcolor{keywordtype}{void} HASH_SetLastWordValidBitsNbr(uint16\_t ValidNumber);
+00201 \textcolor{keywordtype}{void} HASH_StartDigest(\textcolor{keywordtype}{void});
+00202 \textcolor{keywordtype}{void} HASH_GetDigest(HASH\_MsgDigest* HASH\_MessageDigest);
+00203 
+00204 \textcolor{comment}{/* HASH Context swapping functions ********************************************/}
+00205 \textcolor{keywordtype}{void} HASH_SaveContext(HASH\_Context* HASH\_ContextSave);
+00206 \textcolor{keywordtype}{void} HASH_RestoreContext(HASH\_Context* HASH\_ContextRestore);
+00207 
+00208 \textcolor{comment}{/* HASH's DMA interface function **********************************************/}
+00209 \textcolor{keywordtype}{void} HASH_DMACmd(FunctionalState NewState);
+00210 
+00211 \textcolor{comment}{/* HASH Interrupts and flags management functions *****************************/}
+00212 \textcolor{keywordtype}{void} HASH_ITConfig(uint8\_t HASH\_IT, FunctionalState NewState);
+00213 FlagStatus HASH_GetFlagStatus(uint16\_t HASH\_FLAG);
+00214 \textcolor{keywordtype}{void} HASH_ClearFlag(uint16\_t HASH\_FLAG);
+00215 ITStatus HASH_GetITStatus(uint8\_t HASH\_IT);
+00216 \textcolor{keywordtype}{void} HASH_ClearITPendingBit(uint8\_t HASH\_IT);
+00217 
+00218 \textcolor{comment}{/* High Level SHA1 functions **************************************************/}
+00219 ErrorStatus HASH_SHA1(uint8\_t *Input, uint32\_t Ilen, uint8\_t Output[20]);
+00220 ErrorStatus HMAC_SHA1(uint8\_t *Key, uint32\_t Keylen,
+00221                       uint8\_t *Input, uint32\_t Ilen,
+00222                       uint8\_t Output[20]);
+00223 
+00224 \textcolor{comment}{/* High Level MD5 functions ***************************************************/}
+00225 ErrorStatus HASH_MD5(uint8\_t *Input, uint32\_t Ilen, uint8\_t Output[16]);
+00226 ErrorStatus HMAC_MD5(uint8\_t *Key, uint32\_t Keylen,
+00227                      uint8\_t *Input, uint32\_t Ilen,
+00228                      uint8\_t Output[16]);
+00229 
+00230 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00231 \}
+00232 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00233 
+00234 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/*\_\_STM32F4xx\_HASH\_H */}
+00235 
+00236 \textcolor{comment}{/**}
+00237 \textcolor{comment}{  * @\}}
+00238 \textcolor{comment}{  */}
+00239 
+00240 \textcolor{comment}{/**}
+00241 \textcolor{comment}{  * @\}}
+00242 \textcolor{comment}{  */}
+00243 
+00244 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

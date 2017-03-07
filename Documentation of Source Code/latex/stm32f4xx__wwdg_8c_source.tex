@@ -1,0 +1,310 @@
+\section{stm32f4xx\+\_\+wwdg.\+c}
+\label{stm32f4xx__wwdg_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+wwdg.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+wwdg.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_wwdg.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides firmware functions to manage the following }
+00008 \textcolor{comment}{  *          functionalities of the Window watchdog (WWDG) peripheral:           }
+00009 \textcolor{comment}{  *           - Prescaler, Refresh window and Counter configuration}
+00010 \textcolor{comment}{  *           - WWDG activation}
+00011 \textcolor{comment}{  *           - Interrupts and flags management}
+00012 \textcolor{comment}{  *             }
+00013 \textcolor{comment}{  *  @verbatim}
+00014 \textcolor{comment}{  *    }
+00015 \textcolor{comment}{  *          ===================================================================}
+00016 \textcolor{comment}{  *                                     WWDG features}
+00017 \textcolor{comment}{  *          ===================================================================}
+00018 \textcolor{comment}{  *                                        }
+00019 \textcolor{comment}{  *          Once enabled the WWDG generates a system reset on expiry of a programmed}
+00020 \textcolor{comment}{  *          time period, unless the program refreshes the counter (downcounter) }
+00021 \textcolor{comment}{  *          before to reach 0x3F value (i.e. a reset is generated when the counter}
+00022 \textcolor{comment}{  *          value rolls over from 0x40 to 0x3F). }
+00023 \textcolor{comment}{  *          An MCU reset is also generated if the counter value is refreshed}
+00024 \textcolor{comment}{  *          before the counter has reached the refresh window value. This }
+00025 \textcolor{comment}{  *          implies that the counter must be refreshed in a limited window.}
+00026 \textcolor{comment}{  *            }
+00027 \textcolor{comment}{  *          Once enabled the WWDG cannot be disabled except by a system reset.                       
+         }
+00028 \textcolor{comment}{  *          }
+00029 \textcolor{comment}{  *          WWDGRST flag in RCC\_CSR register can be used to inform when a WWDG}
+00030 \textcolor{comment}{  *          reset occurs.}
+00031 \textcolor{comment}{  *            }
+00032 \textcolor{comment}{  *          The WWDG counter input clock is derived from the APB clock divided }
+00033 \textcolor{comment}{  *          by a programmable prescaler.}
+00034 \textcolor{comment}{  *              }
+00035 \textcolor{comment}{  *          WWDG counter clock = PCLK1 / Prescaler}
+00036 \textcolor{comment}{  *          WWDG timeout = (WWDG counter clock) * (counter value)}
+00037 \textcolor{comment}{  *                      }
+00038 \textcolor{comment}{  *          Min-max timeout value @42 MHz(PCLK1): ~97.5 us / ~49.9 ms}
+00039 \textcolor{comment}{  *                            }
+00040 \textcolor{comment}{  *          ===================================================================}
+00041 \textcolor{comment}{  *                                 How to use this driver}
+00042 \textcolor{comment}{  *          =================================================================== }
+00043 \textcolor{comment}{  *          1. Enable WWDG clock using RCC\_APB1PeriphClockCmd(RCC\_APB1Periph\_WWDG, ENABLE) function}
+00044 \textcolor{comment}{  *            }
+00045 \textcolor{comment}{  *          2. Configure the WWDG prescaler using WWDG\_SetPrescaler() function}
+00046 \textcolor{comment}{  *                           }
+00047 \textcolor{comment}{  *          3. Configure the WWDG refresh window using WWDG\_SetWindowValue() function}
+00048 \textcolor{comment}{  *            }
+00049 \textcolor{comment}{  *          4. Set the WWDG counter value and start it using WWDG\_Enable() function.}
+00050 \textcolor{comment}{  *             When the WWDG is enabled the counter value should be configured to }
+00051 \textcolor{comment}{  *             a value greater than 0x40 to prevent generating an immediate reset.     }
+00052 \textcolor{comment}{  *            }
+00053 \textcolor{comment}{  *          5. Optionally you can enable the Early wakeup interrupt which is }
+00054 \textcolor{comment}{  *             generated when the counter reach 0x40.}
+00055 \textcolor{comment}{  *             Once enabled this interrupt cannot be disabled except by a system reset.}
+00056 \textcolor{comment}{  *                 }
+00057 \textcolor{comment}{  *          6. Then the application program must refresh the WWDG counter at regular}
+00058 \textcolor{comment}{  *             intervals during normal operation to prevent an MCU reset, using}
+00059 \textcolor{comment}{  *             WWDG\_SetCounter() function. This operation must occur only when}
+00060 \textcolor{comment}{  *             the counter value is lower than the refresh window value, }
+00061 \textcolor{comment}{  *             programmed using WWDG\_SetWindowValue().         }
+00062 \textcolor{comment}{  *}
+00063 \textcolor{comment}{  *  @endverbatim  }
+00064 \textcolor{comment}{  *                             }
+00065 \textcolor{comment}{  ******************************************************************************}
+00066 \textcolor{comment}{  * @attention}
+00067 \textcolor{comment}{  *}
+00068 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00069 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00070 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00071 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00072 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00073 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00074 \textcolor{comment}{  *}
+00075 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00076 \textcolor{comment}{  ******************************************************************************}
+00077 \textcolor{comment}{  */}
+00078 
+00079 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00080 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_wwdg.h"
+00081 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rcc.h"
+00082 
+00083 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00084 \textcolor{comment}{  * @\{}
+00085 \textcolor{comment}{  */}
+00086 
+00087 \textcolor{comment}{/** @defgroup WWDG }
+00088 \textcolor{comment}{  * @brief WWDG driver modules}
+00089 \textcolor{comment}{  * @\{}
+00090 \textcolor{comment}{  */}
+00091 
+00092 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00093 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00094 
+00095 \textcolor{comment}{/* ----------- WWDG registers bit address in the alias region ----------- */}
+00096 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{WWDG\_OFFSET}       \textcolor{preprocessor}{(}WWDG_BASE \textcolor{preprocessor}{-} PERIPH_BASE\textcolor{preprocessor}{)}
+00097 \textcolor{comment}{/* Alias word address of EWI bit */}
+00098 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CFR\_OFFSET}        \textcolor{preprocessor}{(}WWDG_OFFSET \textcolor{preprocessor}{+} 0x04\textcolor{preprocessor}{)}
+00099 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{EWI\_BitNumber}     0x09
+00100 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CFR\_EWI\_BB}        \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}CFR_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      EWI_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00101 
+00102 \textcolor{comment}{/* --------------------- WWDG registers bit mask ------------------------ */}
+00103 \textcolor{comment}{/* CFR register bit mask */}
+00104 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CFR\_WDGTB\_MASK}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFFFFE7F\textcolor{preprocessor}{)}
+00105 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CFR\_W\_MASK}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFFFFF80\textcolor{preprocessor}{)}
+00106 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{BIT\_MASK}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x7F\textcolor{preprocessor}{)}
+00107 
+00108 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00109 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00110 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00111 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00112 
+00113 \textcolor{comment}{/** @defgroup WWDG\_Private\_Functions}
+00114 \textcolor{comment}{  * @\{}
+00115 \textcolor{comment}{  */}
+00116 
+00117 \textcolor{comment}{/** @defgroup WWDG\_Group1 Prescaler, Refresh window and Counter configuration functions}
+00118 \textcolor{comment}{ *  @brief   Prescaler, Refresh window and Counter configuration functions }
+00119 \textcolor{comment}{ *}
+00120 \textcolor{comment}{@verbatim   }
+00121 \textcolor{comment}{ ===============================================================================}
+00122 \textcolor{comment}{          Prescaler, Refresh window and Counter configuration functions}
+00123 \textcolor{comment}{ ===============================================================================  }
+00124 \textcolor{comment}{}
+00125 \textcolor{comment}{@endverbatim}
+00126 \textcolor{comment}{  * @\{}
+00127 \textcolor{comment}{  */}
+00128 
+00129 \textcolor{comment}{/**}
+00130 \textcolor{comment}{  * @brief  Deinitializes the WWDG peripheral registers to their default reset values.}
+00131 \textcolor{comment}{  * @param  None}
+00132 \textcolor{comment}{  * @retval None}
+00133 \textcolor{comment}{  */}
+00134 \textcolor{keywordtype}{void} WWDG_DeInit(\textcolor{keywordtype}{void})
+00135 \{
+00136   RCC_APB1PeriphResetCmd(RCC_APB1Periph_WWDG, ENABLE);
+00137   RCC_APB1PeriphResetCmd(RCC_APB1Periph_WWDG, DISABLE);
+00138 \}
+00139 
+00140 \textcolor{comment}{/**}
+00141 \textcolor{comment}{  * @brief  Sets the WWDG Prescaler.}
+00142 \textcolor{comment}{  * @param  WWDG\_Prescaler: specifies the WWDG Prescaler.}
+00143 \textcolor{comment}{  *   This parameter can be one of the following values:}
+00144 \textcolor{comment}{  *     @arg WWDG\_Prescaler\_1: WWDG counter clock = (PCLK1/4096)/1}
+00145 \textcolor{comment}{  *     @arg WWDG\_Prescaler\_2: WWDG counter clock = (PCLK1/4096)/2}
+00146 \textcolor{comment}{  *     @arg WWDG\_Prescaler\_4: WWDG counter clock = (PCLK1/4096)/4}
+00147 \textcolor{comment}{  *     @arg WWDG\_Prescaler\_8: WWDG counter clock = (PCLK1/4096)/8}
+00148 \textcolor{comment}{  * @retval None}
+00149 \textcolor{comment}{  */}
+00150 \textcolor{keywordtype}{void} WWDG_SetPrescaler(uint32\_t WWDG\_Prescaler)
+00151 \{
+00152   uint32\_t tmpreg = 0;
+00153   \textcolor{comment}{/* Check the parameters */}
+00154   assert_param(IS\_WWDG\_PRESCALER(WWDG\_Prescaler));
+00155   \textcolor{comment}{/* Clear WDGTB[1:0] bits */}
+00156   tmpreg = WWDG->CFR & CFR_WDGTB_MASK;
+00157   \textcolor{comment}{/* Set WDGTB[1:0] bits according to WWDG\_Prescaler value */}
+00158   tmpreg |= WWDG\_Prescaler;
+00159   \textcolor{comment}{/* Store the new value */}
+00160   WWDG->CFR = tmpreg;
+00161 \}
+00162 
+00163 \textcolor{comment}{/**}
+00164 \textcolor{comment}{  * @brief  Sets the WWDG window value.}
+00165 \textcolor{comment}{  * @param  WindowValue: specifies the window value to be compared to the downcounter.}
+00166 \textcolor{comment}{  *   This parameter value must be lower than 0x80.}
+00167 \textcolor{comment}{  * @retval None}
+00168 \textcolor{comment}{  */}
+00169 \textcolor{keywordtype}{void} WWDG_SetWindowValue(uint8\_t WindowValue)
+00170 \{
+00171   \_\_IO uint32\_t tmpreg = 0;
+00172 
+00173   \textcolor{comment}{/* Check the parameters */}
+00174   assert_param(IS\_WWDG\_WINDOW\_VALUE(WindowValue));
+00175   \textcolor{comment}{/* Clear W[6:0] bits */}
+00176 
+00177   tmpreg = WWDG->CFR & CFR_W_MASK;
+00178 
+00179   \textcolor{comment}{/* Set W[6:0] bits according to WindowValue value */}
+00180   tmpreg |= WindowValue & (uint32\_t) BIT_MASK;
+00181 
+00182   \textcolor{comment}{/* Store the new value */}
+00183   WWDG->CFR = tmpreg;
+00184 \}
+00185 
+00186 \textcolor{comment}{/**}
+00187 \textcolor{comment}{  * @brief  Enables the WWDG Early Wakeup interrupt(EWI).}
+00188 \textcolor{comment}{  * @note   Once enabled this interrupt cannot be disabled except by a system reset.}
+00189 \textcolor{comment}{  * @param  None}
+00190 \textcolor{comment}{  * @retval None}
+00191 \textcolor{comment}{  */}
+00192 \textcolor{keywordtype}{void} WWDG_EnableIT(\textcolor{keywordtype}{void})
+00193 \{
+00194   *(\_\_IO uint32\_t *) CFR_EWI_BB = (uint32\_t)ENABLE;
+00195 \}
+00196 
+00197 \textcolor{comment}{/**}
+00198 \textcolor{comment}{  * @brief  Sets the WWDG counter value.}
+00199 \textcolor{comment}{  * @param  Counter: specifies the watchdog counter value.}
+00200 \textcolor{comment}{  *   This parameter must be a number between 0x40 and 0x7F (to prevent generating}
+00201 \textcolor{comment}{  *   an immediate reset) }
+00202 \textcolor{comment}{  * @retval None}
+00203 \textcolor{comment}{  */}
+00204 \textcolor{keywordtype}{void} WWDG_SetCounter(uint8\_t Counter)
+00205 \{
+00206   \textcolor{comment}{/* Check the parameters */}
+00207   assert_param(IS\_WWDG\_COUNTER(Counter));
+00208   \textcolor{comment}{/* Write to T[6:0] bits to configure the counter value, no need to do}
+00209 \textcolor{comment}{     a read-modify-write; writing a 0 to WDGA bit does nothing */}
+00210   WWDG->CR = Counter & BIT_MASK;
+00211 \}
+00212 \textcolor{comment}{/**}
+00213 \textcolor{comment}{  * @\}}
+00214 \textcolor{comment}{  */}
+00215 
+00216 \textcolor{comment}{/** @defgroup WWDG\_Group2 WWDG activation functions}
+00217 \textcolor{comment}{ *  @brief   WWDG activation functions }
+00218 \textcolor{comment}{ *}
+00219 \textcolor{comment}{@verbatim   }
+00220 \textcolor{comment}{ ===============================================================================}
+00221 \textcolor{comment}{                       WWDG activation function}
+00222 \textcolor{comment}{ ===============================================================================  }
+00223 \textcolor{comment}{}
+00224 \textcolor{comment}{@endverbatim}
+00225 \textcolor{comment}{  * @\{}
+00226 \textcolor{comment}{  */}
+00227 
+00228 \textcolor{comment}{/**}
+00229 \textcolor{comment}{  * @brief  Enables WWDG and load the counter value.                  }
+00230 \textcolor{comment}{  * @param  Counter: specifies the watchdog counter value.}
+00231 \textcolor{comment}{  *   This parameter must be a number between 0x40 and 0x7F (to prevent generating}
+00232 \textcolor{comment}{  *   an immediate reset)}
+00233 \textcolor{comment}{  * @retval None}
+00234 \textcolor{comment}{  */}
+00235 \textcolor{keywordtype}{void} WWDG_Enable(uint8\_t Counter)
+00236 \{
+00237   \textcolor{comment}{/* Check the parameters */}
+00238   assert_param(IS\_WWDG\_COUNTER(Counter));
+00239   WWDG->CR = WWDG_CR_WDGA | Counter;
+00240 \}
+00241 \textcolor{comment}{/**}
+00242 \textcolor{comment}{  * @\}}
+00243 \textcolor{comment}{  */}
+00244 
+00245 \textcolor{comment}{/** @defgroup WWDG\_Group3 Interrupts and flags management functions}
+00246 \textcolor{comment}{ *  @brief   Interrupts and flags management functions }
+00247 \textcolor{comment}{ *}
+00248 \textcolor{comment}{@verbatim   }
+00249 \textcolor{comment}{ ===============================================================================}
+00250 \textcolor{comment}{                 Interrupts and flags management functions}
+00251 \textcolor{comment}{ ===============================================================================  }
+00252 \textcolor{comment}{}
+00253 \textcolor{comment}{@endverbatim}
+00254 \textcolor{comment}{  * @\{}
+00255 \textcolor{comment}{  */}
+00256 
+00257 \textcolor{comment}{/**}
+00258 \textcolor{comment}{  * @brief  Checks whether the Early Wakeup interrupt flag is set or not.}
+00259 \textcolor{comment}{  * @param  None}
+00260 \textcolor{comment}{  * @retval The new state of the Early Wakeup interrupt flag (SET or RESET)}
+00261 \textcolor{comment}{  */}
+00262 FlagStatus WWDG_GetFlagStatus(\textcolor{keywordtype}{void})
+00263 \{
+00264   FlagStatus bitstatus = RESET;
+00265 
+00266   \textcolor{keywordflow}{if} ((WWDG->SR) != (uint32\_t)RESET)
+00267   \{
+00268     bitstatus = SET;
+00269   \}
+00270   \textcolor{keywordflow}{else}
+00271   \{
+00272     bitstatus = RESET;
+00273   \}
+00274   \textcolor{keywordflow}{return} bitstatus;
+00275 \}
+00276 
+00277 \textcolor{comment}{/**}
+00278 \textcolor{comment}{  * @brief  Clears Early Wakeup interrupt flag.}
+00279 \textcolor{comment}{  * @param  None}
+00280 \textcolor{comment}{  * @retval None}
+00281 \textcolor{comment}{  */}
+00282 \textcolor{keywordtype}{void} WWDG_ClearFlag(\textcolor{keywordtype}{void})
+00283 \{
+00284   WWDG->SR = (uint32\_t)RESET;
+00285 \}
+00286 
+00287 \textcolor{comment}{/**}
+00288 \textcolor{comment}{  * @\}}
+00289 \textcolor{comment}{  */}
+00290 
+00291 \textcolor{comment}{/**}
+00292 \textcolor{comment}{  * @\}}
+00293 \textcolor{comment}{  */}
+00294 
+00295 \textcolor{comment}{/**}
+00296 \textcolor{comment}{  * @\}}
+00297 \textcolor{comment}{  */}
+00298 
+00299 \textcolor{comment}{/**}
+00300 \textcolor{comment}{  * @\}}
+00301 \textcolor{comment}{  */}
+00302 
+00303 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

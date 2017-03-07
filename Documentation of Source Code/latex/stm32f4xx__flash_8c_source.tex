@@ -1,0 +1,1071 @@
+\section{stm32f4xx\+\_\+flash.\+c}
+\label{stm32f4xx__flash_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+flash.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+flash.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_flash.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides firmware functions to manage the following }
+00008 \textcolor{comment}{  *          functionalities of the FLASH peripheral:}
+00009 \textcolor{comment}{  *            - FLASH Interface configuration}
+00010 \textcolor{comment}{  *            - FLASH Memory Programming}
+00011 \textcolor{comment}{  *            - Option Bytes Programming}
+00012 \textcolor{comment}{  *            - Interrupts and flags management}
+00013 \textcolor{comment}{  *  }
+00014 \textcolor{comment}{  *  @verbatim}
+00015 \textcolor{comment}{  *  }
+00016 \textcolor{comment}{  *          ===================================================================}
+00017 \textcolor{comment}{  *                                 How to use this driver}
+00018 \textcolor{comment}{  *          ===================================================================}
+00019 \textcolor{comment}{  *                           }
+00020 \textcolor{comment}{  *          This driver provides functions to configure and program the FLASH }
+00021 \textcolor{comment}{  *          memory of all STM32F4xx devices.}
+00022 \textcolor{comment}{  *          These functions are split in 4 groups:}
+00023 \textcolor{comment}{  * }
+00024 \textcolor{comment}{  *           1. FLASH Interface configuration functions: this group includes the}
+00025 \textcolor{comment}{  *              management of the following features:}
+00026 \textcolor{comment}{  *                    - Set the latency}
+00027 \textcolor{comment}{  *                    - Enable/Disable the prefetch buffer}
+00028 \textcolor{comment}{  *                    - Enable/Disable the Instruction cache and the Data cache}
+00029 \textcolor{comment}{  *                    - Reset the Instruction cache and the Data cache}
+00030 \textcolor{comment}{  *  }
+00031 \textcolor{comment}{  *           2. FLASH Memory Programming functions: this group includes all needed}
+00032 \textcolor{comment}{  *              functions to erase and program the main memory:}
+00033 \textcolor{comment}{  *                    - Lock and Unlock the FLASH interface}
+00034 \textcolor{comment}{  *                    - Erase function: Erase sector, erase all sectors}
+00035 \textcolor{comment}{  *                    - Program functions: byte, half word, word and double word}
+00036 \textcolor{comment}{  *  }
+00037 \textcolor{comment}{  *           3. Option Bytes Programming functions: this group includes all needed}
+00038 \textcolor{comment}{  *              functions to manage the Option Bytes:}
+00039 \textcolor{comment}{  *                    - Set/Reset the write protection}
+00040 \textcolor{comment}{  *                    - Set the Read protection Level}
+00041 \textcolor{comment}{  *                    - Set the BOR level}
+00042 \textcolor{comment}{  *                    - Program the user Option Bytes}
+00043 \textcolor{comment}{  *                    - Launch the Option Bytes loader}
+00044 \textcolor{comment}{  *  }
+00045 \textcolor{comment}{  *           4. Interrupts and flags management functions: this group }
+00046 \textcolor{comment}{  *              includes all needed functions to:}
+00047 \textcolor{comment}{  *                    - Enable/Disable the FLASH interrupt sources}
+00048 \textcolor{comment}{  *                    - Get flags status}
+00049 \textcolor{comment}{  *                    - Clear flags}
+00050 \textcolor{comment}{  *                    - Get FLASH operation status}
+00051 \textcolor{comment}{  *                    - Wait for last FLASH operation}
+00052 \textcolor{comment}{  * }
+00053 \textcolor{comment}{  *  @endverbatim}
+00054 \textcolor{comment}{  *                      }
+00055 \textcolor{comment}{  ******************************************************************************}
+00056 \textcolor{comment}{  * @attention}
+00057 \textcolor{comment}{  *}
+00058 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00059 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00060 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00061 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00062 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00063 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00064 \textcolor{comment}{  *}
+00065 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00066 \textcolor{comment}{  ******************************************************************************}
+00067 \textcolor{comment}{  */}
+00068 
+00069 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00070 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_flash.h"
+00071 
+00072 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00073 \textcolor{comment}{  * @\{}
+00074 \textcolor{comment}{  */}
+00075 
+00076 \textcolor{comment}{/** @defgroup FLASH }
+00077 \textcolor{comment}{  * @brief FLASH driver modules}
+00078 \textcolor{comment}{  * @\{}
+00079 \textcolor{comment}{  */}
+00080 
+00081 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00082 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00083 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SECTOR\_MASK}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFFFFF07\textcolor{preprocessor}{)}
+00084 
+00085 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00086 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00087 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00088 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00089 
+00090 \textcolor{comment}{/** @defgroup FLASH\_Private\_Functions}
+00091 \textcolor{comment}{  * @\{}
+00092 \textcolor{comment}{  */}
+00093 
+00094 \textcolor{comment}{/** @defgroup FLASH\_Group1 FLASH Interface configuration functions}
+00095 \textcolor{comment}{  *  @brief   FLASH Interface configuration functions }
+00096 \textcolor{comment}{ *}
+00097 \textcolor{comment}{}
+00098 \textcolor{comment}{@verbatim   }
+00099 \textcolor{comment}{ ===============================================================================}
+00100 \textcolor{comment}{                       FLASH Interface configuration functions}
+00101 \textcolor{comment}{ ===============================================================================}
+00102 \textcolor{comment}{}
+00103 \textcolor{comment}{   This group includes the following functions:}
+00104 \textcolor{comment}{    - void FLASH\_SetLatency(uint32\_t FLASH\_Latency)}
+00105 \textcolor{comment}{       To correctly read data from FLASH memory, the number of wait states (LATENCY) }
+00106 \textcolor{comment}{       must be correctly programmed according to the frequency of the CPU clock }
+00107 \textcolor{comment}{      (HCLK) and the supply voltage of the device.}
+00108 \textcolor{comment}{ +-------------------------------------------------------------------------------------+     }
+00109 \textcolor{comment}{ | Latency       |                HCLK clock frequency (MHz)                           |}
+00110 \textcolor{comment}{ |               |---------------------------------------------------------------------|     }
+00111 \textcolor{comment}{ |               | voltage range  | voltage range  | voltage range   | voltage range   |}
+00112 \textcolor{comment}{ |               | 2.7 V - 3.6 V  | 2.4 V - 2.7 V  | 2.1 V - 2.4 V   | 1.8 V - 2.1 V   |}
+00113 \textcolor{comment}{ |---------------|----------------|----------------|-----------------|-----------------|              }
+00114 \textcolor{comment}{ |0WS(1CPU cycle)|0 < HCLK <= 30  |0 < HCLK <= 24  |0 < HCLK <= 18   |0 < HCLK <= 16   |}
+00115 \textcolor{comment}{ |---------------|----------------|----------------|-----------------|-----------------|   }
+00116 \textcolor{comment}{ |1WS(2CPU cycle)|30 < HCLK <= 60 |24 < HCLK <= 48 |18 < HCLK <= 36  |16 < HCLK <= 32  | }
+00117 \textcolor{comment}{ |---------------|----------------|----------------|-----------------|-----------------|   }
+00118 \textcolor{comment}{ |2WS(3CPU cycle)|60 < HCLK <= 90 |48 < HCLK <= 72 |36 < HCLK <= 54  |32 < HCLK <= 48  |}
+00119 \textcolor{comment}{ |---------------|----------------|----------------|-----------------|-----------------| }
+00120 \textcolor{comment}{ |3WS(4CPU cycle)|90 < HCLK <= 120|72 < HCLK <= 96 |54 < HCLK <= 72  |48 < HCLK <= 64  |}
+00121 \textcolor{comment}{ |---------------|----------------|----------------|-----------------|-----------------| }
+00122 \textcolor{comment}{ |4WS(5CPU cycle)|120< HCLK <= 150|96 < HCLK <= 120|72 < HCLK <= 90  |64 < HCLK <= 80  |}
+00123 \textcolor{comment}{ |---------------|----------------|----------------|-----------------|-----------------| }
+00124 \textcolor{comment}{ |5WS(6CPU cycle)|120< HCLK <= 168|120< HCLK <= 144|90 < HCLK <= 108 |80 < HCLK <= 96  | }
+00125 \textcolor{comment}{ |---------------|----------------|----------------|-----------------|-----------------| }
+00126 \textcolor{comment}{ |6WS(7CPU cycle)|      NA        |144< HCLK <= 168|108 < HCLK <= 120|96 < HCLK <= 112 | }
+00127 \textcolor{comment}{ |---------------|----------------|----------------|-----------------|-----------------| }
+00128 \textcolor{comment}{ |7WS(8CPU cycle)|      NA        |      NA        |120 < HCLK <= 138|112 < HCLK <= 120| }
+00129 \textcolor{comment}{
+       |***************|****************|****************|*****************|*****************|*****************************+}
+00130 \textcolor{comment}{ |               | voltage range  | voltage range  | voltage range   | voltage range   | voltage range
+       2.7 V - 3.6 V |}
+00131 \textcolor{comment}{ |               | 2.7 V - 3.6 V  | 2.4 V - 2.7 V  | 2.1 V - 2.4 V   | 1.8 V - 2.1 V   | with External
+       Vpp = 9V      |}
+00132 \textcolor{comment}{
+       |---------------|----------------|----------------|-----------------|-----------------|-----------------------------| }
+00133 \textcolor{comment}{ |Max Parallelism|      x32       |               x16                |       x8        |          x64 
+                     |              }
+00134 \textcolor{comment}{
+       |---------------|----------------|----------------|-----------------|-----------------|-----------------------------|   }
+00135 \textcolor{comment}{ |PSIZE[1:0]     |      10        |               01                 |       00        |           11 
+                     |}
+00136 \textcolor{comment}{
+       +-------------------------------------------------------------------------------------------------------------------+  }
+00137 \textcolor{comment}{   @note When VOS bit (in PWR\_CR register) is reset to '0’, the maximum value of HCLK is 144 MHz.}
+00138 \textcolor{comment}{         You can use PWR\_MainRegulatorModeConfig() function to set or reset this bit.}
+00139 \textcolor{comment}{             }
+00140 \textcolor{comment}{    - void FLASH\_PrefetchBufferCmd(FunctionalState NewState)}
+00141 \textcolor{comment}{    - void FLASH\_InstructionCacheCmd(FunctionalState NewState)}
+00142 \textcolor{comment}{    - void FLASH\_DataCacheCmd(FunctionalState NewState)}
+00143 \textcolor{comment}{    - void FLASH\_InstructionCacheReset(void)}
+00144 \textcolor{comment}{    - void FLASH\_DataCacheReset(void)}
+00145 \textcolor{comment}{   }
+00146 \textcolor{comment}{   The unlock sequence is not needed for these functions.}
+00147 \textcolor{comment}{ }
+00148 \textcolor{comment}{@endverbatim}
+00149 \textcolor{comment}{  * @\{}
+00150 \textcolor{comment}{  */}
+00151 
+00152 \textcolor{comment}{/**}
+00153 \textcolor{comment}{  * @brief  Sets the code latency value.}
+00154 \textcolor{comment}{  * @param  FLASH\_Latency: specifies the FLASH Latency value.}
+00155 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00156 \textcolor{comment}{  *            @arg FLASH\_Latency\_0: FLASH Zero Latency cycle}
+00157 \textcolor{comment}{  *            @arg FLASH\_Latency\_1: FLASH One Latency cycle}
+00158 \textcolor{comment}{  *            @arg FLASH\_Latency\_2: FLASH Two Latency cycles}
+00159 \textcolor{comment}{  *            @arg FLASH\_Latency\_3: FLASH Three Latency cycles}
+00160 \textcolor{comment}{  *            @arg FLASH\_Latency\_4: FLASH Four Latency cycles }
+00161 \textcolor{comment}{  *            @arg FLASH\_Latency\_5: FLASH Five Latency cycles }
+00162 \textcolor{comment}{  *            @arg FLASH\_Latency\_6: FLASH Six Latency cycles}
+00163 \textcolor{comment}{  *            @arg FLASH\_Latency\_7: FLASH Seven Latency cycles      }
+00164 \textcolor{comment}{  * @retval None}
+00165 \textcolor{comment}{  */}
+00166 \textcolor{keywordtype}{void} FLASH_SetLatency(uint32\_t FLASH\_Latency)
+00167 \{
+00168   \textcolor{comment}{/* Check the parameters */}
+00169   assert_param(IS\_FLASH\_LATENCY(FLASH\_Latency));
+00170 
+00171   \textcolor{comment}{/* Perform Byte access to FLASH\_ACR[8:0] to set the Latency value */}
+00172   *(\_\_IO uint8\_t *)ACR_BYTE0_ADDRESS = (uint8\_t)FLASH\_Latency;
+00173 \}
+00174 
+00175 \textcolor{comment}{/**}
+00176 \textcolor{comment}{  * @brief  Enables or disables the Prefetch Buffer.}
+00177 \textcolor{comment}{  * @param  NewState: new state of the Prefetch Buffer.}
+00178 \textcolor{comment}{  *          This parameter  can be: ENABLE or DISABLE.}
+00179 \textcolor{comment}{  * @retval None}
+00180 \textcolor{comment}{  */}
+00181 \textcolor{keywordtype}{void} FLASH_PrefetchBufferCmd(FunctionalState NewState)
+00182 \{
+00183   \textcolor{comment}{/* Check the parameters */}
+00184   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00185 
+00186   \textcolor{comment}{/* Enable or disable the Prefetch Buffer */}
+00187   \textcolor{keywordflow}{if}(NewState != DISABLE)
+00188   \{
+00189     FLASH->ACR |= FLASH_ACR_PRFTEN;
+00190   \}
+00191   \textcolor{keywordflow}{else}
+00192   \{
+00193     FLASH->ACR &= (~FLASH_ACR_PRFTEN);
+00194   \}
+00195 \}
+00196 
+00197 \textcolor{comment}{/**}
+00198 \textcolor{comment}{  * @brief  Enables or disables the Instruction Cache feature.}
+00199 \textcolor{comment}{  * @param  NewState: new state of the Instruction Cache.}
+00200 \textcolor{comment}{  *          This parameter  can be: ENABLE or DISABLE.}
+00201 \textcolor{comment}{  * @retval None}
+00202 \textcolor{comment}{  */}
+00203 \textcolor{keywordtype}{void} FLASH_InstructionCacheCmd(FunctionalState NewState)
+00204 \{
+00205   \textcolor{comment}{/* Check the parameters */}
+00206   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00207 
+00208   \textcolor{keywordflow}{if}(NewState != DISABLE)
+00209   \{
+00210     FLASH->ACR |= FLASH_ACR_ICEN;
+00211   \}
+00212   \textcolor{keywordflow}{else}
+00213   \{
+00214     FLASH->ACR &= (~FLASH_ACR_ICEN);
+00215   \}
+00216 \}
+00217 
+00218 \textcolor{comment}{/**}
+00219 \textcolor{comment}{  * @brief  Enables or disables the Data Cache feature.}
+00220 \textcolor{comment}{  * @param  NewState: new state of the Data Cache.}
+00221 \textcolor{comment}{  *          This parameter  can be: ENABLE or DISABLE.}
+00222 \textcolor{comment}{  * @retval None}
+00223 \textcolor{comment}{  */}
+00224 \textcolor{keywordtype}{void} FLASH_DataCacheCmd(FunctionalState NewState)
+00225 \{
+00226   \textcolor{comment}{/* Check the parameters */}
+00227   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00228 
+00229   \textcolor{keywordflow}{if}(NewState != DISABLE)
+00230   \{
+00231     FLASH->ACR |= FLASH_ACR_DCEN;
+00232   \}
+00233   \textcolor{keywordflow}{else}
+00234   \{
+00235     FLASH->ACR &= (~FLASH_ACR_DCEN);
+00236   \}
+00237 \}
+00238 
+00239 \textcolor{comment}{/**}
+00240 \textcolor{comment}{  * @brief  Resets the Instruction Cache.}
+00241 \textcolor{comment}{  * @note   This function must be used only when the Instruction Cache is disabled.  }
+00242 \textcolor{comment}{  * @param  None}
+00243 \textcolor{comment}{  * @retval None}
+00244 \textcolor{comment}{  */}
+00245 \textcolor{keywordtype}{void} FLASH_InstructionCacheReset(\textcolor{keywordtype}{void})
+00246 \{
+00247   FLASH->ACR |= FLASH_ACR_ICRST;
+00248 \}
+00249 
+00250 \textcolor{comment}{/**}
+00251 \textcolor{comment}{  * @brief  Resets the Data Cache.}
+00252 \textcolor{comment}{  * @note   This function must be used only when the Data Cache is disabled.  }
+00253 \textcolor{comment}{  * @param  None}
+00254 \textcolor{comment}{  * @retval None}
+00255 \textcolor{comment}{  */}
+00256 \textcolor{keywordtype}{void} FLASH_DataCacheReset(\textcolor{keywordtype}{void})
+00257 \{
+00258   FLASH->ACR |= FLASH_ACR_DCRST;
+00259 \}
+00260 
+00261 \textcolor{comment}{/**}
+00262 \textcolor{comment}{  * @\}}
+00263 \textcolor{comment}{  */}
+00264 
+00265 \textcolor{comment}{/** @defgroup FLASH\_Group2 FLASH Memory Programming functions}
+00266 \textcolor{comment}{ *  @brief   FLASH Memory Programming functions}
+00267 \textcolor{comment}{ *}
+00268 \textcolor{comment}{@verbatim   }
+00269 \textcolor{comment}{ ===============================================================================}
+00270 \textcolor{comment}{                      FLASH Memory Programming functions}
+00271 \textcolor{comment}{ ===============================================================================   }
+00272 \textcolor{comment}{}
+00273 \textcolor{comment}{   This group includes the following functions:}
+00274 \textcolor{comment}{    - void FLASH\_Unlock(void)}
+00275 \textcolor{comment}{    - void FLASH\_Lock(void)}
+00276 \textcolor{comment}{    - FLASH\_Status FLASH\_EraseSector(uint32\_t FLASH\_Sector, uint8\_t VoltageRange)}
+00277 \textcolor{comment}{    - FLASH\_Status FLASH\_EraseAllSectors(uint8\_t VoltageRange)}
+00278 \textcolor{comment}{    - FLASH\_Status FLASH\_ProgramDoubleWord(uint32\_t Address, uint64\_t Data)}
+00279 \textcolor{comment}{    - FLASH\_Status FLASH\_ProgramWord(uint32\_t Address, uint32\_t Data)}
+00280 \textcolor{comment}{    - FLASH\_Status FLASH\_ProgramHalfWord(uint32\_t Address, uint16\_t Data)}
+00281 \textcolor{comment}{    - FLASH\_Status FLASH\_ProgramByte(uint32\_t Address, uint8\_t Data)}
+00282 \textcolor{comment}{   }
+00283 \textcolor{comment}{   Any operation of erase or program should follow these steps:}
+00284 \textcolor{comment}{   1. Call the FLASH\_Unlock() function to enable the FLASH control register access}
+00285 \textcolor{comment}{}
+00286 \textcolor{comment}{   2. Call the desired function to erase sector(s) or program data}
+00287 \textcolor{comment}{}
+00288 \textcolor{comment}{   3. Call the FLASH\_Lock() function to disable the FLASH control register access}
+00289 \textcolor{comment}{      (recommended to protect the FLASH memory against possible unwanted operation)}
+00290 \textcolor{comment}{    }
+00291 \textcolor{comment}{@endverbatim}
+00292 \textcolor{comment}{  * @\{}
+00293 \textcolor{comment}{  */}
+00294 
+00295 \textcolor{comment}{/**}
+00296 \textcolor{comment}{  * @brief  Unlocks the FLASH control register access}
+00297 \textcolor{comment}{  * @param  None}
+00298 \textcolor{comment}{  * @retval None}
+00299 \textcolor{comment}{  */}
+00300 \textcolor{keywordtype}{void} FLASH_Unlock(\textcolor{keywordtype}{void})
+00301 \{
+00302   \textcolor{keywordflow}{if}((FLASH->CR & FLASH_CR_LOCK) != RESET)
+00303   \{
+00304     \textcolor{comment}{/* Authorize the FLASH Registers access */}
+00305     FLASH->KEYR = FLASH_KEY1;
+00306     FLASH->KEYR = FLASH_KEY2;
+00307   \}
+00308 \}
+00309 
+00310 \textcolor{comment}{/**}
+00311 \textcolor{comment}{  * @brief  Locks the FLASH control register access}
+00312 \textcolor{comment}{  * @param  None}
+00313 \textcolor{comment}{  * @retval None}
+00314 \textcolor{comment}{  */}
+00315 \textcolor{keywordtype}{void} FLASH_Lock(\textcolor{keywordtype}{void})
+00316 \{
+00317   \textcolor{comment}{/* Set the LOCK Bit to lock the FLASH Registers access */}
+00318   FLASH->CR |= FLASH_CR_LOCK;
+00319 \}
+00320 
+00321 \textcolor{comment}{/**}
+00322 \textcolor{comment}{  * @brief  Erases a specified FLASH Sector.}
+00323 \textcolor{comment}{  *   }
+00324 \textcolor{comment}{  * @param  FLASH\_Sector: The Sector number to be erased.}
+00325 \textcolor{comment}{  *          This parameter can be a value between FLASH\_Sector\_0 and FLASH\_Sector\_11}
+00326 \textcolor{comment}{  *    }
+00327 \textcolor{comment}{  * @param  VoltageRange: The device voltage range which defines the erase parallelism.  }
+00328 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00329 \textcolor{comment}{  *            @arg VoltageRange\_1: when the device voltage range is 1.8V to 2.1V, }
+00330 \textcolor{comment}{  *                                  the operation will be done by byte (8-bit) }
+00331 \textcolor{comment}{  *            @arg VoltageRange\_2: when the device voltage range is 2.1V to 2.7V,}
+00332 \textcolor{comment}{  *                                  the operation will be done by half word (16-bit)}
+00333 \textcolor{comment}{  *            @arg VoltageRange\_3: when the device voltage range is 2.7V to 3.6V,}
+00334 \textcolor{comment}{  *                                  the operation will be done by word (32-bit)}
+00335 \textcolor{comment}{  *            @arg VoltageRange\_4: when the device voltage range is 2.7V to 3.6V + External Vpp, }
+00336 \textcolor{comment}{  *                                  the operation will be done by double word (64-bit)}
+00337 \textcolor{comment}{  *       }
+00338 \textcolor{comment}{  * @retval FLASH Status: The returned value can be: FLASH\_BUSY, FLASH\_ERROR\_PROGRAM,}
+00339 \textcolor{comment}{  *                       FLASH\_ERROR\_WRP, FLASH\_ERROR\_OPERATION or FLASH\_COMPLETE.}
+00340 \textcolor{comment}{  */}
+00341 FLASH\_Status FLASH_EraseSector(uint32\_t FLASH\_Sector, uint8\_t VoltageRange)
+00342 \{
+00343   uint32\_t tmp\_psize = 0x0;
+00344   FLASH\_Status status = FLASH_COMPLETE;
+00345 
+00346   \textcolor{comment}{/* Check the parameters */}
+00347   assert_param(IS\_FLASH\_SECTOR(FLASH\_Sector));
+00348   assert_param(IS\_VOLTAGERANGE(VoltageRange));
+00349 
+00350   \textcolor{keywordflow}{if}(VoltageRange == VoltageRange_1)
+00351   \{
+00352      tmp\_psize = FLASH_PSIZE_BYTE;
+00353   \}
+00354   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(VoltageRange == VoltageRange_2)
+00355   \{
+00356     tmp\_psize = FLASH_PSIZE_HALF_WORD;
+00357   \}
+00358   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(VoltageRange == VoltageRange_3)
+00359   \{
+00360     tmp\_psize = FLASH_PSIZE_WORD;
+00361   \}
+00362   \textcolor{keywordflow}{else}
+00363   \{
+00364     tmp\_psize = FLASH_PSIZE_DOUBLE_WORD;
+00365   \}
+00366   \textcolor{comment}{/* Wait for last operation to be completed */}
+00367   status = FLASH_WaitForLastOperation();
+00368 
+00369   \textcolor{keywordflow}{if}(status == FLASH_COMPLETE)
+00370   \{
+00371     \textcolor{comment}{/* if the previous operation is completed, proceed to erase the sector */}
+00372     FLASH->CR &= CR_PSIZE_MASK;
+00373     FLASH->CR |= tmp\_psize;
+00374     FLASH->CR &= SECTOR_MASK;
+00375     FLASH->CR |= FLASH_CR_SER | FLASH\_Sector;
+00376     FLASH->CR |= FLASH_CR_STRT;
+00377 
+00378     \textcolor{comment}{/* Wait for last operation to be completed */}
+00379     status = FLASH_WaitForLastOperation();
+00380 
+00381     \textcolor{comment}{/* if the erase operation is completed, disable the SER Bit */}
+00382     FLASH->CR &= (~FLASH_CR_SER);
+00383     FLASH->CR &= SECTOR_MASK;
+00384   \}
+00385   \textcolor{comment}{/* Return the Erase Status */}
+00386   \textcolor{keywordflow}{return} status;
+00387 \}
+00388 
+00389 \textcolor{comment}{/**}
+00390 \textcolor{comment}{  * @brief  Erases all FLASH Sectors.}
+00391 \textcolor{comment}{  *    }
+00392 \textcolor{comment}{  * @param  VoltageRange: The device voltage range which defines the erase parallelism.  }
+00393 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00394 \textcolor{comment}{  *            @arg VoltageRange\_1: when the device voltage range is 1.8V to 2.1V, }
+00395 \textcolor{comment}{  *                                  the operation will be done by byte (8-bit) }
+00396 \textcolor{comment}{  *            @arg VoltageRange\_2: when the device voltage range is 2.1V to 2.7V,}
+00397 \textcolor{comment}{  *                                  the operation will be done by half word (16-bit)}
+00398 \textcolor{comment}{  *            @arg VoltageRange\_3: when the device voltage range is 2.7V to 3.6V,}
+00399 \textcolor{comment}{  *                                  the operation will be done by word (32-bit)}
+00400 \textcolor{comment}{  *            @arg VoltageRange\_4: when the device voltage range is 2.7V to 3.6V + External Vpp, }
+00401 \textcolor{comment}{  *                                  the operation will be done by double word (64-bit)}
+00402 \textcolor{comment}{  *       }
+00403 \textcolor{comment}{  * @retval FLASH Status: The returned value can be: FLASH\_BUSY, FLASH\_ERROR\_PROGRAM,}
+00404 \textcolor{comment}{  *                       FLASH\_ERROR\_WRP, FLASH\_ERROR\_OPERATION or FLASH\_COMPLETE.}
+00405 \textcolor{comment}{  */}
+00406 FLASH\_Status FLASH_EraseAllSectors(uint8\_t VoltageRange)
+00407 \{
+00408   uint32\_t tmp\_psize = 0x0;
+00409   FLASH\_Status status = FLASH_COMPLETE;
+00410 
+00411   \textcolor{comment}{/* Wait for last operation to be completed */}
+00412   status = FLASH_WaitForLastOperation();
+00413   assert_param(IS\_VOLTAGERANGE(VoltageRange));
+00414 
+00415   \textcolor{keywordflow}{if}(VoltageRange == VoltageRange_1)
+00416   \{
+00417      tmp\_psize = FLASH_PSIZE_BYTE;
+00418   \}
+00419   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(VoltageRange == VoltageRange_2)
+00420   \{
+00421     tmp\_psize = FLASH_PSIZE_HALF_WORD;
+00422   \}
+00423   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(VoltageRange == VoltageRange_3)
+00424   \{
+00425     tmp\_psize = FLASH_PSIZE_WORD;
+00426   \}
+00427   \textcolor{keywordflow}{else}
+00428   \{
+00429     tmp\_psize = FLASH_PSIZE_DOUBLE_WORD;
+00430   \}
+00431   \textcolor{keywordflow}{if}(status == FLASH_COMPLETE)
+00432   \{
+00433     \textcolor{comment}{/* if the previous operation is completed, proceed to erase all sectors */}
+00434      FLASH->CR &= CR_PSIZE_MASK;
+00435      FLASH->CR |= tmp\_psize;
+00436      FLASH->CR |= FLASH_CR_MER;
+00437      FLASH->CR |= FLASH_CR_STRT;
+00438 
+00439     \textcolor{comment}{/* Wait for last operation to be completed */}
+00440     status = FLASH_WaitForLastOperation();
+00441 
+00442     \textcolor{comment}{/* if the erase operation is completed, disable the MER Bit */}
+00443     FLASH->CR &= (~FLASH_CR_MER);
+00444 
+00445   \}
+00446   \textcolor{comment}{/* Return the Erase Status */}
+00447   \textcolor{keywordflow}{return} status;
+00448 \}
+00449 
+00450 \textcolor{comment}{/**}
+00451 \textcolor{comment}{  * @brief  Programs a double word (64-bit) at a specified address.}
+00452 \textcolor{comment}{  * @note   This function must be used when the device voltage range is from}
+00453 \textcolor{comment}{  *         2.7V to 3.6V and an External Vpp is present.           }
+00454 \textcolor{comment}{  * @param  Address: specifies the address to be programmed.}
+00455 \textcolor{comment}{  * @param  Data: specifies the data to be programmed.}
+00456 \textcolor{comment}{  * @retval FLASH Status: The returned value can be: FLASH\_BUSY, FLASH\_ERROR\_PROGRAM,}
+00457 \textcolor{comment}{  *                       FLASH\_ERROR\_WRP, FLASH\_ERROR\_OPERATION or FLASH\_COMPLETE.}
+00458 \textcolor{comment}{  */}
+00459 FLASH\_Status FLASH_ProgramDoubleWord(uint32\_t Address, uint64\_t Data)
+00460 \{
+00461   FLASH\_Status status = FLASH_COMPLETE;
+00462 
+00463   \textcolor{comment}{/* Check the parameters */}
+00464   assert_param(IS\_FLASH\_ADDRESS(Address));
+00465 
+00466   \textcolor{comment}{/* Wait for last operation to be completed */}
+00467   status = FLASH_WaitForLastOperation();
+00468 
+00469   \textcolor{keywordflow}{if}(status == FLASH_COMPLETE)
+00470   \{
+00471     \textcolor{comment}{/* if the previous operation is completed, proceed to program the new data */}
+00472     FLASH->CR &= CR_PSIZE_MASK;
+00473     FLASH->CR |= FLASH_PSIZE_DOUBLE_WORD;
+00474     FLASH->CR |= FLASH_CR_PG;
+00475 
+00476     *(\_\_IO uint64\_t*)Address = Data;
+00477 
+00478     \textcolor{comment}{/* Wait for last operation to be completed */}
+00479     status = FLASH_WaitForLastOperation();
+00480 
+00481     \textcolor{comment}{/* if the program operation is completed, disable the PG Bit */}
+00482     FLASH->CR &= (~FLASH_CR_PG);
+00483   \}
+00484   \textcolor{comment}{/* Return the Program Status */}
+00485   \textcolor{keywordflow}{return} status;
+00486 \}
+00487 
+00488 \textcolor{comment}{/**}
+00489 \textcolor{comment}{  * @brief  Programs a word (32-bit) at a specified address.}
+00490 \textcolor{comment}{  * @param  Address: specifies the address to be programmed.}
+00491 \textcolor{comment}{  *         This parameter can be any address in Program memory zone or in OTP zone.  }
+00492 \textcolor{comment}{  * @note   This function must be used when the device voltage range is from 2.7V to 3.6V. }
+00493 \textcolor{comment}{  * @param  Data: specifies the data to be programmed.}
+00494 \textcolor{comment}{  * @retval FLASH Status: The returned value can be: FLASH\_BUSY, FLASH\_ERROR\_PROGRAM,}
+00495 \textcolor{comment}{  *                       FLASH\_ERROR\_WRP, FLASH\_ERROR\_OPERATION or FLASH\_COMPLETE.}
+00496 \textcolor{comment}{  */}
+00497 FLASH\_Status FLASH_ProgramWord(uint32\_t Address, uint32\_t Data)
+00498 \{
+00499   FLASH\_Status status = FLASH_COMPLETE;
+00500 
+00501   \textcolor{comment}{/* Check the parameters */}
+00502   assert_param(IS\_FLASH\_ADDRESS(Address));
+00503 
+00504   \textcolor{comment}{/* Wait for last operation to be completed */}
+00505   status = FLASH_WaitForLastOperation();
+00506 
+00507   \textcolor{keywordflow}{if}(status == FLASH_COMPLETE)
+00508   \{
+00509     \textcolor{comment}{/* if the previous operation is completed, proceed to program the new data */}
+00510     FLASH->CR &= CR_PSIZE_MASK;
+00511     FLASH->CR |= FLASH_PSIZE_WORD;
+00512     FLASH->CR |= FLASH_CR_PG;
+00513 
+00514     *(\_\_IO uint32\_t*)Address = Data;
+00515 
+00516     \textcolor{comment}{/* Wait for last operation to be completed */}
+00517     status = FLASH_WaitForLastOperation();
+00518 
+00519     \textcolor{comment}{/* if the program operation is completed, disable the PG Bit */}
+00520     FLASH->CR &= (~FLASH_CR_PG);
+00521   \}
+00522   \textcolor{comment}{/* Return the Program Status */}
+00523   \textcolor{keywordflow}{return} status;
+00524 \}
+00525 
+00526 \textcolor{comment}{/**}
+00527 \textcolor{comment}{  * @brief  Programs a half word (16-bit) at a specified address. }
+00528 \textcolor{comment}{  * @note   This function must be used when the device voltage range is from 2.1V to 3.6V.            
+         }
+00529 \textcolor{comment}{  * @param  Address: specifies the address to be programmed.}
+00530 \textcolor{comment}{  *         This parameter can be any address in Program memory zone or in OTP zone.  }
+00531 \textcolor{comment}{  * @param  Data: specifies the data to be programmed.}
+00532 \textcolor{comment}{  * @retval FLASH Status: The returned value can be: FLASH\_BUSY, FLASH\_ERROR\_PROGRAM,}
+00533 \textcolor{comment}{  *                       FLASH\_ERROR\_WRP, FLASH\_ERROR\_OPERATION or FLASH\_COMPLETE.}
+00534 \textcolor{comment}{  */}
+00535 FLASH\_Status FLASH_ProgramHalfWord(uint32\_t Address, uint16\_t Data)
+00536 \{
+00537   FLASH\_Status status = FLASH_COMPLETE;
+00538 
+00539   \textcolor{comment}{/* Check the parameters */}
+00540   assert_param(IS\_FLASH\_ADDRESS(Address));
+00541 
+00542   \textcolor{comment}{/* Wait for last operation to be completed */}
+00543   status = FLASH_WaitForLastOperation();
+00544 
+00545   \textcolor{keywordflow}{if}(status == FLASH_COMPLETE)
+00546   \{
+00547     \textcolor{comment}{/* if the previous operation is completed, proceed to program the new data */}
+00548     FLASH->CR &= CR_PSIZE_MASK;
+00549     FLASH->CR |= FLASH_PSIZE_HALF_WORD;
+00550     FLASH->CR |= FLASH_CR_PG;
+00551 
+00552     *(\_\_IO uint16\_t*)Address = Data;
+00553 
+00554     \textcolor{comment}{/* Wait for last operation to be completed */}
+00555     status = FLASH_WaitForLastOperation();
+00556 
+00557     \textcolor{comment}{/* if the program operation is completed, disable the PG Bit */}
+00558     FLASH->CR &= (~FLASH_CR_PG);
+00559   \}
+00560   \textcolor{comment}{/* Return the Program Status */}
+00561   \textcolor{keywordflow}{return} status;
+00562 \}
+00563 
+00564 \textcolor{comment}{/**}
+00565 \textcolor{comment}{  * @brief  Programs a byte (8-bit) at a specified address.}
+00566 \textcolor{comment}{  * @note   This function can be used within all the device supply voltage ranges.               }
+00567 \textcolor{comment}{  * @param  Address: specifies the address to be programmed.}
+00568 \textcolor{comment}{  *         This parameter can be any address in Program memory zone or in OTP zone.  }
+00569 \textcolor{comment}{  * @param  Data: specifies the data to be programmed.}
+00570 \textcolor{comment}{  * @retval FLASH Status: The returned value can be: FLASH\_BUSY, FLASH\_ERROR\_PROGRAM,}
+00571 \textcolor{comment}{  *                       FLASH\_ERROR\_WRP, FLASH\_ERROR\_OPERATION or FLASH\_COMPLETE.}
+00572 \textcolor{comment}{  */}
+00573 FLASH\_Status FLASH_ProgramByte(uint32\_t Address, uint8\_t Data)
+00574 \{
+00575   FLASH\_Status status = FLASH_COMPLETE;
+00576 
+00577   \textcolor{comment}{/* Check the parameters */}
+00578   assert_param(IS\_FLASH\_ADDRESS(Address));
+00579 
+00580   \textcolor{comment}{/* Wait for last operation to be completed */}
+00581   status = FLASH_WaitForLastOperation();
+00582 
+00583   \textcolor{keywordflow}{if}(status == FLASH_COMPLETE)
+00584   \{
+00585     \textcolor{comment}{/* if the previous operation is completed, proceed to program the new data */}
+00586     FLASH->CR &= CR_PSIZE_MASK;
+00587     FLASH->CR |= FLASH_PSIZE_BYTE;
+00588     FLASH->CR |= FLASH_CR_PG;
+00589 
+00590     *(\_\_IO uint8\_t*)Address = Data;
+00591 
+00592     \textcolor{comment}{/* Wait for last operation to be completed */}
+00593     status = FLASH_WaitForLastOperation();
+00594 
+00595     \textcolor{comment}{/* if the program operation is completed, disable the PG Bit */}
+00596     FLASH->CR &= (~FLASH_CR_PG);
+00597   \}
+00598 
+00599   \textcolor{comment}{/* Return the Program Status */}
+00600   \textcolor{keywordflow}{return} status;
+00601 \}
+00602 
+00603 \textcolor{comment}{/**}
+00604 \textcolor{comment}{  * @\}}
+00605 \textcolor{comment}{  */}
+00606 
+00607 \textcolor{comment}{/** @defgroup FLASH\_Group3 Option Bytes Programming functions}
+00608 \textcolor{comment}{ *  @brief   Option Bytes Programming functions }
+00609 \textcolor{comment}{ *}
+00610 \textcolor{comment}{@verbatim   }
+00611 \textcolor{comment}{ ===============================================================================}
+00612 \textcolor{comment}{                        Option Bytes Programming functions}
+00613 \textcolor{comment}{ ===============================================================================  }
+00614 \textcolor{comment}{ }
+00615 \textcolor{comment}{   This group includes the following functions:}
+00616 \textcolor{comment}{   - void FLASH\_OB\_Unlock(void)}
+00617 \textcolor{comment}{   - void FLASH\_OB\_Lock(void)}
+00618 \textcolor{comment}{   - void FLASH\_OB\_WRPConfig(uint32\_t OB\_WRP, FunctionalState NewState)}
+00619 \textcolor{comment}{   - void FLASH\_OB\_RDPConfig(uint8\_t OB\_RDP)}
+00620 \textcolor{comment}{   - void FLASH\_OB\_UserConfig(uint8\_t OB\_IWDG, uint8\_t OB\_STOP, uint8\_t OB\_STDBY)}
+00621 \textcolor{comment}{   - void FLASH\_OB\_BORConfig(uint8\_t OB\_BOR)}
+00622 \textcolor{comment}{   - FLASH\_Status FLASH\_ProgramOTP(uint32\_t Address, uint32\_t Data)                         }
+00623 \textcolor{comment}{   - FLASH\_Status FLASH\_OB\_Launch(void)}
+00624 \textcolor{comment}{   - uint32\_t FLASH\_OB\_GetUser(void)                        }
+00625 \textcolor{comment}{   - uint8\_t FLASH\_OB\_GetWRP(void)                      }
+00626 \textcolor{comment}{   - uint8\_t FLASH\_OB\_GetRDP(void)                          }
+00627 \textcolor{comment}{   - uint8\_t FLASH\_OB\_GetBOR(void)}
+00628 \textcolor{comment}{   }
+00629 \textcolor{comment}{   Any operation of erase or program should follow these steps:}
+00630 \textcolor{comment}{   1. Call the FLASH\_OB\_Unlock() function to enable the FLASH option control register access}
+00631 \textcolor{comment}{}
+00632 \textcolor{comment}{   2. Call one or several functions to program the desired Option Bytes:}
+00633 \textcolor{comment}{      - void FLASH\_OB\_WRPConfig(uint32\_t OB\_WRP, FunctionalState NewState) => to Enable/Disable }
+00634 \textcolor{comment}{        the desired sector write protection}
+00635 \textcolor{comment}{      - void FLASH\_OB\_RDPConfig(uint8\_t OB\_RDP) => to set the desired read Protection Level}
+00636 \textcolor{comment}{      - void FLASH\_OB\_UserConfig(uint8\_t OB\_IWDG, uint8\_t OB\_STOP, uint8\_t OB\_STDBY) => to configure }
+00637 \textcolor{comment}{        the user Option Bytes.}
+00638 \textcolor{comment}{      - void FLASH\_OB\_BORConfig(uint8\_t OB\_BOR) => to set the BOR Level              }
+00639 \textcolor{comment}{}
+00640 \textcolor{comment}{   3. Once all needed Option Bytes to be programmed are correctly written, call the}
+00641 \textcolor{comment}{      FLASH\_OB\_Launch() function to launch the Option Bytes programming process.}
+00642 \textcolor{comment}{     }
+00643 \textcolor{comment}{     @note When changing the IWDG mode from HW to SW or from SW to HW, a system }
+00644 \textcolor{comment}{           reset is needed to make the change effective.  }
+00645 \textcolor{comment}{}
+00646 \textcolor{comment}{   4. Call the FLASH\_OB\_Lock() function to disable the FLASH option control register}
+00647 \textcolor{comment}{      access (recommended to protect the Option Bytes against possible unwanted operations)}
+00648 \textcolor{comment}{    }
+00649 \textcolor{comment}{@endverbatim}
+00650 \textcolor{comment}{  * @\{}
+00651 \textcolor{comment}{  */}
+00652 
+00653 \textcolor{comment}{/**}
+00654 \textcolor{comment}{  * @brief  Unlocks the FLASH Option Control Registers access.}
+00655 \textcolor{comment}{  * @param  None}
+00656 \textcolor{comment}{  * @retval None}
+00657 \textcolor{comment}{  */}
+00658 \textcolor{keywordtype}{void} FLASH_OB_Unlock(\textcolor{keywordtype}{void})
+00659 \{
+00660   \textcolor{keywordflow}{if}((FLASH->OPTCR & FLASH_OPTCR_OPTLOCK) != RESET)
+00661   \{
+00662     \textcolor{comment}{/* Authorizes the Option Byte register programming */}
+00663     FLASH->OPTKEYR = FLASH_OPT_KEY1;
+00664     FLASH->OPTKEYR = FLASH_OPT_KEY2;
+00665   \}
+00666 \}
+00667 
+00668 \textcolor{comment}{/**}
+00669 \textcolor{comment}{  * @brief  Locks the FLASH Option Control Registers access.}
+00670 \textcolor{comment}{  * @param  None}
+00671 \textcolor{comment}{  * @retval None}
+00672 \textcolor{comment}{  */}
+00673 \textcolor{keywordtype}{void} FLASH_OB_Lock(\textcolor{keywordtype}{void})
+00674 \{
+00675   \textcolor{comment}{/* Set the OPTLOCK Bit to lock the FLASH Option Byte Registers access */}
+00676   FLASH->OPTCR |= FLASH_OPTCR_OPTLOCK;
+00677 \}
+00678 
+00679 \textcolor{comment}{/**}
+00680 \textcolor{comment}{  * @brief  Enables or disables the write protection of the desired sectors}
+00681 \textcolor{comment}{  * @param  OB\_WRP: specifies the sector(s) to be write protected or unprotected.}
+00682 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00683 \textcolor{comment}{  *            @arg OB\_WRP: A value between OB\_WRP\_Sector0 and OB\_WRP\_Sector11                      }
+00684 \textcolor{comment}{  *            @arg OB\_WRP\_Sector\_All}
+00685 \textcolor{comment}{  * @param  Newstate: new state of the Write Protection.}
+00686 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00687 \textcolor{comment}{  * @retval None  }
+00688 \textcolor{comment}{  */}
+00689 \textcolor{keywordtype}{void} FLASH_OB_WRPConfig(uint32\_t OB\_WRP, FunctionalState NewState)
+00690 \{
+00691   FLASH\_Status status = FLASH_COMPLETE;
+00692 
+00693   \textcolor{comment}{/* Check the parameters */}
+00694   assert_param(IS\_OB\_WRP(OB\_WRP));
+00695   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00696 
+00697   status = FLASH_WaitForLastOperation();
+00698 
+00699   \textcolor{keywordflow}{if}(status == FLASH_COMPLETE)
+00700   \{
+00701     \textcolor{keywordflow}{if}(NewState != DISABLE)
+00702     \{
+00703       *(\_\_IO uint16\_t*)OPTCR_BYTE2_ADDRESS &= (~OB\_WRP);
+00704     \}
+00705     \textcolor{keywordflow}{else}
+00706     \{
+00707       *(\_\_IO uint16\_t*)OPTCR_BYTE2_ADDRESS |= (uint16\_t)OB\_WRP;
+00708     \}
+00709   \}
+00710 \}
+00711 
+00712 \textcolor{comment}{/**}
+00713 \textcolor{comment}{  * @brief  Sets the read protection level.}
+00714 \textcolor{comment}{  * @param  OB\_RDP: specifies the read protection level.}
+00715 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00716 \textcolor{comment}{  *            @arg OB\_RDP\_Level\_0: No protection}
+00717 \textcolor{comment}{  *            @arg OB\_RDP\_Level\_1: Read protection of the memory}
+00718 \textcolor{comment}{  *            @arg OB\_RDP\_Level\_2: Full chip protection}
+00719 \textcolor{comment}{  *   }
+00720 \textcolor{comment}{  * !!!Warning!!! When enabling OB\_RDP level 2 it's no more possible to go back to level 1 or 0}
+00721 \textcolor{comment}{  *    }
+00722 \textcolor{comment}{  * @retval None}
+00723 \textcolor{comment}{  */}
+00724 \textcolor{keywordtype}{void} FLASH_OB_RDPConfig(uint8\_t OB\_RDP)
+00725 \{
+00726   FLASH\_Status status = FLASH_COMPLETE;
+00727 
+00728   \textcolor{comment}{/* Check the parameters */}
+00729   assert_param(IS\_OB\_RDP(OB\_RDP));
+00730 
+00731   status = FLASH_WaitForLastOperation();
+00732 
+00733   \textcolor{keywordflow}{if}(status == FLASH_COMPLETE)
+00734   \{
+00735     *(\_\_IO uint8\_t*)OPTCR_BYTE1_ADDRESS = OB\_RDP;
+00736 
+00737   \}
+00738 \}
+00739 
+00740 \textcolor{comment}{/**}
+00741 \textcolor{comment}{  * @brief  Programs the FLASH User Option Byte: IWDG\_SW / RST\_STOP / RST\_STDBY.    }
+00742 \textcolor{comment}{  * @param  OB\_IWDG: Selects the IWDG mode}
+00743 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00744 \textcolor{comment}{  *            @arg OB\_IWDG\_SW: Software IWDG selected}
+00745 \textcolor{comment}{  *            @arg OB\_IWDG\_HW: Hardware IWDG selected}
+00746 \textcolor{comment}{  * @param  OB\_STOP: Reset event when entering STOP mode.}
+00747 \textcolor{comment}{  *          This parameter  can be one of the following values:}
+00748 \textcolor{comment}{  *            @arg OB\_STOP\_NoRST: No reset generated when entering in STOP}
+00749 \textcolor{comment}{  *            @arg OB\_STOP\_RST: Reset generated when entering in STOP}
+00750 \textcolor{comment}{  * @param  OB\_STDBY: Reset event when entering Standby mode.}
+00751 \textcolor{comment}{  *          This parameter  can be one of the following values:}
+00752 \textcolor{comment}{  *            @arg OB\_STDBY\_NoRST: No reset generated when entering in STANDBY}
+00753 \textcolor{comment}{  *            @arg OB\_STDBY\_RST: Reset generated when entering in STANDBY}
+00754 \textcolor{comment}{  * @retval None}
+00755 \textcolor{comment}{  */}
+00756 \textcolor{keywordtype}{void} FLASH_OB_UserConfig(uint8\_t OB\_IWDG, uint8\_t OB\_STOP, uint8\_t OB\_STDBY)
+00757 \{
+00758   uint8\_t optiontmp = 0xFF;
+00759   FLASH\_Status status = FLASH_COMPLETE;
+00760 
+00761   \textcolor{comment}{/* Check the parameters */}
+00762   assert_param(IS\_OB\_IWDG\_SOURCE(OB\_IWDG));
+00763   assert_param(IS\_OB\_STOP\_SOURCE(OB\_STOP));
+00764   assert_param(IS\_OB\_STDBY\_SOURCE(OB\_STDBY));
+00765 
+00766   \textcolor{comment}{/* Wait for last operation to be completed */}
+00767   status = FLASH_WaitForLastOperation();
+00768 
+00769   \textcolor{keywordflow}{if}(status == FLASH_COMPLETE)
+00770   \{
+00771     \textcolor{comment}{/* Mask OPTLOCK, OPTSTRT and BOR\_LEV bits */}
+00772     optiontmp =  (uint8\_t)((*(\_\_IO uint8\_t *)OPTCR_BYTE0_ADDRESS) & (uint8\_t)0x0F);
+00773 
+00774     \textcolor{comment}{/* Update User Option Byte */}
+00775     *(\_\_IO uint8\_t *)OPTCR_BYTE0_ADDRESS = OB\_IWDG | (uint8\_t)(OB\_STDBY | (uint8\_t)(OB\_STOP | ((
+      uint8\_t)optiontmp)));
+00776   \}
+00777 \}
+00778 
+00779 \textcolor{comment}{/**}
+00780 \textcolor{comment}{  * @brief  Sets the BOR Level. }
+00781 \textcolor{comment}{  * @param  OB\_BOR: specifies the Option Bytes BOR Reset Level.}
+00782 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00783 \textcolor{comment}{  *            @arg OB\_BOR\_LEVEL3: Supply voltage ranges from 2.7 to 3.6 V}
+00784 \textcolor{comment}{  *            @arg OB\_BOR\_LEVEL2: Supply voltage ranges from 2.4 to 2.7 V}
+00785 \textcolor{comment}{  *            @arg OB\_BOR\_LEVEL1: Supply voltage ranges from 2.1 to 2.4 V}
+00786 \textcolor{comment}{  *            @arg OB\_BOR\_OFF: Supply voltage ranges from 1.62 to 2.1 V}
+00787 \textcolor{comment}{  * @retval None}
+00788 \textcolor{comment}{  */}
+00789 \textcolor{keywordtype}{void} FLASH_OB_BORConfig(uint8\_t OB\_BOR)
+00790 \{
+00791   \textcolor{comment}{/* Check the parameters */}
+00792   assert_param(IS\_OB\_BOR(OB\_BOR));
+00793 
+00794   \textcolor{comment}{/* Set the BOR Level */}
+00795   *(\_\_IO uint8\_t *)OPTCR_BYTE0_ADDRESS &= (~FLASH_OPTCR_BOR_LEV);
+00796   *(\_\_IO uint8\_t *)OPTCR_BYTE0_ADDRESS |= OB\_BOR;
+00797 
+00798 \}
+00799 
+00800 \textcolor{comment}{/**}
+00801 \textcolor{comment}{  * @brief  Launch the option byte loading.}
+00802 \textcolor{comment}{  * @param  None}
+00803 \textcolor{comment}{  * @retval FLASH Status: The returned value can be: FLASH\_BUSY, FLASH\_ERROR\_PROGRAM,}
+00804 \textcolor{comment}{  *                       FLASH\_ERROR\_WRP, FLASH\_ERROR\_OPERATION or FLASH\_COMPLETE.}
+00805 \textcolor{comment}{  */}
+00806 FLASH\_Status FLASH_OB_Launch(\textcolor{keywordtype}{void})
+00807 \{
+00808   FLASH\_Status status = FLASH_COMPLETE;
+00809 
+00810   \textcolor{comment}{/* Set the OPTSTRT bit in OPTCR register */}
+00811   *(\_\_IO uint8\_t *)OPTCR_BYTE0_ADDRESS |= FLASH_OPTCR_OPTSTRT;
+00812 
+00813   \textcolor{comment}{/* Wait for last operation to be completed */}
+00814   status = FLASH_WaitForLastOperation();
+00815 
+00816   \textcolor{keywordflow}{return} status;
+00817 \}
+00818 
+00819 \textcolor{comment}{/**}
+00820 \textcolor{comment}{  * @brief  Returns the FLASH User Option Bytes values.}
+00821 \textcolor{comment}{  * @param  None}
+00822 \textcolor{comment}{  * @retval The FLASH User Option Bytes values: IWDG\_SW(Bit0), RST\_STOP(Bit1)}
+00823 \textcolor{comment}{  *         and RST\_STDBY(Bit2).}
+00824 \textcolor{comment}{  */}
+00825 uint8\_t FLASH_OB_GetUser(\textcolor{keywordtype}{void})
+00826 \{
+00827   \textcolor{comment}{/* Return the User Option Byte */}
+00828   \textcolor{keywordflow}{return} (uint8\_t)(FLASH->OPTCR >> 5);
+00829 \}
+00830 
+00831 \textcolor{comment}{/**}
+00832 \textcolor{comment}{  * @brief  Returns the FLASH Write Protection Option Bytes value.}
+00833 \textcolor{comment}{  * @param  None}
+00834 \textcolor{comment}{  * @retval The FLASH Write Protection  Option Bytes value}
+00835 \textcolor{comment}{  */}
+00836 uint16\_t FLASH_OB_GetWRP(\textcolor{keywordtype}{void})
+00837 \{
+00838   \textcolor{comment}{/* Return the FLASH write protection Register value */}
+00839   \textcolor{keywordflow}{return} (*(\_\_IO uint16\_t *)(OPTCR_BYTE2_ADDRESS));
+00840 \}
+00841 
+00842 \textcolor{comment}{/**}
+00843 \textcolor{comment}{  * @brief  Returns the FLASH Read Protection level.}
+00844 \textcolor{comment}{  * @param  None}
+00845 \textcolor{comment}{  * @retval FLASH ReadOut Protection Status:}
+00846 \textcolor{comment}{  *           - SET, when OB\_RDP\_Level\_1 or OB\_RDP\_Level\_2 is set}
+00847 \textcolor{comment}{  *           - RESET, when OB\_RDP\_Level\_0 is set}
+00848 \textcolor{comment}{  */}
+00849 FlagStatus FLASH_OB_GetRDP(\textcolor{keywordtype}{void})
+00850 \{
+00851   FlagStatus readstatus = RESET;
+00852 
+00853   \textcolor{keywordflow}{if} ((*(\_\_IO uint8\_t*)(OPTCR_BYTE1_ADDRESS) != (uint8\_t)OB_RDP_Level_0))
+00854   \{
+00855     readstatus = SET;
+00856   \}
+00857   \textcolor{keywordflow}{else}
+00858   \{
+00859     readstatus = RESET;
+00860   \}
+00861   \textcolor{keywordflow}{return} readstatus;
+00862 \}
+00863 
+00864 \textcolor{comment}{/**}
+00865 \textcolor{comment}{  * @brief  Returns the FLASH BOR level.}
+00866 \textcolor{comment}{  * @param  None}
+00867 \textcolor{comment}{  * @retval The FLASH BOR level:}
+00868 \textcolor{comment}{  *           - OB\_BOR\_LEVEL3: Supply voltage ranges from 2.7 to 3.6 V}
+00869 \textcolor{comment}{  *           - OB\_BOR\_LEVEL2: Supply voltage ranges from 2.4 to 2.7 V}
+00870 \textcolor{comment}{  *           - OB\_BOR\_LEVEL1: Supply voltage ranges from 2.1 to 2.4 V}
+00871 \textcolor{comment}{  *           - OB\_BOR\_OFF   : Supply voltage ranges from 1.62 to 2.1 V  }
+00872 \textcolor{comment}{  */}
+00873 uint8\_t FLASH_OB_GetBOR(\textcolor{keywordtype}{void})
+00874 \{
+00875   \textcolor{comment}{/* Return the FLASH BOR level */}
+00876   \textcolor{keywordflow}{return} (uint8\_t)(*(\_\_IO uint8\_t *)(OPTCR_BYTE0_ADDRESS) & (uint8\_t)0x0C);
+00877 \}
+00878 
+00879 \textcolor{comment}{/**}
+00880 \textcolor{comment}{  * @\}}
+00881 \textcolor{comment}{  */}
+00882 
+00883 \textcolor{comment}{/** @defgroup FLASH\_Group4 Interrupts and flags management functions}
+00884 \textcolor{comment}{ *  @brief   Interrupts and flags management functions}
+00885 \textcolor{comment}{ *}
+00886 \textcolor{comment}{@verbatim   }
+00887 \textcolor{comment}{ ===============================================================================}
+00888 \textcolor{comment}{                  Interrupts and flags management functions}
+00889 \textcolor{comment}{ ===============================================================================  }
+00890 \textcolor{comment}{}
+00891 \textcolor{comment}{@endverbatim}
+00892 \textcolor{comment}{  * @\{}
+00893 \textcolor{comment}{  */}
+00894 
+00895 \textcolor{comment}{/**}
+00896 \textcolor{comment}{  * @brief  Enables or disables the specified FLASH interrupts.}
+00897 \textcolor{comment}{  * @param  FLASH\_IT: specifies the FLASH interrupt sources to be enabled or disabled.}
+00898 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+00899 \textcolor{comment}{  *            @arg FLASH\_IT\_ERR: FLASH Error Interrupt}
+00900 \textcolor{comment}{  *            @arg FLASH\_IT\_EOP: FLASH end of operation Interrupt}
+00901 \textcolor{comment}{  * @retval None }
+00902 \textcolor{comment}{  */}
+00903 \textcolor{keywordtype}{void} FLASH_ITConfig(uint32\_t FLASH\_IT, FunctionalState NewState)
+00904 \{
+00905   \textcolor{comment}{/* Check the parameters */}
+00906   assert_param(IS\_FLASH\_IT(FLASH\_IT));
+00907   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00908 
+00909   \textcolor{keywordflow}{if}(NewState != DISABLE)
+00910   \{
+00911     \textcolor{comment}{/* Enable the interrupt sources */}
+00912     FLASH->CR |= FLASH\_IT;
+00913   \}
+00914   \textcolor{keywordflow}{else}
+00915   \{
+00916     \textcolor{comment}{/* Disable the interrupt sources */}
+00917     FLASH->CR &= ~(uint32\_t)FLASH\_IT;
+00918   \}
+00919 \}
+00920 
+00921 \textcolor{comment}{/**}
+00922 \textcolor{comment}{  * @brief  Checks whether the specified FLASH flag is set or not.}
+00923 \textcolor{comment}{  * @param  FLASH\_FLAG: specifies the FLASH flag to check.}
+00924 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00925 \textcolor{comment}{  *            @arg FLASH\_FLAG\_EOP: FLASH End of Operation flag }
+00926 \textcolor{comment}{  *            @arg FLASH\_FLAG\_OPERR: FLASH operation Error flag }
+00927 \textcolor{comment}{  *            @arg FLASH\_FLAG\_WRPERR: FLASH Write protected error flag }
+00928 \textcolor{comment}{  *            @arg FLASH\_FLAG\_PGAERR: FLASH Programming Alignment error flag}
+00929 \textcolor{comment}{  *            @arg FLASH\_FLAG\_PGPERR: FLASH Programming Parallelism error flag}
+00930 \textcolor{comment}{  *            @arg FLASH\_FLAG\_PGSERR: FLASH Programming Sequence error flag}
+00931 \textcolor{comment}{  *            @arg FLASH\_FLAG\_BSY: FLASH Busy flag}
+00932 \textcolor{comment}{  * @retval The new state of FLASH\_FLAG (SET or RESET).}
+00933 \textcolor{comment}{  */}
+00934 FlagStatus FLASH_GetFlagStatus(uint32\_t FLASH\_FLAG)
+00935 \{
+00936   FlagStatus bitstatus = RESET;
+00937   \textcolor{comment}{/* Check the parameters */}
+00938   assert_param(IS\_FLASH\_GET\_FLAG(FLASH\_FLAG));
+00939 
+00940   \textcolor{keywordflow}{if}((FLASH->SR & FLASH\_FLAG) != (uint32\_t)RESET)
+00941   \{
+00942     bitstatus = SET;
+00943   \}
+00944   \textcolor{keywordflow}{else}
+00945   \{
+00946     bitstatus = RESET;
+00947   \}
+00948   \textcolor{comment}{/* Return the new state of FLASH\_FLAG (SET or RESET) */}
+00949   \textcolor{keywordflow}{return} bitstatus;
+00950 \}
+00951 
+00952 \textcolor{comment}{/**}
+00953 \textcolor{comment}{  * @brief  Clears the FLASH's pending flags.}
+00954 \textcolor{comment}{  * @param  FLASH\_FLAG: specifies the FLASH flags to clear.}
+00955 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+00956 \textcolor{comment}{  *            @arg FLASH\_FLAG\_EOP: FLASH End of Operation flag }
+00957 \textcolor{comment}{  *            @arg FLASH\_FLAG\_OPERR: FLASH operation Error flag }
+00958 \textcolor{comment}{  *            @arg FLASH\_FLAG\_WRPERR: FLASH Write protected error flag }
+00959 \textcolor{comment}{  *            @arg FLASH\_FLAG\_PGAERR: FLASH Programming Alignment error flag }
+00960 \textcolor{comment}{  *            @arg FLASH\_FLAG\_PGPERR: FLASH Programming Parallelism error flag}
+00961 \textcolor{comment}{  *            @arg FLASH\_FLAG\_PGSERR: FLASH Programming Sequence error flag}
+00962 \textcolor{comment}{  * @retval None}
+00963 \textcolor{comment}{  */}
+00964 \textcolor{keywordtype}{void} FLASH_ClearFlag(uint32\_t FLASH\_FLAG)
+00965 \{
+00966   \textcolor{comment}{/* Check the parameters */}
+00967   assert_param(IS\_FLASH\_CLEAR\_FLAG(FLASH\_FLAG));
+00968 
+00969   \textcolor{comment}{/* Clear the flags */}
+00970   FLASH->SR = FLASH\_FLAG;
+00971 \}
+00972 
+00973 \textcolor{comment}{/**}
+00974 \textcolor{comment}{  * @brief  Returns the FLASH Status.}
+00975 \textcolor{comment}{  * @param  None}
+00976 \textcolor{comment}{  * @retval FLASH Status: The returned value can be: FLASH\_BUSY, FLASH\_ERROR\_PROGRAM,}
+00977 \textcolor{comment}{  *                       FLASH\_ERROR\_WRP, FLASH\_ERROR\_OPERATION or FLASH\_COMPLETE.}
+00978 \textcolor{comment}{  */}
+00979 FLASH\_Status FLASH_GetStatus(\textcolor{keywordtype}{void})
+00980 \{
+00981   FLASH\_Status flashstatus = FLASH_COMPLETE;
+00982 
+00983   \textcolor{keywordflow}{if}((FLASH->SR & FLASH_FLAG_BSY) == FLASH_FLAG_BSY)
+00984   \{
+00985     flashstatus = FLASH\_BUSY;
+00986   \}
+00987   \textcolor{keywordflow}{else}
+00988   \{
+00989     \textcolor{keywordflow}{if}((FLASH->SR & FLASH_FLAG_WRPERR) != (uint32\_t)0x00)
+00990     \{
+00991       flashstatus = FLASH\_ERROR\_WRP;
+00992     \}
+00993     \textcolor{keywordflow}{else}
+00994     \{
+00995       \textcolor{keywordflow}{if}((FLASH->SR & (uint32\_t)0xEF) != (uint32\_t)0x00)
+00996       \{
+00997         flashstatus = FLASH\_ERROR\_PROGRAM;
+00998       \}
+00999       \textcolor{keywordflow}{else}
+01000       \{
+01001         \textcolor{keywordflow}{if}((FLASH->SR & FLASH_FLAG_OPERR) != (uint32\_t)0x00)
+01002         \{
+01003           flashstatus = FLASH\_ERROR\_OPERATION;
+01004         \}
+01005         \textcolor{keywordflow}{else}
+01006         \{
+01007           flashstatus = FLASH\_COMPLETE;
+01008         \}
+01009       \}
+01010     \}
+01011   \}
+01012   \textcolor{comment}{/* Return the FLASH Status */}
+01013   \textcolor{keywordflow}{return} flashstatus;
+01014 \}
+01015 
+01016 \textcolor{comment}{/**}
+01017 \textcolor{comment}{  * @brief  Waits for a FLASH operation to complete.}
+01018 \textcolor{comment}{  * @param  None}
+01019 \textcolor{comment}{  * @retval FLASH Status: The returned value can be: FLASH\_BUSY, FLASH\_ERROR\_PROGRAM,}
+01020 \textcolor{comment}{  *                       FLASH\_ERROR\_WRP, FLASH\_ERROR\_OPERATION or FLASH\_COMPLETE.}
+01021 \textcolor{comment}{  */}
+01022 FLASH\_Status FLASH_WaitForLastOperation(\textcolor{keywordtype}{void})
+01023 \{
+01024   \_\_IO FLASH\_Status status = FLASH\_COMPLETE;
+01025 
+01026   \textcolor{comment}{/* Check for the FLASH Status */}
+01027   status = FLASH\_GetStatus();
+01028 
+01029   \textcolor{comment}{/* Wait for the FLASH operation to complete by polling on BUSY flag to be reset.}
+01030 \textcolor{comment}{     Even if the FLASH operation fails, the BUSY flag will be reset and an error}
+01031 \textcolor{comment}{     flag will be set */}
+01032   \textcolor{keywordflow}{while}(status == FLASH\_BUSY)
+01033   \{
+01034     status = FLASH\_GetStatus();
+01035   \}
+01036   \textcolor{comment}{/* Return the operation status */}
+01037   \textcolor{keywordflow}{return} status;
+01038 \}
+01039 
+01040 \textcolor{comment}{/**}
+01041 \textcolor{comment}{  * @\}}
+01042 \textcolor{comment}{  */}
+01043 
+01044 \textcolor{comment}{/**}
+01045 \textcolor{comment}{  * @\}}
+01046 \textcolor{comment}{  */}
+01047 
+01048 \textcolor{comment}{/**}
+01049 \textcolor{comment}{  * @\}}
+01050 \textcolor{comment}{  */}
+01051 
+01052 \textcolor{comment}{/**}
+01053 \textcolor{comment}{  * @\}}
+01054 \textcolor{comment}{  */}
+01055 
+01056 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

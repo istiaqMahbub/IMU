@@ -1,0 +1,653 @@
+\section{High Level A\+ES functions}
+\label{group__CRYP__Group6}\index{High Level A\+E\+S functions@{High Level A\+E\+S functions}}
+
+
+High Level A\+ES functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Error\+Status} \textbf{ C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+E\+CB} (uint8\+\_\+t Mode, uint8\+\_\+t $\ast$Key, uint16\+\_\+t Keysize, uint8\+\_\+t $\ast$Input, uint32\+\_\+t Ilength, uint8\+\_\+t $\ast$Output)
+\begin{DoxyCompactList}\small\item\em Encrypt and decrypt using A\+ES in E\+CB Mode. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+BC} (uint8\+\_\+t Mode, uint8\+\_\+t Init\+Vectors[16], uint8\+\_\+t $\ast$Key, uint16\+\_\+t Keysize, uint8\+\_\+t $\ast$Input, uint32\+\_\+t Ilength, uint8\+\_\+t $\ast$Output)
+\begin{DoxyCompactList}\small\item\em Encrypt and decrypt using A\+ES in C\+BC Mode. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+TR} (uint8\+\_\+t Mode, uint8\+\_\+t Init\+Vectors[16], uint8\+\_\+t $\ast$Key, uint16\+\_\+t Keysize, uint8\+\_\+t $\ast$Input, uint32\+\_\+t Ilength, uint8\+\_\+t $\ast$Output)
+\begin{DoxyCompactList}\small\item\em Encrypt and decrypt using A\+ES in C\+TR Mode. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+High Level A\+ES functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                          High Level AES functions
+ ===============================================================================\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__CRYP__Group6_gaa43eadf707257710f6a53b3295b39d70}} 
+\index{High Level A\+E\+S functions@{High Level A\+E\+S functions}!C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+BC@{C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+BC}}
+\index{C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+BC@{C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+BC}!High Level A\+E\+S functions@{High Level A\+E\+S functions}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+B\+C()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+BC (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{Mode,  }\item[{uint8\+\_\+t}]{Init\+Vectors[16],  }\item[{uint8\+\_\+t $\ast$}]{Key,  }\item[{uint16\+\_\+t}]{Keysize,  }\item[{uint8\+\_\+t $\ast$}]{Input,  }\item[{uint32\+\_\+t}]{Ilength,  }\item[{uint8\+\_\+t $\ast$}]{Output }\end{DoxyParamCaption})}
+
+
+
+Encrypt and decrypt using A\+ES in C\+BC Mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Mode} & encryption or decryption Mode. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item M\+O\+D\+E\+\_\+\+E\+N\+C\+R\+Y\+PT\+: Encryption \item M\+O\+D\+E\+\_\+\+D\+E\+C\+R\+Y\+PT\+: Decryption \end{DoxyItemize}
+\\
+\hline
+{\em Init\+Vectors} & Initialisation Vectors used for A\+ES algorithm. \\
+\hline
+{\em Key} & Key used for A\+ES algorithm. \\
+\hline
+{\em Keysize} & length of the Key, must be a 128, 192 or 256. \\
+\hline
+{\em Input} & pointer to the Input buffer. \\
+\hline
+{\em Ilength} & length of the Input buffer, must be a multiple of 16. \\
+\hline
+{\em Output} & pointer to the returned buffer. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: Operation done
+\item E\+R\+R\+OR\+: Operation failed 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 279} of file \textbf{ stm32f4xx\+\_\+cryp\+\_\+aes.\+c}.
+
+
+
+References \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Algo\+Dir}, \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Algo\+Mode}, \textbf{ C\+R\+Y\+P\+\_\+\+Cmd()}, \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Data\+Type}, \textbf{ C\+R\+Y\+P\+\_\+\+F\+I\+F\+O\+Flush()}, \textbf{ C\+R\+Y\+P\+\_\+\+Init()}, \textbf{ C\+R\+Y\+P\+\_\+\+I\+V\+Init()}, \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init()}, \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Key\+Size}, \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Struct\+Init()}, \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+00282 \{
+00283   CRYP_InitTypeDef AES\_CRYP\_InitStructure;
+00284   CRYP_KeyInitTypeDef AES\_CRYP\_KeyInitStructure;
+00285   CRYP_IVInitTypeDef AES\_CRYP\_IVInitStructure;
+00286   \_\_IO uint32\_t counter = 0;
+00287   uint32\_t busystatus = 0;
+00288   ErrorStatus status = SUCCESS;
+00289   uint32\_t keyaddr    = (uint32\_t)Key;
+00290   uint32\_t inputaddr  = (uint32\_t)Input;
+00291   uint32\_t outputaddr = (uint32\_t)Output;
+00292   uint32\_t ivaddr     = (uint32\_t)InitVectors;
+00293   uint32\_t i = 0;
+00294 
+00295   \textcolor{comment}{/* Crypto structures initialisation*/}
+00296   CRYP_KeyStructInit(&AES\_CRYP\_KeyInitStructure);
+00297 
+00298   \textcolor{keywordflow}{switch}(Keysize)
+00299   \{
+00300     \textcolor{keywordflow}{case} 128:
+00301     AES\_CRYP\_InitStructure.CRYP_KeySize = CRYP_KeySize_128b;
+00302     AES\_CRYP\_KeyInitStructure.CRYP_Key2Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00303     keyaddr+=4;
+00304     AES\_CRYP\_KeyInitStructure.CRYP_Key2Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00305     keyaddr+=4;
+00306     AES\_CRYP\_KeyInitStructure.CRYP_Key3Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00307     keyaddr+=4;
+00308     AES\_CRYP\_KeyInitStructure.CRYP_Key3Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00309     \textcolor{keywordflow}{break};
+00310     \textcolor{keywordflow}{case} 192:
+00311     AES\_CRYP\_InitStructure.CRYP_KeySize  = CRYP_KeySize_192b;
+00312     AES\_CRYP\_KeyInitStructure.CRYP_Key1Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00313     keyaddr+=4;
+00314     AES\_CRYP\_KeyInitStructure.CRYP_Key1Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00315     keyaddr+=4;
+00316     AES\_CRYP\_KeyInitStructure.CRYP_Key2Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00317     keyaddr+=4;
+00318     AES\_CRYP\_KeyInitStructure.CRYP_Key2Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00319     keyaddr+=4;
+00320     AES\_CRYP\_KeyInitStructure.CRYP_Key3Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00321     keyaddr+=4;
+00322     AES\_CRYP\_KeyInitStructure.CRYP_Key3Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00323     \textcolor{keywordflow}{break};
+00324     \textcolor{keywordflow}{case} 256:
+00325     AES\_CRYP\_InitStructure.CRYP_KeySize  = CRYP_KeySize_256b;
+00326     AES\_CRYP\_KeyInitStructure.CRYP_Key0Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00327     keyaddr+=4;
+00328     AES\_CRYP\_KeyInitStructure.CRYP_Key0Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00329     keyaddr+=4;
+00330     AES\_CRYP\_KeyInitStructure.CRYP_Key1Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00331     keyaddr+=4;
+00332     AES\_CRYP\_KeyInitStructure.CRYP_Key1Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00333     keyaddr+=4;
+00334     AES\_CRYP\_KeyInitStructure.CRYP_Key2Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00335     keyaddr+=4;
+00336     AES\_CRYP\_KeyInitStructure.CRYP_Key2Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00337     keyaddr+=4;
+00338     AES\_CRYP\_KeyInitStructure.CRYP_Key3Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00339     keyaddr+=4;
+00340     AES\_CRYP\_KeyInitStructure.CRYP_Key3Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00341     \textcolor{keywordflow}{break};
+00342     \textcolor{keywordflow}{default}:
+00343     \textcolor{keywordflow}{break};
+00344   \}
+00345 
+00346   \textcolor{comment}{/* CRYP Initialization Vectors */}
+00347   AES\_CRYP\_IVInitStructure.CRYP_IV0Left = \_\_REV(*(uint32\_t*)(ivaddr));
+00348   ivaddr+=4;
+00349   AES\_CRYP\_IVInitStructure.CRYP_IV0Right= \_\_REV(*(uint32\_t*)(ivaddr));
+00350   ivaddr+=4;
+00351   AES\_CRYP\_IVInitStructure.CRYP_IV1Left = \_\_REV(*(uint32\_t*)(ivaddr));
+00352   ivaddr+=4;
+00353   AES\_CRYP\_IVInitStructure.CRYP_IV1Right= \_\_REV(*(uint32\_t*)(ivaddr));
+00354 
+00355 
+00356   \textcolor{comment}{/*------------------ AES Decryption ------------------*/}
+00357   \textcolor{keywordflow}{if}(Mode == MODE_DECRYPT) \textcolor{comment}{/* AES decryption */}
+00358   \{
+00359     \textcolor{comment}{/* Flush IN/OUT FIFOs */}
+00360     CRYP_FIFOFlush();
+00361 
+00362     \textcolor{comment}{/* Crypto Init for Key preparation for decryption process */}
+00363     AES\_CRYP\_InitStructure.CRYP_AlgoDir = CRYP_AlgoDir_Decrypt;
+00364     AES\_CRYP\_InitStructure.CRYP_AlgoMode = CRYP_AlgoMode_AES_Key;
+00365     AES\_CRYP\_InitStructure.CRYP_DataType = CRYP_DataType_32b;
+00366 
+00367     CRYP_Init(&AES\_CRYP\_InitStructure);
+00368 
+00369     \textcolor{comment}{/* Key Initialisation */}
+00370     CRYP_KeyInit(&AES\_CRYP\_KeyInitStructure);
+00371 
+00372     \textcolor{comment}{/* Enable Crypto processor */}
+00373     CRYP_Cmd(ENABLE);
+00374 
+00375     \textcolor{comment}{/* wait until the Busy flag is RESET */}
+00376     \textcolor{keywordflow}{do}
+00377     \{
+00378       busystatus = CRYP_GetFlagStatus(CRYP_FLAG_BUSY);
+00379       counter++;
+00380     \}\textcolor{keywordflow}{while} ((counter != AESBUSY_TIMEOUT) && (busystatus != RESET));
+00381 
+00382     \textcolor{keywordflow}{if} (busystatus != RESET)
+00383    \{
+00384        status = ERROR;
+00385     \}
+00386     \textcolor{keywordflow}{else}
+00387     \{
+00388       \textcolor{comment}{/* Crypto Init for decryption process */}  
+00389       AES\_CRYP\_InitStructure.CRYP_AlgoDir = CRYP_AlgoDir_Decrypt;
+00390     \}
+00391   \}
+00392   \textcolor{comment}{/*------------------ AES Encryption ------------------*/}
+00393   \textcolor{keywordflow}{else} \textcolor{comment}{/* AES encryption */}
+00394   \{
+00395     CRYP_KeyInit(&AES\_CRYP\_KeyInitStructure);
+00396 
+00397     \textcolor{comment}{/* Crypto Init for Encryption process */}
+00398     AES\_CRYP\_InitStructure.CRYP_AlgoDir  = CRYP_AlgoDir_Encrypt;
+00399   \}
+00400   AES\_CRYP\_InitStructure.CRYP_AlgoMode = CRYP_AlgoMode_AES_CBC;
+00401   AES\_CRYP\_InitStructure.CRYP_DataType = CRYP_DataType_8b;
+00402   CRYP_Init(&AES\_CRYP\_InitStructure);
+00403 
+00404   \textcolor{comment}{/* CRYP Initialization Vectors */}
+00405   CRYP_IVInit(&AES\_CRYP\_IVInitStructure);
+00406 
+00407   \textcolor{comment}{/* Flush IN/OUT FIFOs */}
+00408   CRYP_FIFOFlush();
+00409 
+00410   \textcolor{comment}{/* Enable Crypto processor */}
+00411   CRYP_Cmd(ENABLE);
+00412 
+00413 
+00414   \textcolor{keywordflow}{for}(i=0; ((i<Ilength) && (status != ERROR)); i+=16)
+00415   \{
+00416 
+00417     \textcolor{comment}{/* Write the Input block in the IN FIFO */}
+00418     CRYP_DataIn(*(uint32\_t*)(inputaddr));
+00419     inputaddr+=4;
+00420     CRYP_DataIn(*(uint32\_t*)(inputaddr));
+00421     inputaddr+=4;
+00422     CRYP_DataIn(*(uint32\_t*)(inputaddr));
+00423     inputaddr+=4;
+00424     CRYP_DataIn(*(uint32\_t*)(inputaddr));
+00425     inputaddr+=4;
+00426     \textcolor{comment}{/* Wait until the complete message has been processed */}
+00427     counter = 0;
+00428     \textcolor{keywordflow}{do}
+00429     \{
+00430       busystatus = CRYP_GetFlagStatus(CRYP_FLAG_BUSY);
+00431       counter++;
+00432     \}\textcolor{keywordflow}{while} ((counter != AESBUSY_TIMEOUT) && (busystatus != RESET));
+00433 
+00434     \textcolor{keywordflow}{if} (busystatus != RESET)
+00435    \{
+00436        status = ERROR;
+00437     \}
+00438     \textcolor{keywordflow}{else}
+00439     \{
+00440 
+00441       \textcolor{comment}{/* Read the Output block from the Output FIFO */}
+00442       *(uint32\_t*)(outputaddr) = CRYP_DataOut();
+00443       outputaddr+=4;
+00444       *(uint32\_t*)(outputaddr) = CRYP_DataOut();
+00445       outputaddr+=4;
+00446       *(uint32\_t*)(outputaddr) = CRYP_DataOut();
+00447       outputaddr+=4;
+00448       *(uint32\_t*)(outputaddr) = CRYP_DataOut();
+00449       outputaddr+=4;
+00450     \}
+00451   \}
+00452 
+00453   \textcolor{comment}{/* Disable Crypto */}
+00454   CRYP_Cmd(DISABLE);
+00455 
+00456   \textcolor{keywordflow}{return} status;
+00457 \}
+\end{DoxyCode}
+\mbox{\label{group__CRYP__Group6_ga2f36aea6e94452e5e5e938547fb89d4c}} 
+\index{High Level A\+E\+S functions@{High Level A\+E\+S functions}!C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+TR@{C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+TR}}
+\index{C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+TR@{C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+TR}!High Level A\+E\+S functions@{High Level A\+E\+S functions}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+T\+R()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+C\+TR (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{Mode,  }\item[{uint8\+\_\+t}]{Init\+Vectors[16],  }\item[{uint8\+\_\+t $\ast$}]{Key,  }\item[{uint16\+\_\+t}]{Keysize,  }\item[{uint8\+\_\+t $\ast$}]{Input,  }\item[{uint32\+\_\+t}]{Ilength,  }\item[{uint8\+\_\+t $\ast$}]{Output }\end{DoxyParamCaption})}
+
+
+
+Encrypt and decrypt using A\+ES in C\+TR Mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Mode} & encryption or decryption Mode. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item M\+O\+D\+E\+\_\+\+E\+N\+C\+R\+Y\+PT\+: Encryption \item M\+O\+D\+E\+\_\+\+D\+E\+C\+R\+Y\+PT\+: Decryption \end{DoxyItemize}
+\\
+\hline
+{\em Init\+Vectors} & Initialisation Vectors used for A\+ES algorithm. \\
+\hline
+{\em Key} & Key used for A\+ES algorithm. \\
+\hline
+{\em Keysize} & length of the Key, must be a 128, 192 or 256. \\
+\hline
+{\em Input} & pointer to the Input buffer. \\
+\hline
+{\em Ilength} & length of the Input buffer, must be a multiple of 16. \\
+\hline
+{\em Output} & pointer to the returned buffer. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: Operation done
+\item E\+R\+R\+OR\+: Operation failed 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 475} of file \textbf{ stm32f4xx\+\_\+cryp\+\_\+aes.\+c}.
+
+
+
+References \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Algo\+Dir}, \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Algo\+Mode}, \textbf{ C\+R\+Y\+P\+\_\+\+Cmd()}, \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Data\+Type}, \textbf{ C\+R\+Y\+P\+\_\+\+F\+I\+F\+O\+Flush()}, \textbf{ C\+R\+Y\+P\+\_\+\+Init()}, \textbf{ C\+R\+Y\+P\+\_\+\+I\+V\+Init()}, \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init()}, \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Key\+Size}, \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Struct\+Init()}, \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+00478 \{
+00479   CRYP_InitTypeDef AES\_CRYP\_InitStructure;
+00480   CRYP_KeyInitTypeDef AES\_CRYP\_KeyInitStructure;
+00481   CRYP_IVInitTypeDef AES\_CRYP\_IVInitStructure;
+00482   \_\_IO uint32\_t counter = 0;
+00483   uint32\_t busystatus = 0;
+00484   ErrorStatus status = SUCCESS;
+00485   uint32\_t keyaddr    = (uint32\_t)Key;
+00486   uint32\_t inputaddr  = (uint32\_t)Input;
+00487   uint32\_t outputaddr = (uint32\_t)Output;
+00488   uint32\_t ivaddr     = (uint32\_t)InitVectors;
+00489   uint32\_t i = 0;
+00490 
+00491   \textcolor{comment}{/* Crypto structures initialisation*/}
+00492   CRYP_KeyStructInit(&AES\_CRYP\_KeyInitStructure);
+00493 
+00494   \textcolor{keywordflow}{switch}(Keysize)
+00495   \{
+00496     \textcolor{keywordflow}{case} 128:
+00497     AES\_CRYP\_InitStructure.CRYP_KeySize = CRYP_KeySize_128b;
+00498     AES\_CRYP\_KeyInitStructure.CRYP_Key2Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00499     keyaddr+=4;
+00500     AES\_CRYP\_KeyInitStructure.CRYP_Key2Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00501     keyaddr+=4;
+00502     AES\_CRYP\_KeyInitStructure.CRYP_Key3Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00503     keyaddr+=4;
+00504     AES\_CRYP\_KeyInitStructure.CRYP_Key3Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00505     \textcolor{keywordflow}{break};
+00506     \textcolor{keywordflow}{case} 192:
+00507     AES\_CRYP\_InitStructure.CRYP_KeySize  = CRYP_KeySize_192b;
+00508     AES\_CRYP\_KeyInitStructure.CRYP_Key1Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00509     keyaddr+=4;
+00510     AES\_CRYP\_KeyInitStructure.CRYP_Key1Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00511     keyaddr+=4;
+00512     AES\_CRYP\_KeyInitStructure.CRYP_Key2Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00513     keyaddr+=4;
+00514     AES\_CRYP\_KeyInitStructure.CRYP_Key2Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00515     keyaddr+=4;
+00516     AES\_CRYP\_KeyInitStructure.CRYP_Key3Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00517     keyaddr+=4;
+00518     AES\_CRYP\_KeyInitStructure.CRYP_Key3Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00519     \textcolor{keywordflow}{break};
+00520     \textcolor{keywordflow}{case} 256:
+00521     AES\_CRYP\_InitStructure.CRYP_KeySize  = CRYP_KeySize_256b;
+00522     AES\_CRYP\_KeyInitStructure.CRYP_Key0Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00523     keyaddr+=4;
+00524     AES\_CRYP\_KeyInitStructure.CRYP_Key0Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00525     keyaddr+=4;
+00526     AES\_CRYP\_KeyInitStructure.CRYP_Key1Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00527     keyaddr+=4;
+00528     AES\_CRYP\_KeyInitStructure.CRYP_Key1Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00529     keyaddr+=4;
+00530     AES\_CRYP\_KeyInitStructure.CRYP_Key2Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00531     keyaddr+=4;
+00532     AES\_CRYP\_KeyInitStructure.CRYP_Key2Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00533     keyaddr+=4;
+00534     AES\_CRYP\_KeyInitStructure.CRYP_Key3Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00535     keyaddr+=4;
+00536     AES\_CRYP\_KeyInitStructure.CRYP_Key3Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00537     \textcolor{keywordflow}{break};
+00538     \textcolor{keywordflow}{default}:
+00539     \textcolor{keywordflow}{break};
+00540   \}
+00541   \textcolor{comment}{/* CRYP Initialization Vectors */}
+00542   AES\_CRYP\_IVInitStructure.CRYP_IV0Left = \_\_REV(*(uint32\_t*)(ivaddr));
+00543   ivaddr+=4;
+00544   AES\_CRYP\_IVInitStructure.CRYP_IV0Right= \_\_REV(*(uint32\_t*)(ivaddr));
+00545   ivaddr+=4;
+00546   AES\_CRYP\_IVInitStructure.CRYP_IV1Left = \_\_REV(*(uint32\_t*)(ivaddr));
+00547   ivaddr+=4;
+00548   AES\_CRYP\_IVInitStructure.CRYP_IV1Right= \_\_REV(*(uint32\_t*)(ivaddr));
+00549 
+00550   \textcolor{comment}{/* Key Initialisation */}
+00551   CRYP_KeyInit(&AES\_CRYP\_KeyInitStructure);
+00552 
+00553   \textcolor{comment}{/*------------------ AES Decryption ------------------*/}
+00554   \textcolor{keywordflow}{if}(Mode == MODE_DECRYPT) \textcolor{comment}{/* AES decryption */}
+00555   \{
+00556     \textcolor{comment}{/* Crypto Init for decryption process */}
+00557     AES\_CRYP\_InitStructure.CRYP_AlgoDir = CRYP_AlgoDir_Decrypt;
+00558   \}
+00559   \textcolor{comment}{/*------------------ AES Encryption ------------------*/}
+00560   \textcolor{keywordflow}{else} \textcolor{comment}{/* AES encryption */}
+00561   \{
+00562     \textcolor{comment}{/* Crypto Init for Encryption process */}
+00563     AES\_CRYP\_InitStructure.CRYP_AlgoDir = CRYP_AlgoDir_Encrypt;
+00564   \}
+00565   AES\_CRYP\_InitStructure.CRYP_AlgoMode = CRYP_AlgoMode_AES_CTR;
+00566   AES\_CRYP\_InitStructure.CRYP_DataType = CRYP_DataType_8b;
+00567   CRYP_Init(&AES\_CRYP\_InitStructure);
+00568 
+00569   \textcolor{comment}{/* CRYP Initialization Vectors */}
+00570   CRYP_IVInit(&AES\_CRYP\_IVInitStructure);
+00571 
+00572   \textcolor{comment}{/* Flush IN/OUT FIFOs */}
+00573   CRYP_FIFOFlush();
+00574 
+00575   \textcolor{comment}{/* Enable Crypto processor */}
+00576   CRYP_Cmd(ENABLE);
+00577 
+00578   \textcolor{keywordflow}{for}(i=0; ((i<Ilength) && (status != ERROR)); i+=16)
+00579   \{
+00580 
+00581     \textcolor{comment}{/* Write the Input block in the IN FIFO */}
+00582     CRYP_DataIn(*(uint32\_t*)(inputaddr));
+00583     inputaddr+=4;
+00584     CRYP_DataIn(*(uint32\_t*)(inputaddr));
+00585     inputaddr+=4;
+00586     CRYP_DataIn(*(uint32\_t*)(inputaddr));
+00587     inputaddr+=4;
+00588     CRYP_DataIn(*(uint32\_t*)(inputaddr));
+00589     inputaddr+=4;
+00590     \textcolor{comment}{/* Wait until the complete message has been processed */}
+00591     counter = 0;
+00592     \textcolor{keywordflow}{do}
+00593     \{
+00594       busystatus = CRYP_GetFlagStatus(CRYP_FLAG_BUSY);
+00595       counter++;
+00596     \}\textcolor{keywordflow}{while} ((counter != AESBUSY_TIMEOUT) && (busystatus != RESET));
+00597 
+00598     \textcolor{keywordflow}{if} (busystatus != RESET)
+00599    \{
+00600        status = ERROR;
+00601     \}
+00602     \textcolor{keywordflow}{else}
+00603     \{
+00604 
+00605       \textcolor{comment}{/* Read the Output block from the Output FIFO */}
+00606       *(uint32\_t*)(outputaddr) = CRYP_DataOut();
+00607       outputaddr+=4;
+00608       *(uint32\_t*)(outputaddr) = CRYP_DataOut();
+00609       outputaddr+=4;
+00610       *(uint32\_t*)(outputaddr) = CRYP_DataOut();
+00611       outputaddr+=4;
+00612       *(uint32\_t*)(outputaddr) = CRYP_DataOut();
+00613       outputaddr+=4;
+00614     \}
+00615   \}
+00616   \textcolor{comment}{/* Disable Crypto */}
+00617   CRYP_Cmd(DISABLE);
+00618 
+00619   \textcolor{keywordflow}{return} status;
+00620 \}
+\end{DoxyCode}
+\mbox{\label{group__CRYP__Group6_ga79ff82ece0e9620dc86d6e57abe639e1}} 
+\index{High Level A\+E\+S functions@{High Level A\+E\+S functions}!C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+E\+CB@{C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+E\+CB}}
+\index{C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+E\+CB@{C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+E\+CB}!High Level A\+E\+S functions@{High Level A\+E\+S functions}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+E\+C\+B()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} C\+R\+Y\+P\+\_\+\+A\+E\+S\+\_\+\+E\+CB (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{Mode,  }\item[{uint8\+\_\+t $\ast$}]{Key,  }\item[{uint16\+\_\+t}]{Keysize,  }\item[{uint8\+\_\+t $\ast$}]{Input,  }\item[{uint32\+\_\+t}]{Ilength,  }\item[{uint8\+\_\+t $\ast$}]{Output }\end{DoxyParamCaption})}
+
+
+
+Encrypt and decrypt using A\+ES in E\+CB Mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Mode} & encryption or decryption Mode. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item M\+O\+D\+E\+\_\+\+E\+N\+C\+R\+Y\+PT\+: Encryption \item M\+O\+D\+E\+\_\+\+D\+E\+C\+R\+Y\+PT\+: Decryption \end{DoxyItemize}
+\\
+\hline
+{\em Key} & Key used for A\+ES algorithm. \\
+\hline
+{\em Keysize} & length of the Key, must be a 128, 192 or 256. \\
+\hline
+{\em Input} & pointer to the Input buffer. \\
+\hline
+{\em Ilength} & length of the Input buffer, must be a multiple of 16. \\
+\hline
+{\em Output} & pointer to the returned buffer. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: Operation done
+\item E\+R\+R\+OR\+: Operation failed 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 98} of file \textbf{ stm32f4xx\+\_\+cryp\+\_\+aes.\+c}.
+
+
+
+References \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Algo\+Dir}, \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Algo\+Mode}, \textbf{ C\+R\+Y\+P\+\_\+\+Cmd()}, \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Data\+Type}, \textbf{ C\+R\+Y\+P\+\_\+\+F\+I\+F\+O\+Flush()}, \textbf{ C\+R\+Y\+P\+\_\+\+Init()}, \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init()}, \textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def\+::\+C\+R\+Y\+P\+\_\+\+Key\+Size}, \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Struct\+Init()}, \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+00100 \{
+00101   CRYP_InitTypeDef AES\_CRYP\_InitStructure;
+00102   CRYP_KeyInitTypeDef AES\_CRYP\_KeyInitStructure;
+00103   \_\_IO uint32\_t counter = 0;
+00104   uint32\_t busystatus = 0;
+00105   ErrorStatus status = SUCCESS;
+00106   uint32\_t keyaddr    = (uint32\_t)Key;
+00107   uint32\_t inputaddr  = (uint32\_t)Input;
+00108   uint32\_t outputaddr = (uint32\_t)Output;
+00109   uint32\_t i = 0;
+00110 
+00111   \textcolor{comment}{/* Crypto structures initialisation*/}
+00112   CRYP_KeyStructInit(&AES\_CRYP\_KeyInitStructure);
+00113 
+00114   \textcolor{keywordflow}{switch}(Keysize)
+00115   \{
+00116     \textcolor{keywordflow}{case} 128:
+00117     AES\_CRYP\_InitStructure.CRYP_KeySize = CRYP_KeySize_128b;
+00118     AES\_CRYP\_KeyInitStructure.CRYP_Key2Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00119     keyaddr+=4;
+00120     AES\_CRYP\_KeyInitStructure.CRYP_Key2Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00121     keyaddr+=4;
+00122     AES\_CRYP\_KeyInitStructure.CRYP_Key3Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00123     keyaddr+=4;
+00124     AES\_CRYP\_KeyInitStructure.CRYP_Key3Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00125     \textcolor{keywordflow}{break};
+00126     \textcolor{keywordflow}{case} 192:
+00127     AES\_CRYP\_InitStructure.CRYP_KeySize  = CRYP_KeySize_192b;
+00128     AES\_CRYP\_KeyInitStructure.CRYP_Key1Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00129     keyaddr+=4;
+00130     AES\_CRYP\_KeyInitStructure.CRYP_Key1Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00131     keyaddr+=4;
+00132     AES\_CRYP\_KeyInitStructure.CRYP_Key2Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00133     keyaddr+=4;
+00134     AES\_CRYP\_KeyInitStructure.CRYP_Key2Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00135     keyaddr+=4;
+00136     AES\_CRYP\_KeyInitStructure.CRYP_Key3Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00137     keyaddr+=4;
+00138     AES\_CRYP\_KeyInitStructure.CRYP_Key3Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00139     \textcolor{keywordflow}{break};
+00140     \textcolor{keywordflow}{case} 256:
+00141     AES\_CRYP\_InitStructure.CRYP_KeySize  = CRYP_KeySize_256b;
+00142     AES\_CRYP\_KeyInitStructure.CRYP_Key0Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00143     keyaddr+=4;
+00144     AES\_CRYP\_KeyInitStructure.CRYP_Key0Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00145     keyaddr+=4;
+00146     AES\_CRYP\_KeyInitStructure.CRYP_Key1Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00147     keyaddr+=4;
+00148     AES\_CRYP\_KeyInitStructure.CRYP_Key1Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00149     keyaddr+=4;
+00150     AES\_CRYP\_KeyInitStructure.CRYP_Key2Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00151     keyaddr+=4;
+00152     AES\_CRYP\_KeyInitStructure.CRYP_Key2Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00153     keyaddr+=4;
+00154     AES\_CRYP\_KeyInitStructure.CRYP_Key3Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00155     keyaddr+=4;
+00156     AES\_CRYP\_KeyInitStructure.CRYP_Key3Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00157     \textcolor{keywordflow}{break};
+00158     \textcolor{keywordflow}{default}:
+00159     \textcolor{keywordflow}{break};
+00160   \}
+00161 
+00162   \textcolor{comment}{/*------------------ AES Decryption ------------------*/}
+00163   \textcolor{keywordflow}{if}(Mode == MODE_DECRYPT) \textcolor{comment}{/* AES decryption */}
+00164   \{
+00165     \textcolor{comment}{/* Flush IN/OUT FIFOs */}
+00166     CRYP_FIFOFlush();
+00167 
+00168     \textcolor{comment}{/* Crypto Init for Key preparation for decryption process */}
+00169     AES\_CRYP\_InitStructure.CRYP_AlgoDir = CRYP_AlgoDir_Decrypt;
+00170     AES\_CRYP\_InitStructure.CRYP_AlgoMode = CRYP_AlgoMode_AES_Key;
+00171     AES\_CRYP\_InitStructure.CRYP_DataType = CRYP_DataType_32b;
+00172     CRYP_Init(&AES\_CRYP\_InitStructure);
+00173 
+00174     \textcolor{comment}{/* Key Initialisation */}
+00175     CRYP_KeyInit(&AES\_CRYP\_KeyInitStructure);
+00176 
+00177     \textcolor{comment}{/* Enable Crypto processor */}
+00178     CRYP_Cmd(ENABLE);
+00179 
+00180     \textcolor{comment}{/* wait until the Busy flag is RESET */}
+00181     \textcolor{keywordflow}{do}
+00182     \{
+00183       busystatus = CRYP_GetFlagStatus(CRYP_FLAG_BUSY);
+00184       counter++;
+00185     \}\textcolor{keywordflow}{while} ((counter != AESBUSY_TIMEOUT) && (busystatus != RESET));
+00186 
+00187     \textcolor{keywordflow}{if} (busystatus != RESET)
+00188    \{
+00189        status = ERROR;
+00190     \}
+00191     \textcolor{keywordflow}{else}
+00192     \{
+00193       \textcolor{comment}{/* Crypto Init for decryption process */}  
+00194       AES\_CRYP\_InitStructure.CRYP_AlgoDir = CRYP_AlgoDir_Decrypt;
+00195     \}
+00196   \}
+00197   \textcolor{comment}{/*------------------ AES Encryption ------------------*/}
+00198   \textcolor{keywordflow}{else} \textcolor{comment}{/* AES encryption */}
+00199   \{
+00200 
+00201     CRYP_KeyInit(&AES\_CRYP\_KeyInitStructure);
+00202 
+00203     \textcolor{comment}{/* Crypto Init for Encryption process */}
+00204     AES\_CRYP\_InitStructure.CRYP_AlgoDir  = CRYP_AlgoDir_Encrypt;
+00205   \}
+00206 
+00207   AES\_CRYP\_InitStructure.CRYP_AlgoMode = CRYP_AlgoMode_AES_ECB;
+00208   AES\_CRYP\_InitStructure.CRYP_DataType = CRYP_DataType_8b;
+00209   CRYP_Init(&AES\_CRYP\_InitStructure);
+00210 
+00211   \textcolor{comment}{/* Flush IN/OUT FIFOs */}
+00212   CRYP_FIFOFlush();
+00213 
+00214   \textcolor{comment}{/* Enable Crypto processor */}
+00215   CRYP_Cmd(ENABLE);
+00216 
+00217   \textcolor{keywordflow}{for}(i=0; ((i<Ilength) && (status != ERROR)); i+=16)
+00218   \{
+00219 
+00220     \textcolor{comment}{/* Write the Input block in the IN FIFO */}
+00221     CRYP_DataIn(*(uint32\_t*)(inputaddr));
+00222     inputaddr+=4;
+00223     CRYP_DataIn(*(uint32\_t*)(inputaddr));
+00224     inputaddr+=4;
+00225     CRYP_DataIn(*(uint32\_t*)(inputaddr));
+00226     inputaddr+=4;
+00227     CRYP_DataIn(*(uint32\_t*)(inputaddr));
+00228     inputaddr+=4;
+00229 
+00230     \textcolor{comment}{/* Wait until the complete message has been processed */}
+00231     counter = 0;
+00232     \textcolor{keywordflow}{do}
+00233     \{
+00234       busystatus = CRYP_GetFlagStatus(CRYP_FLAG_BUSY);
+00235       counter++;
+00236     \}\textcolor{keywordflow}{while} ((counter != AESBUSY_TIMEOUT) && (busystatus != RESET));
+00237 
+00238     \textcolor{keywordflow}{if} (busystatus != RESET)
+00239    \{
+00240        status = ERROR;
+00241     \}
+00242     \textcolor{keywordflow}{else}
+00243     \{
+00244 
+00245       \textcolor{comment}{/* Read the Output block from the Output FIFO */}
+00246       *(uint32\_t*)(outputaddr) = CRYP_DataOut();
+00247       outputaddr+=4;
+00248       *(uint32\_t*)(outputaddr) = CRYP_DataOut();
+00249       outputaddr+=4;
+00250       *(uint32\_t*)(outputaddr) = CRYP_DataOut();
+00251       outputaddr+=4;
+00252       *(uint32\_t*)(outputaddr) = CRYP_DataOut(); 
+00253       outputaddr+=4;
+00254     \}
+00255   \}
+00256 
+00257   \textcolor{comment}{/* Disable Crypto */}
+00258   CRYP_Cmd(DISABLE);
+00259 
+00260   \textcolor{keywordflow}{return} status; 
+00261 \}
+\end{DoxyCode}

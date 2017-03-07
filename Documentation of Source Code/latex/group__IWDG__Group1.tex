@@ -1,0 +1,159 @@
+\section{Prescaler and Counter configuration functions}
+\label{group__IWDG__Group1}\index{Prescaler and Counter configuration functions@{Prescaler and Counter configuration functions}}
+
+
+Prescaler and Counter configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ I\+W\+D\+G\+\_\+\+Write\+Access\+Cmd} (uint16\+\_\+t I\+W\+D\+G\+\_\+\+Write\+Access)
+\begin{DoxyCompactList}\small\item\em Enables or disables write access to I\+W\+D\+G\+\_\+\+PR and I\+W\+D\+G\+\_\+\+R\+LR registers. \end{DoxyCompactList}\item 
+void \textbf{ I\+W\+D\+G\+\_\+\+Set\+Prescaler} (uint8\+\_\+t I\+W\+D\+G\+\_\+\+Prescaler)
+\begin{DoxyCompactList}\small\item\em Sets I\+W\+DG Prescaler value. \end{DoxyCompactList}\item 
+void \textbf{ I\+W\+D\+G\+\_\+\+Set\+Reload} (uint16\+\_\+t Reload)
+\begin{DoxyCompactList}\small\item\em Sets I\+W\+DG Reload value. \end{DoxyCompactList}\item 
+void \textbf{ I\+W\+D\+G\+\_\+\+Reload\+Counter} (void)
+\begin{DoxyCompactList}\small\item\em Reloads I\+W\+DG counter with value defined in the reload register (write access to I\+W\+D\+G\+\_\+\+PR and I\+W\+D\+G\+\_\+\+R\+LR registers disabled). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Prescaler and Counter configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                  Prescaler and Counter configuration functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__IWDG__Group1_ga7147ebabdc3fef97f532b171a4e70d49}} 
+\index{Prescaler and Counter configuration functions@{Prescaler and Counter configuration functions}!I\+W\+D\+G\+\_\+\+Reload\+Counter@{I\+W\+D\+G\+\_\+\+Reload\+Counter}}
+\index{I\+W\+D\+G\+\_\+\+Reload\+Counter@{I\+W\+D\+G\+\_\+\+Reload\+Counter}!Prescaler and Counter configuration functions@{Prescaler and Counter configuration functions}}
+\subsubsection{I\+W\+D\+G\+\_\+\+Reload\+Counter()}
+{\footnotesize\ttfamily void I\+W\+D\+G\+\_\+\+Reload\+Counter (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Reloads I\+W\+DG counter with value defined in the reload register (write access to I\+W\+D\+G\+\_\+\+PR and I\+W\+D\+G\+\_\+\+R\+LR registers disabled). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 175} of file \textbf{ stm32f4xx\+\_\+iwdg.\+c}.
+
+
+\begin{DoxyCode}
+00176 \{
+00177   IWDG->KR = KR_KEY_RELOAD;
+00178 \}
+\end{DoxyCode}
+\mbox{\label{group__IWDG__Group1_ga4fa7f1cd690533a35ad9e4729c0450a3}} 
+\index{Prescaler and Counter configuration functions@{Prescaler and Counter configuration functions}!I\+W\+D\+G\+\_\+\+Set\+Prescaler@{I\+W\+D\+G\+\_\+\+Set\+Prescaler}}
+\index{I\+W\+D\+G\+\_\+\+Set\+Prescaler@{I\+W\+D\+G\+\_\+\+Set\+Prescaler}!Prescaler and Counter configuration functions@{Prescaler and Counter configuration functions}}
+\subsubsection{I\+W\+D\+G\+\_\+\+Set\+Prescaler()}
+{\footnotesize\ttfamily void I\+W\+D\+G\+\_\+\+Set\+Prescaler (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{I\+W\+D\+G\+\_\+\+Prescaler }\end{DoxyParamCaption})}
+
+
+
+Sets I\+W\+DG Prescaler value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I\+W\+D\+G\+\_\+\+Prescaler} & specifies the I\+W\+DG Prescaler value. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item I\+W\+D\+G\+\_\+\+Prescaler\+\_\+4\+: I\+W\+DG prescaler set to 4 \item I\+W\+D\+G\+\_\+\+Prescaler\+\_\+8\+: I\+W\+DG prescaler set to 8 \item I\+W\+D\+G\+\_\+\+Prescaler\+\_\+16\+: I\+W\+DG prescaler set to 16 \item I\+W\+D\+G\+\_\+\+Prescaler\+\_\+32\+: I\+W\+DG prescaler set to 32 \item I\+W\+D\+G\+\_\+\+Prescaler\+\_\+64\+: I\+W\+DG prescaler set to 64 \item I\+W\+D\+G\+\_\+\+Prescaler\+\_\+128\+: I\+W\+DG prescaler set to 128 \item I\+W\+D\+G\+\_\+\+Prescaler\+\_\+256\+: I\+W\+DG prescaler set to 256 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 149} of file \textbf{ stm32f4xx\+\_\+iwdg.\+c}.
+
+
+\begin{DoxyCode}
+00150 \{
+00151   \textcolor{comment}{/* Check the parameters */}
+00152   assert_param(IS_IWDG_PRESCALER(IWDG\_Prescaler));
+00153   IWDG->PR = IWDG\_Prescaler;
+00154 \}
+\end{DoxyCode}
+\mbox{\label{group__IWDG__Group1_gae2a14752a0431f23cb80cebf202ac365}} 
+\index{Prescaler and Counter configuration functions@{Prescaler and Counter configuration functions}!I\+W\+D\+G\+\_\+\+Set\+Reload@{I\+W\+D\+G\+\_\+\+Set\+Reload}}
+\index{I\+W\+D\+G\+\_\+\+Set\+Reload@{I\+W\+D\+G\+\_\+\+Set\+Reload}!Prescaler and Counter configuration functions@{Prescaler and Counter configuration functions}}
+\subsubsection{I\+W\+D\+G\+\_\+\+Set\+Reload()}
+{\footnotesize\ttfamily void I\+W\+D\+G\+\_\+\+Set\+Reload (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{Reload }\end{DoxyParamCaption})}
+
+
+
+Sets I\+W\+DG Reload value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Reload} & specifies the I\+W\+DG Reload value. This parameter must be a number between 0 and 0x0\+F\+FF. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 162} of file \textbf{ stm32f4xx\+\_\+iwdg.\+c}.
+
+
+\begin{DoxyCode}
+00163 \{
+00164   \textcolor{comment}{/* Check the parameters */}
+00165   assert_param(IS_IWDG_RELOAD(Reload));
+00166   IWDG->RLR = Reload;
+00167 \}
+\end{DoxyCode}
+\mbox{\label{group__IWDG__Group1_gae466681e5bdc11b353c508b89d75ca05}} 
+\index{Prescaler and Counter configuration functions@{Prescaler and Counter configuration functions}!I\+W\+D\+G\+\_\+\+Write\+Access\+Cmd@{I\+W\+D\+G\+\_\+\+Write\+Access\+Cmd}}
+\index{I\+W\+D\+G\+\_\+\+Write\+Access\+Cmd@{I\+W\+D\+G\+\_\+\+Write\+Access\+Cmd}!Prescaler and Counter configuration functions@{Prescaler and Counter configuration functions}}
+\subsubsection{I\+W\+D\+G\+\_\+\+Write\+Access\+Cmd()}
+{\footnotesize\ttfamily void I\+W\+D\+G\+\_\+\+Write\+Access\+Cmd (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{I\+W\+D\+G\+\_\+\+Write\+Access }\end{DoxyParamCaption})}
+
+
+
+Enables or disables write access to I\+W\+D\+G\+\_\+\+PR and I\+W\+D\+G\+\_\+\+R\+LR registers. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I\+W\+D\+G\+\_\+\+Write\+Access} & new state of write access to I\+W\+D\+G\+\_\+\+PR and I\+W\+D\+G\+\_\+\+R\+LR registers. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item I\+W\+D\+G\+\_\+\+Write\+Access\+\_\+\+Enable\+: Enable write access to I\+W\+D\+G\+\_\+\+PR and I\+W\+D\+G\+\_\+\+R\+LR registers \item I\+W\+D\+G\+\_\+\+Write\+Access\+\_\+\+Disable\+: Disable write access to I\+W\+D\+G\+\_\+\+PR and I\+W\+D\+G\+\_\+\+R\+LR registers \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 129} of file \textbf{ stm32f4xx\+\_\+iwdg.\+c}.
+
+
+\begin{DoxyCode}
+00130 \{
+00131   \textcolor{comment}{/* Check the parameters */}
+00132   assert_param(IS_IWDG_WRITE_ACCESS(IWDG\_WriteAccess));
+00133   IWDG->KR = IWDG\_WriteAccess;
+00134 \}
+\end{DoxyCode}

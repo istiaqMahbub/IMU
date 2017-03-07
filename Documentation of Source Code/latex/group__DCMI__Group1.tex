@@ -1,0 +1,348 @@
+\section{Initialization and Configuration functions}
+\label{group__DCMI__Group1}\index{Initialization and Configuration functions@{Initialization and Configuration functions}}
+
+
+Initialization and Configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ D\+C\+M\+I\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the D\+C\+MI registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ D\+C\+M\+I\+\_\+\+Init} (\textbf{ D\+C\+M\+I\+\_\+\+Init\+Type\+Def} $\ast$D\+C\+M\+I\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the D\+C\+MI according to the specified parameters in the D\+C\+M\+I\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ D\+C\+M\+I\+\_\+\+Struct\+Init} (\textbf{ D\+C\+M\+I\+\_\+\+Init\+Type\+Def} $\ast$D\+C\+M\+I\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each D\+C\+M\+I\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Config} (\textbf{ D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Init\+Type\+Def} $\ast$D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the D\+C\+MI peripheral C\+R\+OP mode according to the specified parameters in the D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the D\+C\+MI Crop feature. \end{DoxyCompactList}\item 
+void \textbf{ D\+C\+M\+I\+\_\+\+Set\+Embedded\+Synchro\+Codes} (\textbf{ D\+C\+M\+I\+\_\+\+Codes\+Init\+Type\+Def} $\ast$D\+C\+M\+I\+\_\+\+Codes\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Sets the embedded synchronization codes. \end{DoxyCompactList}\item 
+void \textbf{ D\+C\+M\+I\+\_\+\+J\+P\+E\+G\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the D\+C\+MI J\+P\+EG format. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Initialization and Configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                  Initialization and Configuration functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__DCMI__Group1_ga7139eecdc0f7975b42cd2f9c5644d0a5}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Cmd@{D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Cmd}}
+\index{D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Cmd@{D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Cmd()}
+{\footnotesize\ttfamily void D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the D\+C\+MI Crop feature. 
+
+\begin{DoxyNote}{Note}
+This function should be called before to enable and start the D\+C\+MI interface. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the D\+C\+MI Crop feature. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 219} of file \textbf{ stm32f4xx\+\_\+dcmi.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00220 \{
+00221   \textcolor{comment}{/* Check the parameters */}
+00222   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00223     
+00224   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00225   \{
+00226     \textcolor{comment}{/* Enable the DCMI Crop feature */}
+00227     DCMI->CR |= (uint32\_t)DCMI_CR_CROP;
+00228   \}
+00229   \textcolor{keywordflow}{else}
+00230   \{
+00231     \textcolor{comment}{/* Disable the DCMI Crop feature */}
+00232     DCMI->CR &= ~(uint32\_t)DCMI_CR_CROP;
+00233   \}
+00234 \}
+\end{DoxyCode}
+\mbox{\label{group__DCMI__Group1_ga3bd4eb06314ed06dcb71ee91391b7ec4}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Config@{D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Config}}
+\index{D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Config@{D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Config}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Config()}
+{\footnotesize\ttfamily void D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Config (\begin{DoxyParamCaption}\item[{\textbf{ D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Init\+Type\+Def} $\ast$}]{D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the D\+C\+MI peripheral C\+R\+OP mode according to the specified parameters in the D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Init\+Struct. 
+
+\begin{DoxyNote}{Note}
+This function should be called before to enable and start the D\+C\+MI interface. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Init\+Struct} & pointer to a \doxyref{D\+C\+M\+I\+\_\+\+C\+R\+O\+P\+Init\+Type\+Def}{p.}{structDCMI__CROPInitTypeDef} structure that contains the configuration information for the D\+C\+MI peripheral C\+R\+OP mode. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 201} of file \textbf{ stm32f4xx\+\_\+dcmi.\+c}.
+
+
+\begin{DoxyCode}
+00202 \{  
+00203   \textcolor{comment}{/* Sets the CROP window coordinates */}
+00204   DCMI->CWSTRTR = (uint32\_t)((uint32\_t)DCMI\_CROPInitStruct->
+      DCMI_HorizontalOffsetCount |
+00205                   ((uint32\_t)DCMI\_CROPInitStruct->DCMI_VerticalStartLine << 16));
+00206 
+00207   \textcolor{comment}{/* Sets the CROP window size */}
+00208   DCMI->CWSIZER = (uint32\_t)(DCMI\_CROPInitStruct->DCMI_CaptureCount |
+00209                   ((uint32\_t)DCMI\_CROPInitStruct->DCMI_VerticalLineCount << 16));
+00210 \}
+\end{DoxyCode}
+\mbox{\label{group__DCMI__Group1_gab8f501f117d5695017e1dc5a611a5015}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!D\+C\+M\+I\+\_\+\+De\+Init@{D\+C\+M\+I\+\_\+\+De\+Init}}
+\index{D\+C\+M\+I\+\_\+\+De\+Init@{D\+C\+M\+I\+\_\+\+De\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{D\+C\+M\+I\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void D\+C\+M\+I\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the D\+C\+MI registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 122} of file \textbf{ stm32f4xx\+\_\+dcmi.\+c}.
+
+
+\begin{DoxyCode}
+00123 \{
+00124   DCMI->CR = 0x0;
+00125   DCMI->IER = 0x0;
+00126   DCMI->ICR = 0x1F;
+00127   DCMI->ESCR = 0x0;
+00128   DCMI->ESUR = 0x0;
+00129   DCMI->CWSTRTR = 0x0;
+00130   DCMI->CWSIZER = 0x0;
+00131 \}
+\end{DoxyCode}
+\mbox{\label{group__DCMI__Group1_ga1299076f1459525053ba4f2fa408ed2a}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!D\+C\+M\+I\+\_\+\+Init@{D\+C\+M\+I\+\_\+\+Init}}
+\index{D\+C\+M\+I\+\_\+\+Init@{D\+C\+M\+I\+\_\+\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{D\+C\+M\+I\+\_\+\+Init()}
+{\footnotesize\ttfamily void D\+C\+M\+I\+\_\+\+Init (\begin{DoxyParamCaption}\item[{\textbf{ D\+C\+M\+I\+\_\+\+Init\+Type\+Def} $\ast$}]{D\+C\+M\+I\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the D\+C\+MI according to the specified parameters in the D\+C\+M\+I\+\_\+\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+C\+M\+I\+\_\+\+Init\+Struct} & pointer to a \doxyref{D\+C\+M\+I\+\_\+\+Init\+Type\+Def}{p.}{structDCMI__InitTypeDef} structure that contains the configuration information for the D\+C\+MI. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 139} of file \textbf{ stm32f4xx\+\_\+dcmi.\+c}.
+
+
+
+References \textbf{ D\+C\+M\+I\+\_\+\+Init\+Type\+Def\+::\+D\+C\+M\+I\+\_\+\+Capture\+Mode}, \textbf{ D\+C\+M\+I\+\_\+\+Init\+Type\+Def\+::\+D\+C\+M\+I\+\_\+\+Capture\+Rate}, \textbf{ D\+C\+M\+I\+\_\+\+Init\+Type\+Def\+::\+D\+C\+M\+I\+\_\+\+Extended\+Data\+Mode}, \textbf{ D\+C\+M\+I\+\_\+\+Init\+Type\+Def\+::\+D\+C\+M\+I\+\_\+\+H\+S\+Polarity}, \textbf{ D\+C\+M\+I\+\_\+\+Init\+Type\+Def\+::\+D\+C\+M\+I\+\_\+\+P\+C\+K\+Polarity}, \textbf{ D\+C\+M\+I\+\_\+\+Init\+Type\+Def\+::\+D\+C\+M\+I\+\_\+\+Synchro\+Mode}, and \textbf{ D\+C\+M\+I\+\_\+\+Init\+Type\+Def\+::\+D\+C\+M\+I\+\_\+\+V\+S\+Polarity}.
+
+
+\begin{DoxyCode}
+00140 \{
+00141   uint32\_t temp = 0x0;
+00142   
+00143   \textcolor{comment}{/* Check the parameters */}
+00144   assert_param(IS_DCMI_CAPTURE_MODE(DCMI\_InitStruct->DCMI_CaptureMode));
+00145   assert_param(IS_DCMI_SYNCHRO(DCMI\_InitStruct->DCMI_SynchroMode));
+00146   assert_param(IS_DCMI_PCKPOLARITY(DCMI\_InitStruct->DCMI_PCKPolarity));
+00147   assert_param(IS_DCMI_VSPOLARITY(DCMI\_InitStruct->DCMI_VSPolarity));
+00148   assert_param(IS_DCMI_HSPOLARITY(DCMI\_InitStruct->DCMI_HSPolarity));
+00149   assert_param(IS_DCMI_CAPTURE_RATE(DCMI\_InitStruct->DCMI_CaptureRate));
+00150   assert_param(IS_DCMI_EXTENDED_DATA(DCMI\_InitStruct->DCMI_ExtendedDataMode));
+00151 
+00152   \textcolor{comment}{/* The DCMI configuration registers should be programmed correctly before }
+00153 \textcolor{comment}{  enabling the CR\_ENABLE Bit and the CR\_CAPTURE Bit */}
+00154   DCMI->CR &= ~(DCMI_CR_ENABLE | DCMI_CR_CAPTURE);
+00155    
+00156   \textcolor{comment}{/* Reset the old DCMI configuration */}
+00157   temp = DCMI->CR;
+00158   
+00159   temp &= ~((uint32\_t)DCMI_CR_CM     | DCMI_CR_ESS   | DCMI_CR_PCKPOL |
+00160                       DCMI_CR_HSPOL  | DCMI_CR_VSPOL | DCMI_CR_FCRC_0 | 
+00161                       DCMI_CR_FCRC_1 | DCMI_CR_EDM_0 | DCMI_CR_EDM_1); 
+00162                   
+00163   \textcolor{comment}{/* Sets the new configuration of the DCMI peripheral */}
+00164   temp |= ((uint32\_t)DCMI\_InitStruct->DCMI_CaptureMode |
+00165                      DCMI\_InitStruct->DCMI_SynchroMode |
+00166                      DCMI\_InitStruct->DCMI_PCKPolarity |
+00167                      DCMI\_InitStruct->DCMI_VSPolarity |
+00168                      DCMI\_InitStruct->DCMI_HSPolarity |
+00169                      DCMI\_InitStruct->DCMI_CaptureRate |
+00170                      DCMI\_InitStruct->DCMI_ExtendedDataMode);
+00171 
+00172   DCMI->CR = temp;                              
+00173 \}
+\end{DoxyCode}
+\mbox{\label{group__DCMI__Group1_ga30a38a4858273c05e8f1b4677d744c13}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!D\+C\+M\+I\+\_\+\+J\+P\+E\+G\+Cmd@{D\+C\+M\+I\+\_\+\+J\+P\+E\+G\+Cmd}}
+\index{D\+C\+M\+I\+\_\+\+J\+P\+E\+G\+Cmd@{D\+C\+M\+I\+\_\+\+J\+P\+E\+G\+Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{D\+C\+M\+I\+\_\+\+J\+P\+E\+G\+Cmd()}
+{\footnotesize\ttfamily void D\+C\+M\+I\+\_\+\+J\+P\+E\+G\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the D\+C\+MI J\+P\+EG format. 
+
+\begin{DoxyNote}{Note}
+The Crop and Embedded Synchronization features cannot be used in this mode. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the D\+C\+MI J\+P\+EG format. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 257} of file \textbf{ stm32f4xx\+\_\+dcmi.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00258 \{
+00259   \textcolor{comment}{/* Check the parameters */}
+00260   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00261  
+00262   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00263   \{
+00264     \textcolor{comment}{/* Enable the DCMI JPEG format */}
+00265     DCMI->CR |= (uint32\_t)DCMI_CR_JPEG;
+00266   \}
+00267   \textcolor{keywordflow}{else}
+00268   \{
+00269     \textcolor{comment}{/* Disable the DCMI JPEG format */}
+00270     DCMI->CR &= ~(uint32\_t)DCMI_CR_JPEG;
+00271   \}
+00272 \}
+\end{DoxyCode}
+\mbox{\label{group__DCMI__Group1_ga8888b27bd5aca62d250642468ea6cd6d}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!D\+C\+M\+I\+\_\+\+Set\+Embedded\+Synchro\+Codes@{D\+C\+M\+I\+\_\+\+Set\+Embedded\+Synchro\+Codes}}
+\index{D\+C\+M\+I\+\_\+\+Set\+Embedded\+Synchro\+Codes@{D\+C\+M\+I\+\_\+\+Set\+Embedded\+Synchro\+Codes}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{D\+C\+M\+I\+\_\+\+Set\+Embedded\+Synchro\+Codes()}
+{\footnotesize\ttfamily void D\+C\+M\+I\+\_\+\+Set\+Embedded\+Synchro\+Codes (\begin{DoxyParamCaption}\item[{\textbf{ D\+C\+M\+I\+\_\+\+Codes\+Init\+Type\+Def} $\ast$}]{D\+C\+M\+I\+\_\+\+Codes\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Sets the embedded synchronization codes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \doxyref{D\+C\+M\+I\+\_\+\+Codes\+Init\+Type\+Def}{p.}{structDCMI__CodesInitTypeDef}} & pointer to a \doxyref{D\+C\+M\+I\+\_\+\+Codes\+Init\+Type\+Def}{p.}{structDCMI__CodesInitTypeDef} structure that contains the embedded synchronization codes for the D\+C\+MI peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 242} of file \textbf{ stm32f4xx\+\_\+dcmi.\+c}.
+
+
+\begin{DoxyCode}
+00243 \{
+00244   DCMI->ESCR = (uint32\_t)(DCMI\_CodesInitStruct->DCMI_FrameStartCode |
+00245                           ((uint32\_t)DCMI\_CodesInitStruct->DCMI_LineStartCode << 8)|
+00246                           ((uint32\_t)DCMI\_CodesInitStruct->DCMI_LineEndCode << 16)|
+00247                           ((uint32\_t)DCMI\_CodesInitStruct->DCMI_FrameEndCode << 24));
+00248 \}
+\end{DoxyCode}
+\mbox{\label{group__DCMI__Group1_ga268eb4266fe7f294ee748e86f7b8add2}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!D\+C\+M\+I\+\_\+\+Struct\+Init@{D\+C\+M\+I\+\_\+\+Struct\+Init}}
+\index{D\+C\+M\+I\+\_\+\+Struct\+Init@{D\+C\+M\+I\+\_\+\+Struct\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{D\+C\+M\+I\+\_\+\+Struct\+Init()}
+{\footnotesize\ttfamily void D\+C\+M\+I\+\_\+\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ D\+C\+M\+I\+\_\+\+Init\+Type\+Def} $\ast$}]{D\+C\+M\+I\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each D\+C\+M\+I\+\_\+\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+C\+M\+I\+\_\+\+Init\+Struct} & \+: pointer to a \doxyref{D\+C\+M\+I\+\_\+\+Init\+Type\+Def}{p.}{structDCMI__InitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 181} of file \textbf{ stm32f4xx\+\_\+dcmi.\+c}.
+
+
+
+References \textbf{ D\+C\+M\+I\+\_\+\+Init\+Type\+Def\+::\+D\+C\+M\+I\+\_\+\+Capture\+Mode}, \textbf{ D\+C\+M\+I\+\_\+\+Init\+Type\+Def\+::\+D\+C\+M\+I\+\_\+\+Capture\+Rate}, \textbf{ D\+C\+M\+I\+\_\+\+Init\+Type\+Def\+::\+D\+C\+M\+I\+\_\+\+Extended\+Data\+Mode}, \textbf{ D\+C\+M\+I\+\_\+\+Init\+Type\+Def\+::\+D\+C\+M\+I\+\_\+\+H\+S\+Polarity}, \textbf{ D\+C\+M\+I\+\_\+\+Init\+Type\+Def\+::\+D\+C\+M\+I\+\_\+\+P\+C\+K\+Polarity}, \textbf{ D\+C\+M\+I\+\_\+\+Init\+Type\+Def\+::\+D\+C\+M\+I\+\_\+\+Synchro\+Mode}, and \textbf{ D\+C\+M\+I\+\_\+\+Init\+Type\+Def\+::\+D\+C\+M\+I\+\_\+\+V\+S\+Polarity}.
+
+
+\begin{DoxyCode}
+00182 \{
+00183   \textcolor{comment}{/* Set the default configuration */}
+00184   DCMI\_InitStruct->DCMI_CaptureMode = DCMI_CaptureMode_Continuous;
+00185   DCMI\_InitStruct->DCMI_SynchroMode = DCMI_SynchroMode_Hardware;
+00186   DCMI\_InitStruct->DCMI_PCKPolarity = DCMI_PCKPolarity_Falling;
+00187   DCMI\_InitStruct->DCMI_VSPolarity = DCMI_VSPolarity_Low;
+00188   DCMI\_InitStruct->DCMI_HSPolarity = DCMI_HSPolarity_Low;
+00189   DCMI\_InitStruct->DCMI_CaptureRate = DCMI_CaptureRate_All_Frame;
+00190   DCMI\_InitStruct->DCMI_ExtendedDataMode = DCMI_ExtendedDataMode_8b;
+00191 \}
+\end{DoxyCode}

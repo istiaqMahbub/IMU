@@ -1,0 +1,1055 @@
+\section{main.\+c}
+\label{main_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+User/src/main.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+User/src/main.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{ *   @defgroup  eMPL}
+00003 \textcolor{comment}{ *   @brief     Embedded Motion Processing Library}
+00004 \textcolor{comment}{ *}
+00005 \textcolor{comment}{ *   @\{}
+00006 \textcolor{comment}{ *       @file      main.c}
+00007 \textcolor{comment}{ *       @brief     Test app for eMPL using the Motion Driver DMP image.}
+00008 \textcolor{comment}{ */}
+00009 
+00010 \textcolor{comment}{/*! Includes ------------------------------------------------------------------*/}
+00011 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00012 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_usart.h"
+00013 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} \textcolor{preprocessor}{"stdio.h"}
+00014 
+00015 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "uart.h"
+00016 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "i2c.h"
+00017 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "gpio.h"
+00018 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "main.h"
+00019 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "board-st_discovery.h"
+00020 
+00021 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} \textcolor{preprocessor}{"inv\_mpu.h"}
+00022 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} \textcolor{preprocessor}{"inv\_mpu\_dmp\_motion\_driver.h"}
+00023 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} \textcolor{preprocessor}{"invensense.h"}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} \textcolor{preprocessor}{"invensense\_adv.h"}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} \textcolor{preprocessor}{"eMPL\_outputs.h"}
+00026 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} \textcolor{preprocessor}{"mltypes.h"}
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} \textcolor{preprocessor}{"mpu.h"}
+00028 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} \textcolor{preprocessor}{"log.h"}
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} \textcolor{preprocessor}{"packet.h"}
+00030 \textcolor{comment}{/*! Private typedef -----------------------------------------------------------*/}
+00031 \textcolor{comment}{/*! Data read from MPL. */}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PRINT\_ACCEL}     \textcolor{preprocessor}{(}0x01\textcolor{preprocessor}{)}
+00033 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PRINT\_GYRO}      \textcolor{preprocessor}{(}0x02\textcolor{preprocessor}{)}
+00034 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PRINT\_QUAT}      \textcolor{preprocessor}{(}0x04\textcolor{preprocessor}{)}
+00035 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PRINT\_COMPASS}   \textcolor{preprocessor}{(}0x08\textcolor{preprocessor}{)}
+00036 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PRINT\_EULER}     \textcolor{preprocessor}{(}0x10\textcolor{preprocessor}{)}
+00037 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PRINT\_ROT\_MAT}   \textcolor{preprocessor}{(}0x20\textcolor{preprocessor}{)}
+00038 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PRINT\_HEADING}   \textcolor{preprocessor}{(}0x40\textcolor{preprocessor}{)}
+00039 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PRINT\_PEDO}      \textcolor{preprocessor}{(}0x80\textcolor{preprocessor}{)}
+00040 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PRINT\_LINEAR\_ACCEL} \textcolor{preprocessor}{(}0x100\textcolor{preprocessor}{)}
+00041 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PRINT\_GRAVITY\_VECTOR} \textcolor{preprocessor}{(}0x200\textcolor{preprocessor}{)}
+00042 
+00043 \textcolor{keyword}{volatile} uint32\_t hal_timestamp = 0; \textcolor{comment}{//!< timestamp variable initialize, its for count tick}
+00044 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{ACCEL\_ON}        \textcolor{preprocessor}{(}0x01\textcolor{preprocessor}{)}
+00045 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GYRO\_ON}         \textcolor{preprocessor}{(}0x02\textcolor{preprocessor}{)}
+00046 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{COMPASS\_ON}      \textcolor{preprocessor}{(}0x04\textcolor{preprocessor}{)}
+00047 
+00048 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{MOTION}          \textcolor{preprocessor}{(}0\textcolor{preprocessor}{)}
+00049 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{NO\_MOTION}       \textcolor{preprocessor}{(}1\textcolor{preprocessor}{)}
+00050 
+00051 \textcolor{comment}{/*! Starting sampling rate. */}
+00052 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DEFAULT\_MPU\_HZ}  \textcolor{preprocessor}{(}20\textcolor{preprocessor}{)}
+00053 
+00054 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_SIZE}      \textcolor{preprocessor}{(}512\textcolor{preprocessor}{)}
+00055 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLASH\_MEM\_START} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{keywordtype}{void}\textcolor{preprocessor}{*}\textcolor{preprocessor}{)}0x1800\textcolor{preprocessor}{)}
+00056 
+00057 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PEDO\_READ\_MS}    \textcolor{preprocessor}{(}1000\textcolor{preprocessor}{)}
+00058 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TEMP\_READ\_MS}    \textcolor{preprocessor}{(}500\textcolor{preprocessor}{)}
+00059 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{COMPASS\_READ\_MS} \textcolor{preprocessor}{(}100\textcolor{preprocessor}{)}
+00060 \textcolor{comment}{/*! Receiver Struct Initialize*/}
+00061 \textcolor{keyword}{struct} rx_s \{
+00062     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} header[3];
+00063     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} cmd;
+00064 \};
+00065 \textcolor{comment}{/*! halStruct Init */}
+00066 \textcolor{keyword}{struct} hal_s \{
+00067     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} lp_accel_mode;
+00068     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} sensors;
+00069     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} dmp_on;
+00070     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} wait_for_tap;
+00071     \textcolor{keyword}{volatile} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} new_gyro;
+00072     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} motion_int_mode;
+00073     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} no_dmp_hz;
+00074     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} next_pedo_ms;
+00075     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} next_temp_ms;
+00076     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} next_compass_ms;
+00077     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} report;
+00078     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} dmp_features;
+00079     \textcolor{keyword}{struct} rx_s rx;
+00080 \};
+00081 \textcolor{keyword}{static} \textcolor{keyword}{struct} hal_s hal = \{0\};
+00082 
+00083 \textcolor{comment}{/*! USB RX binary semaphore. Actually, it's just a flag. Not included in struct}
+00084 \textcolor{comment}{ * because it's declared extern elsewhere.}
+00085 \textcolor{comment}{ */}
+00086 \textcolor{keyword}{volatile} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} rx_new; \textcolor{comment}{//!< Usart Receive variable init}
+00087 
+00088 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *mpl_key = (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char}*)\textcolor{stringliteral}{"eMPL 5.1"};
+00089 
+00090 \textcolor{comment}{/*! Platform-specific information. Kinda like a boardfile. */}
+00091 \textcolor{keyword}{struct} platform_data_s \{
+00092     \textcolor{keywordtype}{signed} \textcolor{keywordtype}{char} orientation[9];
+00093 \};
+00094 
+00095 \textcolor{comment}{/*! The sensors can be mounted onto the board in any orientation. The mounting}
+00096 \textcolor{comment}{ * matrix seen below tells the MPL how to rotate the raw data from the}
+00097 \textcolor{comment}{ * driver(s).}
+00098 \textcolor{comment}{ * TODO: The following matrices refer to the configuration on internal test}
+00099 \textcolor{comment}{ * boards at Invensense. If needed, please modify the matrices to match the}
+00100 \textcolor{comment}{ * chip-to-body matrix for your particular set up.}
+00101 \textcolor{comment}{ */}
+00102 \textcolor{keyword}{static} \textcolor{keyword}{struct} platform_data_s gyro_pdata = \{
+00103     .orientation = \{ 1, 0, 0,
+00104                      0, 1, 0,
+00105                      0, 0, 1\}
+00106 \};
+00107 
+00108 \textcolor{comment}{/*! Compass calibration for MPU9150 */}
+00109 \textcolor{preprocessor}{#}\textcolor{preprocessor}{if} \textcolor{preprocessor}{defined} \textcolor{preprocessor}{MPU9150} \textcolor{preprocessor}{||} \textcolor{preprocessor}{defined} \textcolor{preprocessor}{MPU9250}
+00110 \textcolor{keyword}{static} \textcolor{keyword}{struct} platform\_data\_s compass\_pdata = \{
+00111     .orientation = \{ 0, 1, 0,
+00112                      1, 0, 0,
+00113                      0, 0, -1\}
+00114 \};
+00115 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{COMPASS\_ENABLED} 1
+00116 \textcolor{preprocessor}{#}\textcolor{preprocessor}{elif} \textcolor{preprocessor}{defined} \textcolor{preprocessor}{AK8975\_SECONDARY}
+00117 \textcolor{keyword}{static} \textcolor{keyword}{struct} platform\_data\_s compass\_pdata = \{
+00118     .orientation = \{-1, 0, 0,
+00119                      0, 1, 0,
+00120                      0, 0,-1\}
+00121 \};
+00122 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{COMPASS\_ENABLED} 1
+00123 \textcolor{preprocessor}{#}\textcolor{preprocessor}{elif} \textcolor{preprocessor}{defined} \textcolor{preprocessor}{AK8963\_SECONDARY}
+00124 \textcolor{keyword}{static} \textcolor{keyword}{struct} platform\_data\_s compass\_pdata = \{
+00125     .orientation = \{-1, 0, 0,
+00126                      0,-1, 0,
+00127                      0, 0, 1\}
+00128 \};
+00129 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{COMPASS\_ENABLED} 1
+00130 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00131 
+00132 
+00133 \textcolor{comment}{/*! Private define ------------------------------------------------------------*/}
+00134 
+00135 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00136 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00137 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00138 \textcolor{comment}{/* ---------------------------------------------------------------------------*/}
+00139 \textcolor{comment}{/* Get data from MPL.}
+00140 \textcolor{comment}{ * TODO: Add return values to the inv\_get\_sensor\_type\_xxx APIs to differentiate}
+00141 \textcolor{comment}{ * between new and stale data.}
+00142 \textcolor{comment}{ */}
+00143 \textcolor{keyword}{static} \textcolor{keywordtype}{void} read_from_mpl(\textcolor{keywordtype}{void})
+00144 \{
+00145     \textcolor{comment}{/*! CLocal Variable init */}
+00146     \textcolor{keywordtype}{long} msg, data[9];
+00147     int8\_t accuracy;
+00148     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} timestamp;
+00149     \textcolor{keywordtype}{float} float\_data[3] = \{0\};
+00150 
+00151     \textcolor{keywordflow}{if} (inv\_get\_sensor\_type\_quat(data, &accuracy, (inv\_time\_t*)&timestamp)) \{
+00152        \textcolor{comment}{/*! Sends a quaternion packet to the PC. Since this is used by the Python}
+00153 \textcolor{comment}{        * test app to visually represent a 3D quaternion, it's sent each time}
+00154 \textcolor{comment}{        * the MPL has new data.}
+00155 \textcolor{comment}{        */}
+00156         eMPL\_send\_quat(data);
+00157 
+00158         \textcolor{comment}{/*! Specific data packets can be sent or suppressed using USB commands. */}
+00159         \textcolor{keywordflow}{if} (hal.report & PRINT_QUAT)
+00160             eMPL\_send\_data(PACKET\_DATA\_QUAT, data);
+00161     \}
+00162 
+00163     \textcolor{keywordflow}{if} (hal.report & PRINT_ACCEL) \{
+00164         \textcolor{keywordflow}{if} (inv\_get\_sensor\_type\_accel(data, &accuracy,
+00165             (inv\_time\_t*)&timestamp))
+00166             eMPL\_send\_data(PACKET\_DATA\_ACCEL, data);
+00167     \}
+00168     \textcolor{keywordflow}{if} (hal.report & PRINT_GYRO) \{
+00169         \textcolor{keywordflow}{if} (inv\_get\_sensor\_type\_gyro(data, &accuracy,
+00170             (inv\_time\_t*)&timestamp))
+00171             eMPL\_send\_data(PACKET\_DATA\_GYRO, data);
+00172     \}
+00173 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \textcolor{preprocessor}{COMPASS\_ENABLED}
+00174     \textcolor{keywordflow}{if} (hal.report & PRINT\_COMPASS) \{
+00175         \textcolor{keywordflow}{if} (inv\_get\_sensor\_type\_compass(data, &accuracy,
+00176             (inv\_time\_t*)&timestamp))
+00177             eMPL\_send\_data(PACKET\_DATA\_COMPASS, data);
+00178     \}
+00179 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00180     \textcolor{keywordflow}{if} (hal.report & PRINT_EULER) \{
+00181         \textcolor{keywordflow}{if} (inv\_get\_sensor\_type\_euler(data, &accuracy,
+00182             (inv\_time\_t*)&timestamp))
+00183             eMPL\_send\_data(PACKET\_DATA\_EULER, data);
+00184     \}
+00185     \textcolor{keywordflow}{if} (hal.report & PRINT_ROT_MAT) \{
+00186         \textcolor{keywordflow}{if} (inv\_get\_sensor\_type\_rot\_mat(data, &accuracy,
+00187             (inv\_time\_t*)&timestamp))
+00188             eMPL\_send\_data(PACKET\_DATA\_ROT, data);
+00189     \}
+00190     \textcolor{keywordflow}{if} (hal.report & PRINT_HEADING) \{
+00191         \textcolor{keywordflow}{if} (inv\_get\_sensor\_type\_heading(data, &accuracy,
+00192             (inv\_time\_t*)&timestamp))
+00193             eMPL\_send\_data(PACKET\_DATA\_HEADING, data);
+00194     \}
+00195     \textcolor{keywordflow}{if} (hal.report & PRINT_LINEAR_ACCEL) \{
+00196         \textcolor{keywordflow}{if} (inv\_get\_sensor\_type\_linear\_acceleration(float\_data, &accuracy, (inv\_time\_t*)&timestamp)) \{
+00197             MPL\_LOGI(\textcolor{stringliteral}{"Linear Accel: %7.5f %7.5f %7.5f\(\backslash\)r\(\backslash\)n"},
+00198                     float\_data[0], float\_data[1], float\_data[2]);
+00199          \}
+00200     \}
+00201     \textcolor{keywordflow}{if} (hal.report & PRINT_GRAVITY_VECTOR) \{
+00202             \textcolor{keywordflow}{if} (inv\_get\_sensor\_type\_gravity(float\_data, &accuracy,
+00203                 (inv\_time\_t*)&timestamp))
+00204                 MPL\_LOGI(\textcolor{stringliteral}{"Gravity Vector: %7.5f %7.5f %7.5f\(\backslash\)r\(\backslash\)n"},
+00205                         float\_data[0], float\_data[1], float\_data[2]);
+00206     \}
+00207     \textcolor{keywordflow}{if} (hal.report & PRINT_PEDO) \{
+00208         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} timestamp;
+00209         get_tick_count(&timestamp);
+00210         \textcolor{keywordflow}{if} (timestamp > hal.next_pedo_ms) \{
+00211             hal.next_pedo_ms = timestamp + PEDO_READ_MS;
+00212             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} step\_count, walk\_time;
+00213             dmp\_get\_pedometer\_step\_count(&step\_count);
+00214             dmp\_get\_pedometer\_walk\_time(&walk\_time);
+00215             MPL\_LOGI(\textcolor{stringliteral}{"Walked %ld steps over %ld milliseconds..\(\backslash\)n"}, step\_count,
+00216             walk\_time);
+00217         \}
+00218     \}
+00219 
+00220     \textcolor{comment}{/*! Whenever the MPL detects a change in motion state, the application can}
+00221 \textcolor{comment}{     * be notified. For this example, we use an LED to represent the current}
+00222 \textcolor{comment}{     * motion state.}
+00223 \textcolor{comment}{     */}
+00224     msg = inv\_get\_message\_level\_0(INV\_MSG\_MOTION\_EVENT |
+00225             INV\_MSG\_NO\_MOTION\_EVENT);
+00226     \textcolor{keywordflow}{if} (msg) \{
+00227         \textcolor{keywordflow}{if} (msg & INV\_MSG\_MOTION\_EVENT) \{
+00228             MPL\_LOGI(\textcolor{stringliteral}{"Motion!\(\backslash\)n"});
+00229         \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (msg & INV\_MSG\_NO\_MOTION\_EVENT) \{
+00230             MPL\_LOGI(\textcolor{stringliteral}{"No motion!\(\backslash\)n"});
+00231         \}
+00232     \}
+00233 \}
+00234 
+00235 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \textcolor{preprocessor}{COMPASS\_ENABLED}
+00236 \textcolor{keywordtype}{void} send\_status\_compass() \{
+00237     \textcolor{keywordtype}{long} data[3] = \{ 0 \};
+00238     int8\_t accuracy = \{ 0 \};
+00239     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} timestamp;
+00240     inv\_get\_compass\_set(data, &accuracy, (inv\_time\_t*) &timestamp);
+00241     MPL\_LOGI(\textcolor{stringliteral}{"Compass: %7.4f %7.4f %7.4f "},
+00242             data[0]/65536.f, data[1]/65536.f, data[2]/65536.f);
+00243     MPL\_LOGI(\textcolor{stringliteral}{"Accuracy= %d\(\backslash\)r\(\backslash\)n"}, accuracy);
+00244 
+00245 \}
+00246 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00247 
+00248 \textcolor{comment}{/*! Handle sensor on/off combinations. */}
+00249 \textcolor{keyword}{static} \textcolor{keywordtype}{void} setup_gyro(\textcolor{keywordtype}{void})
+00250 \{
+00251     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} mask = 0, lp\_accel\_was\_on = 0;
+00252     \textcolor{keywordflow}{if} (hal.sensors & ACCEL_ON)
+00253         mask |= INV\_XYZ\_ACCEL;
+00254     \textcolor{keywordflow}{if} (hal.sensors & GYRO_ON) \{
+00255         mask |= INV\_XYZ\_GYRO;
+00256         lp\_accel\_was\_on |= hal.lp_accel_mode;
+00257     \}
+00258 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \textcolor{preprocessor}{COMPASS\_ENABLED}
+00259     \textcolor{keywordflow}{if} (hal.sensors & COMPASS\_ON) \{
+00260         mask |= INV\_XYZ\_COMPASS;
+00261         lp\_accel\_was\_on |= hal.lp\_accel\_mode;
+00262     \}
+00263 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00264     \textcolor{comment}{/*! If you need a power transition, this function should be called with a}
+00265 \textcolor{comment}{     * mask of the sensors still enabled. The driver turns off any sensors}
+00266 \textcolor{comment}{     * excluded from this mask.}
+00267 \textcolor{comment}{     */}
+00268     mpu\_set\_sensors(mask);
+00269     mpu\_configure\_fifo(mask);
+00270     \textcolor{keywordflow}{if} (lp\_accel\_was\_on) \{
+00271         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} rate;
+00272         hal.lp_accel_mode = 0;
+00273         \textcolor{comment}{/*! Switching out of LP accel, notify MPL of new accel sampling rate. */}
+00274         mpu\_get\_sample\_rate(&rate);
+00275         inv\_set\_accel\_sample\_rate(1000000L / rate);
+00276     \}
+00277 \}
+00278 
+00279 \textcolor{keyword}{static} \textcolor{keywordtype}{void} tap_cb(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} direction, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} count)
+00280 \{
+00281     \textcolor{keywordflow}{switch} (direction) \{
+00282     \textcolor{keywordflow}{case} TAP\_X\_UP:
+00283         MPL\_LOGI(\textcolor{stringliteral}{"Tap X+ "});
+00284         \textcolor{keywordflow}{break};
+00285     \textcolor{keywordflow}{case} TAP\_X\_DOWN:
+00286         MPL\_LOGI(\textcolor{stringliteral}{"Tap X- "});
+00287         \textcolor{keywordflow}{break};
+00288     \textcolor{keywordflow}{case} TAP\_Y\_UP:
+00289         MPL\_LOGI(\textcolor{stringliteral}{"Tap Y+ "});
+00290         \textcolor{keywordflow}{break};
+00291     \textcolor{keywordflow}{case} TAP\_Y\_DOWN:
+00292         MPL\_LOGI(\textcolor{stringliteral}{"Tap Y- "});
+00293         \textcolor{keywordflow}{break};
+00294     \textcolor{keywordflow}{case} TAP\_Z\_UP:
+00295         MPL\_LOGI(\textcolor{stringliteral}{"Tap Z+ "});
+00296         \textcolor{keywordflow}{break};
+00297     \textcolor{keywordflow}{case} TAP\_Z\_DOWN:
+00298         MPL\_LOGI(\textcolor{stringliteral}{"Tap Z- "});
+00299         \textcolor{keywordflow}{break};
+00300     \textcolor{keywordflow}{default}:
+00301         \textcolor{keywordflow}{return};
+00302     \}
+00303     MPL\_LOGI(\textcolor{stringliteral}{"x%d\(\backslash\)n"}, count);
+00304     \textcolor{keywordflow}{return};
+00305 \}
+00306 \textcolor{comment}{/*! If you want to connect IMU}
+00307 \textcolor{comment}{ *  with Android mobile device}
+00308 \textcolor{comment}{ *  via bluetooth then this function}
+00309 \textcolor{comment}{ *  should be called */}
+00310 \textcolor{keyword}{static} \textcolor{keywordtype}{void} android_orient_cb(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} orientation)
+00311 \{
+00312     \textcolor{keywordflow}{switch} (orientation) \{
+00313     \textcolor{keywordflow}{case} ANDROID\_ORIENT\_PORTRAIT:
+00314         MPL\_LOGI(\textcolor{stringliteral}{"Portrait\(\backslash\)n"});
+00315         \textcolor{keywordflow}{break};
+00316     \textcolor{keywordflow}{case} ANDROID\_ORIENT\_LANDSCAPE:
+00317         MPL\_LOGI(\textcolor{stringliteral}{"Landscape\(\backslash\)n"});
+00318         \textcolor{keywordflow}{break};
+00319     \textcolor{keywordflow}{case} ANDROID\_ORIENT\_REVERSE\_PORTRAIT:
+00320         MPL\_LOGI(\textcolor{stringliteral}{"Reverse Portrait\(\backslash\)n"});
+00321         \textcolor{keywordflow}{break};
+00322     \textcolor{keywordflow}{case} ANDROID\_ORIENT\_REVERSE\_LANDSCAPE:
+00323         MPL\_LOGI(\textcolor{stringliteral}{"Reverse Landscape\(\backslash\)n"});
+00324         \textcolor{keywordflow}{break};
+00325     \textcolor{keywordflow}{default}:
+00326         \textcolor{keywordflow}{return};
+00327     \}
+00328 \}
+00329 
+00330 \textcolor{comment}{/*! Self Test Function}
+00331 \textcolor{comment}{ *}
+00332 \textcolor{comment}{ */}
+00333 \textcolor{keyword}{static} \textcolor{keyword}{inline} \textcolor{keywordtype}{void} run_self_test(\textcolor{keywordtype}{void})
+00334 \{
+00335     \textcolor{keywordtype}{int} result;
+00336     \textcolor{keywordtype}{long} gyro[3], accel[3];
+00337 
+00338 \textcolor{preprocessor}{#}\textcolor{preprocessor}{if} \textcolor{preprocessor}{defined} \textcolor{preprocessor}{(}\textcolor{preprocessor}{MPU6500}\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{defined} \textcolor{preprocessor}{(}\textcolor{preprocessor}{MPU9250}\textcolor{preprocessor}{)}
+00339     result = mpu\_run\_6500\_self\_test(gyro, accel, 0);
+00340 \textcolor{preprocessor}{#}\textcolor{preprocessor}{elif} \textcolor{preprocessor}{defined} \textcolor{preprocessor}{(}\textcolor{preprocessor}{MPU6050}\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{defined} \textcolor{preprocessor}{(}\textcolor{preprocessor}{MPU9150}\textcolor{preprocessor}{)}
+00341     result = mpu\_run\_self\_test(gyro, accel);
+00342 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00343     \textcolor{keywordflow}{if} (result == 0x7) \{
+00344     MPL\_LOGI(\textcolor{stringliteral}{"Passed!\(\backslash\)n"});
+00345         MPL\_LOGI(\textcolor{stringliteral}{"accel: %7.4f %7.4f %7.4f\(\backslash\)n"},
+00346                     accel[0]/65536.f,
+00347                     accel[1]/65536.f,
+00348                     accel[2]/65536.f);
+00349         MPL\_LOGI(\textcolor{stringliteral}{"gyro: %7.4f %7.4f %7.4f\(\backslash\)n"},
+00350                     gyro[0]/65536.f,
+00351                     gyro[1]/65536.f,
+00352                     gyro[2]/65536.f);
+00353         \textcolor{comment}{/*! Test passed. We can trust the gyro data here, so now we need to update calibrated data*/}
+00354 
+00355 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \textcolor{preprocessor}{USE\_CAL\_HW\_REGISTERS}
+00356         \textcolor{comment}{/*!}
+00357 \textcolor{comment}{         * This portion of the code uses the HW offset registers that are in the MPUxxxx devices}
+00358 \textcolor{comment}{         * instead of pushing the cal data to the MPL software library}
+00359 \textcolor{comment}{         */}
+00360         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} i = 0;
+00361 
+00362         \textcolor{keywordflow}{for}(i = 0; i<3; i++) \{
+00363             gyro[i] = (\textcolor{keywordtype}{long})(gyro[i] * 32.8f); \textcolor{comment}{//convert to +-1000dps}
+00364             accel[i] *= 2048.f; \textcolor{comment}{//convert to +-16G}
+00365             accel[i] = accel[i] >> 16;
+00366             gyro[i] = (\textcolor{keywordtype}{long})(gyro[i] >> 16);
+00367         \}
+00368 
+00369         mpu\_set\_gyro\_bias\_reg(gyro);
+00370 
+00371 \textcolor{preprocessor}{#}\textcolor{preprocessor}{if} \textcolor{preprocessor}{defined} \textcolor{preprocessor}{(}\textcolor{preprocessor}{MPU6500}\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{defined} \textcolor{preprocessor}{(}\textcolor{preprocessor}{MPU9250}\textcolor{preprocessor}{)}
+00372         mpu\_set\_accel\_bias\_6500\_reg(accel);
+00373 \textcolor{preprocessor}{#}\textcolor{preprocessor}{elif} \textcolor{preprocessor}{defined} \textcolor{preprocessor}{(}\textcolor{preprocessor}{MPU6050}\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{defined} \textcolor{preprocessor}{(}\textcolor{preprocessor}{MPU9150}\textcolor{preprocessor}{)}
+00374         mpu\_set\_accel\_bias\_6050\_reg(accel);
+00375 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00376 \textcolor{preprocessor}{#}\textcolor{preprocessor}{else}
+00377         \textcolor{comment}{/* Push the calibrated data to the MPL library.}
+00378 \textcolor{comment}{         *}
+00379 \textcolor{comment}{         * MPL expects biases in hardware units << 16, but self test returns}
+00380 \textcolor{comment}{         * biases in g's << 16.}
+00381 \textcolor{comment}{         */}
+00382         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} accel\_sens;
+00383         \textcolor{keywordtype}{float} gyro\_sens;
+00384 
+00385         mpu\_get\_accel\_sens(&accel\_sens);
+00386         accel[0] *= accel\_sens;
+00387         accel[1] *= accel\_sens;
+00388         accel[2] *= accel\_sens;
+00389         inv\_set\_accel\_bias(accel, 3);
+00390         mpu\_get\_gyro\_sens(&gyro\_sens);
+00391         gyro[0] = (\textcolor{keywordtype}{long}) (gyro[0] * gyro\_sens);
+00392         gyro[1] = (\textcolor{keywordtype}{long}) (gyro[1] * gyro\_sens);
+00393         gyro[2] = (\textcolor{keywordtype}{long}) (gyro[2] * gyro\_sens);
+00394         inv\_set\_gyro\_bias(gyro, 3);
+00395 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00396     \}
+00397     \textcolor{keywordflow}{else} \{
+00398             \textcolor{keywordflow}{if} (!(result & 0x1))
+00399                 MPL\_LOGE(\textcolor{stringliteral}{"Gyro failed.\(\backslash\)n"});
+00400             \textcolor{keywordflow}{if} (!(result & 0x2))
+00401                 MPL\_LOGE(\textcolor{stringliteral}{"Accel failed.\(\backslash\)n"});
+00402             \textcolor{keywordflow}{if} (!(result & 0x4))
+00403                 MPL\_LOGE(\textcolor{stringliteral}{"Compass failed.\(\backslash\)n"});
+00404      \}
+00405 
+00406 \}
+00407 
+00408 \textcolor{keyword}{static} \textcolor{keywordtype}{void} handle_input(\textcolor{keywordtype}{void})
+00409 \{
+00410 
+00411     \textcolor{keywordtype}{char} c = USART_ReceiveData(USART1);
+00412     \textcolor{comment}{//char c = USART\_ReceiveData(USART2);}
+00413     \textcolor{keywordflow}{switch} (c) \{
+00414     \textcolor{comment}{/*! These commands turn off individual sensors. */}
+00415     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'8'}:
+00416         hal.sensors ^= ACCEL_ON;
+00417         setup_gyro();
+00418         \textcolor{keywordflow}{if} (!(hal.sensors & ACCEL_ON))
+00419             inv\_accel\_was\_turned\_off();
+00420         \textcolor{keywordflow}{break};
+00421     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'9'}:
+00422         hal.sensors ^= GYRO_ON;
+00423         setup_gyro();
+00424         \textcolor{keywordflow}{if} (!(hal.sensors & GYRO_ON))
+00425             inv\_gyro\_was\_turned\_off();
+00426         \textcolor{keywordflow}{break};
+00427 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \textcolor{preprocessor}{COMPASS\_ENABLED}
+00428     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'0'}:
+00429         hal.sensors ^= COMPASS\_ON;
+00430         setup\_gyro();
+00431         \textcolor{keywordflow}{if} (!(hal.sensors & COMPASS\_ON))
+00432             inv\_compass\_was\_turned\_off();
+00433         \textcolor{keywordflow}{break};
+00434 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00435     \textcolor{comment}{/*! The commands send individual sensor data or fused data to the PC. */}
+00436     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'a'}:
+00437         hal.report ^= PRINT_ACCEL;
+00438         \textcolor{keywordflow}{break};
+00439     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'g'}:
+00440         hal.report ^= PRINT_GYRO;
+00441         \textcolor{keywordflow}{break};
+00442 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \textcolor{preprocessor}{COMPASS\_ENABLED}
+00443     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'c'}:
+00444         hal.report ^= PRINT\_COMPASS;
+00445         \textcolor{keywordflow}{break};
+00446 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00447     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'e'}:
+00448         hal.report ^= PRINT_EULER;
+00449         \textcolor{keywordflow}{break};
+00450     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'r'}:
+00451         hal.report ^= PRINT_ROT_MAT;
+00452         \textcolor{keywordflow}{break};
+00453     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'q'}:
+00454         hal.report ^= PRINT_QUAT;
+00455         \textcolor{keywordflow}{break};
+00456     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'h'}:
+00457         hal.report ^= PRINT_HEADING;
+00458         \textcolor{keywordflow}{break};
+00459     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'i'}:
+00460         hal.report ^= PRINT_LINEAR_ACCEL;
+00461         \textcolor{keywordflow}{break};
+00462     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'o'}:
+00463         hal.report ^= PRINT_GRAVITY_VECTOR;
+00464         \textcolor{keywordflow}{break};
+00465 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \textcolor{preprocessor}{COMPASS\_ENABLED}
+00466     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'w'}:
+00467         send\_status\_compass();
+00468         \textcolor{keywordflow}{break};
+00469 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00470     \textcolor{comment}{/*! This command prints out the value of each gyro register for debugging.}
+00471 \textcolor{comment}{     * If logging is disabled, this function has no effect.}
+00472 \textcolor{comment}{     */}
+00473     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'d'}:
+00474         mpu\_reg\_dump();
+00475         \textcolor{keywordflow}{break};
+00476     \textcolor{comment}{/* Test out low-power accel mode. */}
+00477     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'p'}:
+00478         \textcolor{keywordflow}{if} (hal.dmp_on)
+00479             \textcolor{comment}{/* LP accel is not compatible with the DMP. */}
+00480             \textcolor{keywordflow}{break};
+00481         mpu\_lp\_accel\_mode(20);
+00482         \textcolor{comment}{/*! When LP accel mode is enabled, the driver automatically configures}
+00483 \textcolor{comment}{         * the hardware for latched interrupts. However, the MCU sometimes}
+00484 \textcolor{comment}{         * misses the rising/falling edge, and the hal.new\_gyro flag is never}
+00485 \textcolor{comment}{         * set. To avoid getting locked in this state, we're overriding the}
+00486 \textcolor{comment}{         *}
+00487 \textcolor{comment}{         * TODO: The MCU supports level-triggered interrupts.}
+00488 \textcolor{comment}{         */}
+00489         mpu\_set\_int\_latched(0);
+00490         hal.sensors &= ~(GYRO_ON|COMPASS_ON);
+00491         hal.sensors |= ACCEL_ON;
+00492         hal.lp_accel_mode = 1;
+00493         inv\_gyro\_was\_turned\_off();
+00494         inv\_compass\_was\_turned\_off();
+00495         \textcolor{keywordflow}{break};
+00496     \textcolor{comment}{/*! The hardware self test can be run without any interaction with the}
+00497 \textcolor{comment}{     * MPL since it's completely localized in the gyro driver. Logging is}
+00498 \textcolor{comment}{     * assumed to be enabled; otherwise, a couple LEDs could probably be used}
+00499 \textcolor{comment}{     * here to display the test results.}
+00500 \textcolor{comment}{     */}
+00501     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'t'}:
+00502         run_self_test();
+00503         \textcolor{comment}{/*! Let MPL know that contiguity was broken. */}
+00504         inv\_accel\_was\_turned\_off();
+00505         inv\_gyro\_was\_turned\_off();
+00506         inv\_compass\_was\_turned\_off();
+00507         \textcolor{keywordflow}{break};
+00508     \textcolor{comment}{/*! Depending on your application, sensor data may be needed at a faster or}
+00509 \textcolor{comment}{     * slower rate. These commands can speed up or slow down the rate at which}
+00510 \textcolor{comment}{     * the sensor data is pushed to the MPL.}
+00511 \textcolor{comment}{     *}
+00512 \textcolor{comment}{     * In this example, the compass rate is never changed.}
+00513 \textcolor{comment}{     */}
+00514     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'1'}:
+00515         \textcolor{keywordflow}{if} (hal.dmp_on) \{
+00516             dmp\_set\_fifo\_rate(10);
+00517             inv\_set\_quat\_sample\_rate(100000L);
+00518         \} \textcolor{keywordflow}{else}
+00519             mpu\_set\_sample\_rate(10);
+00520         inv\_set\_gyro\_sample\_rate(100000L);
+00521         inv\_set\_accel\_sample\_rate(100000L);
+00522         \textcolor{keywordflow}{break};
+00523     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'2'}:
+00524         \textcolor{keywordflow}{if} (hal.dmp_on) \{
+00525             dmp\_set\_fifo\_rate(20);
+00526             inv\_set\_quat\_sample\_rate(50000L);
+00527         \} \textcolor{keywordflow}{else}
+00528             mpu\_set\_sample\_rate(20);
+00529         inv\_set\_gyro\_sample\_rate(50000L);
+00530         inv\_set\_accel\_sample\_rate(50000L);
+00531         \textcolor{keywordflow}{break};
+00532     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'3'}:
+00533         \textcolor{keywordflow}{if} (hal.dmp_on) \{
+00534             dmp\_set\_fifo\_rate(40);
+00535             inv\_set\_quat\_sample\_rate(25000L);
+00536         \} \textcolor{keywordflow}{else}
+00537             mpu\_set\_sample\_rate(40);
+00538         inv\_set\_gyro\_sample\_rate(25000L);
+00539         inv\_set\_accel\_sample\_rate(25000L);
+00540         \textcolor{keywordflow}{break};
+00541     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'4'}:
+00542         \textcolor{keywordflow}{if} (hal.dmp_on) \{
+00543             dmp\_set\_fifo\_rate(50);
+00544             inv\_set\_quat\_sample\_rate(20000L);
+00545         \} \textcolor{keywordflow}{else}
+00546             mpu\_set\_sample\_rate(50);
+00547         inv\_set\_gyro\_sample\_rate(20000L);
+00548         inv\_set\_accel\_sample\_rate(20000L);
+00549         \textcolor{keywordflow}{break};
+00550     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'5'}:
+00551         \textcolor{keywordflow}{if} (hal.dmp_on) \{
+00552             dmp\_set\_fifo\_rate(100);
+00553             inv\_set\_quat\_sample\_rate(10000L);
+00554         \} \textcolor{keywordflow}{else}
+00555             mpu\_set\_sample\_rate(100);
+00556         inv\_set\_gyro\_sample\_rate(10000L);
+00557         inv\_set\_accel\_sample\_rate(10000L);
+00558         \textcolor{keywordflow}{break};
+00559     \textcolor{keywordflow}{case} \textcolor{stringliteral}{','}:
+00560         \textcolor{comment}{/*! Set hardware to interrupt on gesture event only. This feature is}
+00561 \textcolor{comment}{         * useful for keeping the MCU asleep until the DMP detects as a tap or}
+00562 \textcolor{comment}{         * orientation event.}
+00563 \textcolor{comment}{         */}
+00564         dmp\_set\_interrupt\_mode(DMP\_INT\_GESTURE);
+00565         \textcolor{keywordflow}{break};
+00566     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'.'}:
+00567         \textcolor{comment}{/*! Set hardware to interrupt periodically. */}
+00568 
+00569         dmp\_set\_interrupt\_mode(DMP\_INT\_CONTINUOUS);
+00570         \textcolor{keywordflow}{break};
+00571     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'6'}:
+00572         \textcolor{comment}{/*! Toggle pedometer display. */}
+00573         hal.report ^= PRINT_PEDO;
+00574         \textcolor{keywordflow}{break};
+00575     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'7'}:
+00576         \textcolor{comment}{/*! Reset pedometer. */}
+00577         dmp\_set\_pedometer\_step\_count(0);
+00578         dmp\_set\_pedometer\_walk\_time(0);
+00579         \textcolor{keywordflow}{break};
+00580     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'f'}:
+00581         \textcolor{keywordflow}{if} (hal.lp_accel_mode)
+00582             \textcolor{comment}{/*! LP accel is not compatible with the DMP. */}
+00583             \textcolor{keywordflow}{return};
+00584         \textcolor{comment}{/*! Toggle DMP. */}
+00585         \textcolor{keywordflow}{if} (hal.dmp_on) \{
+00586             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} dmp\_rate;
+00587             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} mask = 0;
+00588             hal.dmp_on = 0;
+00589             mpu\_set\_dmp\_state(0);
+00590             \textcolor{comment}{/*! Restore FIFO settings. */}
+00591             \textcolor{keywordflow}{if} (hal.sensors & ACCEL_ON)
+00592                 mask |= INV\_XYZ\_ACCEL;
+00593             \textcolor{keywordflow}{if} (hal.sensors & GYRO_ON)
+00594                 mask |= INV\_XYZ\_GYRO;
+00595             \textcolor{keywordflow}{if} (hal.sensors & COMPASS_ON)
+00596                 mask |= INV\_XYZ\_COMPASS;
+00597             mpu\_configure\_fifo(mask);
+00598             \textcolor{comment}{/*! When the DMP is used, the hardware sampling rate is fixed at}
+00599 \textcolor{comment}{             * 200Hz, and the DMP is configured to downsample the FIFO output}
+00600 \textcolor{comment}{             * using the function dmp\_set\_fifo\_rate. However, when the DMP is}
+00601 \textcolor{comment}{             * turned off, the sampling rate remains at 200Hz. This could be}
+00602 \textcolor{comment}{             * handled in inv\_mpu.c, but it would need to know that}
+00603 \textcolor{comment}{             * inv\_mpu\_dmp\_motion\_driver.c exists. To avoid this, we'll just}
+00604 \textcolor{comment}{             * put the extra logic in the application layer.}
+00605 \textcolor{comment}{             */}
+00606             dmp\_get\_fifo\_rate(&dmp\_rate);
+00607             mpu\_set\_sample\_rate(dmp\_rate);
+00608             inv\_quaternion\_sensor\_was\_turned\_off();
+00609             MPL\_LOGI(\textcolor{stringliteral}{"DMP disabled.\(\backslash\)n"});
+00610         \} \textcolor{keywordflow}{else} \{
+00611             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} sample\_rate;
+00612             hal.dmp_on = 1;
+00613             \textcolor{comment}{/*! Preserve current FIFO rate. */}
+00614             mpu\_get\_sample\_rate(&sample\_rate);
+00615             dmp\_set\_fifo\_rate(sample\_rate);
+00616             inv\_set\_quat\_sample\_rate(1000000L / sample\_rate);
+00617             mpu\_set\_dmp\_state(1);
+00618             MPL\_LOGI(\textcolor{stringliteral}{"DMP enabled.\(\backslash\)n"});
+00619         \}
+00620         \textcolor{keywordflow}{break};
+00621     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'m'}:
+00622         \textcolor{comment}{/*! Test the motion interrupt hardware feature. */}
+00623     \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{MPU6050} \textcolor{comment}{//! not enabled for 6050 product}
+00624     hal.motion_int_mode = 1;
+00625     \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00626         \textcolor{keywordflow}{break};
+00627 
+00628     \textcolor{keywordflow}{case} \textcolor{stringliteral}{'v'}:
+00629         \textcolor{comment}{/*! Toggle LP quaternion.}
+00630 \textcolor{comment}{         * The DMP features can be enabled/disabled at runtime. Use this same}
+00631 \textcolor{comment}{         * approach for other features.}
+00632 \textcolor{comment}{         */}
+00633         hal.dmp\_features ^= DMP\_FEATURE\_6X\_LP\_QUAT;
+00634         dmp\_enable\_feature(hal.dmp\_features);
+00635         \textcolor{keywordflow}{if} (!(hal.dmp\_features & DMP\_FEATURE\_6X\_LP\_QUAT)) \{
+00636             inv\_quaternion\_sensor\_was\_turned\_off();
+00637             MPL\_LOGI(\textcolor{stringliteral}{"LP quaternion disabled.\(\backslash\)n"});
+00638         \} \textcolor{keywordflow}{else}
+00639             MPL\_LOGI(\textcolor{stringliteral}{"LP quaternion enabled.\(\backslash\)n"});
+00640         \textcolor{keywordflow}{break};
+00641     \textcolor{keywordflow}{default}:
+00642         \textcolor{keywordflow}{break};
+00643     \}
+00644     hal.rx.cmd = 0;
+00645 \}
+00646 
+00647 \textcolor{comment}{/*! Every time new gyro data is available, this function is called in an}
+00648 \textcolor{comment}{ * ISR context. In this example, it sets a flag protecting the FIFO read}
+00649 \textcolor{comment}{ * function.}
+00650 \textcolor{comment}{ */}
+00651 \textcolor{keywordtype}{void} gyro_data_ready_cb(\textcolor{keywordtype}{void})
+00652 \{
+00653     hal.new_gyro = 1;
+00654 
+00655 \}
+00656 \textcolor{comment}{/*******************************************************************************/}
+00657 
+00658 \textcolor{comment}{/*!}
+00659 \textcolor{comment}{  * @brief main entry point.}
+00660 \textcolor{comment}{  * @par Parameters None}
+00661 \textcolor{comment}{  * @retval void None}
+00662 \textcolor{comment}{  * @par Required preconditions: None}
+00663 \textcolor{comment}{  */}
+00664 
+00665 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{void})
+00666 \{
+00667     \textcolor{comment}{/*! Variable Declaration */}
+00668     inv\_error\_t result;
+00669     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} accel\_fsr,  new\_temp = 0;
+00670     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} gyro\_rate, gyro\_fsr;
+00671     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} timestamp;
+00672     \textcolor{keyword}{struct} int\_param\_s int\_param;
+00673 
+00674 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \textcolor{preprocessor}{COMPASS\_ENABLED}
+00675     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} new\_compass = 0;
+00676     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} compass\_fsr;
+00677 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00678     board_init();
+00679 
+00680   result = mpu\_init(&int\_param);
+00681   \textcolor{keywordflow}{if} (result) \{
+00682       MPL\_LOGE(\textcolor{stringliteral}{"Could not initialize gyro.\(\backslash\)n"});
+00683   \}
+00684   \textcolor{keywordflow}{else} \{
+00685       MPL\_LOGE(\textcolor{stringliteral}{"Initialise gyro successful.\(\backslash\)n"});
+00686     \}
+00687 
+00688 
+00689     \textcolor{comment}{/*! If you're not using an MPU9150 AND you're not using DMP features, this}
+00690 \textcolor{comment}{     * function will place all slaves on the primary bus.}
+00691 \textcolor{comment}{     * mpu\_set\_bypass(1);}
+00692 \textcolor{comment}{     */}
+00693 
+00694   result = inv\_init\_mpl();
+00695   \textcolor{keywordflow}{if} (result) \{
+00696       MPL\_LOGE(\textcolor{stringliteral}{"Could not initialize MPL.\(\backslash\)n"});
+00697   \}
+00698   \textcolor{keywordflow}{else} \{
+00699       MPL\_LOGE(\textcolor{stringliteral}{"Initialise MPL successful.\(\backslash\)n"});
+00700   \}
+00701 
+00702     \textcolor{comment}{/*! Compute 6-axis and 9-axis quaternions. */}
+00703     inv\_enable\_quaternion();
+00704     inv\_enable\_9x\_sensor\_fusion();
+00705     \textcolor{comment}{/*! The MPL expects compass data at a constant rate (matching the rate}
+00706 \textcolor{comment}{     * passed to inv\_set\_compass\_sample\_rate). If this is an issue for your}
+00707 \textcolor{comment}{     * application, call this function, and the MPL will depend on the}
+00708 \textcolor{comment}{     * timestamps passed to inv\_build\_compass instead.}
+00709 \textcolor{comment}{     *}
+00710 \textcolor{comment}{     * inv\_9x\_fusion\_use\_timestamps(1);}
+00711 \textcolor{comment}{     */}
+00712 
+00713     \textcolor{comment}{/*! This function has been deprecated.}
+00714 \textcolor{comment}{     * inv\_enable\_no\_gyro\_fusion();}
+00715 \textcolor{comment}{     */}
+00716 
+00717     \textcolor{comment}{/*! Update gyro biases when not in motion.}
+00718 \textcolor{comment}{     * WARNING: These algorithms are mutually exclusive.}
+00719 \textcolor{comment}{     */}
+00720     inv\_enable\_fast\_nomot();
+00721     \textcolor{comment}{/*! inv\_enable\_motion\_no\_motion(); */}
+00722     \textcolor{comment}{/*! inv\_set\_no\_motion\_time(1000); */}
+00723 
+00724     \textcolor{comment}{/*! Update gyro biases when temperature changes. */}
+00725     inv\_enable\_gyro\_tc();
+00726 
+00727     \textcolor{comment}{/*! This algorithm updates the accel biases when in motion. A more accurate}
+00728 \textcolor{comment}{     * bias measurement can be made when running the self-test (see case 't' in}
+00729 \textcolor{comment}{     * handle\_input), but this algorithm can be enabled if the self-test can't}
+00730 \textcolor{comment}{     * be executed in your application.}
+00731 \textcolor{comment}{     *}
+00732 \textcolor{comment}{     * inv\_enable\_in\_use\_auto\_calibration();}
+00733 \textcolor{comment}{     */}
+00734 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \textcolor{preprocessor}{COMPASS\_ENABLED}
+00735     \textcolor{comment}{/*! Compass calibration algorithms. */}
+00736     inv\_enable\_vector\_compass\_cal();
+00737     inv\_enable\_magnetic\_disturbance();
+00738 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00739     \textcolor{comment}{/*! If you need to estimate your heading before the compass is calibrated,}
+00740 \textcolor{comment}{     * enable this algorithm. It becomes useless after a good figure-eight is}
+00741 \textcolor{comment}{     * detected, so we'll just leave it out to save memory.}
+00742 \textcolor{comment}{     * inv\_enable\_heading\_from\_gyro();}
+00743 \textcolor{comment}{     */}
+00744 
+00745     \textcolor{comment}{/*! Allows use of the MPL APIs in read\_from\_mpl. */}
+00746     inv\_enable\_eMPL\_outputs();
+00747 
+00748   result = inv\_start\_mpl();
+00749   \textcolor{keywordflow}{if} (result == INV\_ERROR\_NOT\_AUTHORIZED) \{
+00750       \textcolor{keywordflow}{while} (1) \{
+00751           MPL\_LOGE(\textcolor{stringliteral}{"Not authorized.\(\backslash\)n"});
+00752       \}
+00753   \}
+00754   \textcolor{keywordflow}{if} (result) \{
+00755       MPL\_LOGE(\textcolor{stringliteral}{"Could not start the MPL.\(\backslash\)n"});
+00756   \}
+00757 
+00758     \textcolor{comment}{/*! Get/set hardware configuration. Start gyro. */}
+00759     \textcolor{comment}{/*! Wake up all sensors. */}
+00760 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \textcolor{preprocessor}{COMPASS\_ENABLED}
+00761     mpu\_set\_sensors(INV\_XYZ\_GYRO | INV\_XYZ\_ACCEL | INV\_XYZ\_COMPASS);
+00762 \textcolor{preprocessor}{#}\textcolor{preprocessor}{else}
+00763     mpu\_set\_sensors(INV\_XYZ\_GYRO | INV\_XYZ\_ACCEL);
+00764 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00765     \textcolor{comment}{/*! Push both gyro and accel data into the FIFO. */}
+00766     mpu\_configure\_fifo(INV\_XYZ\_GYRO | INV\_XYZ\_ACCEL);
+00767     mpu\_set\_sample\_rate(DEFAULT_MPU_HZ);
+00768 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \textcolor{preprocessor}{COMPASS\_ENABLED}
+00769     \textcolor{comment}{/*! The compass sampling rate can be less than the gyro/accel sampling rate.}
+00770 \textcolor{comment}{     * Use this function for proper power management.}
+00771 \textcolor{comment}{     */}
+00772     mpu\_set\_compass\_sample\_rate(1000 / COMPASS\_READ\_MS);
+00773 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00774     \textcolor{comment}{/*! Read back configuration in case it was set improperly. */}
+00775     mpu\_get\_sample\_rate(&gyro\_rate);
+00776     mpu\_get\_gyro\_fsr(&gyro\_fsr);
+00777     mpu\_get\_accel\_fsr(&accel\_fsr);
+00778 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \textcolor{preprocessor}{COMPASS\_ENABLED}
+00779     mpu\_get\_compass\_fsr(&compass\_fsr);
+00780 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00781     \textcolor{comment}{/*! Sync driver configuration with MPL. */}
+00782     \textcolor{comment}{/*! Sample rate expected in microseconds. */}
+00783     inv\_set\_gyro\_sample\_rate(1000000L / gyro\_rate);
+00784     inv\_set\_accel\_sample\_rate(1000000L / gyro\_rate);
+00785 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \textcolor{preprocessor}{COMPASS\_ENABLED}
+00786     \textcolor{comment}{/* The compass rate is independent of the gyro and accel rates. As long as}
+00787 \textcolor{comment}{     * inv\_set\_compass\_sample\_rate is called with the correct value, the 9-axis}
+00788 \textcolor{comment}{     * fusion algorithm's compass correction gain will work properly.}
+00789 \textcolor{comment}{     */}
+00790     inv\_set\_compass\_sample\_rate(COMPASS\_READ\_MS * 1000L);
+00791 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00792     \textcolor{comment}{/*! Set chip-to-body orientation matrix.}
+00793 \textcolor{comment}{     * Set hardware units to dps/g's/degrees scaling factor.}
+00794 \textcolor{comment}{     */}
+00795     inv\_set\_gyro\_orientation\_and\_scale(
+00796             inv\_orientation\_matrix\_to\_scalar(gyro\_pdata.orientation),
+00797             (\textcolor{keywordtype}{long})gyro\_fsr<<15);
+00798     inv\_set\_accel\_orientation\_and\_scale(
+00799             inv\_orientation\_matrix\_to\_scalar(gyro\_pdata.orientation),
+00800             (\textcolor{keywordtype}{long})accel\_fsr<<15);
+00801 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \textcolor{preprocessor}{COMPASS\_ENABLED}
+00802     inv\_set\_compass\_orientation\_and\_scale(
+00803             inv\_orientation\_matrix\_to\_scalar(compass\_pdata.orientation),
+00804             (\textcolor{keywordtype}{long})compass\_fsr<<15);
+00805 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00806     \textcolor{comment}{/*! Initialize HAL state variables. */}
+00807 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \textcolor{preprocessor}{COMPASS\_ENABLED}
+00808     hal.sensors = ACCEL\_ON | GYRO\_ON | COMPASS\_ON;
+00809 \textcolor{preprocessor}{#}\textcolor{preprocessor}{else}
+00810     hal.sensors = ACCEL_ON | GYRO_ON;
+00811 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00812     hal.dmp_on = 0;
+00813     hal.report = 0;
+00814     hal.rx.cmd = 0;
+00815     hal.next_pedo_ms = 0;
+00816     hal.next_compass_ms = 0;
+00817     hal.next_temp_ms = 0;
+00818 
+00819   \textcolor{comment}{/*! Compass reads are handled by scheduler. */}
+00820   get_tick_count(&timestamp);
+00821 
+00822     \textcolor{comment}{/*! To initialize the DMP:}
+00823 \textcolor{comment}{     * 1. Call dmp\_load\_motion\_driver\_firmware(). This pushes the DMP image in}
+00824 \textcolor{comment}{     *    inv\_mpu\_dmp\_motion\_driver.h into the MPU memory.}
+00825 \textcolor{comment}{     * 2. Push the gyro and accel orientation matrix to the DMP.}
+00826 \textcolor{comment}{     * 3. Register gesture callbacks. Don't worry, these callbacks won't be}
+00827 \textcolor{comment}{     *    executed unless the corresponding feature is enabled.}
+00828 \textcolor{comment}{     * 4. Call dmp\_enable\_feature(mask) to enable different features.}
+00829 \textcolor{comment}{     * 5. Call dmp\_set\_fifo\_rate(freq) to select a DMP output rate.}
+00830 \textcolor{comment}{     * 6. Call any feature-specific control functions.}
+00831 \textcolor{comment}{     *}
+00832 \textcolor{comment}{     * To enable the DMP, just call mpu\_set\_dmp\_state(1). This function can}
+00833 \textcolor{comment}{     * be called repeatedly to enable and disable the DMP at runtime.}
+00834 \textcolor{comment}{     *}
+00835 \textcolor{comment}{     * The following is a short summary of the features supported in the DMP}
+00836 \textcolor{comment}{     * image provided in inv\_mpu\_dmp\_motion\_driver.c:}
+00837 \textcolor{comment}{     * DMP\_FEATURE\_LP\_QUAT: Generate a gyro-only quaternion on the DMP at}
+00838 \textcolor{comment}{     * 200Hz. Integrating the gyro data at higher rates reduces numerical}
+00839 \textcolor{comment}{     * errors (compared to integration on the MCU at a lower sampling rate).}
+00840 \textcolor{comment}{     * DMP\_FEATURE\_6X\_LP\_QUAT: Generate a gyro/accel quaternion on the DMP at}
+00841 \textcolor{comment}{     * 200Hz. Cannot be used in combination with DMP\_FEATURE\_LP\_QUAT.}
+00842 \textcolor{comment}{     * DMP\_FEATURE\_TAP: Detect taps along the X, Y, and Z axes.}
+00843 \textcolor{comment}{     * DMP\_FEATURE\_ANDROID\_ORIENT: Google's screen rotation algorithm. Triggers}
+00844 \textcolor{comment}{     * an event at the four orientations where the screen should rotate.}
+00845 \textcolor{comment}{     * DMP\_FEATURE\_GYRO\_CAL: Calibrates the gyro data after eight seconds of}
+00846 \textcolor{comment}{     * no motion.}
+00847 \textcolor{comment}{     * DMP\_FEATURE\_SEND\_RAW\_ACCEL: Add raw accelerometer data to the FIFO.}
+00848 \textcolor{comment}{     * DMP\_FEATURE\_SEND\_RAW\_GYRO: Add raw gyro data to the FIFO.}
+00849 \textcolor{comment}{     * DMP\_FEATURE\_SEND\_CAL\_GYRO: Add calibrated gyro data to the FIFO. Cannot}
+00850 \textcolor{comment}{     * be used in combination with DMP\_FEATURE\_SEND\_RAW\_GYRO.}
+00851 \textcolor{comment}{     */}
+00852     dmp\_load\_motion\_driver\_firmware();
+00853     dmp\_set\_orientation(
+00854         inv\_orientation\_matrix\_to\_scalar(gyro\_pdata.orientation));
+00855     dmp\_register\_tap\_cb(tap\_cb);
+00856     dmp\_register\_android\_orient\_cb(android\_orient\_cb);
+00857     \textcolor{comment}{/*!}
+00858 \textcolor{comment}{     * Known Bug -}
+00859 \textcolor{comment}{     * DMP when enabled will sample sensor data at 200Hz and output to FIFO at the rate}
+00860 \textcolor{comment}{     * specified in the dmp\_set\_fifo\_rate API. The DMP will then sent an interrupt once}
+00861 \textcolor{comment}{     * a sample has been put into the FIFO. Therefore if the dmp\_set\_fifo\_rate is at 25Hz}
+00862 \textcolor{comment}{     * there will be a 25Hz interrupt from the MPU device.}
+00863 \textcolor{comment}{     *}
+00864 \textcolor{comment}{     * There is a known issue in which if you do not enable DMP\_FEATURE\_TAP}
+00865 \textcolor{comment}{     * then the interrupts will be at 200Hz even if fifo rate}
+00866 \textcolor{comment}{     * is set at a different rate. To avoid this issue include the DMP\_FEATURE\_TAP}
+00867 \textcolor{comment}{     *}
+00868 \textcolor{comment}{     * DMP sensor fusion works only with gyro at +-2000dps and accel +-2G}
+00869 \textcolor{comment}{     */}
+00870     hal.dmp\_features = DMP\_FEATURE\_6X\_LP\_QUAT | DMP\_FEATURE\_TAP |
+00871         DMP\_FEATURE\_ANDROID\_ORIENT | DMP\_FEATURE\_SEND\_RAW\_ACCEL | DMP\_FEATURE\_SEND\_CAL\_GYRO |
+00872         DMP\_FEATURE\_GYRO\_CAL;
+00873     dmp\_enable\_feature(hal.dmp\_features);
+00874     dmp\_set\_fifo\_rate(DEFAULT_MPU_HZ);
+00875     mpu\_set\_dmp\_state(1);
+00876     hal.dmp_on = 1;
+00877 
+00878   \textcolor{keywordflow}{while}(1)\{
+00879 
+00880     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} sensor\_timestamp;
+00881     \textcolor{keywordtype}{int} new\_data = 0;
+00882     \textcolor{keywordflow}{if} (USART_GetITStatus(USART1, USART_IT_RXNE)) \{
+00883     \textcolor{comment}{//if (USART\_GetITStatus(USART2, USART\_IT\_RXNE)) \{}
+00884         \textcolor{comment}{/*! A byte has been received via USART. See handle\_input for a list of}
+00885 \textcolor{comment}{         * valid commands.}
+00886 \textcolor{comment}{         */}
+00887         USART_ClearITPendingBit(USART1, USART_IT_RXNE);
+00888         \textcolor{comment}{//USART\_ClearITPendingBit(USART2, USART\_IT\_RXNE);}
+00889         handle_input();
+00890     \}
+00891     get_tick_count(&timestamp);
+00892 
+00893 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \textcolor{preprocessor}{COMPASS\_ENABLED}
+00894         \textcolor{comment}{/*! We're not using a data ready interrupt for the compass, so we'll}
+00895 \textcolor{comment}{         * make our compass reads timer-based instead.}
+00896 \textcolor{comment}{         */}
+00897         \textcolor{keywordflow}{if} ((timestamp > hal.next\_compass\_ms) && !hal.lp\_accel\_mode &&
+00898             hal.new\_gyro && (hal.sensors & COMPASS\_ON)) \{
+00899             hal.next\_compass\_ms = timestamp + COMPASS\_READ\_MS;
+00900             new\_compass = 1;
+00901         \}
+00902 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00903         \textcolor{comment}{/*! Temperature data doesn't need to be read with every gyro sample.}
+00904 \textcolor{comment}{         * Let's make them timer-based like the compass reads.}
+00905 \textcolor{comment}{         */}
+00906         \textcolor{keywordflow}{if} (timestamp > hal.next_temp_ms) \{
+00907             hal.next_temp_ms = timestamp + TEMP_READ_MS;
+00908             new\_temp = 1;
+00909         \}
+00910 
+00911     \textcolor{keywordflow}{if} (hal.motion_int_mode) \{
+00912         \textcolor{comment}{/*! Enable motion interrupt. */}
+00913         mpu\_lp\_motion\_interrupt(500, 1, 5);
+00914         \textcolor{comment}{/*! Notify the MPL that contiguity was broken. */}
+00915         inv\_accel\_was\_turned\_off();
+00916         inv\_gyro\_was\_turned\_off();
+00917         inv\_compass\_was\_turned\_off();
+00918         inv\_quaternion\_sensor\_was\_turned\_off();
+00919         \textcolor{comment}{/*! Wait for the MPU interrupt. */}
+00920         \textcolor{keywordflow}{while} (!hal.new_gyro) \{\}
+00921         \textcolor{comment}{/*! Restore the previous sensor configuration. */}
+00922         mpu\_lp\_motion\_interrupt(0, 0, 0);
+00923         hal.motion_int_mode = 0;
+00924     \}
+00925 
+00926     \textcolor{keywordflow}{if} (!hal.sensors || !hal.new_gyro) \{
+00927         \textcolor{keywordflow}{continue};
+00928     \}
+00929 
+00930         \textcolor{keywordflow}{if} (hal.new_gyro && hal.lp_accel_mode) \{
+00931             \textcolor{keywordtype}{short} accel\_short[3];
+00932             \textcolor{keywordtype}{long} accel[3];
+00933             mpu\_get\_accel\_reg(accel\_short, &sensor\_timestamp);
+00934             accel[0] = (\textcolor{keywordtype}{long})accel\_short[0];
+00935             accel[1] = (\textcolor{keywordtype}{long})accel\_short[1];
+00936             accel[2] = (\textcolor{keywordtype}{long})accel\_short[2];
+00937             inv\_build\_accel(accel, 0, sensor\_timestamp);
+00938             new\_data = 1;
+00939             hal.new_gyro = 0;
+00940         \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (hal.new_gyro && hal.dmp_on) \{
+00941             \textcolor{keywordtype}{short} gyro[3], accel\_short[3], sensors;
+00942             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} more;
+00943             \textcolor{keywordtype}{long} accel[3], quat[4], temperature;
+00944             \textcolor{comment}{/*! This function gets new data from the FIFO when the DMP is in}
+00945 \textcolor{comment}{             * use. The FIFO can contain any combination of gyro, accel,}
+00946 \textcolor{comment}{             * quaternion, and gesture data. The sensors parameter tells the}
+00947 \textcolor{comment}{             * caller which data fields were actually populated with new data.}
+00948 \textcolor{comment}{             * For example, if sensors == (INV\_XYZ\_GYRO | INV\_WXYZ\_QUAT), then}
+00949 \textcolor{comment}{             * the FIFO isn't being filled with accel data.}
+00950 \textcolor{comment}{             * The driver parses the gesture data to determine if a gesture}
+00951 \textcolor{comment}{             * event has occurred; on an event, the application will be notified}
+00952 \textcolor{comment}{             * via a callback (assuming that a callback function was properly}
+00953 \textcolor{comment}{             * registered). The more parameter is non-zero if there are}
+00954 \textcolor{comment}{             * leftover packets in the FIFO.}
+00955 \textcolor{comment}{             */}
+00956             dmp\_read\_fifo(gyro, accel\_short, quat, &sensor\_timestamp, &sensors, &more);
+00957             \textcolor{keywordflow}{if} (!more)
+00958                 hal.new_gyro = 0;
+00959             \textcolor{keywordflow}{if} (sensors & INV\_XYZ\_GYRO) \{
+00960                 \textcolor{comment}{/*! Push the new data to the MPL. */}
+00961                 inv\_build\_gyro(gyro, sensor\_timestamp);
+00962                 new\_data = 1;
+00963                 \textcolor{keywordflow}{if} (new\_temp) \{
+00964                     new\_temp = 0;
+00965                     \textcolor{comment}{/*! Temperature only used for gyro temp comp. */}
+00966                     mpu\_get\_temperature(&temperature, &sensor\_timestamp);
+00967                     inv\_build\_temp(temperature, sensor\_timestamp);
+00968                 \}
+00969             \}
+00970             \textcolor{keywordflow}{if} (sensors & INV\_XYZ\_ACCEL) \{
+00971                 accel[0] = (\textcolor{keywordtype}{long})accel\_short[0];
+00972                 accel[1] = (\textcolor{keywordtype}{long})accel\_short[1];
+00973                 accel[2] = (\textcolor{keywordtype}{long})accel\_short[2];
+00974                 inv\_build\_accel(accel, 0, sensor\_timestamp);
+00975                 new\_data = 1;
+00976             \}
+00977             \textcolor{keywordflow}{if} (sensors & INV\_WXYZ\_QUAT) \{
+00978                 inv\_build\_quat(quat, 0, sensor\_timestamp);
+00979                 new\_data = 1;
+00980             \}
+00981         \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (hal.new_gyro) \{
+00982             \textcolor{keywordtype}{short} gyro[3], accel\_short[3];
+00983             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} sensors, more;
+00984             \textcolor{keywordtype}{long} accel[3], temperature;
+00985             \textcolor{comment}{/*! This function gets new data from the FIFO. The FIFO can contain}
+00986 \textcolor{comment}{             * gyro, accel, both, or neither. The sensors parameter tells the}
+00987 \textcolor{comment}{             * caller which data fields were actually populated with new data.}
+00988 \textcolor{comment}{             * For example, if sensors == INV\_XYZ\_GYRO, then the FIFO isn't}
+00989 \textcolor{comment}{             * being filled with accel data. The more parameter is non-zero if}
+00990 \textcolor{comment}{             * there are leftover packets in the FIFO. The HAL can use this}
+00991 \textcolor{comment}{             * information to increase the frequency at which this function is}
+00992 \textcolor{comment}{             * called.}
+00993 \textcolor{comment}{             */}
+00994             hal.new_gyro = 0;
+00995             mpu\_read\_fifo(gyro, accel\_short, &sensor\_timestamp,
+00996                 &sensors, &more);
+00997             \textcolor{keywordflow}{if} (more)
+00998                 hal.new_gyro = 1;
+00999             \textcolor{keywordflow}{if} (sensors & INV\_XYZ\_GYRO) \{
+01000                 \textcolor{comment}{/*! Push the new data to the MPL. */}
+01001                 inv\_build\_gyro(gyro, sensor\_timestamp);
+01002                 new\_data = 1;
+01003                 \textcolor{keywordflow}{if} (new\_temp) \{
+01004                     new\_temp = 0;
+01005                     \textcolor{comment}{/*! Temperature only used for gyro temp comp. */}
+01006                     mpu\_get\_temperature(&temperature, &sensor\_timestamp);
+01007                     inv\_build\_temp(temperature, sensor\_timestamp);
+01008                 \}
+01009             \}
+01010             \textcolor{keywordflow}{if} (sensors & INV\_XYZ\_ACCEL) \{
+01011                 accel[0] = (\textcolor{keywordtype}{long})accel\_short[0];
+01012                 accel[1] = (\textcolor{keywordtype}{long})accel\_short[1];
+01013                 accel[2] = (\textcolor{keywordtype}{long})accel\_short[2];
+01014                 inv\_build\_accel(accel, 0, sensor\_timestamp);
+01015                 new\_data = 1;
+01016             \}
+01017         \}
+01018 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \textcolor{preprocessor}{COMPASS\_ENABLED}
+01019         \textcolor{keywordflow}{if} (new\_compass) \{
+01020             \textcolor{keywordtype}{short} compass\_short[3];
+01021             \textcolor{keywordtype}{long} compass[3];
+01022             new\_compass = 0;
+01023             \textcolor{comment}{/*! For any MPU device with an AKM on the auxiliary I2C bus, the raw}
+01024 \textcolor{comment}{             * magnetometer registers are copied to special gyro registers.}
+01025 \textcolor{comment}{             */}
+01026             \textcolor{keywordflow}{if} (!mpu\_get\_compass\_reg(compass\_short, &sensor\_timestamp)) \{
+01027                 compass[0] = (\textcolor{keywordtype}{long})compass\_short[0];
+01028                 compass[1] = (\textcolor{keywordtype}{long})compass\_short[1];
+01029                 compass[2] = (\textcolor{keywordtype}{long})compass\_short[2];
+01030                 \textcolor{comment}{/*! NOTE: If using a third-party compass calibration library,}
+01031 \textcolor{comment}{                 * pass in the compass data in uT * 2^16 and set the second}
+01032 \textcolor{comment}{                 * parameter to INV\_CALIBRATED | acc, where acc is the}
+01033 \textcolor{comment}{                 * accuracy from 0 to 3.}
+01034 \textcolor{comment}{                 */}
+01035                 inv\_build\_compass(compass, 0, sensor\_timestamp);
+01036             \}
+01037             new\_data = 1;
+01038         \}
+01039 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+01040         \textcolor{keywordflow}{if} (new\_data) \{
+01041             inv\_execute\_on\_data();
+01042             \textcolor{comment}{/*! This function reads bias-compensated sensor data and sensor}
+01043 \textcolor{comment}{             * fusion outputs from the MPL. The outputs are formatted as seen}
+01044 \textcolor{comment}{             * in eMPL\_outputs.c. This function only needs to be called at the}
+01045 \textcolor{comment}{             * rate requested by the host.}
+01046 \textcolor{comment}{             */}
+01047             read_from_mpl();
+01048         \}
+01049     \}
+01050 \}
+\end{DoxyCode}

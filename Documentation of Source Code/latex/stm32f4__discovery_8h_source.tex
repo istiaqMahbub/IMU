@@ -1,0 +1,163 @@
+\section{stm32f4\+\_\+discovery.\+h}
+\label{stm32f4__discovery_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Device\+Support/src/stm32f4\+\_\+discovery.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Device\+Support/src/stm32f4\+\_\+discovery.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4\_discovery.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.1.0}
+00006 \textcolor{comment}{  * @date    28-October-2011}
+00007 \textcolor{comment}{  * @brief   This file contains definitions for STM32F4-Discovery Kit's Leds and }
+00008 \textcolor{comment}{  *          push-button hardware resources.}
+00009 \textcolor{comment}{  ******************************************************************************}
+00010 \textcolor{comment}{  * @attention}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00013 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00014 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00015 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00016 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00017 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00020 \textcolor{comment}{  ******************************************************************************  }
+00021 \textcolor{comment}{  */}
+00022 
+00023 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4\_DISCOVERY\_H}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4\_DISCOVERY\_H}
+00026 
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00028  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032  \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00033 
+00034 \textcolor{comment}{/** @addtogroup Utilities}
+00035 \textcolor{comment}{  * @\{}
+00036 \textcolor{comment}{  */}
+00037 
+00038 \textcolor{comment}{/** @addtogroup STM32F4\_DISCOVERY}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/** @addtogroup STM32F4\_DISCOVERY\_LOW\_LEVEL}
+00043 \textcolor{comment}{  * @\{}
+00044 \textcolor{comment}{  */}
+00045 
+00046 \textcolor{comment}{/** @defgroup STM32F4\_DISCOVERY\_LOW\_LEVEL\_Exported\_Types}
+00047 \textcolor{comment}{  * @\{}
+00048 \textcolor{comment}{  */}
+00049 \textcolor{keyword}{typedef} \textcolor{keyword}{enum}
+00050 \{
+00051   LED4 = 0,
+00052   LED3 = 1,
+00053   LED5 = 2,
+00054   LED6 = 3
+00055 \} Led\_TypeDef;
+00056 
+00057 \textcolor{keyword}{typedef} \textcolor{keyword}{enum}
+00058 \{
+00059   BUTTON_USER = 0,
+00060 \} Button\_TypeDef;
+00061 
+00062 \textcolor{keyword}{typedef} \textcolor{keyword}{enum}
+00063 \{
+00064   BUTTON_MODE_GPIO = 0,
+00065   BUTTON_MODE_EXTI = 1
+00066 \} ButtonMode\_TypeDef;
+00067 \textcolor{comment}{/**}
+00068 \textcolor{comment}{  * @\}}
+00069 \textcolor{comment}{  */}
+00070 
+00071 \textcolor{comment}{/** @defgroup STM32F4\_DISCOVERY\_LOW\_LEVEL\_Exported\_Constants}
+00072 \textcolor{comment}{  * @\{}
+00073 \textcolor{comment}{  */}
+00074 
+00075 \textcolor{comment}{/** @addtogroup STM32F4\_DISCOVERY\_LOW\_LEVEL\_LED}
+00076 \textcolor{comment}{  * @\{}
+00077 \textcolor{comment}{  */}
+00078 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{LEDn}                             4
+00079 
+00080 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{LED4\_PIN}                         GPIO_Pin_12
+00081 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{LED4\_GPIO\_PORT}                   GPIOD
+00082 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{LED4\_GPIO\_CLK}                    RCC_AHB1Periph_GPIOD
+00083 
+00084 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{LED3\_PIN}                         GPIO_Pin_13
+00085 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{LED3\_GPIO\_PORT}                   GPIOD
+00086 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{LED3\_GPIO\_CLK}                    RCC_AHB1Periph_GPIOD
+00087 
+00088 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{LED5\_PIN}                         GPIO_Pin_14
+00089 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{LED5\_GPIO\_PORT}                   GPIOD
+00090 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{LED5\_GPIO\_CLK}                    RCC_AHB1Periph_GPIOD
+00091 
+00092 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{LED6\_PIN}                         GPIO_Pin_15
+00093 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{LED6\_GPIO\_PORT}                   GPIOD
+00094 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{LED6\_GPIO\_CLK}                    RCC_AHB1Periph_GPIOD
+00095 \textcolor{comment}{/**}
+00096 \textcolor{comment}{  * @\}}
+00097 \textcolor{comment}{  */}
+00098 
+00099 \textcolor{comment}{/** @addtogroup STM32F4\_DISCOVERY\_LOW\_LEVEL\_BUTTON}
+00100 \textcolor{comment}{  * @\{}
+00101 \textcolor{comment}{  */}
+00102 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{BUTTONn}                          1
+00103 
+00104 \textcolor{comment}{/**}
+00105 \textcolor{comment}{ * @brief Wakeup push-button}
+00106 \textcolor{comment}{ */}
+00107 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USER\_BUTTON\_PIN}                GPIO_Pin_0
+00108 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USER\_BUTTON\_GPIO\_PORT}          GPIOA
+00109 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USER\_BUTTON\_GPIO\_CLK}           RCC_AHB1Periph_GPIOA
+00110 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USER\_BUTTON\_EXTI\_LINE}          EXTI_Line0
+00111 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USER\_BUTTON\_EXTI\_PORT\_SOURCE}   EXTI_PortSourceGPIOA
+00112 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USER\_BUTTON\_EXTI\_PIN\_SOURCE}    EXTI_PinSource0
+00113 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USER\_BUTTON\_EXTI\_IRQn}          \textcolor{preprocessor}{EXTI0\_IRQn}
+00114 \textcolor{comment}{/**}
+00115 \textcolor{comment}{  * @\}}
+00116 \textcolor{comment}{  */}
+00117 
+00118 \textcolor{comment}{/** @defgroup STM32F4\_DISCOVERY\_LOW\_LEVEL\_Exported\_Macros}
+00119 \textcolor{comment}{  * @\{}
+00120 \textcolor{comment}{  */}
+00121 \textcolor{comment}{/**}
+00122 \textcolor{comment}{  * @\}}
+00123 \textcolor{comment}{  */}
+00124 
+00125 
+00126 \textcolor{comment}{/** @defgroup STM32F4\_DISCOVERY\_LOW\_LEVEL\_Exported\_Functions}
+00127 \textcolor{comment}{  * @\{}
+00128 \textcolor{comment}{  */}
+00129 \textcolor{keywordtype}{void} STM_EVAL_LEDInit(Led\_TypeDef Led);
+00130 \textcolor{keywordtype}{void} STM_EVAL_LEDOn(Led\_TypeDef Led);
+00131 \textcolor{keywordtype}{void} STM_EVAL_LEDOff(Led\_TypeDef Led);
+00132 \textcolor{keywordtype}{void} STM_EVAL_LEDToggle(Led\_TypeDef Led);
+00133 \textcolor{keywordtype}{void} STM_EVAL_PBInit(Button\_TypeDef Button, ButtonMode\_TypeDef Button\_Mode);
+00134 uint32\_t STM_EVAL_PBGetState(Button\_TypeDef Button);
+00135 \textcolor{comment}{/**}
+00136 \textcolor{comment}{  * @\}}
+00137 \textcolor{comment}{  */}
+00138 
+00139 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00140 \}
+00141 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00142 
+00143 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/* \_\_STM32F4\_DISCOVERY\_H */}
+00144 \textcolor{comment}{/**}
+00145 \textcolor{comment}{  * @\}}
+00146 \textcolor{comment}{  */}
+00147 
+00148 \textcolor{comment}{/**}
+00149 \textcolor{comment}{  * @\}}
+00150 \textcolor{comment}{  */}
+00151 
+00152 \textcolor{comment}{/**}
+00153 \textcolor{comment}{  * @\}}
+00154 \textcolor{comment}{  */}
+00155 
+00156 
+00157 
+00158 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

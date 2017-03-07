@@ -1,0 +1,200 @@
+\section{Command path state machine (C\+P\+SM) management functions}
+\label{group__SDIO__Group2}\index{Command path state machine (\+C\+P\+S\+M) management functions@{Command path state machine (\+C\+P\+S\+M) management functions}}
+
+
+Command path state machine (C\+P\+SM) management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Send\+Command} (\textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the S\+D\+IO Command according to the specified parameters in the S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct and send the command. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Struct\+Init} (\textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def} $\ast$S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Get\+Command\+Response} (void)
+\begin{DoxyCompactList}\small\item\em Returns command index of last command for which response received. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ S\+D\+I\+O\+\_\+\+Get\+Response} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+R\+E\+SP)
+\begin{DoxyCompactList}\small\item\em Returns response received from the card for the last command. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Command path state machine (C\+P\+SM) management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+              Command path state machine (CPSM) management functions
+ ===============================================================================  
+
+  This section provide functions allowing to program and read the Command path 
+  state machine (CPSM).\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__SDIO__Group2_ga09d9e89f49c87c82aec79c97b7068e24}} 
+\index{Command path state machine (\+C\+P\+S\+M) management functions@{Command path state machine (\+C\+P\+S\+M) management functions}!S\+D\+I\+O\+\_\+\+Cmd\+Struct\+Init@{S\+D\+I\+O\+\_\+\+Cmd\+Struct\+Init}}
+\index{S\+D\+I\+O\+\_\+\+Cmd\+Struct\+Init@{S\+D\+I\+O\+\_\+\+Cmd\+Struct\+Init}!Command path state machine (\+C\+P\+S\+M) management functions@{Command path state machine (\+C\+P\+S\+M) management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Cmd\+Struct\+Init()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Cmd\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def} $\ast$}]{S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct} & pointer to an \doxyref{S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def}{p.}{structSDIO__CmdInitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 428} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+
+References \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Argument}, \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Cmd\+Index}, \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+C\+P\+SM}, \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Response}, and \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Wait}.
+
+
+\begin{DoxyCode}
+00429 \{
+00430   \textcolor{comment}{/* SDIO\_CmdInitStruct members default value */}
+00431   SDIO\_CmdInitStruct->SDIO_Argument = 0x00;
+00432   SDIO\_CmdInitStruct->SDIO_CmdIndex = 0x00;
+00433   SDIO\_CmdInitStruct->SDIO_Response = SDIO_Response_No;
+00434   SDIO\_CmdInitStruct->SDIO_Wait = SDIO_Wait_No;
+00435   SDIO\_CmdInitStruct->SDIO_CPSM = SDIO_CPSM_Disable;
+00436 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group2_ga9badf271c818e09da301d715c4ad0e5b}} 
+\index{Command path state machine (\+C\+P\+S\+M) management functions@{Command path state machine (\+C\+P\+S\+M) management functions}!S\+D\+I\+O\+\_\+\+Get\+Command\+Response@{S\+D\+I\+O\+\_\+\+Get\+Command\+Response}}
+\index{S\+D\+I\+O\+\_\+\+Get\+Command\+Response@{S\+D\+I\+O\+\_\+\+Get\+Command\+Response}!Command path state machine (\+C\+P\+S\+M) management functions@{Command path state machine (\+C\+P\+S\+M) management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Get\+Command\+Response()}
+{\footnotesize\ttfamily uint8\+\_\+t S\+D\+I\+O\+\_\+\+Get\+Command\+Response (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns command index of last command for which response received. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Returns} & the command index of the last command response received. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 443} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00444 \{
+00445   \textcolor{keywordflow}{return} (uint8\_t)(SDIO->RESPCMD);
+00446 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group2_ga5c1e859511840e8cca6a9a768bce220b}} 
+\index{Command path state machine (\+C\+P\+S\+M) management functions@{Command path state machine (\+C\+P\+S\+M) management functions}!S\+D\+I\+O\+\_\+\+Get\+Response@{S\+D\+I\+O\+\_\+\+Get\+Response}}
+\index{S\+D\+I\+O\+\_\+\+Get\+Response@{S\+D\+I\+O\+\_\+\+Get\+Response}!Command path state machine (\+C\+P\+S\+M) management functions@{Command path state machine (\+C\+P\+S\+M) management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Get\+Response()}
+{\footnotesize\ttfamily uint32\+\_\+t S\+D\+I\+O\+\_\+\+Get\+Response (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{S\+D\+I\+O\+\_\+\+R\+E\+SP }\end{DoxyParamCaption})}
+
+
+
+Returns response received from the card for the last command. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+R\+E\+SP} & Specifies the S\+D\+IO response register. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item S\+D\+I\+O\+\_\+\+R\+E\+S\+P1\+: Response Register 1 \item S\+D\+I\+O\+\_\+\+R\+E\+S\+P2\+: Response Register 2 \item S\+D\+I\+O\+\_\+\+R\+E\+S\+P3\+: Response Register 3 \item S\+D\+I\+O\+\_\+\+R\+E\+S\+P4\+: Response Register 4 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & Corresponding response register value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 458} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00459 \{
+00460   \_\_IO uint32\_t tmp = 0;
+00461 
+00462   \textcolor{comment}{/* Check the parameters */}
+00463   assert_param(IS_SDIO_RESP(SDIO\_RESP));
+00464 
+00465   tmp = SDIO_RESP_ADDR + SDIO\_RESP;
+00466   
+00467   \textcolor{keywordflow}{return} (*(\_\_IO uint32\_t *) tmp); 
+00468 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group2_ga7117d2f702703f6c0a66bc07707cab23}} 
+\index{Command path state machine (\+C\+P\+S\+M) management functions@{Command path state machine (\+C\+P\+S\+M) management functions}!S\+D\+I\+O\+\_\+\+Send\+Command@{S\+D\+I\+O\+\_\+\+Send\+Command}}
+\index{S\+D\+I\+O\+\_\+\+Send\+Command@{S\+D\+I\+O\+\_\+\+Send\+Command}!Command path state machine (\+C\+P\+S\+M) management functions@{Command path state machine (\+C\+P\+S\+M) management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Send\+Command()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Send\+Command (\begin{DoxyParamCaption}\item[{\textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def} $\ast$}]{S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the S\+D\+IO Command according to the specified parameters in the S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct and send the command. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+Cmd\+Init\+Struct} & \+: pointer to a \doxyref{S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def}{p.}{structSDIO__CmdInitTypeDef} structure that contains the configuration information for the S\+D\+IO command. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 392} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+
+References \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Cmd\+Index}, \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+C\+P\+SM}, \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Response}, and \textbf{ S\+D\+I\+O\+\_\+\+Cmd\+Init\+Type\+Def\+::\+S\+D\+I\+O\+\_\+\+Wait}.
+
+
+\begin{DoxyCode}
+00393 \{
+00394   uint32\_t tmpreg = 0;
+00395   
+00396   \textcolor{comment}{/* Check the parameters */}
+00397   assert_param(IS_SDIO_CMD_INDEX(SDIO\_CmdInitStruct->SDIO_CmdIndex));
+00398   assert_param(IS_SDIO_RESPONSE(SDIO\_CmdInitStruct->SDIO_Response));
+00399   assert_param(IS_SDIO_WAIT(SDIO\_CmdInitStruct->SDIO_Wait));
+00400   assert_param(IS_SDIO_CPSM(SDIO\_CmdInitStruct->SDIO_CPSM));
+00401   
+00402 \textcolor{comment}{/*---------------------------- SDIO ARG Configuration ------------------------*/}
+00403   \textcolor{comment}{/* Set the SDIO Argument value */}
+00404   SDIO->ARG = SDIO\_CmdInitStruct->SDIO_Argument;
+00405   
+00406 \textcolor{comment}{/*---------------------------- SDIO CMD Configuration ------------------------*/}  
+00407   \textcolor{comment}{/* Get the SDIO CMD value */}
+00408   tmpreg = SDIO->CMD;
+00409   \textcolor{comment}{/* Clear CMDINDEX, WAITRESP, WAITINT, WAITPEND, CPSMEN bits */}
+00410   tmpreg &= CMD_CLEAR_MASK;
+00411   \textcolor{comment}{/* Set CMDINDEX bits according to SDIO\_CmdIndex value */}
+00412   \textcolor{comment}{/* Set WAITRESP bits according to SDIO\_Response value */}
+00413   \textcolor{comment}{/* Set WAITINT and WAITPEND bits according to SDIO\_Wait value */}
+00414   \textcolor{comment}{/* Set CPSMEN bits according to SDIO\_CPSM value */}
+00415   tmpreg |= (uint32\_t)SDIO\_CmdInitStruct->SDIO_CmdIndex | SDIO\_CmdInitStruct->
+      SDIO_Response
+00416            | SDIO\_CmdInitStruct->SDIO_Wait | SDIO\_CmdInitStruct->SDIO_CPSM;
+00417   
+00418   \textcolor{comment}{/* Write to SDIO CMD */}
+00419   SDIO->CMD = tmpreg;
+00420 \}
+\end{DoxyCode}

@@ -1,0 +1,179 @@
+\section{Analog Watchdog configuration functions}
+\label{group__ADC__Group2}\index{Analog Watchdog configuration functions@{Analog Watchdog configuration functions}}
+
+
+Analog Watchdog configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ A\+D\+C\+\_\+\+Analog\+Watchdog\+Cmd} (\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$A\+D\+Cx, uint32\+\_\+t A\+D\+C\+\_\+\+Analog\+Watchdog)
+\begin{DoxyCompactList}\small\item\em Enables or disables the analog watchdog on single/all regular or injected channels. \end{DoxyCompactList}\item 
+void \textbf{ A\+D\+C\+\_\+\+Analog\+Watchdog\+Thresholds\+Config} (\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$A\+D\+Cx, uint16\+\_\+t High\+Threshold, uint16\+\_\+t Low\+Threshold)
+\begin{DoxyCompactList}\small\item\em Configures the high and low thresholds of the analog watchdog. \end{DoxyCompactList}\item 
+void \textbf{ A\+D\+C\+\_\+\+Analog\+Watchdog\+Single\+Channel\+Config} (\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$A\+D\+Cx, uint8\+\_\+t A\+D\+C\+\_\+\+Channel)
+\begin{DoxyCompactList}\small\item\em Configures the analog watchdog guarded single channel. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Analog Watchdog configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                    Analog Watchdog configuration functions
+ ===============================================================================  
+
+  This section provides functions allowing to configure the Analog Watchdog
+  (AWD) feature in the ADC.
+  
+  A typical configuration Analog Watchdog is done following these steps :
+   1. the ADC guarded channel(s) is (are) selected using the 
+      ADC_AnalogWatchdogSingleChannelConfig() function.
+   2. The Analog watchdog lower and higher threshold are configured using the  
+     ADC_AnalogWatchdogThresholdsConfig() function.
+   3. The Analog watchdog is enabled and configured to enable the check, on one
+      or more channels, using the  ADC_AnalogWatchdogCmd() function.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__ADC__Group2_gad017d69bec6e497afd35ba25ea22d86e}} 
+\index{Analog Watchdog configuration functions@{Analog Watchdog configuration functions}!A\+D\+C\+\_\+\+Analog\+Watchdog\+Cmd@{A\+D\+C\+\_\+\+Analog\+Watchdog\+Cmd}}
+\index{A\+D\+C\+\_\+\+Analog\+Watchdog\+Cmd@{A\+D\+C\+\_\+\+Analog\+Watchdog\+Cmd}!Analog Watchdog configuration functions@{Analog Watchdog configuration functions}}
+\subsubsection{A\+D\+C\+\_\+\+Analog\+Watchdog\+Cmd()}
+{\footnotesize\ttfamily void A\+D\+C\+\_\+\+Analog\+Watchdog\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$}]{A\+D\+Cx,  }\item[{uint32\+\_\+t}]{A\+D\+C\+\_\+\+Analog\+Watchdog }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the analog watchdog on single/all regular or injected channels. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+Cx} & where x can be 1, 2 or 3 to select the A\+DC peripheral. \\
+\hline
+{\em A\+D\+C\+\_\+\+Analog\+Watchdog} & the A\+DC analog watchdog configuration. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item A\+D\+C\+\_\+\+Analog\+Watchdog\+\_\+\+Single\+Reg\+Enable\+: Analog watchdog on a single regular channel \item A\+D\+C\+\_\+\+Analog\+Watchdog\+\_\+\+Single\+Injec\+Enable\+: Analog watchdog on a single injected channel \item A\+D\+C\+\_\+\+Analog\+Watchdog\+\_\+\+Single\+Reg\+Or\+Injec\+Enable\+: Analog watchdog on a single regular or injected channel \item A\+D\+C\+\_\+\+Analog\+Watchdog\+\_\+\+All\+Reg\+Enable\+: Analog watchdog on all regular channel \item A\+D\+C\+\_\+\+Analog\+Watchdog\+\_\+\+All\+Injec\+Enable\+: Analog watchdog on all injected channel \item A\+D\+C\+\_\+\+Analog\+Watchdog\+\_\+\+All\+Reg\+All\+Injec\+Enable\+: Analog watchdog on all regular and injected channels \item A\+D\+C\+\_\+\+Analog\+Watchdog\+\_\+\+None\+: No channel guarded by the analog watchdog \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 450} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+\begin{DoxyCode}
+00451 \{
+00452   uint32\_t tmpreg = 0;
+00453   \textcolor{comment}{/* Check the parameters */}
+00454   assert_param(IS_ADC_ALL_PERIPH(ADCx));
+00455   assert_param(IS_ADC_ANALOG_WATCHDOG(ADC\_AnalogWatchdog));
+00456   
+00457   \textcolor{comment}{/* Get the old register value */}
+00458   tmpreg = ADCx->CR1;
+00459   
+00460   \textcolor{comment}{/* Clear AWDEN, JAWDEN and AWDSGL bits */}
+00461   tmpreg &= CR1_AWDMode_RESET;
+00462   
+00463   \textcolor{comment}{/* Set the analog watchdog enable mode */}
+00464   tmpreg |= ADC\_AnalogWatchdog;
+00465   
+00466   \textcolor{comment}{/* Store the new register value */}
+00467   ADCx->CR1 = tmpreg;
+00468 \}
+\end{DoxyCode}
+\mbox{\label{group__ADC__Group2_ga03cef3d12292ffa2b8520524d5b0226c}} 
+\index{Analog Watchdog configuration functions@{Analog Watchdog configuration functions}!A\+D\+C\+\_\+\+Analog\+Watchdog\+Single\+Channel\+Config@{A\+D\+C\+\_\+\+Analog\+Watchdog\+Single\+Channel\+Config}}
+\index{A\+D\+C\+\_\+\+Analog\+Watchdog\+Single\+Channel\+Config@{A\+D\+C\+\_\+\+Analog\+Watchdog\+Single\+Channel\+Config}!Analog Watchdog configuration functions@{Analog Watchdog configuration functions}}
+\subsubsection{A\+D\+C\+\_\+\+Analog\+Watchdog\+Single\+Channel\+Config()}
+{\footnotesize\ttfamily void A\+D\+C\+\_\+\+Analog\+Watchdog\+Single\+Channel\+Config (\begin{DoxyParamCaption}\item[{\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$}]{A\+D\+Cx,  }\item[{uint8\+\_\+t}]{A\+D\+C\+\_\+\+Channel }\end{DoxyParamCaption})}
+
+
+
+Configures the analog watchdog guarded single channel. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+Cx} & where x can be 1, 2 or 3 to select the A\+DC peripheral. \\
+\hline
+{\em A\+D\+C\+\_\+\+Channel} & the A\+DC channel to configure for the analog watchdog. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item A\+D\+C\+\_\+\+Channel\+\_\+0\+: A\+DC Channel0 selected \item A\+D\+C\+\_\+\+Channel\+\_\+1\+: A\+DC Channel1 selected \item A\+D\+C\+\_\+\+Channel\+\_\+2\+: A\+DC Channel2 selected \item A\+D\+C\+\_\+\+Channel\+\_\+3\+: A\+DC Channel3 selected \item A\+D\+C\+\_\+\+Channel\+\_\+4\+: A\+DC Channel4 selected \item A\+D\+C\+\_\+\+Channel\+\_\+5\+: A\+DC Channel5 selected \item A\+D\+C\+\_\+\+Channel\+\_\+6\+: A\+DC Channel6 selected \item A\+D\+C\+\_\+\+Channel\+\_\+7\+: A\+DC Channel7 selected \item A\+D\+C\+\_\+\+Channel\+\_\+8\+: A\+DC Channel8 selected \item A\+D\+C\+\_\+\+Channel\+\_\+9\+: A\+DC Channel9 selected \item A\+D\+C\+\_\+\+Channel\+\_\+10\+: A\+DC Channel10 selected \item A\+D\+C\+\_\+\+Channel\+\_\+11\+: A\+DC Channel11 selected \item A\+D\+C\+\_\+\+Channel\+\_\+12\+: A\+DC Channel12 selected \item A\+D\+C\+\_\+\+Channel\+\_\+13\+: A\+DC Channel13 selected \item A\+D\+C\+\_\+\+Channel\+\_\+14\+: A\+DC Channel14 selected \item A\+D\+C\+\_\+\+Channel\+\_\+15\+: A\+DC Channel15 selected \item A\+D\+C\+\_\+\+Channel\+\_\+16\+: A\+DC Channel16 selected \item A\+D\+C\+\_\+\+Channel\+\_\+17\+: A\+DC Channel17 selected \item A\+D\+C\+\_\+\+Channel\+\_\+18\+: A\+DC Channel18 selected \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 520} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+\begin{DoxyCode}
+00521 \{
+00522   uint32\_t tmpreg = 0;
+00523   \textcolor{comment}{/* Check the parameters */}
+00524   assert_param(IS_ADC_ALL_PERIPH(ADCx));
+00525   assert_param(IS_ADC_CHANNEL(ADC\_Channel));
+00526   
+00527   \textcolor{comment}{/* Get the old register value */}
+00528   tmpreg = ADCx->CR1;
+00529   
+00530   \textcolor{comment}{/* Clear the Analog watchdog channel select bits */}
+00531   tmpreg &= CR1_AWDCH_RESET;
+00532   
+00533   \textcolor{comment}{/* Set the Analog watchdog channel */}
+00534   tmpreg |= ADC\_Channel;
+00535   
+00536   \textcolor{comment}{/* Store the new register value */}
+00537   ADCx->CR1 = tmpreg;
+00538 \}
+\end{DoxyCode}
+\mbox{\label{group__ADC__Group2_ga79588d02aa8e4147f21cb90a4708366d}} 
+\index{Analog Watchdog configuration functions@{Analog Watchdog configuration functions}!A\+D\+C\+\_\+\+Analog\+Watchdog\+Thresholds\+Config@{A\+D\+C\+\_\+\+Analog\+Watchdog\+Thresholds\+Config}}
+\index{A\+D\+C\+\_\+\+Analog\+Watchdog\+Thresholds\+Config@{A\+D\+C\+\_\+\+Analog\+Watchdog\+Thresholds\+Config}!Analog Watchdog configuration functions@{Analog Watchdog configuration functions}}
+\subsubsection{A\+D\+C\+\_\+\+Analog\+Watchdog\+Thresholds\+Config()}
+{\footnotesize\ttfamily void A\+D\+C\+\_\+\+Analog\+Watchdog\+Thresholds\+Config (\begin{DoxyParamCaption}\item[{\textbf{ A\+D\+C\+\_\+\+Type\+Def} $\ast$}]{A\+D\+Cx,  }\item[{uint16\+\_\+t}]{High\+Threshold,  }\item[{uint16\+\_\+t}]{Low\+Threshold }\end{DoxyParamCaption})}
+
+
+
+Configures the high and low thresholds of the analog watchdog. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em A\+D\+Cx} & where x can be 1, 2 or 3 to select the A\+DC peripheral. \\
+\hline
+{\em High\+Threshold} & the A\+DC analog watchdog High threshold value. This parameter must be a 12-\/bit value. \\
+\hline
+{\em Low\+Threshold} & the A\+DC analog watchdog Low threshold value. This parameter must be a 12-\/bit value. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 479} of file \textbf{ stm32f4xx\+\_\+adc.\+c}.
+
+
+\begin{DoxyCode}
+00481 \{
+00482   \textcolor{comment}{/* Check the parameters */}
+00483   assert_param(IS_ADC_ALL_PERIPH(ADCx));
+00484   assert_param(IS_ADC_THRESHOLD(HighThreshold));
+00485   assert_param(IS_ADC_THRESHOLD(LowThreshold));
+00486   
+00487   \textcolor{comment}{/* Set the ADCx high threshold */}
+00488   ADCx->HTR = HighThreshold;
+00489   
+00490   \textcolor{comment}{/* Set the ADCx low threshold */}
+00491   ADCx->LTR = LowThreshold;
+00492 \}
+\end{DoxyCode}

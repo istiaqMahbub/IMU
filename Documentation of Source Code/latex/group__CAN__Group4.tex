@@ -1,0 +1,233 @@
+\section{C\+AN Operation modes functions}
+\label{group__CAN__Group4}\index{C\+A\+N Operation modes functions@{C\+A\+N Operation modes functions}}
+
+
+C\+AN Operation modes functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \textbf{ C\+A\+N\+\_\+\+Operating\+Mode\+Request} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint8\+\_\+t C\+A\+N\+\_\+\+Operating\+Mode)
+\begin{DoxyCompactList}\small\item\em Selects the C\+AN Operation mode. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ C\+A\+N\+\_\+\+Sleep} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx)
+\begin{DoxyCompactList}\small\item\em Enters the Sleep (low power) mode. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ C\+A\+N\+\_\+\+Wake\+Up} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx)
+\begin{DoxyCompactList}\small\item\em Wakes up the C\+AN peripheral from sleep mode . \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+C\+AN Operation modes functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                      CAN Operation modes functions
+ ===============================================================================  
+  This section provides functions allowing to select the CAN Operation modes
+  - sleep mode
+  - normal mode 
+  - initialization mode\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__CAN__Group4_gab2a3630e9e3024114eb117d14e514208}} 
+\index{C\+A\+N Operation modes functions@{C\+A\+N Operation modes functions}!C\+A\+N\+\_\+\+Operating\+Mode\+Request@{C\+A\+N\+\_\+\+Operating\+Mode\+Request}}
+\index{C\+A\+N\+\_\+\+Operating\+Mode\+Request@{C\+A\+N\+\_\+\+Operating\+Mode\+Request}!C\+A\+N Operation modes functions@{C\+A\+N Operation modes functions}}
+\subsubsection{C\+A\+N\+\_\+\+Operating\+Mode\+Request()}
+{\footnotesize\ttfamily uint8\+\_\+t C\+A\+N\+\_\+\+Operating\+Mode\+Request (\begin{DoxyParamCaption}\item[{\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$}]{C\+A\+Nx,  }\item[{uint8\+\_\+t}]{C\+A\+N\+\_\+\+Operating\+Mode }\end{DoxyParamCaption})}
+
+
+
+Selects the C\+AN Operation mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+N\+\_\+\+Operating\+Mode} & C\+AN Operating Mode. This parameter can be one of C\+A\+N\+\_\+\+Operating\+Mode\+\_\+\+Type\+Def enumeration. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em status} & of the requested mode which can be
+\begin{DoxyItemize}
+\item C\+A\+N\+\_\+\+Mode\+Status\+\_\+\+Failed\+: C\+AN failed entering the specific mode
+\item C\+A\+N\+\_\+\+Mode\+Status\+\_\+\+Success\+: C\+AN Succeed entering the specific mode 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 867} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+\begin{DoxyCode}
+00868 \{
+00869   uint8\_t status = CAN_ModeStatus_Failed;
+00870   
+00871   \textcolor{comment}{/* Timeout for INAK or also for SLAK bits*/}
+00872   uint32\_t timeout = INAK_TIMEOUT; 
+00873 
+00874   \textcolor{comment}{/* Check the parameters */}
+00875   assert_param(IS_CAN_ALL_PERIPH(CANx));
+00876   assert_param(IS_CAN_OPERATING_MODE(CAN\_OperatingMode));
+00877 
+00878   \textcolor{keywordflow}{if} (CAN\_OperatingMode == CAN_OperatingMode_Initialization)
+00879   \{
+00880     \textcolor{comment}{/* Request initialisation */}
+00881     CANx->MCR = (uint32\_t)((CANx->MCR & (uint32\_t)(~(uint32\_t)CAN_MCR_SLEEP)) | 
+      CAN_MCR_INRQ);
+00882 
+00883     \textcolor{comment}{/* Wait the acknowledge */}
+00884     \textcolor{keywordflow}{while} (((CANx->MSR & CAN_MODE_MASK) != CAN_MSR_INAK) && (timeout != 0))
+00885     \{
+00886       timeout--;
+00887     \}
+00888     \textcolor{keywordflow}{if} ((CANx->MSR & CAN_MODE_MASK) != CAN_MSR_INAK)
+00889     \{
+00890       status = CAN_ModeStatus_Failed;
+00891     \}
+00892     \textcolor{keywordflow}{else}
+00893     \{
+00894       status = CAN_ModeStatus_Success;
+00895     \}
+00896   \}
+00897   \textcolor{keywordflow}{else}  \textcolor{keywordflow}{if} (CAN\_OperatingMode == CAN_OperatingMode_Normal)
+00898   \{
+00899     \textcolor{comment}{/* Request leave initialisation and sleep mode  and enter Normal mode */}
+00900     CANx->MCR &= (uint32\_t)(~(CAN\_MCR\_SLEEP|CAN_MCR_INRQ));
+00901 
+00902     \textcolor{comment}{/* Wait the acknowledge */}
+00903     \textcolor{keywordflow}{while} (((CANx->MSR & CAN_MODE_MASK) != 0) && (timeout!=0))
+00904     \{
+00905       timeout--;
+00906     \}
+00907     \textcolor{keywordflow}{if} ((CANx->MSR & CAN_MODE_MASK) != 0)
+00908     \{
+00909       status = CAN_ModeStatus_Failed;
+00910     \}
+00911     \textcolor{keywordflow}{else}
+00912     \{
+00913       status = CAN_ModeStatus_Success;
+00914     \}
+00915   \}
+00916   \textcolor{keywordflow}{else}  \textcolor{keywordflow}{if} (CAN\_OperatingMode == CAN_OperatingMode_Sleep)
+00917   \{
+00918     \textcolor{comment}{/* Request Sleep mode */}
+00919     CANx->MCR = (uint32\_t)((CANx->MCR & (uint32\_t)(~(uint32\_t)CAN_MCR_INRQ)) | CAN\_MCR\_SLEEP);
+00920 
+00921     \textcolor{comment}{/* Wait the acknowledge */}
+00922     \textcolor{keywordflow}{while} (((CANx->MSR & CAN_MODE_MASK) != CAN_MSR_SLAK) && (timeout!=0))
+00923     \{
+00924       timeout--;
+00925     \}
+00926     \textcolor{keywordflow}{if} ((CANx->MSR & CAN_MODE_MASK) != CAN_MSR_SLAK)
+00927     \{
+00928       status = CAN_ModeStatus_Failed;
+00929     \}
+00930     \textcolor{keywordflow}{else}
+00931     \{
+00932       status = CAN_ModeStatus_Success;
+00933     \}
+00934   \}
+00935   \textcolor{keywordflow}{else}
+00936   \{
+00937     status = CAN_ModeStatus_Failed;
+00938   \}
+00939 
+00940   \textcolor{keywordflow}{return}  (uint8\_t) status;
+00941 \}
+\end{DoxyCode}
+\mbox{\label{group__CAN__Group4_ga640215e38765759d7eceb8a039046667}} 
+\index{C\+A\+N Operation modes functions@{C\+A\+N Operation modes functions}!C\+A\+N\+\_\+\+Sleep@{C\+A\+N\+\_\+\+Sleep}}
+\index{C\+A\+N\+\_\+\+Sleep@{C\+A\+N\+\_\+\+Sleep}!C\+A\+N Operation modes functions@{C\+A\+N Operation modes functions}}
+\subsubsection{C\+A\+N\+\_\+\+Sleep()}
+{\footnotesize\ttfamily uint8\+\_\+t C\+A\+N\+\_\+\+Sleep (\begin{DoxyParamCaption}\item[{\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$}]{C\+A\+Nx }\end{DoxyParamCaption})}
+
+
+
+Enters the Sleep (low power) mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+Nx} & where x can be 1 or 2 to select the C\+AN peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em C\+A\+N\+\_\+\+Sleep\+\_\+\+Ok} & if sleep entered, C\+A\+N\+\_\+\+Sleep\+\_\+\+Failed otherwise. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 948} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+\begin{DoxyCode}
+00949 \{
+00950   uint8\_t sleepstatus = CAN_Sleep_Failed;
+00951   
+00952   \textcolor{comment}{/* Check the parameters */}
+00953   assert_param(IS_CAN_ALL_PERIPH(CANx));
+00954     
+00955   \textcolor{comment}{/* Request Sleep mode */}
+00956    CANx->MCR = (((CANx->MCR) & (uint32\_t)(~(uint32\_t)CAN_MCR_INRQ)) | 
+      CAN_MCR_SLEEP);
+00957    
+00958   \textcolor{comment}{/* Sleep mode status */}
+00959   \textcolor{keywordflow}{if} ((CANx->MSR & (CAN_MSR_SLAK|CAN_MSR_INAK)) == CAN_MSR_SLAK)
+00960   \{
+00961     \textcolor{comment}{/* Sleep mode not entered */}
+00962     sleepstatus =  CAN_Sleep_Ok;
+00963   \}
+00964   \textcolor{comment}{/* return sleep mode status */}
+00965    \textcolor{keywordflow}{return} (uint8\_t)sleepstatus;
+00966 \}
+\end{DoxyCode}
+\mbox{\label{group__CAN__Group4_ga78cdfbf1884b9e33c552bcbca15bed10}} 
+\index{C\+A\+N Operation modes functions@{C\+A\+N Operation modes functions}!C\+A\+N\+\_\+\+Wake\+Up@{C\+A\+N\+\_\+\+Wake\+Up}}
+\index{C\+A\+N\+\_\+\+Wake\+Up@{C\+A\+N\+\_\+\+Wake\+Up}!C\+A\+N Operation modes functions@{C\+A\+N Operation modes functions}}
+\subsubsection{C\+A\+N\+\_\+\+Wake\+Up()}
+{\footnotesize\ttfamily uint8\+\_\+t C\+A\+N\+\_\+\+Wake\+Up (\begin{DoxyParamCaption}\item[{\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$}]{C\+A\+Nx }\end{DoxyParamCaption})}
+
+
+
+Wakes up the C\+AN peripheral from sleep mode . 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+Nx} & where x can be 1 or 2 to select the C\+AN peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em C\+A\+N\+\_\+\+Wake\+Up\+\_\+\+Ok} & if sleep mode left, C\+A\+N\+\_\+\+Wake\+Up\+\_\+\+Failed otherwise. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 973} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+\begin{DoxyCode}
+00974 \{
+00975   uint32\_t wait\_slak = SLAK_TIMEOUT;
+00976   uint8\_t wakeupstatus = CAN_WakeUp_Failed;
+00977   
+00978   \textcolor{comment}{/* Check the parameters */}
+00979   assert_param(IS_CAN_ALL_PERIPH(CANx));
+00980     
+00981   \textcolor{comment}{/* Wake up request */}
+00982   CANx->MCR &= ~(uint32\_t)CAN_MCR_SLEEP;
+00983     
+00984   \textcolor{comment}{/* Sleep mode status */}
+00985   \textcolor{keywordflow}{while}(((CANx->MSR & CAN_MSR_SLAK) == CAN_MSR_SLAK)&&(wait\_slak!=0x00))
+00986   \{
+00987    wait\_slak--;
+00988   \}
+00989   \textcolor{keywordflow}{if}((CANx->MSR & CAN_MSR_SLAK) != CAN_MSR_SLAK)
+00990   \{
+00991    \textcolor{comment}{/* wake up done : Sleep mode exited */}
+00992     wakeupstatus = CAN_WakeUp_Ok;
+00993   \}
+00994   \textcolor{comment}{/* return wakeup status */}
+00995   \textcolor{keywordflow}{return} (uint8\_t)wakeupstatus;
+00996 \}
+\end{DoxyCode}

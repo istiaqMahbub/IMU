@@ -1,0 +1,705 @@
+\section{stm32f4xx\+\_\+fsmc.\+h}
+\label{stm32f4xx__fsmc_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+fsmc.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+fsmc.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_fsmc.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the FSMC firmware }
+00008 \textcolor{comment}{  *          library.}
+00009 \textcolor{comment}{  ******************************************************************************}
+00010 \textcolor{comment}{  * @attention}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00013 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00014 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00015 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00016 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00017 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00020 \textcolor{comment}{  ******************************************************************************}
+00021 \textcolor{comment}{  */}
+00022 
+00023 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_FSMC\_H}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_FSMC\_H}
+00026 
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00028  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00033 
+00034 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00035 \textcolor{comment}{  * @\{}
+00036 \textcolor{comment}{  */}
+00037 
+00038 \textcolor{comment}{/** @addtogroup FSMC}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00043 
+00044 \textcolor{comment}{/** }
+00045 \textcolor{comment}{  * @brief  Timing parameters For NOR/SRAM Banks  }
+00046 \textcolor{comment}{  */}
+00047 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00048 \{
+00049   uint32\_t FSMC_AddressSetupTime;       \textcolor{comment}{/*!< Defines the number of HCLK cycles to configure}
+00050 \textcolor{comment}{                                             the duration of the address setup time. }
+00051 \textcolor{comment}{                                             This parameter can be a value between 0 and 0xF.}
+00052 \textcolor{comment}{                                             @note This parameter is not used with synchronous NOR
+       Flash memories. */}
+00053 
+00054   uint32\_t FSMC_AddressHoldTime;        \textcolor{comment}{/*!< Defines the number of HCLK cycles to configure}
+00055 \textcolor{comment}{                                             the duration of the address hold time.}
+00056 \textcolor{comment}{                                             This parameter can be a value between 0 and 0xF. }
+00057 \textcolor{comment}{                                             @note This parameter is not used with synchronous NOR
+       Flash memories.*/}
+00058 
+00059   uint32\_t FSMC_DataSetupTime;          \textcolor{comment}{/*!< Defines the number of HCLK cycles to configure}
+00060 \textcolor{comment}{                                             the duration of the data setup time.}
+00061 \textcolor{comment}{                                             This parameter can be a value between 0 and 0xFF.}
+00062 \textcolor{comment}{                                             @note This parameter is used for SRAMs, ROMs and
+       asynchronous multiplexed NOR Flash memories. */}
+00063 
+00064   uint32\_t FSMC_BusTurnAroundDuration;  \textcolor{comment}{/*!< Defines the number of HCLK cycles to configure}
+00065 \textcolor{comment}{                                             the duration of the bus turnaround.}
+00066 \textcolor{comment}{                                             This parameter can be a value between 0 and 0xF.}
+00067 \textcolor{comment}{                                             @note This parameter is only used for multiplexed NOR
+       Flash memories. */}
+00068 
+00069   uint32\_t FSMC_CLKDivision;            \textcolor{comment}{/*!< Defines the period of CLK clock output signal, expressed
+       in number of HCLK cycles.}
+00070 \textcolor{comment}{                                             This parameter can be a value between 1 and 0xF.}
+00071 \textcolor{comment}{                                             @note This parameter is not used for asynchronous NOR
+       Flash, SRAM or ROM accesses. */}
+00072 
+00073   uint32\_t FSMC_DataLatency;            \textcolor{comment}{/*!< Defines the number of memory clock cycles to issue}
+00074 \textcolor{comment}{                                             to the memory before getting the first data.}
+00075 \textcolor{comment}{                                             The parameter value depends on the memory type as shown
+       below:}
+00076 \textcolor{comment}{                                              - It must be set to 0 in case of a CRAM}
+00077 \textcolor{comment}{                                              - It is don't care in asynchronous NOR, SRAM or ROM
+       accesses}
+00078 \textcolor{comment}{                                              - It may assume a value between 0 and 0xF in NOR Flash
+       memories}
+00079 \textcolor{comment}{                                                with synchronous burst mode enable */}
+00080 
+00081   uint32\_t FSMC_AccessMode;             \textcolor{comment}{/*!< Specifies the asynchronous access mode. }
+00082 \textcolor{comment}{                                             This parameter can be a value of @ref FSMC\_Access\_Mode */}
+00083 \}FSMC\_NORSRAMTimingInitTypeDef;
+00084 
+00085 \textcolor{comment}{/** }
+00086 \textcolor{comment}{  * @brief  FSMC NOR/SRAM Init structure definition}
+00087 \textcolor{comment}{  */}
+00088 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00089 \{
+00090   uint32\_t FSMC_Bank;                \textcolor{comment}{/*!< Specifies the NOR/SRAM memory bank that will be used.}
+00091 \textcolor{comment}{                                          This parameter can be a value of @ref FSMC\_NORSRAM\_Bank */}
+00092 
+00093   uint32\_t FSMC_DataAddressMux;      \textcolor{comment}{/*!< Specifies whether the address and data values are}
+00094 \textcolor{comment}{                                          multiplexed on the databus or not. }
+00095 \textcolor{comment}{                                          This parameter can be a value of @ref
+       FSMC\_Data\_Address\_Bus\_Multiplexing */}
+00096 
+00097   uint32\_t FSMC_MemoryType;          \textcolor{comment}{/*!< Specifies the type of external memory attached to}
+00098 \textcolor{comment}{                                          the corresponding memory bank.}
+00099 \textcolor{comment}{                                          This parameter can be a value of @ref FSMC\_Memory\_Type */}
+00100 
+00101   uint32\_t FSMC_MemoryDataWidth;     \textcolor{comment}{/*!< Specifies the external memory device width.}
+00102 \textcolor{comment}{                                          This parameter can be a value of @ref FSMC\_Data\_Width */}
+00103 
+00104   uint32\_t FSMC_BurstAccessMode;     \textcolor{comment}{/*!< Enables or disables the burst access mode for Flash memory,}
+00105 \textcolor{comment}{                                          valid only with synchronous burst Flash memories.}
+00106 \textcolor{comment}{                                          This parameter can be a value of @ref FSMC\_Burst\_Access\_Mode
+       */}
+00107 
+00108   uint32\_t FSMC_AsynchronousWait;     \textcolor{comment}{/*!< Enables or disables wait signal during asynchronous
+       transfers,}
+00109 \textcolor{comment}{                                          valid only with asynchronous Flash memories.}
+00110 \textcolor{comment}{                                          This parameter can be a value of @ref FSMC\_AsynchronousWait
+       */}
+00111 
+00112   uint32\_t FSMC_WaitSignalPolarity;  \textcolor{comment}{/*!< Specifies the wait signal polarity, valid only when
+       accessing}
+00113 \textcolor{comment}{                                          the Flash memory in burst mode.}
+00114 \textcolor{comment}{                                          This parameter can be a value of @ref
+       FSMC\_Wait\_Signal\_Polarity */}
+00115 
+00116   uint32\_t FSMC_WrapMode;            \textcolor{comment}{/*!< Enables or disables the Wrapped burst access mode for Flash}
+00117 \textcolor{comment}{                                          memory, valid only when accessing Flash memories in burst
+       mode.}
+00118 \textcolor{comment}{                                          This parameter can be a value of @ref FSMC\_Wrap\_Mode */}
+00119 
+00120   uint32\_t FSMC_WaitSignalActive;    \textcolor{comment}{/*!< Specifies if the wait signal is asserted by the memory one}
+00121 \textcolor{comment}{                                          clock cycle before the wait state or during the wait state,}
+00122 \textcolor{comment}{                                          valid only when accessing memories in burst mode. }
+00123 \textcolor{comment}{                                          This parameter can be a value of @ref FSMC\_Wait\_Timing */}
+00124 
+00125   uint32\_t FSMC_WriteOperation;      \textcolor{comment}{/*!< Enables or disables the write operation in the selected bank
+       by the FSMC. }
+00126 \textcolor{comment}{                                          This parameter can be a value of @ref FSMC\_Write\_Operation
+       */}
+00127 
+00128   uint32\_t FSMC_WaitSignal;          \textcolor{comment}{/*!< Enables or disables the wait-state insertion via wait}
+00129 \textcolor{comment}{                                          signal, valid for Flash memory access in burst mode. }
+00130 \textcolor{comment}{                                          This parameter can be a value of @ref FSMC\_Wait\_Signal */}
+00131 
+00132   uint32\_t FSMC_ExtendedMode;        \textcolor{comment}{/*!< Enables or disables the extended mode.}
+00133 \textcolor{comment}{                                          This parameter can be a value of @ref FSMC\_Extended\_Mode */}
+00134 
+00135   uint32\_t FSMC_WriteBurst;          \textcolor{comment}{/*!< Enables or disables the write burst operation.}
+00136 \textcolor{comment}{                                          This parameter can be a value of @ref FSMC\_Write\_Burst */}
+00137 
+00138   FSMC\_NORSRAMTimingInitTypeDef* FSMC_ReadWriteTimingStruct; \textcolor{comment}{/*!< Timing Parameters for write and read
+       access if the  ExtendedMode is not used*/}
+00139 
+00140   FSMC\_NORSRAMTimingInitTypeDef* FSMC_WriteTimingStruct;     \textcolor{comment}{/*!< Timing Parameters for write access
+       if the  ExtendedMode is used*/}
+00141 \}FSMC\_NORSRAMInitTypeDef;
+00142 
+00143 \textcolor{comment}{/** }
+00144 \textcolor{comment}{  * @brief  Timing parameters For FSMC NAND and PCCARD Banks}
+00145 \textcolor{comment}{  */}
+00146 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00147 \{
+00148   uint32\_t FSMC_SetupTime;      \textcolor{comment}{/*!< Defines the number of HCLK cycles to setup address before}
+00149 \textcolor{comment}{                                     the command assertion for NAND-Flash read or write access}
+00150 \textcolor{comment}{                                     to common/Attribute or I/O memory space (depending on}
+00151 \textcolor{comment}{                                     the memory space timing to be configured).}
+00152 \textcolor{comment}{                                     This parameter can be a value between 0 and 0xFF.*/}
+00153 
+00154   uint32\_t FSMC_WaitSetupTime;  \textcolor{comment}{/*!< Defines the minimum number of HCLK cycles to assert the}
+00155 \textcolor{comment}{                                     command for NAND-Flash read or write access to}
+00156 \textcolor{comment}{                                     common/Attribute or I/O memory space (depending on the}
+00157 \textcolor{comment}{                                     memory space timing to be configured). }
+00158 \textcolor{comment}{                                     This parameter can be a number between 0x00 and 0xFF */}
+00159 
+00160   uint32\_t FSMC_HoldSetupTime;  \textcolor{comment}{/*!< Defines the number of HCLK clock cycles to hold address}
+00161 \textcolor{comment}{                                     (and data for write access) after the command deassertion}
+00162 \textcolor{comment}{                                     for NAND-Flash read or write access to common/Attribute}
+00163 \textcolor{comment}{                                     or I/O memory space (depending on the memory space timing}
+00164 \textcolor{comment}{                                     to be configured).}
+00165 \textcolor{comment}{                                     This parameter can be a number between 0x00 and 0xFF */}
+00166 
+00167   uint32\_t FSMC_HiZSetupTime;   \textcolor{comment}{/*!< Defines the number of HCLK clock cycles during which the}
+00168 \textcolor{comment}{                                     databus is kept in HiZ after the start of a NAND-Flash}
+00169 \textcolor{comment}{                                     write access to common/Attribute or I/O memory space (depending}
+00170 \textcolor{comment}{                                     on the memory space timing to be configured).}
+00171 \textcolor{comment}{                                     This parameter can be a number between 0x00 and 0xFF */}
+00172 \}FSMC\_NAND\_PCCARDTimingInitTypeDef;
+00173 
+00174 \textcolor{comment}{/** }
+00175 \textcolor{comment}{  * @brief  FSMC NAND Init structure definition}
+00176 \textcolor{comment}{  */}
+00177 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00178 \{
+00179   uint32\_t FSMC_Bank;              \textcolor{comment}{/*!< Specifies the NAND memory bank that will be used.}
+00180 \textcolor{comment}{                                      This parameter can be a value of @ref FSMC\_NAND\_Bank */}
+00181 
+00182   uint32\_t FSMC_Waitfeature;      \textcolor{comment}{/*!< Enables or disables the Wait feature for the NAND Memory Bank.}
+00183 \textcolor{comment}{                                       This parameter can be any value of @ref FSMC\_Wait\_feature */}
+00184 
+00185   uint32\_t FSMC_MemoryDataWidth;  \textcolor{comment}{/*!< Specifies the external memory device width.}
+00186 \textcolor{comment}{                                       This parameter can be any value of @ref FSMC\_Data\_Width */}
+00187 
+00188   uint32\_t FSMC_ECC;              \textcolor{comment}{/*!< Enables or disables the ECC computation.}
+00189 \textcolor{comment}{                                       This parameter can be any value of @ref FSMC\_ECC */}
+00190 
+00191   uint32\_t FSMC_ECCPageSize;      \textcolor{comment}{/*!< Defines the page size for the extended ECC.}
+00192 \textcolor{comment}{                                       This parameter can be any value of @ref FSMC\_ECC\_Page\_Size */}
+00193 
+00194   uint32\_t FSMC_TCLRSetupTime;    \textcolor{comment}{/*!< Defines the number of HCLK cycles to configure the}
+00195 \textcolor{comment}{                                       delay between CLE low and RE low.}
+00196 \textcolor{comment}{                                       This parameter can be a value between 0 and 0xFF. */}
+00197 
+00198   uint32\_t FSMC_TARSetupTime;     \textcolor{comment}{/*!< Defines the number of HCLK cycles to configure the}
+00199 \textcolor{comment}{                                       delay between ALE low and RE low.}
+00200 \textcolor{comment}{                                       This parameter can be a number between 0x0 and 0xFF */}
+00201 
+00202   FSMC\_NAND\_PCCARDTimingInitTypeDef*  FSMC_CommonSpaceTimingStruct;   \textcolor{comment}{/*!< FSMC Common Space Timing */}
+00203 
+00204   FSMC\_NAND\_PCCARDTimingInitTypeDef*  FSMC_AttributeSpaceTimingStruct; \textcolor{comment}{/*!< FSMC Attribute Space
+       Timing */}
+00205 \}FSMC\_NANDInitTypeDef;
+00206 
+00207 \textcolor{comment}{/** }
+00208 \textcolor{comment}{  * @brief  FSMC PCCARD Init structure definition}
+00209 \textcolor{comment}{  */}
+00210 
+00211 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00212 \{
+00213   uint32\_t FSMC_Waitfeature;    \textcolor{comment}{/*!< Enables or disables the Wait feature for the Memory Bank.}
+00214 \textcolor{comment}{                                    This parameter can be any value of @ref FSMC\_Wait\_feature */}
+00215 
+00216   uint32\_t FSMC_TCLRSetupTime;  \textcolor{comment}{/*!< Defines the number of HCLK cycles to configure the}
+00217 \textcolor{comment}{                                     delay between CLE low and RE low.}
+00218 \textcolor{comment}{                                     This parameter can be a value between 0 and 0xFF. */}
+00219 
+00220   uint32\_t FSMC_TARSetupTime;   \textcolor{comment}{/*!< Defines the number of HCLK cycles to configure the}
+00221 \textcolor{comment}{                                     delay between ALE low and RE low.}
+00222 \textcolor{comment}{                                     This parameter can be a number between 0x0 and 0xFF */}
+00223 
+00224 
+00225   FSMC\_NAND\_PCCARDTimingInitTypeDef*  FSMC_CommonSpaceTimingStruct; \textcolor{comment}{/*!< FSMC Common Space Timing */}
+00226 
+00227   FSMC\_NAND\_PCCARDTimingInitTypeDef*  FSMC_AttributeSpaceTimingStruct;  \textcolor{comment}{/*!< FSMC Attribute Space
+       Timing */}
+00228 
+00229   FSMC\_NAND\_PCCARDTimingInitTypeDef*  FSMC_IOSpaceTimingStruct; \textcolor{comment}{/*!< FSMC IO Space Timing */}
+00230 \}FSMC\_PCCARDInitTypeDef;
+00231 
+00232 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00233 
+00234 \textcolor{comment}{/** @defgroup FSMC\_Exported\_Constants}
+00235 \textcolor{comment}{  * @\{}
+00236 \textcolor{comment}{  */}
+00237 
+00238 \textcolor{comment}{/** @defgroup FSMC\_NORSRAM\_Bank }
+00239 \textcolor{comment}{  * @\{}
+00240 \textcolor{comment}{  */}
+00241 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_Bank1\_NORSRAM1}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00242 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_Bank1\_NORSRAM2}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}
+00243 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_Bank1\_NORSRAM3}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)}
+00244 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_Bank1\_NORSRAM4}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000006\textcolor{preprocessor}{)}
+00245 \textcolor{comment}{/**}
+00246 \textcolor{comment}{  * @\}}
+00247 \textcolor{comment}{  */}
+00248 
+00249 \textcolor{comment}{/** @defgroup FSMC\_NAND\_Bank }
+00250 \textcolor{comment}{  * @\{}
+00251 \textcolor{comment}{  */}
+00252 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_Bank2\_NAND}                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000010\textcolor{preprocessor}{)}
+00253 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_Bank3\_NAND}                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000100\textcolor{preprocessor}{)}
+00254 \textcolor{comment}{/**}
+00255 \textcolor{comment}{  * @\}}
+00256 \textcolor{comment}{  */}
+00257 
+00258 \textcolor{comment}{/** @defgroup FSMC\_PCCARD\_Bank }
+00259 \textcolor{comment}{  * @\{}
+00260 \textcolor{comment}{  */}
+00261 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_Bank4\_PCCARD}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00001000\textcolor{preprocessor}{)}
+00262 \textcolor{comment}{/**}
+00263 \textcolor{comment}{  * @\}}
+00264 \textcolor{comment}{  */}
+00265 
+00266 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_NORSRAM\_BANK}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_Bank1_NORSRAM1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00267                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_Bank1_NORSRAM2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00268                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_Bank1_NORSRAM3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00269                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_Bank1_NORSRAM4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00270 
+00271 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_NAND\_BANK}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_Bank2_NAND\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00272                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_Bank3_NAND\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00273 
+00274 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_GETFLAG\_BANK}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_Bank2_NAND\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00275                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_Bank3_NAND\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00276                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_Bank4_PCCARD\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00277 
+00278 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_IT\_BANK}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_Bank2_NAND\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00279                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_Bank3_NAND\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00280                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BANK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_Bank4_PCCARD\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00281 
+00282 \textcolor{comment}{/** @defgroup FSMC\_NOR\_SRAM\_Controller }
+00283 \textcolor{comment}{  * @\{}
+00284 \textcolor{comment}{  */}
+00285 
+00286 \textcolor{comment}{/** @defgroup FSMC\_Data\_Address\_Bus\_Multiplexing }
+00287 \textcolor{comment}{  * @\{}
+00288 \textcolor{comment}{  */}
+00289 
+00290 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_DataAddressMux\_Disable}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00291 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_DataAddressMux\_Enable}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}
+00292 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_MUX}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MUX}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MUX}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_DataAddressMux_Disable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00293                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MUX}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_DataAddressMux_Enable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00294 \textcolor{comment}{/**}
+00295 \textcolor{comment}{  * @\}}
+00296 \textcolor{comment}{  */}
+00297 
+00298 \textcolor{comment}{/** @defgroup FSMC\_Memory\_Type }
+00299 \textcolor{comment}{  * @\{}
+00300 \textcolor{comment}{  */}
+00301 
+00302 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_MemoryType\_SRAM}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00303 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_MemoryType\_PSRAM}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)}
+00304 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_MemoryType\_NOR}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000008\textcolor{preprocessor}{)}
+00305 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_MEMORY}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MEMORY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MEMORY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_MemoryType_SRAM\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00306                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MEMORY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_MemoryType_PSRAM\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}
+00307                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MEMORY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_MemoryType_NOR\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00308 \textcolor{comment}{/**}
+00309 \textcolor{comment}{  * @\}}
+00310 \textcolor{comment}{  */}
+00311 
+00312 \textcolor{comment}{/** @defgroup FSMC\_Data\_Width }
+00313 \textcolor{comment}{  * @\{}
+00314 \textcolor{comment}{  */}
+00315 
+00316 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_MemoryDataWidth\_8b}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00317 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_MemoryDataWidth\_16b}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000010\textcolor{preprocessor}{)}
+00318 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_MEMORY\_WIDTH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WIDTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WIDTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_MemoryDataWidth_8b\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00319                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WIDTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_MemoryDataWidth_16b\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00320 \textcolor{comment}{/**}
+00321 \textcolor{comment}{  * @\}}
+00322 \textcolor{comment}{  */}
+00323 
+00324 \textcolor{comment}{/** @defgroup FSMC\_Burst\_Access\_Mode }
+00325 \textcolor{comment}{  * @\{}
+00326 \textcolor{comment}{  */}
+00327 
+00328 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_BurstAccessMode\_Disable}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00329 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_BurstAccessMode\_Enable}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000100\textcolor{preprocessor}{)}
+00330 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_BURSTMODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_BurstAccessMode_Disable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00331                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_BurstAccessMode_Enable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00332 \textcolor{comment}{/**}
+00333 \textcolor{comment}{  * @\}}
+00334 \textcolor{comment}{  */}
+00335 
+00336 \textcolor{comment}{/** @defgroup FSMC\_AsynchronousWait }
+00337 \textcolor{comment}{  * @\{}
+00338 \textcolor{comment}{  */}
+00339 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_AsynchronousWait\_Disable}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00340 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_AsynchronousWait\_Enable}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00008000\textcolor{preprocessor}{)}
+00341 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_ASYNWAIT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_AsynchronousWait_Disable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00342                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_AsynchronousWait_Enable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00343 \textcolor{comment}{/**}
+00344 \textcolor{comment}{  * @\}}
+00345 \textcolor{comment}{  */}
+00346 
+00347 \textcolor{comment}{/** @defgroup FSMC\_Wait\_Signal\_Polarity }
+00348 \textcolor{comment}{  * @\{}
+00349 \textcolor{comment}{  */}
+00350 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_WaitSignalPolarity\_Low}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00351 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_WaitSignalPolarity\_High}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000200\textcolor{preprocessor}{)}
+00352 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_WAIT\_POLARITY}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      FSMC_WaitSignalPolarity_Low\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00353                                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POLARITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      FSMC_WaitSignalPolarity_High\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00354 \textcolor{comment}{/**}
+00355 \textcolor{comment}{  * @\}}
+00356 \textcolor{comment}{  */}
+00357 
+00358 \textcolor{comment}{/** @defgroup FSMC\_Wrap\_Mode }
+00359 \textcolor{comment}{  * @\{}
+00360 \textcolor{comment}{  */}
+00361 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_WrapMode\_Disable}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00362 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_WrapMode\_Enable}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000400\textcolor{preprocessor}{)}
+00363 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_WRAP\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_WrapMode_Disable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00364                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_WrapMode_Enable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00365 \textcolor{comment}{/**}
+00366 \textcolor{comment}{  * @\}}
+00367 \textcolor{comment}{  */}
+00368 
+00369 \textcolor{comment}{/** @defgroup FSMC\_Wait\_Timing }
+00370 \textcolor{comment}{  * @\{}
+00371 \textcolor{comment}{  */}
+00372 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_WaitSignalActive\_BeforeWaitState}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00373 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_WaitSignalActive\_DuringWaitState}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000800\textcolor{preprocessor}{)}
+00374 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_WAIT\_SIGNAL\_ACTIVE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ACTIVE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ACTIVE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      FSMC_WaitSignalActive_BeforeWaitState\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00375                                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ACTIVE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      FSMC_WaitSignalActive_DuringWaitState\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00376 \textcolor{comment}{/**}
+00377 \textcolor{comment}{  * @\}}
+00378 \textcolor{comment}{  */}
+00379 
+00380 \textcolor{comment}{/** @defgroup FSMC\_Write\_Operation }
+00381 \textcolor{comment}{  * @\{}
+00382 \textcolor{comment}{  */}
+00383 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_WriteOperation\_Disable}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00384 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_WriteOperation\_Enable}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00001000\textcolor{preprocessor}{)}
+00385 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_WRITE\_OPERATION}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OPERATION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OPERATION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      FSMC_WriteOperation_Disable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00386                                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OPERATION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      FSMC_WriteOperation_Enable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00387 \textcolor{comment}{/**}
+00388 \textcolor{comment}{  * @\}}
+00389 \textcolor{comment}{  */}
+00390 
+00391 \textcolor{comment}{/** @defgroup FSMC\_Wait\_Signal }
+00392 \textcolor{comment}{  * @\{}
+00393 \textcolor{comment}{  */}
+00394 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_WaitSignal\_Disable}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00395 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_WaitSignal\_Enable}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00002000\textcolor{preprocessor}{)}
+00396 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_WAITE\_SIGNAL}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIGNAL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIGNAL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_WaitSignal_Disable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00397                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIGNAL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_WaitSignal_Enable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00398 \textcolor{comment}{/**}
+00399 \textcolor{comment}{  * @\}}
+00400 \textcolor{comment}{  */}
+00401 
+00402 \textcolor{comment}{/** @defgroup FSMC\_Extended\_Mode }
+00403 \textcolor{comment}{  * @\{}
+00404 \textcolor{comment}{  */}
+00405 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_ExtendedMode\_Disable}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00406 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_ExtendedMode\_Enable}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00004000\textcolor{preprocessor}{)}
+00407 
+00408 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_EXTENDED\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_ExtendedMode_Disable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00409                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_ExtendedMode_Enable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00410 \textcolor{comment}{/**}
+00411 \textcolor{comment}{  * @\}}
+00412 \textcolor{comment}{  */}
+00413 
+00414 \textcolor{comment}{/** @defgroup FSMC\_Write\_Burst }
+00415 \textcolor{comment}{  * @\{}
+00416 \textcolor{comment}{  */}
+00417 
+00418 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_WriteBurst\_Disable}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00419 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_WriteBurst\_Enable}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00080000\textcolor{preprocessor}{)}
+00420 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_WRITE\_BURST}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BURST}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BURST}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_WriteBurst_Disable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00421                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BURST}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_WriteBurst_Enable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00422 \textcolor{comment}{/**}
+00423 \textcolor{comment}{  * @\}}
+00424 \textcolor{comment}{  */}
+00425 
+00426 \textcolor{comment}{/** @defgroup FSMC\_Address\_Setup\_Time }
+00427 \textcolor{comment}{  * @\{}
+00428 \textcolor{comment}{  */}
+00429 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_ADDRESS\_SETUP\_TIME}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0xF\textcolor{preprocessor}{)}
+00430 \textcolor{comment}{/**}
+00431 \textcolor{comment}{  * @\}}
+00432 \textcolor{comment}{  */}
+00433 
+00434 \textcolor{comment}{/** @defgroup FSMC\_Address\_Hold\_Time }
+00435 \textcolor{comment}{  * @\{}
+00436 \textcolor{comment}{  */}
+00437 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_ADDRESS\_HOLD\_TIME}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0xF\textcolor{preprocessor}{)}
+00438 \textcolor{comment}{/**}
+00439 \textcolor{comment}{  * @\}}
+00440 \textcolor{comment}{  */}
+00441 
+00442 \textcolor{comment}{/** @defgroup FSMC\_Data\_Setup\_Time }
+00443 \textcolor{comment}{  * @\{}
+00444 \textcolor{comment}{  */}
+00445 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_DATASETUP\_TIME}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{>} 0\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0xFF\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00446 \textcolor{comment}{/**}
+00447 \textcolor{comment}{  * @\}}
+00448 \textcolor{comment}{  */}
+00449 
+00450 \textcolor{comment}{/** @defgroup FSMC\_Bus\_Turn\_around\_Duration }
+00451 \textcolor{comment}{  * @\{}
+00452 \textcolor{comment}{  */}
+00453 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_TURNAROUND\_TIME}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0xF\textcolor{preprocessor}{)}
+00454 \textcolor{comment}{/**}
+00455 \textcolor{comment}{  * @\}}
+00456 \textcolor{comment}{  */}
+00457 
+00458 \textcolor{comment}{/** @defgroup FSMC\_CLK\_Division }
+00459 \textcolor{comment}{  * @\{}
+00460 \textcolor{comment}{  */}
+00461 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_CLK\_DIV}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIV}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIV}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0xF\textcolor{preprocessor}{)}
+00462 \textcolor{comment}{/**}
+00463 \textcolor{comment}{  * @\}}
+00464 \textcolor{comment}{  */}
+00465 
+00466 \textcolor{comment}{/** @defgroup FSMC\_Data\_Latency }
+00467 \textcolor{comment}{  * @\{}
+00468 \textcolor{comment}{  */}
+00469 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_DATA\_LATENCY}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LATENCY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{LATENCY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0xF\textcolor{preprocessor}{)}
+00470 \textcolor{comment}{/**}
+00471 \textcolor{comment}{  * @\}}
+00472 \textcolor{comment}{  */}
+00473 
+00474 \textcolor{comment}{/** @defgroup FSMC\_Access\_Mode }
+00475 \textcolor{comment}{  * @\{}
+00476 \textcolor{comment}{  */}
+00477 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_AccessMode\_A}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00478 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_AccessMode\_B}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000000\textcolor{preprocessor}{)}
+00479 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_AccessMode\_C}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000000\textcolor{preprocessor}{)}
+00480 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_AccessMode\_D}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x30000000\textcolor{preprocessor}{)}
+00481 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_ACCESS\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_AccessMode_A\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00482                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_AccessMode_B\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00483                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_AccessMode_C\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00484                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_AccessMode_D\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00485 \textcolor{comment}{/**}
+00486 \textcolor{comment}{  * @\}}
+00487 \textcolor{comment}{  */}
+00488 
+00489 \textcolor{comment}{/**}
+00490 \textcolor{comment}{  * @\}}
+00491 \textcolor{comment}{  */}
+00492 
+00493 \textcolor{comment}{/** @defgroup FSMC\_NAND\_PCCARD\_Controller }
+00494 \textcolor{comment}{  * @\{}
+00495 \textcolor{comment}{  */}
+00496 
+00497 \textcolor{comment}{/** @defgroup FSMC\_Wait\_feature }
+00498 \textcolor{comment}{  * @\{}
+00499 \textcolor{comment}{  */}
+00500 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_Waitfeature\_Disable}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00501 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_Waitfeature\_Enable}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}
+00502 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_WAIT\_FEATURE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FEATURE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FEATURE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      FSMC_Waitfeature_Disable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00503                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FEATURE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      FSMC_Waitfeature_Enable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00504 \textcolor{comment}{/**}
+00505 \textcolor{comment}{  * @\}}
+00506 \textcolor{comment}{  */}
+00507 
+00508 
+00509 \textcolor{comment}{/** @defgroup FSMC\_ECC }
+00510 \textcolor{comment}{  * @\{}
+00511 \textcolor{comment}{  */}
+00512 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_ECC\_Disable}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00513 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_ECC\_Enable}                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000040\textcolor{preprocessor}{)}
+00514 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_ECC\_STATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_ECC_Disable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00515                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_ECC_Enable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00516 \textcolor{comment}{/**}
+00517 \textcolor{comment}{  * @\}}
+00518 \textcolor{comment}{  */}
+00519 
+00520 \textcolor{comment}{/** @defgroup FSMC\_ECC\_Page\_Size }
+00521 \textcolor{comment}{  * @\{}
+00522 \textcolor{comment}{  */}
+00523 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_ECCPageSize\_256Bytes}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00524 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_ECCPageSize\_512Bytes}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00020000\textcolor{preprocessor}{)}
+00525 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_ECCPageSize\_1024Bytes}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00040000\textcolor{preprocessor}{)}
+00526 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_ECCPageSize\_2048Bytes}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00060000\textcolor{preprocessor}{)}
+00527 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_ECCPageSize\_4096Bytes}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00080000\textcolor{preprocessor}{)}
+00528 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_ECCPageSize\_8192Bytes}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000A0000\textcolor{preprocessor}{)}
+00529 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_ECCPAGE\_SIZE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_ECCPageSize_256Bytes\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00530                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_ECCPageSize_512Bytes\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00531                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_ECCPageSize_1024Bytes\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00532                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_ECCPageSize_2048Bytes\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00533                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_ECCPageSize_4096Bytes\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00534                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_ECCPageSize_8192Bytes\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00535 \textcolor{comment}{/**}
+00536 \textcolor{comment}{  * @\}}
+00537 \textcolor{comment}{  */}
+00538 
+00539 \textcolor{comment}{/** @defgroup FSMC\_TCLR\_Setup\_Time }
+00540 \textcolor{comment}{  * @\{}
+00541 \textcolor{comment}{  */}
+00542 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_TCLR\_TIME}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0xFF\textcolor{preprocessor}{)}
+00543 \textcolor{comment}{/**}
+00544 \textcolor{comment}{  * @\}}
+00545 \textcolor{comment}{  */}
+00546 
+00547 \textcolor{comment}{/** @defgroup FSMC\_TAR\_Setup\_Time }
+00548 \textcolor{comment}{  * @\{}
+00549 \textcolor{comment}{  */}
+00550 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_TAR\_TIME}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0xFF\textcolor{preprocessor}{)}
+00551 \textcolor{comment}{/**}
+00552 \textcolor{comment}{  * @\}}
+00553 \textcolor{comment}{  */}
+00554 
+00555 \textcolor{comment}{/** @defgroup FSMC\_Setup\_Time }
+00556 \textcolor{comment}{  * @\{}
+00557 \textcolor{comment}{  */}
+00558 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_SETUP\_TIME}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0xFF\textcolor{preprocessor}{)}
+00559 \textcolor{comment}{/**}
+00560 \textcolor{comment}{  * @\}}
+00561 \textcolor{comment}{  */}
+00562 
+00563 \textcolor{comment}{/** @defgroup FSMC\_Wait\_Setup\_Time }
+00564 \textcolor{comment}{  * @\{}
+00565 \textcolor{comment}{  */}
+00566 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_WAIT\_TIME}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0xFF\textcolor{preprocessor}{)}
+00567 \textcolor{comment}{/**}
+00568 \textcolor{comment}{  * @\}}
+00569 \textcolor{comment}{  */}
+00570 
+00571 \textcolor{comment}{/** @defgroup FSMC\_Hold\_Setup\_Time }
+00572 \textcolor{comment}{  * @\{}
+00573 \textcolor{comment}{  */}
+00574 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_HOLD\_TIME}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0xFF\textcolor{preprocessor}{)}
+00575 \textcolor{comment}{/**}
+00576 \textcolor{comment}{  * @\}}
+00577 \textcolor{comment}{  */}
+00578 
+00579 \textcolor{comment}{/** @defgroup FSMC\_HiZ\_Setup\_Time }
+00580 \textcolor{comment}{  * @\{}
+00581 \textcolor{comment}{  */}
+00582 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_HIZ\_TIME}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TIME}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0xFF\textcolor{preprocessor}{)}
+00583 \textcolor{comment}{/**}
+00584 \textcolor{comment}{  * @\}}
+00585 \textcolor{comment}{  */}
+00586 
+00587 \textcolor{comment}{/** @defgroup FSMC\_Interrupt\_sources }
+00588 \textcolor{comment}{  * @\{}
+00589 \textcolor{comment}{  */}
+00590 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_IT\_RisingEdge}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000008\textcolor{preprocessor}{)}
+00591 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_IT\_Level}                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000010\textcolor{preprocessor}{)}
+00592 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_IT\_FallingEdge}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000020\textcolor{preprocessor}{)}
+00593 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFFFFFC7\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00000000\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00000000\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00594 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_GET\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_IT_RisingEdge\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00595                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_IT_Level\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00596                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_IT_FallingEdge\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00597 \textcolor{comment}{/**}
+00598 \textcolor{comment}{  * @\}}
+00599 \textcolor{comment}{  */}
+00600 
+00601 \textcolor{comment}{/** @defgroup FSMC\_Flags }
+00602 \textcolor{comment}{  * @\{}
+00603 \textcolor{comment}{  */}
+00604 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_FLAG\_RisingEdge}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00605 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_FLAG\_Level}                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}
+00606 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_FLAG\_FallingEdge}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)}
+00607 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FSMC\_FLAG\_FEMPT}                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000040\textcolor{preprocessor}{)}
+00608 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_GET\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_FLAG_RisingEdge\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00609                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_FLAG_Level\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00610                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_FLAG_FallingEdge\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00611                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} FSMC_FLAG_FEMPT\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00612 
+00613 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_FSMC\_CLEAR\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFFFFFF8\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00000000\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 
+      0x00000000\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00614 \textcolor{comment}{/**}
+00615 \textcolor{comment}{  * @\}}
+00616 \textcolor{comment}{  */}
+00617 
+00618 \textcolor{comment}{/**}
+00619 \textcolor{comment}{  * @\}}
+00620 \textcolor{comment}{  */}
+00621 
+00622 \textcolor{comment}{/**}
+00623 \textcolor{comment}{  * @\}}
+00624 \textcolor{comment}{  */}
+00625 
+00626 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00627 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00628 
+00629 \textcolor{comment}{/* NOR/SRAM Controller functions **********************************************/}
+00630 \textcolor{keywordtype}{void} FSMC_NORSRAMDeInit(uint32\_t FSMC\_Bank);
+00631 \textcolor{keywordtype}{void} FSMC_NORSRAMInit(FSMC\_NORSRAMInitTypeDef* FSMC\_NORSRAMInitStruct);
+00632 \textcolor{keywordtype}{void} FSMC_NORSRAMStructInit(FSMC\_NORSRAMInitTypeDef* FSMC\_NORSRAMInitStruct);
+00633 \textcolor{keywordtype}{void} FSMC_NORSRAMCmd(uint32\_t FSMC\_Bank, FunctionalState NewState);
+00634 
+00635 \textcolor{comment}{/* NAND Controller functions **************************************************/}
+00636 \textcolor{keywordtype}{void} FSMC_NANDDeInit(uint32\_t FSMC\_Bank);
+00637 \textcolor{keywordtype}{void} FSMC_NANDInit(FSMC\_NANDInitTypeDef* FSMC\_NANDInitStruct);
+00638 \textcolor{keywordtype}{void} FSMC_NANDStructInit(FSMC\_NANDInitTypeDef* FSMC\_NANDInitStruct);
+00639 \textcolor{keywordtype}{void} FSMC_NANDCmd(uint32\_t FSMC\_Bank, FunctionalState NewState);
+00640 \textcolor{keywordtype}{void} FSMC_NANDECCCmd(uint32\_t FSMC\_Bank, FunctionalState NewState);
+00641 uint32\_t FSMC_GetECC(uint32\_t FSMC\_Bank);
+00642 
+00643 \textcolor{comment}{/* PCCARD Controller functions ************************************************/}
+00644 \textcolor{keywordtype}{void} FSMC_PCCARDDeInit(\textcolor{keywordtype}{void});
+00645 \textcolor{keywordtype}{void} FSMC_PCCARDInit(FSMC\_PCCARDInitTypeDef* FSMC\_PCCARDInitStruct);
+00646 \textcolor{keywordtype}{void} FSMC_PCCARDStructInit(FSMC\_PCCARDInitTypeDef* FSMC\_PCCARDInitStruct);
+00647 \textcolor{keywordtype}{void} FSMC_PCCARDCmd(FunctionalState NewState);
+00648 
+00649 \textcolor{comment}{/* Interrupts and flags management functions **********************************/}
+00650 \textcolor{keywordtype}{void} FSMC_ITConfig(uint32\_t FSMC\_Bank, uint32\_t FSMC\_IT, FunctionalState NewState);
+00651 FlagStatus FSMC_GetFlagStatus(uint32\_t FSMC\_Bank, uint32\_t FSMC\_FLAG);
+00652 \textcolor{keywordtype}{void} FSMC_ClearFlag(uint32\_t FSMC\_Bank, uint32\_t FSMC\_FLAG);
+00653 ITStatus FSMC_GetITStatus(uint32\_t FSMC\_Bank, uint32\_t FSMC\_IT);
+00654 \textcolor{keywordtype}{void} FSMC_ClearITPendingBit(uint32\_t FSMC\_Bank, uint32\_t FSMC\_IT);
+00655 
+00656 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00657 \}
+00658 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00659 
+00660 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/*\_\_STM32F4xx\_FSMC\_H */}
+00661 \textcolor{comment}{/**}
+00662 \textcolor{comment}{  * @\}}
+00663 \textcolor{comment}{  */}
+00664 
+00665 \textcolor{comment}{/**}
+00666 \textcolor{comment}{  * @\}}
+00667 \textcolor{comment}{  */}
+00668 
+00669 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

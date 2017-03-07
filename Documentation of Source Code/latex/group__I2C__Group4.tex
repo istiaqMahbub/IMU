@@ -1,0 +1,123 @@
+\section{D\+MA transfers management functions}
+\label{group__I2C__Group4}\index{D\+M\+A transfers management functions@{D\+M\+A transfers management functions}}
+
+
+D\+MA transfers management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ I2\+C\+\_\+\+D\+M\+A\+Cmd} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified I2C D\+MA requests. \end{DoxyCompactList}\item 
+void \textbf{ I2\+C\+\_\+\+D\+M\+A\+Last\+Transfer\+Cmd} (\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$I2\+Cx, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Specifies that the next D\+MA transfer is the last one. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+D\+MA transfers management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                         DMA transfers management functions
+ ===============================================================================  
+  This section provides functions allowing to configure the I2C DMA channels 
+  requests.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__I2C__Group4_ga38502ce11e5ec923e0f6476aaa35b45c}} 
+\index{D\+M\+A transfers management functions@{D\+M\+A transfers management functions}!I2\+C\+\_\+\+D\+M\+A\+Cmd@{I2\+C\+\_\+\+D\+M\+A\+Cmd}}
+\index{I2\+C\+\_\+\+D\+M\+A\+Cmd@{I2\+C\+\_\+\+D\+M\+A\+Cmd}!D\+M\+A transfers management functions@{D\+M\+A transfers management functions}}
+\subsubsection{I2\+C\+\_\+\+D\+M\+A\+Cmd()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+D\+M\+A\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified I2C D\+MA requests. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em New\+State} & new state of the I2C D\+MA transfer. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 843} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00844 \{
+00845   \textcolor{comment}{/* Check the parameters */}
+00846   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00847   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00848   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00849   \{
+00850     \textcolor{comment}{/* Enable the selected I2C DMA requests */}
+00851     I2Cx->CR2 |= I2C_CR2_DMAEN;
+00852   \}
+00853   \textcolor{keywordflow}{else}
+00854   \{
+00855     \textcolor{comment}{/* Disable the selected I2C DMA requests */}
+00856     I2Cx->CR2 &= (uint16\_t)~((uint16\_t)I2C_CR2_DMAEN);
+00857   \}
+00858 \}
+\end{DoxyCode}
+\mbox{\label{group__I2C__Group4_gab2e994c5681eb6ec7c26a03ffe1de060}} 
+\index{D\+M\+A transfers management functions@{D\+M\+A transfers management functions}!I2\+C\+\_\+\+D\+M\+A\+Last\+Transfer\+Cmd@{I2\+C\+\_\+\+D\+M\+A\+Last\+Transfer\+Cmd}}
+\index{I2\+C\+\_\+\+D\+M\+A\+Last\+Transfer\+Cmd@{I2\+C\+\_\+\+D\+M\+A\+Last\+Transfer\+Cmd}!D\+M\+A transfers management functions@{D\+M\+A transfers management functions}}
+\subsubsection{I2\+C\+\_\+\+D\+M\+A\+Last\+Transfer\+Cmd()}
+{\footnotesize\ttfamily void I2\+C\+\_\+\+D\+M\+A\+Last\+Transfer\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ I2\+C\+\_\+\+Type\+Def} $\ast$}]{I2\+Cx,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Specifies that the next D\+MA transfer is the last one. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I2\+Cx} & where x can be 1, 2 or 3 to select the I2C peripheral. \\
+\hline
+{\em New\+State} & new state of the I2C D\+MA last transfer. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 867} of file \textbf{ stm32f4xx\+\_\+i2c.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00868 \{
+00869   \textcolor{comment}{/* Check the parameters */}
+00870   assert_param(IS_I2C_ALL_PERIPH(I2Cx));
+00871   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00872   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00873   \{
+00874     \textcolor{comment}{/* Next DMA transfer is the last transfer */}
+00875     I2Cx->CR2 |= I2C_CR2_LAST;
+00876   \}
+00877   \textcolor{keywordflow}{else}
+00878   \{
+00879     \textcolor{comment}{/* Next DMA transfer is not the last transfer */}
+00880     I2Cx->CR2 &= (uint16\_t)~((uint16\_t)I2C_CR2_LAST);
+00881   \}
+00882 \}
+\end{DoxyCode}

@@ -1,0 +1,1304 @@
+\section{stm32f4xx\+\_\+spi.\+c}
+\label{stm32f4xx__spi_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+spi.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+spi.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_spi.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides firmware functions to manage the following }
+00008 \textcolor{comment}{  *          functionalities of the Serial peripheral interface (SPI):}
+00009 \textcolor{comment}{  *           - Initialization and Configuration}
+00010 \textcolor{comment}{  *           - Data transfers functions}
+00011 \textcolor{comment}{  *           - Hardware CRC Calculation}
+00012 \textcolor{comment}{  *           - DMA transfers management}
+00013 \textcolor{comment}{  *           - Interrupts and flags management }
+00014 \textcolor{comment}{  *           }
+00015 \textcolor{comment}{  *  @verbatim}
+00016 \textcolor{comment}{  *          }
+00017 \textcolor{comment}{  *                    }
+00018 \textcolor{comment}{  *          ===================================================================}
+00019 \textcolor{comment}{  *                                 How to use this driver}
+00020 \textcolor{comment}{  *          ===================================================================}
+00021 \textcolor{comment}{  *    }
+00022 \textcolor{comment}{  *          1. Enable peripheral clock using the following functions }
+00023 \textcolor{comment}{  *             RCC\_APB2PeriphClockCmd(RCC\_APB2Periph\_SPI1, ENABLE) for SPI1}
+00024 \textcolor{comment}{  *             RCC\_APB1PeriphClockCmd(RCC\_APB1Periph\_SPI2, ENABLE) for SPI2}
+00025 \textcolor{comment}{  *             RCC\_APB1PeriphResetCmd(RCC\_APB1Periph\_SPI3, ENABLE) for SPI3.}
+00026 \textcolor{comment}{  *}
+00027 \textcolor{comment}{  *          2. Enable SCK, MOSI, MISO and NSS GPIO clocks using RCC\_AHB1PeriphClockCmd()}
+00028 \textcolor{comment}{  *             function.}
+00029 \textcolor{comment}{  *             In I2S mode, if an external clock source is used then the I2S CKIN pin GPIO}
+00030 \textcolor{comment}{  *             clock should also be enabled.}
+00031 \textcolor{comment}{  *}
+00032 \textcolor{comment}{  *          3. Peripherals alternate function: }
+00033 \textcolor{comment}{  *                 - Connect the pin to the desired peripherals' Alternate }
+00034 \textcolor{comment}{  *                   Function (AF) using GPIO\_PinAFConfig() function}
+00035 \textcolor{comment}{  *                 - Configure the desired pin in alternate function by:}
+00036 \textcolor{comment}{  *                   GPIO\_InitStruct->GPIO\_Mode = GPIO\_Mode\_AF}
+00037 \textcolor{comment}{  *                 - Select the type, pull-up/pull-down and output speed via }
+00038 \textcolor{comment}{  *                   GPIO\_PuPd, GPIO\_OType and GPIO\_Speed members}
+00039 \textcolor{comment}{  *                 - Call GPIO\_Init() function}
+00040 \textcolor{comment}{  *              In I2S mode, if an external clock source is used then the I2S CKIN pin}
+00041 \textcolor{comment}{  *              should be also configured in Alternate function Push-pull pull-up mode. }
+00042 \textcolor{comment}{  *        }
+00043 \textcolor{comment}{  *          4. Program the Polarity, Phase, First Data, Baud Rate Prescaler, Slave }
+00044 \textcolor{comment}{  *             Management, Peripheral Mode and CRC Polynomial values using the SPI\_Init()}
+00045 \textcolor{comment}{  *             function.}
+00046 \textcolor{comment}{  *             In I2S mode, program the Mode, Standard, Data Format, MCLK Output, Audio }
+00047 \textcolor{comment}{  *             frequency and Polarity using I2S\_Init() function.}
+00048 \textcolor{comment}{  *             For I2S mode, make sure that either:}
+00049 \textcolor{comment}{  *              - I2S PLL is configured using the functions
+       RCC\_I2SCLKConfig(RCC\_I2S2CLKSource\_PLLI2S), }
+00050 \textcolor{comment}{  *                RCC\_PLLI2SCmd(ENABLE) and RCC\_GetFlagStatus(RCC\_FLAG\_PLLI2SRDY).}
+00051 \textcolor{comment}{  *              or }
+00052 \textcolor{comment}{  *              - External clock source is configured using the function }
+00053 \textcolor{comment}{  *                RCC\_I2SCLKConfig(RCC\_I2S2CLKSource\_Ext) and after setting correctly the define
+       constant}
+00054 \textcolor{comment}{  *                I2S\_EXTERNAL\_CLOCK\_VAL in the stm32f4xx\_conf.h file. }
+00055 \textcolor{comment}{  *}
+00056 \textcolor{comment}{  *          5. Enable the NVIC and the corresponding interrupt using the function }
+00057 \textcolor{comment}{  *             SPI\_ITConfig() if you need to use interrupt mode. }
+00058 \textcolor{comment}{  *}
+00059 \textcolor{comment}{  *          6. When using the DMA mode }
+00060 \textcolor{comment}{  *                   - Configure the DMA using DMA\_Init() function}
+00061 \textcolor{comment}{  *                   - Active the needed channel Request using SPI\_I2S\_DMACmd() function}
+00062 \textcolor{comment}{  * }
+00063 \textcolor{comment}{  *          7. Enable the SPI using the SPI\_Cmd() function or enable the I2S using}
+00064 \textcolor{comment}{  *             I2S\_Cmd().}
+00065 \textcolor{comment}{  * }
+00066 \textcolor{comment}{  *          8. Enable the DMA using the DMA\_Cmd() function when using DMA mode. }
+00067 \textcolor{comment}{  *}
+00068 \textcolor{comment}{  *          9. Optionally, you can enable/configure the following parameters without}
+00069 \textcolor{comment}{  *             re-initialization (i.e there is no need to call again SPI\_Init() function):}
+00070 \textcolor{comment}{  *              - When bidirectional mode (SPI\_Direction\_1Line\_Rx or SPI\_Direction\_1Line\_Tx)}
+00071 \textcolor{comment}{  *                is programmed as Data direction parameter using the SPI\_Init() function}
+00072 \textcolor{comment}{  *                it can be possible to switch between SPI\_Direction\_Tx or SPI\_Direction\_Rx}
+00073 \textcolor{comment}{  *                using the SPI\_BiDirectionalLineConfig() function.}
+00074 \textcolor{comment}{  *              - When SPI\_NSS\_Soft is selected as Slave Select Management parameter }
+00075 \textcolor{comment}{  *                using the SPI\_Init() function it can be possible to manage the }
+00076 \textcolor{comment}{  *                NSS internal signal using the SPI\_NSSInternalSoftwareConfig() function.}
+00077 \textcolor{comment}{  *              - Reconfigure the data size using the SPI\_DataSizeConfig() function  }
+00078 \textcolor{comment}{  *              - Enable or disable the SS output using the SPI\_SSOutputCmd() function  }
+00079 \textcolor{comment}{  *          }
+00080 \textcolor{comment}{  *          10. To use the CRC Hardware calculation feature refer to the Peripheral }
+00081 \textcolor{comment}{  *              CRC hardware Calculation subsection.}
+00082 \textcolor{comment}{  *   }
+00083 \textcolor{comment}{  *}
+00084 \textcolor{comment}{  *          It is possible to use SPI in I2S full duplex mode, in this case, each SPI }
+00085 \textcolor{comment}{  *          peripheral is able to manage sending and receiving data simultaneously}
+00086 \textcolor{comment}{  *          using two data lines. Each SPI peripheral has an extended block called I2Sxext}
+00087 \textcolor{comment}{  *          (ie. I2S2ext for SPI2 and I2S3ext for SPI3).}
+00088 \textcolor{comment}{  *          The extension block is not a full SPI IP, it is used only as I2S slave to}
+00089 \textcolor{comment}{  *          implement full duplex mode. The extension block uses the same clock sources}
+00090 \textcolor{comment}{  *          as its master.          }
+00091 \textcolor{comment}{  *          To configure I2S full duplex you have to:}
+00092 \textcolor{comment}{  *            }
+00093 \textcolor{comment}{  *          1. Configure SPIx in I2S mode (I2S\_Init() function) as described above. }
+00094 \textcolor{comment}{  *           }
+00095 \textcolor{comment}{  *          2. Call the I2S\_FullDuplexConfig() function using the same strucutre passed to  }
+00096 \textcolor{comment}{  *             I2S\_Init() function.}
+00097 \textcolor{comment}{  *            }
+00098 \textcolor{comment}{  *          3. Call I2S\_Cmd() for SPIx then for its extended block.}
+00099 \textcolor{comment}{  *          }
+00100 \textcolor{comment}{  *          4. To configure interrupts or DMA requests and to get/clear flag status, }
+00101 \textcolor{comment}{  *             use I2Sxext instance for the extension block.}
+00102 \textcolor{comment}{  *             }
+00103 \textcolor{comment}{  *          Functions that can be called with I2Sxext instances are:}
+00104 \textcolor{comment}{  *          I2S\_Cmd(), I2S\_FullDuplexConfig(), SPI\_I2S\_ReceiveData(), SPI\_I2S\_SendData(), }
+00105 \textcolor{comment}{  *          SPI\_I2S\_DMACmd(), SPI\_I2S\_ITConfig(), SPI\_I2S\_GetFlagStatus(), SPI\_I2S\_ClearFlag(),}
+00106 \textcolor{comment}{  *          SPI\_I2S\_GetITStatus() and SPI\_I2S\_ClearITPendingBit().}
+00107 \textcolor{comment}{  *                 }
+00108 \textcolor{comment}{  *          Example: To use SPI3 in Full duplex mode (SPI3 is Master Tx, I2S3ext is Slave Rx):}
+00109 \textcolor{comment}{  *            }
+00110 \textcolor{comment}{  *          RCC\_APB1PeriphClockCmd(RCC\_APB1Periph\_SPI3, ENABLE);   }
+00111 \textcolor{comment}{  *          I2S\_StructInit(&I2SInitStruct);}
+00112 \textcolor{comment}{  *          I2SInitStruct.Mode = I2S\_Mode\_MasterTx;     }
+00113 \textcolor{comment}{  *          I2S\_Init(SPI3, &I2SInitStruct);}
+00114 \textcolor{comment}{  *          I2S\_FullDuplexConfig(SPI3ext, &I2SInitStruct)}
+00115 \textcolor{comment}{  *          I2S\_Cmd(SPI3, ENABLE);}
+00116 \textcolor{comment}{  *          I2S\_Cmd(SPI3ext, ENABLE);}
+00117 \textcolor{comment}{  *          ...}
+00118 \textcolor{comment}{  *          while (SPI\_I2S\_GetFlagStatus(SPI2, SPI\_FLAG\_TXE) == RESET)}
+00119 \textcolor{comment}{  *          \{\}}
+00120 \textcolor{comment}{  *          SPI\_I2S\_SendData(SPI3, txdata[i]);}
+00121 \textcolor{comment}{  *          ...  }
+00122 \textcolor{comment}{  *          while (SPI\_I2S\_GetFlagStatus(I2S3ext, SPI\_FLAG\_RXNE) == RESET)}
+00123 \textcolor{comment}{  *          \{\}}
+00124 \textcolor{comment}{  *          rxdata[i] = SPI\_I2S\_ReceiveData(I2S3ext);}
+00125 \textcolor{comment}{  *          ...          }
+00126 \textcolor{comment}{  *              }
+00127 \textcolor{comment}{  *     }
+00128 \textcolor{comment}{  * @note    In I2S mode: if an external clock is used as source clock for the I2S,  }
+00129 \textcolor{comment}{  *          then the define I2S\_EXTERNAL\_CLOCK\_VAL in file stm32f4xx\_conf.h should }
+00130 \textcolor{comment}{  *          be enabled and set to the value of the source clock frequency (in Hz).}
+00131 \textcolor{comment}{  * }
+00132 \textcolor{comment}{  * @note    In SPI mode: To use the SPI TI mode, call the function SPI\_TIModeCmd() }
+00133 \textcolor{comment}{  *          just after calling the function SPI\_Init().}
+00134 \textcolor{comment}{  *}
+00135 \textcolor{comment}{  *  @endverbatim  }
+00136 \textcolor{comment}{  *                                  }
+00137 \textcolor{comment}{  ******************************************************************************}
+00138 \textcolor{comment}{  * @attention}
+00139 \textcolor{comment}{  *}
+00140 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00141 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00142 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00143 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00144 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00145 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00146 \textcolor{comment}{  *}
+00147 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00148 \textcolor{comment}{  ******************************************************************************  }
+00149 \textcolor{comment}{  */}
+00150 
+00151 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00152 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_spi.h"
+00153 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rcc.h"
+00154 
+00155 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00156 \textcolor{comment}{  * @\{}
+00157 \textcolor{comment}{  */}
+00158 
+00159 \textcolor{comment}{/** @defgroup SPI }
+00160 \textcolor{comment}{  * @brief SPI driver modules}
+00161 \textcolor{comment}{  * @\{}
+00162 \textcolor{comment}{  */}
+00163 
+00164 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00165 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00166 
+00167 \textcolor{comment}{/* SPI registers Masks */}
+00168 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR1\_CLEAR\_MASK}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x3040\textcolor{preprocessor}{)}
+00169 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2SCFGR\_CLEAR\_MASK}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xF040\textcolor{preprocessor}{)}
+00170 
+00171 \textcolor{comment}{/* RCC PLLs masks */}
+00172 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PLLCFGR\_PPLR\_MASK}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x70000000\textcolor{preprocessor}{)}
+00173 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PLLCFGR\_PPLN\_MASK}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00007FC0\textcolor{preprocessor}{)}
+00174 
+00175 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_CR2\_FRF}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0010\textcolor{preprocessor}{)}
+00176 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SPI\_SR\_TIFRFE}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0100\textcolor{preprocessor}{)}
+00177 
+00178 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00179 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00180 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00181 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00182 
+00183 \textcolor{comment}{/** @defgroup SPI\_Private\_Functions}
+00184 \textcolor{comment}{  * @\{}
+00185 \textcolor{comment}{  */}
+00186 
+00187 \textcolor{comment}{/** @defgroup SPI\_Group1 Initialization and Configuration functions}
+00188 \textcolor{comment}{ *  @brief   Initialization and Configuration functions }
+00189 \textcolor{comment}{ *}
+00190 \textcolor{comment}{@verbatim   }
+00191 \textcolor{comment}{ ===============================================================================}
+00192 \textcolor{comment}{                  Initialization and Configuration functions}
+00193 \textcolor{comment}{ ===============================================================================  }
+00194 \textcolor{comment}{}
+00195 \textcolor{comment}{  This section provides a set of functions allowing to initialize the SPI Direction,}
+00196 \textcolor{comment}{  SPI Mode, SPI Data Size, SPI Polarity, SPI Phase, SPI NSS Management, SPI Baud}
+00197 \textcolor{comment}{  Rate Prescaler, SPI First Bit and SPI CRC Polynomial.}
+00198 \textcolor{comment}{  }
+00199 \textcolor{comment}{  The SPI\_Init() function follows the SPI configuration procedures for Master mode}
+00200 \textcolor{comment}{  and Slave mode (details for these procedures are available in reference manual}
+00201 \textcolor{comment}{  (RM0090)).}
+00202 \textcolor{comment}{  }
+00203 \textcolor{comment}{@endverbatim}
+00204 \textcolor{comment}{  * @\{}
+00205 \textcolor{comment}{  */}
+00206 
+00207 \textcolor{comment}{/**}
+00208 \textcolor{comment}{  * @brief  Deinitialize the SPIx peripheral registers to their default reset values.}
+00209 \textcolor{comment}{  * @param  SPIx: To select the SPIx/I2Sx peripheral, where x can be: 1, 2 or 3 }
+00210 \textcolor{comment}{  *         in SPI mode or 2 or 3 in I2S mode.   }
+00211 \textcolor{comment}{  *         }
+00212 \textcolor{comment}{  * @note   The extended I2S blocks (ie. I2S2ext and I2S3ext blocks) are deinitialized}
+00213 \textcolor{comment}{  *         when the relative I2S peripheral is deinitialized (the extended block's clock}
+00214 \textcolor{comment}{  *         is managed by the I2S peripheral clock).}
+00215 \textcolor{comment}{  *             }
+00216 \textcolor{comment}{  * @retval None}
+00217 \textcolor{comment}{  */}
+00218 \textcolor{keywordtype}{void} SPI_I2S_DeInit(SPI\_TypeDef* SPIx)
+00219 \{
+00220   \textcolor{comment}{/* Check the parameters */}
+00221   assert_param(IS\_SPI\_ALL\_PERIPH(SPIx));
+00222 
+00223   \textcolor{keywordflow}{if} (SPIx == SPI1)
+00224   \{
+00225     \textcolor{comment}{/* Enable SPI1 reset state */}
+00226     RCC_APB2PeriphResetCmd(RCC_APB2Periph_SPI1, ENABLE);
+00227     \textcolor{comment}{/* Release SPI1 from reset state */}
+00228     RCC_APB2PeriphResetCmd(RCC_APB2Periph_SPI1, DISABLE);
+00229   \}
+00230   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (SPIx == SPI2)
+00231   \{
+00232     \textcolor{comment}{/* Enable SPI2 reset state */}
+00233     RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI2, ENABLE);
+00234     \textcolor{comment}{/* Release SPI2 from reset state */}
+00235     RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI2, DISABLE);
+00236     \}
+00237   \textcolor{keywordflow}{else}
+00238   \{
+00239     \textcolor{keywordflow}{if} (SPIx == SPI3)
+00240     \{
+00241       \textcolor{comment}{/* Enable SPI3 reset state */}
+00242       RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI3, ENABLE);
+00243       \textcolor{comment}{/* Release SPI3 from reset state */}
+00244       RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI3, DISABLE);
+00245     \}
+00246   \}
+00247 \}
+00248 
+00249 \textcolor{comment}{/**}
+00250 \textcolor{comment}{  * @brief  Initializes the SPIx peripheral according to the specified }
+00251 \textcolor{comment}{  *         parameters in the SPI\_InitStruct.}
+00252 \textcolor{comment}{  * @param  SPIx: where x can be 1, 2 or 3 to select the SPI peripheral.}
+00253 \textcolor{comment}{  * @param  SPI\_InitStruct: pointer to a SPI\_InitTypeDef structure that}
+00254 \textcolor{comment}{  *         contains the configuration information for the specified SPI peripheral.}
+00255 \textcolor{comment}{  * @retval None}
+00256 \textcolor{comment}{  */}
+00257 \textcolor{keywordtype}{void} SPI_Init(SPI\_TypeDef* SPIx, SPI\_InitTypeDef* SPI\_InitStruct)
+00258 \{
+00259   uint16\_t tmpreg = 0;
+00260 
+00261   \textcolor{comment}{/* check the parameters */}
+00262   assert_param(IS\_SPI\_ALL\_PERIPH(SPIx));
+00263 
+00264   \textcolor{comment}{/* Check the SPI parameters */}
+00265   assert_param(IS\_SPI\_DIRECTION\_MODE(SPI\_InitStruct->SPI\_Direction));
+00266   assert_param(IS\_SPI\_MODE(SPI\_InitStruct->SPI\_Mode));
+00267   assert_param(IS\_SPI\_DATASIZE(SPI\_InitStruct->SPI\_DataSize));
+00268   assert_param(IS\_SPI\_CPOL(SPI\_InitStruct->SPI\_CPOL));
+00269   assert_param(IS\_SPI\_CPHA(SPI\_InitStruct->SPI\_CPHA));
+00270   assert_param(IS\_SPI\_NSS(SPI\_InitStruct->SPI\_NSS));
+00271   assert_param(IS\_SPI\_BAUDRATE\_PRESCALER(SPI\_InitStruct->SPI\_BaudRatePrescaler));
+00272   assert_param(IS\_SPI\_FIRST\_BIT(SPI\_InitStruct->SPI\_FirstBit));
+00273   assert_param(IS\_SPI\_CRC\_POLYNOMIAL(SPI\_InitStruct->SPI\_CRCPolynomial));
+00274 
+00275 \textcolor{comment}{/*---------------------------- SPIx CR1 Configuration ------------------------*/}
+00276   \textcolor{comment}{/* Get the SPIx CR1 value */}
+00277   tmpreg = SPIx->CR1;
+00278   \textcolor{comment}{/* Clear BIDIMode, BIDIOE, RxONLY, SSM, SSI, LSBFirst, BR, MSTR, CPOL and CPHA bits */}
+00279   tmpreg &= CR1_CLEAR_MASK;
+00280   \textcolor{comment}{/* Configure SPIx: direction, NSS management, first transmitted bit, BaudRate prescaler}
+00281 \textcolor{comment}{     master/salve mode, CPOL and CPHA */}
+00282   \textcolor{comment}{/* Set BIDImode, BIDIOE and RxONLY bits according to SPI\_Direction value */}
+00283   \textcolor{comment}{/* Set SSM, SSI and MSTR bits according to SPI\_Mode and SPI\_NSS values */}
+00284   \textcolor{comment}{/* Set LSBFirst bit according to SPI\_FirstBit value */}
+00285   \textcolor{comment}{/* Set BR bits according to SPI\_BaudRatePrescaler value */}
+00286   \textcolor{comment}{/* Set CPOL bit according to SPI\_CPOL value */}
+00287   \textcolor{comment}{/* Set CPHA bit according to SPI\_CPHA value */}
+00288   tmpreg |= (uint16\_t)((uint32\_t)SPI\_InitStruct->SPI_Direction | SPI\_InitStruct
+      ->SPI_Mode |
+00289                   SPI\_InitStruct->SPI_DataSize | SPI\_InitStruct->SPI_CPOL |
+00290                   SPI\_InitStruct->SPI_CPHA | SPI\_InitStruct->SPI_NSS |
+00291                   SPI\_InitStruct->SPI_BaudRatePrescaler | SPI\_InitStruct->
+      SPI_FirstBit);
+00292   \textcolor{comment}{/* Write to SPIx CR1 */}
+00293   SPIx->CR1 = tmpreg;
+00294 
+00295   \textcolor{comment}{/* Activate the SPI mode (Reset I2SMOD bit in I2SCFGR register) */}
+00296   SPIx->I2SCFGR &= (uint16\_t)~((uint16\_t)SPI_I2SCFGR_I2SMOD);
+00297 \textcolor{comment}{/*---------------------------- SPIx CRCPOLY Configuration --------------------*/}
+00298   \textcolor{comment}{/* Write to SPIx CRCPOLY */}
+00299   SPIx->CRCPR = SPI\_InitStruct->SPI\_CRCPolynomial;
+00300 \}
+00301 
+00302 \textcolor{comment}{/**}
+00303 \textcolor{comment}{  * @brief  Initializes the SPIx peripheral according to the specified }
+00304 \textcolor{comment}{  *         parameters in the I2S\_InitStruct.}
+00305 \textcolor{comment}{  * @param  SPIx: where x can be  2 or 3 to select the SPI peripheral (configured in I2S mode).}
+00306 \textcolor{comment}{  * @param  I2S\_InitStruct: pointer to an I2S\_InitTypeDef structure that}
+00307 \textcolor{comment}{  *         contains the configuration information for the specified SPI peripheral}
+00308 \textcolor{comment}{  *         configured in I2S mode.}
+00309 \textcolor{comment}{  *           }
+00310 \textcolor{comment}{  * @note   The function calculates the optimal prescaler needed to obtain the most }
+00311 \textcolor{comment}{  *         accurate audio frequency (depending on the I2S clock source, the PLL values }
+00312 \textcolor{comment}{  *         and the product configuration). But in case the prescaler value is greater }
+00313 \textcolor{comment}{  *         than 511, the default value (0x02) will be configured instead.    }
+00314 \textcolor{comment}{  * }
+00315 \textcolor{comment}{  * @note   if an external clock is used as source clock for the I2S, then the define}
+00316 \textcolor{comment}{  *         I2S\_EXTERNAL\_CLOCK\_VAL in file stm32f4xx\_conf.h should be enabled and set}
+00317 \textcolor{comment}{  *         to the value of the the source clock frequency (in Hz).}
+00318 \textcolor{comment}{  *  }
+00319 \textcolor{comment}{  * @retval None}
+00320 \textcolor{comment}{  */}
+00321 \textcolor{keywordtype}{void} I2S_Init(SPI\_TypeDef* SPIx, I2S\_InitTypeDef* I2S\_InitStruct)
+00322 \{
+00323   uint16\_t tmpreg = 0, i2sdiv = 2, i2sodd = 0, packetlength = 1;
+00324   uint32\_t tmp = 0, i2sclk = 0;
+00325 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{I2S\_EXTERNAL\_CLOCK\_VAL}
+00326   uint32\_t pllm = 0, plln = 0, pllr = 0;
+00327 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/* I2S\_EXTERNAL\_CLOCK\_VAL */}
+00328 
+00329   \textcolor{comment}{/* Check the I2S parameters */}
+00330   assert_param(IS\_SPI\_23\_PERIPH(SPIx));
+00331   assert_param(IS\_I2S\_MODE(I2S\_InitStruct->I2S\_Mode));
+00332   assert_param(IS\_I2S\_STANDARD(I2S\_InitStruct->I2S\_Standard));
+00333   assert_param(IS\_I2S\_DATA\_FORMAT(I2S\_InitStruct->I2S\_DataFormat));
+00334   assert_param(IS\_I2S\_MCLK\_OUTPUT(I2S\_InitStruct->I2S\_MCLKOutput));
+00335   assert_param(IS\_I2S\_AUDIO\_FREQ(I2S\_InitStruct->I2S\_AudioFreq));
+00336   assert_param(IS\_I2S\_CPOL(I2S\_InitStruct->I2S\_CPOL));
+00337 
+00338 \textcolor{comment}{/*----------------------- SPIx I2SCFGR & I2SPR Configuration -----------------*/}
+00339   \textcolor{comment}{/* Clear I2SMOD, I2SE, I2SCFG, PCMSYNC, I2SSTD, CKPOL, DATLEN and CHLEN bits */}
+00340   SPIx->I2SCFGR &= I2SCFGR_CLEAR_MASK;
+00341   SPIx->I2SPR = 0x0002;
+00342 
+00343   \textcolor{comment}{/* Get the I2SCFGR register value */}
+00344   tmpreg = SPIx->I2SCFGR;
+00345 
+00346   \textcolor{comment}{/* If the default value has to be written, reinitialize i2sdiv and i2sodd*/}
+00347   \textcolor{keywordflow}{if}(I2S\_InitStruct->I2S_AudioFreq == I2S_AudioFreq_Default)
+00348   \{
+00349     i2sodd = (uint16\_t)0;
+00350     i2sdiv = (uint16\_t)2;
+00351   \}
+00352   \textcolor{comment}{/* If the requested audio frequency is not the default, compute the prescaler */}
+00353   \textcolor{keywordflow}{else}
+00354   \{
+00355     \textcolor{comment}{/* Check the frame length (For the Prescaler computing) *******************/}
+00356     \textcolor{keywordflow}{if}(I2S\_InitStruct->I2S_DataFormat == I2S_DataFormat_16b)
+00357     \{
+00358       \textcolor{comment}{/* Packet length is 16 bits */}
+00359       packetlength = 1;
+00360     \}
+00361     \textcolor{keywordflow}{else}
+00362     \{
+00363       \textcolor{comment}{/* Packet length is 32 bits */}
+00364       packetlength = 2;
+00365     \}
+00366 
+00367     \textcolor{comment}{/* Get I2S source Clock frequency  ****************************************/}
+00368 
+00369     \textcolor{comment}{/* If an external I2S clock has to be used, this define should be set  }
+00370 \textcolor{comment}{       in the project configuration or in the stm32f4xx\_conf.h file */}
+00371   \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \textcolor{preprocessor}{I2S\_EXTERNAL\_CLOCK\_VAL}
+00372     \textcolor{comment}{/* Set external clock as I2S clock source */}
+00373     \textcolor{keywordflow}{if} ((RCC->CFGR & RCC\_CFGR\_I2SSRC) == 0)
+00374     \{
+00375       RCC->CFGR |= (uint32\_t)RCC\_CFGR\_I2SSRC;
+00376     \}
+00377 
+00378     \textcolor{comment}{/* Set the I2S clock to the external clock  value */}
+00379     i2sclk = I2S\_EXTERNAL\_CLOCK\_VAL;
+00380 
+00381   \textcolor{preprocessor}{#}\textcolor{preprocessor}{else} \textcolor{comment}{/* There is no define for External I2S clock source */}
+00382     \textcolor{comment}{/* Set PLLI2S as I2S clock source */}
+00383     \textcolor{keywordflow}{if} ((RCC->CFGR & RCC_CFGR_I2SSRC) != 0)
+00384     \{
+00385       RCC->CFGR &= ~(uint32\_t)RCC_CFGR_I2SSRC;
+00386     \}
+00387 
+00388     \textcolor{comment}{/* Get the PLLI2SN value */}
+00389     plln = (uint32\_t)(((RCC->PLLI2SCFGR & RCC_PLLI2SCFGR_PLLI2SN) >> 6) &
+00390                       (RCC_PLLI2SCFGR_PLLI2SN >> 6));
+00391 
+00392     \textcolor{comment}{/* Get the PLLI2SR value */}
+00393     pllr = (uint32\_t)(((RCC->PLLI2SCFGR & RCC_PLLI2SCFGR_PLLI2SR) >> 28) &
+00394                       (RCC_PLLI2SCFGR_PLLI2SR >> 28));
+00395 
+00396     \textcolor{comment}{/* Get the PLLM value */}
+00397     pllm = (uint32\_t)(RCC->PLLCFGR & RCC_PLLCFGR_PLLM);
+00398 
+00399     \textcolor{comment}{/* Get the I2S source clock value */}
+00400     i2sclk = (uint32\_t)(((HSE_VALUE / pllm) * plln) / pllr);
+00401   \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/* I2S\_EXTERNAL\_CLOCK\_VAL */}
+00402 
+00403     \textcolor{comment}{/* Compute the Real divider depending on the MCLK output state, with a floating point */}
+00404     \textcolor{keywordflow}{if}(I2S\_InitStruct->I2S_MCLKOutput == I2S_MCLKOutput_Enable)
+00405     \{
+00406       \textcolor{comment}{/* MCLK output is enabled */}
+00407       tmp = (uint16\_t)(((((i2sclk / 256) * 10) / I2S\_InitStruct->
+      I2S_AudioFreq)) + 5);
+00408     \}
+00409     \textcolor{keywordflow}{else}
+00410     \{
+00411       \textcolor{comment}{/* MCLK output is disabled */}
+00412       tmp = (uint16\_t)(((((i2sclk / (32 * packetlength)) *10 ) / I2S\_InitStruct
+      ->I2S_AudioFreq)) + 5);
+00413     \}
+00414 
+00415     \textcolor{comment}{/* Remove the flatting point */}
+00416     tmp = tmp / 10;
+00417 
+00418     \textcolor{comment}{/* Check the parity of the divider */}
+00419     i2sodd = (uint16\_t)(tmp & (uint16\_t)0x0001);
+00420 
+00421     \textcolor{comment}{/* Compute the i2sdiv prescaler */}
+00422     i2sdiv = (uint16\_t)((tmp - i2sodd) / 2);
+00423 
+00424     \textcolor{comment}{/* Get the Mask for the Odd bit (SPI\_I2SPR[8]) register */}
+00425     i2sodd = (uint16\_t) (i2sodd << 8);
+00426   \}
+00427 
+00428   \textcolor{comment}{/* Test if the divider is 1 or 0 or greater than 0xFF */}
+00429   \textcolor{keywordflow}{if} ((i2sdiv < 2) || (i2sdiv > 0xFF))
+00430   \{
+00431     \textcolor{comment}{/* Set the default values */}
+00432     i2sdiv = 2;
+00433     i2sodd = 0;
+00434   \}
+00435 
+00436   \textcolor{comment}{/* Write to SPIx I2SPR register the computed value */}
+00437   SPIx->I2SPR = (uint16\_t)((uint16\_t)i2sdiv | (uint16\_t)(i2sodd | (uint16\_t)I2S\_InitStruct->
+      I2S\_MCLKOutput));
+00438 
+00439   \textcolor{comment}{/* Configure the I2S with the SPI\_InitStruct values */}
+00440   tmpreg |= (uint16\_t)((uint16\_t)SPI_I2SCFGR_I2SMOD | (uint16\_t)(I2S\_InitStruct
+      ->I2S_Mode |
+00441                   (uint16\_t)(I2S\_InitStruct->I2S_Standard | (uint16\_t)(I2S\_InitStruct
+      ->I2S_DataFormat |
+00442                   (uint16\_t)I2S\_InitStruct->I2S_CPOL))));
+00443 
+00444   \textcolor{comment}{/* Write to SPIx I2SCFGR */}
+00445   SPIx->I2SCFGR = tmpreg;
+00446 \}
+00447 
+00448 \textcolor{comment}{/**}
+00449 \textcolor{comment}{  * @brief  Fills each SPI\_InitStruct member with its default value.}
+00450 \textcolor{comment}{  * @param  SPI\_InitStruct: pointer to a SPI\_InitTypeDef structure which will be initialized.}
+00451 \textcolor{comment}{  * @retval None}
+00452 \textcolor{comment}{  */}
+00453 \textcolor{keywordtype}{void} SPI_StructInit(SPI\_InitTypeDef* SPI\_InitStruct)
+00454 \{
+00455 \textcolor{comment}{/*--------------- Reset SPI init structure parameters values -----------------*/}
+00456   \textcolor{comment}{/* Initialize the SPI\_Direction member */}
+00457   SPI\_InitStruct->SPI_Direction = SPI_Direction_2Lines_FullDuplex;
+00458   \textcolor{comment}{/* initialize the SPI\_Mode member */}
+00459   SPI\_InitStruct->SPI_Mode = SPI_Mode_Slave;
+00460   \textcolor{comment}{/* initialize the SPI\_DataSize member */}
+00461   SPI\_InitStruct->SPI_DataSize = SPI_DataSize_8b;
+00462   \textcolor{comment}{/* Initialize the SPI\_CPOL member */}
+00463   SPI\_InitStruct->SPI_CPOL = SPI_CPOL_Low;
+00464   \textcolor{comment}{/* Initialize the SPI\_CPHA member */}
+00465   SPI\_InitStruct->SPI_CPHA = SPI_CPHA_1Edge;
+00466   \textcolor{comment}{/* Initialize the SPI\_NSS member */}
+00467   SPI\_InitStruct->SPI_NSS = SPI_NSS_Hard;
+00468   \textcolor{comment}{/* Initialize the SPI\_BaudRatePrescaler member */}
+00469   SPI\_InitStruct->SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_2;
+00470   \textcolor{comment}{/* Initialize the SPI\_FirstBit member */}
+00471   SPI\_InitStruct->SPI_FirstBit = SPI_FirstBit_MSB;
+00472   \textcolor{comment}{/* Initialize the SPI\_CRCPolynomial member */}
+00473   SPI\_InitStruct->SPI_CRCPolynomial = 7;
+00474 \}
+00475 
+00476 \textcolor{comment}{/**}
+00477 \textcolor{comment}{  * @brief  Fills each I2S\_InitStruct member with its default value.}
+00478 \textcolor{comment}{  * @param  I2S\_InitStruct: pointer to a I2S\_InitTypeDef structure which will be initialized.}
+00479 \textcolor{comment}{  * @retval None}
+00480 \textcolor{comment}{  */}
+00481 \textcolor{keywordtype}{void} I2S_StructInit(I2S\_InitTypeDef* I2S\_InitStruct)
+00482 \{
+00483 \textcolor{comment}{/*--------------- Reset I2S init structure parameters values -----------------*/}
+00484   \textcolor{comment}{/* Initialize the I2S\_Mode member */}
+00485   I2S\_InitStruct->I2S_Mode = I2S_Mode_SlaveTx;
+00486 
+00487   \textcolor{comment}{/* Initialize the I2S\_Standard member */}
+00488   I2S\_InitStruct->I2S_Standard = I2S_Standard_Phillips;
+00489 
+00490   \textcolor{comment}{/* Initialize the I2S\_DataFormat member */}
+00491   I2S\_InitStruct->I2S_DataFormat = I2S_DataFormat_16b;
+00492 
+00493   \textcolor{comment}{/* Initialize the I2S\_MCLKOutput member */}
+00494   I2S\_InitStruct->I2S_MCLKOutput = I2S_MCLKOutput_Disable;
+00495 
+00496   \textcolor{comment}{/* Initialize the I2S\_AudioFreq member */}
+00497   I2S\_InitStruct->I2S_AudioFreq = I2S_AudioFreq_Default;
+00498 
+00499   \textcolor{comment}{/* Initialize the I2S\_CPOL member */}
+00500   I2S\_InitStruct->I2S_CPOL = I2S_CPOL_Low;
+00501 \}
+00502 
+00503 \textcolor{comment}{/**}
+00504 \textcolor{comment}{  * @brief  Enables or disables the specified SPI peripheral.}
+00505 \textcolor{comment}{  * @param  SPIx: where x can be 1, 2 or 3 to select the SPI peripheral.}
+00506 \textcolor{comment}{  * @param  NewState: new state of the SPIx peripheral. }
+00507 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00508 \textcolor{comment}{  * @retval None}
+00509 \textcolor{comment}{  */}
+00510 \textcolor{keywordtype}{void} SPI_Cmd(SPI\_TypeDef* SPIx, FunctionalState NewState)
+00511 \{
+00512   \textcolor{comment}{/* Check the parameters */}
+00513   assert_param(IS\_SPI\_ALL\_PERIPH(SPIx));
+00514   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00515   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00516   \{
+00517     \textcolor{comment}{/* Enable the selected SPI peripheral */}
+00518     SPIx->CR1 |= SPI_CR1_SPE;
+00519   \}
+00520   \textcolor{keywordflow}{else}
+00521   \{
+00522     \textcolor{comment}{/* Disable the selected SPI peripheral */}
+00523     SPIx->CR1 &= (uint16\_t)~((uint16\_t)SPI_CR1_SPE);
+00524   \}
+00525 \}
+00526 
+00527 \textcolor{comment}{/**}
+00528 \textcolor{comment}{  * @brief  Enables or disables the specified SPI peripheral (in I2S mode).}
+00529 \textcolor{comment}{  * @param  SPIx: where x can be 2 or 3 to select the SPI peripheral (or I2Sxext }
+00530 \textcolor{comment}{  *         for full duplex mode).}
+00531 \textcolor{comment}{  * @param  NewState: new state of the SPIx peripheral. }
+00532 \textcolor{comment}{  *         This parameter can be: ENABLE or DISABLE.}
+00533 \textcolor{comment}{  * @retval None}
+00534 \textcolor{comment}{  */}
+00535 \textcolor{keywordtype}{void} I2S_Cmd(SPI\_TypeDef* SPIx, FunctionalState NewState)
+00536 \{
+00537   \textcolor{comment}{/* Check the parameters */}
+00538   assert_param(IS\_SPI\_23\_PERIPH\_EXT(SPIx));
+00539   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00540 
+00541   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00542   \{
+00543     \textcolor{comment}{/* Enable the selected SPI peripheral (in I2S mode) */}
+00544     SPIx->I2SCFGR |= SPI_I2SCFGR_I2SE;
+00545   \}
+00546   \textcolor{keywordflow}{else}
+00547   \{
+00548     \textcolor{comment}{/* Disable the selected SPI peripheral in I2S mode */}
+00549     SPIx->I2SCFGR &= (uint16\_t)~((uint16\_t)SPI_I2SCFGR_I2SE);
+00550   \}
+00551 \}
+00552 
+00553 \textcolor{comment}{/**}
+00554 \textcolor{comment}{  * @brief  Configures the data size for the selected SPI.}
+00555 \textcolor{comment}{  * @param  SPIx: where x can be 1, 2 or 3 to select the SPI peripheral.}
+00556 \textcolor{comment}{  * @param  SPI\_DataSize: specifies the SPI data size.}
+00557 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00558 \textcolor{comment}{  *            @arg SPI\_DataSize\_16b: Set data frame format to 16bit}
+00559 \textcolor{comment}{  *            @arg SPI\_DataSize\_8b: Set data frame format to 8bit}
+00560 \textcolor{comment}{  * @retval None}
+00561 \textcolor{comment}{  */}
+00562 \textcolor{keywordtype}{void} SPI_DataSizeConfig(SPI\_TypeDef* SPIx, uint16\_t SPI\_DataSize)
+00563 \{
+00564   \textcolor{comment}{/* Check the parameters */}
+00565   assert_param(IS\_SPI\_ALL\_PERIPH(SPIx));
+00566   assert_param(IS\_SPI\_DATASIZE(SPI\_DataSize));
+00567   \textcolor{comment}{/* Clear DFF bit */}
+00568   SPIx->CR1 &= (uint16\_t)~SPI_DataSize_16b;
+00569   \textcolor{comment}{/* Set new DFF bit value */}
+00570   SPIx->CR1 |= SPI\_DataSize;
+00571 \}
+00572 
+00573 \textcolor{comment}{/**}
+00574 \textcolor{comment}{  * @brief  Selects the data transfer direction in bidirectional mode for the specified SPI.}
+00575 \textcolor{comment}{  * @param  SPIx: where x can be 1, 2 or 3 to select the SPI peripheral.}
+00576 \textcolor{comment}{  * @param  SPI\_Direction: specifies the data transfer direction in bidirectional mode. }
+00577 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00578 \textcolor{comment}{  *            @arg SPI\_Direction\_Tx: Selects Tx transmission direction}
+00579 \textcolor{comment}{  *            @arg SPI\_Direction\_Rx: Selects Rx receive direction}
+00580 \textcolor{comment}{  * @retval None}
+00581 \textcolor{comment}{  */}
+00582 \textcolor{keywordtype}{void} SPI_BiDirectionalLineConfig(SPI\_TypeDef* SPIx, uint16\_t SPI\_Direction)
+00583 \{
+00584   \textcolor{comment}{/* Check the parameters */}
+00585   assert_param(IS\_SPI\_ALL\_PERIPH(SPIx));
+00586   assert_param(IS\_SPI\_DIRECTION(SPI\_Direction));
+00587   \textcolor{keywordflow}{if} (SPI\_Direction == SPI_Direction_Tx)
+00588   \{
+00589     \textcolor{comment}{/* Set the Tx only mode */}
+00590     SPIx->CR1 |= SPI_Direction_Tx;
+00591   \}
+00592   \textcolor{keywordflow}{else}
+00593   \{
+00594     \textcolor{comment}{/* Set the Rx only mode */}
+00595     SPIx->CR1 &= SPI_Direction_Rx;
+00596   \}
+00597 \}
+00598 
+00599 \textcolor{comment}{/**}
+00600 \textcolor{comment}{  * @brief  Configures internally by software the NSS pin for the selected SPI.}
+00601 \textcolor{comment}{  * @param  SPIx: where x can be 1, 2 or 3 to select the SPI peripheral.}
+00602 \textcolor{comment}{  * @param  SPI\_NSSInternalSoft: specifies the SPI NSS internal state.}
+00603 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00604 \textcolor{comment}{  *            @arg SPI\_NSSInternalSoft\_Set: Set NSS pin internally}
+00605 \textcolor{comment}{  *            @arg SPI\_NSSInternalSoft\_Reset: Reset NSS pin internally}
+00606 \textcolor{comment}{  * @retval None}
+00607 \textcolor{comment}{  */}
+00608 \textcolor{keywordtype}{void} SPI_NSSInternalSoftwareConfig(SPI\_TypeDef* SPIx, uint16\_t SPI\_NSSInternalSoft)
+00609 \{
+00610   \textcolor{comment}{/* Check the parameters */}
+00611   assert_param(IS\_SPI\_ALL\_PERIPH(SPIx));
+00612   assert_param(IS\_SPI\_NSS\_INTERNAL(SPI\_NSSInternalSoft));
+00613   \textcolor{keywordflow}{if} (SPI\_NSSInternalSoft != SPI_NSSInternalSoft_Reset)
+00614   \{
+00615     \textcolor{comment}{/* Set NSS pin internally by software */}
+00616     SPIx->CR1 |= SPI_NSSInternalSoft_Set;
+00617   \}
+00618   \textcolor{keywordflow}{else}
+00619   \{
+00620     \textcolor{comment}{/* Reset NSS pin internally by software */}
+00621     SPIx->CR1 &= SPI_NSSInternalSoft_Reset;
+00622   \}
+00623 \}
+00624 
+00625 \textcolor{comment}{/**}
+00626 \textcolor{comment}{  * @brief  Enables or disables the SS output for the selected SPI.}
+00627 \textcolor{comment}{  * @param  SPIx: where x can be 1, 2 or 3 to select the SPI peripheral.}
+00628 \textcolor{comment}{  * @param  NewState: new state of the SPIx SS output. }
+00629 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00630 \textcolor{comment}{  * @retval None}
+00631 \textcolor{comment}{  */}
+00632 \textcolor{keywordtype}{void} SPI_SSOutputCmd(SPI\_TypeDef* SPIx, FunctionalState NewState)
+00633 \{
+00634   \textcolor{comment}{/* Check the parameters */}
+00635   assert_param(IS\_SPI\_ALL\_PERIPH(SPIx));
+00636   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00637   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00638   \{
+00639     \textcolor{comment}{/* Enable the selected SPI SS output */}
+00640     SPIx->CR2 |= (uint16\_t)SPI_CR2_SSOE;
+00641   \}
+00642   \textcolor{keywordflow}{else}
+00643   \{
+00644     \textcolor{comment}{/* Disable the selected SPI SS output */}
+00645     SPIx->CR2 &= (uint16\_t)~((uint16\_t)SPI_CR2_SSOE);
+00646   \}
+00647 \}
+00648 
+00649 \textcolor{comment}{/**}
+00650 \textcolor{comment}{  * @brief  Enables or disables the SPIx/I2Sx DMA interface.}
+00651 \textcolor{comment}{  *   }
+00652 \textcolor{comment}{  * @note   This function can be called only after the SPI\_Init() function has }
+00653 \textcolor{comment}{  *         been called. }
+00654 \textcolor{comment}{  * @note   When TI mode is selected, the control bits SSM, SSI, CPOL and CPHA }
+00655 \textcolor{comment}{  *         are not taken into consideration and are configured by hardware}
+00656 \textcolor{comment}{  *         respectively to the TI mode requirements.  }
+00657 \textcolor{comment}{  * }
+00658 \textcolor{comment}{  * @param  SPIx: where x can be 1, 2 or 3 }
+00659 \textcolor{comment}{  * @param  NewState: new state of the selected SPI TI communication mode.}
+00660 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00661 \textcolor{comment}{  * @retval None}
+00662 \textcolor{comment}{  */}
+00663 \textcolor{keywordtype}{void} SPI_TIModeCmd(SPI\_TypeDef* SPIx, FunctionalState NewState)
+00664 \{
+00665   \textcolor{comment}{/* Check the parameters */}
+00666   assert_param(IS\_SPI\_ALL\_PERIPH(SPIx));
+00667   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00668 
+00669   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00670   \{
+00671     \textcolor{comment}{/* Enable the TI mode for the selected SPI peripheral */}
+00672     SPIx->CR2 |= SPI_CR2_FRF;
+00673   \}
+00674   \textcolor{keywordflow}{else}
+00675   \{
+00676     \textcolor{comment}{/* Disable the TI mode for the selected SPI peripheral */}
+00677     SPIx->CR2 &= (uint16\_t)~SPI_CR2_FRF;
+00678   \}
+00679 \}
+00680 
+00681 \textcolor{comment}{/**}
+00682 \textcolor{comment}{  * @brief  Configures the full duplex mode for the I2Sx peripheral using its}
+00683 \textcolor{comment}{  *         extension I2Sxext according to the specified parameters in the }
+00684 \textcolor{comment}{  *         I2S\_InitStruct.}
+00685 \textcolor{comment}{  * @param  I2Sxext: where x can be  2 or 3 to select the I2S peripheral extension block.}
+00686 \textcolor{comment}{  * @param  I2S\_InitStruct: pointer to an I2S\_InitTypeDef structure that}
+00687 \textcolor{comment}{  *         contains the configuration information for the specified I2S peripheral}
+00688 \textcolor{comment}{  *         extension.}
+00689 \textcolor{comment}{  * }
+00690 \textcolor{comment}{  * @note   The structure pointed by I2S\_InitStruct parameter should be the same}
+00691 \textcolor{comment}{  *         used for the master I2S peripheral. In this case, if the master is }
+00692 \textcolor{comment}{  *         configured as transmitter, the slave will be receiver and vice versa.}
+00693 \textcolor{comment}{  *         Or you can force a different mode by modifying the field I2S\_Mode to the}
+00694 \textcolor{comment}{  *         value I2S\_SlaveRx or I2S\_SlaveTx indepedently of the master configuration.    }
+00695 \textcolor{comment}{  *         }
+00696 \textcolor{comment}{  * @note   The I2S full duplex extension can be configured in slave mode only.    }
+00697 \textcolor{comment}{  *  }
+00698 \textcolor{comment}{  * @retval None}
+00699 \textcolor{comment}{  */}
+00700 \textcolor{keywordtype}{void} I2S_FullDuplexConfig(SPI\_TypeDef* I2Sxext, I2S\_InitTypeDef* I2S\_InitStruct)
+00701 \{
+00702   uint16\_t tmpreg = 0, tmp = 0;
+00703 
+00704   \textcolor{comment}{/* Check the I2S parameters */}
+00705   assert_param(IS\_I2S\_EXT\_PERIPH(I2Sxext));
+00706   assert_param(IS\_I2S\_MODE(I2S\_InitStruct->I2S\_Mode));
+00707   assert_param(IS\_I2S\_STANDARD(I2S\_InitStruct->I2S\_Standard));
+00708   assert_param(IS\_I2S\_DATA\_FORMAT(I2S\_InitStruct->I2S\_DataFormat));
+00709   assert_param(IS\_I2S\_CPOL(I2S\_InitStruct->I2S\_CPOL));
+00710 
+00711 \textcolor{comment}{/*----------------------- SPIx I2SCFGR & I2SPR Configuration -----------------*/}
+00712   \textcolor{comment}{/* Clear I2SMOD, I2SE, I2SCFG, PCMSYNC, I2SSTD, CKPOL, DATLEN and CHLEN bits */}
+00713   I2Sxext->I2SCFGR &= I2SCFGR_CLEAR_MASK;
+00714   I2Sxext->I2SPR = 0x0002;
+00715 
+00716   \textcolor{comment}{/* Get the I2SCFGR register value */}
+00717   tmpreg = I2Sxext->I2SCFGR;
+00718 
+00719   \textcolor{comment}{/* Get the mode to be configured for the extended I2S */}
+00720   \textcolor{keywordflow}{if} ((I2S\_InitStruct->I2S_Mode == I2S_Mode_MasterTx) || (I2S\_InitStruct->
+      I2S_Mode == I2S_Mode_SlaveTx))
+00721   \{
+00722     tmp = I2S_Mode_SlaveRx;
+00723   \}
+00724   \textcolor{keywordflow}{else}
+00725   \{
+00726     \textcolor{keywordflow}{if} ((I2S\_InitStruct->I2S_Mode == I2S_Mode_MasterRx) || (I2S\_InitStruct
+      ->I2S_Mode == I2S_Mode_SlaveRx))
+00727     \{
+00728       tmp = I2S_Mode_SlaveTx;
+00729     \}
+00730   \}
+00731 
+00732 
+00733   \textcolor{comment}{/* Configure the I2S with the SPI\_InitStruct values */}
+00734   tmpreg |= (uint16\_t)((uint16\_t)SPI_I2SCFGR_I2SMOD | (uint16\_t)(tmp |
+00735                   (uint16\_t)(I2S\_InitStruct->I2S_Standard | (uint16\_t)(I2S\_InitStruct
+      ->I2S_DataFormat |
+00736                   (uint16\_t)I2S\_InitStruct->I2S_CPOL))));
+00737 
+00738   \textcolor{comment}{/* Write to SPIx I2SCFGR */}
+00739   I2Sxext->I2SCFGR = tmpreg;
+00740 \}
+00741 
+00742 \textcolor{comment}{/**}
+00743 \textcolor{comment}{  * @\}}
+00744 \textcolor{comment}{  */}
+00745 
+00746 \textcolor{comment}{/** @defgroup SPI\_Group2 Data transfers functions}
+00747 \textcolor{comment}{ *  @brief   Data transfers functions}
+00748 \textcolor{comment}{ *}
+00749 \textcolor{comment}{@verbatim   }
+00750 \textcolor{comment}{ ===============================================================================}
+00751 \textcolor{comment}{                         Data transfers functions}
+00752 \textcolor{comment}{ ===============================================================================  }
+00753 \textcolor{comment}{}
+00754 \textcolor{comment}{  This section provides a set of functions allowing to manage the SPI data transfers}
+00755 \textcolor{comment}{  }
+00756 \textcolor{comment}{  In reception, data are received and then stored into an internal Rx buffer while }
+00757 \textcolor{comment}{  In transmission, data are first stored into an internal Tx buffer before being }
+00758 \textcolor{comment}{  transmitted.}
+00759 \textcolor{comment}{}
+00760 \textcolor{comment}{  The read access of the SPI\_DR register can be done using the SPI\_I2S\_ReceiveData()}
+00761 \textcolor{comment}{  function and returns the Rx buffered value. Whereas a write access to the SPI\_DR }
+00762 \textcolor{comment}{  can be done using SPI\_I2S\_SendData() function and stores the written data into }
+00763 \textcolor{comment}{  Tx buffer.}
+00764 \textcolor{comment}{}
+00765 \textcolor{comment}{@endverbatim}
+00766 \textcolor{comment}{  * @\{}
+00767 \textcolor{comment}{  */}
+00768 
+00769 \textcolor{comment}{/**}
+00770 \textcolor{comment}{  * @brief  Returns the most recent received data by the SPIx/I2Sx peripheral. }
+00771 \textcolor{comment}{  * @param  SPIx: To select the SPIx/I2Sx peripheral, where x can be: 1, 2 or 3 }
+00772 \textcolor{comment}{  *         in SPI mode or 2 or 3 in I2S mode or I2Sxext for I2S full duplex mode. }
+00773 \textcolor{comment}{  * @retval The value of the received data.}
+00774 \textcolor{comment}{  */}
+00775 uint16\_t SPI_I2S_ReceiveData(SPI\_TypeDef* SPIx)
+00776 \{
+00777   \textcolor{comment}{/* Check the parameters */}
+00778   assert_param(IS\_SPI\_ALL\_PERIPH\_EXT(SPIx));
+00779 
+00780   \textcolor{comment}{/* Return the data in the DR register */}
+00781   \textcolor{keywordflow}{return} SPIx->DR;
+00782 \}
+00783 
+00784 \textcolor{comment}{/**}
+00785 \textcolor{comment}{  * @brief  Transmits a Data through the SPIx/I2Sx peripheral.}
+00786 \textcolor{comment}{  * @param  SPIx: To select the SPIx/I2Sx peripheral, where x can be: 1, 2 or 3 }
+00787 \textcolor{comment}{  *         in SPI mode or 2 or 3 in I2S mode or I2Sxext for I2S full duplex mode.     }
+00788 \textcolor{comment}{  * @param  Data: Data to be transmitted.}
+00789 \textcolor{comment}{  * @retval None}
+00790 \textcolor{comment}{  */}
+00791 \textcolor{keywordtype}{void} SPI_I2S_SendData(SPI\_TypeDef* SPIx, uint16\_t Data)
+00792 \{
+00793   \textcolor{comment}{/* Check the parameters */}
+00794   assert_param(IS\_SPI\_ALL\_PERIPH\_EXT(SPIx));
+00795 
+00796   \textcolor{comment}{/* Write in the DR register the data to be sent */}
+00797   SPIx->DR = Data;
+00798 \}
+00799 
+00800 \textcolor{comment}{/**}
+00801 \textcolor{comment}{  * @\}}
+00802 \textcolor{comment}{  */}
+00803 
+00804 \textcolor{comment}{/** @defgroup SPI\_Group3 Hardware CRC Calculation functions}
+00805 \textcolor{comment}{ *  @brief   Hardware CRC Calculation functions}
+00806 \textcolor{comment}{ *}
+00807 \textcolor{comment}{@verbatim   }
+00808 \textcolor{comment}{ ===============================================================================}
+00809 \textcolor{comment}{                         Hardware CRC Calculation functions}
+00810 \textcolor{comment}{ ===============================================================================  }
+00811 \textcolor{comment}{}
+00812 \textcolor{comment}{  This section provides a set of functions allowing to manage the SPI CRC hardware }
+00813 \textcolor{comment}{  calculation}
+00814 \textcolor{comment}{}
+00815 \textcolor{comment}{  SPI communication using CRC is possible through the following procedure:}
+00816 \textcolor{comment}{     1. Program the Data direction, Polarity, Phase, First Data, Baud Rate Prescaler, }
+00817 \textcolor{comment}{        Slave Management, Peripheral Mode and CRC Polynomial values using the SPI\_Init()}
+00818 \textcolor{comment}{        function.}
+00819 \textcolor{comment}{     2. Enable the CRC calculation using the SPI\_CalculateCRC() function.}
+00820 \textcolor{comment}{     3. Enable the SPI using the SPI\_Cmd() function}
+00821 \textcolor{comment}{     4. Before writing the last data to the TX buffer, set the CRCNext bit using the }
+00822 \textcolor{comment}{      SPI\_TransmitCRC() function to indicate that after transmission of the last }
+00823 \textcolor{comment}{      data, the CRC should be transmitted.}
+00824 \textcolor{comment}{     5. After transmitting the last data, the SPI transmits the CRC. The SPI\_CR1\_CRCNEXT}
+00825 \textcolor{comment}{        bit is reset. The CRC is also received and compared against the SPI\_RXCRCR }
+00826 \textcolor{comment}{        value. }
+00827 \textcolor{comment}{        If the value does not match, the SPI\_FLAG\_CRCERR flag is set and an interrupt}
+00828 \textcolor{comment}{        can be generated when the SPI\_I2S\_IT\_ERR interrupt is enabled.}
+00829 \textcolor{comment}{}
+00830 \textcolor{comment}{@note It is advised not to read the calculated CRC values during the communication.}
+00831 \textcolor{comment}{}
+00832 \textcolor{comment}{@note When the SPI is in slave mode, be careful to enable CRC calculation only }
+00833 \textcolor{comment}{      when the clock is stable, that is, when the clock is in the steady state. }
+00834 \textcolor{comment}{      If not, a wrong CRC calculation may be done. In fact, the CRC is sensitive }
+00835 \textcolor{comment}{      to the SCK slave input clock as soon as CRCEN is set, and this, whatever }
+00836 \textcolor{comment}{      the value of the SPE bit.}
+00837 \textcolor{comment}{}
+00838 \textcolor{comment}{@note With high bitrate frequencies, be careful when transmitting the CRC.}
+00839 \textcolor{comment}{      As the number of used CPU cycles has to be as low as possible in the CRC }
+00840 \textcolor{comment}{      transfer phase, it is forbidden to call software functions in the CRC }
+00841 \textcolor{comment}{      transmission sequence to avoid errors in the last data and CRC reception. }
+00842 \textcolor{comment}{      In fact, CRCNEXT bit has to be written before the end of the transmission/reception }
+00843 \textcolor{comment}{      of the last data.}
+00844 \textcolor{comment}{}
+00845 \textcolor{comment}{@note For high bit rate frequencies, it is advised to use the DMA mode to avoid the}
+00846 \textcolor{comment}{      degradation of the SPI speed performance due to CPU accesses impacting the }
+00847 \textcolor{comment}{      SPI bandwidth.}
+00848 \textcolor{comment}{}
+00849 \textcolor{comment}{@note When the STM32F4xx is configured as slave and the NSS hardware mode is }
+00850 \textcolor{comment}{      used, the NSS pin needs to be kept low between the data phase and the CRC }
+00851 \textcolor{comment}{      phase.}
+00852 \textcolor{comment}{}
+00853 \textcolor{comment}{@note When the SPI is configured in slave mode with the CRC feature enabled, CRC}
+00854 \textcolor{comment}{      calculation takes place even if a high level is applied on the NSS pin. }
+00855 \textcolor{comment}{      This may happen for example in case of a multi-slave environment where the }
+00856 \textcolor{comment}{      communication master addresses slaves alternately.}
+00857 \textcolor{comment}{}
+00858 \textcolor{comment}{@note Between a slave de-selection (high level on NSS) and a new slave selection }
+00859 \textcolor{comment}{      (low level on NSS), the CRC value should be cleared on both master and slave}
+00860 \textcolor{comment}{      sides in order to resynchronize the master and slave for their respective }
+00861 \textcolor{comment}{      CRC calculation.}
+00862 \textcolor{comment}{}
+00863 \textcolor{comment}{@note To clear the CRC, follow the procedure below:}
+00864 \textcolor{comment}{        1. Disable SPI using the SPI\_Cmd() function}
+00865 \textcolor{comment}{        2. Disable the CRC calculation using the SPI\_CalculateCRC() function.}
+00866 \textcolor{comment}{        3. Enable the CRC calculation using the SPI\_CalculateCRC() function.}
+00867 \textcolor{comment}{        4. Enable SPI using the SPI\_Cmd() function.}
+00868 \textcolor{comment}{}
+00869 \textcolor{comment}{@endverbatim}
+00870 \textcolor{comment}{  * @\{}
+00871 \textcolor{comment}{  */}
+00872 
+00873 \textcolor{comment}{/**}
+00874 \textcolor{comment}{  * @brief  Enables or disables the CRC value calculation of the transferred bytes.}
+00875 \textcolor{comment}{  * @param  SPIx: where x can be 1, 2 or 3 to select the SPI peripheral.}
+00876 \textcolor{comment}{  * @param  NewState: new state of the SPIx CRC value calculation.}
+00877 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00878 \textcolor{comment}{  * @retval None}
+00879 \textcolor{comment}{  */}
+00880 \textcolor{keywordtype}{void} SPI_CalculateCRC(SPI\_TypeDef* SPIx, FunctionalState NewState)
+00881 \{
+00882   \textcolor{comment}{/* Check the parameters */}
+00883   assert_param(IS\_SPI\_ALL\_PERIPH(SPIx));
+00884   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00885   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00886   \{
+00887     \textcolor{comment}{/* Enable the selected SPI CRC calculation */}
+00888     SPIx->CR1 |= SPI_CR1_CRCEN;
+00889   \}
+00890   \textcolor{keywordflow}{else}
+00891   \{
+00892     \textcolor{comment}{/* Disable the selected SPI CRC calculation */}
+00893     SPIx->CR1 &= (uint16\_t)~((uint16\_t)SPI_CR1_CRCEN);
+00894   \}
+00895 \}
+00896 
+00897 \textcolor{comment}{/**}
+00898 \textcolor{comment}{  * @brief  Transmit the SPIx CRC value.}
+00899 \textcolor{comment}{  * @param  SPIx: where x can be 1, 2 or 3 to select the SPI peripheral.}
+00900 \textcolor{comment}{  * @retval None}
+00901 \textcolor{comment}{  */}
+00902 \textcolor{keywordtype}{void} SPI_TransmitCRC(SPI\_TypeDef* SPIx)
+00903 \{
+00904   \textcolor{comment}{/* Check the parameters */}
+00905   assert_param(IS\_SPI\_ALL\_PERIPH(SPIx));
+00906 
+00907   \textcolor{comment}{/* Enable the selected SPI CRC transmission */}
+00908   SPIx->CR1 |= SPI_CR1_CRCNEXT;
+00909 \}
+00910 
+00911 \textcolor{comment}{/**}
+00912 \textcolor{comment}{  * @brief  Returns the transmit or the receive CRC register value for the specified SPI.}
+00913 \textcolor{comment}{  * @param  SPIx: where x can be 1, 2 or 3 to select the SPI peripheral.}
+00914 \textcolor{comment}{  * @param  SPI\_CRC: specifies the CRC register to be read.}
+00915 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00916 \textcolor{comment}{  *            @arg SPI\_CRC\_Tx: Selects Tx CRC register}
+00917 \textcolor{comment}{  *            @arg SPI\_CRC\_Rx: Selects Rx CRC register}
+00918 \textcolor{comment}{  * @retval The selected CRC register value..}
+00919 \textcolor{comment}{  */}
+00920 uint16\_t SPI_GetCRC(SPI\_TypeDef* SPIx, uint8\_t SPI\_CRC)
+00921 \{
+00922   uint16\_t crcreg = 0;
+00923   \textcolor{comment}{/* Check the parameters */}
+00924   assert_param(IS\_SPI\_ALL\_PERIPH(SPIx));
+00925   assert_param(IS\_SPI\_CRC(SPI\_CRC));
+00926   \textcolor{keywordflow}{if} (SPI\_CRC != SPI_CRC_Rx)
+00927   \{
+00928     \textcolor{comment}{/* Get the Tx CRC register */}
+00929     crcreg = SPIx->TXCRCR;
+00930   \}
+00931   \textcolor{keywordflow}{else}
+00932   \{
+00933     \textcolor{comment}{/* Get the Rx CRC register */}
+00934     crcreg = SPIx->RXCRCR;
+00935   \}
+00936   \textcolor{comment}{/* Return the selected CRC register */}
+00937   \textcolor{keywordflow}{return} crcreg;
+00938 \}
+00939 
+00940 \textcolor{comment}{/**}
+00941 \textcolor{comment}{  * @brief  Returns the CRC Polynomial register value for the specified SPI.}
+00942 \textcolor{comment}{  * @param  SPIx: where x can be 1, 2 or 3 to select the SPI peripheral.}
+00943 \textcolor{comment}{  * @retval The CRC Polynomial register value.}
+00944 \textcolor{comment}{  */}
+00945 uint16\_t SPI_GetCRCPolynomial(SPI\_TypeDef* SPIx)
+00946 \{
+00947   \textcolor{comment}{/* Check the parameters */}
+00948   assert_param(IS\_SPI\_ALL\_PERIPH(SPIx));
+00949 
+00950   \textcolor{comment}{/* Return the CRC polynomial register */}
+00951   \textcolor{keywordflow}{return} SPIx->CRCPR;
+00952 \}
+00953 
+00954 \textcolor{comment}{/**}
+00955 \textcolor{comment}{  * @\}}
+00956 \textcolor{comment}{  */}
+00957 
+00958 \textcolor{comment}{/** @defgroup SPI\_Group4 DMA transfers management functions}
+00959 \textcolor{comment}{ *  @brief   DMA transfers management functions}
+00960 \textcolor{comment}{  *}
+00961 \textcolor{comment}{@verbatim   }
+00962 \textcolor{comment}{ ===============================================================================}
+00963 \textcolor{comment}{                         DMA transfers management functions}
+00964 \textcolor{comment}{ ===============================================================================  }
+00965 \textcolor{comment}{}
+00966 \textcolor{comment}{@endverbatim}
+00967 \textcolor{comment}{  * @\{}
+00968 \textcolor{comment}{  */}
+00969 
+00970 \textcolor{comment}{/**}
+00971 \textcolor{comment}{  * @brief  Enables or disables the SPIx/I2Sx DMA interface.}
+00972 \textcolor{comment}{  * @param  SPIx: To select the SPIx/I2Sx peripheral, where x can be: 1, 2 or 3 }
+00973 \textcolor{comment}{  *         in SPI mode or 2 or 3 in I2S mode or I2Sxext for I2S full duplex mode. }
+00974 \textcolor{comment}{  * @param  SPI\_I2S\_DMAReq: specifies the SPI DMA transfer request to be enabled or disabled. }
+00975 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+00976 \textcolor{comment}{  *            @arg SPI\_I2S\_DMAReq\_Tx: Tx buffer DMA transfer request}
+00977 \textcolor{comment}{  *            @arg SPI\_I2S\_DMAReq\_Rx: Rx buffer DMA transfer request}
+00978 \textcolor{comment}{  * @param  NewState: new state of the selected SPI DMA transfer request.}
+00979 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00980 \textcolor{comment}{  * @retval None}
+00981 \textcolor{comment}{  */}
+00982 \textcolor{keywordtype}{void} SPI_I2S_DMACmd(SPI\_TypeDef* SPIx, uint16\_t SPI\_I2S\_DMAReq, FunctionalState NewState)
+00983 \{
+00984   \textcolor{comment}{/* Check the parameters */}
+00985   assert_param(IS\_SPI\_ALL\_PERIPH\_EXT(SPIx));
+00986   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00987   assert_param(IS\_SPI\_I2S\_DMAREQ(SPI\_I2S\_DMAReq));
+00988 
+00989   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00990   \{
+00991     \textcolor{comment}{/* Enable the selected SPI DMA requests */}
+00992     SPIx->CR2 |= SPI\_I2S\_DMAReq;
+00993   \}
+00994   \textcolor{keywordflow}{else}
+00995   \{
+00996     \textcolor{comment}{/* Disable the selected SPI DMA requests */}
+00997     SPIx->CR2 &= (uint16\_t)~SPI\_I2S\_DMAReq;
+00998   \}
+00999 \}
+01000 
+01001 \textcolor{comment}{/**}
+01002 \textcolor{comment}{  * @\}}
+01003 \textcolor{comment}{  */}
+01004 
+01005 \textcolor{comment}{/** @defgroup SPI\_Group5 Interrupts and flags management functions}
+01006 \textcolor{comment}{ *  @brief   Interrupts and flags management functions}
+01007 \textcolor{comment}{  *}
+01008 \textcolor{comment}{@verbatim   }
+01009 \textcolor{comment}{ ===============================================================================}
+01010 \textcolor{comment}{                         Interrupts and flags management functions}
+01011 \textcolor{comment}{ ===============================================================================  }
+01012 \textcolor{comment}{}
+01013 \textcolor{comment}{  This section provides a set of functions allowing to configure the SPI Interrupts }
+01014 \textcolor{comment}{  sources and check or clear the flags or pending bits status.}
+01015 \textcolor{comment}{  The user should identify which mode will be used in his application to manage }
+01016 \textcolor{comment}{  the communication: Polling mode, Interrupt mode or DMA mode. }
+01017 \textcolor{comment}{    }
+01018 \textcolor{comment}{  Polling Mode}
+01019 \textcolor{comment}{  =============}
+01020 \textcolor{comment}{  In Polling Mode, the SPI/I2S communication can be managed by 9 flags:}
+01021 \textcolor{comment}{     1. SPI\_I2S\_FLAG\_TXE : to indicate the status of the transmit buffer register}
+01022 \textcolor{comment}{     2. SPI\_I2S\_FLAG\_RXNE : to indicate the status of the receive buffer register}
+01023 \textcolor{comment}{     3. SPI\_I2S\_FLAG\_BSY : to indicate the state of the communication layer of the SPI.}
+01024 \textcolor{comment}{     4. SPI\_FLAG\_CRCERR : to indicate if a CRC Calculation error occur              }
+01025 \textcolor{comment}{     5. SPI\_FLAG\_MODF : to indicate if a Mode Fault error occur}
+01026 \textcolor{comment}{     6. SPI\_I2S\_FLAG\_OVR : to indicate if an Overrun error occur}
+01027 \textcolor{comment}{     7. I2S\_FLAG\_TIFRFE: to indicate a Frame Format error occurs.}
+01028 \textcolor{comment}{     8. I2S\_FLAG\_UDR: to indicate an Underrun error occurs.}
+01029 \textcolor{comment}{     9. I2S\_FLAG\_CHSIDE: to indicate Channel Side.}
+01030 \textcolor{comment}{}
+01031 \textcolor{comment}{@note Do not use the BSY flag to handle each data transmission or reception.  It is}
+01032 \textcolor{comment}{      better to use the TXE and RXNE flags instead.}
+01033 \textcolor{comment}{}
+01034 \textcolor{comment}{  In this Mode it is advised to use the following functions:}
+01035 \textcolor{comment}{     - FlagStatus SPI\_I2S\_GetFlagStatus(SPI\_TypeDef* SPIx, uint16\_t SPI\_I2S\_FLAG);}
+01036 \textcolor{comment}{     - void SPI\_I2S\_ClearFlag(SPI\_TypeDef* SPIx, uint16\_t SPI\_I2S\_FLAG);}
+01037 \textcolor{comment}{}
+01038 \textcolor{comment}{  Interrupt Mode}
+01039 \textcolor{comment}{  ===============}
+01040 \textcolor{comment}{  In Interrupt Mode, the SPI communication can be managed by 3 interrupt sources}
+01041 \textcolor{comment}{  and 7 pending bits: }
+01042 \textcolor{comment}{  Pending Bits:}
+01043 \textcolor{comment}{  ------------- }
+01044 \textcolor{comment}{     1. SPI\_I2S\_IT\_TXE : to indicate the status of the transmit buffer register}
+01045 \textcolor{comment}{     2. SPI\_I2S\_IT\_RXNE : to indicate the status of the receive buffer register}
+01046 \textcolor{comment}{     3. SPI\_IT\_CRCERR : to indicate if a CRC Calculation error occur (available in SPI mode only)     
+             }
+01047 \textcolor{comment}{     4. SPI\_IT\_MODF : to indicate if a Mode Fault error occur (available in SPI mode only)}
+01048 \textcolor{comment}{     5. SPI\_I2S\_IT\_OVR : to indicate if an Overrun error occur}
+01049 \textcolor{comment}{     6. I2S\_IT\_UDR : to indicate an Underrun Error occurs (available in I2S mode only).}
+01050 \textcolor{comment}{     7. I2S\_FLAG\_TIFRFE : to indicate a Frame Format error occurs (available in TI mode only).}
+01051 \textcolor{comment}{}
+01052 \textcolor{comment}{  Interrupt Source:}
+01053 \textcolor{comment}{  -----------------}
+01054 \textcolor{comment}{     1. SPI\_I2S\_IT\_TXE: specifies the interrupt source for the Tx buffer empty }
+01055 \textcolor{comment}{                        interrupt.  }
+01056 \textcolor{comment}{     2. SPI\_I2S\_IT\_RXNE : specifies the interrupt source for the Rx buffer not }
+01057 \textcolor{comment}{                          empty interrupt.}
+01058 \textcolor{comment}{     3. SPI\_I2S\_IT\_ERR : specifies the interrupt source for the errors interrupt.}
+01059 \textcolor{comment}{}
+01060 \textcolor{comment}{  In this Mode it is advised to use the following functions:}
+01061 \textcolor{comment}{     - void SPI\_I2S\_ITConfig(SPI\_TypeDef* SPIx, uint8\_t SPI\_I2S\_IT, FunctionalState NewState);}
+01062 \textcolor{comment}{     - ITStatus SPI\_I2S\_GetITStatus(SPI\_TypeDef* SPIx, uint8\_t SPI\_I2S\_IT);}
+01063 \textcolor{comment}{     - void SPI\_I2S\_ClearITPendingBit(SPI\_TypeDef* SPIx, uint8\_t SPI\_I2S\_IT);}
+01064 \textcolor{comment}{}
+01065 \textcolor{comment}{  DMA Mode}
+01066 \textcolor{comment}{  ========}
+01067 \textcolor{comment}{  In DMA Mode, the SPI communication can be managed by 2 DMA Channel requests:}
+01068 \textcolor{comment}{     1. SPI\_I2S\_DMAReq\_Tx: specifies the Tx buffer DMA transfer request}
+01069 \textcolor{comment}{     2. SPI\_I2S\_DMAReq\_Rx: specifies the Rx buffer DMA transfer request}
+01070 \textcolor{comment}{}
+01071 \textcolor{comment}{  In this Mode it is advised to use the following function:}
+01072 \textcolor{comment}{    - void SPI\_I2S\_DMACmd(SPI\_TypeDef* SPIx, uint16\_t SPI\_I2S\_DMAReq, FunctionalState NewState);}
+01073 \textcolor{comment}{}
+01074 \textcolor{comment}{@endverbatim}
+01075 \textcolor{comment}{  * @\{}
+01076 \textcolor{comment}{  */}
+01077 
+01078 \textcolor{comment}{/**}
+01079 \textcolor{comment}{  * @brief  Enables or disables the specified SPI/I2S interrupts.}
+01080 \textcolor{comment}{  * @param  SPIx: To select the SPIx/I2Sx peripheral, where x can be: 1, 2 or 3 }
+01081 \textcolor{comment}{  *         in SPI mode or 2 or 3 in I2S mode or I2Sxext for I2S full duplex mode. }
+01082 \textcolor{comment}{  * @param  SPI\_I2S\_IT: specifies the SPI interrupt source to be enabled or disabled. }
+01083 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01084 \textcolor{comment}{  *            @arg SPI\_I2S\_IT\_TXE: Tx buffer empty interrupt mask}
+01085 \textcolor{comment}{  *            @arg SPI\_I2S\_IT\_RXNE: Rx buffer not empty interrupt mask}
+01086 \textcolor{comment}{  *            @arg SPI\_I2S\_IT\_ERR: Error interrupt mask}
+01087 \textcolor{comment}{  * @param  NewState: new state of the specified SPI interrupt.}
+01088 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01089 \textcolor{comment}{  * @retval None}
+01090 \textcolor{comment}{  */}
+01091 \textcolor{keywordtype}{void} SPI_I2S_ITConfig(SPI\_TypeDef* SPIx, uint8\_t SPI\_I2S\_IT, FunctionalState NewState)
+01092 \{
+01093   uint16\_t itpos = 0, itmask = 0 ;
+01094 
+01095   \textcolor{comment}{/* Check the parameters */}
+01096   assert_param(IS\_SPI\_ALL\_PERIPH\_EXT(SPIx));
+01097   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01098   assert_param(IS\_SPI\_I2S\_CONFIG\_IT(SPI\_I2S\_IT));
+01099 
+01100   \textcolor{comment}{/* Get the SPI IT index */}
+01101   itpos = SPI\_I2S\_IT >> 4;
+01102 
+01103   \textcolor{comment}{/* Set the IT mask */}
+01104   itmask = (uint16\_t)1 << (uint16\_t)itpos;
+01105 
+01106   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01107   \{
+01108     \textcolor{comment}{/* Enable the selected SPI interrupt */}
+01109     SPIx->CR2 |= itmask;
+01110   \}
+01111   \textcolor{keywordflow}{else}
+01112   \{
+01113     \textcolor{comment}{/* Disable the selected SPI interrupt */}
+01114     SPIx->CR2 &= (uint16\_t)~itmask;
+01115   \}
+01116 \}
+01117 
+01118 \textcolor{comment}{/**}
+01119 \textcolor{comment}{  * @brief  Checks whether the specified SPIx/I2Sx flag is set or not.}
+01120 \textcolor{comment}{  * @param  SPIx: To select the SPIx/I2Sx peripheral, where x can be: 1, 2 or 3 }
+01121 \textcolor{comment}{  *         in SPI mode or 2 or 3 in I2S mode or I2Sxext for I2S full duplex mode. }
+01122 \textcolor{comment}{  * @param  SPI\_I2S\_FLAG: specifies the SPI flag to check. }
+01123 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01124 \textcolor{comment}{  *            @arg SPI\_I2S\_FLAG\_TXE: Transmit buffer empty flag.}
+01125 \textcolor{comment}{  *            @arg SPI\_I2S\_FLAG\_RXNE: Receive buffer not empty flag.}
+01126 \textcolor{comment}{  *            @arg SPI\_I2S\_FLAG\_BSY: Busy flag.}
+01127 \textcolor{comment}{  *            @arg SPI\_I2S\_FLAG\_OVR: Overrun flag.}
+01128 \textcolor{comment}{  *            @arg SPI\_FLAG\_MODF: Mode Fault flag.}
+01129 \textcolor{comment}{  *            @arg SPI\_FLAG\_CRCERR: CRC Error flag.}
+01130 \textcolor{comment}{  *            @arg SPI\_I2S\_FLAG\_TIFRFE: Format Error.}
+01131 \textcolor{comment}{  *            @arg I2S\_FLAG\_UDR: Underrun Error flag.}
+01132 \textcolor{comment}{  *            @arg I2S\_FLAG\_CHSIDE: Channel Side flag.  }
+01133 \textcolor{comment}{  * @retval The new state of SPI\_I2S\_FLAG (SET or RESET).}
+01134 \textcolor{comment}{  */}
+01135 FlagStatus SPI_I2S_GetFlagStatus(SPI\_TypeDef* SPIx, uint16\_t SPI\_I2S\_FLAG)
+01136 \{
+01137   FlagStatus bitstatus = RESET;
+01138   \textcolor{comment}{/* Check the parameters */}
+01139   assert_param(IS\_SPI\_ALL\_PERIPH\_EXT(SPIx));
+01140   assert_param(IS\_SPI\_I2S\_GET\_FLAG(SPI\_I2S\_FLAG));
+01141 
+01142   \textcolor{comment}{/* Check the status of the specified SPI flag */}
+01143   \textcolor{keywordflow}{if} ((SPIx->SR & SPI\_I2S\_FLAG) != (uint16\_t)RESET)
+01144   \{
+01145     \textcolor{comment}{/* SPI\_I2S\_FLAG is set */}
+01146     bitstatus = SET;
+01147   \}
+01148   \textcolor{keywordflow}{else}
+01149   \{
+01150     \textcolor{comment}{/* SPI\_I2S\_FLAG is reset */}
+01151     bitstatus = RESET;
+01152   \}
+01153   \textcolor{comment}{/* Return the SPI\_I2S\_FLAG status */}
+01154   \textcolor{keywordflow}{return}  bitstatus;
+01155 \}
+01156 
+01157 \textcolor{comment}{/**}
+01158 \textcolor{comment}{  * @brief  Clears the SPIx CRC Error (CRCERR) flag.}
+01159 \textcolor{comment}{  * @param  SPIx: To select the SPIx/I2Sx peripheral, where x can be: 1, 2 or 3 }
+01160 \textcolor{comment}{  *         in SPI mode or 2 or 3 in I2S mode or I2Sxext for I2S full duplex mode. }
+01161 \textcolor{comment}{  * @param  SPI\_I2S\_FLAG: specifies the SPI flag to clear. }
+01162 \textcolor{comment}{  *          This function clears only CRCERR flag.}
+01163 \textcolor{comment}{  *            @arg SPI\_FLAG\_CRCERR: CRC Error flag.  }
+01164 \textcolor{comment}{  *  }
+01165 \textcolor{comment}{  * @note   OVR (OverRun error) flag is cleared by software sequence: a read }
+01166 \textcolor{comment}{  *          operation to SPI\_DR register (SPI\_I2S\_ReceiveData()) followed by a read }
+01167 \textcolor{comment}{  *          operation to SPI\_SR register (SPI\_I2S\_GetFlagStatus()).}
+01168 \textcolor{comment}{  * @note   UDR (UnderRun error) flag is cleared by a read operation to }
+01169 \textcolor{comment}{  *          SPI\_SR register (SPI\_I2S\_GetFlagStatus()).   }
+01170 \textcolor{comment}{  * @note   MODF (Mode Fault) flag is cleared by software sequence: a read/write }
+01171 \textcolor{comment}{  *          operation to SPI\_SR register (SPI\_I2S\_GetFlagStatus()) followed by a }
+01172 \textcolor{comment}{  *          write operation to SPI\_CR1 register (SPI\_Cmd() to enable the SPI).}
+01173 \textcolor{comment}{  *  }
+01174 \textcolor{comment}{  * @retval None}
+01175 \textcolor{comment}{  */}
+01176 \textcolor{keywordtype}{void} SPI_I2S_ClearFlag(SPI\_TypeDef* SPIx, uint16\_t SPI\_I2S\_FLAG)
+01177 \{
+01178   \textcolor{comment}{/* Check the parameters */}
+01179   assert_param(IS\_SPI\_ALL\_PERIPH\_EXT(SPIx));
+01180   assert_param(IS\_SPI\_I2S\_CLEAR\_FLAG(SPI\_I2S\_FLAG));
+01181 
+01182   \textcolor{comment}{/* Clear the selected SPI CRC Error (CRCERR) flag */}
+01183   SPIx->SR = (uint16\_t)~SPI\_I2S\_FLAG;
+01184 \}
+01185 
+01186 \textcolor{comment}{/**}
+01187 \textcolor{comment}{  * @brief  Checks whether the specified SPIx/I2Sx interrupt has occurred or not.}
+01188 \textcolor{comment}{  * @param  SPIx: To select the SPIx/I2Sx peripheral, where x can be: 1, 2 or 3 }
+01189 \textcolor{comment}{  *         in SPI mode or 2 or 3 in I2S mode or I2Sxext for I2S full duplex mode.  }
+01190 \textcolor{comment}{  * @param  SPI\_I2S\_IT: specifies the SPI interrupt source to check. }
+01191 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01192 \textcolor{comment}{  *            @arg SPI\_I2S\_IT\_TXE: Transmit buffer empty interrupt.}
+01193 \textcolor{comment}{  *            @arg SPI\_I2S\_IT\_RXNE: Receive buffer not empty interrupt.}
+01194 \textcolor{comment}{  *            @arg SPI\_I2S\_IT\_OVR: Overrun interrupt.}
+01195 \textcolor{comment}{  *            @arg SPI\_IT\_MODF: Mode Fault interrupt.}
+01196 \textcolor{comment}{  *            @arg SPI\_IT\_CRCERR: CRC Error interrupt.}
+01197 \textcolor{comment}{  *            @arg I2S\_IT\_UDR: Underrun interrupt.  }
+01198 \textcolor{comment}{  *            @arg SPI\_I2S\_IT\_TIFRFE: Format Error interrupt.  }
+01199 \textcolor{comment}{  * @retval The new state of SPI\_I2S\_IT (SET or RESET).}
+01200 \textcolor{comment}{  */}
+01201 ITStatus SPI_I2S_GetITStatus(SPI\_TypeDef* SPIx, uint8\_t SPI\_I2S\_IT)
+01202 \{
+01203   ITStatus bitstatus = RESET;
+01204   uint16\_t itpos = 0, itmask = 0, enablestatus = 0;
+01205 
+01206   \textcolor{comment}{/* Check the parameters */}
+01207   assert_param(IS\_SPI\_ALL\_PERIPH\_EXT(SPIx));
+01208   assert_param(IS\_SPI\_I2S\_GET\_IT(SPI\_I2S\_IT));
+01209 
+01210   \textcolor{comment}{/* Get the SPI\_I2S\_IT index */}
+01211   itpos = 0x01 << (SPI\_I2S\_IT & 0x0F);
+01212 
+01213   \textcolor{comment}{/* Get the SPI\_I2S\_IT IT mask */}
+01214   itmask = SPI\_I2S\_IT >> 4;
+01215 
+01216   \textcolor{comment}{/* Set the IT mask */}
+01217   itmask = 0x01 << itmask;
+01218 
+01219   \textcolor{comment}{/* Get the SPI\_I2S\_IT enable bit status */}
+01220   enablestatus = (SPIx->CR2 & itmask) ;
+01221 
+01222   \textcolor{comment}{/* Check the status of the specified SPI interrupt */}
+01223   \textcolor{keywordflow}{if} (((SPIx->SR & itpos) != (uint16\_t)RESET) && enablestatus)
+01224   \{
+01225     \textcolor{comment}{/* SPI\_I2S\_IT is set */}
+01226     bitstatus = SET;
+01227   \}
+01228   \textcolor{keywordflow}{else}
+01229   \{
+01230     \textcolor{comment}{/* SPI\_I2S\_IT is reset */}
+01231     bitstatus = RESET;
+01232   \}
+01233   \textcolor{comment}{/* Return the SPI\_I2S\_IT status */}
+01234   \textcolor{keywordflow}{return} bitstatus;
+01235 \}
+01236 
+01237 \textcolor{comment}{/**}
+01238 \textcolor{comment}{  * @brief  Clears the SPIx CRC Error (CRCERR) interrupt pending bit.}
+01239 \textcolor{comment}{  * @param  SPIx: To select the SPIx/I2Sx peripheral, where x can be: 1, 2 or 3 }
+01240 \textcolor{comment}{  *         in SPI mode or 2 or 3 in I2S mode or I2Sxext for I2S full duplex mode.  }
+01241 \textcolor{comment}{  * @param  SPI\_I2S\_IT: specifies the SPI interrupt pending bit to clear.}
+01242 \textcolor{comment}{  *         This function clears only CRCERR interrupt pending bit.   }
+01243 \textcolor{comment}{  *            @arg SPI\_IT\_CRCERR: CRC Error interrupt.}
+01244 \textcolor{comment}{  *   }
+01245 \textcolor{comment}{  * @note   OVR (OverRun Error) interrupt pending bit is cleared by software }
+01246 \textcolor{comment}{  *          sequence: a read operation to SPI\_DR register (SPI\_I2S\_ReceiveData()) }
+01247 \textcolor{comment}{  *          followed by a read operation to SPI\_SR register (SPI\_I2S\_GetITStatus()).}
+01248 \textcolor{comment}{  * @note   UDR (UnderRun Error) interrupt pending bit is cleared by a read }
+01249 \textcolor{comment}{  *          operation to SPI\_SR register (SPI\_I2S\_GetITStatus()).   }
+01250 \textcolor{comment}{  * @note   MODF (Mode Fault) interrupt pending bit is cleared by software sequence:}
+01251 \textcolor{comment}{  *          a read/write operation to SPI\_SR register (SPI\_I2S\_GetITStatus()) }
+01252 \textcolor{comment}{  *          followed by a write operation to SPI\_CR1 register (SPI\_Cmd() to enable }
+01253 \textcolor{comment}{  *          the SPI).}
+01254 \textcolor{comment}{  * @retval None}
+01255 \textcolor{comment}{  */}
+01256 \textcolor{keywordtype}{void} SPI_I2S_ClearITPendingBit(SPI\_TypeDef* SPIx, uint8\_t SPI\_I2S\_IT)
+01257 \{
+01258   uint16\_t itpos = 0;
+01259   \textcolor{comment}{/* Check the parameters */}
+01260   assert_param(IS\_SPI\_ALL\_PERIPH\_EXT(SPIx));
+01261   assert_param(IS\_SPI\_I2S\_CLEAR\_IT(SPI\_I2S\_IT));
+01262 
+01263   \textcolor{comment}{/* Get the SPI\_I2S IT index */}
+01264   itpos = 0x01 << (SPI\_I2S\_IT & 0x0F);
+01265 
+01266   \textcolor{comment}{/* Clear the selected SPI CRC Error (CRCERR) interrupt pending bit */}
+01267   SPIx->SR = (uint16\_t)~itpos;
+01268 \}
+01269 
+01270 \textcolor{comment}{/**}
+01271 \textcolor{comment}{  * @\}}
+01272 \textcolor{comment}{  */}
+01273 
+01274 \textcolor{comment}{/**}
+01275 \textcolor{comment}{  * @\}}
+01276 \textcolor{comment}{  */}
+01277 
+01278 \textcolor{comment}{/**}
+01279 \textcolor{comment}{  * @\}}
+01280 \textcolor{comment}{  */}
+01281 
+01282 \textcolor{comment}{/**}
+01283 \textcolor{comment}{  * @\}}
+01284 \textcolor{comment}{  */}
+01285 
+01286 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

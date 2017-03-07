@@ -1,0 +1,120 @@
+\section{Shift control synchronisation functions}
+\label{group__RTC__Group12}\index{Shift control synchronisation functions@{Shift control synchronisation functions}}
+
+
+Shift control synchronisation functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Synchro\+Shift\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+Shift\+Add1S, uint32\+\_\+t R\+T\+C\+\_\+\+Shift\+Sub\+FS)
+\begin{DoxyCompactList}\small\item\em Configures the Synchronization Shift Control Settings. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Shift control synchronisation functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                   Shift control synchronisation functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__RTC__Group12_gaad434ed2a268f05662f0613e8e9717f3}} 
+\index{Shift control synchronisation functions@{Shift control synchronisation functions}!R\+T\+C\+\_\+\+Synchro\+Shift\+Config@{R\+T\+C\+\_\+\+Synchro\+Shift\+Config}}
+\index{R\+T\+C\+\_\+\+Synchro\+Shift\+Config@{R\+T\+C\+\_\+\+Synchro\+Shift\+Config}!Shift control synchronisation functions@{Shift control synchronisation functions}}
+\subsubsection{R\+T\+C\+\_\+\+Synchro\+Shift\+Config()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Synchro\+Shift\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Shift\+Add1S,  }\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+Shift\+Sub\+FS }\end{DoxyParamCaption})}
+
+
+
+Configures the Synchronization Shift Control Settings. 
+
+\begin{DoxyNote}{Note}
+When R\+E\+F\+C\+K\+ON is set, firmware must not write to Shift control register 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Shift\+Add1S} & \+: Select to add or not 1 second to the time Calendar. This parameter can be one of the following values \+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+Shift\+Add1\+S\+\_\+\+Set \+: Add one second to the clock calendar. \item R\+T\+C\+\_\+\+Shift\+Add1\+S\+\_\+\+Reset\+: No effect. \end{DoxyItemize}
+\\
+\hline
+{\em R\+T\+C\+\_\+\+Shift\+Sub\+FS} & Select the number of Second Fractions to Substitute. This parameter can be one any value from 0 to 0x7\+F\+FF. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC Shift registers are configured
+\item E\+R\+R\+OR\+: R\+TC Shift registers are not configured 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2411} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}.
+
+
+\begin{DoxyCode}
+02412 \{
+02413   ErrorStatus status = ERROR;
+02414   uint32\_t shpfcount = 0;
+02415 
+02416   \textcolor{comment}{/* Check the parameters */}
+02417   assert_param(IS_RTC_SHIFT_ADD1S(RTC\_ShiftAdd1S));
+02418   assert_param(IS_RTC_SHIFT_SUBFS(RTC\_ShiftSubFS));
+02419 
+02420   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+02421   RTC->WPR = 0xCA;
+02422   RTC->WPR = 0x53;
+02423   
+02424   \textcolor{comment}{/* Check if a Shift is pending*/}
+02425   \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_SHPF) != RESET)
+02426   \{
+02427     \textcolor{comment}{/* Wait until the shift is completed*/}
+02428     \textcolor{keywordflow}{while} (((RTC->ISR & RTC_ISR_SHPF) != RESET) && (shpfcount != SHPF_TIMEOUT))
+02429     \{
+02430       shpfcount++;
+02431     \}
+02432   \}
+02433 
+02434   \textcolor{comment}{/* Check if the Shift pending is completed or if there is no Shift operation at all*/}
+02435   \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_SHPF) == RESET)
+02436   \{
+02437     \textcolor{comment}{/* check if the reference clock detection is disabled */}
+02438     \textcolor{keywordflow}{if}((RTC->CR & RTC_CR_REFCKON) == RESET)
+02439     \{
+02440       \textcolor{comment}{/* Configure the Shift settings */}
+02441       RTC->SHIFTR = (uint32\_t)(uint32\_t)(RTC\_ShiftSubFS) | (uint32\_t)(RTC\_ShiftAdd1S);
+02442     
+02443       \textcolor{keywordflow}{if}(RTC_WaitForSynchro() == ERROR)
+02444       \{
+02445         status = ERROR;
+02446       \}
+02447       \textcolor{keywordflow}{else}
+02448       \{
+02449         status = SUCCESS;
+02450       \}
+02451     \}
+02452     \textcolor{keywordflow}{else}
+02453     \{
+02454       status = ERROR;
+02455     \}
+02456   \}
+02457   \textcolor{keywordflow}{else}
+02458   \{
+02459     status = ERROR;
+02460   \}
+02461 
+02462   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+02463   RTC->WPR = 0xFF;
+02464   
+02465   \textcolor{keywordflow}{return} (ErrorStatus)(status);
+02466 \}
+\end{DoxyCode}

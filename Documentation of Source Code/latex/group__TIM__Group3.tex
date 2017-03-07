@@ -1,0 +1,611 @@
+\section{Input Capture management functions}
+\label{group__TIM__Group3}\index{Input Capture management functions@{Input Capture management functions}}
+
+
+Input Capture management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ T\+I\+M\+\_\+\+I\+C\+Init} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def} $\ast$T\+I\+M\+\_\+\+I\+C\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the T\+IM peripheral according to the specified parameters in the T\+I\+M\+\_\+\+I\+C\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+I\+C\+Struct\+Init} (\textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def} $\ast$T\+I\+M\+\_\+\+I\+C\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each T\+I\+M\+\_\+\+I\+C\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+P\+W\+M\+I\+Config} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, \textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def} $\ast$T\+I\+M\+\_\+\+I\+C\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Configures the T\+IM peripheral according to the specified parameters in the T\+I\+M\+\_\+\+I\+C\+Init\+Struct to measure an external P\+WM signal. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ T\+I\+M\+\_\+\+Get\+Capture1} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\+I\+Mx Input Capture 1 value. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ T\+I\+M\+\_\+\+Get\+Capture2} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\+I\+Mx Input Capture 2 value. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ T\+I\+M\+\_\+\+Get\+Capture3} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\+I\+Mx Input Capture 3 value. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ T\+I\+M\+\_\+\+Get\+Capture4} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx)
+\begin{DoxyCompactList}\small\item\em Gets the T\+I\+Mx Input Capture 4 value. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Set\+I\+C1\+Prescaler} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+I\+C\+P\+SC)
+\begin{DoxyCompactList}\small\item\em Sets the T\+I\+Mx Input Capture 1 prescaler. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Set\+I\+C2\+Prescaler} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+I\+C\+P\+SC)
+\begin{DoxyCompactList}\small\item\em Sets the T\+I\+Mx Input Capture 2 prescaler. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Set\+I\+C3\+Prescaler} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+I\+C\+P\+SC)
+\begin{DoxyCompactList}\small\item\em Sets the T\+I\+Mx Input Capture 3 prescaler. \end{DoxyCompactList}\item 
+void \textbf{ T\+I\+M\+\_\+\+Set\+I\+C4\+Prescaler} (\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$T\+I\+Mx, uint16\+\_\+t T\+I\+M\+\_\+\+I\+C\+P\+SC)
+\begin{DoxyCompactList}\small\item\em Sets the T\+I\+Mx Input Capture 4 prescaler. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Input Capture management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                      Input Capture management functions
+ ===============================================================================  
+   
+       ===================================================================      
+              TIM Driver: how to use it in Input Capture Mode
+       =================================================================== 
+       To use the Timer in Input Capture mode, the following steps are mandatory:
+       
+       1. Enable TIM clock using RCC_APBxPeriphClockCmd(RCC_APBxPeriph_TIMx, ENABLE) function
+       
+       2. Configure the TIM pins by configuring the corresponding GPIO pins
+       
+       2. Configure the Time base unit as described in the first part of this driver,
+          if needed, else the Timer will run with the default configuration:
+          - Autoreload value = 0xFFFF
+          - Prescaler value = 0x0000
+          - Counter mode = Up counting
+          - Clock Division = TIM_CKD_DIV1
+          
+       3. Fill the TIM_ICInitStruct with the desired parameters including:
+          - TIM Channel: TIM_Channel
+          - TIM Input Capture polarity: TIM_ICPolarity
+          - TIM Input Capture selection: TIM_ICSelection
+          - TIM Input Capture Prescaler: TIM_ICPrescaler
+          - TIM Input CApture filter value: TIM_ICFilter
+       
+       4. Call TIM_ICInit(TIMx, &TIM_ICInitStruct) to configure the desired channel with the 
+          corresponding configuration and to measure only frequency or duty cycle of the input signal,
+          or,
+          Call TIM_PWMIConfig(TIMx, &TIM_ICInitStruct) to configure the desired channels with the 
+          corresponding configuration and to measure the frequency and the duty cycle of the input signal
+          
+       5. Enable the NVIC or the DMA to read the measured frequency. 
+          
+       6. Enable the corresponding interrupt (or DMA request) to read the Captured value,
+          using the function TIM_ITConfig(TIMx, TIM_IT_CCx) (or TIM_DMA_Cmd(TIMx, TIM_DMA_CCx)) 
+       
+       7. Call the TIM_Cmd(ENABLE) function to enable the TIM counter.
+       
+       8. Use TIM_GetCapturex(TIMx); to read the captured value.
+       
+       Note1: All other functions can be used separately to modify, if needed,
+              a specific feature of the Timer. \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__TIM__Group3_ga6bd39ca543305ff0cd06fce0f678d94d}} 
+\index{Input Capture management functions@{Input Capture management functions}!T\+I\+M\+\_\+\+Get\+Capture1@{T\+I\+M\+\_\+\+Get\+Capture1}}
+\index{T\+I\+M\+\_\+\+Get\+Capture1@{T\+I\+M\+\_\+\+Get\+Capture1}!Input Capture management functions@{Input Capture management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Get\+Capture1()}
+{\footnotesize\ttfamily uint32\+\_\+t T\+I\+M\+\_\+\+Get\+Capture1 (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx }\end{DoxyParamCaption})}
+
+
+
+Gets the T\+I\+Mx Input Capture 1 value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1 to 14 except 6 and 7, to select the T\+IM peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Capture} & Compare 1 Register value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2022} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+\begin{DoxyCode}
+02023 \{
+02024   \textcolor{comment}{/* Check the parameters */}
+02025   assert_param(IS_TIM_LIST1_PERIPH(TIMx));
+02026 
+02027   \textcolor{comment}{/* Get the Capture 1 Register value */}
+02028   \textcolor{keywordflow}{return} TIMx->CCR1;
+02029 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group3_ga2524cb5db14e388fb7f20c99fb3d58a5}} 
+\index{Input Capture management functions@{Input Capture management functions}!T\+I\+M\+\_\+\+Get\+Capture2@{T\+I\+M\+\_\+\+Get\+Capture2}}
+\index{T\+I\+M\+\_\+\+Get\+Capture2@{T\+I\+M\+\_\+\+Get\+Capture2}!Input Capture management functions@{Input Capture management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Get\+Capture2()}
+{\footnotesize\ttfamily uint32\+\_\+t T\+I\+M\+\_\+\+Get\+Capture2 (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx }\end{DoxyParamCaption})}
+
+
+
+Gets the T\+I\+Mx Input Capture 2 value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1, 2, 3, 4, 5, 8, 9 or 12 to select the T\+IM peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Capture} & Compare 2 Register value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2037} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+\begin{DoxyCode}
+02038 \{
+02039   \textcolor{comment}{/* Check the parameters */}
+02040   assert_param(IS_TIM_LIST2_PERIPH(TIMx));
+02041 
+02042   \textcolor{comment}{/* Get the Capture 2 Register value */}
+02043   \textcolor{keywordflow}{return} TIMx->CCR2;
+02044 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group3_ga71ee9ce2c535ec0fb3fac5f9119221f7}} 
+\index{Input Capture management functions@{Input Capture management functions}!T\+I\+M\+\_\+\+Get\+Capture3@{T\+I\+M\+\_\+\+Get\+Capture3}}
+\index{T\+I\+M\+\_\+\+Get\+Capture3@{T\+I\+M\+\_\+\+Get\+Capture3}!Input Capture management functions@{Input Capture management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Get\+Capture3()}
+{\footnotesize\ttfamily uint32\+\_\+t T\+I\+M\+\_\+\+Get\+Capture3 (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx }\end{DoxyParamCaption})}
+
+
+
+Gets the T\+I\+Mx Input Capture 3 value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\+IM peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Capture} & Compare 3 Register value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2051} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+\begin{DoxyCode}
+02052 \{
+02053   \textcolor{comment}{/* Check the parameters */}
+02054   assert_param(IS_TIM_LIST3_PERIPH(TIMx)); 
+02055 
+02056   \textcolor{comment}{/* Get the Capture 3 Register value */}
+02057   \textcolor{keywordflow}{return} TIMx->CCR3;
+02058 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group3_ga420b022cbc71ac603b5dd4922687abb1}} 
+\index{Input Capture management functions@{Input Capture management functions}!T\+I\+M\+\_\+\+Get\+Capture4@{T\+I\+M\+\_\+\+Get\+Capture4}}
+\index{T\+I\+M\+\_\+\+Get\+Capture4@{T\+I\+M\+\_\+\+Get\+Capture4}!Input Capture management functions@{Input Capture management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Get\+Capture4()}
+{\footnotesize\ttfamily uint32\+\_\+t T\+I\+M\+\_\+\+Get\+Capture4 (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx }\end{DoxyParamCaption})}
+
+
+
+Gets the T\+I\+Mx Input Capture 4 value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\+IM peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Capture} & Compare 4 Register value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2065} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+\begin{DoxyCode}
+02066 \{
+02067   \textcolor{comment}{/* Check the parameters */}
+02068   assert_param(IS_TIM_LIST3_PERIPH(TIMx));
+02069 
+02070   \textcolor{comment}{/* Get the Capture 4 Register value */}
+02071   \textcolor{keywordflow}{return} TIMx->CCR4;
+02072 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group3_ga9e6a153dd6552e4e1188eba227316f7f}} 
+\index{Input Capture management functions@{Input Capture management functions}!T\+I\+M\+\_\+\+I\+C\+Init@{T\+I\+M\+\_\+\+I\+C\+Init}}
+\index{T\+I\+M\+\_\+\+I\+C\+Init@{T\+I\+M\+\_\+\+I\+C\+Init}!Input Capture management functions@{Input Capture management functions}}
+\subsubsection{T\+I\+M\+\_\+\+I\+C\+Init()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+I\+C\+Init (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{\textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def} $\ast$}]{T\+I\+M\+\_\+\+I\+C\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the T\+IM peripheral according to the specified parameters in the T\+I\+M\+\_\+\+I\+C\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1 to 14 except 6 and 7, to select the T\+IM peripheral. \\
+\hline
+{\em T\+I\+M\+\_\+\+I\+C\+Init\+Struct} & pointer to a \doxyref{T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def}{p.}{structTIM__ICInitTypeDef} structure that contains the configuration information for the specified T\+IM peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1890} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+
+References \textbf{ T\+I1\+\_\+\+Config()}, \textbf{ T\+I2\+\_\+\+Config()}, \textbf{ T\+I3\+\_\+\+Config()}, \textbf{ T\+I4\+\_\+\+Config()}, \textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+Channel}, \textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+I\+C\+Filter}, \textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+I\+C\+Polarity}, \textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+I\+C\+Prescaler}, \textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+I\+C\+Selection}, \textbf{ T\+I\+M\+\_\+\+Set\+I\+C1\+Prescaler()}, \textbf{ T\+I\+M\+\_\+\+Set\+I\+C2\+Prescaler()}, \textbf{ T\+I\+M\+\_\+\+Set\+I\+C3\+Prescaler()}, and \textbf{ T\+I\+M\+\_\+\+Set\+I\+C4\+Prescaler()}.
+
+
+\begin{DoxyCode}
+01891 \{
+01892   \textcolor{comment}{/* Check the parameters */}
+01893   assert_param(IS_TIM_LIST1_PERIPH(TIMx));
+01894   assert_param(IS_TIM_IC_POLARITY(TIM\_ICInitStruct->TIM_ICPolarity));
+01895   assert_param(IS_TIM_IC_SELECTION(TIM\_ICInitStruct->TIM_ICSelection));
+01896   assert_param(IS_TIM_IC_PRESCALER(TIM\_ICInitStruct->TIM_ICPrescaler));
+01897   assert_param(IS_TIM_IC_FILTER(TIM\_ICInitStruct->TIM_ICFilter));
+01898   
+01899   \textcolor{keywordflow}{if} (TIM\_ICInitStruct->TIM_Channel == TIM_Channel_1)
+01900   \{
+01901     \textcolor{comment}{/* TI1 Configuration */}
+01902     TI1_Config(TIMx, TIM\_ICInitStruct->TIM_ICPolarity,
+01903                TIM\_ICInitStruct->TIM_ICSelection,
+01904                TIM\_ICInitStruct->TIM_ICFilter);
+01905     \textcolor{comment}{/* Set the Input Capture Prescaler value */}
+01906     TIM_SetIC1Prescaler(TIMx, TIM\_ICInitStruct->TIM_ICPrescaler);
+01907   \}
+01908   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIM\_ICInitStruct->TIM_Channel == TIM_Channel_2)
+01909   \{
+01910     \textcolor{comment}{/* TI2 Configuration */}
+01911     assert_param(IS_TIM_LIST2_PERIPH(TIMx));
+01912     TI2_Config(TIMx, TIM\_ICInitStruct->TIM_ICPolarity,
+01913                TIM\_ICInitStruct->TIM_ICSelection,
+01914                TIM\_ICInitStruct->TIM_ICFilter);
+01915     \textcolor{comment}{/* Set the Input Capture Prescaler value */}
+01916     TIM_SetIC2Prescaler(TIMx, TIM\_ICInitStruct->TIM_ICPrescaler);
+01917   \}
+01918   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (TIM\_ICInitStruct->TIM_Channel == TIM_Channel_3)
+01919   \{
+01920     \textcolor{comment}{/* TI3 Configuration */}
+01921     assert_param(IS_TIM_LIST3_PERIPH(TIMx));
+01922     TI3_Config(TIMx,  TIM\_ICInitStruct->TIM_ICPolarity,
+01923                TIM\_ICInitStruct->TIM_ICSelection,
+01924                TIM\_ICInitStruct->TIM_ICFilter);
+01925     \textcolor{comment}{/* Set the Input Capture Prescaler value */}
+01926     TIM_SetIC3Prescaler(TIMx, TIM\_ICInitStruct->TIM_ICPrescaler);
+01927   \}
+01928   \textcolor{keywordflow}{else}
+01929   \{
+01930     \textcolor{comment}{/* TI4 Configuration */}
+01931     assert_param(IS_TIM_LIST3_PERIPH(TIMx));
+01932     TI4_Config(TIMx, TIM\_ICInitStruct->TIM_ICPolarity,
+01933                TIM\_ICInitStruct->TIM_ICSelection,
+01934                TIM\_ICInitStruct->TIM_ICFilter);
+01935     \textcolor{comment}{/* Set the Input Capture Prescaler value */}
+01936     TIM_SetIC4Prescaler(TIMx, TIM\_ICInitStruct->TIM_ICPrescaler);
+01937   \}
+01938 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group3_ga5005dac8e4e8a4c7fc2a0ef05b77cc50}} 
+\index{Input Capture management functions@{Input Capture management functions}!T\+I\+M\+\_\+\+I\+C\+Struct\+Init@{T\+I\+M\+\_\+\+I\+C\+Struct\+Init}}
+\index{T\+I\+M\+\_\+\+I\+C\+Struct\+Init@{T\+I\+M\+\_\+\+I\+C\+Struct\+Init}!Input Capture management functions@{Input Capture management functions}}
+\subsubsection{T\+I\+M\+\_\+\+I\+C\+Struct\+Init()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+I\+C\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def} $\ast$}]{T\+I\+M\+\_\+\+I\+C\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each T\+I\+M\+\_\+\+I\+C\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+M\+\_\+\+I\+C\+Init\+Struct} & pointer to a \doxyref{T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def}{p.}{structTIM__ICInitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1946} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+
+References \textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+Channel}, \textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+I\+C\+Filter}, \textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+I\+C\+Polarity}, \textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+I\+C\+Prescaler}, and \textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+I\+C\+Selection}.
+
+
+\begin{DoxyCode}
+01947 \{
+01948   \textcolor{comment}{/* Set the default configuration */}
+01949   TIM\_ICInitStruct->TIM_Channel = TIM_Channel_1;
+01950   TIM\_ICInitStruct->TIM_ICPolarity = TIM_ICPolarity_Rising;
+01951   TIM\_ICInitStruct->TIM_ICSelection = TIM_ICSelection_DirectTI;
+01952   TIM\_ICInitStruct->TIM_ICPrescaler = TIM_ICPSC_DIV1;
+01953   TIM\_ICInitStruct->TIM_ICFilter = 0x00;
+01954 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group3_gaa71f9296556310f85628d6c748a06475}} 
+\index{Input Capture management functions@{Input Capture management functions}!T\+I\+M\+\_\+\+P\+W\+M\+I\+Config@{T\+I\+M\+\_\+\+P\+W\+M\+I\+Config}}
+\index{T\+I\+M\+\_\+\+P\+W\+M\+I\+Config@{T\+I\+M\+\_\+\+P\+W\+M\+I\+Config}!Input Capture management functions@{Input Capture management functions}}
+\subsubsection{T\+I\+M\+\_\+\+P\+W\+M\+I\+Config()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+P\+W\+M\+I\+Config (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{\textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def} $\ast$}]{T\+I\+M\+\_\+\+I\+C\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Configures the T\+IM peripheral according to the specified parameters in the T\+I\+M\+\_\+\+I\+C\+Init\+Struct to measure an external P\+WM signal. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1, 2, 3, 4, 5,8, 9 or 12 to select the T\+IM peripheral. \\
+\hline
+{\em T\+I\+M\+\_\+\+I\+C\+Init\+Struct} & pointer to a \doxyref{T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def}{p.}{structTIM__ICInitTypeDef} structure that contains the configuration information for the specified T\+IM peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1965} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+
+References \textbf{ T\+I1\+\_\+\+Config()}, \textbf{ T\+I2\+\_\+\+Config()}, \textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+Channel}, \textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+I\+C\+Filter}, \textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+I\+C\+Polarity}, \textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+I\+C\+Prescaler}, \textbf{ T\+I\+M\+\_\+\+I\+C\+Init\+Type\+Def\+::\+T\+I\+M\+\_\+\+I\+C\+Selection}, \textbf{ T\+I\+M\+\_\+\+Set\+I\+C1\+Prescaler()}, and \textbf{ T\+I\+M\+\_\+\+Set\+I\+C2\+Prescaler()}.
+
+
+\begin{DoxyCode}
+01966 \{
+01967   uint16\_t icoppositepolarity = TIM_ICPolarity_Rising;
+01968   uint16\_t icoppositeselection = TIM_ICSelection_DirectTI;
+01969 
+01970   \textcolor{comment}{/* Check the parameters */}
+01971   assert_param(IS_TIM_LIST2_PERIPH(TIMx));
+01972 
+01973   \textcolor{comment}{/* Select the Opposite Input Polarity */}
+01974   \textcolor{keywordflow}{if} (TIM\_ICInitStruct->TIM_ICPolarity == TIM_ICPolarity_Rising)
+01975   \{
+01976     icoppositepolarity = TIM_ICPolarity_Falling;
+01977   \}
+01978   \textcolor{keywordflow}{else}
+01979   \{
+01980     icoppositepolarity = TIM_ICPolarity_Rising;
+01981   \}
+01982   \textcolor{comment}{/* Select the Opposite Input */}
+01983   \textcolor{keywordflow}{if} (TIM\_ICInitStruct->TIM_ICSelection == TIM_ICSelection_DirectTI)
+01984   \{
+01985     icoppositeselection = TIM_ICSelection_IndirectTI;
+01986   \}
+01987   \textcolor{keywordflow}{else}
+01988   \{
+01989     icoppositeselection = TIM_ICSelection_DirectTI;
+01990   \}
+01991   \textcolor{keywordflow}{if} (TIM\_ICInitStruct->TIM_Channel == TIM_Channel_1)
+01992   \{
+01993     \textcolor{comment}{/* TI1 Configuration */}
+01994     TI1_Config(TIMx, TIM\_ICInitStruct->TIM_ICPolarity, TIM\_ICInitStruct->
+      TIM_ICSelection,
+01995                TIM\_ICInitStruct->TIM_ICFilter);
+01996     \textcolor{comment}{/* Set the Input Capture Prescaler value */}
+01997     TIM_SetIC1Prescaler(TIMx, TIM\_ICInitStruct->TIM_ICPrescaler);
+01998     \textcolor{comment}{/* TI2 Configuration */}
+01999     TI2_Config(TIMx, icoppositepolarity, icoppositeselection, TIM\_ICInitStruct->
+      TIM_ICFilter);
+02000     \textcolor{comment}{/* Set the Input Capture Prescaler value */}
+02001     TIM_SetIC2Prescaler(TIMx, TIM\_ICInitStruct->TIM_ICPrescaler);
+02002   \}
+02003   \textcolor{keywordflow}{else}
+02004   \{ 
+02005     \textcolor{comment}{/* TI2 Configuration */}
+02006     TI2_Config(TIMx, TIM\_ICInitStruct->TIM_ICPolarity, TIM\_ICInitStruct->
+      TIM_ICSelection,
+02007                TIM\_ICInitStruct->TIM_ICFilter);
+02008     \textcolor{comment}{/* Set the Input Capture Prescaler value */}
+02009     TIM_SetIC2Prescaler(TIMx, TIM\_ICInitStruct->TIM_ICPrescaler);
+02010     \textcolor{comment}{/* TI1 Configuration */}
+02011     TI1_Config(TIMx, icoppositepolarity, icoppositeselection, TIM\_ICInitStruct->
+      TIM_ICFilter);
+02012     \textcolor{comment}{/* Set the Input Capture Prescaler value */}
+02013     TIM_SetIC1Prescaler(TIMx, TIM\_ICInitStruct->TIM_ICPrescaler);
+02014   \}
+02015 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group3_gaf0f684dea88e222de9689d8ed0ca8805}} 
+\index{Input Capture management functions@{Input Capture management functions}!T\+I\+M\+\_\+\+Set\+I\+C1\+Prescaler@{T\+I\+M\+\_\+\+Set\+I\+C1\+Prescaler}}
+\index{T\+I\+M\+\_\+\+Set\+I\+C1\+Prescaler@{T\+I\+M\+\_\+\+Set\+I\+C1\+Prescaler}!Input Capture management functions@{Input Capture management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Set\+I\+C1\+Prescaler()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+Set\+I\+C1\+Prescaler (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{uint16\+\_\+t}]{T\+I\+M\+\_\+\+I\+C\+P\+SC }\end{DoxyParamCaption})}
+
+
+
+Sets the T\+I\+Mx Input Capture 1 prescaler. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1 to 14 except 6 and 7, to select the T\+IM peripheral. \\
+\hline
+{\em T\+I\+M\+\_\+\+I\+C\+P\+SC} & specifies the Input Capture1 prescaler new value. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+I\+C\+P\+S\+C\+\_\+\+D\+I\+V1\+: no prescaler \item T\+I\+M\+\_\+\+I\+C\+P\+S\+C\+\_\+\+D\+I\+V2\+: capture is done once every 2 events \item T\+I\+M\+\_\+\+I\+C\+P\+S\+C\+\_\+\+D\+I\+V4\+: capture is done once every 4 events \item T\+I\+M\+\_\+\+I\+C\+P\+S\+C\+\_\+\+D\+I\+V8\+: capture is done once every 8 events \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2085} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+
+Referenced by \textbf{ T\+I\+M\+\_\+\+I\+C\+Init()}, and \textbf{ T\+I\+M\+\_\+\+P\+W\+M\+I\+Config()}.
+
+
+\begin{DoxyCode}
+02086 \{
+02087   \textcolor{comment}{/* Check the parameters */}
+02088   assert_param(IS_TIM_LIST1_PERIPH(TIMx));
+02089   assert_param(IS_TIM_IC_PRESCALER(TIM\_ICPSC));
+02090 
+02091   \textcolor{comment}{/* Reset the IC1PSC Bits */}
+02092   TIMx->CCMR1 &= (uint16\_t)~TIM_CCMR1_IC1PSC;
+02093 
+02094   \textcolor{comment}{/* Set the IC1PSC value */}
+02095   TIMx->CCMR1 |= TIM\_ICPSC;
+02096 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group3_ga3cc4869b5fe73271808512c89322a325}} 
+\index{Input Capture management functions@{Input Capture management functions}!T\+I\+M\+\_\+\+Set\+I\+C2\+Prescaler@{T\+I\+M\+\_\+\+Set\+I\+C2\+Prescaler}}
+\index{T\+I\+M\+\_\+\+Set\+I\+C2\+Prescaler@{T\+I\+M\+\_\+\+Set\+I\+C2\+Prescaler}!Input Capture management functions@{Input Capture management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Set\+I\+C2\+Prescaler()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+Set\+I\+C2\+Prescaler (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{uint16\+\_\+t}]{T\+I\+M\+\_\+\+I\+C\+P\+SC }\end{DoxyParamCaption})}
+
+
+
+Sets the T\+I\+Mx Input Capture 2 prescaler. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1, 2, 3, 4, 5, 8, 9 or 12 to select the T\+IM peripheral. \\
+\hline
+{\em T\+I\+M\+\_\+\+I\+C\+P\+SC} & specifies the Input Capture2 prescaler new value. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+I\+C\+P\+S\+C\+\_\+\+D\+I\+V1\+: no prescaler \item T\+I\+M\+\_\+\+I\+C\+P\+S\+C\+\_\+\+D\+I\+V2\+: capture is done once every 2 events \item T\+I\+M\+\_\+\+I\+C\+P\+S\+C\+\_\+\+D\+I\+V4\+: capture is done once every 4 events \item T\+I\+M\+\_\+\+I\+C\+P\+S\+C\+\_\+\+D\+I\+V8\+: capture is done once every 8 events \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2110} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+
+Referenced by \textbf{ T\+I\+M\+\_\+\+I\+C\+Init()}, and \textbf{ T\+I\+M\+\_\+\+P\+W\+M\+I\+Config()}.
+
+
+\begin{DoxyCode}
+02111 \{
+02112   \textcolor{comment}{/* Check the parameters */}
+02113   assert_param(IS_TIM_LIST2_PERIPH(TIMx));
+02114   assert_param(IS_TIM_IC_PRESCALER(TIM\_ICPSC));
+02115 
+02116   \textcolor{comment}{/* Reset the IC2PSC Bits */}
+02117   TIMx->CCMR1 &= (uint16\_t)~TIM_CCMR1_IC2PSC;
+02118 
+02119   \textcolor{comment}{/* Set the IC2PSC value */}
+02120   TIMx->CCMR1 |= (uint16\_t)(TIM\_ICPSC << 8);
+02121 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group3_ga76f906383b8132ebe00dffadb70cf7f9}} 
+\index{Input Capture management functions@{Input Capture management functions}!T\+I\+M\+\_\+\+Set\+I\+C3\+Prescaler@{T\+I\+M\+\_\+\+Set\+I\+C3\+Prescaler}}
+\index{T\+I\+M\+\_\+\+Set\+I\+C3\+Prescaler@{T\+I\+M\+\_\+\+Set\+I\+C3\+Prescaler}!Input Capture management functions@{Input Capture management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Set\+I\+C3\+Prescaler()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+Set\+I\+C3\+Prescaler (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{uint16\+\_\+t}]{T\+I\+M\+\_\+\+I\+C\+P\+SC }\end{DoxyParamCaption})}
+
+
+
+Sets the T\+I\+Mx Input Capture 3 prescaler. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\+IM peripheral. \\
+\hline
+{\em T\+I\+M\+\_\+\+I\+C\+P\+SC} & specifies the Input Capture3 prescaler new value. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+I\+C\+P\+S\+C\+\_\+\+D\+I\+V1\+: no prescaler \item T\+I\+M\+\_\+\+I\+C\+P\+S\+C\+\_\+\+D\+I\+V2\+: capture is done once every 2 events \item T\+I\+M\+\_\+\+I\+C\+P\+S\+C\+\_\+\+D\+I\+V4\+: capture is done once every 4 events \item T\+I\+M\+\_\+\+I\+C\+P\+S\+C\+\_\+\+D\+I\+V8\+: capture is done once every 8 events \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2134} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+
+Referenced by \textbf{ T\+I\+M\+\_\+\+I\+C\+Init()}.
+
+
+\begin{DoxyCode}
+02135 \{
+02136   \textcolor{comment}{/* Check the parameters */}
+02137   assert_param(IS_TIM_LIST3_PERIPH(TIMx));
+02138   assert_param(IS_TIM_IC_PRESCALER(TIM\_ICPSC));
+02139 
+02140   \textcolor{comment}{/* Reset the IC3PSC Bits */}
+02141   TIMx->CCMR2 &= (uint16\_t)~TIM_CCMR2_IC3PSC;
+02142 
+02143   \textcolor{comment}{/* Set the IC3PSC value */}
+02144   TIMx->CCMR2 |= TIM\_ICPSC;
+02145 \}
+\end{DoxyCode}
+\mbox{\label{group__TIM__Group3_ga0f2c784271356d6b64b8c0da64dbdbc2}} 
+\index{Input Capture management functions@{Input Capture management functions}!T\+I\+M\+\_\+\+Set\+I\+C4\+Prescaler@{T\+I\+M\+\_\+\+Set\+I\+C4\+Prescaler}}
+\index{T\+I\+M\+\_\+\+Set\+I\+C4\+Prescaler@{T\+I\+M\+\_\+\+Set\+I\+C4\+Prescaler}!Input Capture management functions@{Input Capture management functions}}
+\subsubsection{T\+I\+M\+\_\+\+Set\+I\+C4\+Prescaler()}
+{\footnotesize\ttfamily void T\+I\+M\+\_\+\+Set\+I\+C4\+Prescaler (\begin{DoxyParamCaption}\item[{\textbf{ T\+I\+M\+\_\+\+Type\+Def} $\ast$}]{T\+I\+Mx,  }\item[{uint16\+\_\+t}]{T\+I\+M\+\_\+\+I\+C\+P\+SC }\end{DoxyParamCaption})}
+
+
+
+Sets the T\+I\+Mx Input Capture 4 prescaler. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+I\+Mx} & where x can be 1, 2, 3, 4, 5 or 8 to select the T\+IM peripheral. \\
+\hline
+{\em T\+I\+M\+\_\+\+I\+C\+P\+SC} & specifies the Input Capture4 prescaler new value. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item T\+I\+M\+\_\+\+I\+C\+P\+S\+C\+\_\+\+D\+I\+V1\+: no prescaler \item T\+I\+M\+\_\+\+I\+C\+P\+S\+C\+\_\+\+D\+I\+V2\+: capture is done once every 2 events \item T\+I\+M\+\_\+\+I\+C\+P\+S\+C\+\_\+\+D\+I\+V4\+: capture is done once every 4 events \item T\+I\+M\+\_\+\+I\+C\+P\+S\+C\+\_\+\+D\+I\+V8\+: capture is done once every 8 events \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2158} of file \textbf{ stm32f4xx\+\_\+tim.\+c}.
+
+
+
+Referenced by \textbf{ T\+I\+M\+\_\+\+I\+C\+Init()}.
+
+
+\begin{DoxyCode}
+02159 \{  
+02160   \textcolor{comment}{/* Check the parameters */}
+02161   assert_param(IS_TIM_LIST3_PERIPH(TIMx));
+02162   assert_param(IS_TIM_IC_PRESCALER(TIM\_ICPSC));
+02163 
+02164   \textcolor{comment}{/* Reset the IC4PSC Bits */}
+02165   TIMx->CCMR2 &= (uint16\_t)~TIM_CCMR2_IC4PSC;
+02166 
+02167   \textcolor{comment}{/* Set the IC4PSC value */}
+02168   TIMx->CCMR2 |= (uint16\_t)(TIM\_ICPSC << 8);
+02169 \}
+\end{DoxyCode}

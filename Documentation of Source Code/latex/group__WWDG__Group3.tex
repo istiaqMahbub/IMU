@@ -1,0 +1,99 @@
+\section{Interrupts and flags management functions}
+\label{group__WWDG__Group3}\index{Interrupts and flags management functions@{Interrupts and flags management functions}}
+
+
+Interrupts and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Flag\+Status} \textbf{ W\+W\+D\+G\+\_\+\+Get\+Flag\+Status} (void)
+\begin{DoxyCompactList}\small\item\em Checks whether the Early Wakeup interrupt flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ W\+W\+D\+G\+\_\+\+Clear\+Flag} (void)
+\begin{DoxyCompactList}\small\item\em Clears Early Wakeup interrupt flag. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts and flags management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                 Interrupts and flags management functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__WWDG__Group3_gabd2b5a6317c2e1a3ab0795838ce59dd2}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!W\+W\+D\+G\+\_\+\+Clear\+Flag@{W\+W\+D\+G\+\_\+\+Clear\+Flag}}
+\index{W\+W\+D\+G\+\_\+\+Clear\+Flag@{W\+W\+D\+G\+\_\+\+Clear\+Flag}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{W\+W\+D\+G\+\_\+\+Clear\+Flag()}
+{\footnotesize\ttfamily void W\+W\+D\+G\+\_\+\+Clear\+Flag (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Clears Early Wakeup interrupt flag. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 282} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+
+\begin{DoxyCode}
+00283 \{
+00284   WWDG->SR = (uint32\_t)RESET;
+00285 \}
+\end{DoxyCode}
+\mbox{\label{group__WWDG__Group3_ga7df4882d45918b9b8249dfca1e44fabc}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!W\+W\+D\+G\+\_\+\+Get\+Flag\+Status@{W\+W\+D\+G\+\_\+\+Get\+Flag\+Status}}
+\index{W\+W\+D\+G\+\_\+\+Get\+Flag\+Status@{W\+W\+D\+G\+\_\+\+Get\+Flag\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{W\+W\+D\+G\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} W\+W\+D\+G\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Checks whether the Early Wakeup interrupt flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of the Early Wakeup interrupt flag (S\+ET or R\+E\+S\+ET) \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 262} of file \textbf{ stm32f4xx\+\_\+wwdg.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00263 \{
+00264   FlagStatus bitstatus = RESET;
+00265     
+00266   \textcolor{keywordflow}{if} ((WWDG->SR) != (uint32\_t)RESET)
+00267   \{
+00268     bitstatus = SET;
+00269   \}
+00270   \textcolor{keywordflow}{else}
+00271   \{
+00272     bitstatus = RESET;
+00273   \}
+00274   \textcolor{keywordflow}{return} bitstatus;
+00275 \}
+\end{DoxyCode}

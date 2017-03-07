@@ -1,0 +1,662 @@
+\section{Initialization and Configuration functions}
+\label{group__RTC__Group1}\index{Initialization and Configuration functions@{Initialization and Configuration functions}}
+
+
+Initialization and Configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the R\+TC registers to their default reset values. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Init} (\textbf{ R\+T\+C\+\_\+\+Init\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the R\+TC registers according to the specified parameters in R\+T\+C\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Struct\+Init} (\textbf{ R\+T\+C\+\_\+\+Init\+Type\+Def} $\ast$R\+T\+C\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each R\+T\+C\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Write\+Protection\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the R\+TC registers write protection. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Enter\+Init\+Mode} (void)
+\begin{DoxyCompactList}\small\item\em Enters the R\+TC Initialization mode. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Exit\+Init\+Mode} (void)
+\begin{DoxyCompactList}\small\item\em Exits the R\+TC Initialization mode. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Wait\+For\+Synchro} (void)
+\begin{DoxyCompactList}\small\item\em Waits until the R\+TC Time and Date registers (R\+T\+C\+\_\+\+TR and R\+T\+C\+\_\+\+DR) are synchronized with R\+TC A\+PB clock. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ R\+T\+C\+\_\+\+Ref\+Clock\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the R\+TC reference clock detection. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Bypass\+Shadow\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or Disables the Bypass Shadow feature. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Initialization and Configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                 Initialization and Configuration functions
+ ===============================================================================
+
+  This section provide functions allowing to initialize and configure the RTC
+  Prescaler (Synchronous and Asynchronous), RTC Hour format, disable RTC registers
+  Write protection, enter and exit the RTC initialization mode, RTC registers
+  synchronization check and reference clock detection enable.
+  
+  1. The RTC Prescaler is programmed to generate the RTC 1Hz time base. It is
+     split into 2 programmable prescalers to minimize power consumption.
+     - A 7-bit asynchronous prescaler and A 13-bit synchronous prescaler.
+     - When both prescalers are used, it is recommended to configure the asynchronous
+       prescaler to a high value to minimize consumption.
+
+  2. All RTC registers are Write protected. Writing to the RTC registers
+     is enabled by writing a key into the Write Protection register, RTC_WPR.
+
+  3. To Configure the RTC Calendar, user application should enter initialization
+     mode. In this mode, the calendar counter is stopped and its value can be 
+     updated. When the initialization sequence is complete, the calendar restarts 
+     counting after 4 RTCCLK cycles.
+
+  4. To read the calendar through the shadow registers after Calendar initialization,
+     calendar update or after wakeup from low power modes the software must first 
+     clear the RSF flag. The software must then wait until it is set again before 
+     reading the calendar, which means that the calendar registers have been 
+     correctly copied into the RTC_TR and RTC_DR shadow registers.
+     The RTC_WaitForSynchro() function implements the above software sequence 
+     (RSF clear and RSF check).\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__RTC__Group1_gae5e7c682f15b8ae9ddd3b2a85a9df7db}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!R\+T\+C\+\_\+\+Bypass\+Shadow\+Cmd@{R\+T\+C\+\_\+\+Bypass\+Shadow\+Cmd}}
+\index{R\+T\+C\+\_\+\+Bypass\+Shadow\+Cmd@{R\+T\+C\+\_\+\+Bypass\+Shadow\+Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Bypass\+Shadow\+Cmd()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Bypass\+Shadow\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or Disables the Bypass Shadow feature. 
+
+\begin{DoxyNote}{Note}
+When the Bypass Shadow is enabled the calendar value are taken directly from the Calendar counter. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the Bypass Shadow feature. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 698} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00699 \{
+00700   \textcolor{comment}{/* Check the parameters */}
+00701   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00702 
+00703   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00704   RTC->WPR = 0xCA;
+00705   RTC->WPR = 0x53;
+00706   
+00707   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00708   \{
+00709     \textcolor{comment}{/* Set the BYPSHAD bit */}
+00710     RTC->CR |= (uint8\_t)RTC_CR_BYPSHAD;
+00711   \}
+00712   \textcolor{keywordflow}{else}
+00713   \{
+00714     \textcolor{comment}{/* Reset the BYPSHAD bit */}
+00715     RTC->CR &= (uint8\_t)~RTC_CR_BYPSHAD;
+00716   \}
+00717 
+00718   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00719   RTC->WPR = 0xFF;
+00720 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group1_ga9777c6cc4a99c339ebc527a791b2ebe7}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!R\+T\+C\+\_\+\+De\+Init@{R\+T\+C\+\_\+\+De\+Init}}
+\index{R\+T\+C\+\_\+\+De\+Init@{R\+T\+C\+\_\+\+De\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the R\+TC registers to their default reset values. 
+
+\begin{DoxyNote}{Note}
+This function doesn\textquotesingle{}t reset the R\+TC Clock source and R\+TC Backup Data registers. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC registers are deinitialized
+\item E\+R\+R\+OR\+: R\+TC registers are not deinitialized 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 367} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}, and \textbf{ R\+T\+C\+\_\+\+Enter\+Init\+Mode()}.
+
+
+\begin{DoxyCode}
+00368 \{
+00369   \_\_IO uint32\_t wutcounter = 0x00;
+00370   uint32\_t wutwfstatus = 0x00;
+00371   ErrorStatus status = ERROR;
+00372   
+00373   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00374   RTC->WPR = 0xCA;
+00375   RTC->WPR = 0x53;
+00376 
+00377   \textcolor{comment}{/* Set Initialization mode */}
+00378   \textcolor{keywordflow}{if} (RTC_EnterInitMode() == ERROR)
+00379   \{
+00380     status = ERROR;
+00381   \}  
+00382   \textcolor{keywordflow}{else}
+00383   \{
+00384     \textcolor{comment}{/* Reset TR, DR and CR registers */}
+00385     RTC->TR = (uint32\_t)0x00000000;
+00386     RTC->DR = (uint32\_t)0x00002101;
+00387     \textcolor{comment}{/* Reset All CR bits except CR[2:0] */}
+00388     RTC->CR &= (uint32\_t)0x00000007;
+00389   
+00390     \textcolor{comment}{/* Wait till RTC WUTWF flag is set and if Time out is reached exit */}
+00391     \textcolor{keywordflow}{do}
+00392     \{
+00393       wutwfstatus = RTC->ISR & RTC_ISR_WUTWF;
+00394       wutcounter++;  
+00395     \} \textcolor{keywordflow}{while}((wutcounter != INITMODE_TIMEOUT) && (wutwfstatus == 0x00));
+00396     
+00397     \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_WUTWF) == RESET)
+00398     \{
+00399       status = ERROR;
+00400     \}
+00401     \textcolor{keywordflow}{else}
+00402     \{
+00403       \textcolor{comment}{/* Reset all RTC CR register bits */}
+00404       RTC->CR &= (uint32\_t)0x00000000;
+00405       RTC->WUTR = (uint32\_t)0x0000FFFF;
+00406       RTC->PRER = (uint32\_t)0x007F00FF;
+00407       RTC->CALIBR = (uint32\_t)0x00000000;
+00408       RTC->ALRMAR = (uint32\_t)0x00000000;        
+00409       RTC->ALRMBR = (uint32\_t)0x00000000;
+00410       
+00411       \textcolor{comment}{/* Reset ISR register and exit initialization mode */}
+00412       RTC->ISR = (uint32\_t)0x00000000;
+00413       
+00414       \textcolor{comment}{/* Reset Tamper and alternate functions configuration register */}
+00415       RTC->TAFCR = 0x00000000;
+00416   
+00417       \textcolor{keywordflow}{if}(RTC_WaitForSynchro() == ERROR)
+00418       \{
+00419         status = ERROR;
+00420       \}
+00421       \textcolor{keywordflow}{else}
+00422       \{
+00423         status = SUCCESS;      
+00424       \}
+00425     \}
+00426   \}
+00427   
+00428   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00429   RTC->WPR = 0xFF;  
+00430   
+00431   \textcolor{keywordflow}{return} status;
+00432 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group1_ga679f8883cbfb267a53ffb1ab4cc5c8c5}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!R\+T\+C\+\_\+\+Enter\+Init\+Mode@{R\+T\+C\+\_\+\+Enter\+Init\+Mode}}
+\index{R\+T\+C\+\_\+\+Enter\+Init\+Mode@{R\+T\+C\+\_\+\+Enter\+Init\+Mode}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Enter\+Init\+Mode()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Enter\+Init\+Mode (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Enters the R\+TC Initialization mode. 
+
+\begin{DoxyNote}{Note}
+The R\+TC Initialization mode is write protected, use the R\+T\+C\+\_\+\+Write\+Protection\+Cmd(\+D\+I\+S\+A\+B\+L\+E) before calling this function. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC is in Init mode
+\item E\+R\+R\+OR\+: R\+TC is not in Init mode 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 540} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}.
+
+
+
+Referenced by \textbf{ R\+T\+C\+\_\+\+Coarse\+Calib\+Cmd()}, \textbf{ R\+T\+C\+\_\+\+Coarse\+Calib\+Config()}, \textbf{ R\+T\+C\+\_\+\+De\+Init()}, \textbf{ R\+T\+C\+\_\+\+Init()}, \textbf{ R\+T\+C\+\_\+\+Ref\+Clock\+Cmd()}, \textbf{ R\+T\+C\+\_\+\+Set\+Date()}, and \textbf{ R\+T\+C\+\_\+\+Set\+Time()}.
+
+
+\begin{DoxyCode}
+00541 \{
+00542   \_\_IO uint32\_t initcounter = 0x00;
+00543   ErrorStatus status = ERROR;
+00544   uint32\_t initstatus = 0x00;
+00545      
+00546   \textcolor{comment}{/* Check if the Initialization mode is set */}
+00547   \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_INITF) == (uint32\_t)RESET)
+00548   \{
+00549     \textcolor{comment}{/* Set the Initialization mode */}
+00550     RTC->ISR = (uint32\_t)RTC_INIT_MASK;
+00551     
+00552     \textcolor{comment}{/* Wait till RTC is in INIT state and if Time out is reached exit */}
+00553     \textcolor{keywordflow}{do}
+00554     \{
+00555       initstatus = RTC->ISR & RTC_ISR_INITF;
+00556       initcounter++;  
+00557     \} \textcolor{keywordflow}{while}((initcounter != INITMODE_TIMEOUT) && (initstatus == 0x00));
+00558     
+00559     \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_INITF) != RESET)
+00560     \{
+00561       status = SUCCESS;
+00562     \}
+00563     \textcolor{keywordflow}{else}
+00564     \{
+00565       status = ERROR;
+00566     \}        
+00567   \}
+00568   \textcolor{keywordflow}{else}
+00569   \{
+00570     status = SUCCESS;  
+00571   \} 
+00572     
+00573   \textcolor{keywordflow}{return} (status);  
+00574 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group1_ga87f86f3b794205f09a1eac51738d900f}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!R\+T\+C\+\_\+\+Exit\+Init\+Mode@{R\+T\+C\+\_\+\+Exit\+Init\+Mode}}
+\index{R\+T\+C\+\_\+\+Exit\+Init\+Mode@{R\+T\+C\+\_\+\+Exit\+Init\+Mode}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Exit\+Init\+Mode()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Exit\+Init\+Mode (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Exits the R\+TC Initialization mode. 
+
+\begin{DoxyNote}{Note}
+When the initialization sequence is complete, the calendar restarts counting after 4 R\+T\+C\+C\+LK cycles. 
+
+The R\+TC Initialization mode is write protected, use the R\+T\+C\+\_\+\+Write\+Protection\+Cmd(\+D\+I\+S\+A\+B\+L\+E) before calling this function. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 585} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+Referenced by \textbf{ R\+T\+C\+\_\+\+Coarse\+Calib\+Cmd()}, \textbf{ R\+T\+C\+\_\+\+Coarse\+Calib\+Config()}, \textbf{ R\+T\+C\+\_\+\+Init()}, \textbf{ R\+T\+C\+\_\+\+Ref\+Clock\+Cmd()}, \textbf{ R\+T\+C\+\_\+\+Set\+Date()}, and \textbf{ R\+T\+C\+\_\+\+Set\+Time()}.
+
+
+\begin{DoxyCode}
+00586 \{ 
+00587   \textcolor{comment}{/* Exit Initialization mode */}
+00588   RTC->ISR &= (uint32\_t)~RTC_ISR_INIT;  
+00589 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group1_ga8eb747bf9698b2482ba6ef4d811de8e0}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!R\+T\+C\+\_\+\+Init@{R\+T\+C\+\_\+\+Init}}
+\index{R\+T\+C\+\_\+\+Init@{R\+T\+C\+\_\+\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Init()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Init (\begin{DoxyParamCaption}\item[{\textbf{ R\+T\+C\+\_\+\+Init\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the R\+TC registers according to the specified parameters in R\+T\+C\+\_\+\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Init\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Init\+Type\+Def}{p.}{structRTC__InitTypeDef} structure that contains the configuration information for the R\+TC peripheral. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+The R\+TC Prescaler register is write protected and can be written in initialization mode only. 
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC registers are initialized
+\item E\+R\+R\+OR\+: R\+TC registers are not initialized 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 445} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}, \textbf{ R\+T\+C\+\_\+\+Enter\+Init\+Mode()}, \textbf{ R\+T\+C\+\_\+\+Exit\+Init\+Mode()}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+00446 \{
+00447   ErrorStatus status = ERROR;
+00448   
+00449   \textcolor{comment}{/* Check the parameters */}
+00450   assert_param(IS_RTC_HOUR_FORMAT(RTC\_InitStruct->RTC_HourFormat));
+00451   assert_param(IS_RTC_ASYNCH_PREDIV(RTC\_InitStruct->RTC_AsynchPrediv));
+00452   assert_param(IS_RTC_SYNCH_PREDIV(RTC\_InitStruct->RTC_SynchPrediv));
+00453 
+00454   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00455   RTC->WPR = 0xCA;
+00456   RTC->WPR = 0x53;
+00457 
+00458   \textcolor{comment}{/* Set Initialization mode */}
+00459   \textcolor{keywordflow}{if} (RTC_EnterInitMode() == ERROR)
+00460   \{
+00461     status = ERROR;
+00462   \} 
+00463   \textcolor{keywordflow}{else}
+00464   \{
+00465     \textcolor{comment}{/* Clear RTC CR FMT Bit */}
+00466     RTC->CR &= ((uint32\_t)~(RTC_CR_FMT));
+00467     \textcolor{comment}{/* Set RTC\_CR register */}
+00468     RTC->CR |=  ((uint32\_t)(RTC\_InitStruct->RTC_HourFormat));
+00469   
+00470     \textcolor{comment}{/* Configure the RTC PRER */}
+00471     RTC->PRER = (uint32\_t)(RTC\_InitStruct->RTC_SynchPrediv);
+00472     RTC->PRER |= (uint32\_t)(RTC\_InitStruct->RTC_AsynchPrediv << 16);
+00473 
+00474     \textcolor{comment}{/* Exit Initialization mode */}
+00475     RTC_ExitInitMode();
+00476 
+00477     status = SUCCESS;    
+00478   \}
+00479   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00480   RTC->WPR = 0xFF; 
+00481   
+00482   \textcolor{keywordflow}{return} status;
+00483 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group1_gaa60079ec257fb3a277d058ca8305533d}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!R\+T\+C\+\_\+\+Ref\+Clock\+Cmd@{R\+T\+C\+\_\+\+Ref\+Clock\+Cmd}}
+\index{R\+T\+C\+\_\+\+Ref\+Clock\+Cmd@{R\+T\+C\+\_\+\+Ref\+Clock\+Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Ref\+Clock\+Cmd()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Ref\+Clock\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the R\+TC reference clock detection. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the R\+TC reference clock. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC reference clock detection is enabled
+\item E\+R\+R\+OR\+: R\+TC reference clock detection is disabled 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 650} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+R\+R\+OR}, \textbf{ R\+T\+C\+\_\+\+Enter\+Init\+Mode()}, \textbf{ R\+T\+C\+\_\+\+Exit\+Init\+Mode()}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+00651 \{ 
+00652   ErrorStatus status = ERROR;
+00653   
+00654   \textcolor{comment}{/* Check the parameters */}
+00655   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00656   
+00657   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00658   RTC->WPR = 0xCA;
+00659   RTC->WPR = 0x53;
+00660     
+00661   \textcolor{comment}{/* Set Initialization mode */}
+00662   \textcolor{keywordflow}{if} (RTC_EnterInitMode() == ERROR)
+00663   \{
+00664     status = ERROR;
+00665   \} 
+00666   \textcolor{keywordflow}{else}
+00667   \{  
+00668     \textcolor{keywordflow}{if} (NewState != DISABLE)
+00669     \{
+00670       \textcolor{comment}{/* Enable the RTC reference clock detection */}
+00671       RTC->CR |= RTC_CR_REFCKON;   
+00672     \}
+00673     \textcolor{keywordflow}{else}
+00674     \{
+00675       \textcolor{comment}{/* Disable the RTC reference clock detection */}
+00676       RTC->CR &= ~RTC_CR_REFCKON;    
+00677     \}
+00678     \textcolor{comment}{/* Exit Initialization mode */}
+00679     RTC_ExitInitMode();
+00680     
+00681     status = SUCCESS;
+00682   \}
+00683   
+00684   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00685   RTC->WPR = 0xFF;  
+00686   
+00687   \textcolor{keywordflow}{return} status; 
+00688 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group1_gab466f3348de3236976e9aec7d6025dff}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!R\+T\+C\+\_\+\+Struct\+Init@{R\+T\+C\+\_\+\+Struct\+Init}}
+\index{R\+T\+C\+\_\+\+Struct\+Init@{R\+T\+C\+\_\+\+Struct\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Struct\+Init()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ R\+T\+C\+\_\+\+Init\+Type\+Def} $\ast$}]{R\+T\+C\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each R\+T\+C\+\_\+\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+Init\+Struct} & pointer to a \doxyref{R\+T\+C\+\_\+\+Init\+Type\+Def}{p.}{structRTC__InitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 491} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+T\+C\+\_\+\+Init\+Type\+Def\+::\+R\+T\+C\+\_\+\+Asynch\+Prediv}, \textbf{ R\+T\+C\+\_\+\+Init\+Type\+Def\+::\+R\+T\+C\+\_\+\+Hour\+Format}, and \textbf{ R\+T\+C\+\_\+\+Init\+Type\+Def\+::\+R\+T\+C\+\_\+\+Synch\+Prediv}.
+
+
+\begin{DoxyCode}
+00492 \{
+00493   \textcolor{comment}{/* Initialize the RTC\_HourFormat member */}
+00494   RTC\_InitStruct->RTC_HourFormat = RTC_HourFormat_24;
+00495     
+00496   \textcolor{comment}{/* Initialize the RTC\_AsynchPrediv member */}
+00497   RTC\_InitStruct->RTC_AsynchPrediv = (uint32\_t)0x7F;
+00498 
+00499   \textcolor{comment}{/* Initialize the RTC\_SynchPrediv member */}
+00500   RTC\_InitStruct->RTC_SynchPrediv = (uint32\_t)0xFF; 
+00501 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group1_ga2938febeef6baf0d91cc066ca5caf095}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!R\+T\+C\+\_\+\+Wait\+For\+Synchro@{R\+T\+C\+\_\+\+Wait\+For\+Synchro}}
+\index{R\+T\+C\+\_\+\+Wait\+For\+Synchro@{R\+T\+C\+\_\+\+Wait\+For\+Synchro}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Wait\+For\+Synchro()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} R\+T\+C\+\_\+\+Wait\+For\+Synchro (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Waits until the R\+TC Time and Date registers (R\+T\+C\+\_\+\+TR and R\+T\+C\+\_\+\+DR) are synchronized with R\+TC A\+PB clock. 
+
+\begin{DoxyNote}{Note}
+The R\+TC Resynchronization mode is write protected, use the R\+T\+C\+\_\+\+Write\+Protection\+Cmd(\+D\+I\+S\+A\+B\+L\+E) before calling this function. 
+
+To read the calendar through the shadow registers after Calendar initialization, calendar update or after wakeup from low power modes the software must first clear the R\+SF flag. The software must then wait until it is set again before reading the calendar, which means that the calendar registers have been correctly copied into the R\+T\+C\+\_\+\+TR and R\+T\+C\+\_\+\+DR shadow registers. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: R\+TC registers are synchronised
+\item E\+R\+R\+OR\+: R\+TC registers are not synchronised 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 607} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ E\+R\+R\+OR}.
+
+
+
+Referenced by \textbf{ R\+T\+C\+\_\+\+Set\+Date()}, and \textbf{ R\+T\+C\+\_\+\+Set\+Time()}.
+
+
+\begin{DoxyCode}
+00608 \{
+00609   \_\_IO uint32\_t synchrocounter = 0;
+00610   ErrorStatus status = ERROR;
+00611   uint32\_t synchrostatus = 0x00;
+00612 
+00613   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00614   RTC->WPR = 0xCA;
+00615   RTC->WPR = 0x53;
+00616     
+00617   \textcolor{comment}{/* Clear RSF flag */}
+00618   RTC->ISR &= (uint32\_t)RTC_RSF_MASK;
+00619     
+00620   \textcolor{comment}{/* Wait the registers to be synchronised */}
+00621   \textcolor{keywordflow}{do}
+00622   \{
+00623     synchrostatus = RTC->ISR & RTC_ISR_RSF;
+00624     synchrocounter++;  
+00625   \} \textcolor{keywordflow}{while}((synchrocounter != SYNCHRO_TIMEOUT) && (synchrostatus == 0x00));
+00626     
+00627   \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_RSF) != RESET)
+00628   \{
+00629     status = SUCCESS;
+00630   \}
+00631   \textcolor{keywordflow}{else}
+00632   \{
+00633     status = ERROR;
+00634   \}        
+00635 
+00636   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00637   RTC->WPR = 0xFF; 
+00638     
+00639   \textcolor{keywordflow}{return} (status); 
+00640 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group1_ga9d4bdfd3ae6957630d15d2497573b7c7}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!R\+T\+C\+\_\+\+Write\+Protection\+Cmd@{R\+T\+C\+\_\+\+Write\+Protection\+Cmd}}
+\index{R\+T\+C\+\_\+\+Write\+Protection\+Cmd@{R\+T\+C\+\_\+\+Write\+Protection\+Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{R\+T\+C\+\_\+\+Write\+Protection\+Cmd()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Write\+Protection\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the R\+TC registers write protection. 
+
+\begin{DoxyNote}{Note}
+All the R\+TC registers are write protected except for R\+T\+C\+\_\+\+I\+SR[13\+:8], R\+T\+C\+\_\+\+T\+A\+F\+CR and R\+T\+C\+\_\+\+B\+K\+PxR. 
+
+Writing a wrong key reactivates the write protection. 
+
+The protection mechanism is not affected by system reset. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the write protection. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 513} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00514 \{
+00515   \textcolor{comment}{/* Check the parameters */}
+00516   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00517     
+00518   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00519   \{
+00520     \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00521     RTC->WPR = 0xFF;   
+00522   \}
+00523   \textcolor{keywordflow}{else}
+00524   \{
+00525     \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00526     RTC->WPR = 0xCA;
+00527     RTC->WPR = 0x53;    
+00528   \}
+00529 \}
+\end{DoxyCode}

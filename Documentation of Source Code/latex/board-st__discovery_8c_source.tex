@@ -1,0 +1,84 @@
+\section{board-\/st\+\_\+discovery.c}
+\label{board-st__discovery_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Device\+Support/src/board-\/st\+\_\+discovery.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Device\+Support/src/board-\/st\+\_\+discovery.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00002 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_usart.h"
+00003 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rcc.h"
+00004 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_pwr.h"
+00005 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "i2c.h"
+00006 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "uart.h"
+00007 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "gpio.h"
+00008 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "board-st_discovery.h"
+00009 
+00010 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{TICK\_FREQ} \textcolor{preprocessor}{(}1000u\textcolor{preprocessor}{)}
+00011 
+00012 \textcolor{keyword}{volatile} uint32\_t g_ul_ms_ticks=0;
+00013 \textcolor{keyword}{static} \textcolor{keyword}{volatile} uint32\_t TimingDelay=0;
+00014 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} idle_time=0;
+00015 \textcolor{keyword}{extern} uint32\_t SystemCoreClock; \textcolor{comment}{//168000000=168Mhz (original value)}
+00016 
+00017 \textcolor{keywordtype}{void} board_init()
+00018 \{
+00019     \textcolor{comment}{//SystemInit();}
+00020     SystemCoreClockUpdate();                               \textcolor{comment}{// Update the system clock variable (might
+       not have been set before)}
+00021                                                            \textcolor{comment}{// With this call, the core clock gets set
+       to 56MHz}
+00022 
+00023     \textcolor{keywordflow}{if} (SysTick\_Config (SystemCoreClock / TICK_FREQ)) \{     \textcolor{comment}{// Setup SysTick Timer for 1 msec
+       interrupts}
+00024         \textcolor{keywordflow}{while} (1);                                          \textcolor{comment}{// Handle Error}
+00025     \}
+00026 
+00027     Set_I2C_Retry(5);
+00028 
+00029     \textcolor{comment}{/* Enable PWR APB1 Clock */}
+00030     RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);
+00031 
+00032     \textcolor{comment}{/* Allow access to Backup */}
+00033     PWR_BackupAccessCmd(ENABLE);
+00034 
+00035     \textcolor{comment}{/* Reset RTC Domain */}
+00036     RCC_BackupResetCmd(ENABLE);
+00037     RCC_BackupResetCmd(DISABLE);
+00038 
+00039     \textcolor{comment}{//Configure Interrupts}
+00040     GPIO_Config();
+00041 
+00042     \textcolor{comment}{// Configure I2C}
+00043     I2cMaster_Init();
+00044 
+00045     \textcolor{comment}{// Configure UART}
+00046     USART_Config();
+00047 \}
+00048 
+00049 \textcolor{keywordtype}{void} mdelay(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} nTime)
+00050 \{
+00051     TimingDelay = nTime;
+00052     \textcolor{keywordflow}{while}(TimingDelay != 0);
+00053 \}
+00054 
+00055 \textcolor{keywordtype}{int} get_tick_count(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} *count)
+00056 \{
+00057         count[0] = g_ul_ms_ticks;
+00058     \textcolor{keywordflow}{return} 0;
+00059 \}
+00060 
+00061 \textcolor{keywordtype}{void} TimingDelay_Decrement(\textcolor{keywordtype}{void})
+00062 \{
+00063     \textcolor{keywordflow}{if} (TimingDelay != 0x00)
+00064         TimingDelay--;
+00065 \}
+00066 
+00067 \textcolor{keywordtype}{void} TimeStamp_Increment(\textcolor{keywordtype}{void})
+00068 \{
+00069     g_ul_ms_ticks++;
+00070 \}
+00071 
+00072 \textcolor{keywordtype}{void} SysTick_Handler(\textcolor{keywordtype}{void})
+00073 \{
+00074     TimingDelay_Decrement();
+00075     TimeStamp_Increment();
+00076 \}
+\end{DoxyCode}

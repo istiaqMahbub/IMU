@@ -1,0 +1,1040 @@
+\section{stm32f4xx\+\_\+fsmc.\+c}
+\label{stm32f4xx__fsmc_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+fsmc.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+fsmc.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_fsmc.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{ * @brief    This file provides firmware functions to manage the following }
+00008 \textcolor{comment}{  *          functionalities of the FSMC peripheral:           }
+00009 \textcolor{comment}{  *           - Interface with SRAM, PSRAM, NOR and OneNAND memories}
+00010 \textcolor{comment}{  *           - Interface with NAND memories}
+00011 \textcolor{comment}{  *           - Interface with 16-bit PC Card compatible memories  }
+00012 \textcolor{comment}{  *           - Interrupts and flags management   }
+00013 \textcolor{comment}{  *           }
+00014 \textcolor{comment}{  ******************************************************************************}
+00015 \textcolor{comment}{}
+00016 \textcolor{comment}{  * @attention}
+00017 \textcolor{comment}{  *}
+00018 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00019 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00020 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00021 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00022 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00023 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00024 \textcolor{comment}{  *}
+00025 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00026 \textcolor{comment}{  ******************************************************************************}
+00027 \textcolor{comment}{  */}
+00028 
+00029 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00030 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_fsmc.h"
+00031 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rcc.h"
+00032 
+00033 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00034 \textcolor{comment}{  * @\{}
+00035 \textcolor{comment}{  */}
+00036 
+00037 \textcolor{comment}{/** @defgroup FSMC }
+00038 \textcolor{comment}{  * @brief FSMC driver modules}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00043 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00044 
+00045 \textcolor{comment}{/* --------------------- FSMC registers bit mask ---------------------------- */}
+00046 \textcolor{comment}{/* FSMC BCRx Mask */}
+00047 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{BCR\_MBKEN\_SET}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00048 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{BCR\_MBKEN\_RESET}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000FFFFE\textcolor{preprocessor}{)}
+00049 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{BCR\_FACCEN\_SET}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000040\textcolor{preprocessor}{)}
+00050 
+00051 \textcolor{comment}{/* FSMC PCRx Mask */}
+00052 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PCR\_PBKEN\_SET}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)}
+00053 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PCR\_PBKEN\_RESET}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000FFFFB\textcolor{preprocessor}{)}
+00054 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PCR\_ECCEN\_SET}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000040\textcolor{preprocessor}{)}
+00055 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PCR\_ECCEN\_RESET}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000FFFBF\textcolor{preprocessor}{)}
+00056 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PCR\_MEMORYTYPE\_NAND}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000008\textcolor{preprocessor}{)}
+00057 
+00058 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00059 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00060 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00061 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00062 
+00063 \textcolor{comment}{/** @defgroup FSMC\_Private\_Functions}
+00064 \textcolor{comment}{  * @\{}
+00065 \textcolor{comment}{  */}
+00066 
+00067 \textcolor{comment}{/** @defgroup FSMC\_Group1 NOR/SRAM Controller functions}
+00068 \textcolor{comment}{ *  @brief   NOR/SRAM Controller functions }
+00069 \textcolor{comment}{ *}
+00070 \textcolor{comment}{@verbatim   }
+00071 \textcolor{comment}{ ===============================================================================}
+00072 \textcolor{comment}{                    NOR/SRAM Controller functions}
+00073 \textcolor{comment}{ ===============================================================================  }
+00074 \textcolor{comment}{}
+00075 \textcolor{comment}{ The following sequence should be followed to configure the FSMC to interface with}
+00076 \textcolor{comment}{ SRAM, PSRAM, NOR or OneNAND memory connected to the NOR/SRAM Bank:}
+00077 \textcolor{comment}{ }
+00078 \textcolor{comment}{   1. Enable the clock for the FSMC and associated GPIOs using the following functions:}
+00079 \textcolor{comment}{          RCC\_AHB3PeriphClockCmd(RCC\_AHB3Periph\_FSMC, ENABLE);}
+00080 \textcolor{comment}{          RCC\_AHB1PeriphClockCmd(RCC\_AHB1Periph\_GPIOx, ENABLE);}
+00081 \textcolor{comment}{}
+00082 \textcolor{comment}{   2. FSMC pins configuration }
+00083 \textcolor{comment}{       - Connect the involved FSMC pins to AF12 using the following function }
+00084 \textcolor{comment}{          GPIO\_PinAFConfig(GPIOx, GPIO\_PinSourcex, GPIO\_AF\_FSMC); }
+00085 \textcolor{comment}{       - Configure these FSMC pins in alternate function mode by calling the function}
+00086 \textcolor{comment}{          GPIO\_Init();    }
+00087 \textcolor{comment}{       }
+00088 \textcolor{comment}{   3. Declare a FSMC\_NORSRAMInitTypeDef structure, for example:}
+00089 \textcolor{comment}{          FSMC\_NORSRAMInitTypeDef  FSMC\_NORSRAMInitStructure;}
+00090 \textcolor{comment}{      and fill the FSMC\_NORSRAMInitStructure variable with the allowed values of}
+00091 \textcolor{comment}{      the structure member.}
+00092 \textcolor{comment}{      }
+00093 \textcolor{comment}{   4. Initialize the NOR/SRAM Controller by calling the function}
+00094 \textcolor{comment}{          FSMC\_NORSRAMInit(&FSMC\_NORSRAMInitStructure); }
+00095 \textcolor{comment}{}
+00096 \textcolor{comment}{   5. Then enable the NOR/SRAM Bank, for example:}
+00097 \textcolor{comment}{          FSMC\_NORSRAMCmd(FSMC\_Bank1\_NORSRAM2, ENABLE);  }
+00098 \textcolor{comment}{}
+00099 \textcolor{comment}{   6. At this stage you can read/write from/to the memory connected to the NOR/SRAM Bank. }
+00100 \textcolor{comment}{   }
+00101 \textcolor{comment}{@endverbatim}
+00102 \textcolor{comment}{  * @\{}
+00103 \textcolor{comment}{  */}
+00104 
+00105 \textcolor{comment}{/**}
+00106 \textcolor{comment}{  * @brief  Deinitializes the FSMC NOR/SRAM Banks registers to their default }
+00107 \textcolor{comment}{  *   reset values.}
+00108 \textcolor{comment}{  * @param  FSMC\_Bank: specifies the FSMC Bank to be used}
+00109 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00110 \textcolor{comment}{  *            @arg FSMC\_Bank1\_NORSRAM1: FSMC Bank1 NOR/SRAM1  }
+00111 \textcolor{comment}{  *            @arg FSMC\_Bank1\_NORSRAM2: FSMC Bank1 NOR/SRAM2 }
+00112 \textcolor{comment}{  *            @arg FSMC\_Bank1\_NORSRAM3: FSMC Bank1 NOR/SRAM3 }
+00113 \textcolor{comment}{  *            @arg FSMC\_Bank1\_NORSRAM4: FSMC Bank1 NOR/SRAM4 }
+00114 \textcolor{comment}{  * @retval None}
+00115 \textcolor{comment}{  */}
+00116 \textcolor{keywordtype}{void} FSMC_NORSRAMDeInit(uint32\_t FSMC\_Bank)
+00117 \{
+00118   \textcolor{comment}{/* Check the parameter */}
+00119   assert_param(IS\_FSMC\_NORSRAM\_BANK(FSMC\_Bank));
+00120 
+00121   \textcolor{comment}{/* FSMC\_Bank1\_NORSRAM1 */}
+00122   \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank1_NORSRAM1)
+00123   \{
+00124     FSMC_Bank1->BTCR[FSMC\_Bank] = 0x000030DB;
+00125   \}
+00126   \textcolor{comment}{/* FSMC\_Bank1\_NORSRAM2,  FSMC\_Bank1\_NORSRAM3 or FSMC\_Bank1\_NORSRAM4 */}
+00127   \textcolor{keywordflow}{else}
+00128   \{
+00129     FSMC_Bank1->BTCR[FSMC\_Bank] = 0x000030D2;
+00130   \}
+00131   FSMC_Bank1->BTCR[FSMC\_Bank + 1] = 0x0FFFFFFF;
+00132   FSMC_Bank1E->BWTR[FSMC\_Bank] = 0x0FFFFFFF;
+00133 \}
+00134 
+00135 \textcolor{comment}{/**}
+00136 \textcolor{comment}{  * @brief  Initializes the FSMC NOR/SRAM Banks according to the specified}
+00137 \textcolor{comment}{  *         parameters in the FSMC\_NORSRAMInitStruct.}
+00138 \textcolor{comment}{  * @param  FSMC\_NORSRAMInitStruct : pointer to a FSMC\_NORSRAMInitTypeDef structure}
+00139 \textcolor{comment}{  *         that contains the configuration information for the FSMC NOR/SRAM }
+00140 \textcolor{comment}{  *         specified Banks.                       }
+00141 \textcolor{comment}{  * @retval None}
+00142 \textcolor{comment}{  */}
+00143 \textcolor{keywordtype}{void} FSMC_NORSRAMInit(FSMC\_NORSRAMInitTypeDef* FSMC\_NORSRAMInitStruct)
+00144 \{
+00145   \textcolor{comment}{/* Check the parameters */}
+00146   assert_param(IS\_FSMC\_NORSRAM\_BANK(FSMC\_NORSRAMInitStruct->FSMC\_Bank));
+00147   assert_param(IS\_FSMC\_MUX(FSMC\_NORSRAMInitStruct->FSMC\_DataAddressMux));
+00148   assert_param(IS\_FSMC\_MEMORY(FSMC\_NORSRAMInitStruct->FSMC\_MemoryType));
+00149   assert_param(IS\_FSMC\_MEMORY\_WIDTH(FSMC\_NORSRAMInitStruct->FSMC\_MemoryDataWidth));
+00150   assert_param(IS\_FSMC\_BURSTMODE(FSMC\_NORSRAMInitStruct->FSMC\_BurstAccessMode));
+00151   assert_param(IS\_FSMC\_ASYNWAIT(FSMC\_NORSRAMInitStruct->FSMC\_AsynchronousWait));
+00152   assert_param(IS\_FSMC\_WAIT\_POLARITY(FSMC\_NORSRAMInitStruct->FSMC\_WaitSignalPolarity));
+00153   assert_param(IS\_FSMC\_WRAP\_MODE(FSMC\_NORSRAMInitStruct->FSMC\_WrapMode));
+00154   assert_param(IS\_FSMC\_WAIT\_SIGNAL\_ACTIVE(FSMC\_NORSRAMInitStruct->FSMC\_WaitSignalActive));
+00155   assert_param(IS\_FSMC\_WRITE\_OPERATION(FSMC\_NORSRAMInitStruct->FSMC\_WriteOperation));
+00156   assert_param(IS\_FSMC\_WAITE\_SIGNAL(FSMC\_NORSRAMInitStruct->FSMC\_WaitSignal));
+00157   assert_param(IS\_FSMC\_EXTENDED\_MODE(FSMC\_NORSRAMInitStruct->FSMC\_ExtendedMode));
+00158   assert_param(IS\_FSMC\_WRITE\_BURST(FSMC\_NORSRAMInitStruct->FSMC\_WriteBurst));
+00159   assert_param(IS\_FSMC\_ADDRESS\_SETUP\_TIME(FSMC\_NORSRAMInitStruct->FSMC\_ReadWriteTimingStruct->
+      FSMC\_AddressSetupTime));
+00160   assert_param(IS\_FSMC\_ADDRESS\_HOLD\_TIME(FSMC\_NORSRAMInitStruct->FSMC\_ReadWriteTimingStruct->
+      FSMC\_AddressHoldTime));
+00161   assert_param(IS\_FSMC\_DATASETUP\_TIME(FSMC\_NORSRAMInitStruct->FSMC\_ReadWriteTimingStruct->
+      FSMC\_DataSetupTime));
+00162   assert_param(IS\_FSMC\_TURNAROUND\_TIME(FSMC\_NORSRAMInitStruct->FSMC\_ReadWriteTimingStruct->
+      FSMC\_BusTurnAroundDuration));
+00163   assert_param(IS\_FSMC\_CLK\_DIV(FSMC\_NORSRAMInitStruct->FSMC\_ReadWriteTimingStruct->FSMC\_CLKDivision));
+00164   assert_param(IS\_FSMC\_DATA\_LATENCY(FSMC\_NORSRAMInitStruct->FSMC\_ReadWriteTimingStruct->
+      FSMC\_DataLatency));
+00165   assert_param(IS\_FSMC\_ACCESS\_MODE(FSMC\_NORSRAMInitStruct->FSMC\_ReadWriteTimingStruct->FSMC\_AccessMode
+      ));
+00166 
+00167   \textcolor{comment}{/* Bank1 NOR/SRAM control register configuration */}
+00168   FSMC_Bank1->BTCR[FSMC\_NORSRAMInitStruct->FSMC\_Bank] =
+00169             (uint32\_t)FSMC\_NORSRAMInitStruct->FSMC\_DataAddressMux |
+00170             FSMC\_NORSRAMInitStruct->FSMC\_MemoryType |
+00171             FSMC\_NORSRAMInitStruct->FSMC\_MemoryDataWidth |
+00172             FSMC\_NORSRAMInitStruct->FSMC\_BurstAccessMode |
+00173             FSMC\_NORSRAMInitStruct->FSMC\_AsynchronousWait |
+00174             FSMC\_NORSRAMInitStruct->FSMC\_WaitSignalPolarity |
+00175             FSMC\_NORSRAMInitStruct->FSMC\_WrapMode |
+00176             FSMC\_NORSRAMInitStruct->FSMC\_WaitSignalActive |
+00177             FSMC\_NORSRAMInitStruct->FSMC\_WriteOperation |
+00178             FSMC\_NORSRAMInitStruct->FSMC\_WaitSignal |
+00179             FSMC\_NORSRAMInitStruct->FSMC\_ExtendedMode |
+00180             FSMC\_NORSRAMInitStruct->FSMC\_WriteBurst;
+00181   \textcolor{keywordflow}{if}(FSMC\_NORSRAMInitStruct->FSMC_MemoryType == FSMC_MemoryType_NOR)
+00182   \{
+00183     FSMC_Bank1->BTCR[FSMC\_NORSRAMInitStruct->FSMC\_Bank] |= (uint32\_t)
+      BCR_FACCEN_SET;
+00184   \}
+00185   \textcolor{comment}{/* Bank1 NOR/SRAM timing register configuration */}
+00186   FSMC_Bank1->BTCR[FSMC\_NORSRAMInitStruct->FSMC\_Bank+1] =
+00187             (uint32\_t)FSMC\_NORSRAMInitStruct->FSMC\_ReadWriteTimingStruct->FSMC\_AddressSetupTime |
+00188             (FSMC\_NORSRAMInitStruct->FSMC\_ReadWriteTimingStruct->FSMC\_AddressHoldTime << 4) |
+00189             (FSMC\_NORSRAMInitStruct->FSMC\_ReadWriteTimingStruct->FSMC\_DataSetupTime << 8) |
+00190             (FSMC\_NORSRAMInitStruct->FSMC\_ReadWriteTimingStruct->FSMC\_BusTurnAroundDuration << 16) |
+00191             (FSMC\_NORSRAMInitStruct->FSMC\_ReadWriteTimingStruct->FSMC\_CLKDivision << 20) |
+00192             (FSMC\_NORSRAMInitStruct->FSMC\_ReadWriteTimingStruct->FSMC\_DataLatency << 24) |
+00193              FSMC\_NORSRAMInitStruct->FSMC\_ReadWriteTimingStruct->FSMC\_AccessMode;
+00194 
+00195 
+00196   \textcolor{comment}{/* Bank1 NOR/SRAM timing register for write configuration, if extended mode is used */}
+00197   \textcolor{keywordflow}{if}(FSMC\_NORSRAMInitStruct->FSMC_ExtendedMode == FSMC_ExtendedMode_Enable)
+00198   \{
+00199     assert_param(IS\_FSMC\_ADDRESS\_SETUP\_TIME(FSMC\_NORSRAMInitStruct->FSMC\_WriteTimingStruct->
+      FSMC\_AddressSetupTime));
+00200     assert_param(IS\_FSMC\_ADDRESS\_HOLD\_TIME(FSMC\_NORSRAMInitStruct->FSMC\_WriteTimingStruct->
+      FSMC\_AddressHoldTime));
+00201     assert_param(IS\_FSMC\_DATASETUP\_TIME(FSMC\_NORSRAMInitStruct->FSMC\_WriteTimingStruct->
+      FSMC\_DataSetupTime));
+00202     assert_param(IS\_FSMC\_CLK\_DIV(FSMC\_NORSRAMInitStruct->FSMC\_WriteTimingStruct->FSMC\_CLKDivision));
+00203     assert_param(IS\_FSMC\_DATA\_LATENCY(FSMC\_NORSRAMInitStruct->FSMC\_WriteTimingStruct->FSMC\_DataLatency
+      ));
+00204     assert_param(IS\_FSMC\_ACCESS\_MODE(FSMC\_NORSRAMInitStruct->FSMC\_WriteTimingStruct->FSMC\_AccessMode))
+      ;
+00205     FSMC_Bank1E->BWTR[FSMC\_NORSRAMInitStruct->FSMC\_Bank] =
+00206               (uint32\_t)FSMC\_NORSRAMInitStruct->FSMC\_WriteTimingStruct->FSMC\_AddressSetupTime |
+00207               (FSMC\_NORSRAMInitStruct->FSMC\_WriteTimingStruct->FSMC\_AddressHoldTime << 4 )|
+00208               (FSMC\_NORSRAMInitStruct->FSMC\_WriteTimingStruct->FSMC\_DataSetupTime << 8) |
+00209               (FSMC\_NORSRAMInitStruct->FSMC\_WriteTimingStruct->FSMC\_CLKDivision << 20) |
+00210               (FSMC\_NORSRAMInitStruct->FSMC\_WriteTimingStruct->FSMC\_DataLatency << 24) |
+00211                FSMC\_NORSRAMInitStruct->FSMC\_WriteTimingStruct->FSMC\_AccessMode;
+00212   \}
+00213   \textcolor{keywordflow}{else}
+00214   \{
+00215     FSMC_Bank1E->BWTR[FSMC\_NORSRAMInitStruct->FSMC\_Bank] = 0x0FFFFFFF;
+00216   \}
+00217 \}
+00218 
+00219 \textcolor{comment}{/**}
+00220 \textcolor{comment}{  * @brief  Fills each FSMC\_NORSRAMInitStruct member with its default value.}
+00221 \textcolor{comment}{  * @param  FSMC\_NORSRAMInitStruct: pointer to a FSMC\_NORSRAMInitTypeDef structure }
+00222 \textcolor{comment}{  *         which will be initialized.}
+00223 \textcolor{comment}{  * @retval None}
+00224 \textcolor{comment}{  */}
+00225 \textcolor{keywordtype}{void} FSMC_NORSRAMStructInit(FSMC\_NORSRAMInitTypeDef* FSMC\_NORSRAMInitStruct)
+00226 \{
+00227   \textcolor{comment}{/* Reset NOR/SRAM Init structure parameters values */}
+00228   FSMC\_NORSRAMInitStruct->FSMC_Bank = FSMC_Bank1_NORSRAM1;
+00229   FSMC\_NORSRAMInitStruct->FSMC_DataAddressMux = FSMC_DataAddressMux_Enable;
+00230   FSMC\_NORSRAMInitStruct->FSMC_MemoryType = FSMC_MemoryType_SRAM;
+00231   FSMC\_NORSRAMInitStruct->FSMC_MemoryDataWidth = FSMC_MemoryDataWidth_8b;
+00232   FSMC\_NORSRAMInitStruct->FSMC_BurstAccessMode = 
+      FSMC_BurstAccessMode_Disable;
+00233   FSMC\_NORSRAMInitStruct->FSMC_AsynchronousWait = 
+      FSMC_AsynchronousWait_Disable;
+00234   FSMC\_NORSRAMInitStruct->FSMC_WaitSignalPolarity = 
+      FSMC_WaitSignalPolarity_Low;
+00235   FSMC\_NORSRAMInitStruct->FSMC_WrapMode = FSMC_WrapMode_Disable;
+00236   FSMC\_NORSRAMInitStruct->FSMC_WaitSignalActive = 
+      FSMC_WaitSignalActive_BeforeWaitState;
+00237   FSMC\_NORSRAMInitStruct->FSMC_WriteOperation = FSMC_WriteOperation_Enable;
+00238   FSMC\_NORSRAMInitStruct->FSMC_WaitSignal = FSMC_WaitSignal_Enable;
+00239   FSMC\_NORSRAMInitStruct->FSMC_ExtendedMode = FSMC_ExtendedMode_Disable;
+00240   FSMC\_NORSRAMInitStruct->FSMC_WriteBurst = FSMC_WriteBurst_Disable;
+00241   FSMC\_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->FSMC_AddressSetupTime = 0xF;
+00242   FSMC\_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->FSMC_AddressHoldTime = 0xF;
+00243   FSMC\_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->FSMC_DataSetupTime = 0xFF;
+00244   FSMC\_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->
+      FSMC_BusTurnAroundDuration = 0xF;
+00245   FSMC\_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->FSMC_CLKDivision = 0xF;
+00246   FSMC\_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->FSMC_DataLatency = 0xF;
+00247   FSMC\_NORSRAMInitStruct->FSMC_ReadWriteTimingStruct->FSMC_AccessMode = 
+      FSMC_AccessMode_A;
+00248   FSMC\_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_AddressSetupTime = 0xF;
+00249   FSMC\_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_AddressHoldTime = 0xF;
+00250   FSMC\_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_DataSetupTime = 0xFF;
+00251   FSMC\_NORSRAMInitStruct->FSMC_WriteTimingStruct->
+      FSMC_BusTurnAroundDuration = 0xF;
+00252   FSMC\_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_CLKDivision = 0xF;
+00253   FSMC\_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_DataLatency = 0xF;
+00254   FSMC\_NORSRAMInitStruct->FSMC_WriteTimingStruct->FSMC_AccessMode = 
+      FSMC_AccessMode_A;
+00255 \}
+00256 
+00257 \textcolor{comment}{/**}
+00258 \textcolor{comment}{  * @brief  Enables or disables the specified NOR/SRAM Memory Bank.}
+00259 \textcolor{comment}{  * @param  FSMC\_Bank: specifies the FSMC Bank to be used}
+00260 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00261 \textcolor{comment}{  *            @arg FSMC\_Bank1\_NORSRAM1: FSMC Bank1 NOR/SRAM1  }
+00262 \textcolor{comment}{  *            @arg FSMC\_Bank1\_NORSRAM2: FSMC Bank1 NOR/SRAM2 }
+00263 \textcolor{comment}{  *            @arg FSMC\_Bank1\_NORSRAM3: FSMC Bank1 NOR/SRAM3 }
+00264 \textcolor{comment}{  *            @arg FSMC\_Bank1\_NORSRAM4: FSMC Bank1 NOR/SRAM4 }
+00265 \textcolor{comment}{  * @param  NewState: new state of the FSMC\_Bank. This parameter can be: ENABLE or DISABLE.}
+00266 \textcolor{comment}{  * @retval None}
+00267 \textcolor{comment}{  */}
+00268 \textcolor{keywordtype}{void} FSMC_NORSRAMCmd(uint32\_t FSMC\_Bank, FunctionalState NewState)
+00269 \{
+00270   assert_param(IS\_FSMC\_NORSRAM\_BANK(FSMC\_Bank));
+00271   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00272 
+00273   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00274   \{
+00275     \textcolor{comment}{/* Enable the selected NOR/SRAM Bank by setting the PBKEN bit in the BCRx register */}
+00276     FSMC_Bank1->BTCR[FSMC\_Bank] |= BCR_MBKEN_SET;
+00277   \}
+00278   \textcolor{keywordflow}{else}
+00279   \{
+00280     \textcolor{comment}{/* Disable the selected NOR/SRAM Bank by clearing the PBKEN bit in the BCRx register */}
+00281     FSMC_Bank1->BTCR[FSMC\_Bank] &= BCR_MBKEN_RESET;
+00282   \}
+00283 \}
+00284 \textcolor{comment}{/**}
+00285 \textcolor{comment}{  * @\}}
+00286 \textcolor{comment}{  */}
+00287 
+00288 \textcolor{comment}{/** @defgroup FSMC\_Group2 NAND Controller functions}
+00289 \textcolor{comment}{ *  @brief   NAND Controller functions }
+00290 \textcolor{comment}{ *}
+00291 \textcolor{comment}{@verbatim   }
+00292 \textcolor{comment}{ ===============================================================================}
+00293 \textcolor{comment}{                    NAND Controller functions}
+00294 \textcolor{comment}{ ===============================================================================  }
+00295 \textcolor{comment}{}
+00296 \textcolor{comment}{ The following sequence should be followed to configure the FSMC to interface with}
+00297 \textcolor{comment}{ 8-bit or 16-bit NAND memory connected to the NAND Bank:}
+00298 \textcolor{comment}{ }
+00299 \textcolor{comment}{   1. Enable the clock for the FSMC and associated GPIOs using the following functions:}
+00300 \textcolor{comment}{          RCC\_AHB3PeriphClockCmd(RCC\_AHB3Periph\_FSMC, ENABLE);}
+00301 \textcolor{comment}{          RCC\_AHB1PeriphClockCmd(RCC\_AHB1Periph\_GPIOx, ENABLE);}
+00302 \textcolor{comment}{}
+00303 \textcolor{comment}{   2. FSMC pins configuration }
+00304 \textcolor{comment}{       - Connect the involved FSMC pins to AF12 using the following function }
+00305 \textcolor{comment}{          GPIO\_PinAFConfig(GPIOx, GPIO\_PinSourcex, GPIO\_AF\_FSMC); }
+00306 \textcolor{comment}{       - Configure these FSMC pins in alternate function mode by calling the function}
+00307 \textcolor{comment}{          GPIO\_Init();    }
+00308 \textcolor{comment}{       }
+00309 \textcolor{comment}{   3. Declare a FSMC\_NANDInitTypeDef structure, for example:}
+00310 \textcolor{comment}{          FSMC\_NANDInitTypeDef  FSMC\_NANDInitStructure;}
+00311 \textcolor{comment}{      and fill the FSMC\_NANDInitStructure variable with the allowed values of}
+00312 \textcolor{comment}{      the structure member.}
+00313 \textcolor{comment}{      }
+00314 \textcolor{comment}{   4. Initialize the NAND Controller by calling the function}
+00315 \textcolor{comment}{          FSMC\_NANDInit(&FSMC\_NANDInitStructure); }
+00316 \textcolor{comment}{}
+00317 \textcolor{comment}{   5. Then enable the NAND Bank, for example:}
+00318 \textcolor{comment}{          FSMC\_NANDCmd(FSMC\_Bank3\_NAND, ENABLE);  }
+00319 \textcolor{comment}{}
+00320 \textcolor{comment}{   6. At this stage you can read/write from/to the memory connected to the NAND Bank. }
+00321 \textcolor{comment}{   }
+00322 \textcolor{comment}{@note To enable the Error Correction Code (ECC), you have to use the function}
+00323 \textcolor{comment}{          FSMC\_NANDECCCmd(FSMC\_Bank3\_NAND, ENABLE);  }
+00324 \textcolor{comment}{      and to get the current ECC value you have to use the function}
+00325 \textcolor{comment}{          ECCval = FSMC\_GetECC(FSMC\_Bank3\_NAND); }
+00326 \textcolor{comment}{}
+00327 \textcolor{comment}{@endverbatim}
+00328 \textcolor{comment}{  * @\{}
+00329 \textcolor{comment}{  */}
+00330 
+00331 \textcolor{comment}{/**}
+00332 \textcolor{comment}{  * @brief  Deinitializes the FSMC NAND Banks registers to their default reset values.}
+00333 \textcolor{comment}{  * @param  FSMC\_Bank: specifies the FSMC Bank to be used}
+00334 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00335 \textcolor{comment}{  *            @arg FSMC\_Bank2\_NAND: FSMC Bank2 NAND }
+00336 \textcolor{comment}{  *            @arg FSMC\_Bank3\_NAND: FSMC Bank3 NAND }
+00337 \textcolor{comment}{  * @retval None}
+00338 \textcolor{comment}{  */}
+00339 \textcolor{keywordtype}{void} FSMC_NANDDeInit(uint32\_t FSMC\_Bank)
+00340 \{
+00341   \textcolor{comment}{/* Check the parameter */}
+00342   assert_param(IS\_FSMC\_NAND\_BANK(FSMC\_Bank));
+00343 
+00344   \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00345   \{
+00346     \textcolor{comment}{/* Set the FSMC\_Bank2 registers to their reset values */}
+00347     FSMC_Bank2->PCR2 = 0x00000018;
+00348     FSMC_Bank2->SR2 = 0x00000040;
+00349     FSMC_Bank2->PMEM2 = 0xFCFCFCFC;
+00350     FSMC_Bank2->PATT2 = 0xFCFCFCFC;
+00351   \}
+00352   \textcolor{comment}{/* FSMC\_Bank3\_NAND */}
+00353   \textcolor{keywordflow}{else}
+00354   \{
+00355     \textcolor{comment}{/* Set the FSMC\_Bank3 registers to their reset values */}
+00356     FSMC_Bank3->PCR3 = 0x00000018;
+00357     FSMC_Bank3->SR3 = 0x00000040;
+00358     FSMC_Bank3->PMEM3 = 0xFCFCFCFC;
+00359     FSMC_Bank3->PATT3 = 0xFCFCFCFC;
+00360   \}
+00361 \}
+00362 
+00363 \textcolor{comment}{/**}
+00364 \textcolor{comment}{  * @brief  Initializes the FSMC NAND Banks according to the specified parameters}
+00365 \textcolor{comment}{  *         in the FSMC\_NANDInitStruct.}
+00366 \textcolor{comment}{  * @param  FSMC\_NANDInitStruct : pointer to a FSMC\_NANDInitTypeDef structure that}
+00367 \textcolor{comment}{  *         contains the configuration information for the FSMC NAND specified Banks.                 
+            }
+00368 \textcolor{comment}{  * @retval None}
+00369 \textcolor{comment}{  */}
+00370 \textcolor{keywordtype}{void} FSMC_NANDInit(FSMC\_NANDInitTypeDef* FSMC\_NANDInitStruct)
+00371 \{
+00372   uint32\_t tmppcr = 0x00000000, tmppmem = 0x00000000, tmppatt = 0x00000000;
+00373 
+00374   \textcolor{comment}{/* Check the parameters */}
+00375   assert_param( IS\_FSMC\_NAND\_BANK(FSMC\_NANDInitStruct->FSMC\_Bank));
+00376   assert_param( IS\_FSMC\_WAIT\_FEATURE(FSMC\_NANDInitStruct->FSMC\_Waitfeature));
+00377   assert_param( IS\_FSMC\_MEMORY\_WIDTH(FSMC\_NANDInitStruct->FSMC\_MemoryDataWidth));
+00378   assert_param( IS\_FSMC\_ECC\_STATE(FSMC\_NANDInitStruct->FSMC\_ECC));
+00379   assert_param( IS\_FSMC\_ECCPAGE\_SIZE(FSMC\_NANDInitStruct->FSMC\_ECCPageSize));
+00380   assert_param( IS\_FSMC\_TCLR\_TIME(FSMC\_NANDInitStruct->FSMC\_TCLRSetupTime));
+00381   assert_param( IS\_FSMC\_TAR\_TIME(FSMC\_NANDInitStruct->FSMC\_TARSetupTime));
+00382   assert_param(IS\_FSMC\_SETUP\_TIME(FSMC\_NANDInitStruct->FSMC\_CommonSpaceTimingStruct->FSMC\_SetupTime));
+00383   assert_param(IS\_FSMC\_WAIT\_TIME(FSMC\_NANDInitStruct->FSMC\_CommonSpaceTimingStruct->FSMC\_WaitSetupTime
+      ));
+00384   assert_param(IS\_FSMC\_HOLD\_TIME(FSMC\_NANDInitStruct->FSMC\_CommonSpaceTimingStruct->FSMC\_HoldSetupTime
+      ));
+00385   assert_param(IS\_FSMC\_HIZ\_TIME(FSMC\_NANDInitStruct->FSMC\_CommonSpaceTimingStruct->FSMC\_HiZSetupTime))
+      ;
+00386   assert_param(IS\_FSMC\_SETUP\_TIME(FSMC\_NANDInitStruct->FSMC\_AttributeSpaceTimingStruct->FSMC\_SetupTime
+      ));
+00387   assert_param(IS\_FSMC\_WAIT\_TIME(FSMC\_NANDInitStruct->FSMC\_AttributeSpaceTimingStruct->
+      FSMC\_WaitSetupTime));
+00388   assert_param(IS\_FSMC\_HOLD\_TIME(FSMC\_NANDInitStruct->FSMC\_AttributeSpaceTimingStruct->
+      FSMC\_HoldSetupTime));
+00389   assert_param(IS\_FSMC\_HIZ\_TIME(FSMC\_NANDInitStruct->FSMC\_AttributeSpaceTimingStruct->
+      FSMC\_HiZSetupTime));
+00390 
+00391   \textcolor{comment}{/* Set the tmppcr value according to FSMC\_NANDInitStruct parameters */}
+00392   tmppcr = (uint32\_t)FSMC\_NANDInitStruct->FSMC_Waitfeature |
+00393             PCR_MEMORYTYPE_NAND |
+00394             FSMC\_NANDInitStruct->FSMC_MemoryDataWidth |
+00395             FSMC\_NANDInitStruct->FSMC_ECC |
+00396             FSMC\_NANDInitStruct->FSMC_ECCPageSize |
+00397             (FSMC\_NANDInitStruct->FSMC_TCLRSetupTime << 9 )|
+00398             (FSMC\_NANDInitStruct->FSMC_TARSetupTime << 13);
+00399 
+00400   \textcolor{comment}{/* Set tmppmem value according to FSMC\_CommonSpaceTimingStructure parameters */}
+00401   tmppmem = (uint32\_t)FSMC\_NANDInitStruct->FSMC_CommonSpaceTimingStruct->
+      FSMC_SetupTime |
+00402             (FSMC\_NANDInitStruct->FSMC_CommonSpaceTimingStruct->
+      FSMC_WaitSetupTime << 8) |
+00403             (FSMC\_NANDInitStruct->FSMC_CommonSpaceTimingStruct->
+      FSMC_HoldSetupTime << 16)|
+00404             (FSMC\_NANDInitStruct->FSMC_CommonSpaceTimingStruct->
+      FSMC_HiZSetupTime << 24);
+00405 
+00406   \textcolor{comment}{/* Set tmppatt value according to FSMC\_AttributeSpaceTimingStructure parameters */}
+00407   tmppatt = (uint32\_t)FSMC\_NANDInitStruct->FSMC_AttributeSpaceTimingStruct
+      ->FSMC_SetupTime |
+00408             (FSMC\_NANDInitStruct->FSMC_AttributeSpaceTimingStruct->
+      FSMC_WaitSetupTime << 8) |
+00409             (FSMC\_NANDInitStruct->FSMC_AttributeSpaceTimingStruct->
+      FSMC_HoldSetupTime << 16)|
+00410             (FSMC\_NANDInitStruct->FSMC_AttributeSpaceTimingStruct->
+      FSMC_HiZSetupTime << 24);
+00411 
+00412   \textcolor{keywordflow}{if}(FSMC\_NANDInitStruct->FSMC_Bank == FSMC_Bank2_NAND)
+00413   \{
+00414     \textcolor{comment}{/* FSMC\_Bank2\_NAND registers configuration */}
+00415     FSMC_Bank2->PCR2 = tmppcr;
+00416     FSMC_Bank2->PMEM2 = tmppmem;
+00417     FSMC_Bank2->PATT2 = tmppatt;
+00418   \}
+00419   \textcolor{keywordflow}{else}
+00420   \{
+00421     \textcolor{comment}{/* FSMC\_Bank3\_NAND registers configuration */}
+00422     FSMC_Bank3->PCR3 = tmppcr;
+00423     FSMC_Bank3->PMEM3 = tmppmem;
+00424     FSMC_Bank3->PATT3 = tmppatt;
+00425   \}
+00426 \}
+00427 
+00428 
+00429 \textcolor{comment}{/**}
+00430 \textcolor{comment}{  * @brief  Fills each FSMC\_NANDInitStruct member with its default value.}
+00431 \textcolor{comment}{  * @param  FSMC\_NANDInitStruct: pointer to a FSMC\_NANDInitTypeDef structure which}
+00432 \textcolor{comment}{  *         will be initialized.}
+00433 \textcolor{comment}{  * @retval None}
+00434 \textcolor{comment}{  */}
+00435 \textcolor{keywordtype}{void} FSMC_NANDStructInit(FSMC\_NANDInitTypeDef* FSMC\_NANDInitStruct)
+00436 \{
+00437   \textcolor{comment}{/* Reset NAND Init structure parameters values */}
+00438   FSMC\_NANDInitStruct->FSMC_Bank = FSMC_Bank2_NAND;
+00439   FSMC\_NANDInitStruct->FSMC_Waitfeature = FSMC_Waitfeature_Disable;
+00440   FSMC\_NANDInitStruct->FSMC_MemoryDataWidth = FSMC_MemoryDataWidth_8b;
+00441   FSMC\_NANDInitStruct->FSMC_ECC = FSMC_ECC_Disable;
+00442   FSMC\_NANDInitStruct->FSMC_ECCPageSize = FSMC_ECCPageSize_256Bytes;
+00443   FSMC\_NANDInitStruct->FSMC_TCLRSetupTime = 0x0;
+00444   FSMC\_NANDInitStruct->FSMC_TARSetupTime = 0x0;
+00445   FSMC\_NANDInitStruct->FSMC_CommonSpaceTimingStruct->FSMC_SetupTime = 0xFC;
+00446   FSMC\_NANDInitStruct->FSMC_CommonSpaceTimingStruct->FSMC_WaitSetupTime = 0xFC;
+00447   FSMC\_NANDInitStruct->FSMC_CommonSpaceTimingStruct->FSMC_HoldSetupTime = 0xFC;
+00448   FSMC\_NANDInitStruct->FSMC_CommonSpaceTimingStruct->FSMC_HiZSetupTime = 0xFC;
+00449   FSMC\_NANDInitStruct->FSMC_AttributeSpaceTimingStruct->FSMC_SetupTime = 0xFC;
+00450   FSMC\_NANDInitStruct->FSMC_AttributeSpaceTimingStruct->FSMC_WaitSetupTime = 0xFC;
+00451   FSMC\_NANDInitStruct->FSMC_AttributeSpaceTimingStruct->FSMC_HoldSetupTime = 0xFC;
+00452   FSMC\_NANDInitStruct->FSMC_AttributeSpaceTimingStruct->FSMC_HiZSetupTime = 0xFC;
+00453 \}
+00454 
+00455 \textcolor{comment}{/**}
+00456 \textcolor{comment}{  * @brief  Enables or disables the specified NAND Memory Bank.}
+00457 \textcolor{comment}{  * @param  FSMC\_Bank: specifies the FSMC Bank to be used}
+00458 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00459 \textcolor{comment}{  *            @arg FSMC\_Bank2\_NAND: FSMC Bank2 NAND }
+00460 \textcolor{comment}{  *            @arg FSMC\_Bank3\_NAND: FSMC Bank3 NAND}
+00461 \textcolor{comment}{  * @param  NewState: new state of the FSMC\_Bank. This parameter can be: ENABLE or DISABLE.}
+00462 \textcolor{comment}{  * @retval None}
+00463 \textcolor{comment}{  */}
+00464 \textcolor{keywordtype}{void} FSMC_NANDCmd(uint32\_t FSMC\_Bank, FunctionalState NewState)
+00465 \{
+00466   assert_param(IS\_FSMC\_NAND\_BANK(FSMC\_Bank));
+00467   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00468 
+00469   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00470   \{
+00471     \textcolor{comment}{/* Enable the selected NAND Bank by setting the PBKEN bit in the PCRx register */}
+00472     \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00473     \{
+00474       FSMC_Bank2->PCR2 |= PCR_PBKEN_SET;
+00475     \}
+00476     \textcolor{keywordflow}{else}
+00477     \{
+00478       FSMC_Bank3->PCR3 |= PCR_PBKEN_SET;
+00479     \}
+00480   \}
+00481   \textcolor{keywordflow}{else}
+00482   \{
+00483     \textcolor{comment}{/* Disable the selected NAND Bank by clearing the PBKEN bit in the PCRx register */}
+00484     \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00485     \{
+00486       FSMC_Bank2->PCR2 &= PCR_PBKEN_RESET;
+00487     \}
+00488     \textcolor{keywordflow}{else}
+00489     \{
+00490       FSMC_Bank3->PCR3 &= PCR_PBKEN_RESET;
+00491     \}
+00492   \}
+00493 \}
+00494 \textcolor{comment}{/**}
+00495 \textcolor{comment}{  * @brief  Enables or disables the FSMC NAND ECC feature.}
+00496 \textcolor{comment}{  * @param  FSMC\_Bank: specifies the FSMC Bank to be used}
+00497 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00498 \textcolor{comment}{  *            @arg FSMC\_Bank2\_NAND: FSMC Bank2 NAND }
+00499 \textcolor{comment}{  *            @arg FSMC\_Bank3\_NAND: FSMC Bank3 NAND}
+00500 \textcolor{comment}{  * @param  NewState: new state of the FSMC NAND ECC feature.  }
+00501 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00502 \textcolor{comment}{  * @retval None}
+00503 \textcolor{comment}{  */}
+00504 \textcolor{keywordtype}{void} FSMC_NANDECCCmd(uint32\_t FSMC\_Bank, FunctionalState NewState)
+00505 \{
+00506   assert_param(IS\_FSMC\_NAND\_BANK(FSMC\_Bank));
+00507   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00508 
+00509   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00510   \{
+00511     \textcolor{comment}{/* Enable the selected NAND Bank ECC function by setting the ECCEN bit in the PCRx register */}
+00512     \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00513     \{
+00514       FSMC_Bank2->PCR2 |= PCR_ECCEN_SET;
+00515     \}
+00516     \textcolor{keywordflow}{else}
+00517     \{
+00518       FSMC_Bank3->PCR3 |= PCR_ECCEN_SET;
+00519     \}
+00520   \}
+00521   \textcolor{keywordflow}{else}
+00522   \{
+00523     \textcolor{comment}{/* Disable the selected NAND Bank ECC function by clearing the ECCEN bit in the PCRx register */}
+00524     \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00525     \{
+00526       FSMC_Bank2->PCR2 &= PCR_ECCEN_RESET;
+00527     \}
+00528     \textcolor{keywordflow}{else}
+00529     \{
+00530       FSMC_Bank3->PCR3 &= PCR_ECCEN_RESET;
+00531     \}
+00532   \}
+00533 \}
+00534 
+00535 \textcolor{comment}{/**}
+00536 \textcolor{comment}{  * @brief  Returns the error correction code register value.}
+00537 \textcolor{comment}{  * @param  FSMC\_Bank: specifies the FSMC Bank to be used}
+00538 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00539 \textcolor{comment}{  *            @arg FSMC\_Bank2\_NAND: FSMC Bank2 NAND }
+00540 \textcolor{comment}{  *            @arg FSMC\_Bank3\_NAND: FSMC Bank3 NAND}
+00541 \textcolor{comment}{  * @retval The Error Correction Code (ECC) value.}
+00542 \textcolor{comment}{  */}
+00543 uint32\_t FSMC_GetECC(uint32\_t FSMC\_Bank)
+00544 \{
+00545   uint32\_t eccval = 0x00000000;
+00546 
+00547   \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00548   \{
+00549     \textcolor{comment}{/* Get the ECCR2 register value */}
+00550     eccval = FSMC_Bank2->ECCR2;
+00551   \}
+00552   \textcolor{keywordflow}{else}
+00553   \{
+00554     \textcolor{comment}{/* Get the ECCR3 register value */}
+00555     eccval = FSMC_Bank3->ECCR3;
+00556   \}
+00557   \textcolor{comment}{/* Return the error correction code value */}
+00558   \textcolor{keywordflow}{return}(eccval);
+00559 \}
+00560 \textcolor{comment}{/**}
+00561 \textcolor{comment}{  * @\}}
+00562 \textcolor{comment}{  */}
+00563 
+00564 \textcolor{comment}{/** @defgroup FSMC\_Group3 PCCARD Controller functions}
+00565 \textcolor{comment}{ *  @brief   PCCARD Controller functions }
+00566 \textcolor{comment}{ *}
+00567 \textcolor{comment}{@verbatim   }
+00568 \textcolor{comment}{ ===============================================================================}
+00569 \textcolor{comment}{                    PCCARD Controller functions}
+00570 \textcolor{comment}{ ===============================================================================  }
+00571 \textcolor{comment}{}
+00572 \textcolor{comment}{ The following sequence should be followed to configure the FSMC to interface with}
+00573 \textcolor{comment}{ 16-bit PC Card compatible memory connected to the PCCARD Bank:}
+00574 \textcolor{comment}{ }
+00575 \textcolor{comment}{   1. Enable the clock for the FSMC and associated GPIOs using the following functions:}
+00576 \textcolor{comment}{          RCC\_AHB3PeriphClockCmd(RCC\_AHB3Periph\_FSMC, ENABLE);}
+00577 \textcolor{comment}{          RCC\_AHB1PeriphClockCmd(RCC\_AHB1Periph\_GPIOx, ENABLE);}
+00578 \textcolor{comment}{}
+00579 \textcolor{comment}{   2. FSMC pins configuration }
+00580 \textcolor{comment}{       - Connect the involved FSMC pins to AF12 using the following function }
+00581 \textcolor{comment}{          GPIO\_PinAFConfig(GPIOx, GPIO\_PinSourcex, GPIO\_AF\_FSMC); }
+00582 \textcolor{comment}{       - Configure these FSMC pins in alternate function mode by calling the function}
+00583 \textcolor{comment}{          GPIO\_Init();    }
+00584 \textcolor{comment}{       }
+00585 \textcolor{comment}{   3. Declare a FSMC\_PCCARDInitTypeDef structure, for example:}
+00586 \textcolor{comment}{          FSMC\_PCCARDInitTypeDef  FSMC\_PCCARDInitStructure;}
+00587 \textcolor{comment}{      and fill the FSMC\_PCCARDInitStructure variable with the allowed values of}
+00588 \textcolor{comment}{      the structure member.}
+00589 \textcolor{comment}{      }
+00590 \textcolor{comment}{   4. Initialize the PCCARD Controller by calling the function}
+00591 \textcolor{comment}{          FSMC\_PCCARDInit(&FSMC\_PCCARDInitStructure); }
+00592 \textcolor{comment}{}
+00593 \textcolor{comment}{   5. Then enable the PCCARD Bank:}
+00594 \textcolor{comment}{          FSMC\_PCCARDCmd(ENABLE);  }
+00595 \textcolor{comment}{}
+00596 \textcolor{comment}{   6. At this stage you can read/write from/to the memory connected to the PCCARD Bank. }
+00597 \textcolor{comment}{ }
+00598 \textcolor{comment}{@endverbatim}
+00599 \textcolor{comment}{  * @\{}
+00600 \textcolor{comment}{  */}
+00601 
+00602 \textcolor{comment}{/**}
+00603 \textcolor{comment}{  * @brief  Deinitializes the FSMC PCCARD Bank registers to their default reset values.}
+00604 \textcolor{comment}{  * @param  None                       }
+00605 \textcolor{comment}{  * @retval None}
+00606 \textcolor{comment}{  */}
+00607 \textcolor{keywordtype}{void} FSMC_PCCARDDeInit(\textcolor{keywordtype}{void})
+00608 \{
+00609   \textcolor{comment}{/* Set the FSMC\_Bank4 registers to their reset values */}
+00610   FSMC_Bank4->PCR4 = 0x00000018;
+00611   FSMC_Bank4->SR4 = 0x00000000;
+00612   FSMC_Bank4->PMEM4 = 0xFCFCFCFC;
+00613   FSMC_Bank4->PATT4 = 0xFCFCFCFC;
+00614   FSMC_Bank4->PIO4 = 0xFCFCFCFC;
+00615 \}
+00616 
+00617 \textcolor{comment}{/**}
+00618 \textcolor{comment}{  * @brief  Initializes the FSMC PCCARD Bank according to the specified parameters}
+00619 \textcolor{comment}{  *         in the FSMC\_PCCARDInitStruct.}
+00620 \textcolor{comment}{  * @param  FSMC\_PCCARDInitStruct : pointer to a FSMC\_PCCARDInitTypeDef structure}
+00621 \textcolor{comment}{  *         that contains the configuration information for the FSMC PCCARD Bank.                     
+        }
+00622 \textcolor{comment}{  * @retval None}
+00623 \textcolor{comment}{  */}
+00624 \textcolor{keywordtype}{void} FSMC_PCCARDInit(FSMC\_PCCARDInitTypeDef* FSMC\_PCCARDInitStruct)
+00625 \{
+00626   \textcolor{comment}{/* Check the parameters */}
+00627   assert_param(IS\_FSMC\_WAIT\_FEATURE(FSMC\_PCCARDInitStruct->FSMC\_Waitfeature));
+00628   assert_param(IS\_FSMC\_TCLR\_TIME(FSMC\_PCCARDInitStruct->FSMC\_TCLRSetupTime));
+00629   assert_param(IS\_FSMC\_TAR\_TIME(FSMC\_PCCARDInitStruct->FSMC\_TARSetupTime));
+00630 
+00631   assert_param(IS\_FSMC\_SETUP\_TIME(FSMC\_PCCARDInitStruct->FSMC\_CommonSpaceTimingStruct->FSMC\_SetupTime)
+      );
+00632   assert_param(IS\_FSMC\_WAIT\_TIME(FSMC\_PCCARDInitStruct->FSMC\_CommonSpaceTimingStruct->
+      FSMC\_WaitSetupTime));
+00633   assert_param(IS\_FSMC\_HOLD\_TIME(FSMC\_PCCARDInitStruct->FSMC\_CommonSpaceTimingStruct->
+      FSMC\_HoldSetupTime));
+00634   assert_param(IS\_FSMC\_HIZ\_TIME(FSMC\_PCCARDInitStruct->FSMC\_CommonSpaceTimingStruct->FSMC\_HiZSetupTime
+      ));
+00635 
+00636   assert_param(IS\_FSMC\_SETUP\_TIME(FSMC\_PCCARDInitStruct->FSMC\_AttributeSpaceTimingStruct->
+      FSMC\_SetupTime));
+00637   assert_param(IS\_FSMC\_WAIT\_TIME(FSMC\_PCCARDInitStruct->FSMC\_AttributeSpaceTimingStruct->
+      FSMC\_WaitSetupTime));
+00638   assert_param(IS\_FSMC\_HOLD\_TIME(FSMC\_PCCARDInitStruct->FSMC\_AttributeSpaceTimingStruct->
+      FSMC\_HoldSetupTime));
+00639   assert_param(IS\_FSMC\_HIZ\_TIME(FSMC\_PCCARDInitStruct->FSMC\_AttributeSpaceTimingStruct->
+      FSMC\_HiZSetupTime));
+00640   assert_param(IS\_FSMC\_SETUP\_TIME(FSMC\_PCCARDInitStruct->FSMC\_IOSpaceTimingStruct->FSMC\_SetupTime));
+00641   assert_param(IS\_FSMC\_WAIT\_TIME(FSMC\_PCCARDInitStruct->FSMC\_IOSpaceTimingStruct->FSMC\_WaitSetupTime))
+      ;
+00642   assert_param(IS\_FSMC\_HOLD\_TIME(FSMC\_PCCARDInitStruct->FSMC\_IOSpaceTimingStruct->FSMC\_HoldSetupTime))
+      ;
+00643   assert_param(IS\_FSMC\_HIZ\_TIME(FSMC\_PCCARDInitStruct->FSMC\_IOSpaceTimingStruct->FSMC\_HiZSetupTime));
+00644 
+00645   \textcolor{comment}{/* Set the PCR4 register value according to FSMC\_PCCARDInitStruct parameters */}
+00646   FSMC_Bank4->PCR4 = (uint32\_t)FSMC\_PCCARDInitStruct->FSMC\_Waitfeature |
+00647                      FSMC_MemoryDataWidth_16b |
+00648                      (FSMC\_PCCARDInitStruct->FSMC\_TCLRSetupTime << 9) |
+00649                      (FSMC\_PCCARDInitStruct->FSMC\_TARSetupTime << 13);
+00650 
+00651   \textcolor{comment}{/* Set PMEM4 register value according to FSMC\_CommonSpaceTimingStructure parameters */}
+00652   FSMC_Bank4->PMEM4 = (uint32\_t)FSMC\_PCCARDInitStruct->FSMC\_CommonSpaceTimingStruct->FSMC\_SetupTime |
+00653                       (FSMC\_PCCARDInitStruct->FSMC\_CommonSpaceTimingStruct->FSMC\_WaitSetupTime << 8) |
+00654                       (FSMC\_PCCARDInitStruct->FSMC\_CommonSpaceTimingStruct->FSMC\_HoldSetupTime << 16)|
+00655                       (FSMC\_PCCARDInitStruct->FSMC\_CommonSpaceTimingStruct->FSMC\_HiZSetupTime << 24);
+00656 
+00657   \textcolor{comment}{/* Set PATT4 register value according to FSMC\_AttributeSpaceTimingStructure parameters */}
+00658   FSMC_Bank4->PATT4 = (uint32\_t)FSMC\_PCCARDInitStruct->FSMC\_AttributeSpaceTimingStruct->FSMC\_SetupTime
+       |
+00659                       (FSMC\_PCCARDInitStruct->FSMC\_AttributeSpaceTimingStruct->FSMC\_WaitSetupTime << 8
+      ) |
+00660                       (FSMC\_PCCARDInitStruct->FSMC\_AttributeSpaceTimingStruct->FSMC\_HoldSetupTime << 
+      16)|
+00661                       (FSMC\_PCCARDInitStruct->FSMC\_AttributeSpaceTimingStruct->FSMC\_HiZSetupTime << 24
+      );
+00662 
+00663   \textcolor{comment}{/* Set PIO4 register value according to FSMC\_IOSpaceTimingStructure parameters */}
+00664   FSMC_Bank4->PIO4 = (uint32\_t)FSMC\_PCCARDInitStruct->FSMC\_IOSpaceTimingStruct->FSMC\_SetupTime |
+00665                      (FSMC\_PCCARDInitStruct->FSMC\_IOSpaceTimingStruct->FSMC\_WaitSetupTime << 8) |
+00666                      (FSMC\_PCCARDInitStruct->FSMC\_IOSpaceTimingStruct->FSMC\_HoldSetupTime << 16)|
+00667                      (FSMC\_PCCARDInitStruct->FSMC\_IOSpaceTimingStruct->FSMC\_HiZSetupTime << 24);
+00668 \}
+00669 
+00670 \textcolor{comment}{/**}
+00671 \textcolor{comment}{  * @brief  Fills each FSMC\_PCCARDInitStruct member with its default value.}
+00672 \textcolor{comment}{  * @param  FSMC\_PCCARDInitStruct: pointer to a FSMC\_PCCARDInitTypeDef structure}
+00673 \textcolor{comment}{  *         which will be initialized.}
+00674 \textcolor{comment}{  * @retval None}
+00675 \textcolor{comment}{  */}
+00676 \textcolor{keywordtype}{void} FSMC_PCCARDStructInit(FSMC\_PCCARDInitTypeDef* FSMC\_PCCARDInitStruct)
+00677 \{
+00678   \textcolor{comment}{/* Reset PCCARD Init structure parameters values */}
+00679   FSMC\_PCCARDInitStruct->FSMC_Waitfeature = FSMC_Waitfeature_Disable;
+00680   FSMC\_PCCARDInitStruct->FSMC_TCLRSetupTime = 0x0;
+00681   FSMC\_PCCARDInitStruct->FSMC_TARSetupTime = 0x0;
+00682   FSMC\_PCCARDInitStruct->FSMC_CommonSpaceTimingStruct->FSMC_SetupTime = 0xFC;
+00683   FSMC\_PCCARDInitStruct->FSMC_CommonSpaceTimingStruct->FSMC_WaitSetupTime = 0xFC;
+00684   FSMC\_PCCARDInitStruct->FSMC_CommonSpaceTimingStruct->FSMC_HoldSetupTime = 0xFC;
+00685   FSMC\_PCCARDInitStruct->FSMC_CommonSpaceTimingStruct->FSMC_HiZSetupTime = 0xFC;
+00686   FSMC\_PCCARDInitStruct->FSMC_AttributeSpaceTimingStruct->FSMC_SetupTime = 0xFC;
+00687   FSMC\_PCCARDInitStruct->FSMC_AttributeSpaceTimingStruct->
+      FSMC_WaitSetupTime = 0xFC;
+00688   FSMC\_PCCARDInitStruct->FSMC_AttributeSpaceTimingStruct->
+      FSMC_HoldSetupTime = 0xFC;
+00689   FSMC\_PCCARDInitStruct->FSMC_AttributeSpaceTimingStruct->FSMC_HiZSetupTime = 0xFC;
+00690   FSMC\_PCCARDInitStruct->FSMC_IOSpaceTimingStruct->FSMC_SetupTime = 0xFC;
+00691   FSMC\_PCCARDInitStruct->FSMC_IOSpaceTimingStruct->FSMC_WaitSetupTime = 0xFC;
+00692   FSMC\_PCCARDInitStruct->FSMC_IOSpaceTimingStruct->FSMC_HoldSetupTime = 0xFC;
+00693   FSMC\_PCCARDInitStruct->FSMC_IOSpaceTimingStruct->FSMC_HiZSetupTime = 0xFC;
+00694 \}
+00695 
+00696 \textcolor{comment}{/**}
+00697 \textcolor{comment}{  * @brief  Enables or disables the PCCARD Memory Bank.}
+00698 \textcolor{comment}{  * @param  NewState: new state of the PCCARD Memory Bank.  }
+00699 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00700 \textcolor{comment}{  * @retval None}
+00701 \textcolor{comment}{  */}
+00702 \textcolor{keywordtype}{void} FSMC_PCCARDCmd(FunctionalState NewState)
+00703 \{
+00704   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00705 
+00706   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00707   \{
+00708     \textcolor{comment}{/* Enable the PCCARD Bank by setting the PBKEN bit in the PCR4 register */}
+00709     FSMC_Bank4->PCR4 |= PCR_PBKEN_SET;
+00710   \}
+00711   \textcolor{keywordflow}{else}
+00712   \{
+00713     \textcolor{comment}{/* Disable the PCCARD Bank by clearing the PBKEN bit in the PCR4 register */}
+00714     FSMC_Bank4->PCR4 &= PCR_PBKEN_RESET;
+00715   \}
+00716 \}
+00717 \textcolor{comment}{/**}
+00718 \textcolor{comment}{  * @\}}
+00719 \textcolor{comment}{  */}
+00720 
+00721 \textcolor{comment}{/** @defgroup FSMC\_Group4  Interrupts and flags management functions}
+00722 \textcolor{comment}{ *  @brief    Interrupts and flags management functions}
+00723 \textcolor{comment}{ *}
+00724 \textcolor{comment}{@verbatim   }
+00725 \textcolor{comment}{ ===============================================================================}
+00726 \textcolor{comment}{                     Interrupts and flags management functions}
+00727 \textcolor{comment}{ ===============================================================================  }
+00728 \textcolor{comment}{}
+00729 \textcolor{comment}{@endverbatim}
+00730 \textcolor{comment}{  * @\{}
+00731 \textcolor{comment}{  */}
+00732 
+00733 \textcolor{comment}{/**}
+00734 \textcolor{comment}{  * @brief  Enables or disables the specified FSMC interrupts.}
+00735 \textcolor{comment}{  * @param  FSMC\_Bank: specifies the FSMC Bank to be used}
+00736 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00737 \textcolor{comment}{  *            @arg FSMC\_Bank2\_NAND: FSMC Bank2 NAND }
+00738 \textcolor{comment}{  *            @arg FSMC\_Bank3\_NAND: FSMC Bank3 NAND}
+00739 \textcolor{comment}{  *            @arg FSMC\_Bank4\_PCCARD: FSMC Bank4 PCCARD}
+00740 \textcolor{comment}{  * @param  FSMC\_IT: specifies the FSMC interrupt sources to be enabled or disabled.}
+00741 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+00742 \textcolor{comment}{  *            @arg FSMC\_IT\_RisingEdge: Rising edge detection interrupt. }
+00743 \textcolor{comment}{  *            @arg FSMC\_IT\_Level: Level edge detection interrupt.}
+00744 \textcolor{comment}{  *            @arg FSMC\_IT\_FallingEdge: Falling edge detection interrupt.}
+00745 \textcolor{comment}{  * @param  NewState: new state of the specified FSMC interrupts.}
+00746 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00747 \textcolor{comment}{  * @retval None}
+00748 \textcolor{comment}{  */}
+00749 \textcolor{keywordtype}{void} FSMC_ITConfig(uint32\_t FSMC\_Bank, uint32\_t FSMC\_IT, FunctionalState NewState)
+00750 \{
+00751   assert_param(IS\_FSMC\_IT\_BANK(FSMC\_Bank));
+00752   assert_param(IS\_FSMC\_IT(FSMC\_IT));
+00753   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00754 
+00755   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00756   \{
+00757     \textcolor{comment}{/* Enable the selected FSMC\_Bank2 interrupts */}
+00758     \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00759     \{
+00760       FSMC_Bank2->SR2 |= FSMC\_IT;
+00761     \}
+00762     \textcolor{comment}{/* Enable the selected FSMC\_Bank3 interrupts */}
+00763     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (FSMC\_Bank == FSMC_Bank3_NAND)
+00764     \{
+00765       FSMC_Bank3->SR3 |= FSMC\_IT;
+00766     \}
+00767     \textcolor{comment}{/* Enable the selected FSMC\_Bank4 interrupts */}
+00768     \textcolor{keywordflow}{else}
+00769     \{
+00770       FSMC_Bank4->SR4 |= FSMC\_IT;
+00771     \}
+00772   \}
+00773   \textcolor{keywordflow}{else}
+00774   \{
+00775     \textcolor{comment}{/* Disable the selected FSMC\_Bank2 interrupts */}
+00776     \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00777     \{
+00778 
+00779       FSMC_Bank2->SR2 &= (uint32\_t)~FSMC\_IT;
+00780     \}
+00781     \textcolor{comment}{/* Disable the selected FSMC\_Bank3 interrupts */}
+00782     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (FSMC\_Bank == FSMC_Bank3_NAND)
+00783     \{
+00784       FSMC_Bank3->SR3 &= (uint32\_t)~FSMC\_IT;
+00785     \}
+00786     \textcolor{comment}{/* Disable the selected FSMC\_Bank4 interrupts */}
+00787     \textcolor{keywordflow}{else}
+00788     \{
+00789       FSMC_Bank4->SR4 &= (uint32\_t)~FSMC\_IT;
+00790     \}
+00791   \}
+00792 \}
+00793 
+00794 \textcolor{comment}{/**}
+00795 \textcolor{comment}{  * @brief  Checks whether the specified FSMC flag is set or not.}
+00796 \textcolor{comment}{  * @param  FSMC\_Bank: specifies the FSMC Bank to be used}
+00797 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00798 \textcolor{comment}{  *            @arg FSMC\_Bank2\_NAND: FSMC Bank2 NAND }
+00799 \textcolor{comment}{  *            @arg FSMC\_Bank3\_NAND: FSMC Bank3 NAND}
+00800 \textcolor{comment}{  *            @arg FSMC\_Bank4\_PCCARD: FSMC Bank4 PCCARD}
+00801 \textcolor{comment}{  * @param  FSMC\_FLAG: specifies the flag to check.}
+00802 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00803 \textcolor{comment}{  *            @arg FSMC\_FLAG\_RisingEdge: Rising edge detection Flag.}
+00804 \textcolor{comment}{  *            @arg FSMC\_FLAG\_Level: Level detection Flag.}
+00805 \textcolor{comment}{  *            @arg FSMC\_FLAG\_FallingEdge: Falling edge detection Flag.}
+00806 \textcolor{comment}{  *            @arg FSMC\_FLAG\_FEMPT: Fifo empty Flag. }
+00807 \textcolor{comment}{  * @retval The new state of FSMC\_FLAG (SET or RESET).}
+00808 \textcolor{comment}{  */}
+00809 FlagStatus FSMC_GetFlagStatus(uint32\_t FSMC\_Bank, uint32\_t FSMC\_FLAG)
+00810 \{
+00811   FlagStatus bitstatus = RESET;
+00812   uint32\_t tmpsr = 0x00000000;
+00813 
+00814   \textcolor{comment}{/* Check the parameters */}
+00815   assert_param(IS\_FSMC\_GETFLAG\_BANK(FSMC\_Bank));
+00816   assert_param(IS\_FSMC\_GET\_FLAG(FSMC\_FLAG));
+00817 
+00818   \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00819   \{
+00820     tmpsr = FSMC_Bank2->SR2;
+00821   \}
+00822   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank3_NAND)
+00823   \{
+00824     tmpsr = FSMC_Bank3->SR3;
+00825   \}
+00826   \textcolor{comment}{/* FSMC\_Bank4\_PCCARD*/}
+00827   \textcolor{keywordflow}{else}
+00828   \{
+00829     tmpsr = FSMC_Bank4->SR4;
+00830   \}
+00831 
+00832   \textcolor{comment}{/* Get the flag status */}
+00833   \textcolor{keywordflow}{if} ((tmpsr & FSMC\_FLAG) != (uint16\_t)RESET )
+00834   \{
+00835     bitstatus = SET;
+00836   \}
+00837   \textcolor{keywordflow}{else}
+00838   \{
+00839     bitstatus = RESET;
+00840   \}
+00841   \textcolor{comment}{/* Return the flag status */}
+00842   \textcolor{keywordflow}{return} bitstatus;
+00843 \}
+00844 
+00845 \textcolor{comment}{/**}
+00846 \textcolor{comment}{  * @brief  Clears the FSMC's pending flags.}
+00847 \textcolor{comment}{  * @param  FSMC\_Bank: specifies the FSMC Bank to be used}
+00848 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00849 \textcolor{comment}{  *            @arg FSMC\_Bank2\_NAND: FSMC Bank2 NAND }
+00850 \textcolor{comment}{  *            @arg FSMC\_Bank3\_NAND: FSMC Bank3 NAND}
+00851 \textcolor{comment}{  *            @arg FSMC\_Bank4\_PCCARD: FSMC Bank4 PCCARD}
+00852 \textcolor{comment}{  * @param  FSMC\_FLAG: specifies the flag to clear.}
+00853 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+00854 \textcolor{comment}{  *            @arg FSMC\_FLAG\_RisingEdge: Rising edge detection Flag.}
+00855 \textcolor{comment}{  *            @arg FSMC\_FLAG\_Level: Level detection Flag.}
+00856 \textcolor{comment}{  *            @arg FSMC\_FLAG\_FallingEdge: Falling edge detection Flag.}
+00857 \textcolor{comment}{  * @retval None}
+00858 \textcolor{comment}{  */}
+00859 \textcolor{keywordtype}{void} FSMC_ClearFlag(uint32\_t FSMC\_Bank, uint32\_t FSMC\_FLAG)
+00860 \{
+00861  \textcolor{comment}{/* Check the parameters */}
+00862   assert_param(IS\_FSMC\_GETFLAG\_BANK(FSMC\_Bank));
+00863   assert_param(IS\_FSMC\_CLEAR\_FLAG(FSMC\_FLAG)) ;
+00864 
+00865   \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00866   \{
+00867     FSMC_Bank2->SR2 &= ~FSMC\_FLAG;
+00868   \}
+00869   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank3_NAND)
+00870   \{
+00871     FSMC_Bank3->SR3 &= ~FSMC\_FLAG;
+00872   \}
+00873   \textcolor{comment}{/* FSMC\_Bank4\_PCCARD*/}
+00874   \textcolor{keywordflow}{else}
+00875   \{
+00876     FSMC_Bank4->SR4 &= ~FSMC\_FLAG;
+00877   \}
+00878 \}
+00879 
+00880 \textcolor{comment}{/**}
+00881 \textcolor{comment}{  * @brief  Checks whether the specified FSMC interrupt has occurred or not.}
+00882 \textcolor{comment}{  * @param  FSMC\_Bank: specifies the FSMC Bank to be used}
+00883 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00884 \textcolor{comment}{  *            @arg FSMC\_Bank2\_NAND: FSMC Bank2 NAND }
+00885 \textcolor{comment}{  *            @arg FSMC\_Bank3\_NAND: FSMC Bank3 NAND}
+00886 \textcolor{comment}{  *            @arg FSMC\_Bank4\_PCCARD: FSMC Bank4 PCCARD}
+00887 \textcolor{comment}{  * @param  FSMC\_IT: specifies the FSMC interrupt source to check.}
+00888 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00889 \textcolor{comment}{  *            @arg FSMC\_IT\_RisingEdge: Rising edge detection interrupt. }
+00890 \textcolor{comment}{  *            @arg FSMC\_IT\_Level: Level edge detection interrupt.}
+00891 \textcolor{comment}{  *            @arg FSMC\_IT\_FallingEdge: Falling edge detection interrupt. }
+00892 \textcolor{comment}{  * @retval The new state of FSMC\_IT (SET or RESET).}
+00893 \textcolor{comment}{  */}
+00894 ITStatus FSMC_GetITStatus(uint32\_t FSMC\_Bank, uint32\_t FSMC\_IT)
+00895 \{
+00896   ITStatus bitstatus = RESET;
+00897   uint32\_t tmpsr = 0x0, itstatus = 0x0, itenable = 0x0;
+00898 
+00899   \textcolor{comment}{/* Check the parameters */}
+00900   assert_param(IS\_FSMC\_IT\_BANK(FSMC\_Bank));
+00901   assert_param(IS\_FSMC\_GET\_IT(FSMC\_IT));
+00902 
+00903   \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00904   \{
+00905     tmpsr = FSMC_Bank2->SR2;
+00906   \}
+00907   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank3_NAND)
+00908   \{
+00909     tmpsr = FSMC_Bank3->SR3;
+00910   \}
+00911   \textcolor{comment}{/* FSMC\_Bank4\_PCCARD*/}
+00912   \textcolor{keywordflow}{else}
+00913   \{
+00914     tmpsr = FSMC_Bank4->SR4;
+00915   \}
+00916 
+00917   itstatus = tmpsr & FSMC\_IT;
+00918 
+00919   itenable = tmpsr & (FSMC\_IT >> 3);
+00920   \textcolor{keywordflow}{if} ((itstatus != (uint32\_t)RESET)  && (itenable != (uint32\_t)RESET))
+00921   \{
+00922     bitstatus = SET;
+00923   \}
+00924   \textcolor{keywordflow}{else}
+00925   \{
+00926     bitstatus = RESET;
+00927   \}
+00928   \textcolor{keywordflow}{return} bitstatus;
+00929 \}
+00930 
+00931 \textcolor{comment}{/**}
+00932 \textcolor{comment}{  * @brief  Clears the FSMC's interrupt pending bits.}
+00933 \textcolor{comment}{  * @param  FSMC\_Bank: specifies the FSMC Bank to be used}
+00934 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00935 \textcolor{comment}{  *            @arg FSMC\_Bank2\_NAND: FSMC Bank2 NAND }
+00936 \textcolor{comment}{  *            @arg FSMC\_Bank3\_NAND: FSMC Bank3 NAND}
+00937 \textcolor{comment}{  *            @arg FSMC\_Bank4\_PCCARD: FSMC Bank4 PCCARD}
+00938 \textcolor{comment}{  * @param  FSMC\_IT: specifies the interrupt pending bit to clear.}
+00939 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+00940 \textcolor{comment}{  *            @arg FSMC\_IT\_RisingEdge: Rising edge detection interrupt. }
+00941 \textcolor{comment}{  *            @arg FSMC\_IT\_Level: Level edge detection interrupt.}
+00942 \textcolor{comment}{  *            @arg FSMC\_IT\_FallingEdge: Falling edge detection interrupt.}
+00943 \textcolor{comment}{  * @retval None}
+00944 \textcolor{comment}{  */}
+00945 \textcolor{keywordtype}{void} FSMC_ClearITPendingBit(uint32\_t FSMC\_Bank, uint32\_t FSMC\_IT)
+00946 \{
+00947   \textcolor{comment}{/* Check the parameters */}
+00948   assert_param(IS\_FSMC\_IT\_BANK(FSMC\_Bank));
+00949   assert_param(IS\_FSMC\_IT(FSMC\_IT));
+00950 
+00951   \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00952   \{
+00953     FSMC_Bank2->SR2 &= ~(FSMC\_IT >> 3);
+00954   \}
+00955   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank3_NAND)
+00956   \{
+00957     FSMC_Bank3->SR3 &= ~(FSMC\_IT >> 3);
+00958   \}
+00959   \textcolor{comment}{/* FSMC\_Bank4\_PCCARD*/}
+00960   \textcolor{keywordflow}{else}
+00961   \{
+00962     FSMC_Bank4->SR4 &= ~(FSMC\_IT >> 3);
+00963   \}
+00964 \}
+00965 
+00966 \textcolor{comment}{/**}
+00967 \textcolor{comment}{  * @\}}
+00968 \textcolor{comment}{  */}
+00969 
+00970 \textcolor{comment}{/**}
+00971 \textcolor{comment}{  * @\}}
+00972 \textcolor{comment}{  */}
+00973 
+00974 \textcolor{comment}{/**}
+00975 \textcolor{comment}{  * @\}}
+00976 \textcolor{comment}{  */}
+00977 
+00978 \textcolor{comment}{/**}
+00979 \textcolor{comment}{  * @\}}
+00980 \textcolor{comment}{  */}
+00981 
+00982 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

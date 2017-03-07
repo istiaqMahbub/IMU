@@ -1,0 +1,112 @@
+\section{Initialization and Configuration functions}
+\label{group__RNG__Group1}\index{Initialization and Configuration functions@{Initialization and Configuration functions}}
+
+
+Initialization and Configuration functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ R\+N\+G\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the R\+NG peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ R\+N\+G\+\_\+\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the R\+NG peripheral. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Initialization and Configuration functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                      Initialization and Configuration functions
+ ===============================================================================  
+  This section provides functions allowing to 
+   - Initialize the RNG peripheral
+   - Enable or disable the RNG peripheral\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__RNG__Group1_ga6c1a8372da6e8a06819903c63faecd7b}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!R\+N\+G\+\_\+\+Cmd@{R\+N\+G\+\_\+\+Cmd}}
+\index{R\+N\+G\+\_\+\+Cmd@{R\+N\+G\+\_\+\+Cmd}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{R\+N\+G\+\_\+\+Cmd()}
+{\footnotesize\ttfamily void R\+N\+G\+\_\+\+Cmd (\begin{DoxyParamCaption}\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the R\+NG peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em New\+State} & new state of the R\+NG peripheral. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 109} of file \textbf{ stm32f4xx\+\_\+rng.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00110 \{
+00111   \textcolor{comment}{/* Check the parameters */}
+00112   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00113 
+00114   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00115   \{
+00116     \textcolor{comment}{/* Enable the RNG */}
+00117     RNG->CR |= RNG_CR_RNGEN;
+00118   \}
+00119   \textcolor{keywordflow}{else}
+00120   \{
+00121     \textcolor{comment}{/* Disable the RNG */}
+00122     RNG->CR &= ~RNG_CR_RNGEN;
+00123   \}
+00124 \}
+\end{DoxyCode}
+\mbox{\label{group__RNG__Group1_ga15ff5e649080076eebd51143b9ac4491}} 
+\index{Initialization and Configuration functions@{Initialization and Configuration functions}!R\+N\+G\+\_\+\+De\+Init@{R\+N\+G\+\_\+\+De\+Init}}
+\index{R\+N\+G\+\_\+\+De\+Init@{R\+N\+G\+\_\+\+De\+Init}!Initialization and Configuration functions@{Initialization and Configuration functions}}
+\subsubsection{R\+N\+G\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void R\+N\+G\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the R\+NG peripheral registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 94} of file \textbf{ stm32f4xx\+\_\+rng.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+N\+A\+B\+LE}, and \textbf{ R\+C\+C\+\_\+\+A\+H\+B2\+Periph\+Reset\+Cmd()}.
+
+
+\begin{DoxyCode}
+00095 \{
+00096   \textcolor{comment}{/* Enable RNG reset state */}
+00097   RCC_AHB2PeriphResetCmd(RCC_AHB2Periph_RNG, ENABLE);
+00098 
+00099   \textcolor{comment}{/* Release RNG from reset state */}
+00100   RCC_AHB2PeriphResetCmd(RCC_AHB2Periph_RNG, DISABLE);
+00101 \}
+\end{DoxyCode}

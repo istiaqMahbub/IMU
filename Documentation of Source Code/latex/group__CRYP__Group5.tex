@@ -1,0 +1,281 @@
+\section{Interrupts and flags management functions}
+\label{group__CRYP__Group5}\index{Interrupts and flags management functions@{Interrupts and flags management functions}}
+
+
+Interrupts and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+I\+T\+Config} (uint8\+\_\+t C\+R\+Y\+P\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified C\+R\+YP interrupts. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ C\+R\+Y\+P\+\_\+\+Get\+I\+T\+Status} (uint8\+\_\+t C\+R\+Y\+P\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified C\+R\+YP interrupt has occurred or not. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ C\+R\+Y\+P\+\_\+\+Get\+Flag\+Status} (uint8\+\_\+t C\+R\+Y\+P\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified C\+R\+YP flag is set or not. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts and flags management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                   Interrupts and flags management functions
+ ===============================================================================  
+
+  This section provides functions allowing to configure the CRYP Interrupts and 
+  to get the status and Interrupts pending bits.
+
+  The CRYP provides 2 Interrupts sources and 7 Flags:
+
+  Flags :
+  ------- 
+                          
+     1. CRYP_FLAG_IFEM :  Set when Input FIFO is empty.
+                          This Flag is cleared only by hardware.
+      
+     2. CRYP_FLAG_IFNF :  Set when Input FIFO is not full.
+                          This Flag is cleared only by hardware.
+
+
+     3. CRYP_FLAG_INRIS  : Set when Input FIFO Raw interrupt is pending 
+                           it gives the raw interrupt state prior to masking 
+                           of the input FIFO service interrupt.
+                           This Flag is cleared only by hardware.
+     
+     4. CRYP_FLAG_OFNE   : Set when Output FIFO not empty.
+                           This Flag is cleared only by hardware.
+        
+     5. CRYP_FLAG_OFFU   : Set when Output FIFO is full.
+                           This Flag is cleared only by hardware.
+                           
+     6. CRYP_FLAG_OUTRIS : Set when Output FIFO Raw interrupt is pending 
+                           it gives the raw interrupt state prior to masking 
+                           of the output FIFO service interrupt.
+                           This Flag is cleared only by hardware.
+                               
+     7. CRYP_FLAG_BUSY   : Set when the CRYP core is currently processing a 
+                           block of data or a key preparation (for AES 
+                           decryption).
+                           This Flag is cleared only by hardware.
+                           To clear it, the CRYP core must be disabled and the 
+                           last processing has completed. 
+
+  Interrupts :
+  ------------
+
+   1. CRYP_IT_INI   : The input FIFO service interrupt is asserted when there 
+                      are less than 4 words in the input FIFO.
+                      This interrupt is associated to CRYP_FLAG_INRIS flag.
+
+                @note This interrupt is cleared by performing write operations 
+                      to the input FIFO until it holds 4 or more words. The 
+                      input FIFO service interrupt INMIS is enabled with the 
+                      CRYP enable bit. Consequently, when CRYP is disabled, the 
+                      INMIS signal is low even if the input FIFO is empty.
+
+
+
+   2. CRYP_IT_OUTI  : The output FIFO service interrupt is asserted when there 
+                      is one or more (32-bit word) data items in the output FIFO.
+                      This interrupt is associated to CRYP_FLAG_OUTRIS flag.
+
+                @note This interrupt is cleared by reading data from the output 
+                      FIFO until there is no valid (32-bit) word left (that is, 
+                      the interrupt follows the state of the OFNE (output FIFO 
+                      not empty) flag).
+
+
+  Managing the CRYP controller events :
+  ------------------------------------ 
+  The user should identify which mode will be used in his application to manage 
+  the CRYP controller events: Polling mode or Interrupt mode.
+
+  1.  In the Polling Mode it is advised to use the following functions:
+      - CRYP_GetFlagStatus() : to check if flags events occur. 
+
+  @note  The CRYPT flags do not need to be cleared since they are cleared as 
+         soon as the associated event are reset.   
+
+
+  2.  In the Interrupt Mode it is advised to use the following functions:
+      - CRYP_ITConfig()       : to enable or disable the interrupt source.
+      - CRYP_GetITStatus()    : to check if Interrupt occurs.
+
+  @note  The CRYPT interrupts have no pending bits, the interrupt is cleared as 
+         soon as the associated event is reset. \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__CRYP__Group5_ga993d568b626a74b2973d4a6848a681f6}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!C\+R\+Y\+P\+\_\+\+Get\+Flag\+Status@{C\+R\+Y\+P\+\_\+\+Get\+Flag\+Status}}
+\index{C\+R\+Y\+P\+\_\+\+Get\+Flag\+Status@{C\+R\+Y\+P\+\_\+\+Get\+Flag\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} C\+R\+Y\+P\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{C\+R\+Y\+P\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified C\+R\+YP flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+R\+Y\+P\+\_\+\+F\+L\+AG} & specifies the C\+R\+YP flag to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item C\+R\+Y\+P\+\_\+\+F\+L\+A\+G\+\_\+\+I\+F\+EM\+: Input F\+I\+FO Empty flag. \item C\+R\+Y\+P\+\_\+\+F\+L\+A\+G\+\_\+\+I\+F\+NF\+: Input F\+I\+FO Not Full flag. \item C\+R\+Y\+P\+\_\+\+F\+L\+A\+G\+\_\+\+O\+F\+NE\+: Output F\+I\+FO Not Empty flag. \item C\+R\+Y\+P\+\_\+\+F\+L\+A\+G\+\_\+\+O\+F\+FU\+: Output F\+I\+FO Full flag. \item C\+R\+Y\+P\+\_\+\+F\+L\+A\+G\+\_\+\+B\+U\+SY\+: Busy flag. \item C\+R\+Y\+P\+\_\+\+F\+L\+A\+G\+\_\+\+O\+U\+T\+R\+IS\+: Output F\+I\+FO raw interrupt flag. \item C\+R\+Y\+P\+\_\+\+F\+L\+A\+G\+\_\+\+I\+N\+R\+IS\+: Input F\+I\+FO raw interrupt flag. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of C\+R\+Y\+P\+\_\+\+F\+L\+AG (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 799} of file \textbf{ stm32f4xx\+\_\+cryp.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}, and \textbf{ S\+ET}.
+
+
+\begin{DoxyCode}
+00800 \{
+00801   FlagStatus bitstatus = RESET;
+00802   uint32\_t tempreg = 0;
+00803 
+00804   \textcolor{comment}{/* Check the parameters */}
+00805   assert_param(IS_CRYP_GET_FLAG(CRYP\_FLAG));
+00806 
+00807   \textcolor{comment}{/* check if the FLAG is in RISR register */}
+00808   \textcolor{keywordflow}{if} ((CRYP\_FLAG & FLAG_MASK) != 0x00) 
+00809   \{
+00810     tempreg = CRYP->RISR;
+00811   \}
+00812   \textcolor{keywordflow}{else}  \textcolor{comment}{/* The FLAG is in SR register */}
+00813   \{
+00814     tempreg = CRYP->SR;
+00815   \}
+00816 
+00817 
+00818   \textcolor{comment}{/* Check the status of the specified CRYP flag */}
+00819   \textcolor{keywordflow}{if} ((tempreg & CRYP\_FLAG ) != (uint8\_t)RESET)
+00820   \{
+00821     \textcolor{comment}{/* CRYP\_FLAG is set */}
+00822     bitstatus = SET;
+00823   \}
+00824   \textcolor{keywordflow}{else}
+00825   \{
+00826     \textcolor{comment}{/* CRYP\_FLAG is reset */}
+00827     bitstatus = RESET;
+00828   \}
+00829 
+00830   \textcolor{comment}{/* Return the CRYP\_FLAG status */}
+00831   \textcolor{keywordflow}{return}  bitstatus;
+00832 \}
+\end{DoxyCode}
+\mbox{\label{group__CRYP__Group5_ga00a48b748ed127fa517cacec9dbf18f4}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!C\+R\+Y\+P\+\_\+\+Get\+I\+T\+Status@{C\+R\+Y\+P\+\_\+\+Get\+I\+T\+Status}}
+\index{C\+R\+Y\+P\+\_\+\+Get\+I\+T\+Status@{C\+R\+Y\+P\+\_\+\+Get\+I\+T\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+Get\+I\+T\+Status()}
+{\footnotesize\ttfamily \textbf{ I\+T\+Status} C\+R\+Y\+P\+\_\+\+Get\+I\+T\+Status (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{C\+R\+Y\+P\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified C\+R\+YP interrupt has occurred or not. 
+
+\begin{DoxyNote}{Note}
+This function checks the status of the masked interrupt (i.\+e the interrupt should be previously enabled). 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em C\+R\+Y\+P\+\_\+\+IT} & specifies the C\+R\+YP (masked) interrupt source to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item C\+R\+Y\+P\+\_\+\+I\+T\+\_\+\+I\+NI\+: Input F\+I\+FO interrupt \item C\+R\+Y\+P\+\_\+\+I\+T\+\_\+\+O\+U\+TI\+: Output F\+I\+FO interrupt \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of C\+R\+Y\+P\+\_\+\+IT (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 765} of file \textbf{ stm32f4xx\+\_\+cryp.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00766 \{
+00767   ITStatus bitstatus = RESET;
+00768   \textcolor{comment}{/* Check the parameters */}
+00769   assert_param(IS_CRYP_GET_IT(CRYP\_IT));
+00770 
+00771   \textcolor{comment}{/* Check the status of the specified CRYP interrupt */}
+00772   \textcolor{keywordflow}{if} ((CRYP->MISR &  CRYP\_IT) != (uint8\_t)RESET)
+00773   \{
+00774     \textcolor{comment}{/* CRYP\_IT is set */}
+00775     bitstatus = SET;
+00776   \}
+00777   \textcolor{keywordflow}{else}
+00778   \{
+00779     \textcolor{comment}{/* CRYP\_IT is reset */}
+00780     bitstatus = RESET;
+00781   \}
+00782   \textcolor{comment}{/* Return the CRYP\_IT status */}
+00783   \textcolor{keywordflow}{return} bitstatus;
+00784 \}
+\end{DoxyCode}
+\mbox{\label{group__CRYP__Group5_gafbf5ee5f2c3ae4404149a994e15b33d8}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!C\+R\+Y\+P\+\_\+\+I\+T\+Config@{C\+R\+Y\+P\+\_\+\+I\+T\+Config}}
+\index{C\+R\+Y\+P\+\_\+\+I\+T\+Config@{C\+R\+Y\+P\+\_\+\+I\+T\+Config}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{C\+R\+Y\+P\+\_\+\+I\+T\+Config()}
+{\footnotesize\ttfamily void C\+R\+Y\+P\+\_\+\+I\+T\+Config (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{C\+R\+Y\+P\+\_\+\+IT,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified C\+R\+YP interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+R\+Y\+P\+\_\+\+IT} & specifies the C\+R\+YP interrupt source to be enabled or disabled. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item C\+R\+Y\+P\+\_\+\+I\+T\+\_\+\+I\+NI\+: Input F\+I\+FO interrupt \item C\+R\+Y\+P\+\_\+\+I\+T\+\_\+\+O\+U\+TI\+: Output F\+I\+FO interrupt \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the specified C\+R\+YP interrupt. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 737} of file \textbf{ stm32f4xx\+\_\+cryp.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00738 \{
+00739   \textcolor{comment}{/* Check the parameters */}
+00740   assert_param(IS_CRYP_CONFIG_IT(CRYP\_IT));
+00741   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00742 
+00743   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00744   \{
+00745     \textcolor{comment}{/* Enable the selected CRYP interrupt */}
+00746     CRYP->IMSCR |= CRYP\_IT;
+00747   \}
+00748   \textcolor{keywordflow}{else}
+00749   \{
+00750     \textcolor{comment}{/* Disable the selected CRYP interrupt */}
+00751     CRYP->IMSCR &= (uint8\_t)~CRYP\_IT;
+00752   \}
+00753 \}
+\end{DoxyCode}

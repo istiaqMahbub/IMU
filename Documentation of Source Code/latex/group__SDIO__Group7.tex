@@ -1,0 +1,249 @@
+\section{Interrupts and flags management functions}
+\label{group__SDIO__Group7}\index{Interrupts and flags management functions@{Interrupts and flags management functions}}
+
+
+Interrupts and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+I\+T\+Config} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the S\+D\+IO interrupts. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ S\+D\+I\+O\+\_\+\+Get\+Flag\+Status} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified S\+D\+IO flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Clear\+Flag} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the S\+D\+IO\textquotesingle{}s pending flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ S\+D\+I\+O\+\_\+\+Get\+I\+T\+Status} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified S\+D\+IO interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ S\+D\+I\+O\+\_\+\+Clear\+I\+T\+Pending\+Bit} (uint32\+\_\+t S\+D\+I\+O\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the S\+D\+IO\textquotesingle{}s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts and flags management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                       Interrupts and flags management functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__SDIO__Group7_ga7aff4efdeb528229135f9f285e53518a}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!S\+D\+I\+O\+\_\+\+Clear\+Flag@{S\+D\+I\+O\+\_\+\+Clear\+Flag}}
+\index{S\+D\+I\+O\+\_\+\+Clear\+Flag@{S\+D\+I\+O\+\_\+\+Clear\+Flag}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Clear\+Flag()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Clear\+Flag (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{S\+D\+I\+O\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Clears the S\+D\+IO\textquotesingle{}s pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+F\+L\+AG} & specifies the flag to clear. This parameter can be one or a combination of the following values\+: \begin{DoxyItemize}
+\item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+C\+R\+C\+F\+A\+IL\+: Command response received (C\+RC check failed) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+D\+C\+R\+C\+F\+A\+IL\+: Data block sent/received (C\+RC check failed) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+T\+I\+M\+E\+O\+UT\+: Command response timeout \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+D\+T\+I\+M\+E\+O\+UT\+: Data timeout \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+T\+X\+U\+N\+D\+E\+RR\+: Transmit F\+I\+FO underrun error \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+O\+V\+E\+RR\+: Received F\+I\+FO overrun error \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+M\+D\+R\+E\+ND\+: Command response received (C\+RC check passed) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+M\+D\+S\+E\+NT\+: Command sent (no response required) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+D\+A\+T\+A\+E\+ND\+: Data end (data counter, S\+D\+I\+D\+C\+O\+U\+NT, is zero) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+S\+T\+B\+I\+T\+E\+RR\+: Start bit not detected on all data signals in wide bus mode \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+D\+B\+C\+K\+E\+ND\+: Data block sent/received (C\+RC check passed) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+S\+D\+I\+O\+IT\+: SD I/O interrupt received \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+E\+A\+T\+A\+E\+ND\+: C\+E-\/\+A\+TA command completion signal received for C\+M\+D61 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 905} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00906 \{ 
+00907   \textcolor{comment}{/* Check the parameters */}
+00908   assert_param(IS_SDIO_CLEAR_FLAG(SDIO\_FLAG));
+00909    
+00910   SDIO->ICR = SDIO\_FLAG;
+00911 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group7_ga048e07fd86321cd01b2a22c071c3149b}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!S\+D\+I\+O\+\_\+\+Clear\+I\+T\+Pending\+Bit@{S\+D\+I\+O\+\_\+\+Clear\+I\+T\+Pending\+Bit}}
+\index{S\+D\+I\+O\+\_\+\+Clear\+I\+T\+Pending\+Bit@{S\+D\+I\+O\+\_\+\+Clear\+I\+T\+Pending\+Bit}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Clear\+I\+T\+Pending\+Bit()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+Clear\+I\+T\+Pending\+Bit (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{S\+D\+I\+O\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Clears the S\+D\+IO\textquotesingle{}s interrupt pending bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+IT} & specifies the interrupt pending bit to clear. This parameter can be one or a combination of the following values\+: \begin{DoxyItemize}
+\item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+C\+R\+C\+F\+A\+IL\+: Command response received (C\+RC check failed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+C\+R\+C\+F\+A\+IL\+: Data block sent/received (C\+RC check failed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+T\+I\+M\+E\+O\+UT\+: Command response timeout interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+T\+I\+M\+E\+O\+UT\+: Data timeout interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+U\+N\+D\+E\+RR\+: Transmit F\+I\+FO underrun error interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+O\+V\+E\+RR\+: Received F\+I\+FO overrun error interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+M\+D\+R\+E\+ND\+: Command response received (C\+RC check passed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+M\+D\+S\+E\+NT\+: Command sent (no response required) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+A\+T\+A\+E\+ND\+: Data end (data counter, S\+D\+I\+O\+\_\+\+D\+C\+O\+U\+NT, is zero) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+S\+T\+B\+I\+T\+E\+RR\+: Start bit not detected on all data signals in wide bus mode interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+S\+D\+I\+O\+IT\+: SD I/O interrupt received interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+E\+A\+T\+A\+E\+ND\+: C\+E-\/\+A\+TA command completion signal received for C\+M\+D61 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 980} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+\begin{DoxyCode}
+00981 \{ 
+00982   \textcolor{comment}{/* Check the parameters */}
+00983   assert_param(IS_SDIO_CLEAR_IT(SDIO\_IT));
+00984    
+00985   SDIO->ICR = SDIO\_IT;
+00986 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group7_ga644514b4b3c95c5c4326d99cd166f6f9}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!S\+D\+I\+O\+\_\+\+Get\+Flag\+Status@{S\+D\+I\+O\+\_\+\+Get\+Flag\+Status}}
+\index{S\+D\+I\+O\+\_\+\+Get\+Flag\+Status@{S\+D\+I\+O\+\_\+\+Get\+Flag\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} S\+D\+I\+O\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{S\+D\+I\+O\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified S\+D\+IO flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+F\+L\+AG} & specifies the flag to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+C\+R\+C\+F\+A\+IL\+: Command response received (C\+RC check failed) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+D\+C\+R\+C\+F\+A\+IL\+: Data block sent/received (C\+RC check failed) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+T\+I\+M\+E\+O\+UT\+: Command response timeout \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+D\+T\+I\+M\+E\+O\+UT\+: Data timeout \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+T\+X\+U\+N\+D\+E\+RR\+: Transmit F\+I\+FO underrun error \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+O\+V\+E\+RR\+: Received F\+I\+FO overrun error \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+M\+D\+R\+E\+ND\+: Command response received (C\+RC check passed) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+M\+D\+S\+E\+NT\+: Command sent (no response required) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+D\+A\+T\+A\+E\+ND\+: Data end (data counter, S\+D\+I\+D\+C\+O\+U\+NT, is zero) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+S\+T\+B\+I\+T\+E\+RR\+: Start bit not detected on all data signals in wide bus mode. \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+D\+B\+C\+K\+E\+ND\+: Data block sent/received (C\+RC check passed) \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+M\+D\+A\+CT\+: Command transfer in progress \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+T\+X\+A\+CT\+: Data transmit in progress \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+A\+CT\+: Data receive in progress \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+T\+X\+F\+I\+F\+O\+HE\+: Transmit F\+I\+FO Half Empty \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+F\+I\+F\+O\+HF\+: Receive F\+I\+FO Half Full \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+T\+X\+F\+I\+F\+OF\+: Transmit F\+I\+FO full \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+F\+I\+F\+OF\+: Receive F\+I\+FO full \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+T\+X\+F\+I\+F\+OE\+: Transmit F\+I\+FO empty \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+F\+I\+F\+OE\+: Receive F\+I\+FO empty \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+T\+X\+D\+A\+VL\+: Data available in transmit F\+I\+FO \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+R\+X\+D\+A\+VL\+: Data available in receive F\+I\+FO \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+S\+D\+I\+O\+IT\+: SD I/O interrupt received \item S\+D\+I\+O\+\_\+\+F\+L\+A\+G\+\_\+\+C\+E\+A\+T\+A\+E\+ND\+: C\+E-\/\+A\+TA command completion signal received for C\+M\+D61 \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of S\+D\+I\+O\+\_\+\+F\+L\+AG (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 868} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00869 \{ 
+00870   FlagStatus bitstatus = RESET;
+00871   
+00872   \textcolor{comment}{/* Check the parameters */}
+00873   assert_param(IS_SDIO_FLAG(SDIO\_FLAG));
+00874   
+00875   \textcolor{keywordflow}{if} ((SDIO->STA & SDIO\_FLAG) != (uint32\_t)RESET)
+00876   \{
+00877     bitstatus = SET;
+00878   \}
+00879   \textcolor{keywordflow}{else}
+00880   \{
+00881     bitstatus = RESET;
+00882   \}
+00883   \textcolor{keywordflow}{return} bitstatus;
+00884 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group7_ga2d64af1f3df0f99cb518f9a89bbd02ac}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!S\+D\+I\+O\+\_\+\+Get\+I\+T\+Status@{S\+D\+I\+O\+\_\+\+Get\+I\+T\+Status}}
+\index{S\+D\+I\+O\+\_\+\+Get\+I\+T\+Status@{S\+D\+I\+O\+\_\+\+Get\+I\+T\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+Get\+I\+T\+Status()}
+{\footnotesize\ttfamily \textbf{ I\+T\+Status} S\+D\+I\+O\+\_\+\+Get\+I\+T\+Status (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{S\+D\+I\+O\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified S\+D\+IO interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+IT} & specifies the S\+D\+IO interrupt source to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+C\+R\+C\+F\+A\+IL\+: Command response received (C\+RC check failed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+C\+R\+C\+F\+A\+IL\+: Data block sent/received (C\+RC check failed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+T\+I\+M\+E\+O\+UT\+: Command response timeout interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+T\+I\+M\+E\+O\+UT\+: Data timeout interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+U\+N\+D\+E\+RR\+: Transmit F\+I\+FO underrun error interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+O\+V\+E\+RR\+: Received F\+I\+FO overrun error interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+M\+D\+R\+E\+ND\+: Command response received (C\+RC check passed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+M\+D\+S\+E\+NT\+: Command sent (no response required) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+A\+T\+A\+E\+ND\+: Data end (data counter, S\+D\+I\+D\+C\+O\+U\+NT, is zero) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+S\+T\+B\+I\+T\+E\+RR\+: Start bit not detected on all data signals in wide bus mode interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+B\+C\+K\+E\+ND\+: Data block sent/received (C\+RC check passed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+M\+D\+A\+CT\+: Command transfer in progress interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+A\+CT\+: Data transmit in progress interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+A\+CT\+: Data receive in progress interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+F\+I\+F\+O\+HE\+: Transmit F\+I\+FO Half Empty interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+F\+I\+F\+O\+HF\+: Receive F\+I\+FO Half Full interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+F\+I\+F\+OF\+: Transmit F\+I\+FO full interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+F\+I\+F\+OF\+: Receive F\+I\+FO full interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+F\+I\+F\+OE\+: Transmit F\+I\+FO empty interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+F\+I\+F\+OE\+: Receive F\+I\+FO empty interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+D\+A\+VL\+: Data available in transmit F\+I\+FO interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+D\+A\+VL\+: Data available in receive F\+I\+FO interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+S\+D\+I\+O\+IT\+: SD I/O interrupt received interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+E\+A\+T\+A\+E\+ND\+: C\+E-\/\+A\+TA command completion signal received for C\+M\+D61 interrupt \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of S\+D\+I\+O\+\_\+\+IT (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 944} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00945 \{ 
+00946   ITStatus bitstatus = RESET;
+00947   
+00948   \textcolor{comment}{/* Check the parameters */}
+00949   assert_param(IS_SDIO_GET_IT(SDIO\_IT));
+00950   \textcolor{keywordflow}{if} ((SDIO->STA & SDIO\_IT) != (uint32\_t)RESET)  
+00951   \{
+00952     bitstatus = SET;
+00953   \}
+00954   \textcolor{keywordflow}{else}
+00955   \{
+00956     bitstatus = RESET;
+00957   \}
+00958   \textcolor{keywordflow}{return} bitstatus;
+00959 \}
+\end{DoxyCode}
+\mbox{\label{group__SDIO__Group7_ga208f51237ef43288735829dbaed37f00}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!S\+D\+I\+O\+\_\+\+I\+T\+Config@{S\+D\+I\+O\+\_\+\+I\+T\+Config}}
+\index{S\+D\+I\+O\+\_\+\+I\+T\+Config@{S\+D\+I\+O\+\_\+\+I\+T\+Config}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{S\+D\+I\+O\+\_\+\+I\+T\+Config()}
+{\footnotesize\ttfamily void S\+D\+I\+O\+\_\+\+I\+T\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{S\+D\+I\+O\+\_\+\+IT,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the S\+D\+IO interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em S\+D\+I\+O\+\_\+\+IT} & specifies the S\+D\+IO interrupt sources to be enabled or disabled. This parameter can be one or a combination of the following values\+: \begin{DoxyItemize}
+\item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+C\+R\+C\+F\+A\+IL\+: Command response received (C\+RC check failed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+C\+R\+C\+F\+A\+IL\+: Data block sent/received (C\+RC check failed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+T\+I\+M\+E\+O\+UT\+: Command response timeout interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+T\+I\+M\+E\+O\+UT\+: Data timeout interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+U\+N\+D\+E\+RR\+: Transmit F\+I\+FO underrun error interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+O\+V\+E\+RR\+: Received F\+I\+FO overrun error interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+M\+D\+R\+E\+ND\+: Command response received (C\+RC check passed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+M\+D\+S\+E\+NT\+: Command sent (no response required) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+A\+T\+A\+E\+ND\+: Data end (data counter, S\+D\+I\+D\+C\+O\+U\+NT, is zero) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+S\+T\+B\+I\+T\+E\+RR\+: Start bit not detected on all data signals in wide bus mode interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+D\+B\+C\+K\+E\+ND\+: Data block sent/received (C\+RC check passed) interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+M\+D\+A\+CT\+: Command transfer in progress interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+A\+CT\+: Data transmit in progress interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+A\+CT\+: Data receive in progress interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+F\+I\+F\+O\+HE\+: Transmit F\+I\+FO Half Empty interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+F\+I\+F\+O\+HF\+: Receive F\+I\+FO Half Full interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+F\+I\+F\+OF\+: Transmit F\+I\+FO full interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+F\+I\+F\+OF\+: Receive F\+I\+FO full interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+F\+I\+F\+OE\+: Transmit F\+I\+FO empty interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+F\+I\+F\+OE\+: Receive F\+I\+FO empty interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+T\+X\+D\+A\+VL\+: Data available in transmit F\+I\+FO interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+R\+X\+D\+A\+VL\+: Data available in receive F\+I\+FO interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+S\+D\+I\+O\+IT\+: SD I/O interrupt received interrupt \item S\+D\+I\+O\+\_\+\+I\+T\+\_\+\+C\+E\+A\+T\+A\+E\+ND\+: C\+E-\/\+A\+TA command completion signal received for C\+M\+D61 interrupt \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the specified S\+D\+IO interrupts. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 820} of file \textbf{ stm32f4xx\+\_\+sdio.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00821 \{
+00822   \textcolor{comment}{/* Check the parameters */}
+00823   assert_param(IS_SDIO_IT(SDIO\_IT));
+00824   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00825   
+00826   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00827   \{
+00828     \textcolor{comment}{/* Enable the SDIO interrupts */}
+00829     SDIO->MASK |= SDIO\_IT;
+00830   \}
+00831   \textcolor{keywordflow}{else}
+00832   \{
+00833     \textcolor{comment}{/* Disable the SDIO interrupts */}
+00834     SDIO->MASK &= ~SDIO\_IT;
+00835   \} 
+00836 \}
+\end{DoxyCode}

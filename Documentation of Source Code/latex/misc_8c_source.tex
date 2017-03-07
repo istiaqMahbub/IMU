@@ -1,0 +1,266 @@
+\section{misc.\+c}
+\label{misc_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/misc.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/misc.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    misc.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides all the miscellaneous firmware functions (add-on}
+00008 \textcolor{comment}{  *          to CMSIS functions).}
+00009 \textcolor{comment}{  *          }
+00010 \textcolor{comment}{  *  @verbatim   }
+00011 \textcolor{comment}{  *                               }
+00012 \textcolor{comment}{  *          ===================================================================      }
+00013 \textcolor{comment}{  *                        How to configure Interrupts using driver }
+00014 \textcolor{comment}{  *          ===================================================================      }
+00015 \textcolor{comment}{  * }
+00016 \textcolor{comment}{  *            This section provide functions allowing to configure the NVIC interrupts (IRQ).}
+00017 \textcolor{comment}{  *            The Cortex-M4 exceptions are managed by CMSIS functions.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  *            1. Configure the NVIC Priority Grouping using NVIC\_PriorityGroupConfig()}
+00020 \textcolor{comment}{  *                function according to the following table.}
+00021 \textcolor{comment}{ }
+00022 \textcolor{comment}{  *  The table below gives the allowed values of the pre-emption priority and subpriority according}
+00023 \textcolor{comment}{  *  to the Priority Grouping configuration performed by NVIC\_PriorityGroupConfig function}
+00024 \textcolor{comment}{  *   
+       ==========================================================================================================================}
+00025 \textcolor{comment}{  *      NVIC\_PriorityGroup   | NVIC\_IRQChannelPreemptionPriority | NVIC\_IRQChannelSubPriority  |     
+        Description}
+00026 \textcolor{comment}{  *   
+       ==========================================================================================================================}
+00027 \textcolor{comment}{  *     NVIC\_PriorityGroup\_0  |                0                  |            0-15             | 0
+       bits for pre-emption priority}
+00028 \textcolor{comment}{  *                           |                                   |                             | 4
+       bits for subpriority}
+00029 \textcolor{comment}{  *   
+       --------------------------------------------------------------------------------------------------------------------------}
+00030 \textcolor{comment}{  *     NVIC\_PriorityGroup\_1  |                0-1                |            0-7              | 1
+       bits for pre-emption priority}
+00031 \textcolor{comment}{  *                           |                                   |                             | 3
+       bits for subpriority}
+00032 \textcolor{comment}{  *   
+       --------------------------------------------------------------------------------------------------------------------------    }
+00033 \textcolor{comment}{  *     NVIC\_PriorityGroup\_2  |                0-3                |            0-3              | 2
+       bits for pre-emption priority}
+00034 \textcolor{comment}{  *                           |                                   |                             | 2
+       bits for subpriority}
+00035 \textcolor{comment}{  *   
+       --------------------------------------------------------------------------------------------------------------------------    }
+00036 \textcolor{comment}{  *     NVIC\_PriorityGroup\_3  |                0-7                |            0-1              | 3
+       bits for pre-emption priority}
+00037 \textcolor{comment}{  *                           |                                   |                             | 1
+       bits for subpriority}
+00038 \textcolor{comment}{  *   
+       --------------------------------------------------------------------------------------------------------------------------    }
+00039 \textcolor{comment}{  *     NVIC\_PriorityGroup\_4  |                0-15               |            0                | 4
+       bits for pre-emption priority}
+00040 \textcolor{comment}{  *                           |                                   |                             | 0
+       bits for subpriority                       }
+00041 \textcolor{comment}{  *   
+       ==========================================================================================================================     }
+00042 \textcolor{comment}{  *}
+00043 \textcolor{comment}{  *            2. Enable and Configure the priority of the selected IRQ Channels using NVIC\_Init()  }
+00044 \textcolor{comment}{  *}
+00045 \textcolor{comment}{  * @note  When the NVIC\_PriorityGroup\_0 is selected, IRQ pre-emption is no more possible. }
+00046 \textcolor{comment}{  *        The pending IRQ priority will be managed only by the subpriority.}
+00047 \textcolor{comment}{  *}
+00048 \textcolor{comment}{  * @note  IRQ priority order (sorted by highest to lowest priority):}
+00049 \textcolor{comment}{  *         - Lowest pre-emption priority}
+00050 \textcolor{comment}{  *         - Lowest subpriority}
+00051 \textcolor{comment}{  *         - Lowest hardware priority (IRQ number)}
+00052 \textcolor{comment}{  *}
+00053 \textcolor{comment}{  *  @endverbatim}
+00054 \textcolor{comment}{  *}
+00055 \textcolor{comment}{  ******************************************************************************}
+00056 \textcolor{comment}{  * @attention}
+00057 \textcolor{comment}{  *}
+00058 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00059 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00060 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00061 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00062 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00063 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00064 \textcolor{comment}{  *}
+00065 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00066 \textcolor{comment}{  ******************************************************************************}
+00067 \textcolor{comment}{  */}
+00068 
+00069 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00070 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "misc.h"
+00071 
+00072 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00073 \textcolor{comment}{  * @\{}
+00074 \textcolor{comment}{  */}
+00075 
+00076 \textcolor{comment}{/** @defgroup MISC }
+00077 \textcolor{comment}{  * @brief MISC driver modules}
+00078 \textcolor{comment}{  * @\{}
+00079 \textcolor{comment}{  */}
+00080 
+00081 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00082 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00083 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{AIRCR\_VECTKEY\_MASK}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x05FA0000\textcolor{preprocessor}{)}
+00084 
+00085 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00086 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00087 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00088 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00089 
+00090 \textcolor{comment}{/** @defgroup MISC\_Private\_Functions}
+00091 \textcolor{comment}{  * @\{}
+00092 \textcolor{comment}{  */}
+00093 
+00094 \textcolor{comment}{/**}
+00095 \textcolor{comment}{  * @brief  Configures the priority grouping: pre-emption priority and subpriority.}
+00096 \textcolor{comment}{  * @param  NVIC\_PriorityGroup: specifies the priority grouping bits length. }
+00097 \textcolor{comment}{  *   This parameter can be one of the following values:}
+00098 \textcolor{comment}{  *     @arg NVIC\_PriorityGroup\_0: 0 bits for pre-emption priority}
+00099 \textcolor{comment}{  *                                4 bits for subpriority}
+00100 \textcolor{comment}{  *     @arg NVIC\_PriorityGroup\_1: 1 bits for pre-emption priority}
+00101 \textcolor{comment}{  *                                3 bits for subpriority}
+00102 \textcolor{comment}{  *     @arg NVIC\_PriorityGroup\_2: 2 bits for pre-emption priority}
+00103 \textcolor{comment}{  *                                2 bits for subpriority}
+00104 \textcolor{comment}{  *     @arg NVIC\_PriorityGroup\_3: 3 bits for pre-emption priority}
+00105 \textcolor{comment}{  *                                1 bits for subpriority}
+00106 \textcolor{comment}{  *     @arg NVIC\_PriorityGroup\_4: 4 bits for pre-emption priority}
+00107 \textcolor{comment}{  *                                0 bits for subpriority}
+00108 \textcolor{comment}{  * @note   When the NVIC\_PriorityGroup\_0 is selected, IRQ pre-emption is no more possible. }
+00109 \textcolor{comment}{  *         The pending IRQ priority will be managed only by the subpriority. }
+00110 \textcolor{comment}{  * @retval None}
+00111 \textcolor{comment}{  */}
+00112 \textcolor{keywordtype}{void} NVIC_PriorityGroupConfig(uint32\_t NVIC\_PriorityGroup)
+00113 \{
+00114   \textcolor{comment}{/* Check the parameters */}
+00115   assert_param(IS\_NVIC\_PRIORITY\_GROUP(NVIC\_PriorityGroup));
+00116 
+00117   \textcolor{comment}{/* Set the PRIGROUP[10:8] bits according to NVIC\_PriorityGroup value */}
+00118   SCB->AIRCR = AIRCR_VECTKEY_MASK | NVIC\_PriorityGroup;
+00119 \}
+00120 
+00121 \textcolor{comment}{/**}
+00122 \textcolor{comment}{  * @brief  Initializes the NVIC peripheral according to the specified}
+00123 \textcolor{comment}{  *         parameters in the NVIC\_InitStruct.}
+00124 \textcolor{comment}{  * @note   To configure interrupts priority correctly, the NVIC\_PriorityGroupConfig()}
+00125 \textcolor{comment}{  *         function should be called before. }
+00126 \textcolor{comment}{  * @param  NVIC\_InitStruct: pointer to a NVIC\_InitTypeDef structure that contains}
+00127 \textcolor{comment}{  *         the configuration information for the specified NVIC peripheral.}
+00128 \textcolor{comment}{  * @retval None}
+00129 \textcolor{comment}{  */}
+00130 \textcolor{keywordtype}{void} NVIC_Init(NVIC\_InitTypeDef* NVIC\_InitStruct)
+00131 \{
+00132   uint8\_t tmppriority = 0x00, tmppre = 0x00, tmpsub = 0x0F;
+00133 
+00134   \textcolor{comment}{/* Check the parameters */}
+00135   assert_param(IS\_FUNCTIONAL\_STATE(NVIC\_InitStruct->NVIC\_IRQChannelCmd));
+00136   assert_param(IS\_NVIC\_PREEMPTION\_PRIORITY(NVIC\_InitStruct->NVIC\_IRQChannelPreemptionPriority));
+00137   assert_param(IS\_NVIC\_SUB\_PRIORITY(NVIC\_InitStruct->NVIC\_IRQChannelSubPriority));
+00138 
+00139   \textcolor{keywordflow}{if} (NVIC\_InitStruct->NVIC_IRQChannelCmd != DISABLE)
+00140   \{
+00141     \textcolor{comment}{/* Compute the Corresponding IRQ Priority --------------------------------*/}
+00142     tmppriority = (0x700 - ((SCB->AIRCR) & (uint32\_t)0x700))>> 0x08;
+00143     tmppre = (0x4 - tmppriority);
+00144     tmpsub = tmpsub >> tmppriority;
+00145 
+00146     tmppriority = NVIC\_InitStruct->NVIC_IRQChannelPreemptionPriority << tmppre;
+00147     tmppriority |=  (uint8\_t)(NVIC\_InitStruct->NVIC_IRQChannelSubPriority & tmpsub);
+00148 
+00149     tmppriority = tmppriority << 0x04;
+00150 
+00151     NVIC->IP[NVIC\_InitStruct->NVIC\_IRQChannel] = tmppriority;
+00152 
+00153     \textcolor{comment}{/* Enable the Selected IRQ Channels --------------------------------------*/}
+00154     NVIC->ISER[NVIC\_InitStruct->NVIC\_IRQChannel >> 0x05] =
+00155       (uint32\_t)0x01 << (NVIC\_InitStruct->NVIC\_IRQChannel & (uint8\_t)0x1F);
+00156   \}
+00157   \textcolor{keywordflow}{else}
+00158   \{
+00159     \textcolor{comment}{/* Disable the Selected IRQ Channels -------------------------------------*/}
+00160     NVIC->ICER[NVIC\_InitStruct->NVIC\_IRQChannel >> 0x05] =
+00161       (uint32\_t)0x01 << (NVIC\_InitStruct->NVIC\_IRQChannel & (uint8\_t)0x1F);
+00162   \}
+00163 \}
+00164 
+00165 \textcolor{comment}{/**}
+00166 \textcolor{comment}{  * @brief  Sets the vector table location and Offset.}
+00167 \textcolor{comment}{  * @param  NVIC\_VectTab: specifies if the vector table is in RAM or FLASH memory.}
+00168 \textcolor{comment}{  *   This parameter can be one of the following values:}
+00169 \textcolor{comment}{  *     @arg NVIC\_VectTab\_RAM: Vector Table in internal SRAM.}
+00170 \textcolor{comment}{  *     @arg NVIC\_VectTab\_FLASH: Vector Table in internal FLASH.}
+00171 \textcolor{comment}{  * @param  Offset: Vector Table base offset field. This value must be a multiple of 0x200.}
+00172 \textcolor{comment}{  * @retval None}
+00173 \textcolor{comment}{  */}
+00174 \textcolor{keywordtype}{void} NVIC_SetVectorTable(uint32\_t NVIC\_VectTab, uint32\_t Offset)
+00175 \{
+00176   \textcolor{comment}{/* Check the parameters */}
+00177   assert_param(IS\_NVIC\_VECTTAB(NVIC\_VectTab));
+00178   assert_param(IS\_NVIC\_OFFSET(Offset));
+00179 
+00180   SCB->VTOR = NVIC\_VectTab | (Offset & (uint32\_t)0x1FFFFF80);
+00181 \}
+00182 
+00183 \textcolor{comment}{/**}
+00184 \textcolor{comment}{  * @brief  Selects the condition for the system to enter low power mode.}
+00185 \textcolor{comment}{  * @param  LowPowerMode: Specifies the new mode for the system to enter low power mode.}
+00186 \textcolor{comment}{  *   This parameter can be one of the following values:}
+00187 \textcolor{comment}{  *     @arg NVIC\_LP\_SEVONPEND: Low Power SEV on Pend.}
+00188 \textcolor{comment}{  *     @arg NVIC\_LP\_SLEEPDEEP: Low Power DEEPSLEEP request.}
+00189 \textcolor{comment}{  *     @arg NVIC\_LP\_SLEEPONEXIT: Low Power Sleep on Exit.}
+00190 \textcolor{comment}{  * @param  NewState: new state of LP condition. This parameter can be: ENABLE or DISABLE.}
+00191 \textcolor{comment}{  * @retval None}
+00192 \textcolor{comment}{  */}
+00193 \textcolor{keywordtype}{void} NVIC_SystemLPConfig(uint8\_t LowPowerMode, FunctionalState NewState)
+00194 \{
+00195   \textcolor{comment}{/* Check the parameters */}
+00196   assert_param(IS\_NVIC\_LP(LowPowerMode));
+00197   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00198 
+00199   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00200   \{
+00201     SCB->SCR |= LowPowerMode;
+00202   \}
+00203   \textcolor{keywordflow}{else}
+00204   \{
+00205     SCB->SCR &= (uint32\_t)(~(uint32\_t)LowPowerMode);
+00206   \}
+00207 \}
+00208 
+00209 \textcolor{comment}{/**}
+00210 \textcolor{comment}{  * @brief  Configures the SysTick clock source.}
+00211 \textcolor{comment}{  * @param  SysTick\_CLKSource: specifies the SysTick clock source.}
+00212 \textcolor{comment}{  *   This parameter can be one of the following values:}
+00213 \textcolor{comment}{  *     @arg SysTick\_CLKSource\_HCLK\_Div8: AHB clock divided by 8 selected as SysTick clock source.}
+00214 \textcolor{comment}{  *     @arg SysTick\_CLKSource\_HCLK: AHB clock selected as SysTick clock source.}
+00215 \textcolor{comment}{  * @retval None}
+00216 \textcolor{comment}{  */}
+00217 \textcolor{keywordtype}{void} SysTick_CLKSourceConfig(uint32\_t SysTick\_CLKSource)
+00218 \{
+00219   \textcolor{comment}{/* Check the parameters */}
+00220   assert_param(IS\_SYSTICK\_CLK\_SOURCE(SysTick\_CLKSource));
+00221   \textcolor{keywordflow}{if} (SysTick\_CLKSource == SysTick_CLKSource_HCLK)
+00222   \{
+00223     SysTick->CTRL |= SysTick_CLKSource_HCLK;
+00224   \}
+00225   \textcolor{keywordflow}{else}
+00226   \{
+00227     SysTick->CTRL &= SysTick_CLKSource_HCLK_Div8;
+00228   \}
+00229 \}
+00230 
+00231 \textcolor{comment}{/**}
+00232 \textcolor{comment}{  * @\}}
+00233 \textcolor{comment}{  */}
+00234 
+00235 \textcolor{comment}{/**}
+00236 \textcolor{comment}{  * @\}}
+00237 \textcolor{comment}{  */}
+00238 
+00239 \textcolor{comment}{/**}
+00240 \textcolor{comment}{  * @\}}
+00241 \textcolor{comment}{  */}
+00242 
+00243 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

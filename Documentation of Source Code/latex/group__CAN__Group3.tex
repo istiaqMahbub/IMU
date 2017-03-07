@@ -1,0 +1,201 @@
+\section{C\+AN Frames Reception functions}
+\label{group__CAN__Group3}\index{C\+A\+N Frames Reception functions@{C\+A\+N Frames Reception functions}}
+
+
+C\+AN Frames Reception functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ C\+A\+N\+\_\+\+Receive} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint8\+\_\+t F\+I\+F\+O\+Number, \textbf{ Can\+Rx\+Msg} $\ast$Rx\+Message)
+\begin{DoxyCompactList}\small\item\em Receives a correct C\+AN frame. \end{DoxyCompactList}\item 
+void \textbf{ C\+A\+N\+\_\+\+F\+I\+F\+O\+Release} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint8\+\_\+t F\+I\+F\+O\+Number)
+\begin{DoxyCompactList}\small\item\em Releases the specified receive F\+I\+FO. \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ C\+A\+N\+\_\+\+Message\+Pending} (\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$C\+A\+Nx, uint8\+\_\+t F\+I\+F\+O\+Number)
+\begin{DoxyCompactList}\small\item\em Returns the number of pending received messages. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+C\+AN Frames Reception functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                      CAN Frames Reception functions
+ ===============================================================================  
+  This section provides functions allowing to 
+   -  Receive a correct CAN frame
+   -  Release a specified receive FIFO (2 FIFOs are available)
+   -  Return the number of the pending received CAN frames\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__CAN__Group3_ga1bc3b39471e579b4101624c33d27918b}} 
+\index{C\+A\+N Frames Reception functions@{C\+A\+N Frames Reception functions}!C\+A\+N\+\_\+\+F\+I\+F\+O\+Release@{C\+A\+N\+\_\+\+F\+I\+F\+O\+Release}}
+\index{C\+A\+N\+\_\+\+F\+I\+F\+O\+Release@{C\+A\+N\+\_\+\+F\+I\+F\+O\+Release}!C\+A\+N Frames Reception functions@{C\+A\+N Frames Reception functions}}
+\subsubsection{C\+A\+N\+\_\+\+F\+I\+F\+O\+Release()}
+{\footnotesize\ttfamily void C\+A\+N\+\_\+\+F\+I\+F\+O\+Release (\begin{DoxyParamCaption}\item[{\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$}]{C\+A\+Nx,  }\item[{uint8\+\_\+t}]{F\+I\+F\+O\+Number }\end{DoxyParamCaption})}
+
+
+
+Releases the specified receive F\+I\+FO. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+Nx} & where x can be 1 or 2 to select the C\+AN peripheral. \\
+\hline
+{\em F\+I\+F\+O\+Number} & F\+I\+FO to release, C\+A\+N\+\_\+\+F\+I\+F\+O0 or C\+A\+N\+\_\+\+F\+I\+F\+O1. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 794} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+\begin{DoxyCode}
+00795 \{
+00796   \textcolor{comment}{/* Check the parameters */}
+00797   assert_param(IS_CAN_ALL_PERIPH(CANx));
+00798   assert_param(IS_CAN_FIFO(FIFONumber));
+00799   \textcolor{comment}{/* Release FIFO0 */}
+00800   \textcolor{keywordflow}{if} (FIFONumber == CAN_FIFO0)
+00801   \{
+00802     CANx->RF0R |= CAN_RF0R_RFOM0;
+00803   \}
+00804   \textcolor{comment}{/* Release FIFO1 */}
+00805   \textcolor{keywordflow}{else} \textcolor{comment}{/* FIFONumber == CAN\_FIFO1 */}
+00806   \{
+00807     CANx->RF1R |= CAN_RF1R_RFOM1;
+00808   \}
+00809 \}
+\end{DoxyCode}
+\mbox{\label{group__CAN__Group3_ga7100459a95ce1b3cfe8ab15e112029fe}} 
+\index{C\+A\+N Frames Reception functions@{C\+A\+N Frames Reception functions}!C\+A\+N\+\_\+\+Message\+Pending@{C\+A\+N\+\_\+\+Message\+Pending}}
+\index{C\+A\+N\+\_\+\+Message\+Pending@{C\+A\+N\+\_\+\+Message\+Pending}!C\+A\+N Frames Reception functions@{C\+A\+N Frames Reception functions}}
+\subsubsection{C\+A\+N\+\_\+\+Message\+Pending()}
+{\footnotesize\ttfamily uint8\+\_\+t C\+A\+N\+\_\+\+Message\+Pending (\begin{DoxyParamCaption}\item[{\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$}]{C\+A\+Nx,  }\item[{uint8\+\_\+t}]{F\+I\+F\+O\+Number }\end{DoxyParamCaption})}
+
+
+
+Returns the number of pending received messages. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+Nx} & where x can be 1 or 2 to select the C\+AN peripheral. \\
+\hline
+{\em F\+I\+F\+O\+Number} & Receive F\+I\+FO number, C\+A\+N\+\_\+\+F\+I\+F\+O0 or C\+A\+N\+\_\+\+F\+I\+F\+O1. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Nb\+Message} & \+: which is the number of pending message. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 817} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+\begin{DoxyCode}
+00818 \{
+00819   uint8\_t message\_pending=0;
+00820   \textcolor{comment}{/* Check the parameters */}
+00821   assert_param(IS_CAN_ALL_PERIPH(CANx));
+00822   assert_param(IS_CAN_FIFO(FIFONumber));
+00823   \textcolor{keywordflow}{if} (FIFONumber == CAN_FIFO0)
+00824   \{
+00825     message\_pending = (uint8\_t)(CANx->RF0R&(uint32\_t)0x03);
+00826   \}
+00827   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (FIFONumber == CAN_FIFO1)
+00828   \{
+00829     message\_pending = (uint8\_t)(CANx->RF1R&(uint32\_t)0x03);
+00830   \}
+00831   \textcolor{keywordflow}{else}
+00832   \{
+00833     message\_pending = 0;
+00834   \}
+00835   \textcolor{keywordflow}{return} message\_pending;
+00836 \}
+\end{DoxyCode}
+\mbox{\label{group__CAN__Group3_ga351b90bb8a3bb0c846f85bbd56ef4dc8}} 
+\index{C\+A\+N Frames Reception functions@{C\+A\+N Frames Reception functions}!C\+A\+N\+\_\+\+Receive@{C\+A\+N\+\_\+\+Receive}}
+\index{C\+A\+N\+\_\+\+Receive@{C\+A\+N\+\_\+\+Receive}!C\+A\+N Frames Reception functions@{C\+A\+N Frames Reception functions}}
+\subsubsection{C\+A\+N\+\_\+\+Receive()}
+{\footnotesize\ttfamily void C\+A\+N\+\_\+\+Receive (\begin{DoxyParamCaption}\item[{\textbf{ C\+A\+N\+\_\+\+Type\+Def} $\ast$}]{C\+A\+Nx,  }\item[{uint8\+\_\+t}]{F\+I\+F\+O\+Number,  }\item[{\textbf{ Can\+Rx\+Msg} $\ast$}]{Rx\+Message }\end{DoxyParamCaption})}
+
+
+
+Receives a correct C\+AN frame. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em C\+A\+Nx} & where x can be 1 or 2 to select the C\+AN peripheral. \\
+\hline
+{\em F\+I\+F\+O\+Number} & Receive F\+I\+FO number, C\+A\+N\+\_\+\+F\+I\+F\+O0 or C\+A\+N\+\_\+\+F\+I\+F\+O1. \\
+\hline
+{\em Rx\+Message} & pointer to a structure receive frame which contains C\+AN Id, C\+AN D\+LC, C\+AN data and F\+MI number. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 745} of file \textbf{ stm32f4xx\+\_\+can.\+c}.
+
+
+
+References \textbf{ Can\+Rx\+Msg\+::\+I\+DE}.
+
+
+\begin{DoxyCode}
+00746 \{
+00747   \textcolor{comment}{/* Check the parameters */}
+00748   assert_param(IS_CAN_ALL_PERIPH(CANx));
+00749   assert_param(IS_CAN_FIFO(FIFONumber));
+00750   \textcolor{comment}{/* Get the Id */}
+00751   RxMessage->IDE = (uint8\_t)0x04 & CANx->sFIFOMailBox[FIFONumber].RIR;
+00752   if (RxMessage->IDE == CAN_Id_Standard)
+00753   \{
+00754     RxMessage->StdId = (uint32\_t)0x000007FF & (CANx->sFIFOMailBox[FIFONumber].
+      RIR >> 21);
+00755   \}
+00756   \textcolor{keywordflow}{else}
+00757   \{
+00758     RxMessage->ExtId = (uint32\_t)0x1FFFFFFF & (CANx->sFIFOMailBox[FIFONumber].
+      RIR >> 3);
+00759   \}
+00760   
+00761   RxMessage->RTR = (uint8\_t)0x02 & CANx->sFIFOMailBox[FIFONumber].RIR;
+00762   \textcolor{comment}{/* Get the DLC */}
+00763   RxMessage->DLC = (uint8\_t)0x0F & CANx->sFIFOMailBox[FIFONumber].RDTR;
+00764   \textcolor{comment}{/* Get the FMI */}
+00765   RxMessage->FMI = (uint8\_t)0xFF & (CANx->sFIFOMailBox[FIFONumber].RDTR >> 8);
+00766   \textcolor{comment}{/* Get the data field */}
+00767   RxMessage->Data[0] = (uint8\_t)0xFF & CANx->sFIFOMailBox[FIFONumber].RDLR;
+00768   RxMessage->Data[1] = (uint8\_t)0xFF & (CANx->sFIFOMailBox[FIFONumber].RDLR >> 8);
+00769   RxMessage->Data[2] = (uint8\_t)0xFF & (CANx->sFIFOMailBox[FIFONumber].RDLR >> 16);
+00770   RxMessage->Data[3] = (uint8\_t)0xFF & (CANx->sFIFOMailBox[FIFONumber].RDLR >> 24);
+00771   RxMessage->Data[4] = (uint8\_t)0xFF & CANx->sFIFOMailBox[FIFONumber].RDHR;
+00772   RxMessage->Data[5] = (uint8\_t)0xFF & (CANx->sFIFOMailBox[FIFONumber].RDHR >> 8);
+00773   RxMessage->Data[6] = (uint8\_t)0xFF & (CANx->sFIFOMailBox[FIFONumber].RDHR >> 16);
+00774   RxMessage->Data[7] = (uint8\_t)0xFF & (CANx->sFIFOMailBox[FIFONumber].RDHR >> 24);
+00775   \textcolor{comment}{/* Release the FIFO */}
+00776   \textcolor{comment}{/* Release FIFO0 */}
+00777   \textcolor{keywordflow}{if} (FIFONumber == CAN_FIFO0)
+00778   \{
+00779     CANx->RF0R |= CAN_RF0R_RFOM0;
+00780   \}
+00781   \textcolor{comment}{/* Release FIFO1 */}
+00782   \textcolor{keywordflow}{else} \textcolor{comment}{/* FIFONumber == CAN\_FIFO1 */}
+00783   \{
+00784     CANx->RF1R |= CAN_RF1R_RFOM1;
+00785   \}
+00786 \}
+\end{DoxyCode}

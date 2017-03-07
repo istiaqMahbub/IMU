@@ -1,0 +1,2817 @@
+\section{stm32f4xx\+\_\+rtc.\+c}
+\label{stm32f4xx__rtc_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+rtc.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+rtc.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_rtc.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides firmware functions to manage the following }
+00008 \textcolor{comment}{  *          functionalities of the Real-Time Clock (RTC) peripheral:}
+00009 \textcolor{comment}{  *           - Initialization}
+00010 \textcolor{comment}{  *           - Calendar (Time and Date) configuration}
+00011 \textcolor{comment}{  *           - Alarms (Alarm A and Alarm B) configuration}
+00012 \textcolor{comment}{  *           - WakeUp Timer configuration}
+00013 \textcolor{comment}{  *           - Daylight Saving configuration}
+00014 \textcolor{comment}{  *           - Output pin Configuration}
+00015 \textcolor{comment}{  *           - Coarse digital Calibration configuration}
+00016 \textcolor{comment}{  *           - Smooth digital Calibration configuration}
+00017 \textcolor{comment}{  *           - TimeStamp configuration}
+00018 \textcolor{comment}{  *           - Tampers configuration}
+00019 \textcolor{comment}{  *           - Backup Data Registers configuration}
+00020 \textcolor{comment}{  *           - Shift control synchronisation    }
+00021 \textcolor{comment}{  *           - RTC Tamper and TimeStamp Pins Selection and Output Type Config configuration}
+00022 \textcolor{comment}{  *           - Interrupts and flags management}
+00023 \textcolor{comment}{  *}
+00024 \textcolor{comment}{  *  @verbatim}
+00025 \textcolor{comment}{  *}
+00026 \textcolor{comment}{  *          ===================================================================}
+00027 \textcolor{comment}{  *                               Backup Domain Operating Condition}
+00028 \textcolor{comment}{  *          ===================================================================}
+00029 \textcolor{comment}{  *          The real-time clock (RTC), the RTC backup registers, and the backup }
+00030 \textcolor{comment}{  *          SRAM (BKP SRAM) can be powered from the VBAT voltage when the main }
+00031 \textcolor{comment}{  *          VDD supply is powered off.}
+00032 \textcolor{comment}{  *          To retain the content of the RTC backup registers, backup SRAM, }
+00033 \textcolor{comment}{  *          and supply the RTC when VDD is turned off, VBAT pin can be connected }
+00034 \textcolor{comment}{  *          to an optional standby voltage supplied by a battery or by another }
+00035 \textcolor{comment}{  *          source.}
+00036 \textcolor{comment}{  *}
+00037 \textcolor{comment}{  *          To allow the RTC to operate even when the main digital supply (VDD) }
+00038 \textcolor{comment}{  *          is turned off, the VBAT pin powers the following blocks:}
+00039 \textcolor{comment}{  *            1 - The RTC}
+00040 \textcolor{comment}{  *            2 - The LSE oscillator}
+00041 \textcolor{comment}{  *            3 - The backup SRAM when the low power backup regulator is enabled}
+00042 \textcolor{comment}{  *            4 - PC13 to PC15 I/Os, plus PI8 I/O (when available)}
+00043 \textcolor{comment}{  *}
+00044 \textcolor{comment}{  *          When the backup domain is supplied by VDD (analog switch connected }
+00045 \textcolor{comment}{  *          to VDD), the following functions are available:}
+00046 \textcolor{comment}{  *            1 - PC14 and PC15 can be used as either GPIO or LSE pins}
+00047 \textcolor{comment}{  *            2 - PC13 can be used as a GPIO or as the RTC\_AF1 pin}
+00048 \textcolor{comment}{  *            3 - PI8 can be used as a GPIO or as the RTC\_AF2 pin}
+00049 \textcolor{comment}{  *}
+00050 \textcolor{comment}{  *          When the backup domain is supplied by VBAT (analog switch connected }
+00051 \textcolor{comment}{  *          to VBAT because VDD is not present), the following functions are available:}
+00052 \textcolor{comment}{  *            1 - PC14 and PC15 can be used as LSE pins only}
+00053 \textcolor{comment}{  *            2 - PC13 can be used as the RTC\_AF1 pin }
+00054 \textcolor{comment}{  *            3 - PI8 can be used as the RTC\_AF2 pin}
+00055 \textcolor{comment}{  *}
+00056 \textcolor{comment}{  *          ===================================================================}
+00057 \textcolor{comment}{  *                                    Backup Domain Reset}
+00058 \textcolor{comment}{  *          ===================================================================}
+00059 \textcolor{comment}{  *          The backup domain reset sets all RTC registers and the RCC\_BDCR }
+00060 \textcolor{comment}{  *          register to their reset values. The BKPSRAM is not affected by this}
+00061 \textcolor{comment}{  *          reset. The only way of resetting the BKPSRAM is through the Flash }
+00062 \textcolor{comment}{  *          interface by requesting a protection level change from 1 to 0.}
+00063 \textcolor{comment}{  *          A backup domain reset is generated when one of the following events}
+00064 \textcolor{comment}{  *          occurs:}
+00065 \textcolor{comment}{  *            1 - Software reset, triggered by setting the BDRST bit in the }
+00066 \textcolor{comment}{  *                RCC Backup domain control register (RCC\_BDCR). You can use the}
+00067 \textcolor{comment}{  *                RCC\_BackupResetCmd().}
+00068 \textcolor{comment}{  *            2 - VDD or VBAT power on, if both supplies have previously been}
+00069 \textcolor{comment}{  *                powered off.}
+00070 \textcolor{comment}{  *}
+00071 \textcolor{comment}{  *          ===================================================================}
+00072 \textcolor{comment}{  *                                   Backup Domain Access}
+00073 \textcolor{comment}{  *          ===================================================================}
+00074 \textcolor{comment}{  *          After reset, the backup domain (RTC registers, RTC backup data }
+00075 \textcolor{comment}{  *          registers and backup SRAM) is protected against possible unwanted }
+00076 \textcolor{comment}{  *          write accesses. }
+00077 \textcolor{comment}{  *          To enable access to the RTC Domain and RTC registers, proceed as follows:}
+00078 \textcolor{comment}{  *            - Enable the Power Controller (PWR) APB1 interface clock using the}
+00079 \textcolor{comment}{  *              RCC\_APB1PeriphClockCmd() function.}
+00080 \textcolor{comment}{  *            - Enable access to RTC domain using the PWR\_BackupAccessCmd() function.}
+00081 \textcolor{comment}{  *            - Select the RTC clock source using the RCC\_RTCCLKConfig() function.}
+00082 \textcolor{comment}{  *            - Enable RTC Clock using the RCC\_RTCCLKCmd() function.}
+00083 \textcolor{comment}{  *}
+00084 \textcolor{comment}{  *          ===================================================================}
+00085 \textcolor{comment}{  *                                   RTC Driver: how to use it}
+00086 \textcolor{comment}{  *          ===================================================================}
+00087 \textcolor{comment}{  *            - Enable the RTC domain access (see description in the section above)}
+00088 \textcolor{comment}{  *            - Configure the RTC Prescaler (Asynchronous and Synchronous) and}
+00089 \textcolor{comment}{  *              RTC hour format using the RTC\_Init() function.}
+00090 \textcolor{comment}{  *}
+00091 \textcolor{comment}{  *          Time and Date configuration}
+00092 \textcolor{comment}{  *          ===========================}
+00093 \textcolor{comment}{  *            - To configure the RTC Calendar (Time and Date) use the RTC\_SetTime()}
+00094 \textcolor{comment}{  *              and RTC\_SetDate() functions.}
+00095 \textcolor{comment}{  *            - To read the RTC Calendar, use the RTC\_GetTime() and RTC\_GetDate()}
+00096 \textcolor{comment}{  *              functions.}
+00097 \textcolor{comment}{  *            - Use the RTC\_DayLightSavingConfig() function to add or sub one}
+00098 \textcolor{comment}{  *              hour to the RTC Calendar.    }
+00099 \textcolor{comment}{  *}
+00100 \textcolor{comment}{  *          Alarm configuration}
+00101 \textcolor{comment}{  *          ===================}
+00102 \textcolor{comment}{  *            - To configure the RTC Alarm use the RTC\_SetAlarm() function.}
+00103 \textcolor{comment}{  *            - Enable the selected RTC Alarm using the RTC\_AlarmCmd() function}
+00104 \textcolor{comment}{  *            - To read the RTC Alarm, use the RTC\_GetAlarm() function.}
+00105 \textcolor{comment}{  *            - To read the RTC alarm SubSecond, use the RTC\_GetAlarmSubSecond() function.}
+00106 \textcolor{comment}{  *}
+00107 \textcolor{comment}{  *          RTC Wakeup configuration}
+00108 \textcolor{comment}{  *          ========================}
+00109 \textcolor{comment}{  *            - Configure the RTC Wakeup Clock source use the RTC\_WakeUpClockConfig()}
+00110 \textcolor{comment}{  *              function.}
+00111 \textcolor{comment}{  *            - Configure the RTC WakeUp Counter using the RTC\_SetWakeUpCounter() }
+00112 \textcolor{comment}{  *              function  }
+00113 \textcolor{comment}{  *            - Enable the RTC WakeUp using the RTC\_WakeUpCmd() function  }
+00114 \textcolor{comment}{  *            - To read the RTC WakeUp Counter register, use the RTC\_GetWakeUpCounter() }
+00115 \textcolor{comment}{  *              function.}
+00116 \textcolor{comment}{  *}
+00117 \textcolor{comment}{  *          Outputs configuration}
+00118 \textcolor{comment}{  *          =====================}
+00119 \textcolor{comment}{  *          The RTC has 2 different outputs:}
+00120 \textcolor{comment}{  *            - AFO\_ALARM: this output is used to manage the RTC Alarm A, Alarm B}
+00121 \textcolor{comment}{  *              and WaKeUp signals.          }
+00122 \textcolor{comment}{  *              To output the selected RTC signal on RTC\_AF1 pin, use the }
+00123 \textcolor{comment}{  *              RTC\_OutputConfig() function.                }
+00124 \textcolor{comment}{  *            - AFO\_CALIB: this output is 512Hz signal or 1Hz .  }
+00125 \textcolor{comment}{  *              To output the RTC Clock on RTC\_AF1 pin, use the RTC\_CalibOutputCmd()}
+00126 \textcolor{comment}{  *              function.}
+00127 \textcolor{comment}{  *}
+00128 \textcolor{comment}{  *          Smooth digital Calibration configuration}
+00129 \textcolor{comment}{  *          =================================    }
+00130 \textcolor{comment}{  *            - Configure the RTC Original Digital Calibration Value and the corresponding}
+00131 \textcolor{comment}{  *              calibration cycle period (32s,16s and 8s) using the RTC\_SmoothCalibConfig() }
+00132 \textcolor{comment}{  *              function.}
+00133 \textcolor{comment}{  *}
+00134 \textcolor{comment}{  *          Coarse digital Calibration configuration}
+00135 \textcolor{comment}{  *          =================================}
+00136 \textcolor{comment}{  *            - Configure the RTC Coarse Calibration Value and the corresponding}
+00137 \textcolor{comment}{  *              sign using the RTC\_CoarseCalibConfig() function.}
+00138 \textcolor{comment}{  *            - Enable the RTC Coarse Calibration using the RTC\_CoarseCalibCmd() }
+00139 \textcolor{comment}{  *              function  }
+00140 \textcolor{comment}{  *}
+00141 \textcolor{comment}{  *          TimeStamp configuration}
+00142 \textcolor{comment}{  *          =======================}
+00143 \textcolor{comment}{  *            - Configure the RTC\_AF1 trigger and enables the RTC TimeStamp }
+00144 \textcolor{comment}{  *              using the RTC\_TimeStampCmd() function.}
+00145 \textcolor{comment}{  *            - To read the RTC TimeStamp Time and Date register, use the }
+00146 \textcolor{comment}{  *              RTC\_GetTimeStamp() function.}
+00147 \textcolor{comment}{  *            - To read the RTC TimeStamp SubSecond register, use the }
+00148 \textcolor{comment}{  *              RTC\_GetTimeStampSubSecond() function.}
+00149 \textcolor{comment}{  *            - The TAMPER1 alternate function can be mapped either to RTC\_AF1(PC13)}
+00150 \textcolor{comment}{  *              or RTC\_AF2 (PI8) depending on the value of TAMP1INSEL bit in }
+00151 \textcolor{comment}{  *              RTC\_TAFCR register. You can use the  RTC\_TamperPinSelection()}
+00152 \textcolor{comment}{  *              function to select the corresponding pin.     }
+00153 \textcolor{comment}{  *}
+00154 \textcolor{comment}{  *          Tamper configuration}
+00155 \textcolor{comment}{  *          ====================}
+00156 \textcolor{comment}{  *            - Enable the RTC Tamper using the RTC\_TamperCmd() function.}
+00157 \textcolor{comment}{  *             - Configure the Tamper filter count using RTC\_TamperFilterConfig()}
+00158 \textcolor{comment}{  *              function. }
+00159 \textcolor{comment}{  *            - Configure the RTC Tamper trigger Edge or Level according to the Tamper }
+00160 \textcolor{comment}{  *              filter (if equal to 0 Edge else Level) value using the RTC\_TamperConfig() function.}
+00161 \textcolor{comment}{  *            - Configure the Tamper sampling frequency using RTC\_TamperSamplingFreqConfig()}
+00162 \textcolor{comment}{  *              function.}
+00163 \textcolor{comment}{  *            - Configure the Tamper precharge or discharge duration using }
+00164 \textcolor{comment}{  *              RTC\_TamperPinsPrechargeDuration() function.}
+00165 \textcolor{comment}{  *            - Enable the Tamper Pull-UP using RTC\_TamperPullUpDisableCmd() function.}
+00166 \textcolor{comment}{  *            - Enable the Time stamp on Tamper detection event using  }
+00167 \textcolor{comment}{  *              RTC\_TSOnTamperDetecCmd() function.}
+00168 \textcolor{comment}{  *            - The TIMESTAMP alternate function can be mapped to either RTC\_AF1 }
+00169 \textcolor{comment}{  *              or RTC\_AF2 depending on the value of the TSINSEL bit in the }
+00170 \textcolor{comment}{  *              RTC\_TAFCR register. You can use the  RTC\_TimeStampPinSelection()}
+00171 \textcolor{comment}{  *              function to select the corresponding pin. }
+00172 \textcolor{comment}{  *}
+00173 \textcolor{comment}{  *          Backup Data Registers configuration}
+00174 \textcolor{comment}{  *          ===================================}
+00175 \textcolor{comment}{  *            - To write to the RTC Backup Data registers, use the RTC\_WriteBackupRegister()}
+00176 \textcolor{comment}{  *              function.  }
+00177 \textcolor{comment}{  *            - To read the RTC Backup Data registers, use the RTC\_ReadBackupRegister()}
+00178 \textcolor{comment}{  *              function.}
+00179 \textcolor{comment}{  * }
+00180 \textcolor{comment}{  *          ===================================================================}
+00181 \textcolor{comment}{  *                                  RTC and low power modes}
+00182 \textcolor{comment}{  *          ===================================================================}
+00183 \textcolor{comment}{  *           The MCU can be woken up from a low power mode by an RTC alternate }
+00184 \textcolor{comment}{  *           function.}
+00185 \textcolor{comment}{  *           The RTC alternate functions are the RTC alarms (Alarm A and Alarm B), }
+00186 \textcolor{comment}{  *           RTC wakeup, RTC tamper event detection and RTC time stamp event detection.}
+00187 \textcolor{comment}{  *           These RTC alternate functions can wake up the system from the Stop }
+00188 \textcolor{comment}{  *           and Standby lowpower modes.}
+00189 \textcolor{comment}{  *           The system can also wake up from low power modes without depending }
+00190 \textcolor{comment}{  *           on an external interrupt (Auto-wakeup mode), by using the RTC alarm }
+00191 \textcolor{comment}{  *           or the RTC wakeup events.}
+00192 \textcolor{comment}{  *           The RTC provides a programmable time base for waking up from the }
+00193 \textcolor{comment}{  *           Stop or Standby mode at regular intervals.}
+00194 \textcolor{comment}{  *           Wakeup from STOP and Standby modes is possible only when the RTC }
+00195 \textcolor{comment}{  *           clock source is LSE or LSI.}
+00196 \textcolor{comment}{  *}
+00197 \textcolor{comment}{  *          ===================================================================}
+00198 \textcolor{comment}{  *                            Selection of RTC\_AF1 alternate functions}
+00199 \textcolor{comment}{  *          ===================================================================}
+00200 \textcolor{comment}{  *          The RTC\_AF1 pin (PC13) can be used for the following purposes:}
+00201 \textcolor{comment}{  *            - AFO\_ALARM output}
+00202 \textcolor{comment}{  *            - AFO\_CALIB output}
+00203 \textcolor{comment}{  *            - AFI\_TAMPER}
+00204 \textcolor{comment}{  *            - AFI\_TIMESTAMP}
+00205 \textcolor{comment}{  *}
+00206 \textcolor{comment}{  *
+       +-------------------------------------------------------------------------------------------------------------+}
+00207 \textcolor{comment}{  * |     Pin         |AFO\_ALARM |AFO\_CALIB |AFI\_TAMPER |AFI\_TIMESTAMP | TAMP1INSEL |   TSINSEL   
+       |ALARMOUTTYPE  |}
+00208 \textcolor{comment}{  * |  configuration  | ENABLED  | ENABLED  |  ENABLED  |   ENABLED    |TAMPER1 pin |TIMESTAMP pin | 
+       AFO\_ALARM   |}
+00209 \textcolor{comment}{  * |  and function   |          |          |           |              | selection  |  selection  
+       |Configuration |}
+00210 \textcolor{comment}{  *
+       |-----------------|----------|----------|-----------|--------------|------------|--------------|--------------|}
+00211 \textcolor{comment}{  * |   Alarm out     |          |          |           |              |    Don't   |     Don't    |  
+                  |}
+00212 \textcolor{comment}{  * |   output OD     |     1    |Don't care|Don't care | Don't care   |    care    |     care     |  
+          0       |}
+00213 \textcolor{comment}{  *
+       |-----------------|----------|----------|-----------|--------------|------------|--------------|--------------|}
+00214 \textcolor{comment}{  * |   Alarm out     |          |          |           |              |    Don't   |     Don't    |  
+                  |}
+00215 \textcolor{comment}{  * |   output PP     |     1    |Don't care|Don't care | Don't care   |    care    |     care     |  
+          1       |}
+00216 \textcolor{comment}{  *
+       |-----------------|----------|----------|-----------|--------------|------------|--------------|--------------|}
+00217 \textcolor{comment}{  * | Calibration out |          |          |           |              |    Don't   |     Don't    |  
+                  |}
+00218 \textcolor{comment}{  * |   output PP     |     0    |    1     |Don't care | Don't care   |    care    |     care     | 
+       Don't care  |}
+00219 \textcolor{comment}{  *
+       |-----------------|----------|----------|-----------|--------------|------------|--------------|--------------|}
+00220 \textcolor{comment}{  * |  TAMPER input   |          |          |           |              |            |     Don't    |  
+                  |}
+00221 \textcolor{comment}{  * |   floating      |     0    |    0     |     1     |      0       |      0     |     care     | 
+       Don't care  |}
+00222 \textcolor{comment}{  *
+       |-----------------|----------|----------|-----------|--------------|------------|--------------|--------------|}
+00223 \textcolor{comment}{  * |  TIMESTAMP and  |          |          |           |              |            |              |  
+                  |}
+00224 \textcolor{comment}{  * |  TAMPER input   |     0    |    0     |     1     |      1       |      0     |      0       | 
+       Don't care  |}
+00225 \textcolor{comment}{  * |   floating      |          |          |           |              |            |              |  
+                  |}
+00226 \textcolor{comment}{  *
+       |-----------------|----------|----------|-----------|--------------|------------|--------------|--------------|}
+00227 \textcolor{comment}{  * | TIMESTAMP input |          |          |           |              |    Don't   |              |  
+                  |}
+00228 \textcolor{comment}{  * |    floating     |     0    |    0     |     0     |      1       |    care    |      0       | 
+       Don't care  |}
+00229 \textcolor{comment}{  *
+       |-----------------|----------|----------|-----------|--------------|------------|--------------|--------------|}
+00230 \textcolor{comment}{  * |  Standard GPIO  |     0    |    0     |     0     |      0       | Don't care |  Don't care  | 
+       Don't care  |}
+00231 \textcolor{comment}{  *
+       +-------------------------------------------------------------------------------------------------------------+}
+00232 \textcolor{comment}{  *}
+00233 \textcolor{comment}{  *}
+00234 \textcolor{comment}{  *          ===================================================================}
+00235 \textcolor{comment}{  *                            Selection of RTC\_AF2 alternate functions}
+00236 \textcolor{comment}{  *          ===================================================================}
+00237 \textcolor{comment}{  *          The RTC\_AF2 pin (PI8) can be used for the following purposes:}
+00238 \textcolor{comment}{  *            - AFI\_TAMPER}
+00239 \textcolor{comment}{  *            - AFI\_TIMESTAMP}
+00240 \textcolor{comment}{  *}
+00241 \textcolor{comment}{  * +---------------------------------------------------------------------------------------+}
+00242 \textcolor{comment}{  * |     Pin         |AFI\_TAMPER |AFI\_TIMESTAMP | TAMP1INSEL |   TSINSEL    |ALARMOUTTYPE  |}
+00243 \textcolor{comment}{  * |  configuration  |  ENABLED  |   ENABLED    |TAMPER1 pin |TIMESTAMP pin |  AFO\_ALARM   |}
+00244 \textcolor{comment}{  * |  and function   |           |              | selection  |  selection   |Configuration |}
+00245 \textcolor{comment}{  * |-----------------|-----------|--------------|------------|--------------|--------------|}
+00246 \textcolor{comment}{  * |  TAMPER input   |           |              |            |     Don't    |              |}
+00247 \textcolor{comment}{  * |   floating      |     1     |      0       |      1     |     care     |  Don't care  |}
+00248 \textcolor{comment}{  * |-----------------|-----------|--------------|------------|--------------|--------------|}
+00249 \textcolor{comment}{  * |  TIMESTAMP and  |           |              |            |              |              |}
+00250 \textcolor{comment}{  * |  TAMPER input   |     1     |      1       |      1     |      1       |  Don't care  |}
+00251 \textcolor{comment}{  * |   floating      |           |              |            |              |              |}
+00252 \textcolor{comment}{  * |-----------------|-----------|--------------|------------|--------------|--------------|}
+00253 \textcolor{comment}{  * | TIMESTAMP input |           |              |    Don't   |              |              |}
+00254 \textcolor{comment}{  * |    floating     |     0     |      1       |    care    |      1       |  Don't care  |}
+00255 \textcolor{comment}{  * |-----------------|-----------|--------------|------------|--------------|--------------|}
+00256 \textcolor{comment}{  * |  Standard GPIO  |     0     |      0       | Don't care |  Don't care  |  Don't care  |}
+00257 \textcolor{comment}{  * +---------------------------------------------------------------------------------------+}
+00258 \textcolor{comment}{  * }
+00259 \textcolor{comment}{  *}
+00260 \textcolor{comment}{  *  @endverbatim}
+00261 \textcolor{comment}{  *}
+00262 \textcolor{comment}{  ******************************************************************************}
+00263 \textcolor{comment}{  * @attention}
+00264 \textcolor{comment}{  *}
+00265 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00266 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00267 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00268 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00269 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00270 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00271 \textcolor{comment}{  *}
+00272 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00273 \textcolor{comment}{  ******************************************************************************}
+00274 \textcolor{comment}{  */}
+00275 
+00276 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00277 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rtc.h"
+00278 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rcc.h"
+00279 
+00280 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00281 \textcolor{comment}{  * @\{}
+00282 \textcolor{comment}{  */}
+00283 
+00284 \textcolor{comment}{/** @defgroup RTC }
+00285 \textcolor{comment}{  * @brief RTC driver modules}
+00286 \textcolor{comment}{  * @\{}
+00287 \textcolor{comment}{  */}
+00288 
+00289 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00290 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00291 
+00292 \textcolor{comment}{/* Masks Definition */}
+00293 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TR\_RESERVED\_MASK}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x007F7F7F\textcolor{preprocessor}{)}
+00294 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_DR\_RESERVED\_MASK}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00FFFF3F\textcolor{preprocessor}{)}
+00295 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_INIT\_MASK}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFFFFFFF\textcolor{preprocessor}{)}
+00296 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_RSF\_MASK}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xFFFFFF5F\textcolor{preprocessor}{)}
+00297 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_FLAGS\_MASK}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}RTC_FLAG_TSOVF \textcolor{preprocessor}{|} RTC_FLAG_TSF \textcolor{preprocessor}{|} 
+      RTC_FLAG_WUTF \textcolor{preprocessor}{|}
+00298                                             RTC_FLAG_ALRBF \textcolor{preprocessor}{|} RTC_FLAG_ALRAF \textcolor{preprocessor}{|} 
+      RTC_FLAG_INITF \textcolor{preprocessor}{|}
+00299                                             RTC_FLAG_RSF \textcolor{preprocessor}{|} RTC_FLAG_INITS \textcolor{preprocessor}{|} 
+      RTC_FLAG_WUTWF \textcolor{preprocessor}{|}
+00300                                             RTC_FLAG_ALRBWF \textcolor{preprocessor}{|} 
+      RTC_FLAG_ALRAWF \textcolor{preprocessor}{|} RTC_FLAG_TAMP1F \textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00301 
+00302 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{INITMODE\_TIMEOUT}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)} 0x00010000\textcolor{preprocessor}{)}
+00303 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SYNCHRO\_TIMEOUT}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)} 0x00020000\textcolor{preprocessor}{)}
+00304 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RECALPF\_TIMEOUT}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)} 0x00020000\textcolor{preprocessor}{)}
+00305 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{SHPF\_TIMEOUT}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)} 0x00001000\textcolor{preprocessor}{)}
+00306 
+00307 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00308 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00309 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00310 \textcolor{keyword}{static} uint8\_t RTC_ByteToBcd2(uint8\_t Value);
+00311 \textcolor{keyword}{static} uint8\_t RTC_Bcd2ToByte(uint8\_t Value);
+00312 
+00313 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00314 
+00315 \textcolor{comment}{/** @defgroup RTC\_Private\_Functions}
+00316 \textcolor{comment}{  * @\{}
+00317 \textcolor{comment}{  */}
+00318 
+00319 \textcolor{comment}{/** @defgroup RTC\_Group1 Initialization and Configuration functions}
+00320 \textcolor{comment}{ *  @brief   Initialization and Configuration functions }
+00321 \textcolor{comment}{ *}
+00322 \textcolor{comment}{@verbatim   }
+00323 \textcolor{comment}{ ===============================================================================}
+00324 \textcolor{comment}{                 Initialization and Configuration functions}
+00325 \textcolor{comment}{ ===============================================================================}
+00326 \textcolor{comment}{}
+00327 \textcolor{comment}{  This section provide functions allowing to initialize and configure the RTC}
+00328 \textcolor{comment}{  Prescaler (Synchronous and Asynchronous), RTC Hour format, disable RTC registers}
+00329 \textcolor{comment}{  Write protection, enter and exit the RTC initialization mode, RTC registers}
+00330 \textcolor{comment}{  synchronization check and reference clock detection enable.}
+00331 \textcolor{comment}{  }
+00332 \textcolor{comment}{  1. The RTC Prescaler is programmed to generate the RTC 1Hz time base. It is}
+00333 \textcolor{comment}{     split into 2 programmable prescalers to minimize power consumption.}
+00334 \textcolor{comment}{     - A 7-bit asynchronous prescaler and A 13-bit synchronous prescaler.}
+00335 \textcolor{comment}{     - When both prescalers are used, it is recommended to configure the asynchronous}
+00336 \textcolor{comment}{       prescaler to a high value to minimize consumption.}
+00337 \textcolor{comment}{}
+00338 \textcolor{comment}{  2. All RTC registers are Write protected. Writing to the RTC registers}
+00339 \textcolor{comment}{     is enabled by writing a key into the Write Protection register, RTC\_WPR.}
+00340 \textcolor{comment}{}
+00341 \textcolor{comment}{  3. To Configure the RTC Calendar, user application should enter initialization}
+00342 \textcolor{comment}{     mode. In this mode, the calendar counter is stopped and its value can be }
+00343 \textcolor{comment}{     updated. When the initialization sequence is complete, the calendar restarts }
+00344 \textcolor{comment}{     counting after 4 RTCCLK cycles.}
+00345 \textcolor{comment}{}
+00346 \textcolor{comment}{  4. To read the calendar through the shadow registers after Calendar initialization,}
+00347 \textcolor{comment}{     calendar update or after wakeup from low power modes the software must first }
+00348 \textcolor{comment}{     clear the RSF flag. The software must then wait until it is set again before }
+00349 \textcolor{comment}{     reading the calendar, which means that the calendar registers have been }
+00350 \textcolor{comment}{     correctly copied into the RTC\_TR and RTC\_DR shadow registers.}
+00351 \textcolor{comment}{     The RTC\_WaitForSynchro() function implements the above software sequence }
+00352 \textcolor{comment}{     (RSF clear and RSF check).}
+00353 \textcolor{comment}{}
+00354 \textcolor{comment}{@endverbatim}
+00355 \textcolor{comment}{  * @\{}
+00356 \textcolor{comment}{  */}
+00357 
+00358 \textcolor{comment}{/**}
+00359 \textcolor{comment}{  * @brief  Deinitializes the RTC registers to their default reset values.}
+00360 \textcolor{comment}{  * @note   This function doesn't reset the RTC Clock source and RTC Backup Data}
+00361 \textcolor{comment}{  *         registers.       }
+00362 \textcolor{comment}{  * @param  None}
+00363 \textcolor{comment}{  * @retval An ErrorStatus enumeration value:}
+00364 \textcolor{comment}{  *          - SUCCESS: RTC registers are deinitialized}
+00365 \textcolor{comment}{  *          - ERROR: RTC registers are not deinitialized}
+00366 \textcolor{comment}{  */}
+00367 ErrorStatus RTC_DeInit(\textcolor{keywordtype}{void})
+00368 \{
+00369   \_\_IO uint32\_t wutcounter = 0x00;
+00370   uint32\_t wutwfstatus = 0x00;
+00371   ErrorStatus status = ERROR;
+00372 
+00373   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00374   RTC->WPR = 0xCA;
+00375   RTC->WPR = 0x53;
+00376 
+00377   \textcolor{comment}{/* Set Initialization mode */}
+00378   \textcolor{keywordflow}{if} (RTC_EnterInitMode() == ERROR)
+00379   \{
+00380     status = ERROR;
+00381   \}
+00382   \textcolor{keywordflow}{else}
+00383   \{
+00384     \textcolor{comment}{/* Reset TR, DR and CR registers */}
+00385     RTC->TR = (uint32\_t)0x00000000;
+00386     RTC->DR = (uint32\_t)0x00002101;
+00387     \textcolor{comment}{/* Reset All CR bits except CR[2:0] */}
+00388     RTC->CR &= (uint32\_t)0x00000007;
+00389 
+00390     \textcolor{comment}{/* Wait till RTC WUTWF flag is set and if Time out is reached exit */}
+00391     \textcolor{keywordflow}{do}
+00392     \{
+00393       wutwfstatus = RTC->ISR & RTC_ISR_WUTWF;
+00394       wutcounter++;
+00395     \} \textcolor{keywordflow}{while}((wutcounter != INITMODE_TIMEOUT) && (wutwfstatus == 0x00));
+00396 
+00397     \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_WUTWF) == RESET)
+00398     \{
+00399       status = ERROR;
+00400     \}
+00401     \textcolor{keywordflow}{else}
+00402     \{
+00403       \textcolor{comment}{/* Reset all RTC CR register bits */}
+00404       RTC->CR &= (uint32\_t)0x00000000;
+00405       RTC->WUTR = (uint32\_t)0x0000FFFF;
+00406       RTC->PRER = (uint32\_t)0x007F00FF;
+00407       RTC->CALIBR = (uint32\_t)0x00000000;
+00408       RTC->ALRMAR = (uint32\_t)0x00000000;
+00409       RTC->ALRMBR = (uint32\_t)0x00000000;
+00410 
+00411       \textcolor{comment}{/* Reset ISR register and exit initialization mode */}
+00412       RTC->ISR = (uint32\_t)0x00000000;
+00413 
+00414       \textcolor{comment}{/* Reset Tamper and alternate functions configuration register */}
+00415       RTC->TAFCR = 0x00000000;
+00416 
+00417       \textcolor{keywordflow}{if}(RTC\_WaitForSynchro() == ERROR)
+00418       \{
+00419         status = ERROR;
+00420       \}
+00421       \textcolor{keywordflow}{else}
+00422       \{
+00423         status = SUCCESS;
+00424       \}
+00425     \}
+00426   \}
+00427 
+00428   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00429   RTC->WPR = 0xFF;
+00430 
+00431   \textcolor{keywordflow}{return} status;
+00432 \}
+00433 
+00434 \textcolor{comment}{/**}
+00435 \textcolor{comment}{  * @brief  Initializes the RTC registers according to the specified parameters }
+00436 \textcolor{comment}{  *         in RTC\_InitStruct.}
+00437 \textcolor{comment}{  * @param  RTC\_InitStruct: pointer to a RTC\_InitTypeDef structure that contains }
+00438 \textcolor{comment}{  *         the configuration information for the RTC peripheral.}
+00439 \textcolor{comment}{  * @note   The RTC Prescaler register is write protected and can be written in }
+00440 \textcolor{comment}{  *         initialization mode only.  }
+00441 \textcolor{comment}{  * @retval An ErrorStatus enumeration value:}
+00442 \textcolor{comment}{  *          - SUCCESS: RTC registers are initialized}
+00443 \textcolor{comment}{  *          - ERROR: RTC registers are not initialized  }
+00444 \textcolor{comment}{  */}
+00445 ErrorStatus RTC_Init(RTC\_InitTypeDef* RTC\_InitStruct)
+00446 \{
+00447   ErrorStatus status = ERROR;
+00448 
+00449   \textcolor{comment}{/* Check the parameters */}
+00450   assert_param(IS\_RTC\_HOUR\_FORMAT(RTC\_InitStruct->RTC\_HourFormat));
+00451   assert_param(IS\_RTC\_ASYNCH\_PREDIV(RTC\_InitStruct->RTC\_AsynchPrediv));
+00452   assert_param(IS\_RTC\_SYNCH\_PREDIV(RTC\_InitStruct->RTC\_SynchPrediv));
+00453 
+00454   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00455   RTC->WPR = 0xCA;
+00456   RTC->WPR = 0x53;
+00457 
+00458   \textcolor{comment}{/* Set Initialization mode */}
+00459   \textcolor{keywordflow}{if} (RTC_EnterInitMode() == ERROR)
+00460   \{
+00461     status = ERROR;
+00462   \}
+00463   \textcolor{keywordflow}{else}
+00464   \{
+00465     \textcolor{comment}{/* Clear RTC CR FMT Bit */}
+00466     RTC->CR &= ((uint32\_t)~(RTC_CR_FMT));
+00467     \textcolor{comment}{/* Set RTC\_CR register */}
+00468     RTC->CR |=  ((uint32\_t)(RTC\_InitStruct->RTC\_HourFormat));
+00469 
+00470     \textcolor{comment}{/* Configure the RTC PRER */}
+00471     RTC->PRER = (uint32\_t)(RTC\_InitStruct->RTC\_SynchPrediv);
+00472     RTC->PRER |= (uint32\_t)(RTC\_InitStruct->RTC\_AsynchPrediv << 16);
+00473 
+00474     \textcolor{comment}{/* Exit Initialization mode */}
+00475     RTC_ExitInitMode();
+00476 
+00477     status = SUCCESS;
+00478   \}
+00479   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00480   RTC->WPR = 0xFF;
+00481 
+00482   \textcolor{keywordflow}{return} status;
+00483 \}
+00484 
+00485 \textcolor{comment}{/**}
+00486 \textcolor{comment}{  * @brief  Fills each RTC\_InitStruct member with its default value.}
+00487 \textcolor{comment}{  * @param  RTC\_InitStruct: pointer to a RTC\_InitTypeDef structure which will be }
+00488 \textcolor{comment}{  *         initialized.}
+00489 \textcolor{comment}{  * @retval None}
+00490 \textcolor{comment}{  */}
+00491 \textcolor{keywordtype}{void} RTC_StructInit(RTC\_InitTypeDef* RTC\_InitStruct)
+00492 \{
+00493   \textcolor{comment}{/* Initialize the RTC\_HourFormat member */}
+00494   RTC\_InitStruct->RTC_HourFormat = RTC_HourFormat_24;
+00495 
+00496   \textcolor{comment}{/* Initialize the RTC\_AsynchPrediv member */}
+00497   RTC\_InitStruct->RTC_AsynchPrediv = (uint32\_t)0x7F;
+00498 
+00499   \textcolor{comment}{/* Initialize the RTC\_SynchPrediv member */}
+00500   RTC\_InitStruct->RTC_SynchPrediv = (uint32\_t)0xFF;
+00501 \}
+00502 
+00503 \textcolor{comment}{/**}
+00504 \textcolor{comment}{  * @brief  Enables or disables the RTC registers write protection.}
+00505 \textcolor{comment}{  * @note   All the RTC registers are write protected except for RTC\_ISR[13:8], }
+00506 \textcolor{comment}{  *         RTC\_TAFCR and RTC\_BKPxR.}
+00507 \textcolor{comment}{  * @note   Writing a wrong key reactivates the write protection.}
+00508 \textcolor{comment}{  * @note   The protection mechanism is not affected by system reset.  }
+00509 \textcolor{comment}{  * @param  NewState: new state of the write protection.}
+00510 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00511 \textcolor{comment}{  * @retval None}
+00512 \textcolor{comment}{  */}
+00513 \textcolor{keywordtype}{void} RTC_WriteProtectionCmd(FunctionalState NewState)
+00514 \{
+00515   \textcolor{comment}{/* Check the parameters */}
+00516   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00517 
+00518   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00519   \{
+00520     \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00521     RTC->WPR = 0xFF;
+00522   \}
+00523   \textcolor{keywordflow}{else}
+00524   \{
+00525     \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00526     RTC->WPR = 0xCA;
+00527     RTC->WPR = 0x53;
+00528   \}
+00529 \}
+00530 
+00531 \textcolor{comment}{/**}
+00532 \textcolor{comment}{  * @brief  Enters the RTC Initialization mode.}
+00533 \textcolor{comment}{  * @note   The RTC Initialization mode is write protected, use the }
+00534 \textcolor{comment}{  *         RTC\_WriteProtectionCmd(DISABLE) before calling this function.    }
+00535 \textcolor{comment}{  * @param  None}
+00536 \textcolor{comment}{  * @retval An ErrorStatus enumeration value:}
+00537 \textcolor{comment}{  *          - SUCCESS: RTC is in Init mode}
+00538 \textcolor{comment}{  *          - ERROR: RTC is not in Init mode  }
+00539 \textcolor{comment}{  */}
+00540 ErrorStatus RTC_EnterInitMode(\textcolor{keywordtype}{void})
+00541 \{
+00542   \_\_IO uint32\_t initcounter = 0x00;
+00543   ErrorStatus status = ERROR;
+00544   uint32\_t initstatus = 0x00;
+00545 
+00546   \textcolor{comment}{/* Check if the Initialization mode is set */}
+00547   \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_INITF) == (uint32\_t)RESET)
+00548   \{
+00549     \textcolor{comment}{/* Set the Initialization mode */}
+00550     RTC->ISR = (uint32\_t)RTC_INIT_MASK;
+00551 
+00552     \textcolor{comment}{/* Wait till RTC is in INIT state and if Time out is reached exit */}
+00553     \textcolor{keywordflow}{do}
+00554     \{
+00555       initstatus = RTC->ISR & RTC_ISR_INITF;
+00556       initcounter++;
+00557     \} \textcolor{keywordflow}{while}((initcounter != INITMODE_TIMEOUT) && (initstatus == 0x00));
+00558 
+00559     \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_INITF) != RESET)
+00560     \{
+00561       status = SUCCESS;
+00562     \}
+00563     \textcolor{keywordflow}{else}
+00564     \{
+00565       status = ERROR;
+00566     \}
+00567   \}
+00568   \textcolor{keywordflow}{else}
+00569   \{
+00570     status = SUCCESS;
+00571   \}
+00572 
+00573   \textcolor{keywordflow}{return} (status);
+00574 \}
+00575 
+00576 \textcolor{comment}{/**}
+00577 \textcolor{comment}{  * @brief  Exits the RTC Initialization mode.}
+00578 \textcolor{comment}{  * @note   When the initialization sequence is complete, the calendar restarts }
+00579 \textcolor{comment}{  *         counting after 4 RTCCLK cycles.  }
+00580 \textcolor{comment}{  * @note   The RTC Initialization mode is write protected, use the }
+00581 \textcolor{comment}{  *         RTC\_WriteProtectionCmd(DISABLE) before calling this function.      }
+00582 \textcolor{comment}{  * @param  None}
+00583 \textcolor{comment}{  * @retval None}
+00584 \textcolor{comment}{  */}
+00585 \textcolor{keywordtype}{void} RTC_ExitInitMode(\textcolor{keywordtype}{void})
+00586 \{
+00587   \textcolor{comment}{/* Exit Initialization mode */}
+00588   RTC->ISR &= (uint32\_t)~RTC_ISR_INIT;
+00589 \}
+00590 
+00591 \textcolor{comment}{/**}
+00592 \textcolor{comment}{  * @brief  Waits until the RTC Time and Date registers (RTC\_TR and RTC\_DR) are }
+00593 \textcolor{comment}{  *         synchronized with RTC APB clock.}
+00594 \textcolor{comment}{  * @note   The RTC Resynchronization mode is write protected, use the }
+00595 \textcolor{comment}{  *         RTC\_WriteProtectionCmd(DISABLE) before calling this function. }
+00596 \textcolor{comment}{  * @note   To read the calendar through the shadow registers after Calendar }
+00597 \textcolor{comment}{  *         initialization, calendar update or after wakeup from low power modes }
+00598 \textcolor{comment}{  *         the software must first clear the RSF flag. }
+00599 \textcolor{comment}{  *         The software must then wait until it is set again before reading }
+00600 \textcolor{comment}{  *         the calendar, which means that the calendar registers have been }
+00601 \textcolor{comment}{  *         correctly copied into the RTC\_TR and RTC\_DR shadow registers.   }
+00602 \textcolor{comment}{  * @param  None}
+00603 \textcolor{comment}{  * @retval An ErrorStatus enumeration value:}
+00604 \textcolor{comment}{  *          - SUCCESS: RTC registers are synchronised}
+00605 \textcolor{comment}{  *          - ERROR: RTC registers are not synchronised}
+00606 \textcolor{comment}{  */}
+00607 ErrorStatus RTC_WaitForSynchro(\textcolor{keywordtype}{void})
+00608 \{
+00609   \_\_IO uint32\_t synchrocounter = 0;
+00610   ErrorStatus status = ERROR;
+00611   uint32\_t synchrostatus = 0x00;
+00612 
+00613   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00614   RTC->WPR = 0xCA;
+00615   RTC->WPR = 0x53;
+00616 
+00617   \textcolor{comment}{/* Clear RSF flag */}
+00618   RTC->ISR &= (uint32\_t)RTC_RSF_MASK;
+00619 
+00620   \textcolor{comment}{/* Wait the registers to be synchronised */}
+00621   \textcolor{keywordflow}{do}
+00622   \{
+00623     synchrostatus = RTC->ISR & RTC_ISR_RSF;
+00624     synchrocounter++;
+00625   \} \textcolor{keywordflow}{while}((synchrocounter != SYNCHRO_TIMEOUT) && (synchrostatus == 0x00));
+00626 
+00627   \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_RSF) != RESET)
+00628   \{
+00629     status = SUCCESS;
+00630   \}
+00631   \textcolor{keywordflow}{else}
+00632   \{
+00633     status = ERROR;
+00634   \}
+00635 
+00636   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00637   RTC->WPR = 0xFF;
+00638 
+00639   \textcolor{keywordflow}{return} (status);
+00640 \}
+00641 
+00642 \textcolor{comment}{/**}
+00643 \textcolor{comment}{  * @brief  Enables or disables the RTC reference clock detection.}
+00644 \textcolor{comment}{  * @param  NewState: new state of the RTC reference clock.}
+00645 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00646 \textcolor{comment}{  * @retval An ErrorStatus enumeration value:}
+00647 \textcolor{comment}{  *          - SUCCESS: RTC reference clock detection is enabled}
+00648 \textcolor{comment}{  *          - ERROR: RTC reference clock detection is disabled  }
+00649 \textcolor{comment}{  */}
+00650 ErrorStatus RTC_RefClockCmd(FunctionalState NewState)
+00651 \{
+00652   ErrorStatus status = ERROR;
+00653 
+00654   \textcolor{comment}{/* Check the parameters */}
+00655   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00656 
+00657   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00658   RTC->WPR = 0xCA;
+00659   RTC->WPR = 0x53;
+00660 
+00661   \textcolor{comment}{/* Set Initialization mode */}
+00662   \textcolor{keywordflow}{if} (RTC_EnterInitMode() == ERROR)
+00663   \{
+00664     status = ERROR;
+00665   \}
+00666   \textcolor{keywordflow}{else}
+00667   \{
+00668     \textcolor{keywordflow}{if} (NewState != DISABLE)
+00669     \{
+00670       \textcolor{comment}{/* Enable the RTC reference clock detection */}
+00671       RTC->CR |= RTC_CR_REFCKON;
+00672     \}
+00673     \textcolor{keywordflow}{else}
+00674     \{
+00675       \textcolor{comment}{/* Disable the RTC reference clock detection */}
+00676       RTC->CR &= ~RTC_CR_REFCKON;
+00677     \}
+00678     \textcolor{comment}{/* Exit Initialization mode */}
+00679     RTC_ExitInitMode();
+00680 
+00681     status = SUCCESS;
+00682   \}
+00683 
+00684   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00685   RTC->WPR = 0xFF;
+00686 
+00687   \textcolor{keywordflow}{return} status;
+00688 \}
+00689 
+00690 \textcolor{comment}{/**}
+00691 \textcolor{comment}{  * @brief  Enables or Disables the Bypass Shadow feature.}
+00692 \textcolor{comment}{  * @note   When the Bypass Shadow is enabled the calendar value are taken }
+00693 \textcolor{comment}{  *         directly from the Calendar counter.}
+00694 \textcolor{comment}{  * @param  NewState: new state of the Bypass Shadow feature.}
+00695 \textcolor{comment}{  *         This parameter can be: ENABLE or DISABLE.}
+00696 \textcolor{comment}{  * @retval None}
+00697 \textcolor{comment}{*/}
+00698 \textcolor{keywordtype}{void} RTC_BypassShadowCmd(FunctionalState NewState)
+00699 \{
+00700   \textcolor{comment}{/* Check the parameters */}
+00701   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00702 
+00703   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00704   RTC->WPR = 0xCA;
+00705   RTC->WPR = 0x53;
+00706 
+00707   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00708   \{
+00709     \textcolor{comment}{/* Set the BYPSHAD bit */}
+00710     RTC->CR |= (uint8\_t)RTC_CR_BYPSHAD;
+00711   \}
+00712   \textcolor{keywordflow}{else}
+00713   \{
+00714     \textcolor{comment}{/* Reset the BYPSHAD bit */}
+00715     RTC->CR &= (uint8\_t)~RTC_CR_BYPSHAD;
+00716   \}
+00717 
+00718   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00719   RTC->WPR = 0xFF;
+00720 \}
+00721 
+00722 \textcolor{comment}{/**}
+00723 \textcolor{comment}{  * @\}}
+00724 \textcolor{comment}{  */}
+00725 
+00726 \textcolor{comment}{/** @defgroup RTC\_Group2 Time and Date configuration functions}
+00727 \textcolor{comment}{ *  @brief   Time and Date configuration functions }
+00728 \textcolor{comment}{ *}
+00729 \textcolor{comment}{@verbatim   }
+00730 \textcolor{comment}{ ===============================================================================}
+00731 \textcolor{comment}{                   Time and Date configuration functions}
+00732 \textcolor{comment}{ ===============================================================================  }
+00733 \textcolor{comment}{}
+00734 \textcolor{comment}{  This section provide functions allowing to program and read the RTC Calendar}
+00735 \textcolor{comment}{  (Time and Date).}
+00736 \textcolor{comment}{}
+00737 \textcolor{comment}{@endverbatim}
+00738 \textcolor{comment}{  * @\{}
+00739 \textcolor{comment}{  */}
+00740 
+00741 \textcolor{comment}{/**}
+00742 \textcolor{comment}{  * @brief  Set the RTC current time.}
+00743 \textcolor{comment}{  * @param  RTC\_Format: specifies the format of the entered parameters.}
+00744 \textcolor{comment}{  *          This parameter can be  one of the following values:}
+00745 \textcolor{comment}{  *            @arg RTC\_Format\_BIN:  Binary data format }
+00746 \textcolor{comment}{  *            @arg RTC\_Format\_BCD:  BCD data format}
+00747 \textcolor{comment}{  * @param  RTC\_TimeStruct: pointer to a RTC\_TimeTypeDef structure that contains }
+00748 \textcolor{comment}{  *                        the time configuration information for the RTC.     }
+00749 \textcolor{comment}{  * @retval An ErrorStatus enumeration value:}
+00750 \textcolor{comment}{  *          - SUCCESS: RTC Time register is configured}
+00751 \textcolor{comment}{  *          - ERROR: RTC Time register is not configured}
+00752 \textcolor{comment}{  */}
+00753 ErrorStatus RTC_SetTime(uint32\_t RTC\_Format, RTC\_TimeTypeDef* RTC\_TimeStruct)
+00754 \{
+00755   uint32\_t tmpreg = 0;
+00756   ErrorStatus status = ERROR;
+00757 
+00758   \textcolor{comment}{/* Check the parameters */}
+00759   assert_param(IS\_RTC\_FORMAT(RTC\_Format));
+00760 
+00761   \textcolor{keywordflow}{if} (RTC\_Format == RTC_Format_BIN)
+00762   \{
+00763     \textcolor{keywordflow}{if} ((RTC->CR & RTC_CR_FMT) != (uint32\_t)RESET)
+00764     \{
+00765       assert_param(IS\_RTC\_HOUR12(RTC\_TimeStruct->RTC\_Hours));
+00766       assert_param(IS\_RTC\_H12(RTC\_TimeStruct->RTC\_H12));
+00767     \}
+00768     \textcolor{keywordflow}{else}
+00769     \{
+00770       RTC\_TimeStruct->RTC\_H12 = 0x00;
+00771       assert_param(IS\_RTC\_HOUR24(RTC\_TimeStruct->RTC\_Hours));
+00772     \}
+00773     assert_param(IS\_RTC\_MINUTES(RTC\_TimeStruct->RTC\_Minutes));
+00774     assert_param(IS\_RTC\_SECONDS(RTC\_TimeStruct->RTC\_Seconds));
+00775   \}
+00776   \textcolor{keywordflow}{else}
+00777   \{
+00778     \textcolor{keywordflow}{if} ((RTC->CR & RTC_CR_FMT) != (uint32\_t)RESET)
+00779     \{
+00780       tmpreg = RTC\_Bcd2ToByte(RTC\_TimeStruct->RTC\_Hours);
+00781       assert_param(IS\_RTC\_HOUR12(tmpreg));
+00782       assert_param(IS\_RTC\_H12(RTC\_TimeStruct->RTC\_H12));
+00783     \}
+00784     \textcolor{keywordflow}{else}
+00785     \{
+00786       RTC\_TimeStruct->RTC\_H12 = 0x00;
+00787       assert_param(IS\_RTC\_HOUR24(RTC\_Bcd2ToByte(RTC\_TimeStruct->RTC\_Hours)));
+00788     \}
+00789     assert_param(IS\_RTC\_MINUTES(RTC\_Bcd2ToByte(RTC\_TimeStruct->RTC\_Minutes)));
+00790     assert_param(IS\_RTC\_SECONDS(RTC\_Bcd2ToByte(RTC\_TimeStruct->RTC\_Seconds)));
+00791   \}
+00792 
+00793   \textcolor{comment}{/* Check the input parameters format */}
+00794   \textcolor{keywordflow}{if} (RTC\_Format != RTC_Format_BIN)
+00795   \{
+00796     tmpreg = (((uint32\_t)(RTC\_TimeStruct->RTC_Hours) << 16) |
+00797              ((uint32\_t)(RTC\_TimeStruct->RTC_Minutes) << 8) |
+00798              ((uint32\_t)RTC\_TimeStruct->RTC_Seconds) |
+00799              ((uint32\_t)(RTC\_TimeStruct->RTC_H12) << 16));
+00800   \}
+00801   \textcolor{keywordflow}{else}
+00802   \{
+00803     tmpreg = (uint32\_t)(((uint32\_t)RTC_ByteToBcd2(RTC\_TimeStruct->RTC_Hours
+      ) << 16) |
+00804                    ((uint32\_t)RTC_ByteToBcd2(RTC\_TimeStruct->RTC_Minutes) << 8) |
+00805                    ((uint32\_t)RTC_ByteToBcd2(RTC\_TimeStruct->RTC_Seconds)) |
+00806                    (((uint32\_t)RTC\_TimeStruct->RTC_H12) << 16));
+00807   \}
+00808 
+00809   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00810   RTC->WPR = 0xCA;
+00811   RTC->WPR = 0x53;
+00812 
+00813   \textcolor{comment}{/* Set Initialization mode */}
+00814   \textcolor{keywordflow}{if} (RTC_EnterInitMode() == ERROR)
+00815   \{
+00816     status = ERROR;
+00817   \}
+00818   \textcolor{keywordflow}{else}
+00819   \{
+00820     \textcolor{comment}{/* Set the RTC\_TR register */}
+00821     RTC->TR = (uint32\_t)(tmpreg & RTC_TR_RESERVED_MASK);
+00822 
+00823     \textcolor{comment}{/* Exit Initialization mode */}
+00824     RTC_ExitInitMode();
+00825 
+00826     \textcolor{keywordflow}{if}(RTC_WaitForSynchro() == ERROR)
+00827     \{
+00828       status = ERROR;
+00829     \}
+00830     \textcolor{keywordflow}{else}
+00831     \{
+00832       status = SUCCESS;
+00833     \}
+00834 
+00835   \}
+00836   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00837   RTC->WPR = 0xFF;
+00838 
+00839   \textcolor{keywordflow}{return} status;
+00840 \}
+00841 
+00842 \textcolor{comment}{/**}
+00843 \textcolor{comment}{  * @brief  Fills each RTC\_TimeStruct member with its default value}
+00844 \textcolor{comment}{  *         (Time = 00h:00min:00sec).}
+00845 \textcolor{comment}{  * @param  RTC\_TimeStruct: pointer to a RTC\_TimeTypeDef structure which will be }
+00846 \textcolor{comment}{  *         initialized.}
+00847 \textcolor{comment}{  * @retval None}
+00848 \textcolor{comment}{  */}
+00849 \textcolor{keywordtype}{void} RTC_TimeStructInit(RTC\_TimeTypeDef* RTC\_TimeStruct)
+00850 \{
+00851   \textcolor{comment}{/* Time = 00h:00min:00sec */}
+00852   RTC\_TimeStruct->RTC_H12 = RTC_H12_AM;
+00853   RTC\_TimeStruct->RTC_Hours = 0;
+00854   RTC\_TimeStruct->RTC_Minutes = 0;
+00855   RTC\_TimeStruct->RTC_Seconds = 0;
+00856 \}
+00857 
+00858 \textcolor{comment}{/**}
+00859 \textcolor{comment}{  * @brief  Get the RTC current Time.}
+00860 \textcolor{comment}{  * @param  RTC\_Format: specifies the format of the returned parameters.}
+00861 \textcolor{comment}{  *          This parameter can be  one of the following values:}
+00862 \textcolor{comment}{  *            @arg RTC\_Format\_BIN:  Binary data format }
+00863 \textcolor{comment}{  *            @arg RTC\_Format\_BCD:  BCD data format}
+00864 \textcolor{comment}{  * @param  RTC\_TimeStruct: pointer to a RTC\_TimeTypeDef structure that will }
+00865 \textcolor{comment}{  *                        contain the returned current time configuration.     }
+00866 \textcolor{comment}{  * @retval None}
+00867 \textcolor{comment}{  */}
+00868 \textcolor{keywordtype}{void} RTC_GetTime(uint32\_t RTC\_Format, RTC\_TimeTypeDef* RTC\_TimeStruct)
+00869 \{
+00870   uint32\_t tmpreg = 0;
+00871 
+00872   \textcolor{comment}{/* Check the parameters */}
+00873   assert_param(IS\_RTC\_FORMAT(RTC\_Format));
+00874 
+00875   \textcolor{comment}{/* Get the RTC\_TR register */}
+00876   tmpreg = (uint32\_t)(RTC->TR & RTC_TR_RESERVED_MASK);
+00877 
+00878   \textcolor{comment}{/* Fill the structure fields with the read parameters */}
+00879   RTC\_TimeStruct->RTC_Hours = (uint8\_t)((tmpreg & (RTC_TR_HT | RTC_TR_HU)) >> 16);
+00880   RTC\_TimeStruct->RTC_Minutes = (uint8\_t)((tmpreg & (RTC_TR_MNT | 
+      RTC_TR_MNU)) >>8);
+00881   RTC\_TimeStruct->RTC_Seconds = (uint8\_t)(tmpreg & (RTC_TR_ST | RTC_TR_SU));
+00882   RTC\_TimeStruct->RTC_H12 = (uint8\_t)((tmpreg & (RTC_TR_PM)) >> 16);
+00883 
+00884   \textcolor{comment}{/* Check the input parameters format */}
+00885   \textcolor{keywordflow}{if} (RTC\_Format == RTC_Format_BIN)
+00886   \{
+00887     \textcolor{comment}{/* Convert the structure parameters to Binary format */}
+00888     RTC\_TimeStruct->RTC_Hours = (uint8\_t)RTC_Bcd2ToByte(RTC\_TimeStruct->
+      RTC_Hours);
+00889     RTC\_TimeStruct->RTC_Minutes = (uint8\_t)RTC_Bcd2ToByte(RTC\_TimeStruct->
+      RTC_Minutes);
+00890     RTC\_TimeStruct->RTC_Seconds = (uint8\_t)RTC_Bcd2ToByte(RTC\_TimeStruct->
+      RTC_Seconds);
+00891   \}
+00892 \}
+00893 
+00894 \textcolor{comment}{/**}
+00895 \textcolor{comment}{  * @brief  Gets the RTC current Calendar Subseconds value.}
+00896 \textcolor{comment}{  * @note   This function freeze the Time and Date registers after reading the }
+00897 \textcolor{comment}{  *         SSR register.}
+00898 \textcolor{comment}{  * @param  None}
+00899 \textcolor{comment}{  * @retval RTC current Calendar Subseconds value.}
+00900 \textcolor{comment}{  */}
+00901 uint32\_t RTC_GetSubSecond(\textcolor{keywordtype}{void})
+00902 \{
+00903   uint32\_t tmpreg = 0;
+00904 
+00905   \textcolor{comment}{/* Get subseconds values from the correspondent registers*/}
+00906   tmpreg = (uint32\_t)(RTC->SSR);
+00907 
+00908   \textcolor{comment}{/* Read DR register to unfroze calendar registers */}
+00909   (\textcolor{keywordtype}{void}) (RTC->DR);
+00910 
+00911   \textcolor{keywordflow}{return} (tmpreg);
+00912 \}
+00913 
+00914 \textcolor{comment}{/**}
+00915 \textcolor{comment}{  * @brief  Set the RTC current date.}
+00916 \textcolor{comment}{  * @param  RTC\_Format: specifies the format of the entered parameters.}
+00917 \textcolor{comment}{  *          This parameter can be  one of the following values:}
+00918 \textcolor{comment}{  *            @arg RTC\_Format\_BIN:  Binary data format }
+00919 \textcolor{comment}{  *            @arg RTC\_Format\_BCD:  BCD data format}
+00920 \textcolor{comment}{  * @param  RTC\_DateStruct: pointer to a RTC\_DateTypeDef structure that contains }
+00921 \textcolor{comment}{  *                         the date configuration information for the RTC.}
+00922 \textcolor{comment}{  * @retval An ErrorStatus enumeration value:}
+00923 \textcolor{comment}{  *          - SUCCESS: RTC Date register is configured}
+00924 \textcolor{comment}{  *          - ERROR: RTC Date register is not configured}
+00925 \textcolor{comment}{  */}
+00926 ErrorStatus RTC_SetDate(uint32\_t RTC\_Format, RTC\_DateTypeDef* RTC\_DateStruct)
+00927 \{
+00928   uint32\_t tmpreg = 0;
+00929   ErrorStatus status = ERROR;
+00930 
+00931   \textcolor{comment}{/* Check the parameters */}
+00932   assert_param(IS\_RTC\_FORMAT(RTC\_Format));
+00933 
+00934   \textcolor{keywordflow}{if} ((RTC\_Format == RTC_Format_BIN) && ((RTC\_DateStruct->RTC_Month & 0x10) == 0x10))
+00935   \{
+00936     RTC\_DateStruct->RTC_Month = (RTC\_DateStruct->RTC_Month & (uint32\_t)~(0x10)) + 0x0A;
+00937   \}
+00938   \textcolor{keywordflow}{if} (RTC\_Format == RTC_Format_BIN)
+00939   \{
+00940     assert_param(IS\_RTC\_YEAR(RTC\_DateStruct->RTC\_Year));
+00941     assert_param(IS\_RTC\_MONTH(RTC\_DateStruct->RTC\_Month));
+00942     assert_param(IS\_RTC\_DATE(RTC\_DateStruct->RTC\_Date));
+00943   \}
+00944   \textcolor{keywordflow}{else}
+00945   \{
+00946     assert_param(IS\_RTC\_YEAR(RTC\_Bcd2ToByte(RTC\_DateStruct->RTC\_Year)));
+00947     tmpreg = RTC_Bcd2ToByte(RTC\_DateStruct->RTC_Month);
+00948     assert_param(IS\_RTC\_MONTH(tmpreg));
+00949     tmpreg = RTC_Bcd2ToByte(RTC\_DateStruct->RTC_Date);
+00950     assert_param(IS\_RTC\_DATE(tmpreg));
+00951   \}
+00952   assert_param(IS\_RTC\_WEEKDAY(RTC\_DateStruct->RTC\_WeekDay));
+00953 
+00954   \textcolor{comment}{/* Check the input parameters format */}
+00955   \textcolor{keywordflow}{if} (RTC\_Format != RTC_Format_BIN)
+00956   \{
+00957     tmpreg = ((((uint32\_t)RTC\_DateStruct->RTC_Year) << 16) |
+00958               (((uint32\_t)RTC\_DateStruct->RTC_Month) << 8) |
+00959               ((uint32\_t)RTC\_DateStruct->RTC_Date) |
+00960               (((uint32\_t)RTC\_DateStruct->RTC_WeekDay) << 13));
+00961   \}
+00962   \textcolor{keywordflow}{else}
+00963   \{
+00964     tmpreg = (((uint32\_t)RTC_ByteToBcd2(RTC\_DateStruct->RTC_Year) << 16) |
+00965               ((uint32\_t)RTC_ByteToBcd2(RTC\_DateStruct->RTC_Month) << 8) |
+00966               ((uint32\_t)RTC_ByteToBcd2(RTC\_DateStruct->RTC_Date)) |
+00967               ((uint32\_t)RTC\_DateStruct->RTC_WeekDay << 13));
+00968   \}
+00969 
+00970   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+00971   RTC->WPR = 0xCA;
+00972   RTC->WPR = 0x53;
+00973 
+00974   \textcolor{comment}{/* Set Initialization mode */}
+00975   \textcolor{keywordflow}{if} (RTC_EnterInitMode() == ERROR)
+00976   \{
+00977     status = ERROR;
+00978   \}
+00979   \textcolor{keywordflow}{else}
+00980   \{
+00981     \textcolor{comment}{/* Set the RTC\_DR register */}
+00982     RTC->DR = (uint32\_t)(tmpreg & RTC_DR_RESERVED_MASK);
+00983 
+00984     \textcolor{comment}{/* Exit Initialization mode */}
+00985     RTC_ExitInitMode();
+00986 
+00987     \textcolor{keywordflow}{if}(RTC_WaitForSynchro() == ERROR)
+00988     \{
+00989       status = ERROR;
+00990     \}
+00991     \textcolor{keywordflow}{else}
+00992     \{
+00993       status = SUCCESS;
+00994     \}
+00995   \}
+00996   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+00997   RTC->WPR = 0xFF;
+00998 
+00999   \textcolor{keywordflow}{return} status;
+01000 \}
+01001 
+01002 \textcolor{comment}{/**}
+01003 \textcolor{comment}{  * @brief  Fills each RTC\_DateStruct member with its default value}
+01004 \textcolor{comment}{  *         (Monday, January 01 xx00).}
+01005 \textcolor{comment}{  * @param  RTC\_DateStruct: pointer to a RTC\_DateTypeDef structure which will be }
+01006 \textcolor{comment}{  *         initialized.}
+01007 \textcolor{comment}{  * @retval None}
+01008 \textcolor{comment}{  */}
+01009 \textcolor{keywordtype}{void} RTC_DateStructInit(RTC\_DateTypeDef* RTC\_DateStruct)
+01010 \{
+01011   \textcolor{comment}{/* Monday, January 01 xx00 */}
+01012   RTC\_DateStruct->RTC_WeekDay = RTC_Weekday_Monday;
+01013   RTC\_DateStruct->RTC_Date = 1;
+01014   RTC\_DateStruct->RTC_Month = RTC_Month_January;
+01015   RTC\_DateStruct->RTC_Year = 0;
+01016 \}
+01017 
+01018 \textcolor{comment}{/**}
+01019 \textcolor{comment}{  * @brief  Get the RTC current date. }
+01020 \textcolor{comment}{  * @param  RTC\_Format: specifies the format of the returned parameters.}
+01021 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01022 \textcolor{comment}{  *            @arg RTC\_Format\_BIN: Binary data format }
+01023 \textcolor{comment}{  *            @arg RTC\_Format\_BCD: BCD data format}
+01024 \textcolor{comment}{  * @param RTC\_DateStruct: pointer to a RTC\_DateTypeDef structure that will }
+01025 \textcolor{comment}{  *                        contain the returned current date configuration.     }
+01026 \textcolor{comment}{  * @retval None}
+01027 \textcolor{comment}{  */}
+01028 \textcolor{keywordtype}{void} RTC_GetDate(uint32\_t RTC\_Format, RTC\_DateTypeDef* RTC\_DateStruct)
+01029 \{
+01030   uint32\_t tmpreg = 0;
+01031 
+01032   \textcolor{comment}{/* Check the parameters */}
+01033   assert_param(IS\_RTC\_FORMAT(RTC\_Format));
+01034 
+01035   \textcolor{comment}{/* Get the RTC\_TR register */}
+01036   tmpreg = (uint32\_t)(RTC->DR & RTC_DR_RESERVED_MASK);
+01037 
+01038   \textcolor{comment}{/* Fill the structure fields with the read parameters */}
+01039   RTC\_DateStruct->RTC_Year = (uint8\_t)((tmpreg & (RTC_DR_YT | RTC_DR_YU)) >> 16);
+01040   RTC\_DateStruct->RTC_Month = (uint8\_t)((tmpreg & (RTC_DR_MT | RTC_DR_MU)) >> 8);
+01041   RTC\_DateStruct->RTC_Date = (uint8\_t)(tmpreg & (RTC_DR_DT | RTC_DR_DU));
+01042   RTC\_DateStruct->RTC_WeekDay = (uint8\_t)((tmpreg & (RTC_DR_WDU)) >> 13);
+01043 
+01044   \textcolor{comment}{/* Check the input parameters format */}
+01045   \textcolor{keywordflow}{if} (RTC\_Format == RTC_Format_BIN)
+01046   \{
+01047     \textcolor{comment}{/* Convert the structure parameters to Binary format */}
+01048     RTC\_DateStruct->RTC_Year = (uint8\_t)RTC_Bcd2ToByte(RTC\_DateStruct->
+      RTC_Year);
+01049     RTC\_DateStruct->RTC_Month = (uint8\_t)RTC_Bcd2ToByte(RTC\_DateStruct->
+      RTC_Month);
+01050     RTC\_DateStruct->RTC_Date = (uint8\_t)RTC_Bcd2ToByte(RTC\_DateStruct->
+      RTC_Date);
+01051   \}
+01052 \}
+01053 
+01054 \textcolor{comment}{/**}
+01055 \textcolor{comment}{  * @\}}
+01056 \textcolor{comment}{  */}
+01057 
+01058 \textcolor{comment}{/** @defgroup RTC\_Group3 Alarms configuration functions}
+01059 \textcolor{comment}{ *  @brief   Alarms (Alarm A and Alarm B) configuration functions }
+01060 \textcolor{comment}{ *}
+01061 \textcolor{comment}{@verbatim   }
+01062 \textcolor{comment}{ ===============================================================================}
+01063 \textcolor{comment}{              Alarms (Alarm A and Alarm B) configuration functions}
+01064 \textcolor{comment}{ ===============================================================================  }
+01065 \textcolor{comment}{}
+01066 \textcolor{comment}{  This section provide functions allowing to program and read the RTC Alarms.}
+01067 \textcolor{comment}{}
+01068 \textcolor{comment}{@endverbatim}
+01069 \textcolor{comment}{  * @\{}
+01070 \textcolor{comment}{  */}
+01071 
+01072 \textcolor{comment}{/**}
+01073 \textcolor{comment}{  * @brief  Set the specified RTC Alarm.}
+01074 \textcolor{comment}{  * @note   The Alarm register can only be written when the corresponding Alarm}
+01075 \textcolor{comment}{  *         is disabled (Use the RTC\_AlarmCmd(DISABLE)).    }
+01076 \textcolor{comment}{  * @param  RTC\_Format: specifies the format of the returned parameters.}
+01077 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01078 \textcolor{comment}{  *            @arg RTC\_Format\_BIN: Binary data format }
+01079 \textcolor{comment}{  *            @arg RTC\_Format\_BCD: BCD data format}
+01080 \textcolor{comment}{  * @param  RTC\_Alarm: specifies the alarm to be configured.}
+01081 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01082 \textcolor{comment}{  *            @arg RTC\_Alarm\_A: to select Alarm A}
+01083 \textcolor{comment}{  *            @arg RTC\_Alarm\_B: to select Alarm B  }
+01084 \textcolor{comment}{  * @param  RTC\_AlarmStruct: pointer to a RTC\_AlarmTypeDef structure that }
+01085 \textcolor{comment}{  *                          contains the alarm configuration parameters.     }
+01086 \textcolor{comment}{  * @retval None}
+01087 \textcolor{comment}{  */}
+01088 \textcolor{keywordtype}{void} RTC_SetAlarm(uint32\_t RTC\_Format, uint32\_t RTC\_Alarm, RTC\_AlarmTypeDef* RTC\_AlarmStruct)
+01089 \{
+01090   uint32\_t tmpreg = 0;
+01091 
+01092   \textcolor{comment}{/* Check the parameters */}
+01093   assert_param(IS\_RTC\_FORMAT(RTC\_Format));
+01094   assert_param(IS\_RTC\_ALARM(RTC\_Alarm));
+01095   assert_param(IS\_ALARM\_MASK(RTC\_AlarmStruct->RTC\_AlarmMask));
+01096   assert_param(IS\_RTC\_ALARM\_DATE\_WEEKDAY\_SEL(RTC\_AlarmStruct->RTC\_AlarmDateWeekDaySel));
+01097 
+01098   \textcolor{keywordflow}{if} (RTC\_Format == RTC_Format_BIN)
+01099   \{
+01100     \textcolor{keywordflow}{if} ((RTC->CR & RTC_CR_FMT) != (uint32\_t)RESET)
+01101     \{
+01102       assert_param(IS\_RTC\_HOUR12(RTC\_AlarmStruct->RTC\_AlarmTime.RTC\_Hours));
+01103       assert_param(IS\_RTC\_H12(RTC\_AlarmStruct->RTC\_AlarmTime.RTC\_H12));
+01104     \}
+01105     \textcolor{keywordflow}{else}
+01106     \{
+01107       RTC\_AlarmStruct->RTC\_AlarmTime.RTC\_H12 = 0x00;
+01108       assert_param(IS\_RTC\_HOUR24(RTC\_AlarmStruct->RTC\_AlarmTime.RTC\_Hours));
+01109     \}
+01110     assert_param(IS\_RTC\_MINUTES(RTC\_AlarmStruct->RTC\_AlarmTime.RTC\_Minutes));
+01111     assert_param(IS\_RTC\_SECONDS(RTC\_AlarmStruct->RTC\_AlarmTime.RTC\_Seconds));
+01112 
+01113     \textcolor{keywordflow}{if}(RTC\_AlarmStruct->RTC_AlarmDateWeekDaySel == 
+      RTC_AlarmDateWeekDaySel_Date)
+01114     \{
+01115       assert_param(IS\_RTC\_ALARM\_DATE\_WEEKDAY\_DATE(RTC\_AlarmStruct->RTC\_AlarmDateWeekDay));
+01116     \}
+01117     \textcolor{keywordflow}{else}
+01118     \{
+01119       assert_param(IS\_RTC\_ALARM\_DATE\_WEEKDAY\_WEEKDAY(RTC\_AlarmStruct->RTC\_AlarmDateWeekDay));
+01120     \}
+01121   \}
+01122   \textcolor{keywordflow}{else}
+01123   \{
+01124     \textcolor{keywordflow}{if} ((RTC->CR & RTC_CR_FMT) != (uint32\_t)RESET)
+01125     \{
+01126       tmpreg = RTC\_Bcd2ToByte(RTC\_AlarmStruct->RTC\_AlarmTime.RTC\_Hours);
+01127       assert_param(IS\_RTC\_HOUR12(tmpreg));
+01128       assert_param(IS\_RTC\_H12(RTC\_AlarmStruct->RTC\_AlarmTime.RTC\_H12));
+01129     \}
+01130     \textcolor{keywordflow}{else}
+01131     \{
+01132       RTC\_AlarmStruct->RTC\_AlarmTime.RTC\_H12 = 0x00;
+01133       assert_param(IS\_RTC\_HOUR24(RTC\_Bcd2ToByte(RTC\_AlarmStruct->RTC\_AlarmTime.RTC\_Hours)));
+01134     \}
+01135 
+01136     assert_param(IS\_RTC\_MINUTES(RTC\_Bcd2ToByte(RTC\_AlarmStruct->RTC\_AlarmTime.RTC\_Minutes)));
+01137     assert_param(IS\_RTC\_SECONDS(RTC\_Bcd2ToByte(RTC\_AlarmStruct->RTC\_AlarmTime.RTC\_Seconds)));
+01138 
+01139     \textcolor{keywordflow}{if}(RTC\_AlarmStruct->RTC_AlarmDateWeekDaySel == 
+      RTC_AlarmDateWeekDaySel_Date)
+01140     \{
+01141       tmpreg = RTC_Bcd2ToByte(RTC\_AlarmStruct->RTC_AlarmDateWeekDay);
+01142       assert_param(IS\_RTC\_ALARM\_DATE\_WEEKDAY\_DATE(tmpreg));
+01143     \}
+01144     \textcolor{keywordflow}{else}
+01145     \{
+01146       tmpreg = RTC_Bcd2ToByte(RTC\_AlarmStruct->RTC_AlarmDateWeekDay);
+01147       assert_param(IS\_RTC\_ALARM\_DATE\_WEEKDAY\_WEEKDAY(tmpreg));
+01148     \}
+01149   \}
+01150 
+01151   \textcolor{comment}{/* Check the input parameters format */}
+01152   \textcolor{keywordflow}{if} (RTC\_Format != RTC_Format_BIN)
+01153   \{
+01154     tmpreg = (((uint32\_t)(RTC\_AlarmStruct->RTC_AlarmTime.RTC_Hours) << 16) |
+01155               ((uint32\_t)(RTC\_AlarmStruct->RTC_AlarmTime.RTC_Minutes) << 8) |
+01156               ((uint32\_t)RTC\_AlarmStruct->RTC_AlarmTime.RTC_Seconds) |
+01157               ((uint32\_t)(RTC\_AlarmStruct->RTC_AlarmTime.RTC_H12) << 16) |
+01158               ((uint32\_t)(RTC\_AlarmStruct->RTC_AlarmDateWeekDay) << 24) |
+01159               ((uint32\_t)RTC\_AlarmStruct->RTC_AlarmDateWeekDaySel) |
+01160               ((uint32\_t)RTC\_AlarmStruct->RTC_AlarmMask));
+01161   \}
+01162   \textcolor{keywordflow}{else}
+01163   \{
+01164     tmpreg = (((uint32\_t)RTC_ByteToBcd2(RTC\_AlarmStruct->RTC_AlarmTime.
+      RTC_Hours) << 16) |
+01165               ((uint32\_t)RTC_ByteToBcd2(RTC\_AlarmStruct->RTC_AlarmTime.
+      RTC_Minutes) << 8) |
+01166               ((uint32\_t)RTC_ByteToBcd2(RTC\_AlarmStruct->RTC_AlarmTime.
+      RTC_Seconds)) |
+01167               ((uint32\_t)(RTC\_AlarmStruct->RTC_AlarmTime.RTC_H12) << 16) |
+01168               ((uint32\_t)RTC_ByteToBcd2(RTC\_AlarmStruct->
+      RTC_AlarmDateWeekDay) << 24) |
+01169               ((uint32\_t)RTC\_AlarmStruct->RTC_AlarmDateWeekDaySel) |
+01170               ((uint32\_t)RTC\_AlarmStruct->RTC_AlarmMask));
+01171   \}
+01172 
+01173   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01174   RTC->WPR = 0xCA;
+01175   RTC->WPR = 0x53;
+01176 
+01177   \textcolor{comment}{/* Configure the Alarm register */}
+01178   \textcolor{keywordflow}{if} (RTC\_Alarm == RTC_Alarm_A)
+01179   \{
+01180     RTC->ALRMAR = (uint32\_t)tmpreg;
+01181   \}
+01182   \textcolor{keywordflow}{else}
+01183   \{
+01184     RTC->ALRMBR = (uint32\_t)tmpreg;
+01185   \}
+01186 
+01187   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01188   RTC->WPR = 0xFF;
+01189 \}
+01190 
+01191 \textcolor{comment}{/**}
+01192 \textcolor{comment}{  * @brief  Fills each RTC\_AlarmStruct member with its default value}
+01193 \textcolor{comment}{  *         (Time = 00h:00mn:00sec / Date = 1st day of the month/Mask =}
+01194 \textcolor{comment}{  *         all fields are masked).}
+01195 \textcolor{comment}{  * @param  RTC\_AlarmStruct: pointer to a @ref RTC\_AlarmTypeDef structure which}
+01196 \textcolor{comment}{  *         will be initialized.}
+01197 \textcolor{comment}{  * @retval None}
+01198 \textcolor{comment}{  */}
+01199 \textcolor{keywordtype}{void} RTC_AlarmStructInit(RTC\_AlarmTypeDef* RTC\_AlarmStruct)
+01200 \{
+01201   \textcolor{comment}{/* Alarm Time Settings : Time = 00h:00mn:00sec */}
+01202   RTC\_AlarmStruct->RTC_AlarmTime.RTC_H12 = RTC_H12_AM;
+01203   RTC\_AlarmStruct->RTC_AlarmTime.RTC_Hours = 0;
+01204   RTC\_AlarmStruct->RTC_AlarmTime.RTC_Minutes = 0;
+01205   RTC\_AlarmStruct->RTC_AlarmTime.RTC_Seconds = 0;
+01206 
+01207   \textcolor{comment}{/* Alarm Date Settings : Date = 1st day of the month */}
+01208   RTC\_AlarmStruct->RTC_AlarmDateWeekDaySel = RTC_AlarmDateWeekDaySel_Date;
+01209   RTC\_AlarmStruct->RTC_AlarmDateWeekDay = 1;
+01210 
+01211   \textcolor{comment}{/* Alarm Masks Settings : Mask =  all fields are not masked */}
+01212   RTC\_AlarmStruct->RTC_AlarmMask = RTC_AlarmMask_None;
+01213 \}
+01214 
+01215 \textcolor{comment}{/**}
+01216 \textcolor{comment}{  * @brief  Get the RTC Alarm value and masks.}
+01217 \textcolor{comment}{  * @param  RTC\_Format: specifies the format of the output parameters.}
+01218 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01219 \textcolor{comment}{  *            @arg RTC\_Format\_BIN: Binary data format }
+01220 \textcolor{comment}{  *            @arg RTC\_Format\_BCD: BCD data format}
+01221 \textcolor{comment}{  * @param  RTC\_Alarm: specifies the alarm to be read.}
+01222 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01223 \textcolor{comment}{  *            @arg RTC\_Alarm\_A: to select Alarm A}
+01224 \textcolor{comment}{  *            @arg RTC\_Alarm\_B: to select Alarm B  }
+01225 \textcolor{comment}{  * @param  RTC\_AlarmStruct: pointer to a RTC\_AlarmTypeDef structure that will }
+01226 \textcolor{comment}{  *                          contains the output alarm configuration values.     }
+01227 \textcolor{comment}{  * @retval None}
+01228 \textcolor{comment}{  */}
+01229 \textcolor{keywordtype}{void} RTC_GetAlarm(uint32\_t RTC\_Format, uint32\_t RTC\_Alarm, RTC\_AlarmTypeDef* RTC\_AlarmStruct)
+01230 \{
+01231   uint32\_t tmpreg = 0;
+01232 
+01233   \textcolor{comment}{/* Check the parameters */}
+01234   assert_param(IS\_RTC\_FORMAT(RTC\_Format));
+01235   assert_param(IS\_RTC\_ALARM(RTC\_Alarm));
+01236 
+01237   \textcolor{comment}{/* Get the RTC\_ALRMxR register */}
+01238   \textcolor{keywordflow}{if} (RTC\_Alarm == RTC_Alarm_A)
+01239   \{
+01240     tmpreg = (uint32\_t)(RTC->ALRMAR);
+01241   \}
+01242   \textcolor{keywordflow}{else}
+01243   \{
+01244     tmpreg = (uint32\_t)(RTC->ALRMBR);
+01245   \}
+01246 
+01247   \textcolor{comment}{/* Fill the structure with the read parameters */}
+01248   RTC\_AlarmStruct->RTC_AlarmTime.RTC_Hours = (uint32\_t)((tmpreg & (
+      RTC_ALRMAR_HT |
+01249                                                      RTC_ALRMAR_HU)) >> 16);
+01250   RTC\_AlarmStruct->RTC_AlarmTime.RTC_Minutes = (uint32\_t)((tmpreg & (
+      RTC_ALRMAR_MNT |
+01251                                                      RTC_ALRMAR_MNU)) >> 8);
+01252   RTC\_AlarmStruct->RTC_AlarmTime.RTC_Seconds = (uint32\_t)(tmpreg & (
+      RTC_ALRMAR_ST |
+01253                                                      RTC_ALRMAR_SU));
+01254   RTC\_AlarmStruct->RTC_AlarmTime.RTC_H12 = (uint32\_t)((tmpreg & 
+      RTC_ALRMAR_PM) >> 16);
+01255   RTC\_AlarmStruct->RTC_AlarmDateWeekDay = (uint32\_t)((tmpreg & (
+      RTC_ALRMAR_DT | RTC_ALRMAR_DU)) >> 24);
+01256   RTC\_AlarmStruct->RTC_AlarmDateWeekDaySel = (uint32\_t)(tmpreg & 
+      RTC_ALRMAR_WDSEL);
+01257   RTC\_AlarmStruct->RTC_AlarmMask = (uint32\_t)(tmpreg & RTC_AlarmMask_All);
+01258 
+01259   \textcolor{keywordflow}{if} (RTC\_Format == RTC_Format_BIN)
+01260   \{
+01261     RTC\_AlarmStruct->RTC_AlarmTime.RTC_Hours = RTC_Bcd2ToByte(RTC\_AlarmStruct
+      ->
+01262                                                         RTC_AlarmTime.
+      RTC_Hours);
+01263     RTC\_AlarmStruct->RTC_AlarmTime.RTC_Minutes = RTC_Bcd2ToByte(RTC\_AlarmStruct
+      ->
+01264                                                         RTC_AlarmTime.
+      RTC_Minutes);
+01265     RTC\_AlarmStruct->RTC_AlarmTime.RTC_Seconds = RTC_Bcd2ToByte(RTC\_AlarmStruct
+      ->
+01266                                                         RTC_AlarmTime.
+      RTC_Seconds);
+01267     RTC\_AlarmStruct->RTC_AlarmDateWeekDay = RTC_Bcd2ToByte(RTC\_AlarmStruct
+      ->RTC_AlarmDateWeekDay);
+01268   \}
+01269 \}
+01270 
+01271 \textcolor{comment}{/**}
+01272 \textcolor{comment}{  * @brief  Enables or disables the specified RTC Alarm.}
+01273 \textcolor{comment}{  * @param  RTC\_Alarm: specifies the alarm to be configured.}
+01274 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+01275 \textcolor{comment}{  *            @arg RTC\_Alarm\_A: to select Alarm A}
+01276 \textcolor{comment}{  *            @arg RTC\_Alarm\_B: to select Alarm B  }
+01277 \textcolor{comment}{  * @param  NewState: new state of the specified alarm.}
+01278 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01279 \textcolor{comment}{  * @retval An ErrorStatus enumeration value:}
+01280 \textcolor{comment}{  *          - SUCCESS: RTC Alarm is enabled/disabled}
+01281 \textcolor{comment}{  *          - ERROR: RTC Alarm is not enabled/disabled  }
+01282 \textcolor{comment}{  */}
+01283 ErrorStatus RTC_AlarmCmd(uint32\_t RTC\_Alarm, FunctionalState NewState)
+01284 \{
+01285   \_\_IO uint32\_t alarmcounter = 0x00;
+01286   uint32\_t alarmstatus = 0x00;
+01287   ErrorStatus status = ERROR;
+01288 
+01289   \textcolor{comment}{/* Check the parameters */}
+01290   assert_param(IS\_RTC\_CMD\_ALARM(RTC\_Alarm));
+01291   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01292 
+01293   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01294   RTC->WPR = 0xCA;
+01295   RTC->WPR = 0x53;
+01296 
+01297   \textcolor{comment}{/* Configure the Alarm state */}
+01298   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01299   \{
+01300     RTC->CR |= (uint32\_t)RTC\_Alarm;
+01301 
+01302     status = SUCCESS;
+01303   \}
+01304   \textcolor{keywordflow}{else}
+01305   \{
+01306     \textcolor{comment}{/* Disable the Alarm in RTC\_CR register */}
+01307     RTC->CR &= (uint32\_t)~RTC\_Alarm;
+01308 
+01309     \textcolor{comment}{/* Wait till RTC ALRxWF flag is set and if Time out is reached exit */}
+01310     \textcolor{keywordflow}{do}
+01311     \{
+01312       alarmstatus = RTC->ISR & (RTC\_Alarm >> 8);
+01313       alarmcounter++;
+01314     \} \textcolor{keywordflow}{while}((alarmcounter != INITMODE_TIMEOUT) && (alarmstatus == 0x00));
+01315 
+01316     \textcolor{keywordflow}{if} ((RTC->ISR & (RTC\_Alarm >> 8)) == RESET)
+01317     \{
+01318       status = ERROR;
+01319     \}
+01320     \textcolor{keywordflow}{else}
+01321     \{
+01322       status = SUCCESS;
+01323     \}
+01324   \}
+01325 
+01326   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01327   RTC->WPR = 0xFF;
+01328 
+01329   \textcolor{keywordflow}{return} status;
+01330 \}
+01331 
+01332 \textcolor{comment}{/**}
+01333 \textcolor{comment}{  * @brief  Configure the RTC AlarmA/B Subseconds value and mask.*}
+01334 \textcolor{comment}{  * @note   This function is performed only when the Alarm is disabled. }
+01335 \textcolor{comment}{  * @param  RTC\_Alarm: specifies the alarm to be configured.}
+01336 \textcolor{comment}{  *   This parameter can be one of the following values:}
+01337 \textcolor{comment}{  *     @arg RTC\_Alarm\_A: to select Alarm A}
+01338 \textcolor{comment}{  *     @arg RTC\_Alarm\_B: to select Alarm B}
+01339 \textcolor{comment}{  * @param  RTC\_AlarmSubSecondValue: specifies the Subseconds value.}
+01340 \textcolor{comment}{  *   This parameter can be a value from 0 to 0x00007FFF.}
+01341 \textcolor{comment}{  * @param  RTC\_AlarmSubSecondMask:  specifies the Subseconds Mask.}
+01342 \textcolor{comment}{  *   This parameter can be any combination of the following values:}
+01343 \textcolor{comment}{  *     @arg RTC\_AlarmSubSecondMask\_All    : All Alarm SS fields are masked.}
+01344 \textcolor{comment}{  *                                          There is no comparison on sub seconds for Alarm.}
+01345 \textcolor{comment}{  *     @arg RTC\_AlarmSubSecondMask\_SS14\_1 : SS[14:1] are don't care in Alarm comparison.}
+01346 \textcolor{comment}{  *                                          Only SS[0] is compared}
+01347 \textcolor{comment}{  *     @arg RTC\_AlarmSubSecondMask\_SS14\_2 : SS[14:2] are don't care in Alarm comparison.}
+01348 \textcolor{comment}{  *                                          Only SS[1:0] are compared}
+01349 \textcolor{comment}{  *     @arg RTC\_AlarmSubSecondMask\_SS14\_3 : SS[14:3] are don't care in Alarm comparison.}
+01350 \textcolor{comment}{  *                                          Only SS[2:0] are compared}
+01351 \textcolor{comment}{  *     @arg RTC\_AlarmSubSecondMask\_SS14\_4 : SS[14:4] are don't care in Alarm comparison.}
+01352 \textcolor{comment}{  *                                          Only SS[3:0] are compared}
+01353 \textcolor{comment}{  *     @arg RTC\_AlarmSubSecondMask\_SS14\_5 : SS[14:5] are don't care in Alarm comparison.}
+01354 \textcolor{comment}{  *                                          Only SS[4:0] are compared}
+01355 \textcolor{comment}{  *     @arg RTC\_AlarmSubSecondMask\_SS14\_6 : SS[14:6] are don't care in Alarm comparison.}
+01356 \textcolor{comment}{  *                                          Only SS[5:0] are compared}
+01357 \textcolor{comment}{  *     @arg RTC\_AlarmSubSecondMask\_SS14\_7 : SS[14:7] are don't care in Alarm comparison.}
+01358 \textcolor{comment}{  *                                          Only SS[6:0] are compared}
+01359 \textcolor{comment}{  *     @arg RTC\_AlarmSubSecondMask\_SS14\_8 : SS[14:8] are don't care in Alarm comparison.}
+01360 \textcolor{comment}{  *                                          Only SS[7:0] are compared}
+01361 \textcolor{comment}{  *     @arg RTC\_AlarmSubSecondMask\_SS14\_9 : SS[14:9] are don't care in Alarm comparison.}
+01362 \textcolor{comment}{  *                                          Only SS[8:0] are compared}
+01363 \textcolor{comment}{  *     @arg RTC\_AlarmSubSecondMask\_SS14\_10: SS[14:10] are don't care in Alarm comparison.}
+01364 \textcolor{comment}{  *                                          Only SS[9:0] are compared}
+01365 \textcolor{comment}{  *     @arg RTC\_AlarmSubSecondMask\_SS14\_11: SS[14:11] are don't care in Alarm comparison.}
+01366 \textcolor{comment}{  *                                          Only SS[10:0] are compared}
+01367 \textcolor{comment}{  *     @arg RTC\_AlarmSubSecondMask\_SS14\_12: SS[14:12] are don't care in Alarm comparison.}
+01368 \textcolor{comment}{  *                                          Only SS[11:0] are compared}
+01369 \textcolor{comment}{  *     @arg RTC\_AlarmSubSecondMask\_SS14\_13: SS[14:13] are don't care in Alarm comparison.}
+01370 \textcolor{comment}{  *                                          Only SS[12:0] are compared}
+01371 \textcolor{comment}{  *     @arg RTC\_AlarmSubSecondMask\_SS14   : SS[14] is don't care in Alarm comparison.}
+01372 \textcolor{comment}{  *                                          Only SS[13:0] are compared}
+01373 \textcolor{comment}{  *     @arg RTC\_AlarmSubSecondMask\_None   : SS[14:0] are compared and must match}
+01374 \textcolor{comment}{  *                                          to activate alarm}
+01375 \textcolor{comment}{  * @retval None}
+01376 \textcolor{comment}{  */}
+01377 \textcolor{keywordtype}{void} RTC_AlarmSubSecondConfig(uint32\_t RTC\_Alarm, uint32\_t RTC\_AlarmSubSecondValue, uint32\_t 
+      RTC\_AlarmSubSecondMask)
+01378 \{
+01379   uint32\_t tmpreg = 0;
+01380 
+01381   \textcolor{comment}{/* Check the parameters */}
+01382   assert_param(IS\_RTC\_ALARM(RTC\_Alarm));
+01383   assert_param(IS\_RTC\_ALARM\_SUB\_SECOND\_VALUE(RTC\_AlarmSubSecondValue));
+01384   assert_param(IS\_RTC\_ALARM\_SUB\_SECOND\_MASK(RTC\_AlarmSubSecondMask));
+01385 
+01386   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01387   RTC->WPR = 0xCA;
+01388   RTC->WPR = 0x53;
+01389 
+01390   \textcolor{comment}{/* Configure the Alarm A or Alarm B SubSecond registers */}
+01391   tmpreg = (uint32\_t) (uint32\_t)(RTC\_AlarmSubSecondValue) | (uint32\_t)(RTC\_AlarmSubSecondMask);
+01392 
+01393   \textcolor{keywordflow}{if} (RTC\_Alarm == RTC_Alarm_A)
+01394   \{
+01395     \textcolor{comment}{/* Configure the AlarmA SubSecond register */}
+01396     RTC->ALRMASSR = tmpreg;
+01397   \}
+01398   \textcolor{keywordflow}{else}
+01399   \{
+01400     \textcolor{comment}{/* Configure the Alarm B SubSecond register */}
+01401     RTC->ALRMBSSR = tmpreg;
+01402   \}
+01403 
+01404   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01405   RTC->WPR = 0xFF;
+01406 
+01407 \}
+01408 
+01409 \textcolor{comment}{/**}
+01410 \textcolor{comment}{  * @brief  Gets the RTC Alarm Subseconds value.}
+01411 \textcolor{comment}{  * @param  RTC\_Alarm: specifies the alarm to be read.}
+01412 \textcolor{comment}{  *   This parameter can be one of the following values:}
+01413 \textcolor{comment}{  *     @arg RTC\_Alarm\_A: to select Alarm A}
+01414 \textcolor{comment}{  *     @arg RTC\_Alarm\_B: to select Alarm B}
+01415 \textcolor{comment}{  * @param  None}
+01416 \textcolor{comment}{  * @retval RTC Alarm Subseconds value.}
+01417 \textcolor{comment}{  */}
+01418 uint32\_t RTC_GetAlarmSubSecond(uint32\_t RTC\_Alarm)
+01419 \{
+01420   uint32\_t tmpreg = 0;
+01421 
+01422   \textcolor{comment}{/* Get the RTC\_ALRMxR register */}
+01423   \textcolor{keywordflow}{if} (RTC\_Alarm == RTC_Alarm_A)
+01424   \{
+01425     tmpreg = (uint32\_t)((RTC->ALRMASSR) & RTC_ALRMASSR_SS);
+01426   \}
+01427   \textcolor{keywordflow}{else}
+01428   \{
+01429     tmpreg = (uint32\_t)((RTC->ALRMBSSR) & RTC_ALRMBSSR_SS);
+01430   \}
+01431 
+01432   \textcolor{keywordflow}{return} (tmpreg);
+01433 \}
+01434 
+01435 \textcolor{comment}{/**}
+01436 \textcolor{comment}{  * @\}}
+01437 \textcolor{comment}{  */}
+01438 
+01439 \textcolor{comment}{/** @defgroup RTC\_Group4 WakeUp Timer configuration functions}
+01440 \textcolor{comment}{ *  @brief   WakeUp Timer configuration functions }
+01441 \textcolor{comment}{ *}
+01442 \textcolor{comment}{@verbatim   }
+01443 \textcolor{comment}{ ===============================================================================}
+01444 \textcolor{comment}{                     WakeUp Timer configuration functions}
+01445 \textcolor{comment}{ ===============================================================================  }
+01446 \textcolor{comment}{}
+01447 \textcolor{comment}{  This section provide functions allowing to program and read the RTC WakeUp.}
+01448 \textcolor{comment}{}
+01449 \textcolor{comment}{@endverbatim}
+01450 \textcolor{comment}{  * @\{}
+01451 \textcolor{comment}{  */}
+01452 
+01453 \textcolor{comment}{/**}
+01454 \textcolor{comment}{  * @brief  Configures the RTC Wakeup clock source.}
+01455 \textcolor{comment}{  * @note   The WakeUp Clock source can only be changed when the RTC WakeUp}
+01456 \textcolor{comment}{  *         is disabled (Use the RTC\_WakeUpCmd(DISABLE)).      }
+01457 \textcolor{comment}{  * @param  RTC\_WakeUpClock: Wakeup Clock source.}
+01458 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01459 \textcolor{comment}{  *            @arg RTC\_WakeUpClock\_RTCCLK\_Div16: RTC Wakeup Counter Clock = RTCCLK/16}
+01460 \textcolor{comment}{  *            @arg RTC\_WakeUpClock\_RTCCLK\_Div8: RTC Wakeup Counter Clock = RTCCLK/8}
+01461 \textcolor{comment}{  *            @arg RTC\_WakeUpClock\_RTCCLK\_Div4: RTC Wakeup Counter Clock = RTCCLK/4}
+01462 \textcolor{comment}{  *            @arg RTC\_WakeUpClock\_RTCCLK\_Div2: RTC Wakeup Counter Clock = RTCCLK/2}
+01463 \textcolor{comment}{  *            @arg RTC\_WakeUpClock\_CK\_SPRE\_16bits: RTC Wakeup Counter Clock = CK\_SPRE}
+01464 \textcolor{comment}{  *            @arg RTC\_WakeUpClock\_CK\_SPRE\_17bits: RTC Wakeup Counter Clock = CK\_SPRE}
+01465 \textcolor{comment}{  * @retval None}
+01466 \textcolor{comment}{  */}
+01467 \textcolor{keywordtype}{void} RTC_WakeUpClockConfig(uint32\_t RTC\_WakeUpClock)
+01468 \{
+01469   \textcolor{comment}{/* Check the parameters */}
+01470   assert_param(IS\_RTC\_WAKEUP\_CLOCK(RTC\_WakeUpClock));
+01471 
+01472   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01473   RTC->WPR = 0xCA;
+01474   RTC->WPR = 0x53;
+01475 
+01476   \textcolor{comment}{/* Clear the Wakeup Timer clock source bits in CR register */}
+01477   RTC->CR &= (uint32\_t)~RTC_CR_WUCKSEL;
+01478 
+01479   \textcolor{comment}{/* Configure the clock source */}
+01480   RTC->CR |= (uint32\_t)RTC\_WakeUpClock;
+01481 
+01482   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01483   RTC->WPR = 0xFF;
+01484 \}
+01485 
+01486 \textcolor{comment}{/**}
+01487 \textcolor{comment}{  * @brief  Configures the RTC Wakeup counter.}
+01488 \textcolor{comment}{  * @note   The RTC WakeUp counter can only be written when the RTC WakeUp}
+01489 \textcolor{comment}{  *         is disabled (Use the RTC\_WakeUpCmd(DISABLE)).        }
+01490 \textcolor{comment}{  * @param  RTC\_WakeUpCounter: specifies the WakeUp counter.}
+01491 \textcolor{comment}{  *          This parameter can be a value from 0x0000 to 0xFFFF. }
+01492 \textcolor{comment}{  * @retval None}
+01493 \textcolor{comment}{  */}
+01494 \textcolor{keywordtype}{void} RTC_SetWakeUpCounter(uint32\_t RTC\_WakeUpCounter)
+01495 \{
+01496   \textcolor{comment}{/* Check the parameters */}
+01497   assert_param(IS\_RTC\_WAKEUP\_COUNTER(RTC\_WakeUpCounter));
+01498 
+01499   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01500   RTC->WPR = 0xCA;
+01501   RTC->WPR = 0x53;
+01502 
+01503   \textcolor{comment}{/* Configure the Wakeup Timer counter */}
+01504   RTC->WUTR = (uint32\_t)RTC\_WakeUpCounter;
+01505 
+01506   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01507   RTC->WPR = 0xFF;
+01508 \}
+01509 
+01510 \textcolor{comment}{/**}
+01511 \textcolor{comment}{  * @brief  Returns the RTC WakeUp timer counter value.}
+01512 \textcolor{comment}{  * @param  None}
+01513 \textcolor{comment}{  * @retval The RTC WakeUp Counter value.}
+01514 \textcolor{comment}{  */}
+01515 uint32\_t RTC_GetWakeUpCounter(\textcolor{keywordtype}{void})
+01516 \{
+01517   \textcolor{comment}{/* Get the counter value */}
+01518   \textcolor{keywordflow}{return} ((uint32\_t)(RTC->WUTR & RTC_WUTR_WUT));
+01519 \}
+01520 
+01521 \textcolor{comment}{/**}
+01522 \textcolor{comment}{  * @brief  Enables or Disables the RTC WakeUp timer.}
+01523 \textcolor{comment}{  * @param  NewState: new state of the WakeUp timer.}
+01524 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01525 \textcolor{comment}{  * @retval None}
+01526 \textcolor{comment}{  */}
+01527 ErrorStatus RTC_WakeUpCmd(FunctionalState NewState)
+01528 \{
+01529   \_\_IO uint32\_t wutcounter = 0x00;
+01530   uint32\_t wutwfstatus = 0x00;
+01531   ErrorStatus status = ERROR;
+01532 
+01533   \textcolor{comment}{/* Check the parameters */}
+01534   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01535 
+01536   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01537   RTC->WPR = 0xCA;
+01538   RTC->WPR = 0x53;
+01539 
+01540   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01541   \{
+01542     \textcolor{comment}{/* Enable the Wakeup Timer */}
+01543     RTC->CR |= (uint32\_t)RTC_CR_WUTE;
+01544     status = SUCCESS;
+01545   \}
+01546   \textcolor{keywordflow}{else}
+01547   \{
+01548     \textcolor{comment}{/* Disable the Wakeup Timer */}
+01549     RTC->CR &= (uint32\_t)~RTC_CR_WUTE;
+01550     \textcolor{comment}{/* Wait till RTC WUTWF flag is set and if Time out is reached exit */}
+01551     \textcolor{keywordflow}{do}
+01552     \{
+01553       wutwfstatus = RTC->ISR & RTC_ISR_WUTWF;
+01554       wutcounter++;
+01555     \} \textcolor{keywordflow}{while}((wutcounter != INITMODE_TIMEOUT) && (wutwfstatus == 0x00));
+01556 
+01557     \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_WUTWF) == RESET)
+01558     \{
+01559       status = ERROR;
+01560     \}
+01561     \textcolor{keywordflow}{else}
+01562     \{
+01563       status = SUCCESS;
+01564     \}
+01565   \}
+01566 
+01567   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01568   RTC->WPR = 0xFF;
+01569 
+01570   \textcolor{keywordflow}{return} status;
+01571 \}
+01572 
+01573 \textcolor{comment}{/**}
+01574 \textcolor{comment}{  * @\}}
+01575 \textcolor{comment}{  */}
+01576 
+01577 \textcolor{comment}{/** @defgroup RTC\_Group5 Daylight Saving configuration functions}
+01578 \textcolor{comment}{ *  @brief   Daylight Saving configuration functions }
+01579 \textcolor{comment}{ *}
+01580 \textcolor{comment}{@verbatim   }
+01581 \textcolor{comment}{ ===============================================================================}
+01582 \textcolor{comment}{                    Daylight Saving configuration functions}
+01583 \textcolor{comment}{ ===============================================================================  }
+01584 \textcolor{comment}{}
+01585 \textcolor{comment}{  This section provide functions allowing to configure the RTC DayLight Saving.}
+01586 \textcolor{comment}{}
+01587 \textcolor{comment}{@endverbatim}
+01588 \textcolor{comment}{  * @\{}
+01589 \textcolor{comment}{  */}
+01590 
+01591 \textcolor{comment}{/**}
+01592 \textcolor{comment}{  * @brief  Adds or substract one hour from the current time.}
+01593 \textcolor{comment}{  * @param  RTC\_DayLightSaveOperation: the value of hour adjustment. }
+01594 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01595 \textcolor{comment}{  *            @arg RTC\_DayLightSaving\_SUB1H: Substract one hour (winter time)}
+01596 \textcolor{comment}{  *            @arg RTC\_DayLightSaving\_ADD1H: Add one hour (summer time)}
+01597 \textcolor{comment}{  * @param  RTC\_StoreOperation: Specifies the value to be written in the BCK bit }
+01598 \textcolor{comment}{  *                            in CR register to store the operation.}
+01599 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01600 \textcolor{comment}{  *            @arg RTC\_StoreOperation\_Reset: BCK Bit Reset}
+01601 \textcolor{comment}{  *            @arg RTC\_StoreOperation\_Set: BCK Bit Set}
+01602 \textcolor{comment}{  * @retval None}
+01603 \textcolor{comment}{  */}
+01604 \textcolor{keywordtype}{void} RTC_DayLightSavingConfig(uint32\_t RTC\_DayLightSaving, uint32\_t RTC\_StoreOperation)
+01605 \{
+01606   \textcolor{comment}{/* Check the parameters */}
+01607   assert_param(IS\_RTC\_DAYLIGHT\_SAVING(RTC\_DayLightSaving));
+01608   assert_param(IS\_RTC\_STORE\_OPERATION(RTC\_StoreOperation));
+01609 
+01610   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01611   RTC->WPR = 0xCA;
+01612   RTC->WPR = 0x53;
+01613 
+01614   \textcolor{comment}{/* Clear the bits to be configured */}
+01615   RTC->CR &= (uint32\_t)~(RTC_CR_BCK);
+01616 
+01617   \textcolor{comment}{/* Configure the RTC\_CR register */}
+01618   RTC->CR |= (uint32\_t)(RTC\_DayLightSaving | RTC\_StoreOperation);
+01619 
+01620   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01621   RTC->WPR = 0xFF;
+01622 \}
+01623 
+01624 \textcolor{comment}{/**}
+01625 \textcolor{comment}{  * @brief  Returns the RTC Day Light Saving stored operation.}
+01626 \textcolor{comment}{  * @param  None}
+01627 \textcolor{comment}{  * @retval RTC Day Light Saving stored operation.}
+01628 \textcolor{comment}{  *          - RTC\_StoreOperation\_Reset}
+01629 \textcolor{comment}{  *          - RTC\_StoreOperation\_Set       }
+01630 \textcolor{comment}{  */}
+01631 uint32\_t RTC_GetStoreOperation(\textcolor{keywordtype}{void})
+01632 \{
+01633   \textcolor{keywordflow}{return} (RTC->CR & RTC_CR_BCK);
+01634 \}
+01635 
+01636 \textcolor{comment}{/**}
+01637 \textcolor{comment}{  * @\}}
+01638 \textcolor{comment}{  */}
+01639 
+01640 \textcolor{comment}{/** @defgroup RTC\_Group6 Output pin Configuration function}
+01641 \textcolor{comment}{ *  @brief   Output pin Configuration function }
+01642 \textcolor{comment}{ *}
+01643 \textcolor{comment}{@verbatim   }
+01644 \textcolor{comment}{ ===============================================================================}
+01645 \textcolor{comment}{                         Output pin Configuration function}
+01646 \textcolor{comment}{ ===============================================================================  }
+01647 \textcolor{comment}{}
+01648 \textcolor{comment}{  This section provide functions allowing to configure the RTC Output source.}
+01649 \textcolor{comment}{}
+01650 \textcolor{comment}{@endverbatim}
+01651 \textcolor{comment}{  * @\{}
+01652 \textcolor{comment}{  */}
+01653 
+01654 \textcolor{comment}{/**}
+01655 \textcolor{comment}{  * @brief  Configures the RTC output source (AFO\_ALARM).}
+01656 \textcolor{comment}{  * @param  RTC\_Output: Specifies which signal will be routed to the RTC output. }
+01657 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01658 \textcolor{comment}{  *            @arg RTC\_Output\_Disable: No output selected}
+01659 \textcolor{comment}{  *            @arg RTC\_Output\_AlarmA: signal of AlarmA mapped to output}
+01660 \textcolor{comment}{  *            @arg RTC\_Output\_AlarmB: signal of AlarmB mapped to output}
+01661 \textcolor{comment}{  *            @arg RTC\_Output\_WakeUp: signal of WakeUp mapped to output}
+01662 \textcolor{comment}{  * @param  RTC\_OutputPolarity: Specifies the polarity of the output signal. }
+01663 \textcolor{comment}{  *          This parameter can be one of the following:}
+01664 \textcolor{comment}{  *            @arg RTC\_OutputPolarity\_High: The output pin is high when the }
+01665 \textcolor{comment}{  *                                 ALRAF/ALRBF/WUTF is high (depending on OSEL)}
+01666 \textcolor{comment}{  *            @arg RTC\_OutputPolarity\_Low: The output pin is low when the }
+01667 \textcolor{comment}{  *                                 ALRAF/ALRBF/WUTF is high (depending on OSEL)}
+01668 \textcolor{comment}{  * @retval None}
+01669 \textcolor{comment}{  */}
+01670 \textcolor{keywordtype}{void} RTC_OutputConfig(uint32\_t RTC\_Output, uint32\_t RTC\_OutputPolarity)
+01671 \{
+01672   \textcolor{comment}{/* Check the parameters */}
+01673   assert_param(IS\_RTC\_OUTPUT(RTC\_Output));
+01674   assert_param(IS\_RTC\_OUTPUT\_POL(RTC\_OutputPolarity));
+01675 
+01676   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01677   RTC->WPR = 0xCA;
+01678   RTC->WPR = 0x53;
+01679 
+01680   \textcolor{comment}{/* Clear the bits to be configured */}
+01681   RTC->CR &= (uint32\_t)~(RTC_CR_OSEL | RTC_CR_POL);
+01682 
+01683   \textcolor{comment}{/* Configure the output selection and polarity */}
+01684   RTC->CR |= (uint32\_t)(RTC\_Output | RTC\_OutputPolarity);
+01685 
+01686   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01687   RTC->WPR = 0xFF;
+01688 \}
+01689 
+01690 \textcolor{comment}{/**}
+01691 \textcolor{comment}{  * @\}}
+01692 \textcolor{comment}{  */}
+01693 
+01694 \textcolor{comment}{/** @defgroup RTC\_Group7 Digital Calibration configuration functions}
+01695 \textcolor{comment}{ *  @brief   Coarse Calibration configuration functions }
+01696 \textcolor{comment}{ *}
+01697 \textcolor{comment}{@verbatim   }
+01698 \textcolor{comment}{ ===============================================================================}
+01699 \textcolor{comment}{                  Digital Calibration configuration functions}
+01700 \textcolor{comment}{ ===============================================================================  }
+01701 \textcolor{comment}{}
+01702 \textcolor{comment}{@endverbatim}
+01703 \textcolor{comment}{  * @\{}
+01704 \textcolor{comment}{  */}
+01705 
+01706 \textcolor{comment}{/**}
+01707 \textcolor{comment}{  * @brief  Configures the Coarse calibration parameters.}
+01708 \textcolor{comment}{  * @param  RTC\_CalibSign: specifies the sign of the coarse calibration value.}
+01709 \textcolor{comment}{  *          This parameter can be  one of the following values:}
+01710 \textcolor{comment}{  *            @arg RTC\_CalibSign\_Positive: The value sign is positive }
+01711 \textcolor{comment}{  *            @arg RTC\_CalibSign\_Negative: The value sign is negative}
+01712 \textcolor{comment}{  * @param  Value: value of coarse calibration expressed in ppm (coded on 5 bits).}
+01713 \textcolor{comment}{  *    }
+01714 \textcolor{comment}{  * @note   This Calibration value should be between 0 and 63 when using negative}
+01715 \textcolor{comment}{  *         sign with a 2-ppm step.}
+01716 \textcolor{comment}{  *           }
+01717 \textcolor{comment}{  * @note   This Calibration value should be between 0 and 126 when using positive}
+01718 \textcolor{comment}{  *         sign with a 4-ppm step.}
+01719 \textcolor{comment}{  *           }
+01720 \textcolor{comment}{  * @retval An ErrorStatus enumeration value:}
+01721 \textcolor{comment}{  *          - SUCCESS: RTC Coarse calibration are initialized}
+01722 \textcolor{comment}{  *          - ERROR: RTC Coarse calibration are not initialized     }
+01723 \textcolor{comment}{  */}
+01724 ErrorStatus RTC_CoarseCalibConfig(uint32\_t RTC\_CalibSign, uint32\_t Value)
+01725 \{
+01726   ErrorStatus status = ERROR;
+01727 
+01728   \textcolor{comment}{/* Check the parameters */}
+01729   assert_param(IS\_RTC\_CALIB\_SIGN(RTC\_CalibSign));
+01730   assert_param(IS\_RTC\_CALIB\_VALUE(Value));
+01731 
+01732   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01733   RTC->WPR = 0xCA;
+01734   RTC->WPR = 0x53;
+01735 
+01736   \textcolor{comment}{/* Set Initialization mode */}
+01737   \textcolor{keywordflow}{if} (RTC_EnterInitMode() == ERROR)
+01738   \{
+01739     status = ERROR;
+01740   \}
+01741   \textcolor{keywordflow}{else}
+01742   \{
+01743     \textcolor{comment}{/* Set the coarse calibration value */}
+01744     RTC->CALIBR = (uint32\_t)(RTC\_CalibSign | Value);
+01745     \textcolor{comment}{/* Exit Initialization mode */}
+01746     RTC_ExitInitMode();
+01747 
+01748     status = SUCCESS;
+01749   \}
+01750 
+01751   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01752   RTC->WPR = 0xFF;
+01753 
+01754   \textcolor{keywordflow}{return} status;
+01755 \}
+01756 
+01757 \textcolor{comment}{/**}
+01758 \textcolor{comment}{  * @brief  Enables or disables the Coarse calibration process.}
+01759 \textcolor{comment}{  * @param  NewState: new state of the Coarse calibration.}
+01760 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01761 \textcolor{comment}{  * @retval An ErrorStatus enumeration value:}
+01762 \textcolor{comment}{  *          - SUCCESS: RTC Coarse calibration are enabled/disabled}
+01763 \textcolor{comment}{  *          - ERROR: RTC Coarse calibration are not enabled/disabled    }
+01764 \textcolor{comment}{  */}
+01765 ErrorStatus RTC_CoarseCalibCmd(FunctionalState NewState)
+01766 \{
+01767   ErrorStatus status = ERROR;
+01768 
+01769   \textcolor{comment}{/* Check the parameters */}
+01770   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01771 
+01772   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01773   RTC->WPR = 0xCA;
+01774   RTC->WPR = 0x53;
+01775 
+01776   \textcolor{comment}{/* Set Initialization mode */}
+01777   \textcolor{keywordflow}{if} (RTC_EnterInitMode() == ERROR)
+01778   \{
+01779     status =  ERROR;
+01780   \}
+01781   \textcolor{keywordflow}{else}
+01782   \{
+01783     \textcolor{keywordflow}{if} (NewState != DISABLE)
+01784     \{
+01785       \textcolor{comment}{/* Enable the Coarse Calibration */}
+01786       RTC->CR |= (uint32\_t)RTC_CR_DCE;
+01787     \}
+01788     \textcolor{keywordflow}{else}
+01789     \{
+01790       \textcolor{comment}{/* Disable the Coarse Calibration */}
+01791       RTC->CR &= (uint32\_t)~RTC_CR_DCE;
+01792     \}
+01793     \textcolor{comment}{/* Exit Initialization mode */}
+01794     RTC_ExitInitMode();
+01795 
+01796     status = SUCCESS;
+01797   \}
+01798 
+01799   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01800   RTC->WPR = 0xFF;
+01801 
+01802   \textcolor{keywordflow}{return} status;
+01803 \}
+01804 
+01805 \textcolor{comment}{/**}
+01806 \textcolor{comment}{  * @brief  Enables or disables the RTC clock to be output through the relative pin.}
+01807 \textcolor{comment}{  * @param  NewState: new state of the digital calibration Output.}
+01808 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01809 \textcolor{comment}{  * @retval None}
+01810 \textcolor{comment}{  */}
+01811 \textcolor{keywordtype}{void} RTC_CalibOutputCmd(FunctionalState NewState)
+01812 \{
+01813   \textcolor{comment}{/* Check the parameters */}
+01814   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01815 
+01816   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01817   RTC->WPR = 0xCA;
+01818   RTC->WPR = 0x53;
+01819 
+01820   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01821   \{
+01822     \textcolor{comment}{/* Enable the RTC clock output */}
+01823     RTC->CR |= (uint32\_t)RTC_CR_COE;
+01824   \}
+01825   \textcolor{keywordflow}{else}
+01826   \{
+01827     \textcolor{comment}{/* Disable the RTC clock output */}
+01828     RTC->CR &= (uint32\_t)~RTC_CR_COE;
+01829   \}
+01830 
+01831   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01832   RTC->WPR = 0xFF;
+01833 \}
+01834 
+01835 \textcolor{comment}{/**}
+01836 \textcolor{comment}{  * @brief  Configure the Calibration Pinout (RTC\_CALIB) Selection (1Hz or 512Hz).}
+01837 \textcolor{comment}{  * @param  RTC\_CalibOutput : Select the Calibration output Selection .}
+01838 \textcolor{comment}{  *   This parameter can be one of the following values:}
+01839 \textcolor{comment}{  *     @arg RTC\_CalibOutput\_512Hz: A signal has a regular waveform at 512Hz. }
+01840 \textcolor{comment}{  *     @arg RTC\_CalibOutput\_1Hz  : A signal has a regular waveform at 1Hz.}
+01841 \textcolor{comment}{  * @retval None}
+01842 \textcolor{comment}{*/}
+01843 \textcolor{keywordtype}{void} RTC_CalibOutputConfig(uint32\_t RTC\_CalibOutput)
+01844 \{
+01845   \textcolor{comment}{/* Check the parameters */}
+01846   assert_param(IS\_RTC\_CALIB\_OUTPUT(RTC\_CalibOutput));
+01847 
+01848   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01849   RTC->WPR = 0xCA;
+01850   RTC->WPR = 0x53;
+01851 
+01852   \textcolor{comment}{/*clear flags before config*/}
+01853   RTC->CR &= (uint32\_t)~(RTC_CR_COSEL);
+01854 
+01855   \textcolor{comment}{/* Configure the RTC\_CR register */}
+01856   RTC->CR |= (uint32\_t)RTC\_CalibOutput;
+01857 
+01858   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01859   RTC->WPR = 0xFF;
+01860 \}
+01861 
+01862 \textcolor{comment}{/**}
+01863 \textcolor{comment}{  * @brief  Configures the Smooth Calibration Settings.}
+01864 \textcolor{comment}{  * @param  RTC\_SmoothCalibPeriod : Select the Smooth Calibration Period.}
+01865 \textcolor{comment}{  *   This parameter can be can be one of the following values:}
+01866 \textcolor{comment}{  *     @arg RTC\_SmoothCalibPeriod\_32sec : The smooth calibration periode is 32s.}
+01867 \textcolor{comment}{  *     @arg RTC\_SmoothCalibPeriod\_16sec : The smooth calibration periode is 16s.}
+01868 \textcolor{comment}{  *     @arg RTC\_SmoothCalibPeriod\_8sec  : The smooth calibartion periode is 8s.}
+01869 \textcolor{comment}{  * @param  RTC\_SmoothCalibPlusPulses : Select to Set or reset the CALP bit.}
+01870 \textcolor{comment}{  *   This parameter can be one of the following values:}
+01871 \textcolor{comment}{  *     @arg RTC\_SmoothCalibPlusPulses\_Set  : Add one RTCCLK puls every 2**11 pulses.}
+01872 \textcolor{comment}{  *     @arg RTC\_SmoothCalibPlusPulses\_Reset: No RTCCLK pulses are added.}
+01873 \textcolor{comment}{  * @param  RTC\_SmouthCalibMinusPulsesValue: Select the value of CALM[8:0] bits.}
+01874 \textcolor{comment}{  *   This parameter can be one any value from 0 to 0x000001FF.}
+01875 \textcolor{comment}{  * @retval An ErrorStatus enumeration value:}
+01876 \textcolor{comment}{  *          - SUCCESS: RTC Calib registers are configured}
+01877 \textcolor{comment}{  *          - ERROR: RTC Calib registers are not configured}
+01878 \textcolor{comment}{*/}
+01879 ErrorStatus RTC_SmoothCalibConfig(uint32\_t RTC\_SmoothCalibPeriod,
+01880                                   uint32\_t RTC\_SmoothCalibPlusPulses,
+01881                                   uint32\_t RTC\_SmouthCalibMinusPulsesValue)
+01882 \{
+01883   ErrorStatus status = ERROR;
+01884   uint32\_t recalpfcount = 0;
+01885 
+01886   \textcolor{comment}{/* Check the parameters */}
+01887   assert_param(IS\_RTC\_SMOOTH\_CALIB\_PERIOD(RTC\_SmoothCalibPeriod));
+01888   assert_param(IS\_RTC\_SMOOTH\_CALIB\_PLUS(RTC\_SmoothCalibPlusPulses));
+01889   assert_param(IS\_RTC\_SMOOTH\_CALIB\_MINUS(RTC\_SmouthCalibMinusPulsesValue));
+01890 
+01891   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01892   RTC->WPR = 0xCA;
+01893   RTC->WPR = 0x53;
+01894 
+01895   \textcolor{comment}{/* check if a calibration is pending*/}
+01896   \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_RECALPF) != RESET)
+01897   \{
+01898     \textcolor{comment}{/* wait until the Calibration is completed*/}
+01899     \textcolor{keywordflow}{while} (((RTC->ISR & RTC_ISR_RECALPF) != RESET) && (recalpfcount != 
+      RECALPF_TIMEOUT))
+01900     \{
+01901       recalpfcount++;
+01902     \}
+01903   \}
+01904 
+01905   \textcolor{comment}{/* check if the calibration pending is completed or if there is no calibration operation at all*/}
+01906   \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_RECALPF) == RESET)
+01907   \{
+01908     \textcolor{comment}{/* Configure the Smooth calibration settings */}
+01909     RTC->CALR = (uint32\_t)((uint32\_t)RTC\_SmoothCalibPeriod | (uint32\_t)RTC\_SmoothCalibPlusPulses | (
+      uint32\_t)RTC\_SmouthCalibMinusPulsesValue);
+01910 
+01911     status = SUCCESS;
+01912   \}
+01913   \textcolor{keywordflow}{else}
+01914   \{
+01915     status = ERROR;
+01916   \}
+01917 
+01918   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01919   RTC->WPR = 0xFF;
+01920 
+01921   \textcolor{keywordflow}{return} (ErrorStatus)(status);
+01922 \}
+01923 
+01924 \textcolor{comment}{/**}
+01925 \textcolor{comment}{  * @\}}
+01926 \textcolor{comment}{  */}
+01927 
+01928 
+01929 \textcolor{comment}{/** @defgroup RTC\_Group8 TimeStamp configuration functions}
+01930 \textcolor{comment}{ *  @brief   TimeStamp configuration functions }
+01931 \textcolor{comment}{ *}
+01932 \textcolor{comment}{@verbatim   }
+01933 \textcolor{comment}{ ===============================================================================}
+01934 \textcolor{comment}{                       TimeStamp configuration functions}
+01935 \textcolor{comment}{ ===============================================================================  }
+01936 \textcolor{comment}{}
+01937 \textcolor{comment}{@endverbatim}
+01938 \textcolor{comment}{  * @\{}
+01939 \textcolor{comment}{  */}
+01940 
+01941 \textcolor{comment}{/**}
+01942 \textcolor{comment}{  * @brief  Enables or Disables the RTC TimeStamp functionality with the }
+01943 \textcolor{comment}{  *         specified time stamp pin stimulating edge.}
+01944 \textcolor{comment}{  * @param  RTC\_TimeStampEdge: Specifies the pin edge on which the TimeStamp is }
+01945 \textcolor{comment}{  *         activated.}
+01946 \textcolor{comment}{  *          This parameter can be one of the following:}
+01947 \textcolor{comment}{  *            @arg RTC\_TimeStampEdge\_Rising: the Time stamp event occurs on the rising }
+01948 \textcolor{comment}{  *                                    edge of the related pin.}
+01949 \textcolor{comment}{  *            @arg RTC\_TimeStampEdge\_Falling: the Time stamp event occurs on the }
+01950 \textcolor{comment}{  *                                     falling edge of the related pin.}
+01951 \textcolor{comment}{  * @param  NewState: new state of the TimeStamp.}
+01952 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01953 \textcolor{comment}{  * @retval None}
+01954 \textcolor{comment}{  */}
+01955 \textcolor{keywordtype}{void} RTC_TimeStampCmd(uint32\_t RTC\_TimeStampEdge, FunctionalState NewState)
+01956 \{
+01957   uint32\_t tmpreg = 0;
+01958 
+01959   \textcolor{comment}{/* Check the parameters */}
+01960   assert_param(IS\_RTC\_TIMESTAMP\_EDGE(RTC\_TimeStampEdge));
+01961   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01962 
+01963   \textcolor{comment}{/* Get the RTC\_CR register and clear the bits to be configured */}
+01964   tmpreg = (uint32\_t)(RTC->CR & (uint32\_t)~(RTC_CR_TSEDGE | RTC_CR_TSE));
+01965 
+01966   \textcolor{comment}{/* Get the new configuration */}
+01967   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01968   \{
+01969     tmpreg |= (uint32\_t)(RTC\_TimeStampEdge | RTC_CR_TSE);
+01970   \}
+01971   \textcolor{keywordflow}{else}
+01972   \{
+01973     tmpreg |= (uint32\_t)(RTC\_TimeStampEdge);
+01974   \}
+01975 
+01976   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+01977   RTC->WPR = 0xCA;
+01978   RTC->WPR = 0x53;
+01979 
+01980   \textcolor{comment}{/* Configure the Time Stamp TSEDGE and Enable bits */}
+01981   RTC->CR = (uint32\_t)tmpreg;
+01982 
+01983   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+01984   RTC->WPR = 0xFF;
+01985 \}
+01986 
+01987 \textcolor{comment}{/**}
+01988 \textcolor{comment}{  * @brief  Get the RTC TimeStamp value and masks.}
+01989 \textcolor{comment}{  * @param  RTC\_Format: specifies the format of the output parameters.}
+01990 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01991 \textcolor{comment}{  *            @arg RTC\_Format\_BIN: Binary data format }
+01992 \textcolor{comment}{  *            @arg RTC\_Format\_BCD: BCD data format}
+01993 \textcolor{comment}{  * @param RTC\_StampTimeStruct: pointer to a RTC\_TimeTypeDef structure that will }
+01994 \textcolor{comment}{  *                             contains the TimeStamp time values. }
+01995 \textcolor{comment}{  * @param RTC\_StampDateStruct: pointer to a RTC\_DateTypeDef structure that will }
+01996 \textcolor{comment}{  *                             contains the TimeStamp date values.     }
+01997 \textcolor{comment}{  * @retval None}
+01998 \textcolor{comment}{  */}
+01999 \textcolor{keywordtype}{void} RTC_GetTimeStamp(uint32\_t RTC\_Format, RTC\_TimeTypeDef* RTC\_StampTimeStruct,
+02000                                       RTC\_DateTypeDef* RTC\_StampDateStruct)
+02001 \{
+02002   uint32\_t tmptime = 0, tmpdate = 0;
+02003 
+02004   \textcolor{comment}{/* Check the parameters */}
+02005   assert_param(IS\_RTC\_FORMAT(RTC\_Format));
+02006 
+02007   \textcolor{comment}{/* Get the TimeStamp time and date registers values */}
+02008   tmptime = (uint32\_t)(RTC->TSTR & RTC_TR_RESERVED_MASK);
+02009   tmpdate = (uint32\_t)(RTC->TSDR & RTC_DR_RESERVED_MASK);
+02010 
+02011   \textcolor{comment}{/* Fill the Time structure fields with the read parameters */}
+02012   RTC\_StampTimeStruct->RTC_Hours = (uint8\_t)((tmptime & (RTC_TR_HT | 
+      RTC_TR_HU)) >> 16);
+02013   RTC\_StampTimeStruct->RTC_Minutes = (uint8\_t)((tmptime & (RTC_TR_MNT | 
+      RTC_TR_MNU)) >> 8);
+02014   RTC\_StampTimeStruct->RTC_Seconds = (uint8\_t)(tmptime & (RTC_TR_ST | 
+      RTC_TR_SU));
+02015   RTC\_StampTimeStruct->RTC_H12 = (uint8\_t)((tmptime & (RTC_TR_PM)) >> 16);
+02016 
+02017   \textcolor{comment}{/* Fill the Date structure fields with the read parameters */}
+02018   RTC\_StampDateStruct->RTC_Year = 0;
+02019   RTC\_StampDateStruct->RTC_Month = (uint8\_t)((tmpdate & (RTC_DR_MT | 
+      RTC_DR_MU)) >> 8);
+02020   RTC\_StampDateStruct->RTC_Date = (uint8\_t)(tmpdate & (RTC_DR_DT | 
+      RTC_DR_DU));
+02021   RTC\_StampDateStruct->RTC_WeekDay = (uint8\_t)((tmpdate & (RTC_DR_WDU)) >> 13);
+02022 
+02023   \textcolor{comment}{/* Check the input parameters format */}
+02024   \textcolor{keywordflow}{if} (RTC\_Format == RTC_Format_BIN)
+02025   \{
+02026     \textcolor{comment}{/* Convert the Time structure parameters to Binary format */}
+02027     RTC\_StampTimeStruct->RTC_Hours = (uint8\_t)RTC_Bcd2ToByte(RTC\_StampTimeStruct
+      ->RTC_Hours);
+02028     RTC\_StampTimeStruct->RTC_Minutes = (uint8\_t)RTC_Bcd2ToByte(RTC\_StampTimeStruct
+      ->RTC_Minutes);
+02029     RTC\_StampTimeStruct->RTC_Seconds = (uint8\_t)RTC_Bcd2ToByte(RTC\_StampTimeStruct
+      ->RTC_Seconds);
+02030 
+02031     \textcolor{comment}{/* Convert the Date structure parameters to Binary format */}
+02032     RTC\_StampDateStruct->RTC_Month = (uint8\_t)RTC_Bcd2ToByte(RTC\_StampDateStruct
+      ->RTC_Month);
+02033     RTC\_StampDateStruct->RTC_Date = (uint8\_t)RTC_Bcd2ToByte(RTC\_StampDateStruct
+      ->RTC_Date);
+02034     RTC\_StampDateStruct->RTC_WeekDay = (uint8\_t)RTC_Bcd2ToByte(RTC\_StampDateStruct
+      ->RTC_WeekDay);
+02035   \}
+02036 \}
+02037 
+02038 \textcolor{comment}{/**}
+02039 \textcolor{comment}{  * @brief  Get the RTC timestamp Subseconds value.}
+02040 \textcolor{comment}{  * @param  None}
+02041 \textcolor{comment}{  * @retval RTC current timestamp Subseconds value.}
+02042 \textcolor{comment}{  */}
+02043 uint32\_t RTC_GetTimeStampSubSecond(\textcolor{keywordtype}{void})
+02044 \{
+02045   \textcolor{comment}{/* Get timestamp subseconds values from the correspondent registers */}
+02046   \textcolor{keywordflow}{return} (uint32\_t)(RTC->TSSSR);
+02047 \}
+02048 
+02049 \textcolor{comment}{/**}
+02050 \textcolor{comment}{  * @\}}
+02051 \textcolor{comment}{  */}
+02052 
+02053 \textcolor{comment}{/** @defgroup RTC\_Group9 Tampers configuration functions}
+02054 \textcolor{comment}{ *  @brief   Tampers configuration functions }
+02055 \textcolor{comment}{ *}
+02056 \textcolor{comment}{@verbatim   }
+02057 \textcolor{comment}{ ===============================================================================}
+02058 \textcolor{comment}{                       Tampers configuration functions}
+02059 \textcolor{comment}{ ===============================================================================  }
+02060 \textcolor{comment}{}
+02061 \textcolor{comment}{@endverbatim}
+02062 \textcolor{comment}{  * @\{}
+02063 \textcolor{comment}{  */}
+02064 
+02065 \textcolor{comment}{/**}
+02066 \textcolor{comment}{  * @brief  Configures the select Tamper pin edge.}
+02067 \textcolor{comment}{  * @param  RTC\_Tamper: Selected tamper pin.}
+02068 \textcolor{comment}{  *          This parameter can be RTC\_Tamper\_1.}
+02069 \textcolor{comment}{  * @param  RTC\_TamperTrigger: Specifies the trigger on the tamper pin that }
+02070 \textcolor{comment}{  *         stimulates tamper event. }
+02071 \textcolor{comment}{  *   This parameter can be one of the following values:}
+02072 \textcolor{comment}{  *     @arg RTC\_TamperTrigger\_RisingEdge: Rising Edge of the tamper pin causes tamper event.}
+02073 \textcolor{comment}{  *     @arg RTC\_TamperTrigger\_FallingEdge: Falling Edge of the tamper pin causes tamper event.}
+02074 \textcolor{comment}{  *     @arg RTC\_TamperTrigger\_LowLevel: Low Level of the tamper pin causes tamper event.}
+02075 \textcolor{comment}{  *     @arg RTC\_TamperTrigger\_HighLevel: High Level of the tamper pin causes tamper event.}
+02076 \textcolor{comment}{  * @retval None}
+02077 \textcolor{comment}{  */}
+02078 \textcolor{keywordtype}{void} RTC_TamperTriggerConfig(uint32\_t RTC\_Tamper, uint32\_t RTC\_TamperTrigger)
+02079 \{
+02080   \textcolor{comment}{/* Check the parameters */}
+02081   assert_param(IS\_RTC\_TAMPER(RTC\_Tamper));
+02082   assert_param(IS\_RTC\_TAMPER\_TRIGGER(RTC\_TamperTrigger));
+02083 
+02084   \textcolor{keywordflow}{if} (RTC\_TamperTrigger == RTC_TamperTrigger_RisingEdge)
+02085   \{
+02086     \textcolor{comment}{/* Configure the RTC\_TAFCR register */}
+02087     RTC->TAFCR &= (uint32\_t)((uint32\_t)~(RTC\_Tamper << 1));
+02088   \}
+02089   \textcolor{keywordflow}{else}
+02090   \{
+02091     \textcolor{comment}{/* Configure the RTC\_TAFCR register */}
+02092     RTC->TAFCR |= (uint32\_t)(RTC\_Tamper << 1);
+02093   \}
+02094 \}
+02095 
+02096 \textcolor{comment}{/**}
+02097 \textcolor{comment}{  * @brief  Enables or Disables the Tamper detection.}
+02098 \textcolor{comment}{  * @param  RTC\_Tamper: Selected tamper pin.}
+02099 \textcolor{comment}{  *          This parameter can be RTC\_Tamper\_1.}
+02100 \textcolor{comment}{  * @param  NewState: new state of the tamper pin.}
+02101 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.                   }
+02102 \textcolor{comment}{  * @retval None}
+02103 \textcolor{comment}{  */}
+02104 \textcolor{keywordtype}{void} RTC_TamperCmd(uint32\_t RTC\_Tamper, FunctionalState NewState)
+02105 \{
+02106   \textcolor{comment}{/* Check the parameters */}
+02107   assert_param(IS\_RTC\_TAMPER(RTC\_Tamper));
+02108   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+02109 
+02110   \textcolor{keywordflow}{if} (NewState != DISABLE)
+02111   \{
+02112     \textcolor{comment}{/* Enable the selected Tamper pin */}
+02113     RTC->TAFCR |= (uint32\_t)RTC\_Tamper;
+02114   \}
+02115   \textcolor{keywordflow}{else}
+02116   \{
+02117     \textcolor{comment}{/* Disable the selected Tamper pin */}
+02118     RTC->TAFCR &= (uint32\_t)~RTC\_Tamper;
+02119   \}
+02120 \}
+02121 
+02122 \textcolor{comment}{/**}
+02123 \textcolor{comment}{  * @brief  Configures the Tampers Filter.}
+02124 \textcolor{comment}{  * @param  RTC\_TamperFilter: Specifies the tampers filter.}
+02125 \textcolor{comment}{  *   This parameter can be one of the following values:}
+02126 \textcolor{comment}{  *     @arg RTC\_TamperFilter\_Disable: Tamper filter is disabled.}
+02127 \textcolor{comment}{  *     @arg RTC\_TamperFilter\_2Sample: Tamper is activated after 2 consecutive }
+02128 \textcolor{comment}{  *                                    samples at the active level }
+02129 \textcolor{comment}{  *     @arg RTC\_TamperFilter\_4Sample: Tamper is activated after 4 consecutive }
+02130 \textcolor{comment}{  *                                    samples at the active level}
+02131 \textcolor{comment}{  *     @arg RTC\_TamperFilter\_8Sample: Tamper is activated after 8 consecutive }
+02132 \textcolor{comment}{  *                                    samples at the active level }
+02133 \textcolor{comment}{  * @retval None}
+02134 \textcolor{comment}{  */}
+02135 \textcolor{keywordtype}{void} RTC_TamperFilterConfig(uint32\_t RTC\_TamperFilter)
+02136 \{
+02137   \textcolor{comment}{/* Check the parameters */}
+02138   assert_param(IS\_RTC\_TAMPER\_FILTER(RTC\_TamperFilter));
+02139 
+02140   \textcolor{comment}{/* Clear TAMPFLT[1:0] bits in the RTC\_TAFCR register */}
+02141   RTC->TAFCR &= (uint32\_t)~(RTC_TAFCR_TAMPFLT);
+02142 
+02143   \textcolor{comment}{/* Configure the RTC\_TAFCR register */}
+02144   RTC->TAFCR |= (uint32\_t)RTC\_TamperFilter;
+02145 \}
+02146 
+02147 \textcolor{comment}{/**}
+02148 \textcolor{comment}{  * @brief  Configures the Tampers Sampling Frequency.}
+02149 \textcolor{comment}{  * @param  RTC\_TamperSamplingFreq: Specifies the tampers Sampling Frequency.}
+02150 \textcolor{comment}{  *   This parameter can be one of the following values:}
+02151 \textcolor{comment}{  *     @arg RTC\_TamperSamplingFreq\_RTCCLK\_Div32768: Each of the tamper inputs are sampled}
+02152 \textcolor{comment}{  *                                           with a frequency =  RTCCLK / 32768}
+02153 \textcolor{comment}{  *     @arg RTC\_TamperSamplingFreq\_RTCCLK\_Div16384: Each of the tamper inputs are sampled}
+02154 \textcolor{comment}{  *                                           with a frequency =  RTCCLK / 16384}
+02155 \textcolor{comment}{  *     @arg RTC\_TamperSamplingFreq\_RTCCLK\_Div8192: Each of the tamper inputs are sampled}
+02156 \textcolor{comment}{  *                                           with a frequency =  RTCCLK / 8192}
+02157 \textcolor{comment}{  *     @arg RTC\_TamperSamplingFreq\_RTCCLK\_Div4096: Each of the tamper inputs are sampled}
+02158 \textcolor{comment}{  *                                           with a frequency =  RTCCLK / 4096}
+02159 \textcolor{comment}{  *     @arg RTC\_TamperSamplingFreq\_RTCCLK\_Div2048: Each of the tamper inputs are sampled}
+02160 \textcolor{comment}{  *                                           with a frequency =  RTCCLK / 2048}
+02161 \textcolor{comment}{  *     @arg RTC\_TamperSamplingFreq\_RTCCLK\_Div1024: Each of the tamper inputs are sampled}
+02162 \textcolor{comment}{  *                                           with a frequency =  RTCCLK / 1024}
+02163 \textcolor{comment}{  *     @arg RTC\_TamperSamplingFreq\_RTCCLK\_Div512: Each of the tamper inputs are sampled}
+02164 \textcolor{comment}{  *                                           with a frequency =  RTCCLK / 512  }
+02165 \textcolor{comment}{  *     @arg RTC\_TamperSamplingFreq\_RTCCLK\_Div256: Each of the tamper inputs are sampled}
+02166 \textcolor{comment}{  *                                           with a frequency =  RTCCLK / 256  }
+02167 \textcolor{comment}{  * @retval None}
+02168 \textcolor{comment}{  */}
+02169 \textcolor{keywordtype}{void} RTC_TamperSamplingFreqConfig(uint32\_t RTC\_TamperSamplingFreq)
+02170 \{
+02171   \textcolor{comment}{/* Check the parameters */}
+02172   assert_param(IS\_RTC\_TAMPER\_SAMPLING\_FREQ(RTC\_TamperSamplingFreq));
+02173 
+02174   \textcolor{comment}{/* Clear TAMPFREQ[2:0] bits in the RTC\_TAFCR register */}
+02175   RTC->TAFCR &= (uint32\_t)~(RTC_TAFCR_TAMPFREQ);
+02176 
+02177   \textcolor{comment}{/* Configure the RTC\_TAFCR register */}
+02178   RTC->TAFCR |= (uint32\_t)RTC\_TamperSamplingFreq;
+02179 \}
+02180 
+02181 \textcolor{comment}{/**}
+02182 \textcolor{comment}{  * @brief  Configures the Tampers Pins input Precharge Duration.}
+02183 \textcolor{comment}{  * @param  RTC\_TamperPrechargeDuration: Specifies the Tampers Pins input}
+02184 \textcolor{comment}{  *         Precharge Duration.}
+02185 \textcolor{comment}{  *   This parameter can be one of the following values:}
+02186 \textcolor{comment}{  *     @arg RTC\_TamperPrechargeDuration\_1RTCCLK: Tamper pins are pre-charged before sampling during 1
+       RTCCLK cycle}
+02187 \textcolor{comment}{  *     @arg RTC\_TamperPrechargeDuration\_2RTCCLK: Tamper pins are pre-charged before sampling during 2
+       RTCCLK cycle}
+02188 \textcolor{comment}{  *     @arg RTC\_TamperPrechargeDuration\_4RTCCLK: Tamper pins are pre-charged before sampling during 4
+       RTCCLK cycle    }
+02189 \textcolor{comment}{  *     @arg RTC\_TamperPrechargeDuration\_8RTCCLK: Tamper pins are pre-charged before sampling during 8
+       RTCCLK cycle}
+02190 \textcolor{comment}{  * @retval None}
+02191 \textcolor{comment}{  */}
+02192 \textcolor{keywordtype}{void} RTC_TamperPinsPrechargeDuration(uint32\_t RTC\_TamperPrechargeDuration)
+02193 \{
+02194   \textcolor{comment}{/* Check the parameters */}
+02195   assert_param(IS\_RTC\_TAMPER\_PRECHARGE\_DURATION(RTC\_TamperPrechargeDuration));
+02196 
+02197   \textcolor{comment}{/* Clear TAMPPRCH[1:0] bits in the RTC\_TAFCR register */}
+02198   RTC->TAFCR &= (uint32\_t)~(RTC_TAFCR_TAMPPRCH);
+02199 
+02200   \textcolor{comment}{/* Configure the RTC\_TAFCR register */}
+02201   RTC->TAFCR |= (uint32\_t)RTC\_TamperPrechargeDuration;
+02202 \}
+02203 
+02204 \textcolor{comment}{/**}
+02205 \textcolor{comment}{  * @brief  Enables or Disables the TimeStamp on Tamper Detection Event.}
+02206 \textcolor{comment}{  * @note   The timestamp is valid even the TSE bit in tamper control register }
+02207 \textcolor{comment}{  *         is reset.   }
+02208 \textcolor{comment}{  * @param  NewState: new state of the timestamp on tamper event.}
+02209 \textcolor{comment}{  *         This parameter can be: ENABLE or DISABLE.}
+02210 \textcolor{comment}{  * @retval None}
+02211 \textcolor{comment}{  */}
+02212 \textcolor{keywordtype}{void} RTC_TimeStampOnTamperDetectionCmd(FunctionalState NewState)
+02213 \{
+02214   \textcolor{comment}{/* Check the parameters */}
+02215   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+02216 
+02217   \textcolor{keywordflow}{if} (NewState != DISABLE)
+02218   \{
+02219     \textcolor{comment}{/* Save timestamp on tamper detection event */}
+02220     RTC->TAFCR |= (uint32\_t)RTC_TAFCR_TAMPTS;
+02221   \}
+02222   \textcolor{keywordflow}{else}
+02223   \{
+02224     \textcolor{comment}{/* Tamper detection does not cause a timestamp to be saved */}
+02225     RTC->TAFCR &= (uint32\_t)~RTC_TAFCR_TAMPTS;
+02226   \}
+02227 \}
+02228 
+02229 \textcolor{comment}{/**}
+02230 \textcolor{comment}{  * @brief  Enables or Disables the Precharge of Tamper pin.}
+02231 \textcolor{comment}{  * @param  NewState: new state of tamper pull up.}
+02232 \textcolor{comment}{  *   This parameter can be: ENABLE or DISABLE.                   }
+02233 \textcolor{comment}{  * @retval None}
+02234 \textcolor{comment}{  */}
+02235 \textcolor{keywordtype}{void} RTC_TamperPullUpCmd(FunctionalState NewState)
+02236 \{
+02237   \textcolor{comment}{/* Check the parameters */}
+02238   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+02239 
+02240  \textcolor{keywordflow}{if} (NewState != DISABLE)
+02241   \{
+02242     \textcolor{comment}{/* Enable precharge of the selected Tamper pin */}
+02243     RTC->TAFCR &= (uint32\_t)~RTC_TAFCR_TAMPPUDIS;
+02244   \}
+02245   \textcolor{keywordflow}{else}
+02246   \{
+02247     \textcolor{comment}{/* Disable precharge of the selected Tamper pin */}
+02248     RTC->TAFCR |= (uint32\_t)RTC_TAFCR_TAMPPUDIS;
+02249   \}
+02250 \}
+02251 
+02252 \textcolor{comment}{/**}
+02253 \textcolor{comment}{  * @\}}
+02254 \textcolor{comment}{  */}
+02255 
+02256 \textcolor{comment}{/** @defgroup RTC\_Group10 Backup Data Registers configuration functions}
+02257 \textcolor{comment}{ *  @brief   Backup Data Registers configuration functions  }
+02258 \textcolor{comment}{ *}
+02259 \textcolor{comment}{@verbatim   }
+02260 \textcolor{comment}{ ===============================================================================}
+02261 \textcolor{comment}{                       Backup Data Registers configuration functions }
+02262 \textcolor{comment}{ ===============================================================================  }
+02263 \textcolor{comment}{}
+02264 \textcolor{comment}{@endverbatim}
+02265 \textcolor{comment}{  * @\{}
+02266 \textcolor{comment}{  */}
+02267 
+02268 \textcolor{comment}{/**}
+02269 \textcolor{comment}{  * @brief  Writes a data in a specified RTC Backup data register.}
+02270 \textcolor{comment}{  * @param  RTC\_BKP\_DR: RTC Backup data Register number.}
+02271 \textcolor{comment}{  *          This parameter can be: RTC\_BKP\_DRx where x can be from 0 to 19 to }
+02272 \textcolor{comment}{  *                          specify the register.}
+02273 \textcolor{comment}{  * @param  Data: Data to be written in the specified RTC Backup data register.                     }
+02274 \textcolor{comment}{  * @retval None}
+02275 \textcolor{comment}{  */}
+02276 \textcolor{keywordtype}{void} RTC_WriteBackupRegister(uint32\_t RTC\_BKP\_DR, uint32\_t Data)
+02277 \{
+02278   \_\_IO uint32\_t tmp = 0;
+02279 
+02280   \textcolor{comment}{/* Check the parameters */}
+02281   assert_param(IS\_RTC\_BKP(RTC\_BKP\_DR));
+02282 
+02283   tmp = RTC_BASE + 0x50;
+02284   tmp += (RTC\_BKP\_DR * 4);
+02285 
+02286   \textcolor{comment}{/* Write the specified register */}
+02287   *(\_\_IO uint32\_t *)tmp = (uint32\_t)Data;
+02288 \}
+02289 
+02290 \textcolor{comment}{/**}
+02291 \textcolor{comment}{  * @brief  Reads data from the specified RTC Backup data Register.}
+02292 \textcolor{comment}{  * @param  RTC\_BKP\_DR: RTC Backup data Register number.}
+02293 \textcolor{comment}{  *          This parameter can be: RTC\_BKP\_DRx where x can be from 0 to 19 to }
+02294 \textcolor{comment}{  *                          specify the register.                   }
+02295 \textcolor{comment}{  * @retval None}
+02296 \textcolor{comment}{  */}
+02297 uint32\_t RTC_ReadBackupRegister(uint32\_t RTC\_BKP\_DR)
+02298 \{
+02299   \_\_IO uint32\_t tmp = 0;
+02300 
+02301   \textcolor{comment}{/* Check the parameters */}
+02302   assert_param(IS\_RTC\_BKP(RTC\_BKP\_DR));
+02303 
+02304   tmp = RTC_BASE + 0x50;
+02305   tmp += (RTC\_BKP\_DR * 4);
+02306 
+02307   \textcolor{comment}{/* Read the specified register */}
+02308   \textcolor{keywordflow}{return} (*(\_\_IO uint32\_t *)tmp);
+02309 \}
+02310 
+02311 \textcolor{comment}{/**}
+02312 \textcolor{comment}{  * @\}}
+02313 \textcolor{comment}{  */}
+02314 
+02315 \textcolor{comment}{/** @defgroup RTC\_Group11 RTC Tamper and TimeStamp Pins Selection and Output Type Config configuration
+       functions}
+02316 \textcolor{comment}{ *  @brief   RTC Tamper and TimeStamp Pins Selection and Output Type Config }
+02317 \textcolor{comment}{ *           configuration functions  }
+02318 \textcolor{comment}{ *}
+02319 \textcolor{comment}{@verbatim   }
+02320 \textcolor{comment}{ ===============================================================================}
+02321 \textcolor{comment}{  RTC Tamper and TimeStamp Pins Selection and Output Type Config configuration }
+02322 \textcolor{comment}{  functions }
+02323 \textcolor{comment}{ ===============================================================================  }
+02324 \textcolor{comment}{}
+02325 \textcolor{comment}{@endverbatim}
+02326 \textcolor{comment}{  * @\{}
+02327 \textcolor{comment}{  */}
+02328 
+02329 \textcolor{comment}{/**}
+02330 \textcolor{comment}{  * @brief  Selects the RTC Tamper Pin.}
+02331 \textcolor{comment}{  * @param  RTC\_TamperPin: specifies the RTC Tamper Pin.}
+02332 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02333 \textcolor{comment}{  *            @arg RTC\_TamperPin\_PC13: PC13 is selected as RTC Tamper Pin.}
+02334 \textcolor{comment}{  *            @arg RTC\_TamperPin\_PI8: PI8 is selected as RTC Tamper Pin.    }
+02335 \textcolor{comment}{  * @retval None}
+02336 \textcolor{comment}{  */}
+02337 \textcolor{keywordtype}{void} RTC_TamperPinSelection(uint32\_t RTC\_TamperPin)
+02338 \{
+02339   \textcolor{comment}{/* Check the parameters */}
+02340   assert_param(IS\_RTC\_TAMPER\_PIN(RTC\_TamperPin));
+02341 
+02342   RTC->TAFCR &= (uint32\_t)~(RTC_TAFCR_TAMPINSEL);
+02343   RTC->TAFCR |= (uint32\_t)(RTC\_TamperPin);
+02344 \}
+02345 
+02346 \textcolor{comment}{/**}
+02347 \textcolor{comment}{  * @brief  Selects the RTC TimeStamp Pin.}
+02348 \textcolor{comment}{  * @param  RTC\_TimeStampPin: specifies the RTC TimeStamp Pin.}
+02349 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02350 \textcolor{comment}{  *            @arg RTC\_TimeStampPin\_PC13: PC13 is selected as RTC TimeStamp Pin.}
+02351 \textcolor{comment}{  *            @arg RTC\_TimeStampPin\_PI8: PI8 is selected as RTC TimeStamp Pin.    }
+02352 \textcolor{comment}{  * @retval None}
+02353 \textcolor{comment}{  */}
+02354 \textcolor{keywordtype}{void} RTC_TimeStampPinSelection(uint32\_t RTC\_TimeStampPin)
+02355 \{
+02356   \textcolor{comment}{/* Check the parameters */}
+02357   assert_param(IS\_RTC\_TIMESTAMP\_PIN(RTC\_TimeStampPin));
+02358 
+02359   RTC->TAFCR &= (uint32\_t)~(RTC_TAFCR_TSINSEL);
+02360   RTC->TAFCR |= (uint32\_t)(RTC\_TimeStampPin);
+02361 \}
+02362 
+02363 \textcolor{comment}{/**}
+02364 \textcolor{comment}{  * @brief  Configures the RTC Output Pin mode. }
+02365 \textcolor{comment}{  * @param  RTC\_OutputType: specifies the RTC Output (PC13) pin mode.}
+02366 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02367 \textcolor{comment}{  *            @arg RTC\_OutputType\_OpenDrain: RTC Output (PC13) is configured in }
+02368 \textcolor{comment}{  *                                    Open Drain mode.}
+02369 \textcolor{comment}{  *            @arg RTC\_OutputType\_PushPull:  RTC Output (PC13) is configured in }
+02370 \textcolor{comment}{  *                                    Push Pull mode.    }
+02371 \textcolor{comment}{  * @retval None}
+02372 \textcolor{comment}{  */}
+02373 \textcolor{keywordtype}{void} RTC_OutputTypeConfig(uint32\_t RTC\_OutputType)
+02374 \{
+02375   \textcolor{comment}{/* Check the parameters */}
+02376   assert_param(IS\_RTC\_OUTPUT\_TYPE(RTC\_OutputType));
+02377 
+02378   RTC->TAFCR &= (uint32\_t)~(RTC_TAFCR_ALARMOUTTYPE);
+02379   RTC->TAFCR |= (uint32\_t)(RTC\_OutputType);
+02380 \}
+02381 
+02382 \textcolor{comment}{/**}
+02383 \textcolor{comment}{  * @\}}
+02384 \textcolor{comment}{  */}
+02385 
+02386 \textcolor{comment}{/** @defgroup RTC\_Group12 Shift control synchronisation functions}
+02387 \textcolor{comment}{ *  @brief   Shift control synchronisation functions }
+02388 \textcolor{comment}{ *}
+02389 \textcolor{comment}{@verbatim   }
+02390 \textcolor{comment}{ ===============================================================================}
+02391 \textcolor{comment}{                   Shift control synchronisation functions}
+02392 \textcolor{comment}{ ===============================================================================  }
+02393 \textcolor{comment}{}
+02394 \textcolor{comment}{@endverbatim}
+02395 \textcolor{comment}{  * @\{}
+02396 \textcolor{comment}{  */}
+02397 
+02398 \textcolor{comment}{/**}
+02399 \textcolor{comment}{  * @brief  Configures the Synchronization Shift Control Settings.}
+02400 \textcolor{comment}{  * @note   When REFCKON is set, firmware must not write to Shift control register }
+02401 \textcolor{comment}{  * @param  RTC\_ShiftAdd1S : Select to add or not 1 second to the time Calendar.}
+02402 \textcolor{comment}{  *   This parameter can be one of the following values :}
+02403 \textcolor{comment}{  *     @arg RTC\_ShiftAdd1S\_Set  : Add one second to the clock calendar. }
+02404 \textcolor{comment}{  *     @arg RTC\_ShiftAdd1S\_Reset: No effect.}
+02405 \textcolor{comment}{  * @param  RTC\_ShiftSubFS: Select the number of Second Fractions to Substitute.}
+02406 \textcolor{comment}{  *         This parameter can be one any value from 0 to 0x7FFF.}
+02407 \textcolor{comment}{  * @retval An ErrorStatus enumeration value:}
+02408 \textcolor{comment}{  *          - SUCCESS: RTC Shift registers are configured}
+02409 \textcolor{comment}{  *          - ERROR: RTC Shift registers are not configured}
+02410 \textcolor{comment}{*/}
+02411 ErrorStatus RTC_SynchroShiftConfig(uint32\_t RTC\_ShiftAdd1S, uint32\_t RTC\_ShiftSubFS)
+02412 \{
+02413   ErrorStatus status = ERROR;
+02414   uint32\_t shpfcount = 0;
+02415 
+02416   \textcolor{comment}{/* Check the parameters */}
+02417   assert_param(IS\_RTC\_SHIFT\_ADD1S(RTC\_ShiftAdd1S));
+02418   assert_param(IS\_RTC\_SHIFT\_SUBFS(RTC\_ShiftSubFS));
+02419 
+02420   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+02421   RTC->WPR = 0xCA;
+02422   RTC->WPR = 0x53;
+02423 
+02424   \textcolor{comment}{/* Check if a Shift is pending*/}
+02425   \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_SHPF) != RESET)
+02426   \{
+02427     \textcolor{comment}{/* Wait until the shift is completed*/}
+02428     \textcolor{keywordflow}{while} (((RTC->ISR & RTC_ISR_SHPF) != RESET) && (shpfcount != 
+      SHPF_TIMEOUT))
+02429     \{
+02430       shpfcount++;
+02431     \}
+02432   \}
+02433 
+02434   \textcolor{comment}{/* Check if the Shift pending is completed or if there is no Shift operation at all*/}
+02435   \textcolor{keywordflow}{if} ((RTC->ISR & RTC_ISR_SHPF) == RESET)
+02436   \{
+02437     \textcolor{comment}{/* check if the reference clock detection is disabled */}
+02438     \textcolor{keywordflow}{if}((RTC->CR & RTC_CR_REFCKON) == RESET)
+02439     \{
+02440       \textcolor{comment}{/* Configure the Shift settings */}
+02441       RTC->SHIFTR = (uint32\_t)(uint32\_t)(RTC\_ShiftSubFS) | (uint32\_t)(RTC\_ShiftAdd1S);
+02442 
+02443       \textcolor{keywordflow}{if}(RTC\_WaitForSynchro() == ERROR)
+02444       \{
+02445         status = ERROR;
+02446       \}
+02447       \textcolor{keywordflow}{else}
+02448       \{
+02449         status = SUCCESS;
+02450       \}
+02451     \}
+02452     \textcolor{keywordflow}{else}
+02453     \{
+02454       status = ERROR;
+02455     \}
+02456   \}
+02457   \textcolor{keywordflow}{else}
+02458   \{
+02459     status = ERROR;
+02460   \}
+02461 
+02462   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+02463   RTC->WPR = 0xFF;
+02464 
+02465   \textcolor{keywordflow}{return} (ErrorStatus)(status);
+02466 \}
+02467 
+02468 \textcolor{comment}{/**}
+02469 \textcolor{comment}{  * @\}}
+02470 \textcolor{comment}{  */}
+02471 
+02472 \textcolor{comment}{/** @defgroup RTC\_Group13 Interrupts and flags management functions}
+02473 \textcolor{comment}{ *  @brief   Interrupts and flags management functions  }
+02474 \textcolor{comment}{ *}
+02475 \textcolor{comment}{@verbatim   }
+02476 \textcolor{comment}{ ===============================================================================}
+02477 \textcolor{comment}{                       Interrupts and flags management functions}
+02478 \textcolor{comment}{ ===============================================================================  }
+02479 \textcolor{comment}{ All RTC interrupts are connected to the EXTI controller.}
+02480 \textcolor{comment}{ }
+02481 \textcolor{comment}{ - To enable the RTC Alarm interrupt, the following sequence is required:}
+02482 \textcolor{comment}{   - Configure and enable the EXTI Line 17 in interrupt mode and select the rising }
+02483 \textcolor{comment}{     edge sensitivity using the EXTI\_Init() function.}
+02484 \textcolor{comment}{   - Configure and enable the RTC\_Alarm IRQ channel in the NVIC using the NVIC\_Init()}
+02485 \textcolor{comment}{     function.}
+02486 \textcolor{comment}{   - Configure the RTC to generate RTC alarms (Alarm A and/or Alarm B) using}
+02487 \textcolor{comment}{     the RTC\_SetAlarm() and RTC\_AlarmCmd() functions.}
+02488 \textcolor{comment}{}
+02489 \textcolor{comment}{ - To enable the RTC Wakeup interrupt, the following sequence is required:}
+02490 \textcolor{comment}{   - Configure and enable the EXTI Line 22 in interrupt mode and select the rising }
+02491 \textcolor{comment}{     edge sensitivity using the EXTI\_Init() function.}
+02492 \textcolor{comment}{   - Configure and enable the RTC\_WKUP IRQ channel in the NVIC using the NVIC\_Init()}
+02493 \textcolor{comment}{     function.}
+02494 \textcolor{comment}{   - Configure the RTC to generate the RTC wakeup timer event using the }
+02495 \textcolor{comment}{     RTC\_WakeUpClockConfig(), RTC\_SetWakeUpCounter() and RTC\_WakeUpCmd() functions.}
+02496 \textcolor{comment}{}
+02497 \textcolor{comment}{ - To enable the RTC Tamper interrupt, the following sequence is required:}
+02498 \textcolor{comment}{   - Configure and enable the EXTI Line 21 in interrupt mode and select the rising }
+02499 \textcolor{comment}{     edge sensitivity using the EXTI\_Init() function.}
+02500 \textcolor{comment}{   - Configure and enable the TAMP\_STAMP IRQ channel in the NVIC using the NVIC\_Init()}
+02501 \textcolor{comment}{     function.}
+02502 \textcolor{comment}{   - Configure the RTC to detect the RTC tamper event using the }
+02503 \textcolor{comment}{     RTC\_TamperTriggerConfig() and RTC\_TamperCmd() functions.}
+02504 \textcolor{comment}{}
+02505 \textcolor{comment}{ - To enable the RTC TimeStamp interrupt, the following sequence is required:}
+02506 \textcolor{comment}{   - Configure and enable the EXTI Line 21 in interrupt mode and select the rising }
+02507 \textcolor{comment}{     edge sensitivity using the EXTI\_Init() function.}
+02508 \textcolor{comment}{   - Configure and enable the TAMP\_STAMP IRQ channel in the NVIC using the NVIC\_Init()}
+02509 \textcolor{comment}{     function.}
+02510 \textcolor{comment}{   - Configure the RTC to detect the RTC time-stamp event using the }
+02511 \textcolor{comment}{     RTC\_TimeStampCmd() functions.}
+02512 \textcolor{comment}{}
+02513 \textcolor{comment}{@endverbatim}
+02514 \textcolor{comment}{  * @\{}
+02515 \textcolor{comment}{  */}
+02516 
+02517 \textcolor{comment}{/**}
+02518 \textcolor{comment}{  * @brief  Enables or disables the specified RTC interrupts.}
+02519 \textcolor{comment}{  * @param  RTC\_IT: specifies the RTC interrupt sources to be enabled or disabled. }
+02520 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+02521 \textcolor{comment}{  *            @arg RTC\_IT\_TS:  Time Stamp interrupt mask}
+02522 \textcolor{comment}{  *            @arg RTC\_IT\_WUT:  WakeUp Timer interrupt mask}
+02523 \textcolor{comment}{  *            @arg RTC\_IT\_ALRB:  Alarm B interrupt mask}
+02524 \textcolor{comment}{  *            @arg RTC\_IT\_ALRA:  Alarm A interrupt mask}
+02525 \textcolor{comment}{  *            @arg RTC\_IT\_TAMP: Tamper event interrupt mask}
+02526 \textcolor{comment}{  * @param  NewState: new state of the specified RTC interrupts.}
+02527 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+02528 \textcolor{comment}{  * @retval None}
+02529 \textcolor{comment}{  */}
+02530 \textcolor{keywordtype}{void} RTC_ITConfig(uint32\_t RTC\_IT, FunctionalState NewState)
+02531 \{
+02532   \textcolor{comment}{/* Check the parameters */}
+02533   assert_param(IS\_RTC\_CONFIG\_IT(RTC\_IT));
+02534   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+02535 
+02536   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+02537   RTC->WPR = 0xCA;
+02538   RTC->WPR = 0x53;
+02539 
+02540   \textcolor{keywordflow}{if} (NewState != DISABLE)
+02541   \{
+02542     \textcolor{comment}{/* Configure the Interrupts in the RTC\_CR register */}
+02543     RTC->CR |= (uint32\_t)(RTC\_IT & ~RTC_TAFCR_TAMPIE);
+02544     \textcolor{comment}{/* Configure the Tamper Interrupt in the RTC\_TAFCR */}
+02545     RTC->TAFCR |= (uint32\_t)(RTC\_IT & RTC_TAFCR_TAMPIE);
+02546   \}
+02547   \textcolor{keywordflow}{else}
+02548   \{
+02549     \textcolor{comment}{/* Configure the Interrupts in the RTC\_CR register */}
+02550     RTC->CR &= (uint32\_t)~(RTC\_IT & (uint32\_t)~RTC_TAFCR_TAMPIE);
+02551     \textcolor{comment}{/* Configure the Tamper Interrupt in the RTC\_TAFCR */}
+02552     RTC->TAFCR &= (uint32\_t)~(RTC\_IT & RTC_TAFCR_TAMPIE);
+02553   \}
+02554   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+02555   RTC->WPR = 0xFF;
+02556 \}
+02557 
+02558 \textcolor{comment}{/**}
+02559 \textcolor{comment}{  * @brief  Checks whether the specified RTC flag is set or not.}
+02560 \textcolor{comment}{  * @param  RTC\_FLAG: specifies the flag to check.}
+02561 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02562 \textcolor{comment}{  *            @arg RTC\_FLAG\_TAMP1F: Tamper 1 event flag}
+02563 \textcolor{comment}{  *            @arg RTC\_FLAG\_TSOVF: Time Stamp OverFlow flag}
+02564 \textcolor{comment}{  *            @arg RTC\_FLAG\_TSF: Time Stamp event flag}
+02565 \textcolor{comment}{  *            @arg RTC\_FLAG\_WUTF: WakeUp Timer flag}
+02566 \textcolor{comment}{  *            @arg RTC\_FLAG\_ALRBF: Alarm B flag}
+02567 \textcolor{comment}{  *            @arg RTC\_FLAG\_ALRAF: Alarm A flag}
+02568 \textcolor{comment}{  *            @arg RTC\_FLAG\_INITF: Initialization mode flag}
+02569 \textcolor{comment}{  *            @arg RTC\_FLAG\_RSF: Registers Synchronized flag}
+02570 \textcolor{comment}{  *            @arg RTC\_FLAG\_INITS: Registers Configured flag}
+02571 \textcolor{comment}{  *            @arg RTC\_FLAG\_WUTWF: WakeUp Timer Write flag}
+02572 \textcolor{comment}{  *            @arg RTC\_FLAG\_ALRBWF: Alarm B Write flag}
+02573 \textcolor{comment}{  *            @arg RTC\_FLAG\_ALRAWF: Alarm A write flag}
+02574 \textcolor{comment}{  * @retval The new state of RTC\_FLAG (SET or RESET).}
+02575 \textcolor{comment}{  */}
+02576 FlagStatus RTC_GetFlagStatus(uint32\_t RTC\_FLAG)
+02577 \{
+02578   FlagStatus bitstatus = RESET;
+02579   uint32\_t tmpreg = 0;
+02580 
+02581   \textcolor{comment}{/* Check the parameters */}
+02582   assert_param(IS\_RTC\_GET\_FLAG(RTC\_FLAG));
+02583 
+02584   \textcolor{comment}{/* Get all the flags */}
+02585   tmpreg = (uint32\_t)(RTC->ISR & RTC_FLAGS_MASK);
+02586 
+02587   \textcolor{comment}{/* Return the status of the flag */}
+02588   \textcolor{keywordflow}{if} ((tmpreg & RTC\_FLAG) != (uint32\_t)RESET)
+02589   \{
+02590     bitstatus = SET;
+02591   \}
+02592   \textcolor{keywordflow}{else}
+02593   \{
+02594     bitstatus = RESET;
+02595   \}
+02596   \textcolor{keywordflow}{return} bitstatus;
+02597 \}
+02598 
+02599 \textcolor{comment}{/**}
+02600 \textcolor{comment}{  * @brief  Clears the RTC's pending flags.}
+02601 \textcolor{comment}{  * @param  RTC\_FLAG: specifies the RTC flag to clear.}
+02602 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+02603 \textcolor{comment}{  *            @arg RTC\_FLAG\_TAMP1F: Tamper 1 event flag}
+02604 \textcolor{comment}{  *            @arg RTC\_FLAG\_TSOVF: Time Stamp Overflow flag }
+02605 \textcolor{comment}{  *            @arg RTC\_FLAG\_TSF: Time Stamp event flag}
+02606 \textcolor{comment}{  *            @arg RTC\_FLAG\_WUTF: WakeUp Timer flag}
+02607 \textcolor{comment}{  *            @arg RTC\_FLAG\_ALRBF: Alarm B flag}
+02608 \textcolor{comment}{  *            @arg RTC\_FLAG\_ALRAF: Alarm A flag}
+02609 \textcolor{comment}{  *            @arg RTC\_FLAG\_RSF: Registers Synchronized flag}
+02610 \textcolor{comment}{  * @retval None}
+02611 \textcolor{comment}{  */}
+02612 \textcolor{keywordtype}{void} RTC_ClearFlag(uint32\_t RTC\_FLAG)
+02613 \{
+02614   \textcolor{comment}{/* Check the parameters */}
+02615   assert_param(IS\_RTC\_CLEAR\_FLAG(RTC\_FLAG));
+02616 
+02617   \textcolor{comment}{/* Clear the Flags in the RTC\_ISR register */}
+02618   RTC->ISR = (uint32\_t)((uint32\_t)(~((RTC\_FLAG | RTC_ISR_INIT)& 0x0000FFFF) | (uint32\_t)(
+      RTC->ISR & RTC_ISR_INIT)));
+02619 \}
+02620 
+02621 \textcolor{comment}{/**}
+02622 \textcolor{comment}{  * @brief  Checks whether the specified RTC interrupt has occurred or not.}
+02623 \textcolor{comment}{  * @param  RTC\_IT: specifies the RTC interrupt source to check.}
+02624 \textcolor{comment}{  *          This parameter can be one of the following values:}
+02625 \textcolor{comment}{  *            @arg RTC\_IT\_TS: Time Stamp interrupt }
+02626 \textcolor{comment}{  *            @arg RTC\_IT\_WUT: WakeUp Timer interrupt }
+02627 \textcolor{comment}{  *            @arg RTC\_IT\_ALRB: Alarm B interrupt }
+02628 \textcolor{comment}{  *            @arg RTC\_IT\_ALRA: Alarm A interrupt }
+02629 \textcolor{comment}{  *            @arg RTC\_IT\_TAMP1: Tamper 1 event interrupt }
+02630 \textcolor{comment}{  * @retval The new state of RTC\_IT (SET or RESET).}
+02631 \textcolor{comment}{  */}
+02632 ITStatus RTC_GetITStatus(uint32\_t RTC\_IT)
+02633 \{
+02634   ITStatus bitstatus = RESET;
+02635   uint32\_t tmpreg = 0, enablestatus = 0;
+02636 
+02637   \textcolor{comment}{/* Check the parameters */}
+02638   assert_param(IS\_RTC\_GET\_IT(RTC\_IT));
+02639 
+02640   \textcolor{comment}{/* Get the TAMPER Interrupt enable bit and pending bit */}
+02641   tmpreg = (uint32\_t)(RTC->TAFCR & (RTC_TAFCR_TAMPIE));
+02642 
+02643   \textcolor{comment}{/* Get the Interrupt enable Status */}
+02644   enablestatus = (uint32\_t)((RTC->CR & RTC\_IT) | (tmpreg & (RTC\_IT >> 15)));
+02645 
+02646   \textcolor{comment}{/* Get the Interrupt pending bit */}
+02647   tmpreg = (uint32\_t)((RTC->ISR & (uint32\_t)(RTC\_IT >> 4)));
+02648 
+02649   \textcolor{comment}{/* Get the status of the Interrupt */}
+02650   \textcolor{keywordflow}{if} ((enablestatus != (uint32\_t)RESET) && ((tmpreg & 0x0000FFFF) != (uint32\_t)
+      RESET))
+02651   \{
+02652     bitstatus = SET;
+02653   \}
+02654   \textcolor{keywordflow}{else}
+02655   \{
+02656     bitstatus = RESET;
+02657   \}
+02658   \textcolor{keywordflow}{return} bitstatus;
+02659 \}
+02660 
+02661 \textcolor{comment}{/**}
+02662 \textcolor{comment}{  * @brief  Clears the RTC's interrupt pending bits.}
+02663 \textcolor{comment}{  * @param  RTC\_IT: specifies the RTC interrupt pending bit to clear.}
+02664 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+02665 \textcolor{comment}{  *            @arg RTC\_IT\_TS: Time Stamp interrupt }
+02666 \textcolor{comment}{  *            @arg RTC\_IT\_WUT: WakeUp Timer interrupt }
+02667 \textcolor{comment}{  *            @arg RTC\_IT\_ALRB: Alarm B interrupt }
+02668 \textcolor{comment}{  *            @arg RTC\_IT\_ALRA: Alarm A interrupt }
+02669 \textcolor{comment}{  *            @arg RTC\_IT\_TAMP1: Tamper 1 event interrupt }
+02670 \textcolor{comment}{  * @retval None}
+02671 \textcolor{comment}{  */}
+02672 \textcolor{keywordtype}{void} RTC_ClearITPendingBit(uint32\_t RTC\_IT)
+02673 \{
+02674   uint32\_t tmpreg = 0;
+02675 
+02676   \textcolor{comment}{/* Check the parameters */}
+02677   assert_param(IS\_RTC\_CLEAR\_IT(RTC\_IT));
+02678 
+02679   \textcolor{comment}{/* Get the RTC\_ISR Interrupt pending bits mask */}
+02680   tmpreg = (uint32\_t)(RTC\_IT >> 4);
+02681 
+02682   \textcolor{comment}{/* Clear the interrupt pending bits in the RTC\_ISR register */}
+02683   RTC->ISR = (uint32\_t)((uint32\_t)(~((tmpreg | RTC_ISR_INIT)& 0x0000FFFF) | (uint32\_t)(
+      RTC->ISR & RTC_ISR_INIT)));
+02684 \}
+02685 
+02686 \textcolor{comment}{/**}
+02687 \textcolor{comment}{  * @\}}
+02688 \textcolor{comment}{  */}
+02689 
+02690 \textcolor{comment}{/**}
+02691 \textcolor{comment}{  * @brief  Converts a 2 digit decimal to BCD format.}
+02692 \textcolor{comment}{  * @param  Value: Byte to be converted.}
+02693 \textcolor{comment}{  * @retval Converted byte}
+02694 \textcolor{comment}{  */}
+02695 \textcolor{keyword}{static} uint8\_t RTC_ByteToBcd2(uint8\_t Value)
+02696 \{
+02697   uint8\_t bcdhigh = 0;
+02698 
+02699   \textcolor{keywordflow}{while} (Value >= 10)
+02700   \{
+02701     bcdhigh++;
+02702     Value -= 10;
+02703   \}
+02704 
+02705   \textcolor{keywordflow}{return}  ((uint8\_t)(bcdhigh << 4) | Value);
+02706 \}
+02707 
+02708 \textcolor{comment}{/**}
+02709 \textcolor{comment}{  * @brief  Convert from 2 digit BCD to Binary.}
+02710 \textcolor{comment}{  * @param  Value: BCD value to be converted.}
+02711 \textcolor{comment}{  * @retval Converted word}
+02712 \textcolor{comment}{  */}
+02713 \textcolor{keyword}{static} uint8\_t RTC_Bcd2ToByte(uint8\_t Value)
+02714 \{
+02715   uint8\_t tmp = 0;
+02716   tmp = ((uint8\_t)(Value & (uint8\_t)0xF0) >> (uint8\_t)0x4) * 10;
+02717   \textcolor{keywordflow}{return} (tmp + (Value & (uint8\_t)0x0F));
+02718 \}
+02719 
+02720 \textcolor{comment}{/**}
+02721 \textcolor{comment}{  * @\}}
+02722 \textcolor{comment}{  */}
+02723 
+02724 \textcolor{comment}{/**}
+02725 \textcolor{comment}{  * @\}}
+02726 \textcolor{comment}{  */}
+02727 
+02728 \textcolor{comment}{/**}
+02729 \textcolor{comment}{  * @\}}
+02730 \textcolor{comment}{  */}
+02731 
+02732 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

@@ -1,0 +1,673 @@
+\section{stm32f4xx\+\_\+dma.\+h}
+\label{stm32f4xx__dma_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+dma.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+dma.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_dma.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the DMA firmware }
+00008 \textcolor{comment}{  *          library.}
+00009 \textcolor{comment}{  ******************************************************************************}
+00010 \textcolor{comment}{  * @attention}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00013 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00014 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00015 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00016 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00017 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00020 \textcolor{comment}{  ******************************************************************************  }
+00021 \textcolor{comment}{  */}
+00022 
+00023 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_DMA\_H}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_DMA\_H}
+00026 
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00028  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00033 
+00034 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00035 \textcolor{comment}{  * @\{}
+00036 \textcolor{comment}{  */}
+00037 
+00038 \textcolor{comment}{/** @addtogroup DMA}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00043 
+00044 \textcolor{comment}{/** }
+00045 \textcolor{comment}{  * @brief  DMA Init structure definition}
+00046 \textcolor{comment}{  */}
+00047 
+00048 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00049 \{
+00050   uint32\_t DMA_Channel;            \textcolor{comment}{/*!< Specifies the channel used for the specified stream. }
+00051 \textcolor{comment}{                                        This parameter can be a value of @ref DMA\_channel */}
+00052 
+00053   uint32\_t DMA_PeripheralBaseAddr; \textcolor{comment}{/*!< Specifies the peripheral base address for DMAy Streamx. */}
+00054 
+00055   uint32\_t DMA_Memory0BaseAddr;    \textcolor{comment}{/*!< Specifies the memory 0 base address for DMAy Streamx. }
+00056 \textcolor{comment}{                                        This memory is the default memory used when double buffer mode
+       is}
+00057 \textcolor{comment}{                                        not enabled. */}
+00058 
+00059   uint32\_t DMA_DIR;                \textcolor{comment}{/*!< Specifies if the data will be transferred from memory to
+       peripheral, }
+00060 \textcolor{comment}{                                        from memory to memory or from peripheral to memory.}
+00061 \textcolor{comment}{                                        This parameter can be a value of @ref
+       DMA\_data\_transfer\_direction */}
+00062 
+00063   uint32\_t DMA_BufferSize;         \textcolor{comment}{/*!< Specifies the buffer size, in data unit, of the specified
+       Stream. }
+00064 \textcolor{comment}{                                        The data unit is equal to the configuration set in
+       DMA\_PeripheralDataSize}
+00065 \textcolor{comment}{                                        or DMA\_MemoryDataSize members depending in the transfer
+       direction. */}
+00066 
+00067   uint32\_t DMA_PeripheralInc;      \textcolor{comment}{/*!< Specifies whether the Peripheral address register should be
+       incremented or not.}
+00068 \textcolor{comment}{                                        This parameter can be a value of @ref
+       DMA\_peripheral\_incremented\_mode */}
+00069 
+00070   uint32\_t DMA_MemoryInc;          \textcolor{comment}{/*!< Specifies whether the memory address register should be
+       incremented or not.}
+00071 \textcolor{comment}{                                        This parameter can be a value of @ref
+       DMA\_memory\_incremented\_mode */}
+00072 
+00073   uint32\_t DMA_PeripheralDataSize; \textcolor{comment}{/*!< Specifies the Peripheral data width.}
+00074 \textcolor{comment}{                                        This parameter can be a value of @ref DMA\_peripheral\_data\_size
+       */}
+00075 
+00076   uint32\_t DMA_MemoryDataSize;     \textcolor{comment}{/*!< Specifies the Memory data width.}
+00077 \textcolor{comment}{                                        This parameter can be a value of @ref DMA\_memory\_data\_size */}
+00078 
+00079   uint32\_t DMA_Mode;               \textcolor{comment}{/*!< Specifies the operation mode of the DMAy Streamx.}
+00080 \textcolor{comment}{                                        This parameter can be a value of @ref DMA\_circular\_normal\_mode}
+00081 \textcolor{comment}{                                        @note The circular buffer mode cannot be used if the
+       memory-to-memory}
+00082 \textcolor{comment}{                                              data transfer is configured on the selected Stream */}
+00083 
+00084   uint32\_t DMA_Priority;           \textcolor{comment}{/*!< Specifies the software priority for the DMAy Streamx.}
+00085 \textcolor{comment}{                                        This parameter can be a value of @ref DMA\_priority\_level */}
+00086 
+00087   uint32\_t DMA_FIFOMode;          \textcolor{comment}{/*!< Specifies if the FIFO mode or Direct mode will be used for the
+       specified Stream.}
+00088 \textcolor{comment}{                                        This parameter can be a value of @ref DMA\_fifo\_direct\_mode}
+00089 \textcolor{comment}{                                        @note The Direct mode (FIFO mode disabled) cannot be used if
+       the }
+00090 \textcolor{comment}{                                               memory-to-memory data transfer is configured on the
+       selected Stream */}
+00091 
+00092   uint32\_t DMA_FIFOThreshold;      \textcolor{comment}{/*!< Specifies the FIFO threshold level.}
+00093 \textcolor{comment}{                                        This parameter can be a value of @ref DMA\_fifo\_threshold\_level
+       */}
+00094 
+00095   uint32\_t DMA_MemoryBurst;        \textcolor{comment}{/*!< Specifies the Burst transfer configuration for the memory
+       transfers. }
+00096 \textcolor{comment}{                                        It specifies the amount of data to be transferred in a single
+       non interruptable }
+00097 \textcolor{comment}{                                        transaction. This parameter can be a value of @ref
+       DMA\_memory\_burst }
+00098 \textcolor{comment}{                                        @note The burst mode is possible only if the address Increment
+       mode is enabled. */}
+00099 
+00100   uint32\_t DMA_PeripheralBurst;    \textcolor{comment}{/*!< Specifies the Burst transfer configuration for the peripheral
+       transfers. }
+00101 \textcolor{comment}{                                        It specifies the amount of data to be transferred in a single
+       non interruptable }
+00102 \textcolor{comment}{                                        transaction. This parameter can be a value of @ref
+       DMA\_peripheral\_burst}
+00103 \textcolor{comment}{                                        @note The burst mode is possible only if the address Increment
+       mode is enabled. */}
+00104 \}DMA\_InitTypeDef;
+00105 
+00106 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00107 
+00108 \textcolor{comment}{/** @defgroup DMA\_Exported\_Constants}
+00109 \textcolor{comment}{  * @\{}
+00110 \textcolor{comment}{  */}
+00111 
+00112 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_ALL\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA1_Stream0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00113                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA1_Stream1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00114                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA1_Stream2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00115                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA1_Stream3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00116                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA1_Stream4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00117                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA1_Stream5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00118                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA1_Stream6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00119                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA1_Stream7\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00120                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA2_Stream0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00121                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA2_Stream1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00122                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA2_Stream2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00123                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA2_Stream3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00124                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA2_Stream4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00125                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA2_Stream5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00126                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA2_Stream6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00127                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA2_Stream7\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00128 
+00129 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_ALL\_CONTROLLER}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CONTROLLER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CONTROLLER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00130                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CONTROLLER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA2\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00131 
+00132 \textcolor{comment}{/** @defgroup DMA\_channel }
+00133 \textcolor{comment}{  * @\{}
+00134 \textcolor{comment}{  */}
+00135 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Channel\_0}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00136 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Channel\_1}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x02000000\textcolor{preprocessor}{)}
+00137 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Channel\_2}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x04000000\textcolor{preprocessor}{)}
+00138 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Channel\_3}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x06000000\textcolor{preprocessor}{)}
+00139 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Channel\_4}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x08000000\textcolor{preprocessor}{)}
+00140 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Channel\_5}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0A000000\textcolor{preprocessor}{)}
+00141 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Channel\_6}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0C000000\textcolor{preprocessor}{)}
+00142 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Channel\_7}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0E000000\textcolor{preprocessor}{)}
+00143 
+00144 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_CHANNEL}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_Channel_0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00145                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_Channel_1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00146                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_Channel_2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00147                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_Channel_3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00148                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_Channel_4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00149                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_Channel_5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00150                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_Channel_6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00151                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CHANNEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_Channel_7\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00152 \textcolor{comment}{/**}
+00153 \textcolor{comment}{  * @\}}
+00154 \textcolor{comment}{  */}
+00155 
+00156 
+00157 \textcolor{comment}{/** @defgroup DMA\_data\_transfer\_direction }
+00158 \textcolor{comment}{  * @\{}
+00159 \textcolor{comment}{  */}
+00160 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_DIR\_PeripheralToMemory}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00161 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_DIR\_MemoryToPeripheral}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000040\textcolor{preprocessor}{)}
+00162 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_DIR\_MemoryToMemory}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000080\textcolor{preprocessor}{)}
+00163 
+00164 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_DIRECTION}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIRECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIRECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_DIR_PeripheralToMemory \textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00165                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIRECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_DIR_MemoryToPeripheral\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00166                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIRECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_DIR_MemoryToMemory\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00167 \textcolor{comment}{/**}
+00168 \textcolor{comment}{  * @\}}
+00169 \textcolor{comment}{  */}
+00170 
+00171 
+00172 \textcolor{comment}{/** @defgroup DMA\_data\_buffer\_size }
+00173 \textcolor{comment}{  * @\{}
+00174 \textcolor{comment}{  */}
+00175 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_BUFFER\_SIZE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{>=} 0x1\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<} 0x10000\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00176 \textcolor{comment}{/**}
+00177 \textcolor{comment}{  * @\}}
+00178 \textcolor{comment}{  */}
+00179 
+00180 
+00181 \textcolor{comment}{/** @defgroup DMA\_peripheral\_incremented\_mode }
+00182 \textcolor{comment}{  * @\{}
+00183 \textcolor{comment}{  */}
+00184 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_PeripheralInc\_Enable}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000200\textcolor{preprocessor}{)}
+00185 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_PeripheralInc\_Disable}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00186 
+00187 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_PERIPHERAL\_INC\_STATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_PeripheralInc_Enable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00188                                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_PeripheralInc_Disable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00189 \textcolor{comment}{/**}
+00190 \textcolor{comment}{  * @\}}
+00191 \textcolor{comment}{  */}
+00192 
+00193 
+00194 \textcolor{comment}{/** @defgroup DMA\_memory\_incremented\_mode }
+00195 \textcolor{comment}{  * @\{}
+00196 \textcolor{comment}{  */}
+00197 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_MemoryInc\_Enable}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000400\textcolor{preprocessor}{)}
+00198 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_MemoryInc\_Disable}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00199 
+00200 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_MEMORY\_INC\_STATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_MemoryInc_Enable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00201                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_MemoryInc_Disable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00202 \textcolor{comment}{/**}
+00203 \textcolor{comment}{  * @\}}
+00204 \textcolor{comment}{  */}
+00205 
+00206 
+00207 \textcolor{comment}{/** @defgroup DMA\_peripheral\_data\_size }
+00208 \textcolor{comment}{  * @\{}
+00209 \textcolor{comment}{  */}
+00210 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_PeripheralDataSize\_Byte}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00211 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_PeripheralDataSize\_HalfWord}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000800\textcolor{preprocessor}{)}
+00212 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_PeripheralDataSize\_Word}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00001000\textcolor{preprocessor}{)}
+00213 
+00214 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_PERIPHERAL\_DATA\_SIZE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_PeripheralDataSize_Byte\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00215                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_PeripheralDataSize_HalfWord\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00216                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_PeripheralDataSize_Word\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00217 \textcolor{comment}{/**}
+00218 \textcolor{comment}{  * @\}}
+00219 \textcolor{comment}{  */}
+00220 
+00221 
+00222 \textcolor{comment}{/** @defgroup DMA\_memory\_data\_size }
+00223 \textcolor{comment}{  * @\{}
+00224 \textcolor{comment}{  */}
+00225 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_MemoryDataSize\_Byte}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00226 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_MemoryDataSize\_HalfWord}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00002000\textcolor{preprocessor}{)}
+00227 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_MemoryDataSize\_Word}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00004000\textcolor{preprocessor}{)}
+00228 
+00229 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_MEMORY\_DATA\_SIZE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_MemoryDataSize_Byte\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00230                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_MemoryDataSize_HalfWord\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00231                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_MemoryDataSize_Word \textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00232 \textcolor{comment}{/**}
+00233 \textcolor{comment}{  * @\}}
+00234 \textcolor{comment}{  */}
+00235 
+00236 
+00237 \textcolor{comment}{/** @defgroup DMA\_circular\_normal\_mode }
+00238 \textcolor{comment}{  * @\{}
+00239 \textcolor{comment}{  */}
+00240 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Mode\_Normal}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00241 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Mode\_Circular}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000100\textcolor{preprocessor}{)}
+00242 
+00243 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_Mode_Normal \textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00244                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_Mode_Circular\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00245 \textcolor{comment}{/**}
+00246 \textcolor{comment}{  * @\}}
+00247 \textcolor{comment}{  */}
+00248 
+00249 
+00250 \textcolor{comment}{/** @defgroup DMA\_priority\_level }
+00251 \textcolor{comment}{  * @\{}
+00252 \textcolor{comment}{  */}
+00253 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Priority\_Low}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00254 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Priority\_Medium}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00010000\textcolor{preprocessor}{)}
+00255 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Priority\_High}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00020000\textcolor{preprocessor}{)}
+00256 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Priority\_VeryHigh}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00030000\textcolor{preprocessor}{)}
+00257 
+00258 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_PRIORITY}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRIORITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRIORITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_Priority_Low \textcolor{preprocessor}{)}   \textcolor{preprocessor}{||}
+00259                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRIORITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_Priority_Medium\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00260                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRIORITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_Priority_High\textcolor{preprocessor}{)}   \textcolor{preprocessor}{||}
+00261                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PRIORITY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_Priority_VeryHigh\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00262 \textcolor{comment}{/**}
+00263 \textcolor{comment}{  * @\}}
+00264 \textcolor{comment}{  */}
+00265 
+00266 
+00267 \textcolor{comment}{/** @defgroup DMA\_fifo\_direct\_mode }
+00268 \textcolor{comment}{  * @\{}
+00269 \textcolor{comment}{  */}
+00270 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FIFOMode\_Disable}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00271 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FIFOMode\_Enable}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)}
+00272 
+00273 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_FIFO\_MODE\_STATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FIFOMode_Disable \textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00274                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FIFOMode_Enable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00275 \textcolor{comment}{/**}
+00276 \textcolor{comment}{  * @\}}
+00277 \textcolor{comment}{  */}
+00278 
+00279 
+00280 \textcolor{comment}{/** @defgroup DMA\_fifo\_threshold\_level }
+00281 \textcolor{comment}{  * @\{}
+00282 \textcolor{comment}{  */}
+00283 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FIFOThreshold\_1QuarterFull}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00284 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FIFOThreshold\_HalfFull}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00285 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FIFOThreshold\_3QuartersFull}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}
+00286 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FIFOThreshold\_Full}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000003\textcolor{preprocessor}{)}
+00287 
+00288 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_FIFO\_THRESHOLD}\textcolor{preprocessor}{(}\textcolor{preprocessor}{THRESHOLD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{THRESHOLD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FIFOThreshold_1QuarterFull \textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00289                                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{THRESHOLD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FIFOThreshold_HalfFull\textcolor{preprocessor}{)}      \textcolor{preprocessor}{||}
+00290                                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{THRESHOLD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FIFOThreshold_3QuartersFull\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00291                                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{THRESHOLD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FIFOThreshold_Full\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00292 \textcolor{comment}{/**}
+00293 \textcolor{comment}{  * @\}}
+00294 \textcolor{comment}{  */}
+00295 
+00296 
+00297 \textcolor{comment}{/** @defgroup DMA\_memory\_burst }
+00298 \textcolor{comment}{  * @\{}
+00299 \textcolor{comment}{  */}
+00300 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_MemoryBurst\_Single}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00301 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_MemoryBurst\_INC4}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00800000\textcolor{preprocessor}{)}
+00302 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_MemoryBurst\_INC8}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x01000000\textcolor{preprocessor}{)}
+00303 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_MemoryBurst\_INC16}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x01800000\textcolor{preprocessor}{)}
+00304 
+00305 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_MEMORY\_BURST}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BURST}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BURST}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_MemoryBurst_Single\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00306                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BURST}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_MemoryBurst_INC4\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00307                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BURST}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_MemoryBurst_INC8\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00308                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BURST}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_MemoryBurst_INC16\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00309 \textcolor{comment}{/**}
+00310 \textcolor{comment}{  * @\}}
+00311 \textcolor{comment}{  */}
+00312 
+00313 
+00314 \textcolor{comment}{/** @defgroup DMA\_peripheral\_burst }
+00315 \textcolor{comment}{  * @\{}
+00316 \textcolor{comment}{  */}
+00317 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_PeripheralBurst\_Single}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00318 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_PeripheralBurst\_INC4}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00200000\textcolor{preprocessor}{)}
+00319 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_PeripheralBurst\_INC8}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00400000\textcolor{preprocessor}{)}
+00320 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_PeripheralBurst\_INC16}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00600000\textcolor{preprocessor}{)}
+00321 
+00322 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_PERIPHERAL\_BURST}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BURST}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BURST}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_PeripheralBurst_Single\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00323                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BURST}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_PeripheralBurst_INC4\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00324                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BURST}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_PeripheralBurst_INC8\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00325                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BURST}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_PeripheralBurst_INC16\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00326 \textcolor{comment}{/**}
+00327 \textcolor{comment}{  * @\}}
+00328 \textcolor{comment}{  */}
+00329 
+00330 
+00331 \textcolor{comment}{/** @defgroup DMA\_fifo\_status\_level }
+00332 \textcolor{comment}{  * @\{}
+00333 \textcolor{comment}{  */}
+00334 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FIFOStatus\_Less1QuarterFull}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000 \textcolor{preprocessor}{<<} 3\textcolor{preprocessor}{)}
+00335 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FIFOStatus\_1QuarterFull}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001 \textcolor{preprocessor}{<<} 3\textcolor{preprocessor}{)}
+00336 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FIFOStatus\_HalfFull}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002 \textcolor{preprocessor}{<<} 3\textcolor{preprocessor}{)}
+00337 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FIFOStatus\_3QuartersFull}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000003 \textcolor{preprocessor}{<<} 3\textcolor{preprocessor}{)}
+00338 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FIFOStatus\_Empty}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004 \textcolor{preprocessor}{<<} 3\textcolor{preprocessor}{)}
+00339 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FIFOStatus\_Full}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000005 \textcolor{preprocessor}{<<} 3\textcolor{preprocessor}{)}
+00340 
+00341 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_FIFO\_STATUS}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATUS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATUS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FIFOStatus_Less1QuarterFull \textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00342                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATUS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FIFOStatus_HalfFull\textcolor{preprocessor}{)}          \textcolor{preprocessor}{||}
+00343                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATUS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FIFOStatus_1QuarterFull\textcolor{preprocessor}{)}      \textcolor{preprocessor}{||}
+00344                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATUS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FIFOStatus_3QuartersFull\textcolor{preprocessor}{)}     \textcolor{preprocessor}{||}
+00345                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATUS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FIFOStatus_Full\textcolor{preprocessor}{)}              \textcolor{preprocessor}{||}
+00346                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATUS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FIFOStatus_Empty\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00347 \textcolor{comment}{/**}
+00348 \textcolor{comment}{  * @\}}
+00349 \textcolor{comment}{  */}
+00350 
+00351 \textcolor{comment}{/** @defgroup DMA\_flags\_definition }
+00352 \textcolor{comment}{  * @\{}
+00353 \textcolor{comment}{  */}
+00354 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_FEIF0}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10800001\textcolor{preprocessor}{)}
+00355 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_DMEIF0}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10800004\textcolor{preprocessor}{)}
+00356 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_TEIF0}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000008\textcolor{preprocessor}{)}
+00357 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_HTIF0}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000010\textcolor{preprocessor}{)}
+00358 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_TCIF0}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000020\textcolor{preprocessor}{)}
+00359 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_FEIF1}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000040\textcolor{preprocessor}{)}
+00360 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_DMEIF1}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000100\textcolor{preprocessor}{)}
+00361 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_TEIF1}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000200\textcolor{preprocessor}{)}
+00362 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_HTIF1}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000400\textcolor{preprocessor}{)}
+00363 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_TCIF1}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000800\textcolor{preprocessor}{)}
+00364 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_FEIF2}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10010000\textcolor{preprocessor}{)}
+00365 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_DMEIF2}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10040000\textcolor{preprocessor}{)}
+00366 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_TEIF2}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10080000\textcolor{preprocessor}{)}
+00367 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_HTIF2}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10100000\textcolor{preprocessor}{)}
+00368 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_TCIF2}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10200000\textcolor{preprocessor}{)}
+00369 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_FEIF3}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10400000\textcolor{preprocessor}{)}
+00370 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_DMEIF3}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x11000000\textcolor{preprocessor}{)}
+00371 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_TEIF3}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x12000000\textcolor{preprocessor}{)}
+00372 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_HTIF3}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x14000000\textcolor{preprocessor}{)}
+00373 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_TCIF3}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x18000000\textcolor{preprocessor}{)}
+00374 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_FEIF4}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000001\textcolor{preprocessor}{)}
+00375 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_DMEIF4}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000004\textcolor{preprocessor}{)}
+00376 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_TEIF4}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000008\textcolor{preprocessor}{)}
+00377 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_HTIF4}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000010\textcolor{preprocessor}{)}
+00378 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_TCIF4}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000020\textcolor{preprocessor}{)}
+00379 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_FEIF5}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000040\textcolor{preprocessor}{)}
+00380 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_DMEIF5}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000100\textcolor{preprocessor}{)}
+00381 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_TEIF5}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000200\textcolor{preprocessor}{)}
+00382 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_HTIF5}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000400\textcolor{preprocessor}{)}
+00383 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_TCIF5}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20000800\textcolor{preprocessor}{)}
+00384 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_FEIF6}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20010000\textcolor{preprocessor}{)}
+00385 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_DMEIF6}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20040000\textcolor{preprocessor}{)}
+00386 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_TEIF6}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20080000\textcolor{preprocessor}{)}
+00387 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_HTIF6}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20100000\textcolor{preprocessor}{)}
+00388 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_TCIF6}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20200000\textcolor{preprocessor}{)}
+00389 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_FEIF7}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20400000\textcolor{preprocessor}{)}
+00390 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_DMEIF7}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x21000000\textcolor{preprocessor}{)}
+00391 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_TEIF7}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x22000000\textcolor{preprocessor}{)}
+00392 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_HTIF7}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x24000000\textcolor{preprocessor}{)}
+00393 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FLAG\_TCIF7}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x28000000\textcolor{preprocessor}{)}
+00394 
+00395 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_CLEAR\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0x30000000\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x30000000\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0x30000000\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0\textcolor{preprocessor}{)}
+       \textcolor{preprocessor}{&&}
+00396                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0xC082F082\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00397 
+00398 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_GET\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FLAG_TCIF0\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FLAG_HTIF0\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00399                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FLAG_TEIF0\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FLAG_DMEIF0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00400                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FLAG_FEIF0\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FLAG_TCIF1\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00401                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FLAG_HTIF1\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FLAG_TEIF1\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00402                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FLAG_DMEIF1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FLAG_FEIF1\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00403                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FLAG_TCIF2\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FLAG_HTIF2\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00404                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FLAG_TEIF2\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FLAG_DMEIF2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00405                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FLAG_FEIF2\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FLAG_TCIF3\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00406                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FLAG_HTIF3\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FLAG_TEIF3\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00407                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FLAG_DMEIF3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FLAG_FEIF3\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00408                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FLAG_TCIF4\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FLAG_HTIF4\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00409                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FLAG_TEIF4\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FLAG_DMEIF4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00410                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FLAG_FEIF4\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FLAG_TCIF5\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00411                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FLAG_HTIF5\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FLAG_TEIF5\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00412                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FLAG_DMEIF5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FLAG_FEIF5\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00413                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FLAG_TCIF6\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FLAG_HTIF6\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00414                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FLAG_TEIF6\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FLAG_DMEIF6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00415                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FLAG_FEIF6\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FLAG_TCIF7\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00416                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FLAG_HTIF7\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FLAG_TEIF7\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00417                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FLAG_DMEIF7\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_FLAG_FEIF7\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00418 \textcolor{comment}{/**}
+00419 \textcolor{comment}{  * @\}}
+00420 \textcolor{comment}{  */}
+00421 
+00422 
+00423 \textcolor{comment}{/** @defgroup DMA\_interrupt\_enable\_definitions }
+00424 \textcolor{comment}{  * @\{}
+00425 \textcolor{comment}{  */}
+00426 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_TC}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000010\textcolor{preprocessor}{)}
+00427 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_HT}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000008\textcolor{preprocessor}{)}
+00428 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_TE}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)}
+00429 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_DME}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}
+00430 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_FE}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000080\textcolor{preprocessor}{)}
+00431 
+00432 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_CONFIG\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0xFFFFFF61\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00433 \textcolor{comment}{/**}
+00434 \textcolor{comment}{  * @\}}
+00435 \textcolor{comment}{  */}
+00436 
+00437 
+00438 \textcolor{comment}{/** @defgroup DMA\_interrupts\_definitions }
+00439 \textcolor{comment}{  * @\{}
+00440 \textcolor{comment}{  */}
+00441 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_FEIF0}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x90000001\textcolor{preprocessor}{)}
+00442 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_DMEIF0}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10001004\textcolor{preprocessor}{)}
+00443 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_TEIF0}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10002008\textcolor{preprocessor}{)}
+00444 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_HTIF0}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10004010\textcolor{preprocessor}{)}
+00445 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_TCIF0}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10008020\textcolor{preprocessor}{)}
+00446 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_FEIF1}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x90000040\textcolor{preprocessor}{)}
+00447 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_DMEIF1}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10001100\textcolor{preprocessor}{)}
+00448 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_TEIF1}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10002200\textcolor{preprocessor}{)}
+00449 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_HTIF1}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10004400\textcolor{preprocessor}{)}
+00450 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_TCIF1}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10008800\textcolor{preprocessor}{)}
+00451 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_FEIF2}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x90010000\textcolor{preprocessor}{)}
+00452 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_DMEIF2}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10041000\textcolor{preprocessor}{)}
+00453 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_TEIF2}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10082000\textcolor{preprocessor}{)}
+00454 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_HTIF2}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10104000\textcolor{preprocessor}{)}
+00455 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_TCIF2}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10208000\textcolor{preprocessor}{)}
+00456 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_FEIF3}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x90400000\textcolor{preprocessor}{)}
+00457 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_DMEIF3}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x11001000\textcolor{preprocessor}{)}
+00458 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_TEIF3}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x12002000\textcolor{preprocessor}{)}
+00459 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_HTIF3}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x14004000\textcolor{preprocessor}{)}
+00460 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_TCIF3}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x18008000\textcolor{preprocessor}{)}
+00461 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_FEIF4}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xA0000001\textcolor{preprocessor}{)}
+00462 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_DMEIF4}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20001004\textcolor{preprocessor}{)}
+00463 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_TEIF4}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20002008\textcolor{preprocessor}{)}
+00464 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_HTIF4}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20004010\textcolor{preprocessor}{)}
+00465 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_TCIF4}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20008020\textcolor{preprocessor}{)}
+00466 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_FEIF5}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xA0000040\textcolor{preprocessor}{)}
+00467 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_DMEIF5}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20001100\textcolor{preprocessor}{)}
+00468 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_TEIF5}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20002200\textcolor{preprocessor}{)}
+00469 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_HTIF5}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20004400\textcolor{preprocessor}{)}
+00470 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_TCIF5}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20008800\textcolor{preprocessor}{)}
+00471 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_FEIF6}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xA0010000\textcolor{preprocessor}{)}
+00472 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_DMEIF6}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20041000\textcolor{preprocessor}{)}
+00473 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_TEIF6}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20082000\textcolor{preprocessor}{)}
+00474 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_HTIF6}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20104000\textcolor{preprocessor}{)}
+00475 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_TCIF6}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x20208000\textcolor{preprocessor}{)}
+00476 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_FEIF7}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xA0400000\textcolor{preprocessor}{)}
+00477 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_DMEIF7}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x21001000\textcolor{preprocessor}{)}
+00478 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_TEIF7}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x22002000\textcolor{preprocessor}{)}
+00479 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_HTIF7}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x24004000\textcolor{preprocessor}{)}
+00480 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_IT\_TCIF7}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x28008000\textcolor{preprocessor}{)}
+00481 
+00482 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_CLEAR\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0x30000000\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x30000000\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&}
+00483                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0x30000000\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&}
+00484                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0x40820082\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00485 
+00486 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_GET\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_TCIF0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_HTIF0\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00487                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_TEIF0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_DMEIF0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00488                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_FEIF0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_TCIF1\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00489                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_HTIF1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_TEIF1\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00490                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_DMEIF1\textcolor{preprocessor}{)}\textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_FEIF1\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00491                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_TCIF2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_HTIF2\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00492                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_TEIF2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_DMEIF2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00493                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_FEIF2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_TCIF3\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00494                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_HTIF3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_TEIF3\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00495                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_DMEIF3\textcolor{preprocessor}{)}\textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_FEIF3\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00496                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_TCIF4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_HTIF4\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00497                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_TEIF4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_DMEIF4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00498                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_FEIF4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_TCIF5\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00499                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_HTIF5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_TEIF5\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00500                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_DMEIF5\textcolor{preprocessor}{)}\textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_FEIF5\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00501                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_TCIF6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_HTIF6\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00502                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_TEIF6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_DMEIF6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00503                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_FEIF6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_TCIF7\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00504                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_HTIF7\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_TEIF7\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00505                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_DMEIF7\textcolor{preprocessor}{)}\textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_IT_FEIF7\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00506 \textcolor{comment}{/**}
+00507 \textcolor{comment}{  * @\}}
+00508 \textcolor{comment}{  */}
+00509 
+00510 
+00511 \textcolor{comment}{/** @defgroup DMA\_peripheral\_increment\_offset }
+00512 \textcolor{comment}{  * @\{}
+00513 \textcolor{comment}{  */}
+00514 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_PINCOS\_Psize}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00515 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_PINCOS\_WordAligned}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00008000\textcolor{preprocessor}{)}
+00516 
+00517 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_PINCOS\_SIZE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_PINCOS_Psize\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00518                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIZE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_PINCOS_WordAligned\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00519 \textcolor{comment}{/**}
+00520 \textcolor{comment}{  * @\}}
+00521 \textcolor{comment}{  */}
+00522 
+00523 
+00524 \textcolor{comment}{/** @defgroup DMA\_flow\_controller\_definitions }
+00525 \textcolor{comment}{  * @\{}
+00526 \textcolor{comment}{  */}
+00527 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FlowCtrl\_Memory}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00528 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_FlowCtrl\_Peripheral}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000020\textcolor{preprocessor}{)}
+00529 
+00530 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_FLOW\_CTRL}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CTRL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CTRL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FlowCtrl_Memory\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00531                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CTRL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_FlowCtrl_Peripheral\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00532 \textcolor{comment}{/**}
+00533 \textcolor{comment}{  * @\}}
+00534 \textcolor{comment}{  */}
+00535 
+00536 
+00537 \textcolor{comment}{/** @defgroup DMA\_memory\_targets\_definitions }
+00538 \textcolor{comment}{  * @\{}
+00539 \textcolor{comment}{  */}
+00540 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Memory\_0}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00541 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DMA\_Memory\_1}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00080000\textcolor{preprocessor}{)}
+00542 
+00543 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_DMA\_CURRENT\_MEM}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MEM}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MEM}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} DMA_Memory_0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MEM}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      DMA_Memory_1\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00544 \textcolor{comment}{/**}
+00545 \textcolor{comment}{  * @\}}
+00546 \textcolor{comment}{  */}
+00547 
+00548 \textcolor{comment}{/**}
+00549 \textcolor{comment}{  * @\}}
+00550 \textcolor{comment}{  */}
+00551 
+00552 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00553 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00554 
+00555 \textcolor{comment}{/*  Function used to set the DMA configuration to the default reset state *****/}
+00556 \textcolor{keywordtype}{void} DMA_DeInit(DMA\_Stream\_TypeDef* DMAy\_Streamx);
+00557 
+00558 \textcolor{comment}{/* Initialization and Configuration functions *********************************/}
+00559 \textcolor{keywordtype}{void} DMA_Init(DMA\_Stream\_TypeDef* DMAy\_Streamx, DMA\_InitTypeDef* DMA\_InitStruct);
+00560 \textcolor{keywordtype}{void} DMA_StructInit(DMA\_InitTypeDef* DMA\_InitStruct);
+00561 \textcolor{keywordtype}{void} DMA_Cmd(DMA\_Stream\_TypeDef* DMAy\_Streamx, FunctionalState NewState);
+00562 
+00563 \textcolor{comment}{/* Optional Configuration functions *******************************************/}
+00564 \textcolor{keywordtype}{void} DMA_PeriphIncOffsetSizeConfig(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t DMA\_Pincos);
+00565 \textcolor{keywordtype}{void} DMA_FlowControllerConfig(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t DMA\_FlowCtrl);
+00566 
+00567 \textcolor{comment}{/* Data Counter functions *****************************************************/}
+00568 \textcolor{keywordtype}{void} DMA_SetCurrDataCounter(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint16\_t Counter);
+00569 uint16\_t DMA_GetCurrDataCounter(DMA\_Stream\_TypeDef* DMAy\_Streamx);
+00570 
+00571 \textcolor{comment}{/* Double Buffer mode functions ***********************************************/}
+00572 \textcolor{keywordtype}{void} DMA_DoubleBufferModeConfig(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t Memory1BaseAddr,
+00573                                 uint32\_t DMA\_CurrentMemory);
+00574 \textcolor{keywordtype}{void} DMA_DoubleBufferModeCmd(DMA\_Stream\_TypeDef* DMAy\_Streamx, FunctionalState NewState);
+00575 \textcolor{keywordtype}{void} DMA_MemoryTargetConfig(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t MemoryBaseAddr,
+00576                             uint32\_t DMA\_MemoryTarget);
+00577 uint32\_t DMA_GetCurrentMemoryTarget(DMA\_Stream\_TypeDef* DMAy\_Streamx);
+00578 
+00579 \textcolor{comment}{/* Interrupts and flags management functions **********************************/}
+00580 FunctionalState DMA_GetCmdStatus(DMA\_Stream\_TypeDef* DMAy\_Streamx);
+00581 uint32\_t DMA_GetFIFOStatus(DMA\_Stream\_TypeDef* DMAy\_Streamx);
+00582 FlagStatus DMA_GetFlagStatus(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t DMA\_FLAG);
+00583 \textcolor{keywordtype}{void} DMA_ClearFlag(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t DMA\_FLAG);
+00584 \textcolor{keywordtype}{void} DMA_ITConfig(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t DMA\_IT, FunctionalState NewState);
+00585 ITStatus DMA_GetITStatus(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t DMA\_IT);
+00586 \textcolor{keywordtype}{void} DMA_ClearITPendingBit(DMA\_Stream\_TypeDef* DMAy\_Streamx, uint32\_t DMA\_IT);
+00587 
+00588 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00589 \}
+00590 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00591 
+00592 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/*\_\_STM32F4xx\_DMA\_H */}
+00593 
+00594 \textcolor{comment}{/**}
+00595 \textcolor{comment}{  * @\}}
+00596 \textcolor{comment}{  */}
+00597 
+00598 \textcolor{comment}{/**}
+00599 \textcolor{comment}{  * @\}}
+00600 \textcolor{comment}{  */}
+00601 
+00602 
+00603 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

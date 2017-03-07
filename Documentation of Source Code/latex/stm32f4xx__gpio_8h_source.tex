@@ -1,0 +1,432 @@
+\section{stm32f4xx\+\_\+gpio.\+h}
+\label{stm32f4xx__gpio_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+gpio.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+gpio.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_gpio.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the GPIO firmware}
+00008 \textcolor{comment}{  *          library.}
+00009 \textcolor{comment}{  ******************************************************************************}
+00010 \textcolor{comment}{  * @attention}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00013 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00014 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00015 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00016 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00017 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00020 \textcolor{comment}{  ******************************************************************************}
+00021 \textcolor{comment}{  */}
+00022 
+00023 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_GPIO\_H}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_GPIO\_H}
+00026 
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00028  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00033 
+00034 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00035 \textcolor{comment}{  * @\{}
+00036 \textcolor{comment}{  */}
+00037 
+00038 \textcolor{comment}{/** @addtogroup GPIO}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00043 
+00044 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_GPIO\_ALL\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIOA\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00045                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIOB\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00046                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIOC\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00047                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIOD\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00048                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIOE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00049                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIOF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00050                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIOG\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00051                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIOH\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00052                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIOI\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00053 
+00054 \textcolor{comment}{/** }
+00055 \textcolor{comment}{  * @brief  GPIO Configuration Mode enumeration }
+00056 \textcolor{comment}{  */}
+00057 \textcolor{keyword}{typedef} \textcolor{keyword}{enum}
+00058 \{
+00059   GPIO_Mode_IN   = 0x00, \textcolor{comment}{/*!< GPIO Input Mode */}
+00060   GPIO_Mode_OUT  = 0x01, \textcolor{comment}{/*!< GPIO Output Mode */}
+00061   GPIO_Mode_AF   = 0x02, \textcolor{comment}{/*!< GPIO Alternate function Mode */}
+00062   GPIO_Mode_AN   = 0x03  \textcolor{comment}{/*!< GPIO Analog Mode */}
+00063 \}GPIOMode\_TypeDef;
+00064 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_GPIO\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{GPIO\_Mode\_IN}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{GPIO\_Mode\_OUT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00065                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{GPIO\_Mode\_AF}\textcolor{preprocessor}{)}\textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{GPIO\_Mode\_AN}\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00066 
+00067 \textcolor{comment}{/** }
+00068 \textcolor{comment}{  * @brief  GPIO Output type enumeration }
+00069 \textcolor{comment}{  */}
+00070 \textcolor{keyword}{typedef} \textcolor{keyword}{enum}
+00071 \{
+00072   GPIO_OType_PP = 0x00,
+00073   GPIO_OType_OD = 0x01
+00074 \}GPIOOType\_TypeDef;
+00075 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_GPIO\_OTYPE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OTYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OTYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{GPIO\_OType\_PP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OTYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{GPIO\_OType\_OD}\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00076 
+00077 
+00078 \textcolor{comment}{/** }
+00079 \textcolor{comment}{  * @brief  GPIO Output Maximum frequency enumeration }
+00080 \textcolor{comment}{  */}
+00081 \textcolor{keyword}{typedef} \textcolor{keyword}{enum}
+00082 \{
+00083   GPIO_Speed_2MHz   = 0x00, \textcolor{comment}{/*!< Low speed */}
+00084   GPIO_Speed_25MHz  = 0x01, \textcolor{comment}{/*!< Medium speed */}
+00085   GPIO_Speed_50MHz  = 0x02, \textcolor{comment}{/*!< Fast speed */}
+00086   GPIO_Speed_100MHz = 0x03  \textcolor{comment}{/*!< High speed on 30 pF (80 MHz Output max speed on 15 pF) */}
+00087 \}GPIOSpeed\_TypeDef;
+00088 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_GPIO\_SPEED}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SPEED}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SPEED}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{GPIO\_Speed\_2MHz}\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SPEED}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{GPIO\_Speed\_25MHz}\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00089                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SPEED}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{GPIO\_Speed\_50MHz}\textcolor{preprocessor}{)}\textcolor{preprocessor}{||}  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SPEED}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{GPIO\_Speed\_100MHz}\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00090 
+00091 \textcolor{comment}{/** }
+00092 \textcolor{comment}{  * @brief  GPIO Configuration PullUp PullDown enumeration }
+00093 \textcolor{comment}{  */}
+00094 \textcolor{keyword}{typedef} \textcolor{keyword}{enum}
+00095 \{
+00096   GPIO_PuPd_NOPULL = 0x00,
+00097   GPIO_PuPd_UP     = 0x01,
+00098   GPIO_PuPd_DOWN   = 0x02
+00099 \}GPIOPuPd\_TypeDef;
+00100 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_GPIO\_PUPD}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PUPD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PUPD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{GPIO\_PuPd\_NOPULL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PUPD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{GPIO\_PuPd\_UP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00101                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PUPD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{GPIO\_PuPd\_DOWN}\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00102 
+00103 \textcolor{comment}{/** }
+00104 \textcolor{comment}{  * @brief  GPIO Bit SET and Bit RESET enumeration }
+00105 \textcolor{comment}{  */}
+00106 \textcolor{keyword}{typedef} \textcolor{keyword}{enum}
+00107 \{
+00108   Bit_RESET = 0,
+00109   Bit_SET
+00110 \}BitAction;
+00111 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_GPIO\_BIT\_ACTION}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ACTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ACTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{Bit\_RESET}\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ACTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{Bit\_SET}\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00112 
+00113 
+00114 \textcolor{comment}{/** }
+00115 \textcolor{comment}{  * @brief   GPIO Init structure definition  }
+00116 \textcolor{comment}{  */}
+00117 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00118 \{
+00119   uint32\_t GPIO_Pin;              \textcolor{comment}{/*!< Specifies the GPIO pins to be configured.}
+00120 \textcolor{comment}{                                       This parameter can be any value of @ref GPIO\_pins\_define */}
+00121 
+00122   GPIOMode\_TypeDef GPIO_Mode;     \textcolor{comment}{/*!< Specifies the operating mode for the selected pins.}
+00123 \textcolor{comment}{                                       This parameter can be a value of @ref GPIOMode\_TypeDef */}
+00124 
+00125   GPIOSpeed\_TypeDef GPIO_Speed;   \textcolor{comment}{/*!< Specifies the speed for the selected pins.}
+00126 \textcolor{comment}{                                       This parameter can be a value of @ref GPIOSpeed\_TypeDef */}
+00127 
+00128   GPIOOType\_TypeDef GPIO_OType;   \textcolor{comment}{/*!< Specifies the operating output type for the selected pins.}
+00129 \textcolor{comment}{                                       This parameter can be a value of @ref GPIOOType\_TypeDef */}
+00130 
+00131   GPIOPuPd\_TypeDef GPIO_PuPd;     \textcolor{comment}{/*!< Specifies the operating Pull-up/Pull down for the selected
+       pins.}
+00132 \textcolor{comment}{                                       This parameter can be a value of @ref GPIOPuPd\_TypeDef */}
+00133 \}GPIO\_InitTypeDef;
+00134 
+00135 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00136 
+00137 \textcolor{comment}{/** @defgroup GPIO\_Exported\_Constants}
+00138 \textcolor{comment}{  * @\{}
+00139 \textcolor{comment}{  */}
+00140 
+00141 \textcolor{comment}{/** @defgroup GPIO\_pins\_define }
+00142 \textcolor{comment}{  * @\{}
+00143 \textcolor{comment}{  */}
+00144 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_Pin\_0}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0001\textcolor{preprocessor}{)}  \textcolor{comment}{/* Pin 0 selected */}
+00145 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_Pin\_1}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0002\textcolor{preprocessor}{)}  \textcolor{comment}{/* Pin 1 selected */}
+00146 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_Pin\_2}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0004\textcolor{preprocessor}{)}  \textcolor{comment}{/* Pin 2 selected */}
+00147 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_Pin\_3}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0008\textcolor{preprocessor}{)}  \textcolor{comment}{/* Pin 3 selected */}
+00148 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_Pin\_4}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0010\textcolor{preprocessor}{)}  \textcolor{comment}{/* Pin 4 selected */}
+00149 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_Pin\_5}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0020\textcolor{preprocessor}{)}  \textcolor{comment}{/* Pin 5 selected */}
+00150 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_Pin\_6}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0040\textcolor{preprocessor}{)}  \textcolor{comment}{/* Pin 6 selected */}
+00151 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_Pin\_7}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0080\textcolor{preprocessor}{)}  \textcolor{comment}{/* Pin 7 selected */}
+00152 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_Pin\_8}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0100\textcolor{preprocessor}{)}  \textcolor{comment}{/* Pin 8 selected */}
+00153 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_Pin\_9}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0200\textcolor{preprocessor}{)}  \textcolor{comment}{/* Pin 9 selected */}
+00154 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_Pin\_10}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0400\textcolor{preprocessor}{)}  \textcolor{comment}{/* Pin 10 selected */}
+00155 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_Pin\_11}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0800\textcolor{preprocessor}{)}  \textcolor{comment}{/* Pin 11 selected */}
+00156 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_Pin\_12}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x1000\textcolor{preprocessor}{)}  \textcolor{comment}{/* Pin 12 selected */}
+00157 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_Pin\_13}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x2000\textcolor{preprocessor}{)}  \textcolor{comment}{/* Pin 13 selected */}
+00158 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_Pin\_14}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x4000\textcolor{preprocessor}{)}  \textcolor{comment}{/* Pin 14 selected */}
+00159 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_Pin\_15}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x8000\textcolor{preprocessor}{)}  \textcolor{comment}{/* Pin 15 selected */}
+00160 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_Pin\_All}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xFFFF\textcolor{preprocessor}{)}  \textcolor{comment}{/* All pins selected */}
+00161 
+00162 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_GPIO\_PIN}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00163 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_GET\_GPIO\_PIN}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_Pin_0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00164                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_Pin_1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00165                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_Pin_2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00166                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_Pin_3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00167                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_Pin_4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00168                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_Pin_5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00169                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_Pin_6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00170                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_Pin_7\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00171                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_Pin_8\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00172                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_Pin_9\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00173                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_Pin_10\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00174                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_Pin_11\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00175                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_Pin_12\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00176                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_Pin_13\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00177                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_Pin_14\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00178                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_Pin_15\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00179 \textcolor{comment}{/**}
+00180 \textcolor{comment}{  * @\}}
+00181 \textcolor{comment}{  */}
+00182 
+00183 
+00184 \textcolor{comment}{/** @defgroup GPIO\_Pin\_sources }
+00185 \textcolor{comment}{  * @\{}
+00186 \textcolor{comment}{  */}
+00187 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_PinSource0}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}
+00188 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_PinSource1}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}
+00189 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_PinSource2}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}
+00190 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_PinSource3}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x03\textcolor{preprocessor}{)}
+00191 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_PinSource4}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x04\textcolor{preprocessor}{)}
+00192 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_PinSource5}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x05\textcolor{preprocessor}{)}
+00193 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_PinSource6}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x06\textcolor{preprocessor}{)}
+00194 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_PinSource7}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x07\textcolor{preprocessor}{)}
+00195 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_PinSource8}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x08\textcolor{preprocessor}{)}
+00196 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_PinSource9}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x09\textcolor{preprocessor}{)}
+00197 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_PinSource10}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0A\textcolor{preprocessor}{)}
+00198 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_PinSource11}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0B\textcolor{preprocessor}{)}
+00199 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_PinSource12}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0C\textcolor{preprocessor}{)}
+00200 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_PinSource13}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0D\textcolor{preprocessor}{)}
+00201 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_PinSource14}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0E\textcolor{preprocessor}{)}
+00202 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_PinSource15}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0F\textcolor{preprocessor}{)}
+00203 
+00204 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_GPIO\_PIN\_SOURCE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_PinSource0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00205                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_PinSource1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00206                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_PinSource2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00207                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_PinSource3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00208                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_PinSource4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00209                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_PinSource5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00210                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_PinSource6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00211                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_PinSource7\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00212                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_PinSource8\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00213                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_PinSource9\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00214                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_PinSource10\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00215                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_PinSource11\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00216                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_PinSource12\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00217                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_PinSource13\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00218                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_PinSource14\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00219                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PINSOURCE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_PinSource15\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00220 \textcolor{comment}{/**}
+00221 \textcolor{comment}{  * @\}}
+00222 \textcolor{comment}{  */}
+00223 
+00224 \textcolor{comment}{/** @defgroup GPIO\_Alternat\_function\_selection\_define }
+00225 \textcolor{comment}{  * @\{}
+00226 \textcolor{comment}{  */}
+00227 \textcolor{comment}{/** }
+00228 \textcolor{comment}{  * @brief   AF 0 selection  }
+00229 \textcolor{comment}{  */}
+00230 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_RTC\_50Hz}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}  \textcolor{comment}{/* RTC\_50Hz Alternate Function mapping */}
+00231 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_MCO}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}  \textcolor{comment}{/* MCO (MCO1 and MCO2) Alternate Function mapping */}
+00232 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_TAMPER}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}  \textcolor{comment}{/* TAMPER (TAMPER\_1 and TAMPER\_2) Alternate Function
+       mapping */}
+00233 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_SWJ}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}  \textcolor{comment}{/* SWJ (SWD and JTAG) Alternate Function mapping */}
+00234 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_TRACE}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}  \textcolor{comment}{/* TRACE Alternate Function mapping */}
+00235 
+00236 \textcolor{comment}{/** }
+00237 \textcolor{comment}{  * @brief   AF 1 selection  }
+00238 \textcolor{comment}{  */}
+00239 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_TIM1}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}  \textcolor{comment}{/* TIM1 Alternate Function mapping */}
+00240 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_TIM2}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}  \textcolor{comment}{/* TIM2 Alternate Function mapping */}
+00241 
+00242 \textcolor{comment}{/** }
+00243 \textcolor{comment}{  * @brief   AF 2 selection  }
+00244 \textcolor{comment}{  */}
+00245 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_TIM3}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}  \textcolor{comment}{/* TIM3 Alternate Function mapping */}
+00246 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_TIM4}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}  \textcolor{comment}{/* TIM4 Alternate Function mapping */}
+00247 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_TIM5}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}  \textcolor{comment}{/* TIM5 Alternate Function mapping */}
+00248 
+00249 \textcolor{comment}{/** }
+00250 \textcolor{comment}{  * @brief   AF 3 selection  }
+00251 \textcolor{comment}{  */}
+00252 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_TIM8}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x03\textcolor{preprocessor}{)}  \textcolor{comment}{/* TIM8 Alternate Function mapping */}
+00253 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_TIM9}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x03\textcolor{preprocessor}{)}  \textcolor{comment}{/* TIM9 Alternate Function mapping */}
+00254 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_TIM10}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x03\textcolor{preprocessor}{)}  \textcolor{comment}{/* TIM10 Alternate Function mapping */}
+00255 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_TIM11}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x03\textcolor{preprocessor}{)}  \textcolor{comment}{/* TIM11 Alternate Function mapping */}
+00256 
+00257 \textcolor{comment}{/** }
+00258 \textcolor{comment}{  * @brief   AF 4 selection  }
+00259 \textcolor{comment}{  */}
+00260 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_I2C1}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x04\textcolor{preprocessor}{)}  \textcolor{comment}{/* I2C1 Alternate Function mapping */}
+00261 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_I2C2}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x04\textcolor{preprocessor}{)}  \textcolor{comment}{/* I2C2 Alternate Function mapping */}
+00262 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_I2C3}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x04\textcolor{preprocessor}{)}  \textcolor{comment}{/* I2C3 Alternate Function mapping */}
+00263 
+00264 \textcolor{comment}{/** }
+00265 \textcolor{comment}{  * @brief   AF 5 selection  }
+00266 \textcolor{comment}{  */}
+00267 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_SPI1}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x05\textcolor{preprocessor}{)}  \textcolor{comment}{/* SPI1 Alternate Function mapping */}
+00268 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_SPI2}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x05\textcolor{preprocessor}{)}  \textcolor{comment}{/* SPI2/I2S2 Alternate Function mapping */}
+00269 
+00270 \textcolor{comment}{/** }
+00271 \textcolor{comment}{  * @brief   AF 6 selection  }
+00272 \textcolor{comment}{  */}
+00273 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_SPI3}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x06\textcolor{preprocessor}{)}  \textcolor{comment}{/* SPI3/I2S3 Alternate Function mapping */}
+00274 
+00275 \textcolor{comment}{/** }
+00276 \textcolor{comment}{  * @brief   AF 7 selection  }
+00277 \textcolor{comment}{  */}
+00278 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_USART1}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x07\textcolor{preprocessor}{)}  \textcolor{comment}{/* USART1 Alternate Function mapping */}
+00279 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_USART2}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x07\textcolor{preprocessor}{)}  \textcolor{comment}{/* USART2 Alternate Function mapping */}
+00280 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_USART3}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x07\textcolor{preprocessor}{)}  \textcolor{comment}{/* USART3 Alternate Function mapping */}
+00281 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_I2S3ext}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x07\textcolor{preprocessor}{)}  \textcolor{comment}{/* I2S3ext Alternate Function mapping */}
+00282 
+00283 \textcolor{comment}{/** }
+00284 \textcolor{comment}{  * @brief   AF 8 selection  }
+00285 \textcolor{comment}{  */}
+00286 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_UART4}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x08\textcolor{preprocessor}{)}  \textcolor{comment}{/* UART4 Alternate Function mapping */}
+00287 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_UART5}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x08\textcolor{preprocessor}{)}  \textcolor{comment}{/* UART5 Alternate Function mapping */}
+00288 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_USART6}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x08\textcolor{preprocessor}{)}  \textcolor{comment}{/* USART6 Alternate Function mapping */}
+00289 
+00290 \textcolor{comment}{/** }
+00291 \textcolor{comment}{  * @brief   AF 9 selection }
+00292 \textcolor{comment}{  */}
+00293 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_CAN1}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x09\textcolor{preprocessor}{)}  \textcolor{comment}{/* CAN1 Alternate Function mapping */}
+00294 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_CAN2}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x09\textcolor{preprocessor}{)}  \textcolor{comment}{/* CAN2 Alternate Function mapping */}
+00295 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_TIM12}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x09\textcolor{preprocessor}{)}  \textcolor{comment}{/* TIM12 Alternate Function mapping */}
+00296 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_TIM13}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x09\textcolor{preprocessor}{)}  \textcolor{comment}{/* TIM13 Alternate Function mapping */}
+00297 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_TIM14}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x09\textcolor{preprocessor}{)}  \textcolor{comment}{/* TIM14 Alternate Function mapping */}
+00298 
+00299 \textcolor{comment}{/** }
+00300 \textcolor{comment}{  * @brief   AF 10 selection  }
+00301 \textcolor{comment}{  */}
+00302 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_OTG\_FS}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0xA\textcolor{preprocessor}{)}  \textcolor{comment}{/* OTG\_FS Alternate Function mapping */}
+00303 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_OTG\_HS}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0xA\textcolor{preprocessor}{)}  \textcolor{comment}{/* OTG\_HS Alternate Function mapping */}
+00304 
+00305 \textcolor{comment}{/** }
+00306 \textcolor{comment}{  * @brief   AF 11 selection  }
+00307 \textcolor{comment}{  */}
+00308 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_ETH}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0B\textcolor{preprocessor}{)}  \textcolor{comment}{/* ETHERNET Alternate Function mapping */}
+00309 
+00310 \textcolor{comment}{/** }
+00311 \textcolor{comment}{  * @brief   AF 12 selection  }
+00312 \textcolor{comment}{  */}
+00313 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_FSMC}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0xC\textcolor{preprocessor}{)}  \textcolor{comment}{/* FSMC Alternate Function mapping */}
+00314 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_OTG\_HS\_FS}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0xC\textcolor{preprocessor}{)}  \textcolor{comment}{/* OTG HS configured in FS, Alternate Function mapping
+       */}
+00315 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_SDIO}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0xC\textcolor{preprocessor}{)}  \textcolor{comment}{/* SDIO Alternate Function mapping */}
+00316 
+00317 \textcolor{comment}{/** }
+00318 \textcolor{comment}{  * @brief   AF 13 selection  }
+00319 \textcolor{comment}{  */}
+00320 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_DCMI}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0D\textcolor{preprocessor}{)}  \textcolor{comment}{/* DCMI Alternate Function mapping */}
+00321 
+00322 \textcolor{comment}{/** }
+00323 \textcolor{comment}{  * @brief   AF 15 selection  }
+00324 \textcolor{comment}{  */}
+00325 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_EVENTOUT}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0F\textcolor{preprocessor}{)}  \textcolor{comment}{/* EVENTOUT Alternate Function mapping */}
+00326 
+00327 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_GPIO\_AF}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_AF_RTC_50Hz\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      GPIO_AF_TIM14\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00328                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_AF_MCO\textcolor{preprocessor}{)}       \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      GPIO_AF_TAMPER\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00329                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_AF_SWJ\textcolor{preprocessor}{)}       \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      GPIO_AF_TRACE\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00330                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_AF_TIM1\textcolor{preprocessor}{)}      \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      GPIO_AF_TIM2\textcolor{preprocessor}{)}   \textcolor{preprocessor}{||}
+00331                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_AF_TIM3\textcolor{preprocessor}{)}      \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      GPIO_AF_TIM4\textcolor{preprocessor}{)}   \textcolor{preprocessor}{||}
+00332                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_AF_TIM5\textcolor{preprocessor}{)}      \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      GPIO_AF_TIM8\textcolor{preprocessor}{)}   \textcolor{preprocessor}{||}
+00333                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_AF_I2C1\textcolor{preprocessor}{)}      \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      GPIO_AF_I2C2\textcolor{preprocessor}{)}   \textcolor{preprocessor}{||}
+00334                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_AF_I2C3\textcolor{preprocessor}{)}      \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      GPIO_AF_SPI1\textcolor{preprocessor}{)}   \textcolor{preprocessor}{||}
+00335                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_AF_SPI2\textcolor{preprocessor}{)}      \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      GPIO_AF_TIM13\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00336                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_AF_SPI3\textcolor{preprocessor}{)}      \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      GPIO_AF_TIM14\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00337                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_AF_USART1\textcolor{preprocessor}{)}    \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      GPIO_AF_USART2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00338                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_AF_USART3\textcolor{preprocessor}{)}    \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      GPIO_AF_UART4\textcolor{preprocessor}{)}  \textcolor{preprocessor}{||}
+00339                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_AF_UART5\textcolor{preprocessor}{)}     \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      GPIO_AF_USART6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00340                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_AF_CAN1\textcolor{preprocessor}{)}      \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      GPIO_AF_CAN2\textcolor{preprocessor}{)}   \textcolor{preprocessor}{||}
+00341                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_AF_OTG_FS\textcolor{preprocessor}{)}    \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      GPIO_AF_OTG_HS\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00342                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_AF_ETH\textcolor{preprocessor}{)}       \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      GPIO_AF_FSMC\textcolor{preprocessor}{)}   \textcolor{preprocessor}{||}
+00343                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_AF_OTG_HS_FS\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      GPIO_AF_SDIO\textcolor{preprocessor}{)}   \textcolor{preprocessor}{||}
+00344                           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} GPIO_AF_DCMI\textcolor{preprocessor}{)}      \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{AF}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      GPIO_AF_EVENTOUT\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00345 \textcolor{comment}{/**}
+00346 \textcolor{comment}{  * @\}}
+00347 \textcolor{comment}{  */}
+00348 
+00349 \textcolor{comment}{/** @defgroup GPIO\_Legacy }
+00350 \textcolor{comment}{  * @\{}
+00351 \textcolor{comment}{  */}
+00352 
+00353 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_Mode\_AIN}           \textcolor{preprocessor}{GPIO\_Mode\_AN}
+00354 
+00355 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_OTG1\_FS}         GPIO_AF_OTG_FS
+00356 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_OTG2\_HS}         GPIO_AF_OTG_HS
+00357 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{GPIO\_AF\_OTG2\_FS}         GPIO_AF_OTG_HS_FS
+00358 
+00359 \textcolor{comment}{/**}
+00360 \textcolor{comment}{  * @\}}
+00361 \textcolor{comment}{  */}
+00362 
+00363 \textcolor{comment}{/**}
+00364 \textcolor{comment}{  * @\}}
+00365 \textcolor{comment}{  */}
+00366 
+00367 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00368 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00369 
+00370 \textcolor{comment}{/*  Function used to set the GPIO configuration to the default reset state ****/}
+00371 \textcolor{keywordtype}{void} GPIO_DeInit(GPIO\_TypeDef* GPIOx);
+00372 
+00373 \textcolor{comment}{/* Initialization and Configuration functions *********************************/}
+00374 \textcolor{keywordtype}{void} GPIO_Init(GPIO\_TypeDef* GPIOx, GPIO\_InitTypeDef* GPIO\_InitStruct);
+00375 \textcolor{keywordtype}{void} GPIO_StructInit(GPIO\_InitTypeDef* GPIO\_InitStruct);
+00376 \textcolor{keywordtype}{void} GPIO_PinLockConfig(GPIO\_TypeDef* GPIOx, uint16\_t GPIO\_Pin);
+00377 
+00378 \textcolor{comment}{/* GPIO Read and Write functions **********************************************/}
+00379 uint8\_t GPIO_ReadInputDataBit(GPIO\_TypeDef* GPIOx, uint16\_t GPIO\_Pin);
+00380 uint16\_t GPIO_ReadInputData(GPIO\_TypeDef* GPIOx);
+00381 uint8\_t GPIO_ReadOutputDataBit(GPIO\_TypeDef* GPIOx, uint16\_t GPIO\_Pin);
+00382 uint16\_t GPIO_ReadOutputData(GPIO\_TypeDef* GPIOx);
+00383 \textcolor{keywordtype}{void} GPIO_SetBits(GPIO\_TypeDef* GPIOx, uint16\_t GPIO\_Pin);
+00384 \textcolor{keywordtype}{void} GPIO_ResetBits(GPIO\_TypeDef* GPIOx, uint16\_t GPIO\_Pin);
+00385 \textcolor{keywordtype}{void} GPIO_WriteBit(GPIO\_TypeDef* GPIOx, uint16\_t GPIO\_Pin, BitAction BitVal);
+00386 \textcolor{keywordtype}{void} GPIO_Write(GPIO\_TypeDef* GPIOx, uint16\_t PortVal);
+00387 \textcolor{keywordtype}{void} GPIO_ToggleBits(GPIO\_TypeDef* GPIOx, uint16\_t GPIO\_Pin);
+00388 
+00389 \textcolor{comment}{/* GPIO Alternate functions configuration function ****************************/}
+00390 \textcolor{keywordtype}{void} GPIO_PinAFConfig(GPIO\_TypeDef* GPIOx, uint16\_t GPIO\_PinSource, uint8\_t GPIO\_AF);
+00391 
+00392 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00393 \}
+00394 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00395 
+00396 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/*\_\_STM32F4xx\_GPIO\_H */}
+00397 
+00398 \textcolor{comment}{/**}
+00399 \textcolor{comment}{  * @\}}
+00400 \textcolor{comment}{  */}
+00401 
+00402 \textcolor{comment}{/**}
+00403 \textcolor{comment}{  * @\}}
+00404 \textcolor{comment}{  */}
+00405 
+00406 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

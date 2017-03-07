@@ -1,0 +1,296 @@
+\section{stm32f4xx\+\_\+cryp\+\_\+des.\+c}
+\label{stm32f4xx__cryp__des_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+cryp\+\_\+des.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+cryp\+\_\+des.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_cryp\_des.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides high level functions to encrypt and decrypt an }
+00008 \textcolor{comment}{  *          input message using DES in ECB/CBC modes.}
+00009 \textcolor{comment}{  *          It uses the stm32f4xx\_cryp.c/.h drivers to access the STM32F4xx CRYP}
+00010 \textcolor{comment}{  *          peripheral.}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  *  @verbatim}
+00013 \textcolor{comment}{  *}
+00014 \textcolor{comment}{  *          ===================================================================}
+00015 \textcolor{comment}{  *                                   How to use this driver}
+00016 \textcolor{comment}{  *          ===================================================================}
+00017 \textcolor{comment}{  *          1. Enable The CRYP controller clock using }
+00018 \textcolor{comment}{  *            RCC\_AHB2PeriphClockCmd(RCC\_AHB2Periph\_CRYP, ENABLE); function.}
+00019 \textcolor{comment}{  *}
+00020 \textcolor{comment}{  *          2. Encrypt and decrypt using DES in ECB Mode using CRYP\_DES\_ECB()}
+00021 \textcolor{comment}{  *             function.}
+00022 \textcolor{comment}{  *}
+00023 \textcolor{comment}{  *          3. Encrypt and decrypt using DES in CBC Mode using CRYP\_DES\_CBC()}
+00024 \textcolor{comment}{  *             function.}
+00025 \textcolor{comment}{  *}
+00026 \textcolor{comment}{  *  @endverbatim}
+00027 \textcolor{comment}{  *}
+00028 \textcolor{comment}{  ******************************************************************************}
+00029 \textcolor{comment}{  * @attention}
+00030 \textcolor{comment}{  *}
+00031 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00032 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00033 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00034 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00035 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00036 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00037 \textcolor{comment}{  *}
+00038 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00039 \textcolor{comment}{  ******************************************************************************}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00043 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_cryp.h"
+00044 
+00045 
+00046 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00047 \textcolor{comment}{  * @\{}
+00048 \textcolor{comment}{  */}
+00049 
+00050 \textcolor{comment}{/** @defgroup CRYP }
+00051 \textcolor{comment}{  * @brief CRYP driver modules}
+00052 \textcolor{comment}{  * @\{}
+00053 \textcolor{comment}{  */}
+00054 
+00055 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00056 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00057 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{DESBUSY\_TIMEOUT}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)} 0x00010000\textcolor{preprocessor}{)}
+00058 
+00059 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00060 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00061 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00062 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00063 
+00064 
+00065 \textcolor{comment}{/** @defgroup CRYP\_Private\_Functions}
+00066 \textcolor{comment}{  * @\{}
+00067 \textcolor{comment}{  */}
+00068 
+00069 \textcolor{comment}{/** @defgroup CRYP\_Group8 High Level DES functions}
+00070 \textcolor{comment}{ *  @brief   High Level DES functions }
+00071 \textcolor{comment}{ *}
+00072 \textcolor{comment}{@verbatim   }
+00073 \textcolor{comment}{ ===============================================================================}
+00074 \textcolor{comment}{                          High Level DES functions}
+00075 \textcolor{comment}{ ===============================================================================}
+00076 \textcolor{comment}{@endverbatim}
+00077 \textcolor{comment}{  * @\{}
+00078 \textcolor{comment}{  */}
+00079 
+00080 \textcolor{comment}{/**}
+00081 \textcolor{comment}{  * @brief  Encrypt and decrypt using DES in ECB Mode}
+00082 \textcolor{comment}{  * @param  Mode: encryption or decryption Mode.}
+00083 \textcolor{comment}{  *           This parameter can be one of the following values:}
+00084 \textcolor{comment}{  *            @arg MODE\_ENCRYPT: Encryption}
+00085 \textcolor{comment}{  *            @arg MODE\_DECRYPT: Decryption}
+00086 \textcolor{comment}{  * @param  Key: Key used for DES algorithm.}
+00087 \textcolor{comment}{  * @param  Ilength: length of the Input buffer, must be a multiple of 8.}
+00088 \textcolor{comment}{  * @param  Input: pointer to the Input buffer.}
+00089 \textcolor{comment}{  * @param  Output: pointer to the returned buffer.}
+00090 \textcolor{comment}{  * @retval An ErrorStatus enumeration value:}
+00091 \textcolor{comment}{  *          - SUCCESS: Operation done}
+00092 \textcolor{comment}{  *          - ERROR: Operation failed}
+00093 \textcolor{comment}{  */}
+00094 ErrorStatus CRYP_DES_ECB(uint8\_t Mode, uint8\_t Key[8], uint8\_t *Input,
+00095                          uint32\_t Ilength, uint8\_t *Output)
+00096 \{
+00097   CRYP\_InitTypeDef DES\_CRYP\_InitStructure;
+00098   CRYP\_KeyInitTypeDef DES\_CRYP\_KeyInitStructure;
+00099   \_\_IO uint32\_t counter = 0;
+00100   uint32\_t busystatus = 0;
+00101   ErrorStatus status = SUCCESS;
+00102   uint32\_t keyaddr    = (uint32\_t)Key;
+00103   uint32\_t inputaddr  = (uint32\_t)Input;
+00104   uint32\_t outputaddr = (uint32\_t)Output;
+00105   uint32\_t i = 0;
+00106 
+00107   \textcolor{comment}{/* Crypto structures initialisation*/}
+00108   CRYP_KeyStructInit(&DES\_CRYP\_KeyInitStructure);
+00109 
+00110   \textcolor{comment}{/* Crypto Init for Encryption process */}
+00111   \textcolor{keywordflow}{if}( Mode == MODE_ENCRYPT ) \textcolor{comment}{/* DES encryption */}
+00112   \{
+00113      DES\_CRYP\_InitStructure.CRYP_AlgoDir  = CRYP_AlgoDir_Encrypt;
+00114   \}
+00115   \textcolor{keywordflow}{else}\textcolor{comment}{/* if( Mode == MODE\_DECRYPT )*/} \textcolor{comment}{/* DES decryption */}
+00116   \{
+00117      DES\_CRYP\_InitStructure.CRYP_AlgoDir  = CRYP_AlgoDir_Decrypt;
+00118   \}
+00119 
+00120   DES\_CRYP\_InitStructure.CRYP_AlgoMode = CRYP_AlgoMode_DES_ECB;
+00121   DES\_CRYP\_InitStructure.CRYP_DataType = CRYP_DataType_8b;
+00122   CRYP_Init(&DES\_CRYP\_InitStructure);
+00123 
+00124   \textcolor{comment}{/* Key Initialisation */}
+00125   DES\_CRYP\_KeyInitStructure.CRYP\_Key1Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00126   keyaddr+=4;
+00127   DES\_CRYP\_KeyInitStructure.CRYP\_Key1Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00128   CRYP_KeyInit(& DES\_CRYP\_KeyInitStructure);
+00129 
+00130   \textcolor{comment}{/* Flush IN/OUT FIFO */}
+00131   CRYP_FIFOFlush();
+00132 
+00133   \textcolor{comment}{/* Enable Crypto processor */}
+00134   CRYP_Cmd(ENABLE);
+00135 
+00136   \textcolor{keywordflow}{for}(i=0; ((i<Ilength) && (status != ERROR)); i+=8)
+00137   \{
+00138 
+00139     \textcolor{comment}{/* Write the Input block in the Input FIFO */}
+00140     CRYP\_DataIn(*(uint32\_t*)(inputaddr));
+00141     inputaddr+=4;
+00142     CRYP\_DataIn(*(uint32\_t*)(inputaddr));
+00143     inputaddr+=4;
+00144 
+00145 \textcolor{comment}{/* Wait until the complete message has been processed */}
+00146     counter = 0;
+00147     \textcolor{keywordflow}{do}
+00148     \{
+00149       busystatus = CRYP\_GetFlagStatus(CRYP_FLAG_BUSY);
+00150       counter++;
+00151     \}\textcolor{keywordflow}{while} ((counter != DESBUSY_TIMEOUT) && (busystatus != RESET));
+00152 
+00153     \textcolor{keywordflow}{if} (busystatus != RESET)
+00154    \{
+00155        status = ERROR;
+00156     \}
+00157     \textcolor{keywordflow}{else}
+00158     \{
+00159 
+00160       \textcolor{comment}{/* Read the Output block from the Output FIFO */}
+00161       *(uint32\_t*)(outputaddr) = CRYP\_DataOut();
+00162       outputaddr+=4;
+00163       *(uint32\_t*)(outputaddr) = CRYP\_DataOut();
+00164       outputaddr+=4;
+00165     \}
+00166   \}
+00167 
+00168   \textcolor{comment}{/* Disable Crypto */}
+00169   CRYP_Cmd(DISABLE);
+00170 
+00171   \textcolor{keywordflow}{return} status;
+00172 \}
+00173 
+00174 \textcolor{comment}{/**}
+00175 \textcolor{comment}{  * @brief  Encrypt and decrypt using DES in CBC Mode}
+00176 \textcolor{comment}{  * @param  Mode: encryption or decryption Mode.}
+00177 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00178 \textcolor{comment}{  *            @arg MODE\_ENCRYPT: Encryption}
+00179 \textcolor{comment}{  *            @arg MODE\_DECRYPT: Decryption}
+00180 \textcolor{comment}{  * @param  Key: Key used for DES algorithm.}
+00181 \textcolor{comment}{  * @param  InitVectors: Initialisation Vectors used for DES algorithm.}
+00182 \textcolor{comment}{  * @param  Ilength: length of the Input buffer, must be a multiple of 8.}
+00183 \textcolor{comment}{  * @param  Input: pointer to the Input buffer.}
+00184 \textcolor{comment}{  * @param  Output: pointer to the returned buffer.}
+00185 \textcolor{comment}{  * @retval An ErrorStatus enumeration value:}
+00186 \textcolor{comment}{  *          - SUCCESS: Operation done}
+00187 \textcolor{comment}{  *          - ERROR: Operation failed}
+00188 \textcolor{comment}{  */}
+00189 ErrorStatus CRYP_DES_CBC(uint8\_t Mode, uint8\_t Key[8], uint8\_t InitVectors[8],
+00190                          uint8\_t *Input, uint32\_t Ilength, uint8\_t *Output)
+00191 \{
+00192   CRYP\_InitTypeDef DES\_CRYP\_InitStructure;
+00193   CRYP\_KeyInitTypeDef DES\_CRYP\_KeyInitStructure;
+00194   CRYP\_IVInitTypeDef DES\_CRYP\_IVInitStructure;
+00195   \_\_IO uint32\_t counter = 0;
+00196   uint32\_t busystatus = 0;
+00197   ErrorStatus status = SUCCESS;
+00198   uint32\_t keyaddr    = (uint32\_t)Key;
+00199   uint32\_t inputaddr  = (uint32\_t)Input;
+00200   uint32\_t outputaddr = (uint32\_t)Output;
+00201   uint32\_t ivaddr     = (uint32\_t)InitVectors;
+00202   uint32\_t i = 0;
+00203 
+00204   \textcolor{comment}{/* Crypto structures initialisation*/}
+00205   CRYP_KeyStructInit(&DES\_CRYP\_KeyInitStructure);
+00206 
+00207   \textcolor{comment}{/* Crypto Init for Encryption process */}
+00208   \textcolor{keywordflow}{if}(Mode == MODE_ENCRYPT) \textcolor{comment}{/* DES encryption */}
+00209   \{
+00210      DES\_CRYP\_InitStructure.CRYP_AlgoDir  = CRYP_AlgoDir_Encrypt;
+00211   \}
+00212   \textcolor{keywordflow}{else} \textcolor{comment}{/*if(Mode == MODE\_DECRYPT)*/} \textcolor{comment}{/* DES decryption */}
+00213   \{
+00214      DES\_CRYP\_InitStructure.CRYP_AlgoDir  = CRYP_AlgoDir_Decrypt;
+00215   \}
+00216 
+00217   DES\_CRYP\_InitStructure.CRYP_AlgoMode = CRYP_AlgoMode_DES_CBC;
+00218   DES\_CRYP\_InitStructure.CRYP_DataType = CRYP_DataType_8b;
+00219   CRYP_Init(&DES\_CRYP\_InitStructure);
+00220 
+00221   \textcolor{comment}{/* Key Initialisation */}
+00222   DES\_CRYP\_KeyInitStructure.CRYP\_Key1Left = \_\_REV(*(uint32\_t*)(keyaddr));
+00223   keyaddr+=4;
+00224   DES\_CRYP\_KeyInitStructure.CRYP\_Key1Right= \_\_REV(*(uint32\_t*)(keyaddr));
+00225   CRYP_KeyInit(& DES\_CRYP\_KeyInitStructure);
+00226 
+00227   \textcolor{comment}{/* Initialization Vectors */}
+00228   DES\_CRYP\_IVInitStructure.CRYP\_IV0Left = \_\_REV(*(uint32\_t*)(ivaddr));
+00229   ivaddr+=4;
+00230   DES\_CRYP\_IVInitStructure.CRYP\_IV0Right= \_\_REV(*(uint32\_t*)(ivaddr));
+00231   CRYP_IVInit(&DES\_CRYP\_IVInitStructure);
+00232 
+00233   \textcolor{comment}{/* Flush IN/OUT FIFO */}
+00234   CRYP_FIFOFlush();
+00235 
+00236   \textcolor{comment}{/* Enable Crypto processor */}
+00237   CRYP_Cmd(ENABLE);
+00238 
+00239   \textcolor{keywordflow}{for}(i=0; ((i<Ilength) && (status != ERROR)); i+=8)
+00240   \{
+00241     \textcolor{comment}{/* Write the Input block in the Input FIFO */}
+00242     CRYP\_DataIn(*(uint32\_t*)(inputaddr));
+00243     inputaddr+=4;
+00244     CRYP\_DataIn(*(uint32\_t*)(inputaddr));
+00245     inputaddr+=4;
+00246 
+00247     \textcolor{comment}{/* Wait until the complete message has been processed */}
+00248     counter = 0;
+00249     \textcolor{keywordflow}{do}
+00250     \{
+00251       busystatus = CRYP\_GetFlagStatus(CRYP_FLAG_BUSY);
+00252       counter++;
+00253     \}\textcolor{keywordflow}{while} ((counter != DESBUSY_TIMEOUT) && (busystatus != RESET));
+00254 
+00255     \textcolor{keywordflow}{if} (busystatus != RESET)
+00256    \{
+00257        status = ERROR;
+00258     \}
+00259     \textcolor{keywordflow}{else}
+00260     \{
+00261       \textcolor{comment}{/* Read the Output block from the Output FIFO */}
+00262       *(uint32\_t*)(outputaddr) = CRYP\_DataOut();
+00263       outputaddr+=4;
+00264       *(uint32\_t*)(outputaddr) = CRYP\_DataOut();
+00265       outputaddr+=4;
+00266     \}
+00267   \}
+00268 
+00269   \textcolor{comment}{/* Disable Crypto */}
+00270   CRYP_Cmd(DISABLE);
+00271 
+00272   \textcolor{keywordflow}{return} status;
+00273 \}
+00274 
+00275 \textcolor{comment}{/**}
+00276 \textcolor{comment}{  * @\}}
+00277 \textcolor{comment}{  */}
+00278 
+00279 \textcolor{comment}{/**}
+00280 \textcolor{comment}{  * @\}}
+00281 \textcolor{comment}{  */}
+00282 
+00283 \textcolor{comment}{/**}
+00284 \textcolor{comment}{  * @\}}
+00285 \textcolor{comment}{  */}
+00286 
+00287 \textcolor{comment}{/**}
+00288 \textcolor{comment}{  * @\}}
+00289 \textcolor{comment}{  */}
+00290 
+00291 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

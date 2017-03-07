@@ -1,0 +1,123 @@
+\section{uart.\+c}
+\label{uart_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Peripheral/src/uart.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Peripheral/src/uart.\+c}}
+
+\begin{DoxyCode}
+00001 
+00002 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} \textcolor{preprocessor}{<}\textcolor{preprocessor}{stdio}\textcolor{preprocessor}{.}\textcolor{preprocessor}{h}\textcolor{preprocessor}{>}
+00003 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00004 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "uart.h"
+00005 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_usart.h"
+00006 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_gpio.h"
+00007 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "misc.h"
+00008 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_exti.h"
+00009 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rcc.h"
+00010 
+00011 \textcolor{comment}{/********************************* Defines ************************************/}
+00012 \textcolor{comment}{/******************************************************************************/}
+00013 \textcolor{comment}{/*#define USARTx                           USART2}
+00014 \textcolor{comment}{#define USARTx\_CLK                       RCC\_APB1Periph\_USART2}
+00015 \textcolor{comment}{#define USARTx\_CLK\_INIT                  RCC\_APB1PeriphClockCmd}
+00016 \textcolor{comment}{#define USARTx\_IRQn                      USART2\_IRQn}
+00017 \textcolor{comment}{#define USARTx\_IRQHandler                USART2\_IRQHandler}
+00018 \textcolor{comment}{}
+00019 \textcolor{comment}{#define USARTx\_TX\_PIN                    GPIO\_Pin\_2}
+00020 \textcolor{comment}{#define USARTx\_TX\_GPIO\_PORT              GPIOA}
+00021 \textcolor{comment}{#define USARTx\_TX\_GPIO\_CLK               RCC\_AHB1Periph\_GPIOA}
+00022 \textcolor{comment}{#define USARTx\_TX\_SOURCE                 GPIO\_PinSource2}
+00023 \textcolor{comment}{#define USARTx\_TX\_AF                     GPIO\_AF\_USART2}
+00024 \textcolor{comment}{}
+00025 \textcolor{comment}{#define USARTx\_RX\_PIN                    GPIO\_Pin\_3}
+00026 \textcolor{comment}{#define USARTx\_RX\_GPIO\_PORT              GPIOA}
+00027 \textcolor{comment}{#define USARTx\_RX\_GPIO\_CLK               RCC\_AHB1Periph\_GPIOA}
+00028 \textcolor{comment}{#define USARTx\_RX\_SOURCE                 GPIO\_PinSource3}
+00029 \textcolor{comment}{#define USARTx\_RX\_AF                     GPIO\_AF\_USART2}
+00030 \textcolor{comment}{}
+00031 \textcolor{comment}{#define USARTx\_DMAx\_CLK                  RCC\_AHBPeriph\_DMA1*/}
+00032 \textcolor{comment}{/*******************************************************************************/}
+00033 \textcolor{comment}{/*********************************************************************************/}
+00034 
+00035 
+00036 \textcolor{comment}{/*!************ Pin Defination of USART1 **************************************/}
+00037 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USARTx}                           USART1
+00038 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USARTx\_CLK}                       RCC_APB2Periph_USART1
+00039 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USARTx\_CLK\_INIT}                  \textcolor{preprocessor}{RCC\_APB2PeriphClockCmd}
+00040 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USARTx\_IRQn}                      \textcolor{preprocessor}{USART1\_IRQn}
+00041 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USARTx\_IRQHandler}                \textcolor{preprocessor}{USART1\_IRQHandler}
+00042 
+00043 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USARTx\_TX\_PIN}                    GPIO_Pin_9
+00044 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USARTx\_TX\_GPIO\_PORT}              GPIOA
+00045 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USARTx\_TX\_GPIO\_CLK}               RCC_AHB1Periph_GPIOA
+00046 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USARTx\_TX\_SOURCE}                 GPIO_PinSource9
+00047 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USARTx\_TX\_AF}                     GPIO_AF_USART1
+00048 
+00049 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USARTx\_RX\_PIN}                    GPIO_Pin_10
+00050 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USARTx\_RX\_GPIO\_PORT}              GPIOA
+00051 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USARTx\_RX\_GPIO\_CLK}               RCC_AHB1Periph_GPIOA
+00052 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USARTx\_RX\_SOURCE}                 GPIO_PinSource10
+00053 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USARTx\_RX\_AF}                     GPIO_AF_USART1
+00054 
+00055 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{USARTx\_DMAx\_CLK}                  \textcolor{preprocessor}{RCC\_AHBPeriph\_DMA1}
+00056 
+00057 \textcolor{comment}{/********************************* Globals ************************************/}
+00058 \textcolor{comment}{/********************************* Prototypes *********************************/}
+00059 \textcolor{comment}{/*******************************  Function ************************************/}
+00060 
+00061 \textcolor{keywordtype}{void} USART_Config(\textcolor{keywordtype}{void})
+00062 \{
+00063   USART\_InitTypeDef USART\_InitStructure;
+00064   GPIO\_InitTypeDef GPIO\_InitStructure;
+00065 
+00066   \textcolor{comment}{/* Peripheral Clock Enable -------------------------------------------------*/}
+00067   \textcolor{comment}{/* Enable GPIO clock */}
+00068   RCC_AHB1PeriphClockCmd(USARTx_TX_GPIO_CLK | USARTx_RX_GPIO_CLK, ENABLE);
+00069 
+00070   \textcolor{comment}{/* Enable USART clock */}
+00071   USARTx_CLK_INIT(USARTx_CLK, ENABLE);
+00072 
+00073   \textcolor{comment}{/* USARTx GPIO configuration -----------------------------------------------*/}
+00074   \textcolor{comment}{/* Connect USART pins to AF7 */}
+00075   GPIO_PinAFConfig(USARTx_TX_GPIO_PORT, USARTx_TX_SOURCE, USARTx_TX_AF);
+00076   GPIO_PinAFConfig(USARTx_RX_GPIO_PORT, USARTx_RX_SOURCE, USARTx_RX_AF);
+00077 
+00078   \textcolor{comment}{/* Configure USART Tx and Rx as alternate function push-pull */}
+00079   GPIO\_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+00080   GPIO\_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+00081   GPIO\_InitStructure.GPIO_OType = GPIO_OType_PP;
+00082   GPIO\_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+00083 
+00084   GPIO\_InitStructure.GPIO_Pin = USARTx_TX_PIN | USARTx_RX_PIN;
+00085   GPIO_Init(GPIOA, &GPIO\_InitStructure);
+00086 
+00087   \textcolor{comment}{//GPIO\_InitStructure.GPIO\_Pin = USARTx\_TX\_PIN;}
+00088   \textcolor{comment}{//GPIO\_Init(USARTx\_TX\_GPIO\_PORT, &GPIO\_InitStructure);}
+00089   \textcolor{comment}{//GPIO\_InitStructure.GPIO\_Pin = USARTx\_RX\_PIN;}
+00090   \textcolor{comment}{//GPIO\_Init(USARTx\_RX\_GPIO\_PORT, &GPIO\_InitStructure);}
+00091 
+00092   USART\_InitStructure.USART_BaudRate =  115200;\textcolor{comment}{//115200;460800;}
+00093   USART\_InitStructure.USART_WordLength = USART_WordLength_8b;
+00094   USART\_InitStructure.USART_StopBits = USART_StopBits_1;
+00095   \textcolor{comment}{/* When using Parity the word length must be configured to 9 bits */}
+00096   USART\_InitStructure.USART_Parity = USART_Parity_No;
+00097   USART\_InitStructure.USART_HardwareFlowControl = 
+      USART_HardwareFlowControl_None;
+00098   USART\_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+00099   USART_Init(USARTx, &USART\_InitStructure);
+00100   USART_ITConfig(USARTx, USART_IT_RXNE, ENABLE);
+00101 
+00102   \textcolor{comment}{/* Enable USART */}
+00103   USART_Cmd(USARTx, ENABLE);
+00104 \}
+00105 
+00106 \textcolor{keywordtype}{int} _fputc(\textcolor{keywordtype}{int} ch )
+00107 \{
+00108   \textcolor{comment}{//* Place your implementation of fputc here }
+00109   \textcolor{comment}{//* e.g. write a character to the USART }
+00110   USART_SendData(USARTx, (uint8\_t) ch);
+00111 
+00112   \textcolor{comment}{//* Loop until the end of transmission }
+00113   \textcolor{keywordflow}{while} (USART_GetFlagStatus(USARTx, USART_FLAG_TC) == RESET)
+00114   \{\}
+00115 
+00116   \textcolor{keywordflow}{return} ch;
+00117 \}
+\end{DoxyCode}

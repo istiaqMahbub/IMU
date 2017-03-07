@@ -1,0 +1,440 @@
+\section{N\+A\+ND Controller functions}
+\label{group__FSMC__Group2}\index{N\+A\+N\+D Controller functions@{N\+A\+N\+D Controller functions}}
+
+
+N\+A\+ND Controller functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+De\+Init} (uint32\+\_\+t F\+S\+M\+C\+\_\+\+Bank)
+\begin{DoxyCompactList}\small\item\em Deinitializes the F\+S\+MC N\+A\+ND Banks registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init} (\textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def} $\ast$F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the F\+S\+MC N\+A\+ND Banks according to the specified parameters in the F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Struct\+Init} (\textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def} $\ast$F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Cmd} (uint32\+\_\+t F\+S\+M\+C\+\_\+\+Bank, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified N\+A\+ND Memory Bank. \end{DoxyCompactList}\item 
+void \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+E\+C\+C\+Cmd} (uint32\+\_\+t F\+S\+M\+C\+\_\+\+Bank, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the F\+S\+MC N\+A\+ND E\+CC feature. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ F\+S\+M\+C\+\_\+\+Get\+E\+CC} (uint32\+\_\+t F\+S\+M\+C\+\_\+\+Bank)
+\begin{DoxyCompactList}\small\item\em Returns the error correction code register value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+N\+A\+ND Controller functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                    NAND Controller functions
+ ===============================================================================  
+
+ The following sequence should be followed to configure the FSMC to interface with
+ 8-bit or 16-bit NAND memory connected to the NAND Bank:
+ 
+   1. Enable the clock for the FSMC and associated GPIOs using the following functions:
+          RCC_AHB3PeriphClockCmd(RCC_AHB3Periph_FSMC, ENABLE);
+          RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOx, ENABLE);
+
+   2. FSMC pins configuration 
+       - Connect the involved FSMC pins to AF12 using the following function 
+          GPIO_PinAFConfig(GPIOx, GPIO_PinSourcex, GPIO_AF_FSMC); 
+       - Configure these FSMC pins in alternate function mode by calling the function
+          GPIO_Init();    
+       
+   3. Declare a FSMC_NANDInitTypeDef structure, for example:
+          FSMC_NANDInitTypeDef  FSMC_NANDInitStructure;
+      and fill the FSMC_NANDInitStructure variable with the allowed values of
+      the structure member.
+      
+   4. Initialize the NAND Controller by calling the function
+          FSMC_NANDInit(&FSMC_NANDInitStructure); 
+
+   5. Then enable the NAND Bank, for example:
+          FSMC_NANDCmd(FSMC_Bank3_NAND, ENABLE);  
+
+   6. At this stage you can read/write from/to the memory connected to the NAND Bank. 
+   
+@note To enable the Error Correction Code (ECC), you have to use the function
+          FSMC_NANDECCCmd(FSMC_Bank3_NAND, ENABLE);  
+      and to get the current ECC value you have to use the function
+          ECCval = FSMC_GetECC(FSMC_Bank3_NAND); \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__FSMC__Group2_gaad6d4f5b5a41684ce053fea55bdb98d8}} 
+\index{N\+A\+N\+D Controller functions@{N\+A\+N\+D Controller functions}!F\+S\+M\+C\+\_\+\+Get\+E\+CC@{F\+S\+M\+C\+\_\+\+Get\+E\+CC}}
+\index{F\+S\+M\+C\+\_\+\+Get\+E\+CC@{F\+S\+M\+C\+\_\+\+Get\+E\+CC}!N\+A\+N\+D Controller functions@{N\+A\+N\+D Controller functions}}
+\subsubsection{F\+S\+M\+C\+\_\+\+Get\+E\+C\+C()}
+{\footnotesize\ttfamily uint32\+\_\+t F\+S\+M\+C\+\_\+\+Get\+E\+CC (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{F\+S\+M\+C\+\_\+\+Bank }\end{DoxyParamCaption})}
+
+
+
+Returns the error correction code register value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\+S\+M\+C\+\_\+\+Bank} & specifies the F\+S\+MC Bank to be used This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item F\+S\+M\+C\+\_\+\+Bank2\+\_\+\+N\+A\+ND\+: F\+S\+MC Bank2 N\+A\+ND \item F\+S\+M\+C\+\_\+\+Bank3\+\_\+\+N\+A\+ND\+: F\+S\+MC Bank3 N\+A\+ND \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & Error Correction Code (E\+CC) value. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 543} of file \textbf{ stm32f4xx\+\_\+fsmc.\+c}.
+
+
+\begin{DoxyCode}
+00544 \{
+00545   uint32\_t eccval = 0x00000000;
+00546   
+00547   \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00548   \{
+00549     \textcolor{comment}{/* Get the ECCR2 register value */}
+00550     eccval = FSMC_Bank2->ECCR2;
+00551   \}
+00552   \textcolor{keywordflow}{else}
+00553   \{
+00554     \textcolor{comment}{/* Get the ECCR3 register value */}
+00555     eccval = FSMC_Bank3->ECCR3;
+00556   \}
+00557   \textcolor{comment}{/* Return the error correction code value */}
+00558   \textcolor{keywordflow}{return}(eccval);
+00559 \}
+\end{DoxyCode}
+\mbox{\label{group__FSMC__Group2_ga33ec7c39ea4d42e92c72c6e517d8235c}} 
+\index{N\+A\+N\+D Controller functions@{N\+A\+N\+D Controller functions}!F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Cmd@{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Cmd}}
+\index{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Cmd@{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Cmd}!N\+A\+N\+D Controller functions@{N\+A\+N\+D Controller functions}}
+\subsubsection{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Cmd()}
+{\footnotesize\ttfamily void F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Cmd (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{F\+S\+M\+C\+\_\+\+Bank,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified N\+A\+ND Memory Bank. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\+S\+M\+C\+\_\+\+Bank} & specifies the F\+S\+MC Bank to be used This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item F\+S\+M\+C\+\_\+\+Bank2\+\_\+\+N\+A\+ND\+: F\+S\+MC Bank2 N\+A\+ND \item F\+S\+M\+C\+\_\+\+Bank3\+\_\+\+N\+A\+ND\+: F\+S\+MC Bank3 N\+A\+ND \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the F\+S\+M\+C\+\_\+\+Bank. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 464} of file \textbf{ stm32f4xx\+\_\+fsmc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00465 \{
+00466   assert_param(IS_FSMC_NAND_BANK(FSMC\_Bank));
+00467   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00468   
+00469   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00470   \{
+00471     \textcolor{comment}{/* Enable the selected NAND Bank by setting the PBKEN bit in the PCRx register */}
+00472     \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00473     \{
+00474       FSMC_Bank2->PCR2 |= PCR_PBKEN_SET;
+00475     \}
+00476     \textcolor{keywordflow}{else}
+00477     \{
+00478       FSMC_Bank3->PCR3 |= PCR_PBKEN_SET;
+00479     \}
+00480   \}
+00481   \textcolor{keywordflow}{else}
+00482   \{
+00483     \textcolor{comment}{/* Disable the selected NAND Bank by clearing the PBKEN bit in the PCRx register */}
+00484     \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00485     \{
+00486       FSMC_Bank2->PCR2 &= PCR_PBKEN_RESET;
+00487     \}
+00488     \textcolor{keywordflow}{else}
+00489     \{
+00490       FSMC_Bank3->PCR3 &= PCR_PBKEN_RESET;
+00491     \}
+00492   \}
+00493 \}
+\end{DoxyCode}
+\mbox{\label{group__FSMC__Group2_gafb749503293474a68555961bd8f120e1}} 
+\index{N\+A\+N\+D Controller functions@{N\+A\+N\+D Controller functions}!F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+De\+Init@{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+De\+Init}}
+\index{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+De\+Init@{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+De\+Init}!N\+A\+N\+D Controller functions@{N\+A\+N\+D Controller functions}}
+\subsubsection{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+De\+Init()}
+{\footnotesize\ttfamily void F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+De\+Init (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{F\+S\+M\+C\+\_\+\+Bank }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the F\+S\+MC N\+A\+ND Banks registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\+S\+M\+C\+\_\+\+Bank} & specifies the F\+S\+MC Bank to be used This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item F\+S\+M\+C\+\_\+\+Bank2\+\_\+\+N\+A\+ND\+: F\+S\+MC Bank2 N\+A\+ND \item F\+S\+M\+C\+\_\+\+Bank3\+\_\+\+N\+A\+ND\+: F\+S\+MC Bank3 N\+A\+ND \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 339} of file \textbf{ stm32f4xx\+\_\+fsmc.\+c}.
+
+
+\begin{DoxyCode}
+00340 \{
+00341   \textcolor{comment}{/* Check the parameter */}
+00342   assert_param(IS_FSMC_NAND_BANK(FSMC\_Bank));
+00343   
+00344   \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00345   \{
+00346     \textcolor{comment}{/* Set the FSMC\_Bank2 registers to their reset values */}
+00347     FSMC_Bank2->PCR2 = 0x00000018;
+00348     FSMC_Bank2->SR2 = 0x00000040;
+00349     FSMC_Bank2->PMEM2 = 0xFCFCFCFC;
+00350     FSMC_Bank2->PATT2 = 0xFCFCFCFC;  
+00351   \}
+00352   \textcolor{comment}{/* FSMC\_Bank3\_NAND */}  
+00353   \textcolor{keywordflow}{else}
+00354   \{
+00355     \textcolor{comment}{/* Set the FSMC\_Bank3 registers to their reset values */}
+00356     FSMC_Bank3->PCR3 = 0x00000018;
+00357     FSMC_Bank3->SR3 = 0x00000040;
+00358     FSMC_Bank3->PMEM3 = 0xFCFCFCFC;
+00359     FSMC_Bank3->PATT3 = 0xFCFCFCFC; 
+00360   \}  
+00361 \}
+\end{DoxyCode}
+\mbox{\label{group__FSMC__Group2_ga5800301fc39bbe998a18ebd9ff191cdc}} 
+\index{N\+A\+N\+D Controller functions@{N\+A\+N\+D Controller functions}!F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+E\+C\+C\+Cmd@{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+E\+C\+C\+Cmd}}
+\index{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+E\+C\+C\+Cmd@{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+E\+C\+C\+Cmd}!N\+A\+N\+D Controller functions@{N\+A\+N\+D Controller functions}}
+\subsubsection{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+E\+C\+C\+Cmd()}
+{\footnotesize\ttfamily void F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+E\+C\+C\+Cmd (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{F\+S\+M\+C\+\_\+\+Bank,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the F\+S\+MC N\+A\+ND E\+CC feature. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\+S\+M\+C\+\_\+\+Bank} & specifies the F\+S\+MC Bank to be used This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item F\+S\+M\+C\+\_\+\+Bank2\+\_\+\+N\+A\+ND\+: F\+S\+MC Bank2 N\+A\+ND \item F\+S\+M\+C\+\_\+\+Bank3\+\_\+\+N\+A\+ND\+: F\+S\+MC Bank3 N\+A\+ND \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the F\+S\+MC N\+A\+ND E\+CC feature. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 504} of file \textbf{ stm32f4xx\+\_\+fsmc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00505 \{
+00506   assert_param(IS_FSMC_NAND_BANK(FSMC\_Bank));
+00507   assert_param(IS_FUNCTIONAL_STATE(NewState));
+00508   
+00509   \textcolor{keywordflow}{if} (NewState != DISABLE)
+00510   \{
+00511     \textcolor{comment}{/* Enable the selected NAND Bank ECC function by setting the ECCEN bit in the PCRx register */}
+00512     \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00513     \{
+00514       FSMC_Bank2->PCR2 |= PCR_ECCEN_SET;
+00515     \}
+00516     \textcolor{keywordflow}{else}
+00517     \{
+00518       FSMC_Bank3->PCR3 |= PCR_ECCEN_SET;
+00519     \}
+00520   \}
+00521   \textcolor{keywordflow}{else}
+00522   \{
+00523     \textcolor{comment}{/* Disable the selected NAND Bank ECC function by clearing the ECCEN bit in the PCRx register */}
+00524     \textcolor{keywordflow}{if}(FSMC\_Bank == FSMC_Bank2_NAND)
+00525     \{
+00526       FSMC_Bank2->PCR2 &= PCR_ECCEN_RESET;
+00527     \}
+00528     \textcolor{keywordflow}{else}
+00529     \{
+00530       FSMC_Bank3->PCR3 &= PCR_ECCEN_RESET;
+00531     \}
+00532   \}
+00533 \}
+\end{DoxyCode}
+\mbox{\label{group__FSMC__Group2_ga9f81ccc4e126c11f1eb33077b1a68e6f}} 
+\index{N\+A\+N\+D Controller functions@{N\+A\+N\+D Controller functions}!F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init@{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init}}
+\index{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init@{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init}!N\+A\+N\+D Controller functions@{N\+A\+N\+D Controller functions}}
+\subsubsection{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init()}
+{\footnotesize\ttfamily void F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init (\begin{DoxyParamCaption}\item[{\textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def} $\ast$}]{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the F\+S\+MC N\+A\+ND Banks according to the specified parameters in the F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Struct} & \+: pointer to a \doxyref{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def}{p.}{structFSMC__NANDInitTypeDef} structure that contains the configuration information for the F\+S\+MC N\+A\+ND specified Banks. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 370} of file \textbf{ stm32f4xx\+\_\+fsmc.\+c}.
+
+
+
+References \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Attribute\+Space\+Timing\+Struct}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Bank}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Common\+Space\+Timing\+Struct}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+E\+CC}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+E\+C\+C\+Page\+Size}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+\_\+\+P\+C\+C\+A\+R\+D\+Timing\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Hi\+Z\+Setup\+Time}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+\_\+\+P\+C\+C\+A\+R\+D\+Timing\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Hold\+Setup\+Time}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Memory\+Data\+Width}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+\_\+\+P\+C\+C\+A\+R\+D\+Timing\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Setup\+Time}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+T\+A\+R\+Setup\+Time}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+T\+C\+L\+R\+Setup\+Time}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Waitfeature}, and \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+\_\+\+P\+C\+C\+A\+R\+D\+Timing\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Wait\+Setup\+Time}.
+
+
+\begin{DoxyCode}
+00371 \{
+00372   uint32\_t tmppcr = 0x00000000, tmppmem = 0x00000000, tmppatt = 0x00000000; 
+00373     
+00374   \textcolor{comment}{/* Check the parameters */}
+00375   assert_param( IS_FSMC_NAND_BANK(FSMC\_NANDInitStruct->FSMC_Bank));
+00376   assert_param( IS_FSMC_WAIT_FEATURE(FSMC\_NANDInitStruct->FSMC_Waitfeature));
+00377   assert_param( IS_FSMC_MEMORY_WIDTH(FSMC\_NANDInitStruct->FSMC_MemoryDataWidth));
+00378   assert_param( IS_FSMC_ECC_STATE(FSMC\_NANDInitStruct->FSMC_ECC));
+00379   assert_param( IS_FSMC_ECCPAGE_SIZE(FSMC\_NANDInitStruct->FSMC_ECCPageSize));
+00380   assert_param( IS_FSMC_TCLR_TIME(FSMC\_NANDInitStruct->FSMC_TCLRSetupTime));
+00381   assert_param( IS_FSMC_TAR_TIME(FSMC\_NANDInitStruct->FSMC_TARSetupTime));
+00382   assert_param(IS_FSMC_SETUP_TIME(FSMC\_NANDInitStruct->
+      FSMC_CommonSpaceTimingStruct->FSMC_SetupTime));
+00383   assert_param(IS_FSMC_WAIT_TIME(FSMC\_NANDInitStruct->
+      FSMC_CommonSpaceTimingStruct->FSMC_WaitSetupTime));
+00384   assert_param(IS_FSMC_HOLD_TIME(FSMC\_NANDInitStruct->
+      FSMC_CommonSpaceTimingStruct->FSMC_HoldSetupTime));
+00385   assert_param(IS_FSMC_HIZ_TIME(FSMC\_NANDInitStruct->
+      FSMC_CommonSpaceTimingStruct->FSMC_HiZSetupTime));
+00386   assert_param(IS_FSMC_SETUP_TIME(FSMC\_NANDInitStruct->
+      FSMC_AttributeSpaceTimingStruct->FSMC_SetupTime));
+00387   assert_param(IS_FSMC_WAIT_TIME(FSMC\_NANDInitStruct->
+      FSMC_AttributeSpaceTimingStruct->FSMC_WaitSetupTime));
+00388   assert_param(IS_FSMC_HOLD_TIME(FSMC\_NANDInitStruct->
+      FSMC_AttributeSpaceTimingStruct->FSMC_HoldSetupTime));
+00389   assert_param(IS_FSMC_HIZ_TIME(FSMC\_NANDInitStruct->
+      FSMC_AttributeSpaceTimingStruct->FSMC_HiZSetupTime));
+00390   
+00391   \textcolor{comment}{/* Set the tmppcr value according to FSMC\_NANDInitStruct parameters */}
+00392   tmppcr = (uint32\_t)FSMC\_NANDInitStruct->FSMC_Waitfeature |
+00393             PCR_MEMORYTYPE_NAND |
+00394             FSMC\_NANDInitStruct->FSMC_MemoryDataWidth |
+00395             FSMC\_NANDInitStruct->FSMC_ECC |
+00396             FSMC\_NANDInitStruct->FSMC_ECCPageSize |
+00397             (FSMC\_NANDInitStruct->FSMC_TCLRSetupTime << 9 )|
+00398             (FSMC\_NANDInitStruct->FSMC_TARSetupTime << 13);
+00399             
+00400   \textcolor{comment}{/* Set tmppmem value according to FSMC\_CommonSpaceTimingStructure parameters */}
+00401   tmppmem = (uint32\_t)FSMC\_NANDInitStruct->FSMC_CommonSpaceTimingStruct->
+      FSMC_SetupTime |
+00402             (FSMC\_NANDInitStruct->FSMC_CommonSpaceTimingStruct->
+      FSMC_WaitSetupTime << 8) |
+00403             (FSMC\_NANDInitStruct->FSMC_CommonSpaceTimingStruct->
+      FSMC_HoldSetupTime << 16)|
+00404             (FSMC\_NANDInitStruct->FSMC_CommonSpaceTimingStruct->
+      FSMC_HiZSetupTime << 24); 
+00405             
+00406   \textcolor{comment}{/* Set tmppatt value according to FSMC\_AttributeSpaceTimingStructure parameters */}
+00407   tmppatt = (uint32\_t)FSMC\_NANDInitStruct->FSMC_AttributeSpaceTimingStruct->
+      FSMC_SetupTime |
+00408             (FSMC\_NANDInitStruct->FSMC_AttributeSpaceTimingStruct->
+      FSMC_WaitSetupTime << 8) |
+00409             (FSMC\_NANDInitStruct->FSMC_AttributeSpaceTimingStruct->
+      FSMC_HoldSetupTime << 16)|
+00410             (FSMC\_NANDInitStruct->FSMC_AttributeSpaceTimingStruct->
+      FSMC_HiZSetupTime << 24);
+00411   
+00412   \textcolor{keywordflow}{if}(FSMC\_NANDInitStruct->FSMC_Bank == FSMC_Bank2_NAND)
+00413   \{
+00414     \textcolor{comment}{/* FSMC\_Bank2\_NAND registers configuration */}
+00415     FSMC_Bank2->PCR2 = tmppcr;
+00416     FSMC_Bank2->PMEM2 = tmppmem;
+00417     FSMC_Bank2->PATT2 = tmppatt;
+00418   \}
+00419   \textcolor{keywordflow}{else}
+00420   \{
+00421     \textcolor{comment}{/* FSMC\_Bank3\_NAND registers configuration */}
+00422     FSMC_Bank3->PCR3 = tmppcr;
+00423     FSMC_Bank3->PMEM3 = tmppmem;
+00424     FSMC_Bank3->PATT3 = tmppatt;
+00425   \}
+00426 \}
+\end{DoxyCode}
+\mbox{\label{group__FSMC__Group2_ga8283ad94ad8e83d49d5b77d1c7e17862}} 
+\index{N\+A\+N\+D Controller functions@{N\+A\+N\+D Controller functions}!F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Struct\+Init@{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Struct\+Init}}
+\index{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Struct\+Init@{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Struct\+Init}!N\+A\+N\+D Controller functions@{N\+A\+N\+D Controller functions}}
+\subsubsection{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Struct\+Init()}
+{\footnotesize\ttfamily void F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def} $\ast$}]{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Struct member with its default value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Struct} & pointer to a \doxyref{F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def}{p.}{structFSMC__NANDInitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 435} of file \textbf{ stm32f4xx\+\_\+fsmc.\+c}.
+
+
+
+References \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Attribute\+Space\+Timing\+Struct}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Bank}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Common\+Space\+Timing\+Struct}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+E\+CC}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+E\+C\+C\+Page\+Size}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+\_\+\+P\+C\+C\+A\+R\+D\+Timing\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Hi\+Z\+Setup\+Time}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+\_\+\+P\+C\+C\+A\+R\+D\+Timing\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Hold\+Setup\+Time}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Memory\+Data\+Width}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+\_\+\+P\+C\+C\+A\+R\+D\+Timing\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Setup\+Time}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+T\+A\+R\+Setup\+Time}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+T\+C\+L\+R\+Setup\+Time}, \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Waitfeature}, and \textbf{ F\+S\+M\+C\+\_\+\+N\+A\+N\+D\+\_\+\+P\+C\+C\+A\+R\+D\+Timing\+Init\+Type\+Def\+::\+F\+S\+M\+C\+\_\+\+Wait\+Setup\+Time}.
+
+
+\begin{DoxyCode}
+00436 \{ 
+00437   \textcolor{comment}{/* Reset NAND Init structure parameters values */}
+00438   FSMC\_NANDInitStruct->FSMC_Bank = FSMC_Bank2_NAND;
+00439   FSMC\_NANDInitStruct->FSMC_Waitfeature = FSMC_Waitfeature_Disable;
+00440   FSMC\_NANDInitStruct->FSMC_MemoryDataWidth = FSMC_MemoryDataWidth_8b;
+00441   FSMC\_NANDInitStruct->FSMC_ECC = FSMC_ECC_Disable;
+00442   FSMC\_NANDInitStruct->FSMC_ECCPageSize = FSMC_ECCPageSize_256Bytes;
+00443   FSMC\_NANDInitStruct->FSMC_TCLRSetupTime = 0x0;
+00444   FSMC\_NANDInitStruct->FSMC_TARSetupTime = 0x0;
+00445   FSMC\_NANDInitStruct->FSMC_CommonSpaceTimingStruct->FSMC_SetupTime = 0xFC;
+00446   FSMC\_NANDInitStruct->FSMC_CommonSpaceTimingStruct->FSMC_WaitSetupTime = 0xFC;
+00447   FSMC\_NANDInitStruct->FSMC_CommonSpaceTimingStruct->FSMC_HoldSetupTime = 0xFC;
+00448   FSMC\_NANDInitStruct->FSMC_CommonSpaceTimingStruct->FSMC_HiZSetupTime = 0xFC;
+00449   FSMC\_NANDInitStruct->FSMC_AttributeSpaceTimingStruct->FSMC_SetupTime = 0xFC;
+00450   FSMC\_NANDInitStruct->FSMC_AttributeSpaceTimingStruct->FSMC_WaitSetupTime = 0xFC;
+00451   FSMC\_NANDInitStruct->FSMC_AttributeSpaceTimingStruct->FSMC_HoldSetupTime = 0xFC;
+00452   FSMC\_NANDInitStruct->FSMC_AttributeSpaceTimingStruct->FSMC_HiZSetupTime = 0xFC;     
+00453 \}
+\end{DoxyCode}

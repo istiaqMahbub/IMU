@@ -1,0 +1,104 @@
+\section{gpio.\+c}
+\label{gpio_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Peripheral/src/gpio.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+Peripheral/src/gpio.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/*******************************************************************************}
+00002 \textcolor{comment}{File    : Gpio.c}
+00003 \textcolor{comment}{Purpose : }
+00004 \textcolor{comment}{********************************** Includes ***********************************/}
+00005 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00006 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_gpio.h"
+00007 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "misc.h"
+00008 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_exti.h"
+00009 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rcc.h"
+00010 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_syscfg.h"
+00011 
+00012 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} \textcolor{preprocessor}{"GPIO.h"}
+00013 
+00014 \textcolor{comment}{/********************************* Defines ************************************/}
+00015 
+00016 \textcolor{comment}{//changed PIN A0 to PIN A1 back, to match low power modes }
+00017 
+00018 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{INVEN\_INT\_PIN}                         GPIO_Pin_1
+00019 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{INVEN\_INT\_GPIO\_PORT}                   GPIOB
+00020 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{INVEN\_INT\_GPIO\_CLK}                    RCC_AHB1Periph_GPIOB
+00021 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{INVEN\_INT\_EXTI\_PORT}                   EXTI_PortSourceGPIOB
+00022 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{INVEN\_INT\_EXTI\_PIN}                    EXTI_PinSource1
+00023 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{INVEN\_INT\_EXTI\_LINE}                   EXTI_Line1
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{INVEN\_INT\_EXTI\_IRQ}                    \textcolor{preprocessor}{EXTI1\_IRQn}
+00025 
+00026 \textcolor{comment}{/**********************************Globals ************************************/}
+00027 \textcolor{comment}{/********************************* Prototypes *********************************/}
+00028 
+00029 \textcolor{comment}{/***********************************Functions *********************************/}
+00030 \textcolor{keywordtype}{void} GPIO_Config(\textcolor{keywordtype}{void})
+00031 \{
+00032 
+00033   GPIO\_InitTypeDef   GPIO\_InitStructure;
+00034   NVIC\_InitTypeDef   NVIC\_InitStructure;
+00035   EXTI\_InitTypeDef   EXTI\_InitStructure;
+00036 
+00037 \textcolor{comment}{//  GPIO\_DeInit(GPIOA);}
+00038 \textcolor{comment}{//  GPIO\_DeInit(GPIOC);}
+00039 
+00040   \textcolor{comment}{/* Enable GPIOB clock */}
+00041   RCC_AHB1PeriphClockCmd(INVEN_INT_GPIO_CLK, ENABLE);
+00042   \textcolor{comment}{/* Enable SYSCFG clock */}
+00043   RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
+00044 
+00045   \textcolor{comment}{/* Configure invensense sensor interrupt pin as input floating */}
+00046   GPIO\_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+00047   GPIO\_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+00048   GPIO\_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+00049   GPIO\_InitStructure.GPIO_Pin = INVEN_INT_PIN;
+00050   GPIO_Init(INVEN_INT_GPIO_PORT, &GPIO\_InitStructure); \textcolor{comment}{//GPIOA}
+00051 
+00052   \textcolor{comment}{/* Connect EXTI Line to inv sensor interrupt pin */}
+00053   SYSCFG_EXTILineConfig(INVEN_INT_EXTI_PORT, INVEN_INT_EXTI_PIN);
+00054 
+00055   \textcolor{comment}{/* Configure EXTI Line1 */}
+00056   EXTI\_InitStructure.EXTI_Line = INVEN_INT_EXTI_LINE;
+00057   EXTI\_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+00058   EXTI\_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
+00059   EXTI\_InitStructure.EXTI_LineCmd = ENABLE;
+00060   EXTI_Init(&EXTI\_InitStructure);
+00061 
+00062   \textcolor{comment}{/* Enable and set EXTI Line Interrupt to the highest priority */}
+00063   NVIC\_InitStructure.NVIC_IRQChannel = INVEN_INT_EXTI_IRQ;
+00064   NVIC\_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x00;
+00065   NVIC\_InitStructure.NVIC_IRQChannelSubPriority = 0x00;
+00066   NVIC\_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+00067   NVIC_Init(&NVIC\_InitStructure);
+00068   EnableInvInterrupt();
+00069 \}
+00070 
+00071 \textcolor{keywordtype}{void} EnableInvInterrupt(\textcolor{keywordtype}{void})
+00072 \{
+00073   EXTI\_InitTypeDef   EXTI\_InitStructure;
+00074   \textcolor{comment}{/* Configure EXTI Line1 */}
+00075   EXTI\_InitStructure.EXTI_Line = INVEN_INT_EXTI_LINE;
+00076   EXTI\_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+00077   EXTI\_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
+00078   EXTI\_InitStructure.EXTI_LineCmd = ENABLE;
+00079   EXTI_Init(&EXTI\_InitStructure);
+00080 \}
+00081 \textcolor{keywordtype}{void} DisableInvInterrupt(\textcolor{keywordtype}{void})
+00082 \{
+00083   EXTI\_InitTypeDef   EXTI\_InitStructure;
+00084     \textcolor{comment}{/* Configure EXTI Line1 */}
+00085   EXTI\_InitStructure.EXTI_Line = INVEN_INT_EXTI_LINE;
+00086   EXTI\_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+00087   EXTI\_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
+00088   EXTI\_InitStructure.EXTI_LineCmd = DISABLE;
+00089   EXTI_Init(&EXTI\_InitStructure);
+00090   EXTI_ClearITPendingBit(INVEN_INT_EXTI_LINE);
+00091 \}
+00092 
+00093 \textcolor{keywordtype}{void} InvIntHandler(\textcolor{keywordtype}{void})
+00094 \{
+00095 
+00096   \textcolor{comment}{/* Clear the EXTI line 1 pending bit */}
+00097    EXTI_ClearITPendingBit(INVEN_INT_EXTI_LINE);
+00098 
+00099 \}
+\end{DoxyCode}

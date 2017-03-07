@@ -1,0 +1,1587 @@
+\section{E\+M\+PL}
+\label{group__eMPL}\index{E\+M\+PL@{E\+M\+PL}}
+
+
+Embedded Motion Processing Library.  
+
+
+\subsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \textbf{ main.\+c}
+\begin{DoxyCompactList}\small\item\em Test app for e\+M\+PL using the Motion Driver D\+MP image. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ rx\+\_\+s}
+\item 
+struct \textbf{ hal\+\_\+s}
+\item 
+struct \textbf{ platform\+\_\+data\+\_\+s}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+A\+C\+C\+EL}~(0x01)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+G\+Y\+RO}~(0x02)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+Q\+U\+AT}~(0x04)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+C\+O\+M\+P\+A\+SS}~(0x08)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+E\+U\+L\+ER}~(0x10)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+R\+O\+T\+\_\+\+M\+AT}~(0x20)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+H\+E\+A\+D\+I\+NG}~(0x40)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+P\+E\+DO}~(0x80)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+L\+I\+N\+E\+A\+R\+\_\+\+A\+C\+C\+EL}~(0x100)
+\item 
+\#define \textbf{ P\+R\+I\+N\+T\+\_\+\+G\+R\+A\+V\+I\+T\+Y\+\_\+\+V\+E\+C\+T\+OR}~(0x200)
+\item 
+\#define \textbf{ A\+C\+C\+E\+L\+\_\+\+ON}~(0x01)
+\item 
+\#define \textbf{ G\+Y\+R\+O\+\_\+\+ON}~(0x02)
+\item 
+\#define \textbf{ C\+O\+M\+P\+A\+S\+S\+\_\+\+ON}~(0x04)
+\item 
+\#define \textbf{ M\+O\+T\+I\+ON}~(0)
+\item 
+\#define \textbf{ N\+O\+\_\+\+M\+O\+T\+I\+ON}~(1)
+\item 
+\#define \textbf{ D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+P\+U\+\_\+\+HZ}~(20)
+\item 
+\#define \textbf{ F\+L\+A\+S\+H\+\_\+\+S\+I\+ZE}~(512)
+\item 
+\#define \textbf{ F\+L\+A\+S\+H\+\_\+\+M\+E\+M\+\_\+\+S\+T\+A\+RT}~((void$\ast$)0x1800)
+\item 
+\#define \textbf{ P\+E\+D\+O\+\_\+\+R\+E\+A\+D\+\_\+\+MS}~(1000)
+\item 
+\#define \textbf{ T\+E\+M\+P\+\_\+\+R\+E\+A\+D\+\_\+\+MS}~(500)
+\item 
+\#define \textbf{ C\+O\+M\+P\+A\+S\+S\+\_\+\+R\+E\+A\+D\+\_\+\+MS}~(100)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \textbf{ read\+\_\+from\+\_\+mpl} (void)
+\item 
+static void \textbf{ setup\+\_\+gyro} (void)
+\item 
+static void \textbf{ tap\+\_\+cb} (unsigned char direction, unsigned char count)
+\item 
+static void \textbf{ android\+\_\+orient\+\_\+cb} (unsigned char orientation)
+\item 
+static void \textbf{ run\+\_\+self\+\_\+test} (void)
+\item 
+static void \textbf{ handle\+\_\+input} (void)
+\item 
+void \textbf{ gyro\+\_\+data\+\_\+ready\+\_\+cb} (void)
+\item 
+int \textbf{ main} (void)
+\begin{DoxyCompactList}\small\item\em main entry point. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+volatile uint32\+\_\+t \textbf{ hal\+\_\+timestamp} = 0
+\begin{DoxyCompactList}\small\item\em timestamp variable initialize, its for count tick \end{DoxyCompactList}\item 
+unsigned char \textbf{ header} [3]
+\item 
+unsigned char \textbf{ cmd}
+\item 
+unsigned char \textbf{ lp\+\_\+accel\+\_\+mode}
+\item 
+unsigned char \textbf{ sensors}
+\item 
+unsigned char \textbf{ dmp\+\_\+on}
+\item 
+unsigned char \textbf{ wait\+\_\+for\+\_\+tap}
+\item 
+volatile unsigned char \textbf{ new\+\_\+gyro}
+\item 
+unsigned char \textbf{ motion\+\_\+int\+\_\+mode}
+\item 
+unsigned long \textbf{ no\+\_\+dmp\+\_\+hz}
+\item 
+unsigned long \textbf{ next\+\_\+pedo\+\_\+ms}
+\item 
+unsigned long \textbf{ next\+\_\+temp\+\_\+ms}
+\item 
+unsigned long \textbf{ next\+\_\+compass\+\_\+ms}
+\item 
+unsigned int \textbf{ report}
+\item 
+unsigned short \textbf{ dmp\+\_\+features}
+\item 
+struct \textbf{ rx\+\_\+s} \textbf{ rx}
+\item 
+static struct \textbf{ hal\+\_\+s} \textbf{ hal} = \{0\}
+\item 
+volatile unsigned char \textbf{ rx\+\_\+new}
+\begin{DoxyCompactList}\small\item\em Usart Receive variable init. \end{DoxyCompactList}\item 
+unsigned char $\ast$ \textbf{ mpl\+\_\+key} = (unsigned char$\ast$)\char`\"{}e\+M\+PL 5.\+1\char`\"{}
+\item 
+signed char \textbf{ orientation} [9]
+\item 
+static struct \textbf{ platform\+\_\+data\+\_\+s} \textbf{ gyro\+\_\+pdata}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Embedded Motion Processing Library. 
+
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\label{group__eMPL_ga96e2dc57b8fe509f98cbbb52811717c3}} 
+\index{E\+M\+PL@{E\+M\+PL}!A\+C\+C\+E\+L\+\_\+\+ON@{A\+C\+C\+E\+L\+\_\+\+ON}}
+\index{A\+C\+C\+E\+L\+\_\+\+ON@{A\+C\+C\+E\+L\+\_\+\+ON}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{A\+C\+C\+E\+L\+\_\+\+ON}
+{\footnotesize\ttfamily \#define A\+C\+C\+E\+L\+\_\+\+ON~(0x01)}
+
+
+
+Definition at line \textbf{ 44} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_gac4b29ad9d2af05af504ca053f3c5d76d}} 
+\index{E\+M\+PL@{E\+M\+PL}!C\+O\+M\+P\+A\+S\+S\+\_\+\+ON@{C\+O\+M\+P\+A\+S\+S\+\_\+\+ON}}
+\index{C\+O\+M\+P\+A\+S\+S\+\_\+\+ON@{C\+O\+M\+P\+A\+S\+S\+\_\+\+ON}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{C\+O\+M\+P\+A\+S\+S\+\_\+\+ON}
+{\footnotesize\ttfamily \#define C\+O\+M\+P\+A\+S\+S\+\_\+\+ON~(0x04)}
+
+
+
+Definition at line \textbf{ 46} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_ga0718d456616de258f21190908610fdf6}} 
+\index{E\+M\+PL@{E\+M\+PL}!C\+O\+M\+P\+A\+S\+S\+\_\+\+R\+E\+A\+D\+\_\+\+MS@{C\+O\+M\+P\+A\+S\+S\+\_\+\+R\+E\+A\+D\+\_\+\+MS}}
+\index{C\+O\+M\+P\+A\+S\+S\+\_\+\+R\+E\+A\+D\+\_\+\+MS@{C\+O\+M\+P\+A\+S\+S\+\_\+\+R\+E\+A\+D\+\_\+\+MS}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{C\+O\+M\+P\+A\+S\+S\+\_\+\+R\+E\+A\+D\+\_\+\+MS}
+{\footnotesize\ttfamily \#define C\+O\+M\+P\+A\+S\+S\+\_\+\+R\+E\+A\+D\+\_\+\+MS~(100)}
+
+
+
+Definition at line \textbf{ 59} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_ga292d717406e906831952ce46612fe4cd}} 
+\index{E\+M\+PL@{E\+M\+PL}!D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+P\+U\+\_\+\+HZ@{D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+P\+U\+\_\+\+HZ}}
+\index{D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+P\+U\+\_\+\+HZ@{D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+P\+U\+\_\+\+HZ}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+P\+U\+\_\+\+HZ}
+{\footnotesize\ttfamily \#define D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+P\+U\+\_\+\+HZ~(20)}
+
+Starting sampling rate. 
+
+Definition at line \textbf{ 52} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_ga923aad67335bb52801a4f8dfc0b0fef0}} 
+\index{E\+M\+PL@{E\+M\+PL}!F\+L\+A\+S\+H\+\_\+\+M\+E\+M\+\_\+\+S\+T\+A\+RT@{F\+L\+A\+S\+H\+\_\+\+M\+E\+M\+\_\+\+S\+T\+A\+RT}}
+\index{F\+L\+A\+S\+H\+\_\+\+M\+E\+M\+\_\+\+S\+T\+A\+RT@{F\+L\+A\+S\+H\+\_\+\+M\+E\+M\+\_\+\+S\+T\+A\+RT}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+M\+E\+M\+\_\+\+S\+T\+A\+RT}
+{\footnotesize\ttfamily \#define F\+L\+A\+S\+H\+\_\+\+M\+E\+M\+\_\+\+S\+T\+A\+RT~((void$\ast$)0x1800)}
+
+
+
+Definition at line \textbf{ 55} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_gae69620948dea1b76e0ab7843ab719db7}} 
+\index{E\+M\+PL@{E\+M\+PL}!F\+L\+A\+S\+H\+\_\+\+S\+I\+ZE@{F\+L\+A\+S\+H\+\_\+\+S\+I\+ZE}}
+\index{F\+L\+A\+S\+H\+\_\+\+S\+I\+ZE@{F\+L\+A\+S\+H\+\_\+\+S\+I\+ZE}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{F\+L\+A\+S\+H\+\_\+\+S\+I\+ZE}
+{\footnotesize\ttfamily \#define F\+L\+A\+S\+H\+\_\+\+S\+I\+ZE~(512)}
+
+
+
+Definition at line \textbf{ 54} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_ga1abb1b0f967cb0c0f3a0910f18241889}} 
+\index{E\+M\+PL@{E\+M\+PL}!G\+Y\+R\+O\+\_\+\+ON@{G\+Y\+R\+O\+\_\+\+ON}}
+\index{G\+Y\+R\+O\+\_\+\+ON@{G\+Y\+R\+O\+\_\+\+ON}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{G\+Y\+R\+O\+\_\+\+ON}
+{\footnotesize\ttfamily \#define G\+Y\+R\+O\+\_\+\+ON~(0x02)}
+
+
+
+Definition at line \textbf{ 45} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_ga37210bcb4e70d9199030fb7cd89135e7}} 
+\index{E\+M\+PL@{E\+M\+PL}!M\+O\+T\+I\+ON@{M\+O\+T\+I\+ON}}
+\index{M\+O\+T\+I\+ON@{M\+O\+T\+I\+ON}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{M\+O\+T\+I\+ON}
+{\footnotesize\ttfamily \#define M\+O\+T\+I\+ON~(0)}
+
+
+
+Definition at line \textbf{ 48} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_ga35a7dc3ebde5e1980ce1412334326f28}} 
+\index{E\+M\+PL@{E\+M\+PL}!N\+O\+\_\+\+M\+O\+T\+I\+ON@{N\+O\+\_\+\+M\+O\+T\+I\+ON}}
+\index{N\+O\+\_\+\+M\+O\+T\+I\+ON@{N\+O\+\_\+\+M\+O\+T\+I\+ON}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{N\+O\+\_\+\+M\+O\+T\+I\+ON}
+{\footnotesize\ttfamily \#define N\+O\+\_\+\+M\+O\+T\+I\+ON~(1)}
+
+
+
+Definition at line \textbf{ 49} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_ga77888d9bc269c75d63baf58cd000c7d9}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+E\+D\+O\+\_\+\+R\+E\+A\+D\+\_\+\+MS@{P\+E\+D\+O\+\_\+\+R\+E\+A\+D\+\_\+\+MS}}
+\index{P\+E\+D\+O\+\_\+\+R\+E\+A\+D\+\_\+\+MS@{P\+E\+D\+O\+\_\+\+R\+E\+A\+D\+\_\+\+MS}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+E\+D\+O\+\_\+\+R\+E\+A\+D\+\_\+\+MS}
+{\footnotesize\ttfamily \#define P\+E\+D\+O\+\_\+\+R\+E\+A\+D\+\_\+\+MS~(1000)}
+
+
+
+Definition at line \textbf{ 57} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_ga83c044582a9fec2e45f8858efa5885b8}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+R\+I\+N\+T\+\_\+\+A\+C\+C\+EL@{P\+R\+I\+N\+T\+\_\+\+A\+C\+C\+EL}}
+\index{P\+R\+I\+N\+T\+\_\+\+A\+C\+C\+EL@{P\+R\+I\+N\+T\+\_\+\+A\+C\+C\+EL}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+R\+I\+N\+T\+\_\+\+A\+C\+C\+EL}
+{\footnotesize\ttfamily \#define P\+R\+I\+N\+T\+\_\+\+A\+C\+C\+EL~(0x01)}
+
+Includes -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/---------
+
+Private typedef -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/------
+
+Data read from M\+PL. 
+
+Definition at line \textbf{ 32} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_gae55039e3cf38b78e1ec327c3e81d2859}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+R\+I\+N\+T\+\_\+\+C\+O\+M\+P\+A\+SS@{P\+R\+I\+N\+T\+\_\+\+C\+O\+M\+P\+A\+SS}}
+\index{P\+R\+I\+N\+T\+\_\+\+C\+O\+M\+P\+A\+SS@{P\+R\+I\+N\+T\+\_\+\+C\+O\+M\+P\+A\+SS}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+R\+I\+N\+T\+\_\+\+C\+O\+M\+P\+A\+SS}
+{\footnotesize\ttfamily \#define P\+R\+I\+N\+T\+\_\+\+C\+O\+M\+P\+A\+SS~(0x08)}
+
+
+
+Definition at line \textbf{ 35} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_gabfb66b3aafb997de9897c558dfc34b8e}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+R\+I\+N\+T\+\_\+\+E\+U\+L\+ER@{P\+R\+I\+N\+T\+\_\+\+E\+U\+L\+ER}}
+\index{P\+R\+I\+N\+T\+\_\+\+E\+U\+L\+ER@{P\+R\+I\+N\+T\+\_\+\+E\+U\+L\+ER}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+R\+I\+N\+T\+\_\+\+E\+U\+L\+ER}
+{\footnotesize\ttfamily \#define P\+R\+I\+N\+T\+\_\+\+E\+U\+L\+ER~(0x10)}
+
+
+
+Definition at line \textbf{ 36} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_ga31581e6a5034c28ac6270530f4b17e51}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+R\+I\+N\+T\+\_\+\+G\+R\+A\+V\+I\+T\+Y\+\_\+\+V\+E\+C\+T\+OR@{P\+R\+I\+N\+T\+\_\+\+G\+R\+A\+V\+I\+T\+Y\+\_\+\+V\+E\+C\+T\+OR}}
+\index{P\+R\+I\+N\+T\+\_\+\+G\+R\+A\+V\+I\+T\+Y\+\_\+\+V\+E\+C\+T\+OR@{P\+R\+I\+N\+T\+\_\+\+G\+R\+A\+V\+I\+T\+Y\+\_\+\+V\+E\+C\+T\+OR}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+R\+I\+N\+T\+\_\+\+G\+R\+A\+V\+I\+T\+Y\+\_\+\+V\+E\+C\+T\+OR}
+{\footnotesize\ttfamily \#define P\+R\+I\+N\+T\+\_\+\+G\+R\+A\+V\+I\+T\+Y\+\_\+\+V\+E\+C\+T\+OR~(0x200)}
+
+
+
+Definition at line \textbf{ 41} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_ga1f7cea00edafdbe1570199b28042ddd3}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+R\+I\+N\+T\+\_\+\+G\+Y\+RO@{P\+R\+I\+N\+T\+\_\+\+G\+Y\+RO}}
+\index{P\+R\+I\+N\+T\+\_\+\+G\+Y\+RO@{P\+R\+I\+N\+T\+\_\+\+G\+Y\+RO}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+R\+I\+N\+T\+\_\+\+G\+Y\+RO}
+{\footnotesize\ttfamily \#define P\+R\+I\+N\+T\+\_\+\+G\+Y\+RO~(0x02)}
+
+
+
+Definition at line \textbf{ 33} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_ga39965157fdb18499d2665cdb203971dd}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+R\+I\+N\+T\+\_\+\+H\+E\+A\+D\+I\+NG@{P\+R\+I\+N\+T\+\_\+\+H\+E\+A\+D\+I\+NG}}
+\index{P\+R\+I\+N\+T\+\_\+\+H\+E\+A\+D\+I\+NG@{P\+R\+I\+N\+T\+\_\+\+H\+E\+A\+D\+I\+NG}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+R\+I\+N\+T\+\_\+\+H\+E\+A\+D\+I\+NG}
+{\footnotesize\ttfamily \#define P\+R\+I\+N\+T\+\_\+\+H\+E\+A\+D\+I\+NG~(0x40)}
+
+
+
+Definition at line \textbf{ 38} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_ga247e0609bfe123b5d988f0c63e99bf76}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+R\+I\+N\+T\+\_\+\+L\+I\+N\+E\+A\+R\+\_\+\+A\+C\+C\+EL@{P\+R\+I\+N\+T\+\_\+\+L\+I\+N\+E\+A\+R\+\_\+\+A\+C\+C\+EL}}
+\index{P\+R\+I\+N\+T\+\_\+\+L\+I\+N\+E\+A\+R\+\_\+\+A\+C\+C\+EL@{P\+R\+I\+N\+T\+\_\+\+L\+I\+N\+E\+A\+R\+\_\+\+A\+C\+C\+EL}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+R\+I\+N\+T\+\_\+\+L\+I\+N\+E\+A\+R\+\_\+\+A\+C\+C\+EL}
+{\footnotesize\ttfamily \#define P\+R\+I\+N\+T\+\_\+\+L\+I\+N\+E\+A\+R\+\_\+\+A\+C\+C\+EL~(0x100)}
+
+
+
+Definition at line \textbf{ 40} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_gafc50e337bac90191d386f47e3cf49a7d}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+R\+I\+N\+T\+\_\+\+P\+E\+DO@{P\+R\+I\+N\+T\+\_\+\+P\+E\+DO}}
+\index{P\+R\+I\+N\+T\+\_\+\+P\+E\+DO@{P\+R\+I\+N\+T\+\_\+\+P\+E\+DO}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+R\+I\+N\+T\+\_\+\+P\+E\+DO}
+{\footnotesize\ttfamily \#define P\+R\+I\+N\+T\+\_\+\+P\+E\+DO~(0x80)}
+
+
+
+Definition at line \textbf{ 39} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_ga709f1d5781d96858850143298f88104c}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+R\+I\+N\+T\+\_\+\+Q\+U\+AT@{P\+R\+I\+N\+T\+\_\+\+Q\+U\+AT}}
+\index{P\+R\+I\+N\+T\+\_\+\+Q\+U\+AT@{P\+R\+I\+N\+T\+\_\+\+Q\+U\+AT}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+R\+I\+N\+T\+\_\+\+Q\+U\+AT}
+{\footnotesize\ttfamily \#define P\+R\+I\+N\+T\+\_\+\+Q\+U\+AT~(0x04)}
+
+
+
+Definition at line \textbf{ 34} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_ga83fe59ee63a2dd6ba73760f07a21ee95}} 
+\index{E\+M\+PL@{E\+M\+PL}!P\+R\+I\+N\+T\+\_\+\+R\+O\+T\+\_\+\+M\+AT@{P\+R\+I\+N\+T\+\_\+\+R\+O\+T\+\_\+\+M\+AT}}
+\index{P\+R\+I\+N\+T\+\_\+\+R\+O\+T\+\_\+\+M\+AT@{P\+R\+I\+N\+T\+\_\+\+R\+O\+T\+\_\+\+M\+AT}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{P\+R\+I\+N\+T\+\_\+\+R\+O\+T\+\_\+\+M\+AT}
+{\footnotesize\ttfamily \#define P\+R\+I\+N\+T\+\_\+\+R\+O\+T\+\_\+\+M\+AT~(0x20)}
+
+
+
+Definition at line \textbf{ 37} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_ga209a05c6769a81d074903aaffe2f44a6}} 
+\index{E\+M\+PL@{E\+M\+PL}!T\+E\+M\+P\+\_\+\+R\+E\+A\+D\+\_\+\+MS@{T\+E\+M\+P\+\_\+\+R\+E\+A\+D\+\_\+\+MS}}
+\index{T\+E\+M\+P\+\_\+\+R\+E\+A\+D\+\_\+\+MS@{T\+E\+M\+P\+\_\+\+R\+E\+A\+D\+\_\+\+MS}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{T\+E\+M\+P\+\_\+\+R\+E\+A\+D\+\_\+\+MS}
+{\footnotesize\ttfamily \#define T\+E\+M\+P\+\_\+\+R\+E\+A\+D\+\_\+\+MS~(500)}
+
+
+
+Definition at line \textbf{ 58} of file \textbf{ main.\+c}.
+
+
+
+\subsection{Function Documentation}
+\mbox{\label{group__eMPL_gaa4a8ed4fa732bc82b2b518d80d196297}} 
+\index{E\+M\+PL@{E\+M\+PL}!android\+\_\+orient\+\_\+cb@{android\+\_\+orient\+\_\+cb}}
+\index{android\+\_\+orient\+\_\+cb@{android\+\_\+orient\+\_\+cb}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{android\+\_\+orient\+\_\+cb()}
+{\footnotesize\ttfamily static void android\+\_\+orient\+\_\+cb (\begin{DoxyParamCaption}\item[{unsigned char}]{orientation }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+If you want to connect I\+MU with Android mobile device via bluetooth then this function should be called 
+
+Definition at line \textbf{ 310} of file \textbf{ main.\+c}.
+
+
+\begin{DoxyCode}
+00311 \{
+00312     \textcolor{keywordflow}{switch} (orientation) \{
+00313     \textcolor{keywordflow}{case} ANDROID\_ORIENT\_PORTRAIT:
+00314         MPL\_LOGI(\textcolor{stringliteral}{"Portrait\(\backslash\)n"});
+00315         \textcolor{keywordflow}{break};
+00316     \textcolor{keywordflow}{case} ANDROID\_ORIENT\_LANDSCAPE:
+00317         MPL\_LOGI(\textcolor{stringliteral}{"Landscape\(\backslash\)n"});
+00318         \textcolor{keywordflow}{break};
+00319     \textcolor{keywordflow}{case} ANDROID\_ORIENT\_REVERSE\_PORTRAIT:
+00320         MPL\_LOGI(\textcolor{stringliteral}{"Reverse Portrait\(\backslash\)n"});
+00321         \textcolor{keywordflow}{break};
+00322     \textcolor{keywordflow}{case} ANDROID\_ORIENT\_REVERSE\_LANDSCAPE:
+00323         MPL\_LOGI(\textcolor{stringliteral}{"Reverse Landscape\(\backslash\)n"});
+00324         \textcolor{keywordflow}{break};
+00325     \textcolor{keywordflow}{default}:
+00326         \textcolor{keywordflow}{return};
+00327     \}
+00328 \}
+\end{DoxyCode}
+\mbox{\label{group__eMPL_ga97b092893abbc0853590db8530636b63}} 
+\index{E\+M\+PL@{E\+M\+PL}!gyro\+\_\+data\+\_\+ready\+\_\+cb@{gyro\+\_\+data\+\_\+ready\+\_\+cb}}
+\index{gyro\+\_\+data\+\_\+ready\+\_\+cb@{gyro\+\_\+data\+\_\+ready\+\_\+cb}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{gyro\+\_\+data\+\_\+ready\+\_\+cb()}
+{\footnotesize\ttfamily void gyro\+\_\+data\+\_\+ready\+\_\+cb (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+Every time new gyro data is available, this function is called in an I\+SR context. In this example, it sets a flag protecting the F\+I\+FO read function. 
+
+Definition at line \textbf{ 651} of file \textbf{ main.\+c}.
+
+
+
+References \textbf{ hal}, and \textbf{ hal\+\_\+s\+::new\+\_\+gyro}.
+
+
+
+Referenced by \textbf{ E\+X\+T\+I1\+\_\+\+I\+R\+Q\+Handler()}.
+
+
+\begin{DoxyCode}
+00652 \{
+00653     hal.new_gyro = 1;
+00654 
+00655 \}
+\end{DoxyCode}
+\mbox{\label{group__eMPL_ga2ccb744024182ca302323f00a7acd796}} 
+\index{E\+M\+PL@{E\+M\+PL}!handle\+\_\+input@{handle\+\_\+input}}
+\index{handle\+\_\+input@{handle\+\_\+input}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{handle\+\_\+input()}
+{\footnotesize\ttfamily static void handle\+\_\+input (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+These commands turn off individual sensors.
+
+The commands send individual sensor data or fused data to the PC.
+
+This command prints out the value of each gyro register for debugging. If logging is disabled, this function has no effect.
+
+When LP accel mode is enabled, the driver automatically configures the hardware for latched interrupts. However, the M\+CU sometimes misses the rising/falling edge, and the hal.\+new\+\_\+gyro flag is never set. To avoid getting locked in this state, we\textquotesingle{}re overriding the
+
+T\+O\+DO\+: The M\+CU supports level-\/triggered interrupts.
+
+The hardware self test can be run without any interaction with the M\+PL since it\textquotesingle{}s completely localized in the gyro driver. Logging is assumed to be enabled; otherwise, a couple L\+E\+Ds could probably be used here to display the test results.
+
+Let M\+PL know that contiguity was broken.
+
+Depending on your application, sensor data may be needed at a faster or slower rate. These commands can speed up or slow down the rate at which the sensor data is pushed to the M\+PL.
+
+In this example, the compass rate is never changed.
+
+Set hardware to interrupt on gesture event only. This feature is useful for keeping the M\+CU asleep until the D\+MP detects as a tap or orientation event.
+
+Set hardware to interrupt periodically.
+
+Toggle pedometer display.
+
+Reset pedometer.
+
+LP accel is not compatible with the D\+MP.
+
+Toggle D\+MP.
+
+Restore F\+I\+FO settings.
+
+When the D\+MP is used, the hardware sampling rate is fixed at 200\+Hz, and the D\+MP is configured to downsample the F\+I\+FO output using the function dmp\+\_\+set\+\_\+fifo\+\_\+rate. However, when the D\+MP is turned off, the sampling rate remains at 200\+Hz. This could be handled in inv\+\_\+mpu.\+c, but it would need to know that inv\+\_\+mpu\+\_\+dmp\+\_\+motion\+\_\+driver.\+c exists. To avoid this, we\textquotesingle{}ll just put the extra logic in the application layer.
+
+Preserve current F\+I\+FO rate.
+
+Test the motion interrupt hardware feature.
+
+not enabled for 6050 product
+
+Toggle LP quaternion. The D\+MP features can be enabled/disabled at runtime. Use this same approach for other features.
+
+Definition at line \textbf{ 408} of file \textbf{ main.\+c}.
+
+
+
+References \textbf{ rx\+\_\+s\+::cmd}, \textbf{ hal\+\_\+s\+::dmp\+\_\+on}, \textbf{ hal}, \textbf{ hal\+\_\+s\+::lp\+\_\+accel\+\_\+mode}, \textbf{ hal\+\_\+s\+::motion\+\_\+int\+\_\+mode}, \textbf{ hal\+\_\+s\+::report}, \textbf{ run\+\_\+self\+\_\+test()}, \textbf{ hal\+\_\+s\+::rx}, \textbf{ hal\+\_\+s\+::sensors}, \textbf{ setup\+\_\+gyro()}, and \textbf{ U\+S\+A\+R\+T\+\_\+\+Receive\+Data()}.
+
+
+
+Referenced by \textbf{ main()}.
+
+
+\begin{DoxyCode}
+00409 \{
+00410   
+00411     \textcolor{keywordtype}{char} c = USART_ReceiveData(USART1);
+00412     \textcolor{comment}{//char c = USART\_ReceiveData(USART2);}
+00413     \textcolor{keywordflow}{switch} (c) \{
+00415     \textcolor{keywordflow}{case} \textcolor{charliteral}{'8'}:
+00416         hal.sensors ^= ACCEL_ON;
+00417         setup_gyro();
+00418         \textcolor{keywordflow}{if} (!(hal.sensors & ACCEL_ON))
+00419             inv\_accel\_was\_turned\_off();
+00420         \textcolor{keywordflow}{break};
+00421     \textcolor{keywordflow}{case} \textcolor{charliteral}{'9'}:
+00422         hal.sensors ^= GYRO_ON;
+00423         setup_gyro();
+00424         \textcolor{keywordflow}{if} (!(hal.sensors & GYRO_ON))
+00425             inv\_gyro\_was\_turned\_off();
+00426         \textcolor{keywordflow}{break};
+00427 \textcolor{preprocessor}{#ifdef COMPASS\_ENABLED}
+00428     \textcolor{keywordflow}{case} \textcolor{charliteral}{'0'}:
+00429         hal.sensors ^= COMPASS_ON;
+00430         setup_gyro();
+00431         \textcolor{keywordflow}{if} (!(hal.sensors & COMPASS_ON))
+00432             inv\_compass\_was\_turned\_off();
+00433         \textcolor{keywordflow}{break};
+00434 \textcolor{preprocessor}{#endif}
+00435 
+00436     \textcolor{keywordflow}{case} \textcolor{charliteral}{'a'}:
+00437         hal.report ^= PRINT_ACCEL;
+00438         \textcolor{keywordflow}{break};
+00439     \textcolor{keywordflow}{case} \textcolor{charliteral}{'g'}:
+00440         hal.report ^= PRINT_GYRO;
+00441         \textcolor{keywordflow}{break};
+00442 \textcolor{preprocessor}{#ifdef COMPASS\_ENABLED}
+00443     \textcolor{keywordflow}{case} \textcolor{charliteral}{'c'}:
+00444         hal.report ^= PRINT_COMPASS;
+00445         \textcolor{keywordflow}{break};
+00446 \textcolor{preprocessor}{#endif}
+00447     \textcolor{keywordflow}{case} \textcolor{charliteral}{'e'}:
+00448         hal.report ^= PRINT_EULER;
+00449         \textcolor{keywordflow}{break};
+00450     \textcolor{keywordflow}{case} \textcolor{charliteral}{'r'}:
+00451         hal.report ^= PRINT_ROT_MAT;
+00452         \textcolor{keywordflow}{break};
+00453     \textcolor{keywordflow}{case} \textcolor{charliteral}{'q'}:
+00454         hal.report ^= PRINT_QUAT;
+00455         \textcolor{keywordflow}{break};
+00456     \textcolor{keywordflow}{case} \textcolor{charliteral}{'h'}:
+00457         hal.report ^= PRINT_HEADING;
+00458         \textcolor{keywordflow}{break};
+00459     \textcolor{keywordflow}{case} \textcolor{charliteral}{'i'}:
+00460         hal.report ^= PRINT_LINEAR_ACCEL;
+00461         \textcolor{keywordflow}{break};
+00462     \textcolor{keywordflow}{case} \textcolor{charliteral}{'o'}:
+00463         hal.report ^= PRINT_GRAVITY_VECTOR;
+00464         \textcolor{keywordflow}{break};
+00465 \textcolor{preprocessor}{#ifdef COMPASS\_ENABLED}
+00466     \textcolor{keywordflow}{case} \textcolor{charliteral}{'w'}:
+00467         send\_status\_compass();
+00468         \textcolor{keywordflow}{break};
+00469 \textcolor{preprocessor}{#endif}
+00470 
+00473     \textcolor{keywordflow}{case} \textcolor{charliteral}{'d'}:
+00474         mpu\_reg\_dump();
+00475         \textcolor{keywordflow}{break};
+00476     \textcolor{comment}{/* Test out low-power accel mode. */}
+00477     \textcolor{keywordflow}{case} \textcolor{charliteral}{'p'}:
+00478         \textcolor{keywordflow}{if} (hal.dmp_on)
+00479             \textcolor{comment}{/* LP accel is not compatible with the DMP. */}
+00480             \textcolor{keywordflow}{break};
+00481         mpu\_lp\_accel\_mode(20);
+00489         mpu\_set\_int\_latched(0);
+00490         hal.sensors &= ~(GYRO_ON|COMPASS_ON);
+00491         hal.sensors |= ACCEL_ON;
+00492         hal.lp_accel_mode = 1;
+00493         inv\_gyro\_was\_turned\_off();
+00494         inv\_compass\_was\_turned\_off();
+00495         \textcolor{keywordflow}{break};
+00501     \textcolor{keywordflow}{case} \textcolor{charliteral}{'t'}:
+00502         run_self_test();
+00504         inv\_accel\_was\_turned\_off();
+00505         inv\_gyro\_was\_turned\_off();
+00506         inv\_compass\_was\_turned\_off();
+00507         \textcolor{keywordflow}{break};
+00514     \textcolor{keywordflow}{case} \textcolor{charliteral}{'1'}:
+00515         \textcolor{keywordflow}{if} (hal.dmp_on) \{
+00516             dmp\_set\_fifo\_rate(10);
+00517             inv\_set\_quat\_sample\_rate(100000L);
+00518         \} \textcolor{keywordflow}{else}
+00519             mpu\_set\_sample\_rate(10);
+00520         inv\_set\_gyro\_sample\_rate(100000L);
+00521         inv\_set\_accel\_sample\_rate(100000L);
+00522         \textcolor{keywordflow}{break};
+00523     \textcolor{keywordflow}{case} \textcolor{charliteral}{'2'}:
+00524         \textcolor{keywordflow}{if} (hal.dmp_on) \{
+00525             dmp\_set\_fifo\_rate(20);
+00526             inv\_set\_quat\_sample\_rate(50000L);
+00527         \} \textcolor{keywordflow}{else}
+00528             mpu\_set\_sample\_rate(20);
+00529         inv\_set\_gyro\_sample\_rate(50000L);
+00530         inv\_set\_accel\_sample\_rate(50000L);
+00531         \textcolor{keywordflow}{break};
+00532     \textcolor{keywordflow}{case} \textcolor{charliteral}{'3'}:
+00533         \textcolor{keywordflow}{if} (hal.dmp_on) \{
+00534             dmp\_set\_fifo\_rate(40);
+00535             inv\_set\_quat\_sample\_rate(25000L);
+00536         \} \textcolor{keywordflow}{else}
+00537             mpu\_set\_sample\_rate(40);
+00538         inv\_set\_gyro\_sample\_rate(25000L);
+00539         inv\_set\_accel\_sample\_rate(25000L);
+00540         \textcolor{keywordflow}{break};
+00541     \textcolor{keywordflow}{case} \textcolor{charliteral}{'4'}:
+00542         \textcolor{keywordflow}{if} (hal.dmp_on) \{
+00543             dmp\_set\_fifo\_rate(50);
+00544             inv\_set\_quat\_sample\_rate(20000L);
+00545         \} \textcolor{keywordflow}{else}
+00546             mpu\_set\_sample\_rate(50);
+00547         inv\_set\_gyro\_sample\_rate(20000L);
+00548         inv\_set\_accel\_sample\_rate(20000L);
+00549         \textcolor{keywordflow}{break};
+00550     \textcolor{keywordflow}{case} \textcolor{charliteral}{'5'}:
+00551         \textcolor{keywordflow}{if} (hal.dmp_on) \{
+00552             dmp\_set\_fifo\_rate(100);
+00553             inv\_set\_quat\_sample\_rate(10000L);
+00554         \} \textcolor{keywordflow}{else}
+00555             mpu\_set\_sample\_rate(100);
+00556         inv\_set\_gyro\_sample\_rate(10000L);
+00557         inv\_set\_accel\_sample\_rate(10000L);
+00558         \textcolor{keywordflow}{break};
+00559     \textcolor{keywordflow}{case} \textcolor{charliteral}{','}:
+00564         dmp\_set\_interrupt\_mode(DMP\_INT\_GESTURE);
+00565         \textcolor{keywordflow}{break};
+00566     \textcolor{keywordflow}{case} \textcolor{charliteral}{'.'}:
+00569         dmp\_set\_interrupt\_mode(DMP\_INT\_CONTINUOUS);
+00570         \textcolor{keywordflow}{break};
+00571     \textcolor{keywordflow}{case} \textcolor{charliteral}{'6'}:
+00573         hal.report ^= PRINT_PEDO;
+00574         \textcolor{keywordflow}{break};
+00575     \textcolor{keywordflow}{case} \textcolor{charliteral}{'7'}:
+00577         dmp\_set\_pedometer\_step\_count(0);
+00578         dmp\_set\_pedometer\_walk\_time(0);
+00579         \textcolor{keywordflow}{break};
+00580     \textcolor{keywordflow}{case} \textcolor{charliteral}{'f'}:
+00581         \textcolor{keywordflow}{if} (hal.lp_accel_mode)
+00583             \textcolor{keywordflow}{return};
+00585         \textcolor{keywordflow}{if} (hal.dmp_on) \{
+00586             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} dmp\_rate;
+00587             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} mask = 0;
+00588             hal.dmp_on = 0;
+00589             mpu\_set\_dmp\_state(0);
+00591             \textcolor{keywordflow}{if} (hal.sensors & ACCEL_ON)
+00592                 mask |= INV\_XYZ\_ACCEL;
+00593             \textcolor{keywordflow}{if} (hal.sensors & GYRO_ON)
+00594                 mask |= INV\_XYZ\_GYRO;
+00595             \textcolor{keywordflow}{if} (hal.sensors & COMPASS_ON)
+00596                 mask |= INV\_XYZ\_COMPASS;
+00597             mpu\_configure\_fifo(mask);
+00606             dmp\_get\_fifo\_rate(&dmp\_rate);
+00607             mpu\_set\_sample\_rate(dmp\_rate);
+00608             inv\_quaternion\_sensor\_was\_turned\_off();
+00609             MPL\_LOGI(\textcolor{stringliteral}{"DMP disabled.\(\backslash\)n"});
+00610         \} \textcolor{keywordflow}{else} \{
+00611             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} sample\_rate;
+00612             hal.dmp_on = 1;
+00614             mpu\_get\_sample\_rate(&sample\_rate);
+00615             dmp\_set\_fifo\_rate(sample\_rate);
+00616             inv\_set\_quat\_sample\_rate(1000000L / sample\_rate);
+00617             mpu\_set\_dmp\_state(1);
+00618             MPL\_LOGI(\textcolor{stringliteral}{"DMP enabled.\(\backslash\)n"});
+00619         \}
+00620         \textcolor{keywordflow}{break};
+00621     \textcolor{keywordflow}{case} \textcolor{charliteral}{'m'}:
+00623 \textcolor{preprocessor}{    #ifndef MPU6050 }
+00624 \textcolor{preprocessor}{    hal.motion\_int\_mode = 1;}
+00625 \textcolor{preprocessor}{    #endif }
+00626         \textcolor{keywordflow}{break};
+00627 
+00628     \textcolor{keywordflow}{case} \textcolor{charliteral}{'v'}:
+00633         hal.dmp_features ^= DMP\_FEATURE\_6X\_LP\_QUAT;
+00634         dmp\_enable\_feature(hal.dmp_features);
+00635         \textcolor{keywordflow}{if} (!(hal.dmp_features & DMP\_FEATURE\_6X\_LP\_QUAT)) \{
+00636             inv\_quaternion\_sensor\_was\_turned\_off();
+00637             MPL\_LOGI(\textcolor{stringliteral}{"LP quaternion disabled.\(\backslash\)n"});
+00638         \} \textcolor{keywordflow}{else}
+00639             MPL\_LOGI(\textcolor{stringliteral}{"LP quaternion enabled.\(\backslash\)n"});
+00640         \textcolor{keywordflow}{break};
+00641     \textcolor{keywordflow}{default}:
+00642         \textcolor{keywordflow}{break};
+00643     \}
+00644     hal.rx.cmd = 0;
+00645 \}
+\end{DoxyCode}
+\mbox{\label{group__eMPL_ga840291bc02cba5474a4cb46a9b9566fe}} 
+\index{E\+M\+PL@{E\+M\+PL}!main@{main}}
+\index{main@{main}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{main()}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+main entry point. 
+
+\begin{DoxyParagraph}{Parameters None}
+
+\end{DoxyParagraph}
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & None \\
+\hline
+\end{DoxyRetVals}
+\begin{DoxyParagraph}{Required preconditions\+: None}
+
+\end{DoxyParagraph}
+Variable Declaration
+
+If you\textquotesingle{}re not using an M\+P\+U9150 A\+ND you\textquotesingle{}re not using D\+MP features, this function will place all slaves on the primary bus. mpu\+\_\+set\+\_\+bypass(1);
+
+Compute 6-\/axis and 9-\/axis quaternions.
+
+The M\+PL expects compass data at a constant rate (matching the rate passed to inv\+\_\+set\+\_\+compass\+\_\+sample\+\_\+rate). If this is an issue for your application, call this function, and the M\+PL will depend on the timestamps passed to inv\+\_\+build\+\_\+compass instead.
+
+inv\+\_\+9x\+\_\+fusion\+\_\+use\+\_\+timestamps(1);
+
+This function has been deprecated. inv\+\_\+enable\+\_\+no\+\_\+gyro\+\_\+fusion();
+
+Update gyro biases when not in motion. W\+A\+R\+N\+I\+NG\+: These algorithms are mutually exclusive.
+
+inv\+\_\+enable\+\_\+motion\+\_\+no\+\_\+motion();
+
+inv\+\_\+set\+\_\+no\+\_\+motion\+\_\+time(1000);
+
+Update gyro biases when temperature changes.
+
+This algorithm updates the accel biases when in motion. A more accurate bias measurement can be made when running the self-\/test (see case \textquotesingle{}t\textquotesingle{} in handle\+\_\+input), but this algorithm can be enabled if the self-\/test can\textquotesingle{}t be executed in your application.
+
+inv\+\_\+enable\+\_\+in\+\_\+use\+\_\+auto\+\_\+calibration();
+
+If you need to estimate your heading before the compass is calibrated, enable this algorithm. It becomes useless after a good figure-\/eight is detected, so we\textquotesingle{}ll just leave it out to save memory. inv\+\_\+enable\+\_\+heading\+\_\+from\+\_\+gyro();
+
+Allows use of the M\+PL A\+P\+Is in read\+\_\+from\+\_\+mpl.
+
+Get/set hardware configuration. Start gyro.
+
+Wake up all sensors.
+
+Push both gyro and accel data into the F\+I\+FO.
+
+Read back configuration in case it was set improperly.
+
+Sync driver configuration with M\+PL.
+
+Sample rate expected in microseconds.
+
+Set chip-\/to-\/body orientation matrix. Set hardware units to dps/g\textquotesingle{}s/degrees scaling factor.
+
+Initialize H\+AL state variables.
+
+Compass reads are handled by scheduler.
+
+To initialize the D\+MP\+:
+\begin{DoxyEnumerate}
+\item Call dmp\+\_\+load\+\_\+motion\+\_\+driver\+\_\+firmware(). This pushes the D\+MP image in inv\+\_\+mpu\+\_\+dmp\+\_\+motion\+\_\+driver.\+h into the M\+PU memory.
+\item Push the gyro and accel orientation matrix to the D\+MP.
+\item Register gesture callbacks. Don\textquotesingle{}t worry, these callbacks won\textquotesingle{}t be executed unless the corresponding feature is enabled.
+\item Call dmp\+\_\+enable\+\_\+feature(mask) to enable different features.
+\item Call dmp\+\_\+set\+\_\+fifo\+\_\+rate(freq) to select a D\+MP output rate.
+\item Call any feature-\/specific control functions.
+\end{DoxyEnumerate}
+
+To enable the D\+MP, just call mpu\+\_\+set\+\_\+dmp\+\_\+state(1). This function can be called repeatedly to enable and disable the D\+MP at runtime.
+
+The following is a short summary of the features supported in the D\+MP image provided in inv\+\_\+mpu\+\_\+dmp\+\_\+motion\+\_\+driver.\+c\+: D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+L\+P\+\_\+\+Q\+U\+AT\+: Generate a gyro-\/only quaternion on the D\+MP at 200\+Hz. Integrating the gyro data at higher rates reduces numerical errors (compared to integration on the M\+CU at a lower sampling rate). D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+6\+X\+\_\+\+L\+P\+\_\+\+Q\+U\+AT\+: Generate a gyro/accel quaternion on the D\+MP at 200\+Hz. Cannot be used in combination with D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+L\+P\+\_\+\+Q\+U\+AT. D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+AP\+: Detect taps along the X, Y, and Z axes. D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+A\+N\+D\+R\+O\+I\+D\+\_\+\+O\+R\+I\+E\+NT\+: Google\textquotesingle{}s screen rotation algorithm. Triggers an event at the four orientations where the screen should rotate. D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+G\+Y\+R\+O\+\_\+\+C\+AL\+: Calibrates the gyro data after eight seconds of no motion. D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+E\+N\+D\+\_\+\+R\+A\+W\+\_\+\+A\+C\+C\+EL\+: Add raw accelerometer data to the F\+I\+FO. D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+E\+N\+D\+\_\+\+R\+A\+W\+\_\+\+G\+Y\+RO\+: Add raw gyro data to the F\+I\+FO. D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+E\+N\+D\+\_\+\+C\+A\+L\+\_\+\+G\+Y\+RO\+: Add calibrated gyro data to the F\+I\+FO. Cannot be used in combination with D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+S\+E\+N\+D\+\_\+\+R\+A\+W\+\_\+\+G\+Y\+RO.
+
+Known Bug -\/ D\+MP when enabled will sample sensor data at 200\+Hz and output to F\+I\+FO at the rate specified in the dmp\+\_\+set\+\_\+fifo\+\_\+rate A\+PI. The D\+MP will then sent an interrupt once a sample has been put into the F\+I\+FO. Therefore if the dmp\+\_\+set\+\_\+fifo\+\_\+rate is at 25\+Hz there will be a 25\+Hz interrupt from the M\+PU device.
+
+There is a known issue in which if you do not enable D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+AP then the interrupts will be at 200\+Hz even if fifo rate is set at a different rate. To avoid this issue include the D\+M\+P\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+AP
+
+D\+MP sensor fusion works only with gyro at +-\/2000dps and accel +-\/2G
+
+A byte has been received via U\+S\+A\+RT. See handle\+\_\+input for a list of valid commands.
+
+Temperature data doesn\textquotesingle{}t need to be read with every gyro sample. Let\textquotesingle{}s make them timer-\/based like the compass reads.
+
+Enable motion interrupt.
+
+Notify the M\+PL that contiguity was broken.
+
+Wait for the M\+PU interrupt.
+
+Restore the previous sensor configuration.
+
+This function gets new data from the F\+I\+FO when the D\+MP is in use. The F\+I\+FO can contain any combination of gyro, accel, quaternion, and gesture data. The sensors parameter tells the caller which data fields were actually populated with new data. For example, if sensors == (I\+N\+V\+\_\+\+X\+Y\+Z\+\_\+\+G\+Y\+RO $\vert$ I\+N\+V\+\_\+\+W\+X\+Y\+Z\+\_\+\+Q\+U\+AT), then the F\+I\+FO isn\textquotesingle{}t being filled with accel data. The driver parses the gesture data to determine if a gesture event has occurred; on an event, the application will be notified via a callback (assuming that a callback function was properly registered). The more parameter is non-\/zero if there are leftover packets in the F\+I\+FO.
+
+Push the new data to the M\+PL.
+
+Temperature only used for gyro temp comp.
+
+This function gets new data from the F\+I\+FO. The F\+I\+FO can contain gyro, accel, both, or neither. The sensors parameter tells the caller which data fields were actually populated with new data. For example, if sensors == I\+N\+V\+\_\+\+X\+Y\+Z\+\_\+\+G\+Y\+RO, then the F\+I\+FO isn\textquotesingle{}t being filled with accel data. The more parameter is non-\/zero if there are leftover packets in the F\+I\+FO. The H\+AL can use this information to increase the frequency at which this function is called.
+
+Push the new data to the M\+PL.
+
+Temperature only used for gyro temp comp.
+
+This function reads bias-\/compensated sensor data and sensor fusion outputs from the M\+PL. The outputs are formatted as seen in e\+M\+P\+L\+\_\+outputs.\+c. This function only needs to be called at the rate requested by the host.
+
+Definition at line \textbf{ 665} of file \textbf{ main.\+c}.
+
+
+
+References \textbf{ board\+\_\+init()}, \textbf{ rx\+\_\+s\+::cmd}, \textbf{ hal\+\_\+s\+::dmp\+\_\+on}, \textbf{ get\+\_\+tick\+\_\+count()}, \textbf{ hal}, \textbf{ handle\+\_\+input()}, \textbf{ hal\+\_\+s\+::lp\+\_\+accel\+\_\+mode}, \textbf{ hal\+\_\+s\+::motion\+\_\+int\+\_\+mode}, \textbf{ hal\+\_\+s\+::new\+\_\+gyro}, \textbf{ hal\+\_\+s\+::next\+\_\+compass\+\_\+ms}, \textbf{ hal\+\_\+s\+::next\+\_\+pedo\+\_\+ms}, \textbf{ hal\+\_\+s\+::next\+\_\+temp\+\_\+ms}, \textbf{ read\+\_\+from\+\_\+mpl()}, \textbf{ hal\+\_\+s\+::report}, \textbf{ hal\+\_\+s\+::rx}, \textbf{ hal\+\_\+s\+::sensors}, \textbf{ U\+S\+A\+R\+T\+\_\+\+Clear\+I\+T\+Pending\+Bit()}, and \textbf{ U\+S\+A\+R\+T\+\_\+\+Get\+I\+T\+Status()}.
+
+
+\begin{DoxyCode}
+00666 \{ 
+00668     inv\_error\_t result;
+00669     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} accel\_fsr,  new\_temp = 0;
+00670     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} gyro\_rate, gyro\_fsr;
+00671     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} timestamp;
+00672     \textcolor{keyword}{struct }int\_param\_s int\_param;
+00673 
+00674 \textcolor{preprocessor}{#ifdef COMPASS\_ENABLED}
+00675     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} new\_compass = 0;
+00676     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} compass\_fsr;
+00677 \textcolor{preprocessor}{#endif}
+00678     board_init(); 
+00679  
+00680   result = mpu\_init(&int\_param);
+00681   \textcolor{keywordflow}{if} (result) \{
+00682       MPL\_LOGE(\textcolor{stringliteral}{"Could not initialize gyro.\(\backslash\)n"});
+00683   \}
+00684   \textcolor{keywordflow}{else} \{
+00685       MPL\_LOGE(\textcolor{stringliteral}{"Initialise gyro successful.\(\backslash\)n"});
+00686     \}
+00687   
+00688 
+00694   result = inv\_init\_mpl();
+00695   \textcolor{keywordflow}{if} (result) \{
+00696       MPL\_LOGE(\textcolor{stringliteral}{"Could not initialize MPL.\(\backslash\)n"});
+00697   \}
+00698   \textcolor{keywordflow}{else} \{
+00699       MPL\_LOGE(\textcolor{stringliteral}{"Initialise MPL successful.\(\backslash\)n"});
+00700   \}
+00701 
+00703     inv\_enable\_quaternion();
+00704     inv\_enable\_9x\_sensor\_fusion();
+00720     inv\_enable\_fast\_nomot();
+00725     inv\_enable\_gyro\_tc();
+00726 
+00734 \textcolor{preprocessor}{#ifdef COMPASS\_ENABLED}
+00735 
+00736     inv\_enable\_vector\_compass\_cal();
+00737     inv\_enable\_magnetic\_disturbance();
+00738 \textcolor{preprocessor}{#endif}
+00739 
+00746     inv\_enable\_eMPL\_outputs();
+00747 
+00748   result = inv\_start\_mpl();
+00749   \textcolor{keywordflow}{if} (result == INV\_ERROR\_NOT\_AUTHORIZED) \{
+00750       \textcolor{keywordflow}{while} (1) \{
+00751           MPL\_LOGE(\textcolor{stringliteral}{"Not authorized.\(\backslash\)n"});
+00752       \}
+00753   \}
+00754   \textcolor{keywordflow}{if} (result) \{
+00755       MPL\_LOGE(\textcolor{stringliteral}{"Could not start the MPL.\(\backslash\)n"});
+00756   \}
+00757 
+00760 \textcolor{preprocessor}{#ifdef COMPASS\_ENABLED}
+00761     mpu\_set\_sensors(INV\_XYZ\_GYRO | INV\_XYZ\_ACCEL | INV\_XYZ\_COMPASS);
+00762 \textcolor{preprocessor}{#else}
+00763     mpu\_set\_sensors(INV\_XYZ\_GYRO | INV\_XYZ\_ACCEL);
+00764 \textcolor{preprocessor}{#endif}
+00765 
+00766     mpu\_configure\_fifo(INV\_XYZ\_GYRO | INV\_XYZ\_ACCEL);
+00767     mpu\_set\_sample\_rate(DEFAULT_MPU_HZ);
+00768 \textcolor{preprocessor}{#ifdef COMPASS\_ENABLED}
+00769 
+00772     mpu\_set\_compass\_sample\_rate(1000 / COMPASS_READ_MS);
+00773 \textcolor{preprocessor}{#endif}
+00774 
+00775     mpu\_get\_sample\_rate(&gyro\_rate);
+00776     mpu\_get\_gyro\_fsr(&gyro\_fsr);
+00777     mpu\_get\_accel\_fsr(&accel\_fsr);
+00778 \textcolor{preprocessor}{#ifdef COMPASS\_ENABLED}
+00779     mpu\_get\_compass\_fsr(&compass\_fsr);
+00780 \textcolor{preprocessor}{#endif}
+00781 
+00783     inv\_set\_gyro\_sample\_rate(1000000L / gyro\_rate);
+00784     inv\_set\_accel\_sample\_rate(1000000L / gyro\_rate);
+00785 \textcolor{preprocessor}{#ifdef COMPASS\_ENABLED}
+00786     \textcolor{comment}{/* The compass rate is independent of the gyro and accel rates. As long as}
+00787 \textcolor{comment}{     * inv\_set\_compass\_sample\_rate is called with the correct value, the 9-axis}
+00788 \textcolor{comment}{     * fusion algorithm's compass correction gain will work properly.}
+00789 \textcolor{comment}{     */}
+00790     inv\_set\_compass\_sample\_rate(COMPASS_READ_MS * 1000L);
+00791 \textcolor{preprocessor}{#endif}
+00792 
+00795     inv\_set\_gyro\_orientation\_and\_scale(
+00796             inv\_orientation\_matrix\_to\_scalar(gyro_pdata.orientation),
+00797             (\textcolor{keywordtype}{long})gyro\_fsr<<15);
+00798     inv\_set\_accel\_orientation\_and\_scale(
+00799             inv\_orientation\_matrix\_to\_scalar(gyro_pdata.orientation),
+00800             (\textcolor{keywordtype}{long})accel\_fsr<<15);
+00801 \textcolor{preprocessor}{#ifdef COMPASS\_ENABLED}
+00802     inv\_set\_compass\_orientation\_and\_scale(
+00803             inv\_orientation\_matrix\_to\_scalar(compass\_pdata.orientation),
+00804             (\textcolor{keywordtype}{long})compass\_fsr<<15);
+00805 \textcolor{preprocessor}{#endif}
+00806 
+00807 \textcolor{preprocessor}{#ifdef COMPASS\_ENABLED}
+00808     hal.sensors = ACCEL_ON | GYRO_ON | COMPASS_ON;
+00809 \textcolor{preprocessor}{#else}
+00810     hal.sensors = ACCEL_ON | GYRO_ON;
+00811 \textcolor{preprocessor}{#endif}
+00812     hal.dmp_on = 0;
+00813     hal.report = 0;
+00814     hal.rx.cmd = 0;
+00815     hal.next_pedo_ms = 0;
+00816     hal.next_compass_ms = 0;
+00817     hal.next_temp_ms = 0;
+00818 
+00820   get_tick_count(&timestamp);
+00821 
+00852     dmp\_load\_motion\_driver\_firmware();
+00853     dmp\_set\_orientation(
+00854         inv\_orientation\_matrix\_to\_scalar(gyro_pdata.orientation));
+00855     dmp\_register\_tap\_cb(tap_cb);
+00856     dmp\_register\_android\_orient\_cb(android_orient_cb);
+00870     hal.dmp_features = DMP\_FEATURE\_6X\_LP\_QUAT | DMP\_FEATURE\_TAP |
+00871         DMP\_FEATURE\_ANDROID\_ORIENT | DMP\_FEATURE\_SEND\_RAW\_ACCEL | DMP\_FEATURE\_SEND\_CAL\_GYRO |
+00872         DMP\_FEATURE\_GYRO\_CAL;
+00873     dmp\_enable\_feature(hal.dmp_features);
+00874     dmp\_set\_fifo\_rate(DEFAULT_MPU_HZ);
+00875     mpu\_set\_dmp\_state(1);
+00876     hal.dmp_on = 1;
+00877 
+00878   \textcolor{keywordflow}{while}(1)\{
+00879     
+00880     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} sensor\_timestamp;
+00881     \textcolor{keywordtype}{int} new\_data = 0;
+00882     \textcolor{keywordflow}{if} (USART_GetITStatus(USART1, USART_IT_RXNE)) \{
+00883     \textcolor{comment}{//if (USART\_GetITStatus(USART2, USART\_IT\_RXNE)) \{}
+00887 \textcolor{comment}{}        USART_ClearITPendingBit(USART1, USART_IT_RXNE);
+00888         \textcolor{comment}{//USART\_ClearITPendingBit(USART2, USART\_IT\_RXNE);}
+00889         handle_input();
+00890     \}
+00891     get_tick_count(&timestamp);
+00892 
+00893 \textcolor{preprocessor}{#ifdef COMPASS\_ENABLED}
+00894 
+00897         \textcolor{keywordflow}{if} ((timestamp > hal.next_compass_ms) && !hal.lp_accel_mode &&
+00898             hal.new_gyro && (hal.sensors & COMPASS_ON)) \{
+00899             hal.next_compass_ms = timestamp + COMPASS_READ_MS;
+00900             new\_compass = 1;
+00901         \}
+00902 \textcolor{preprocessor}{#endif}
+00903 
+00906         \textcolor{keywordflow}{if} (timestamp > hal.next_temp_ms) \{
+00907             hal.next_temp_ms = timestamp + TEMP_READ_MS;
+00908             new\_temp = 1;
+00909         \}
+00910 
+00911     \textcolor{keywordflow}{if} (hal.motion_int_mode) \{
+00913         mpu\_lp\_motion\_interrupt(500, 1, 5);
+00915         inv\_accel\_was\_turned\_off();
+00916         inv\_gyro\_was\_turned\_off();
+00917         inv\_compass\_was\_turned\_off();
+00918         inv\_quaternion\_sensor\_was\_turned\_off();
+00920         \textcolor{keywordflow}{while} (!hal.new_gyro) \{\}
+00922         mpu\_lp\_motion\_interrupt(0, 0, 0);
+00923         hal.motion_int_mode = 0;
+00924     \}
+00925 
+00926     \textcolor{keywordflow}{if} (!hal.sensors || !hal.new_gyro) \{
+00927         \textcolor{keywordflow}{continue};
+00928     \}    
+00929 
+00930         \textcolor{keywordflow}{if} (hal.new_gyro && hal.lp_accel_mode) \{
+00931             \textcolor{keywordtype}{short} accel\_short[3];
+00932             \textcolor{keywordtype}{long} accel[3];
+00933             mpu\_get\_accel\_reg(accel\_short, &sensor\_timestamp);
+00934             accel[0] = (long)accel\_short[0];
+00935             accel[1] = (long)accel\_short[1];
+00936             accel[2] = (long)accel\_short[2];
+00937             inv\_build\_accel(accel, 0, sensor\_timestamp);
+00938             new\_data = 1;
+00939             hal.new_gyro = 0;
+00940         \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (hal.new_gyro && hal.dmp_on) \{
+00941             \textcolor{keywordtype}{short} gyro[3], accel\_short[3], sensors;
+00942             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} more;
+00943             \textcolor{keywordtype}{long} accel[3], quat[4], temperature;
+00956             dmp\_read\_fifo(gyro, accel\_short, quat, &sensor\_timestamp, &sensors, &more);
+00957             \textcolor{keywordflow}{if} (!more)
+00958                 hal.new_gyro = 0;
+00959             \textcolor{keywordflow}{if} (sensors & INV\_XYZ\_GYRO) \{
+00961                 inv\_build\_gyro(gyro, sensor\_timestamp);
+00962                 new\_data = 1;
+00963                 \textcolor{keywordflow}{if} (new\_temp) \{
+00964                     new\_temp = 0;
+00966                     mpu\_get\_temperature(&temperature, &sensor\_timestamp);
+00967                     inv\_build\_temp(temperature, sensor\_timestamp);
+00968                 \}
+00969             \}
+00970             \textcolor{keywordflow}{if} (sensors & INV\_XYZ\_ACCEL) \{
+00971                 accel[0] = (long)accel\_short[0];
+00972                 accel[1] = (long)accel\_short[1];
+00973                 accel[2] = (long)accel\_short[2];
+00974                 inv\_build\_accel(accel, 0, sensor\_timestamp);
+00975                 new\_data = 1;
+00976             \}
+00977             \textcolor{keywordflow}{if} (sensors & INV\_WXYZ\_QUAT) \{
+00978                 inv\_build\_quat(quat, 0, sensor\_timestamp);
+00979                 new\_data = 1;
+00980             \}
+00981         \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (hal.new_gyro) \{
+00982             \textcolor{keywordtype}{short} gyro[3], accel\_short[3];
+00983             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} sensors, more;
+00984             \textcolor{keywordtype}{long} accel[3], temperature;
+00994             hal.new_gyro = 0;
+00995             mpu\_read\_fifo(gyro, accel\_short, &sensor\_timestamp,
+00996                 &sensors, &more);
+00997             \textcolor{keywordflow}{if} (more)
+00998                 hal.new_gyro = 1;
+00999             \textcolor{keywordflow}{if} (sensors & INV\_XYZ\_GYRO) \{
+01001                 inv\_build\_gyro(gyro, sensor\_timestamp);
+01002                 new\_data = 1;
+01003                 \textcolor{keywordflow}{if} (new\_temp) \{
+01004                     new\_temp = 0;
+01006                     mpu\_get\_temperature(&temperature, &sensor\_timestamp);
+01007                     inv\_build\_temp(temperature, sensor\_timestamp);
+01008                 \}
+01009             \}
+01010             \textcolor{keywordflow}{if} (sensors & INV\_XYZ\_ACCEL) \{
+01011                 accel[0] = (long)accel\_short[0];
+01012                 accel[1] = (long)accel\_short[1];
+01013                 accel[2] = (long)accel\_short[2];
+01014                 inv\_build\_accel(accel, 0, sensor\_timestamp);
+01015                 new\_data = 1;
+01016             \}
+01017         \}
+01018 \textcolor{preprocessor}{#ifdef COMPASS\_ENABLED}
+01019         \textcolor{keywordflow}{if} (new\_compass) \{
+01020             \textcolor{keywordtype}{short} compass\_short[3];
+01021             \textcolor{keywordtype}{long} compass[3];
+01022             new\_compass = 0;
+01026             \textcolor{keywordflow}{if} (!mpu\_get\_compass\_reg(compass\_short, &sensor\_timestamp)) \{
+01027                 compass[0] = (long)compass\_short[0];
+01028                 compass[1] = (long)compass\_short[1];
+01029                 compass[2] = (long)compass\_short[2];
+01035                 inv\_build\_compass(compass, 0, sensor\_timestamp);
+01036             \}
+01037             new\_data = 1;
+01038         \}
+01039 \textcolor{preprocessor}{#endif}
+01040         \textcolor{keywordflow}{if} (new\_data) \{
+01041             inv\_execute\_on\_data();
+01047             read_from_mpl();
+01048         \}
+01049     \}
+01050 \}
+\end{DoxyCode}
+\mbox{\label{group__eMPL_ga6a14df92edfa4e41346035ca5bf0d991}} 
+\index{E\+M\+PL@{E\+M\+PL}!read\+\_\+from\+\_\+mpl@{read\+\_\+from\+\_\+mpl}}
+\index{read\+\_\+from\+\_\+mpl@{read\+\_\+from\+\_\+mpl}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{read\+\_\+from\+\_\+mpl()}
+{\footnotesize\ttfamily static void read\+\_\+from\+\_\+mpl (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Compass calibration for M\+P\+U9150
+
+Private define -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--------------- C\+Local Variable init
+
+Sends a quaternion packet to the PC. Since this is used by the Python test app to visually represent a 3D quaternion, it\textquotesingle{}s sent each time the M\+PL has new data.
+
+Specific data packets can be sent or suppressed using U\+SB commands.
+
+Whenever the M\+PL detects a change in motion state, the application can be notified. For this example, we use an L\+ED to represent the current motion state.
+
+Definition at line \textbf{ 143} of file \textbf{ main.\+c}.
+
+
+
+References \textbf{ get\+\_\+tick\+\_\+count()}, \textbf{ hal}, \textbf{ hal\+\_\+s\+::next\+\_\+pedo\+\_\+ms}, and \textbf{ hal\+\_\+s\+::report}.
+
+
+
+Referenced by \textbf{ main()}.
+
+
+\begin{DoxyCode}
+00144 \{
+00146     \textcolor{keywordtype}{long} msg, data[9];
+00147     int8\_t accuracy;
+00148     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} timestamp;
+00149     \textcolor{keywordtype}{float} float\_data[3] = \{0\};
+00150 
+00151     \textcolor{keywordflow}{if} (inv\_get\_sensor\_type\_quat(data, &accuracy, (inv\_time\_t*)&timestamp)) \{
+00156         eMPL\_send\_quat(data);
+00157 
+00159         \textcolor{keywordflow}{if} (hal.report & PRINT_QUAT)
+00160             eMPL\_send\_data(PACKET\_DATA\_QUAT, data);
+00161     \}
+00162 
+00163     \textcolor{keywordflow}{if} (hal.report & PRINT_ACCEL) \{
+00164         \textcolor{keywordflow}{if} (inv\_get\_sensor\_type\_accel(data, &accuracy,
+00165             (inv\_time\_t*)&timestamp))
+00166             eMPL\_send\_data(PACKET\_DATA\_ACCEL, data);
+00167     \}
+00168     \textcolor{keywordflow}{if} (hal.report & PRINT_GYRO) \{
+00169         \textcolor{keywordflow}{if} (inv\_get\_sensor\_type\_gyro(data, &accuracy,
+00170             (inv\_time\_t*)&timestamp))
+00171             eMPL\_send\_data(PACKET\_DATA\_GYRO, data);
+00172     \}
+00173 \textcolor{preprocessor}{#ifdef COMPASS\_ENABLED}
+00174     \textcolor{keywordflow}{if} (hal.report & PRINT_COMPASS) \{
+00175         \textcolor{keywordflow}{if} (inv\_get\_sensor\_type\_compass(data, &accuracy,
+00176             (inv\_time\_t*)&timestamp))
+00177             eMPL\_send\_data(PACKET\_DATA\_COMPASS, data);
+00178     \}
+00179 \textcolor{preprocessor}{#endif}
+00180     \textcolor{keywordflow}{if} (hal.report & PRINT_EULER) \{
+00181         \textcolor{keywordflow}{if} (inv\_get\_sensor\_type\_euler(data, &accuracy,
+00182             (inv\_time\_t*)&timestamp))
+00183             eMPL\_send\_data(PACKET\_DATA\_EULER, data);
+00184     \}
+00185     \textcolor{keywordflow}{if} (hal.report & PRINT_ROT_MAT) \{
+00186         \textcolor{keywordflow}{if} (inv\_get\_sensor\_type\_rot\_mat(data, &accuracy,
+00187             (inv\_time\_t*)&timestamp))
+00188             eMPL\_send\_data(PACKET\_DATA\_ROT, data);
+00189     \}
+00190     \textcolor{keywordflow}{if} (hal.report & PRINT_HEADING) \{
+00191         \textcolor{keywordflow}{if} (inv\_get\_sensor\_type\_heading(data, &accuracy,
+00192             (inv\_time\_t*)&timestamp))
+00193             eMPL\_send\_data(PACKET\_DATA\_HEADING, data);
+00194     \}
+00195     \textcolor{keywordflow}{if} (hal.report & PRINT_LINEAR_ACCEL) \{
+00196         \textcolor{keywordflow}{if} (inv\_get\_sensor\_type\_linear\_acceleration(float\_data, &accuracy, (inv\_time\_t*)&timestamp)) \{
+00197             MPL\_LOGI(\textcolor{stringliteral}{"Linear Accel: %7.5f %7.5f %7.5f\(\backslash\)r\(\backslash\)n"},
+00198                     float\_data[0], float\_data[1], float\_data[2]);                                        
+00199          \}
+00200     \}
+00201     \textcolor{keywordflow}{if} (hal.report & PRINT_GRAVITY_VECTOR) \{
+00202             \textcolor{keywordflow}{if} (inv\_get\_sensor\_type\_gravity(float\_data, &accuracy,
+00203                 (inv\_time\_t*)&timestamp))
+00204                 MPL\_LOGI(\textcolor{stringliteral}{"Gravity Vector: %7.5f %7.5f %7.5f\(\backslash\)r\(\backslash\)n"},
+00205                         float\_data[0], float\_data[1], float\_data[2]);
+00206     \}
+00207     \textcolor{keywordflow}{if} (hal.report & PRINT_PEDO) \{
+00208         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} timestamp;
+00209         get_tick_count(&timestamp);
+00210         \textcolor{keywordflow}{if} (timestamp > hal.next_pedo_ms) \{
+00211             hal.next_pedo_ms = timestamp + PEDO_READ_MS;
+00212             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} step\_count, walk\_time;
+00213             dmp\_get\_pedometer\_step\_count(&step\_count);
+00214             dmp\_get\_pedometer\_walk\_time(&walk\_time);
+00215             MPL\_LOGI(\textcolor{stringliteral}{"Walked %ld steps over %ld milliseconds..\(\backslash\)n"}, step\_count,
+00216             walk\_time);
+00217         \}
+00218     \}
+00219 
+00224     msg = inv\_get\_message\_level\_0(INV\_MSG\_MOTION\_EVENT |
+00225             INV\_MSG\_NO\_MOTION\_EVENT);
+00226     \textcolor{keywordflow}{if} (msg) \{
+00227         \textcolor{keywordflow}{if} (msg & INV\_MSG\_MOTION\_EVENT) \{
+00228             MPL\_LOGI(\textcolor{stringliteral}{"Motion!\(\backslash\)n"});
+00229         \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (msg & INV\_MSG\_NO\_MOTION\_EVENT) \{
+00230             MPL\_LOGI(\textcolor{stringliteral}{"No motion!\(\backslash\)n"});
+00231         \}
+00232     \}
+00233 \}
+\end{DoxyCode}
+\mbox{\label{group__eMPL_gada9a71be1d41b7964984028357749505}} 
+\index{E\+M\+PL@{E\+M\+PL}!run\+\_\+self\+\_\+test@{run\+\_\+self\+\_\+test}}
+\index{run\+\_\+self\+\_\+test@{run\+\_\+self\+\_\+test}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{run\+\_\+self\+\_\+test()}
+{\footnotesize\ttfamily static void run\+\_\+self\+\_\+test (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+Self Test Function Test passed. We can trust the gyro data here, so now we need to update calibrated data 
+
+Definition at line \textbf{ 333} of file \textbf{ main.\+c}.
+
+
+
+Referenced by \textbf{ handle\+\_\+input()}.
+
+
+\begin{DoxyCode}
+00334 \{
+00335     \textcolor{keywordtype}{int} result;
+00336     \textcolor{keywordtype}{long} gyro[3], accel[3];
+00337 
+00338 \textcolor{preprocessor}{#if defined (MPU6500) || defined (MPU9250)}
+00339     result = mpu\_run\_6500\_self\_test(gyro, accel, 0);
+00340 \textcolor{preprocessor}{#elif defined (MPU6050) || defined (MPU9150)}
+00341     result = mpu\_run\_self\_test(gyro, accel);
+00342 \textcolor{preprocessor}{#endif}
+00343     \textcolor{keywordflow}{if} (result == 0x7) \{
+00344     MPL\_LOGI(\textcolor{stringliteral}{"Passed!\(\backslash\)n"});
+00345         MPL\_LOGI(\textcolor{stringliteral}{"accel: %7.4f %7.4f %7.4f\(\backslash\)n"},
+00346                     accel[0]/65536.f,
+00347                     accel[1]/65536.f,
+00348                     accel[2]/65536.f);
+00349         MPL\_LOGI(\textcolor{stringliteral}{"gyro: %7.4f %7.4f %7.4f\(\backslash\)n"},
+00350                     gyro[0]/65536.f,
+00351                     gyro[1]/65536.f,
+00352                     gyro[2]/65536.f);
+00355 \textcolor{preprocessor}{#ifdef USE\_CAL\_HW\_REGISTERS}
+00356 
+00360         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} i = 0;
+00361 
+00362         \textcolor{keywordflow}{for}(i = 0; i<3; i++) \{
+00363             gyro[i] = (long)(gyro[i] * 32.8f); \textcolor{comment}{//convert to +-1000dps}
+00364             accel[i] *= 2048.f; \textcolor{comment}{//convert to +-16G}
+00365             accel[i] = accel[i] >> 16;
+00366             gyro[i] = (long)(gyro[i] >> 16);
+00367         \}
+00368 
+00369         mpu\_set\_gyro\_bias\_reg(gyro);
+00370 
+00371 \textcolor{preprocessor}{#if defined (MPU6500) || defined (MPU9250)}
+00372         mpu\_set\_accel\_bias\_6500\_reg(accel);
+00373 \textcolor{preprocessor}{#elif defined (MPU6050) || defined (MPU9150)}
+00374         mpu\_set\_accel\_bias\_6050\_reg(accel);
+00375 \textcolor{preprocessor}{#endif}
+00376 \textcolor{preprocessor}{#else}
+00377         \textcolor{comment}{/* Push the calibrated data to the MPL library.}
+00378 \textcolor{comment}{         *}
+00379 \textcolor{comment}{         * MPL expects biases in hardware units << 16, but self test returns}
+00380 \textcolor{comment}{         * biases in g's << 16.}
+00381 \textcolor{comment}{         */}
+00382         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} accel\_sens;
+00383         \textcolor{keywordtype}{float} gyro\_sens;
+00384 
+00385         mpu\_get\_accel\_sens(&accel\_sens);
+00386         accel[0] *= accel\_sens;
+00387         accel[1] *= accel\_sens;
+00388         accel[2] *= accel\_sens;
+00389         inv\_set\_accel\_bias(accel, 3);
+00390         mpu\_get\_gyro\_sens(&gyro\_sens);
+00391         gyro[0] = (long) (gyro[0] * gyro\_sens);
+00392         gyro[1] = (long) (gyro[1] * gyro\_sens);
+00393         gyro[2] = (long) (gyro[2] * gyro\_sens);
+00394         inv\_set\_gyro\_bias(gyro, 3);
+00395 \textcolor{preprocessor}{#endif}
+00396     \}
+00397     \textcolor{keywordflow}{else} \{
+00398             \textcolor{keywordflow}{if} (!(result & 0x1))
+00399                 MPL\_LOGE(\textcolor{stringliteral}{"Gyro failed.\(\backslash\)n"});
+00400             \textcolor{keywordflow}{if} (!(result & 0x2))
+00401                 MPL\_LOGE(\textcolor{stringliteral}{"Accel failed.\(\backslash\)n"});
+00402             \textcolor{keywordflow}{if} (!(result & 0x4))
+00403                 MPL\_LOGE(\textcolor{stringliteral}{"Compass failed.\(\backslash\)n"});
+00404      \}
+00405 
+00406 \}
+\end{DoxyCode}
+\mbox{\label{group__eMPL_ga399e39056041b2ec05d6f764e4f33b44}} 
+\index{E\+M\+PL@{E\+M\+PL}!setup\+\_\+gyro@{setup\+\_\+gyro}}
+\index{setup\+\_\+gyro@{setup\+\_\+gyro}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{setup\+\_\+gyro()}
+{\footnotesize\ttfamily static void setup\+\_\+gyro (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Handle sensor on/off combinations. If you need a power transition, this function should be called with a mask of the sensors still enabled. The driver turns off any sensors excluded from this mask.
+
+Switching out of LP accel, notify M\+PL of new accel sampling rate. 
+
+Definition at line \textbf{ 249} of file \textbf{ main.\+c}.
+
+
+
+References \textbf{ hal}, \textbf{ hal\+\_\+s\+::lp\+\_\+accel\+\_\+mode}, and \textbf{ hal\+\_\+s\+::sensors}.
+
+
+
+Referenced by \textbf{ handle\+\_\+input()}.
+
+
+\begin{DoxyCode}
+00250 \{
+00251     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} mask = 0, lp\_accel\_was\_on = 0;
+00252     \textcolor{keywordflow}{if} (hal.sensors & ACCEL_ON)
+00253         mask |= INV\_XYZ\_ACCEL;
+00254     \textcolor{keywordflow}{if} (hal.sensors & GYRO_ON) \{
+00255         mask |= INV\_XYZ\_GYRO;
+00256         lp\_accel\_was\_on |= hal.lp_accel_mode;
+00257     \}
+00258 \textcolor{preprocessor}{#ifdef COMPASS\_ENABLED}
+00259     \textcolor{keywordflow}{if} (hal.sensors & COMPASS_ON) \{
+00260         mask |= INV\_XYZ\_COMPASS;
+00261         lp\_accel\_was\_on |= hal.lp_accel_mode;
+00262     \}
+00263 \textcolor{preprocessor}{#endif}
+00264 
+00268     mpu\_set\_sensors(mask);
+00269     mpu\_configure\_fifo(mask);
+00270     \textcolor{keywordflow}{if} (lp\_accel\_was\_on) \{
+00271         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} rate;
+00272         hal.lp_accel_mode = 0;
+00274         mpu\_get\_sample\_rate(&rate);
+00275         inv\_set\_accel\_sample\_rate(1000000L / rate);
+00276     \}
+00277 \}
+\end{DoxyCode}
+\mbox{\label{group__eMPL_gab1f482e5c0712ab28da61a1eff46fc75}} 
+\index{E\+M\+PL@{E\+M\+PL}!tap\+\_\+cb@{tap\+\_\+cb}}
+\index{tap\+\_\+cb@{tap\+\_\+cb}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{tap\+\_\+cb()}
+{\footnotesize\ttfamily static void tap\+\_\+cb (\begin{DoxyParamCaption}\item[{unsigned char}]{direction,  }\item[{unsigned char}]{count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \textbf{ 279} of file \textbf{ main.\+c}.
+
+
+\begin{DoxyCode}
+00280 \{
+00281     \textcolor{keywordflow}{switch} (direction) \{
+00282     \textcolor{keywordflow}{case} TAP\_X\_UP:
+00283         MPL\_LOGI(\textcolor{stringliteral}{"Tap X+ "});
+00284         \textcolor{keywordflow}{break};
+00285     \textcolor{keywordflow}{case} TAP\_X\_DOWN:
+00286         MPL\_LOGI(\textcolor{stringliteral}{"Tap X- "});
+00287         \textcolor{keywordflow}{break};
+00288     \textcolor{keywordflow}{case} TAP\_Y\_UP:
+00289         MPL\_LOGI(\textcolor{stringliteral}{"Tap Y+ "});
+00290         \textcolor{keywordflow}{break};
+00291     \textcolor{keywordflow}{case} TAP\_Y\_DOWN:
+00292         MPL\_LOGI(\textcolor{stringliteral}{"Tap Y- "});
+00293         \textcolor{keywordflow}{break};
+00294     \textcolor{keywordflow}{case} TAP\_Z\_UP:
+00295         MPL\_LOGI(\textcolor{stringliteral}{"Tap Z+ "});
+00296         \textcolor{keywordflow}{break};
+00297     \textcolor{keywordflow}{case} TAP\_Z\_DOWN:
+00298         MPL\_LOGI(\textcolor{stringliteral}{"Tap Z- "});
+00299         \textcolor{keywordflow}{break};
+00300     \textcolor{keywordflow}{default}:
+00301         \textcolor{keywordflow}{return};
+00302     \}
+00303     MPL\_LOGI(\textcolor{stringliteral}{"x%d\(\backslash\)n"}, count);
+00304     \textcolor{keywordflow}{return};
+00305 \}
+\end{DoxyCode}
+
+
+\subsection{Variable Documentation}
+\mbox{\label{group__eMPL_ga42416d99bb2db2007e3b19b8951fea0d}} 
+\index{E\+M\+PL@{E\+M\+PL}!cmd@{cmd}}
+\index{cmd@{cmd}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{cmd}
+{\footnotesize\ttfamily unsigned char cmd}
+
+
+
+Definition at line \textbf{ 63} of file \textbf{ main.\+c}.
+
+
+
+Referenced by \textbf{ handle\+\_\+input()}, and \textbf{ main()}.
+
+\mbox{\label{group__eMPL_gab90560c34732c55496e27d7aad8b9ce2}} 
+\index{E\+M\+PL@{E\+M\+PL}!dmp\+\_\+features@{dmp\+\_\+features}}
+\index{dmp\+\_\+features@{dmp\+\_\+features}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{dmp\+\_\+features}
+{\footnotesize\ttfamily unsigned short dmp\+\_\+features}
+
+
+
+Definition at line \textbf{ 78} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_ga49fb51079238683b21264827348b5968}} 
+\index{E\+M\+PL@{E\+M\+PL}!dmp\+\_\+on@{dmp\+\_\+on}}
+\index{dmp\+\_\+on@{dmp\+\_\+on}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{dmp\+\_\+on}
+{\footnotesize\ttfamily unsigned char dmp\+\_\+on}
+
+
+
+Definition at line \textbf{ 69} of file \textbf{ main.\+c}.
+
+
+
+Referenced by \textbf{ handle\+\_\+input()}, and \textbf{ main()}.
+
+\mbox{\label{group__eMPL_ga6baed579bec05b70f94fb3b420c7f27a}} 
+\index{E\+M\+PL@{E\+M\+PL}!gyro\+\_\+pdata@{gyro\+\_\+pdata}}
+\index{gyro\+\_\+pdata@{gyro\+\_\+pdata}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{gyro\+\_\+pdata}
+{\footnotesize\ttfamily struct \textbf{ platform\+\_\+data\+\_\+s} gyro\+\_\+pdata\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+    .orientation = \{ 1, 0, 0,
+                     0, 1, 0,
+                     0, 0, 1\}
+\}
+\end{DoxyCode}
+The sensors can be mounted onto the board in any orientation. The mounting matrix seen below tells the M\+PL how to rotate the raw data from the driver(s). T\+O\+DO\+: The following matrices refer to the configuration on internal test boards at Invensense. If needed, please modify the matrices to match the chip-\/to-\/body matrix for your particular set up. 
+
+Definition at line \textbf{ 102} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_ga3cb1077f30b35eae5e6f9eb104179ec2}} 
+\index{E\+M\+PL@{E\+M\+PL}!hal@{hal}}
+\index{hal@{hal}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{hal}
+{\footnotesize\ttfamily struct \textbf{ hal\+\_\+s} hal = \{0\}\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \textbf{ 81} of file \textbf{ main.\+c}.
+
+
+
+Referenced by \textbf{ gyro\+\_\+data\+\_\+ready\+\_\+cb()}, \textbf{ handle\+\_\+input()}, \textbf{ main()}, \textbf{ read\+\_\+from\+\_\+mpl()}, and \textbf{ setup\+\_\+gyro()}.
+
+\mbox{\label{group__eMPL_ga359d30cf3d94f8046df41f14467c36de}} 
+\index{E\+M\+PL@{E\+M\+PL}!hal\+\_\+timestamp@{hal\+\_\+timestamp}}
+\index{hal\+\_\+timestamp@{hal\+\_\+timestamp}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{hal\+\_\+timestamp}
+{\footnotesize\ttfamily volatile uint32\+\_\+t hal\+\_\+timestamp = 0}
+
+
+
+timestamp variable initialize, its for count tick 
+
+
+
+Definition at line \textbf{ 43} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_ga4ef9c4b8e1082c8507e6cb1b9c618b87}} 
+\index{E\+M\+PL@{E\+M\+PL}!header@{header}}
+\index{header@{header}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{header}
+{\footnotesize\ttfamily unsigned char header[3]}
+
+
+
+Definition at line \textbf{ 62} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_gaeb8fb45fc306b199be68b3f61940fbb0}} 
+\index{E\+M\+PL@{E\+M\+PL}!lp\+\_\+accel\+\_\+mode@{lp\+\_\+accel\+\_\+mode}}
+\index{lp\+\_\+accel\+\_\+mode@{lp\+\_\+accel\+\_\+mode}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{lp\+\_\+accel\+\_\+mode}
+{\footnotesize\ttfamily unsigned char lp\+\_\+accel\+\_\+mode}
+
+
+
+Definition at line \textbf{ 67} of file \textbf{ main.\+c}.
+
+
+
+Referenced by \textbf{ handle\+\_\+input()}, \textbf{ main()}, and \textbf{ setup\+\_\+gyro()}.
+
+\mbox{\label{group__eMPL_gafb031e775df5d8654f1ac1170378eb8d}} 
+\index{E\+M\+PL@{E\+M\+PL}!motion\+\_\+int\+\_\+mode@{motion\+\_\+int\+\_\+mode}}
+\index{motion\+\_\+int\+\_\+mode@{motion\+\_\+int\+\_\+mode}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{motion\+\_\+int\+\_\+mode}
+{\footnotesize\ttfamily unsigned char motion\+\_\+int\+\_\+mode}
+
+
+
+Definition at line \textbf{ 72} of file \textbf{ main.\+c}.
+
+
+
+Referenced by \textbf{ handle\+\_\+input()}, and \textbf{ main()}.
+
+\mbox{\label{group__eMPL_ga56d9a02ae0e768d49fd95fd014c47b07}} 
+\index{E\+M\+PL@{E\+M\+PL}!mpl\+\_\+key@{mpl\+\_\+key}}
+\index{mpl\+\_\+key@{mpl\+\_\+key}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{mpl\+\_\+key}
+{\footnotesize\ttfamily unsigned char$\ast$ mpl\+\_\+key = (unsigned char$\ast$)\char`\"{}e\+M\+PL 5.\+1\char`\"{}}
+
+
+
+Definition at line \textbf{ 88} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_gacfce447bdb258e6fcf8e12e1b6e4481a}} 
+\index{E\+M\+PL@{E\+M\+PL}!new\+\_\+gyro@{new\+\_\+gyro}}
+\index{new\+\_\+gyro@{new\+\_\+gyro}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{new\+\_\+gyro}
+{\footnotesize\ttfamily volatile unsigned char new\+\_\+gyro}
+
+
+
+Definition at line \textbf{ 71} of file \textbf{ main.\+c}.
+
+
+
+Referenced by \textbf{ gyro\+\_\+data\+\_\+ready\+\_\+cb()}, and \textbf{ main()}.
+
+\mbox{\label{group__eMPL_ga7e499f7a5d40750be7a5ba81761a56bd}} 
+\index{E\+M\+PL@{E\+M\+PL}!next\+\_\+compass\+\_\+ms@{next\+\_\+compass\+\_\+ms}}
+\index{next\+\_\+compass\+\_\+ms@{next\+\_\+compass\+\_\+ms}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{next\+\_\+compass\+\_\+ms}
+{\footnotesize\ttfamily unsigned long next\+\_\+compass\+\_\+ms}
+
+
+
+Definition at line \textbf{ 76} of file \textbf{ main.\+c}.
+
+
+
+Referenced by \textbf{ main()}.
+
+\mbox{\label{group__eMPL_gaa40f644b7de352cb9ad81e2c602b5bae}} 
+\index{E\+M\+PL@{E\+M\+PL}!next\+\_\+pedo\+\_\+ms@{next\+\_\+pedo\+\_\+ms}}
+\index{next\+\_\+pedo\+\_\+ms@{next\+\_\+pedo\+\_\+ms}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{next\+\_\+pedo\+\_\+ms}
+{\footnotesize\ttfamily unsigned long next\+\_\+pedo\+\_\+ms}
+
+
+
+Definition at line \textbf{ 74} of file \textbf{ main.\+c}.
+
+
+
+Referenced by \textbf{ main()}, and \textbf{ read\+\_\+from\+\_\+mpl()}.
+
+\mbox{\label{group__eMPL_ga6f7f2c3d9913da113b6c5df295f50422}} 
+\index{E\+M\+PL@{E\+M\+PL}!next\+\_\+temp\+\_\+ms@{next\+\_\+temp\+\_\+ms}}
+\index{next\+\_\+temp\+\_\+ms@{next\+\_\+temp\+\_\+ms}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{next\+\_\+temp\+\_\+ms}
+{\footnotesize\ttfamily unsigned long next\+\_\+temp\+\_\+ms}
+
+
+
+Definition at line \textbf{ 75} of file \textbf{ main.\+c}.
+
+
+
+Referenced by \textbf{ main()}.
+
+\mbox{\label{group__eMPL_ga1418e767c7efaa0fb2b3a55b7a69b44b}} 
+\index{E\+M\+PL@{E\+M\+PL}!no\+\_\+dmp\+\_\+hz@{no\+\_\+dmp\+\_\+hz}}
+\index{no\+\_\+dmp\+\_\+hz@{no\+\_\+dmp\+\_\+hz}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{no\+\_\+dmp\+\_\+hz}
+{\footnotesize\ttfamily unsigned long no\+\_\+dmp\+\_\+hz}
+
+
+
+Definition at line \textbf{ 73} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_gaf119b3b2187456063d2687f989236daf}} 
+\index{E\+M\+PL@{E\+M\+PL}!orientation@{orientation}}
+\index{orientation@{orientation}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{orientation}
+{\footnotesize\ttfamily signed char orientation[9]}
+
+
+
+Definition at line \textbf{ 92} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_ga5ab95f126fb29c3c65d6f4aa4944a2f7}} 
+\index{E\+M\+PL@{E\+M\+PL}!report@{report}}
+\index{report@{report}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{report}
+{\footnotesize\ttfamily unsigned int report}
+
+
+
+Definition at line \textbf{ 77} of file \textbf{ main.\+c}.
+
+
+
+Referenced by \textbf{ handle\+\_\+input()}, \textbf{ main()}, and \textbf{ read\+\_\+from\+\_\+mpl()}.
+
+\mbox{\label{group__eMPL_ga02c35d11f6cb2fd88475c231ddf6afce}} 
+\index{E\+M\+PL@{E\+M\+PL}!rx@{rx}}
+\index{rx@{rx}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{rx}
+{\footnotesize\ttfamily struct \textbf{ rx\+\_\+s} rx}
+
+
+
+Definition at line \textbf{ 79} of file \textbf{ main.\+c}.
+
+
+
+Referenced by \textbf{ handle\+\_\+input()}, and \textbf{ main()}.
+
+\mbox{\label{group__eMPL_ga5bfb2c29b84492416fe0a885d4664132}} 
+\index{E\+M\+PL@{E\+M\+PL}!rx\+\_\+new@{rx\+\_\+new}}
+\index{rx\+\_\+new@{rx\+\_\+new}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{rx\+\_\+new}
+{\footnotesize\ttfamily volatile unsigned char rx\+\_\+new}
+
+
+
+Usart Receive variable init. 
+
+U\+SB RX binary semaphore. Actually, it\textquotesingle{}s just a flag. Not included in struct because it\textquotesingle{}s declared extern elsewhere. 
+
+Definition at line \textbf{ 86} of file \textbf{ main.\+c}.
+
+\mbox{\label{group__eMPL_gaaa21c01566947e7007476657cb614e3f}} 
+\index{E\+M\+PL@{E\+M\+PL}!sensors@{sensors}}
+\index{sensors@{sensors}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{sensors}
+{\footnotesize\ttfamily unsigned char sensors}
+
+
+
+Definition at line \textbf{ 68} of file \textbf{ main.\+c}.
+
+
+
+Referenced by \textbf{ handle\+\_\+input()}, \textbf{ main()}, and \textbf{ setup\+\_\+gyro()}.
+
+\mbox{\label{group__eMPL_ga4028a8e467f1dc2db3018a557c353e8d}} 
+\index{E\+M\+PL@{E\+M\+PL}!wait\+\_\+for\+\_\+tap@{wait\+\_\+for\+\_\+tap}}
+\index{wait\+\_\+for\+\_\+tap@{wait\+\_\+for\+\_\+tap}!E\+M\+PL@{E\+M\+PL}}
+\subsubsection{wait\+\_\+for\+\_\+tap}
+{\footnotesize\ttfamily unsigned char wait\+\_\+for\+\_\+tap}
+
+
+
+Definition at line \textbf{ 70} of file \textbf{ main.\+c}.
+

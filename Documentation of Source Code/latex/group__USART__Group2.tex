@@ -1,0 +1,120 @@
+\section{Data transfers functions}
+\label{group__USART__Group2}\index{Data transfers functions@{Data transfers functions}}
+
+
+Data transfers functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ U\+S\+A\+R\+T\+\_\+\+Send\+Data} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx}, uint16\+\_\+t Data)
+\begin{DoxyCompactList}\small\item\em Transmits single data through the U\+S\+A\+R\+Tx peripheral. \end{DoxyCompactList}\item 
+uint16\+\_\+t \textbf{ U\+S\+A\+R\+T\+\_\+\+Receive\+Data} (\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$\textbf{ U\+S\+A\+R\+Tx})
+\begin{DoxyCompactList}\small\item\em Returns the most recent received data by the U\+S\+A\+R\+Tx peripheral. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Data transfers functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                            Data transfers functions
+ ===============================================================================  
+
+  This subsection provides a set of functions allowing to manage the USART data 
+  transfers.
+  
+  During an USART reception, data shifts in least significant bit first through 
+  the RX pin. In this mode, the USART_DR register consists of a buffer (RDR) 
+  between the internal bus and the received shift register.
+
+  When a transmission is taking place, a write instruction to the USART_DR register 
+  stores the data in the TDR register and which is copied in the shift register 
+  at the end of the current transmission.
+
+  The read access of the USART_DR register can be done using the USART_ReceiveData()
+  function and returns the RDR buffered value. Whereas a write access to the USART_DR 
+  can be done using USART_SendData() function and stores the written data into 
+  TDR buffer.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__USART__Group2_gac67a91845b0b1d54d31bdfb1c5e9867c}} 
+\index{Data transfers functions@{Data transfers functions}!U\+S\+A\+R\+T\+\_\+\+Receive\+Data@{U\+S\+A\+R\+T\+\_\+\+Receive\+Data}}
+\index{U\+S\+A\+R\+T\+\_\+\+Receive\+Data@{U\+S\+A\+R\+T\+\_\+\+Receive\+Data}!Data transfers functions@{Data transfers functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+Receive\+Data()}
+{\footnotesize\ttfamily uint16\+\_\+t U\+S\+A\+R\+T\+\_\+\+Receive\+Data (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx }\end{DoxyParamCaption})}
+
+
+
+Returns the most recent received data by the U\+S\+A\+R\+Tx peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3, 4, 5 or 6 to select the U\+S\+A\+RT or U\+A\+RT peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & received data. \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 554} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+
+Referenced by \textbf{ handle\+\_\+input()}.
+
+
+\begin{DoxyCode}
+00555 \{
+00556   \textcolor{comment}{/* Check the parameters */}
+00557   assert_param(IS_USART_ALL_PERIPH(USARTx));
+00558   
+00559   \textcolor{comment}{/* Receive Data */}
+00560   \textcolor{keywordflow}{return} (uint16\_t)(USARTx->DR & (uint16\_t)0x01FF);
+00561 \}
+\end{DoxyCode}
+\mbox{\label{group__USART__Group2_ga0b43d42da9540f446d494bf69823c6fb}} 
+\index{Data transfers functions@{Data transfers functions}!U\+S\+A\+R\+T\+\_\+\+Send\+Data@{U\+S\+A\+R\+T\+\_\+\+Send\+Data}}
+\index{U\+S\+A\+R\+T\+\_\+\+Send\+Data@{U\+S\+A\+R\+T\+\_\+\+Send\+Data}!Data transfers functions@{Data transfers functions}}
+\subsubsection{U\+S\+A\+R\+T\+\_\+\+Send\+Data()}
+{\footnotesize\ttfamily void U\+S\+A\+R\+T\+\_\+\+Send\+Data (\begin{DoxyParamCaption}\item[{\textbf{ U\+S\+A\+R\+T\+\_\+\+Type\+Def} $\ast$}]{U\+S\+A\+R\+Tx,  }\item[{uint16\+\_\+t}]{Data }\end{DoxyParamCaption})}
+
+
+
+Transmits single data through the U\+S\+A\+R\+Tx peripheral. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+S\+A\+R\+Tx} & where x can be 1, 2, 3, 4, 5 or 6 to select the U\+S\+A\+RT or U\+A\+RT peripheral. \\
+\hline
+{\em Data} & the data to transmit. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 538} of file \textbf{ stm32f4xx\+\_\+usart.\+c}.
+
+
+
+Referenced by \textbf{ \+\_\+fputc()}.
+
+
+\begin{DoxyCode}
+00539 \{
+00540   \textcolor{comment}{/* Check the parameters */}
+00541   assert_param(IS_USART_ALL_PERIPH(USARTx));
+00542   assert_param(IS_USART_DATA(Data)); 
+00543     
+00544   \textcolor{comment}{/* Transmit Data */}
+00545   USARTx->DR = (Data & (uint16\_t)0x01FF);
+00546 \}
+\end{DoxyCode}

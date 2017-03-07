@@ -1,0 +1,71 @@
+\section{Flag management function}
+\label{group__IWDG__Group3}\index{Flag management function@{Flag management function}}
+
+
+Flag management function.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Flag\+Status} \textbf{ I\+W\+D\+G\+\_\+\+Get\+Flag\+Status} (uint16\+\_\+t I\+W\+D\+G\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified I\+W\+DG flag is set or not. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Flag management function. 
+
+\begin{DoxyVerb} ===============================================================================
+                            Flag management function 
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__IWDG__Group3_ga37f050cfbedc0c15f9e0816c0b22011e}} 
+\index{Flag management function@{Flag management function}!I\+W\+D\+G\+\_\+\+Get\+Flag\+Status@{I\+W\+D\+G\+\_\+\+Get\+Flag\+Status}}
+\index{I\+W\+D\+G\+\_\+\+Get\+Flag\+Status@{I\+W\+D\+G\+\_\+\+Get\+Flag\+Status}!Flag management function@{Flag management function}}
+\subsubsection{I\+W\+D\+G\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} I\+W\+D\+G\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{I\+W\+D\+G\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified I\+W\+DG flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em I\+W\+D\+G\+\_\+\+F\+L\+AG} & specifies the flag to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item I\+W\+D\+G\+\_\+\+F\+L\+A\+G\+\_\+\+P\+VU\+: Prescaler Value Update on going \item I\+W\+D\+G\+\_\+\+F\+L\+A\+G\+\_\+\+R\+VU\+: Reload Value Update on going \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of I\+W\+D\+G\+\_\+\+F\+L\+AG (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 230} of file \textbf{ stm32f4xx\+\_\+iwdg.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00231 \{
+00232   FlagStatus bitstatus = RESET;
+00233   \textcolor{comment}{/* Check the parameters */}
+00234   assert_param(IS_IWDG_FLAG(IWDG\_FLAG));
+00235   \textcolor{keywordflow}{if} ((IWDG->SR & IWDG\_FLAG) != (uint32\_t)RESET)
+00236   \{
+00237     bitstatus = SET;
+00238   \}
+00239   \textcolor{keywordflow}{else}
+00240   \{
+00241     bitstatus = RESET;
+00242   \}
+00243   \textcolor{comment}{/* Return the flag status */}
+00244   \textcolor{keywordflow}{return} bitstatus;
+00245 \}
+\end{DoxyCode}

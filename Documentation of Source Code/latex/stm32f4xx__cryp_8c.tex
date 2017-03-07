@@ -1,0 +1,212 @@
+\section{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+cryp.c File Reference}
+\label{stm32f4xx__cryp_8c}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+cryp.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+cryp.\+c}}
+
+
+This file provides firmware functions to manage the following functionalities of the Cryptographic processor (C\+R\+YP) peripheral\+:  
+
+
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+cryp.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stm32f4xx\+\_\+rcc.\+h\char`\"{}}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ F\+L\+A\+G\+\_\+\+M\+A\+SK}~((uint8\+\_\+t)0x20)
+\item 
+\#define \textbf{ M\+A\+X\+\_\+\+T\+I\+M\+E\+O\+UT}~((uint16\+\_\+t)0x\+F\+F\+F\+F)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the C\+R\+YP peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+Init} (\textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def} $\ast$C\+R\+Y\+P\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the C\+R\+YP peripheral according to the specified parameters in the C\+R\+Y\+P\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+Struct\+Init} (\textbf{ C\+R\+Y\+P\+\_\+\+Init\+Type\+Def} $\ast$C\+R\+Y\+P\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each C\+R\+Y\+P\+\_\+\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init} (\textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init\+Type\+Def} $\ast$C\+R\+Y\+P\+\_\+\+Key\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the C\+R\+YP Keys according to the specified parameters in the C\+R\+Y\+P\+\_\+\+Key\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Struct\+Init} (\textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init\+Type\+Def} $\ast$C\+R\+Y\+P\+\_\+\+Key\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each C\+R\+Y\+P\+\_\+\+Key\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+I\+V\+Init} (\textbf{ C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Type\+Def} $\ast$C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the C\+R\+YP Initialization Vectors(\+I\+V) according to the specified parameters in the C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+I\+V\+Struct\+Init} (\textbf{ C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Type\+Def} $\ast$C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each C\+R\+Y\+P\+\_\+\+I\+V\+Init\+Struct member with its default value. \end{DoxyCompactList}\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+F\+I\+F\+O\+Flush} (void)
+\begin{DoxyCompactList}\small\item\em Flushes the IN and O\+UT F\+I\+F\+Os (that is read and write pointers of the F\+I\+F\+Os are reset) \end{DoxyCompactList}\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+Cmd} (\textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the C\+R\+YP peripheral. \end{DoxyCompactList}\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+Data\+In} (uint32\+\_\+t Data)
+\begin{DoxyCompactList}\small\item\em Writes data in the Data Input register (D\+IN). \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ C\+R\+Y\+P\+\_\+\+Data\+Out} (void)
+\begin{DoxyCompactList}\small\item\em Returns the last data entered into the output F\+I\+FO. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ C\+R\+Y\+P\+\_\+\+Save\+Context} (\textbf{ C\+R\+Y\+P\+\_\+\+Context} $\ast$C\+R\+Y\+P\+\_\+\+Context\+Save, \textbf{ C\+R\+Y\+P\+\_\+\+Key\+Init\+Type\+Def} $\ast$C\+R\+Y\+P\+\_\+\+Key\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Saves the C\+R\+YP peripheral Context. \end{DoxyCompactList}\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+Restore\+Context} (\textbf{ C\+R\+Y\+P\+\_\+\+Context} $\ast$C\+R\+Y\+P\+\_\+\+Context\+Restore)
+\begin{DoxyCompactList}\small\item\em Restores the C\+R\+YP peripheral Context. \end{DoxyCompactList}\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+D\+M\+A\+Cmd} (uint8\+\_\+t C\+R\+Y\+P\+\_\+\+D\+M\+A\+Req, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the C\+R\+YP D\+MA interface. \end{DoxyCompactList}\item 
+void \textbf{ C\+R\+Y\+P\+\_\+\+I\+T\+Config} (uint8\+\_\+t C\+R\+Y\+P\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified C\+R\+YP interrupts. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ C\+R\+Y\+P\+\_\+\+Get\+I\+T\+Status} (uint8\+\_\+t C\+R\+Y\+P\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified C\+R\+YP interrupt has occurred or not. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ C\+R\+Y\+P\+\_\+\+Get\+Flag\+Status} (uint8\+\_\+t C\+R\+Y\+P\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified C\+R\+YP flag is set or not. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file provides firmware functions to manage the following functionalities of the Cryptographic processor (C\+R\+YP) peripheral\+: 
+
+\begin{DoxyAuthor}{Author}
+M\+CD Application Team 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+V1.\+0.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+30-\/\+September-\/2011
+\begin{DoxyItemize}
+\item Initialization and Configuration functions
+\item Data treatment functions
+\item Context swapping functions
+\item D\+MA interface function
+\item Interrupts and flags management
+\end{DoxyItemize}
+\end{DoxyDate}
+\begin{DoxyVerb}*                               
+*          ===================================================================      
+*                                 How to use this driver
+*          =================================================================== 
+*          1. Enable the CRYP controller clock using 
+*              RCC_AHB2PeriphClockCmd(RCC_AHB2Periph_CRYP, ENABLE); function.
+*
+*          2. Initialise the CRYP using CRYP_Init(), CRYP_KeyInit() and if 
+*             needed CRYP_IVInit(). 
+*
+*          3. Flush the IN and OUT FIFOs by using CRYP_FIFOFlush() function.
+*
+*          4. Enable the CRYP controller using the CRYP_Cmd() function. 
+*
+*          5. If using DMA for Data input and output transfer, 
+*             Activate the needed DMA Requests using CRYP_DMACmd() function 
+
+*          6. If DMA is not used for data transfer, use CRYP_DataIn() and 
+*             CRYP_DataOut() functions to enter data to IN FIFO and get result
+*             from OUT FIFO.
+*
+*          7. To control CRYP events you can use one of the following 
+*              two methods:
+*               - Check on CRYP flags using the CRYP_GetFlagStatus() function.  
+*               - Use CRYP interrupts through the function CRYP_ITConfig() at 
+*                 initialization phase and CRYP_GetITStatus() function into 
+*                 interrupt routines in processing phase.
+*       
+*          8. Save and restore Cryptographic processor context using  
+*             CRYP_SaveContext() and CRYP_RestoreContext() functions.     
+*
+*
+*          ===================================================================  
+*                Procedure to perform an encryption or a decryption
+*          ===================================================================  
+*
+*      Initialization
+*      ===============  
+*     1. Initialize the peripheral using CRYP_Init(), CRYP_KeyInit() and 
+*        CRYP_IVInit functions:
+*        - Configure the key size (128-, 192- or 256-bit, in the AES only) 
+*        - Enter the symmetric key 
+*        - Configure the data type
+*        - In case of decryption in AES-ECB or AES-CBC, you must prepare 
+*          the key: configure the key preparation mode. Then Enable the CRYP 
+*          peripheral using CRYP_Cmd() function: the BUSY flag is set. 
+*          Wait until BUSY flag is reset : the key is prepared for decryption
+*       - Configure the algorithm and chaining (the DES/TDES in ECB/CBC, the 
+*          AES in ECB/CBC/CTR) 
+*       - Configure the direction (encryption/decryption).
+*       - Write the initialization vectors (in CBC or CTR modes only)
+*
+*    2. Flush the IN and OUT FIFOs using the CRYP_FIFOFlush() function
+*
+*
+*    Basic Processing mode (polling mode) 
+*    ====================================  
+*    1. Enable the cryptographic processor using CRYP_Cmd() function.
+*
+*    2. Write the first blocks in the input FIFO (2 to 8 words) using 
+*       CRYP_DataIn() function.
+*
+*    3. Repeat the following sequence until the complete message has been 
+*       processed:
+*
+*       a) Wait for flag CRYP_FLAG_OFNE occurs (using CRYP_GetFlagStatus() 
+*          function), then read the OUT-FIFO using CRYP_DataOut() function
+*          (1 block or until the FIFO is empty)
+*
+*       b) Wait for flag CRYP_FLAG_IFNF occurs, (using CRYP_GetFlagStatus() 
+*          function then write the IN FIFO using CRYP_DataIn() function 
+*          (1 block or until the FIFO is full)
+*
+*    4. At the end of the processing, CRYP_FLAG_BUSY flag will be reset and 
+*        both FIFOs are empty (CRYP_FLAG_IFEM is set and CRYP_FLAG_OFNE is 
+*        reset). You can disable the peripheral using CRYP_Cmd() function.
+*
+*    Interrupts Processing mode 
+*    ===========================
+*    In this mode, Processing is done when the data are transferred by the 
+*    CPU during interrupts.
+*
+*    1. Enable the interrupts CRYP_IT_INI and CRYP_IT_OUTI using 
+*       CRYP_ITConfig() function.
+*
+*    2. Enable the cryptographic processor using CRYP_Cmd() function.
+*
+*    3. In the CRYP_IT_INI interrupt handler : load the input message into the 
+*       IN FIFO using CRYP_DataIn() function . You can load 2 or 4 words at a 
+*       time, or load data until the IN FIFO is full. When the last word of
+*       the message has been entered into the IN FIFO, disable the CRYP_IT_INI 
+*       interrupt (using CRYP_ITConfig() function).
+*
+*    4. In the CRYP_IT_OUTI interrupt handler : read the output message from 
+*       the OUT FIFO using CRYP_DataOut() function. You can read 1 block (2 or 
+*       4 words) at a time or read data until the FIFO is empty.
+*       When the last word has been read, INIM=0, BUSY=0 and both FIFOs are 
+*       empty (CRYP_FLAG_IFEM is set and CRYP_FLAG_OFNE is reset). 
+*       You can disable the CRYP_IT_OUTI interrupt (using CRYP_ITConfig() 
+*       function) and you can disable the peripheral using CRYP_Cmd() function.
+*
+*    DMA Processing mode 
+*    ====================
+*    In this mode, Processing is done when the DMA is used to transfer the 
+*    data from/to the memory.
+*
+*    1. Configure the DMA controller to transfer the input data from the 
+*       memory using DMA_Init() function. 
+*       The transfer length is the length of the message. 
+*       As message padding is not managed by the peripheral, the message 
+*       length must be an entire number of blocks. The data are transferred 
+*       in burst mode. The burst length is 4 words in the AES and 2 or 4 
+*       words in the DES/TDES. The DMA should be configured to set an 
+*       interrupt on transfer completion of the output data to indicate that 
+*       the processing is finished. 
+*       Refer to DMA peripheral driver for more details.  
+*
+*    2. Enable the cryptographic processor using CRYP_Cmd() function. 
+*       Enable the DMA requests CRYP_DMAReq_DataIN and CRYP_DMAReq_DataOUT 
+*       using CRYP_DMACmd() function.
+*
+*    3. All the transfers and processing are managed by the DMA and the 
+*       cryptographic processor. The DMA transfer complete interrupt indicates 
+*       that the processing is complete. Both FIFOs are normally empty and 
+*       CRYP_FLAG_BUSY flag is reset.
+*
+*  \end{DoxyVerb}
+
+
+\begin{DoxyAttention}{Attention}
+
+\end{DoxyAttention}
+T\+HE P\+R\+E\+S\+E\+NT F\+I\+R\+M\+W\+A\+RE W\+H\+I\+CH IS F\+OR G\+U\+I\+D\+A\+N\+CE O\+N\+LY A\+I\+MS AT P\+R\+O\+V\+I\+D\+I\+NG C\+U\+S\+T\+O\+M\+E\+RS W\+I\+TH C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON R\+E\+G\+A\+R\+D\+I\+NG T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS IN O\+R\+D\+ER F\+OR T\+H\+EM TO S\+A\+VE T\+I\+ME. AS A R\+E\+S\+U\+LT, S\+T\+M\+I\+C\+R\+O\+E\+L\+E\+C\+T\+R\+O\+N\+I\+CS S\+H\+A\+LL N\+OT BE H\+E\+LD L\+I\+A\+B\+LE F\+OR A\+NY D\+I\+R\+E\+CT, I\+N\+D\+I\+R\+E\+CT OR C\+O\+N\+S\+E\+Q\+U\+E\+N\+T\+I\+AL D\+A\+M\+A\+G\+ES W\+I\+TH R\+E\+S\+P\+E\+CT TO A\+NY C\+L\+A\+I\+MS A\+R\+I\+S\+I\+NG F\+R\+OM T\+HE C\+O\+N\+T\+E\+NT OF S\+U\+CH F\+I\+R\+M\+W\+A\+RE A\+N\+D/\+OR T\+HE U\+SE M\+A\+DE BY C\+U\+S\+T\+O\+M\+E\+RS OF T\+HE C\+O\+D\+I\+NG I\+N\+F\+O\+R\+M\+A\+T\+I\+ON C\+O\+N\+T\+A\+I\+N\+ED H\+E\+R\+E\+IN IN C\+O\+N\+N\+E\+C\+T\+I\+ON W\+I\+TH T\+H\+E\+IR P\+R\+O\+D\+U\+C\+TS.
+
+\subsubsection*{\begin{center}\copyright{} C\+O\+P\+Y\+R\+I\+G\+HT 2011 S\+T\+Microelectronics\end{center} }
+
+Definition in file \textbf{ stm32f4xx\+\_\+cryp.\+c}.
+

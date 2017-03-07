@@ -1,0 +1,527 @@
+\section{E\+X\+TI}
+\label{group__EXTI}\index{E\+X\+TI@{E\+X\+TI}}
+
+
+E\+X\+TI driver modules.  
+
+
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ E\+X\+T\+I\+\_\+\+Exported\+\_\+\+Constants}
+\item 
+\textbf{ E\+X\+T\+I\+\_\+\+Private\+\_\+\+Functions}
+\end{DoxyCompactItemize}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def}
+\begin{DoxyCompactList}\small\item\em E\+X\+TI Init Structure definition. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \textbf{ E\+X\+T\+I\+\_\+\+L\+I\+N\+E\+N\+O\+NE}~((uint32\+\_\+t)0x00000)  /$\ast$ No interrupt selected $\ast$/
+\item 
+\#define \textbf{ I\+S\+\_\+\+E\+X\+T\+I\+\_\+\+M\+O\+DE}(M\+O\+DE)~(((M\+O\+DE) == \textbf{ E\+X\+T\+I\+\_\+\+Mode\+\_\+\+Interrupt}) $\vert$$\vert$ ((M\+O\+DE) == \textbf{ E\+X\+T\+I\+\_\+\+Mode\+\_\+\+Event}))
+\item 
+\#define \textbf{ I\+S\+\_\+\+E\+X\+T\+I\+\_\+\+T\+R\+I\+G\+G\+ER}(T\+R\+I\+G\+G\+ER)
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \textbf{ E\+X\+T\+I\+Mode\+\_\+\+Type\+Def} \{ \textbf{ E\+X\+T\+I\+\_\+\+Mode\+\_\+\+Interrupt} = 0x00, 
+\textbf{ E\+X\+T\+I\+\_\+\+Mode\+\_\+\+Event} = 0x04
+ \}\begin{DoxyCompactList}\small\item\em E\+X\+TI mode enumeration. \end{DoxyCompactList}
+\item 
+enum \textbf{ E\+X\+T\+I\+Trigger\+\_\+\+Type\+Def} \{ \textbf{ E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Rising} = 0x08, 
+\textbf{ E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Falling} = 0x0C, 
+\textbf{ E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Rising\+\_\+\+Falling} = 0x10
+ \}\begin{DoxyCompactList}\small\item\em E\+X\+TI Trigger enumeration. \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ E\+X\+T\+I\+\_\+\+De\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Deinitializes the E\+X\+TI peripheral registers to their default reset values. \end{DoxyCompactList}\item 
+void \textbf{ E\+X\+T\+I\+\_\+\+Init} (\textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def} $\ast$E\+X\+T\+I\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Initializes the E\+X\+TI peripheral according to the specified parameters in the E\+X\+T\+I\+\_\+\+Init\+Struct. \end{DoxyCompactList}\item 
+void \textbf{ E\+X\+T\+I\+\_\+\+Struct\+Init} (\textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def} $\ast$E\+X\+T\+I\+\_\+\+Init\+Struct)
+\begin{DoxyCompactList}\small\item\em Fills each E\+X\+T\+I\+\_\+\+Init\+Struct member with its reset value. \end{DoxyCompactList}\item 
+void \textbf{ E\+X\+T\+I\+\_\+\+Generate\+S\+W\+Interrupt} (uint32\+\_\+t E\+X\+T\+I\+\_\+\+Line)
+\begin{DoxyCompactList}\small\item\em Generates a Software interrupt on selected E\+X\+TI line. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ E\+X\+T\+I\+\_\+\+Get\+Flag\+Status} (uint32\+\_\+t E\+X\+T\+I\+\_\+\+Line)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified E\+X\+TI line flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ E\+X\+T\+I\+\_\+\+Clear\+Flag} (uint32\+\_\+t E\+X\+T\+I\+\_\+\+Line)
+\begin{DoxyCompactList}\small\item\em Clears the E\+X\+TI\textquotesingle{}s line pending flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ E\+X\+T\+I\+\_\+\+Get\+I\+T\+Status} (uint32\+\_\+t E\+X\+T\+I\+\_\+\+Line)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified E\+X\+TI line is asserted or not. \end{DoxyCompactList}\item 
+void \textbf{ E\+X\+T\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit} (uint32\+\_\+t E\+X\+T\+I\+\_\+\+Line)
+\begin{DoxyCompactList}\small\item\em Clears the E\+X\+TI\textquotesingle{}s line pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+E\+X\+TI driver modules. 
+
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\label{group__EXTI_ga4451b67e337fc341394ee695273798af}} 
+\index{E\+X\+TI@{E\+X\+TI}!E\+X\+T\+I\+\_\+\+L\+I\+N\+E\+N\+O\+NE@{E\+X\+T\+I\+\_\+\+L\+I\+N\+E\+N\+O\+NE}}
+\index{E\+X\+T\+I\+\_\+\+L\+I\+N\+E\+N\+O\+NE@{E\+X\+T\+I\+\_\+\+L\+I\+N\+E\+N\+O\+NE}!E\+X\+TI@{E\+X\+TI}}
+\subsubsection{E\+X\+T\+I\+\_\+\+L\+I\+N\+E\+N\+O\+NE}
+{\footnotesize\ttfamily \#define E\+X\+T\+I\+\_\+\+L\+I\+N\+E\+N\+O\+NE~((uint32\+\_\+t)0x00000)  /$\ast$ No interrupt selected $\ast$/}
+
+
+
+Definition at line \textbf{ 75} of file \textbf{ stm32f4xx\+\_\+exti.\+c}.
+
+\mbox{\label{group__EXTI_ga8429170f3320b90227f9f5b252c1c5eb}} 
+\index{E\+X\+TI@{E\+X\+TI}!I\+S\+\_\+\+E\+X\+T\+I\+\_\+\+M\+O\+DE@{I\+S\+\_\+\+E\+X\+T\+I\+\_\+\+M\+O\+DE}}
+\index{I\+S\+\_\+\+E\+X\+T\+I\+\_\+\+M\+O\+DE@{I\+S\+\_\+\+E\+X\+T\+I\+\_\+\+M\+O\+DE}!E\+X\+TI@{E\+X\+TI}}
+\subsubsection{I\+S\+\_\+\+E\+X\+T\+I\+\_\+\+M\+O\+DE}
+{\footnotesize\ttfamily \#define I\+S\+\_\+\+E\+X\+T\+I\+\_\+\+M\+O\+DE(\begin{DoxyParamCaption}\item[{}]{M\+O\+DE }\end{DoxyParamCaption})~(((M\+O\+DE) == \textbf{ E\+X\+T\+I\+\_\+\+Mode\+\_\+\+Interrupt}) $\vert$$\vert$ ((M\+O\+DE) == \textbf{ E\+X\+T\+I\+\_\+\+Mode\+\_\+\+Event}))}
+
+
+
+Definition at line \textbf{ 54} of file \textbf{ stm32f4xx\+\_\+exti.\+h}.
+
+\mbox{\label{group__EXTI_gaee95ec6288944a6245696896604e509e}} 
+\index{E\+X\+TI@{E\+X\+TI}!I\+S\+\_\+\+E\+X\+T\+I\+\_\+\+T\+R\+I\+G\+G\+ER@{I\+S\+\_\+\+E\+X\+T\+I\+\_\+\+T\+R\+I\+G\+G\+ER}}
+\index{I\+S\+\_\+\+E\+X\+T\+I\+\_\+\+T\+R\+I\+G\+G\+ER@{I\+S\+\_\+\+E\+X\+T\+I\+\_\+\+T\+R\+I\+G\+G\+ER}!E\+X\+TI@{E\+X\+TI}}
+\subsubsection{I\+S\+\_\+\+E\+X\+T\+I\+\_\+\+T\+R\+I\+G\+G\+ER}
+{\footnotesize\ttfamily \#define I\+S\+\_\+\+E\+X\+T\+I\+\_\+\+T\+R\+I\+G\+G\+ER(\begin{DoxyParamCaption}\item[{}]{T\+R\+I\+G\+G\+ER }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}
+(((TRIGGER) == EXTI_Trigger_Rising) || \(\backslash\)
+                                  ((TRIGGER) == EXTI_Trigger_Falling) || \(\backslash\)
+                                  ((TRIGGER) == EXTI_Trigger_Rising_Falling))
+\end{DoxyCode}
+
+
+Definition at line \textbf{ 67} of file \textbf{ stm32f4xx\+\_\+exti.\+h}.
+
+
+
+\subsection{Enumeration Type Documentation}
+\mbox{\label{group__EXTI_gad5e69af98dc0dfdf64417adc1cf57929}} 
+\index{E\+X\+TI@{E\+X\+TI}!E\+X\+T\+I\+Mode\+\_\+\+Type\+Def@{E\+X\+T\+I\+Mode\+\_\+\+Type\+Def}}
+\index{E\+X\+T\+I\+Mode\+\_\+\+Type\+Def@{E\+X\+T\+I\+Mode\+\_\+\+Type\+Def}!E\+X\+TI@{E\+X\+TI}}
+\subsubsection{E\+X\+T\+I\+Mode\+\_\+\+Type\+Def}
+{\footnotesize\ttfamily enum \textbf{ E\+X\+T\+I\+Mode\+\_\+\+Type\+Def}}
+
+
+
+E\+X\+TI mode enumeration. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{E\+X\+T\+I\+\_\+\+Mode\+\_\+\+Interrupt@{E\+X\+T\+I\+\_\+\+Mode\+\_\+\+Interrupt}!E\+X\+TI@{E\+X\+TI}}\index{E\+X\+TI@{E\+X\+TI}!E\+X\+T\+I\+\_\+\+Mode\+\_\+\+Interrupt@{E\+X\+T\+I\+\_\+\+Mode\+\_\+\+Interrupt}}}\mbox{\label{group__EXTI_ggad5e69af98dc0dfdf64417adc1cf57929a8c6ccdd7b1bc4872731306537e8c3b42}} 
+E\+X\+T\+I\+\_\+\+Mode\+\_\+\+Interrupt&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{E\+X\+T\+I\+\_\+\+Mode\+\_\+\+Event@{E\+X\+T\+I\+\_\+\+Mode\+\_\+\+Event}!E\+X\+TI@{E\+X\+TI}}\index{E\+X\+TI@{E\+X\+TI}!E\+X\+T\+I\+\_\+\+Mode\+\_\+\+Event@{E\+X\+T\+I\+\_\+\+Mode\+\_\+\+Event}}}\mbox{\label{group__EXTI_ggad5e69af98dc0dfdf64417adc1cf57929aa38ef186929ec74786df79877ea124a7}} 
+E\+X\+T\+I\+\_\+\+Mode\+\_\+\+Event&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \textbf{ 48} of file \textbf{ stm32f4xx\+\_\+exti.\+h}.
+
+
+\begin{DoxyCode}
+00049 \{
+00050   EXTI_Mode_Interrupt = 0x00,
+00051   EXTI_Mode_Event = 0x04
+00052 \}EXTIMode_TypeDef;
+\end{DoxyCode}
+\mbox{\label{group__EXTI_ga9da190f5425d1b421a06bced8cc48e9b}} 
+\index{E\+X\+TI@{E\+X\+TI}!E\+X\+T\+I\+Trigger\+\_\+\+Type\+Def@{E\+X\+T\+I\+Trigger\+\_\+\+Type\+Def}}
+\index{E\+X\+T\+I\+Trigger\+\_\+\+Type\+Def@{E\+X\+T\+I\+Trigger\+\_\+\+Type\+Def}!E\+X\+TI@{E\+X\+TI}}
+\subsubsection{E\+X\+T\+I\+Trigger\+\_\+\+Type\+Def}
+{\footnotesize\ttfamily enum \textbf{ E\+X\+T\+I\+Trigger\+\_\+\+Type\+Def}}
+
+
+
+E\+X\+TI Trigger enumeration. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Rising@{E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Rising}!E\+X\+TI@{E\+X\+TI}}\index{E\+X\+TI@{E\+X\+TI}!E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Rising@{E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Rising}}}\mbox{\label{group__EXTI_gga9da190f5425d1b421a06bced8cc48e9baaa73605adf491dbe97994612e228af5e}} 
+E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Rising&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Falling@{E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Falling}!E\+X\+TI@{E\+X\+TI}}\index{E\+X\+TI@{E\+X\+TI}!E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Falling@{E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Falling}}}\mbox{\label{group__EXTI_gga9da190f5425d1b421a06bced8cc48e9bac4a21d397aa4648b8f8cf961f71f3ac5}} 
+E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Falling&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Rising\+\_\+\+Falling@{E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Rising\+\_\+\+Falling}!E\+X\+TI@{E\+X\+TI}}\index{E\+X\+TI@{E\+X\+TI}!E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Rising\+\_\+\+Falling@{E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Rising\+\_\+\+Falling}}}\mbox{\label{group__EXTI_gga9da190f5425d1b421a06bced8cc48e9bab09db55a2e9118e86d03d69698434ebb}} 
+E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Rising\+\_\+\+Falling&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \textbf{ 60} of file \textbf{ stm32f4xx\+\_\+exti.\+h}.
+
+
+\begin{DoxyCode}
+00061 \{
+00062   EXTI_Trigger_Rising = 0x08,
+00063   EXTI_Trigger_Falling = 0x0C,  
+00064   EXTI_Trigger_Rising_Falling = 0x10
+00065 \}EXTITrigger_TypeDef;
+\end{DoxyCode}
+
+
+\subsection{Function Documentation}
+\mbox{\label{group__EXTI_ga8e07aaaa286dea4803605d5968850a92}} 
+\index{E\+X\+TI@{E\+X\+TI}!E\+X\+T\+I\+\_\+\+Clear\+Flag@{E\+X\+T\+I\+\_\+\+Clear\+Flag}}
+\index{E\+X\+T\+I\+\_\+\+Clear\+Flag@{E\+X\+T\+I\+\_\+\+Clear\+Flag}!E\+X\+TI@{E\+X\+TI}}
+\subsubsection{E\+X\+T\+I\+\_\+\+Clear\+Flag()}
+{\footnotesize\ttfamily void E\+X\+T\+I\+\_\+\+Clear\+Flag (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{E\+X\+T\+I\+\_\+\+Line }\end{DoxyParamCaption})}
+
+
+
+Clears the E\+X\+TI\textquotesingle{}s line pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em E\+X\+T\+I\+\_\+\+Line} & specifies the E\+X\+TI lines flags to clear. This parameter can be any combination of E\+X\+T\+I\+\_\+\+Linex where x can be (0..22) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 243} of file \textbf{ stm32f4xx\+\_\+exti.\+c}.
+
+
+\begin{DoxyCode}
+00244 \{
+00245   \textcolor{comment}{/* Check the parameters */}
+00246   assert_param(IS_EXTI_LINE(EXTI\_Line));
+00247   
+00248   EXTI->PR = EXTI\_Line;
+00249 \}
+\end{DoxyCode}
+\mbox{\label{group__EXTI_ga3652a7e682728b310c124e7e974d1468}} 
+\index{E\+X\+TI@{E\+X\+TI}!E\+X\+T\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit@{E\+X\+T\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit}}
+\index{E\+X\+T\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit@{E\+X\+T\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit}!E\+X\+TI@{E\+X\+TI}}
+\subsubsection{E\+X\+T\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit()}
+{\footnotesize\ttfamily void E\+X\+T\+I\+\_\+\+Clear\+I\+T\+Pending\+Bit (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{E\+X\+T\+I\+\_\+\+Line }\end{DoxyParamCaption})}
+
+
+
+Clears the E\+X\+TI\textquotesingle{}s line pending bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em E\+X\+T\+I\+\_\+\+Line} & specifies the E\+X\+TI lines to clear. This parameter can be any combination of E\+X\+T\+I\+\_\+\+Linex where x can be (0..22) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 282} of file \textbf{ stm32f4xx\+\_\+exti.\+c}.
+
+
+
+Referenced by \textbf{ Disable\+Inv\+Interrupt()}, \textbf{ E\+X\+T\+I1\+\_\+\+I\+R\+Q\+Handler()}, and \textbf{ Inv\+Int\+Handler()}.
+
+
+\begin{DoxyCode}
+00283 \{
+00284   \textcolor{comment}{/* Check the parameters */}
+00285   assert_param(IS_EXTI_LINE(EXTI\_Line));
+00286   
+00287   EXTI->PR = EXTI\_Line;
+00288 \}
+\end{DoxyCode}
+\mbox{\label{group__EXTI_ga07072e339cb9ecb9cd9d4b94afc9f317}} 
+\index{E\+X\+TI@{E\+X\+TI}!E\+X\+T\+I\+\_\+\+De\+Init@{E\+X\+T\+I\+\_\+\+De\+Init}}
+\index{E\+X\+T\+I\+\_\+\+De\+Init@{E\+X\+T\+I\+\_\+\+De\+Init}!E\+X\+TI@{E\+X\+TI}}
+\subsubsection{E\+X\+T\+I\+\_\+\+De\+Init()}
+{\footnotesize\ttfamily void E\+X\+T\+I\+\_\+\+De\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Deinitializes the E\+X\+TI peripheral registers to their default reset values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em None} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 103} of file \textbf{ stm32f4xx\+\_\+exti.\+c}.
+
+
+\begin{DoxyCode}
+00104 \{
+00105   EXTI->IMR = 0x00000000;
+00106   EXTI->EMR = 0x00000000;
+00107   EXTI->RTSR = 0x00000000;
+00108   EXTI->FTSR = 0x00000000;
+00109   EXTI->PR = 0x007FFFFF;
+00110 \}
+\end{DoxyCode}
+\mbox{\label{group__EXTI_ga897e8ea59f40a19e047fb9994876fc9b}} 
+\index{E\+X\+TI@{E\+X\+TI}!E\+X\+T\+I\+\_\+\+Generate\+S\+W\+Interrupt@{E\+X\+T\+I\+\_\+\+Generate\+S\+W\+Interrupt}}
+\index{E\+X\+T\+I\+\_\+\+Generate\+S\+W\+Interrupt@{E\+X\+T\+I\+\_\+\+Generate\+S\+W\+Interrupt}!E\+X\+TI@{E\+X\+TI}}
+\subsubsection{E\+X\+T\+I\+\_\+\+Generate\+S\+W\+Interrupt()}
+{\footnotesize\ttfamily void E\+X\+T\+I\+\_\+\+Generate\+S\+W\+Interrupt (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{E\+X\+T\+I\+\_\+\+Line }\end{DoxyParamCaption})}
+
+
+
+Generates a Software interrupt on selected E\+X\+TI line. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em E\+X\+T\+I\+\_\+\+Line} & specifies the E\+X\+TI line on which the software interrupt will be generated. This parameter can be any combination of E\+X\+T\+I\+\_\+\+Linex where x can be (0..22) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 190} of file \textbf{ stm32f4xx\+\_\+exti.\+c}.
+
+
+\begin{DoxyCode}
+00191 \{
+00192   \textcolor{comment}{/* Check the parameters */}
+00193   assert_param(IS_EXTI_LINE(EXTI\_Line));
+00194   
+00195   EXTI->SWIER |= EXTI\_Line;
+00196 \}
+\end{DoxyCode}
+\mbox{\label{group__EXTI_ga0ce06e6b312592df149800d63218cffa}} 
+\index{E\+X\+TI@{E\+X\+TI}!E\+X\+T\+I\+\_\+\+Get\+Flag\+Status@{E\+X\+T\+I\+\_\+\+Get\+Flag\+Status}}
+\index{E\+X\+T\+I\+\_\+\+Get\+Flag\+Status@{E\+X\+T\+I\+\_\+\+Get\+Flag\+Status}!E\+X\+TI@{E\+X\+TI}}
+\subsubsection{E\+X\+T\+I\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} E\+X\+T\+I\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{E\+X\+T\+I\+\_\+\+Line }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified E\+X\+TI line flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em E\+X\+T\+I\+\_\+\+Line} & specifies the E\+X\+TI line flag to check. This parameter can be E\+X\+T\+I\+\_\+\+Linex where x can be(0..22) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of E\+X\+T\+I\+\_\+\+Line (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 220} of file \textbf{ stm32f4xx\+\_\+exti.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00221 \{
+00222   FlagStatus bitstatus = RESET;
+00223   \textcolor{comment}{/* Check the parameters */}
+00224   assert_param(IS_GET_EXTI_LINE(EXTI\_Line));
+00225   
+00226   \textcolor{keywordflow}{if} ((EXTI->PR & EXTI\_Line) != (uint32\_t)RESET)
+00227   \{
+00228     bitstatus = SET;
+00229   \}
+00230   \textcolor{keywordflow}{else}
+00231   \{
+00232     bitstatus = RESET;
+00233   \}
+00234   \textcolor{keywordflow}{return} bitstatus;
+00235 \}
+\end{DoxyCode}
+\mbox{\label{group__EXTI_gaf7b51519062ae42fd27ee689cab364aa}} 
+\index{E\+X\+TI@{E\+X\+TI}!E\+X\+T\+I\+\_\+\+Get\+I\+T\+Status@{E\+X\+T\+I\+\_\+\+Get\+I\+T\+Status}}
+\index{E\+X\+T\+I\+\_\+\+Get\+I\+T\+Status@{E\+X\+T\+I\+\_\+\+Get\+I\+T\+Status}!E\+X\+TI@{E\+X\+TI}}
+\subsubsection{E\+X\+T\+I\+\_\+\+Get\+I\+T\+Status()}
+{\footnotesize\ttfamily \textbf{ I\+T\+Status} E\+X\+T\+I\+\_\+\+Get\+I\+T\+Status (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{E\+X\+T\+I\+\_\+\+Line }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified E\+X\+TI line is asserted or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em E\+X\+T\+I\+\_\+\+Line} & specifies the E\+X\+TI line to check. This parameter can be E\+X\+T\+I\+\_\+\+Linex where x can be(0..22) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of E\+X\+T\+I\+\_\+\+Line (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 257} of file \textbf{ stm32f4xx\+\_\+exti.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00258 \{
+00259   ITStatus bitstatus = RESET;
+00260   uint32\_t enablestatus = 0;
+00261   \textcolor{comment}{/* Check the parameters */}
+00262   assert_param(IS_GET_EXTI_LINE(EXTI\_Line));
+00263   
+00264   enablestatus =  EXTI->IMR & EXTI\_Line;
+00265   \textcolor{keywordflow}{if} (((EXTI->PR & EXTI\_Line) != (uint32\_t)RESET) && (enablestatus != (uint32\_t)RESET))
+00266   \{
+00267     bitstatus = SET;
+00268   \}
+00269   \textcolor{keywordflow}{else}
+00270   \{
+00271     bitstatus = RESET;
+00272   \}
+00273   \textcolor{keywordflow}{return} bitstatus;
+00274 \}
+\end{DoxyCode}
+\mbox{\label{group__EXTI_ga8c9ce6352a3a2dfc8fc9287cb24c6501}} 
+\index{E\+X\+TI@{E\+X\+TI}!E\+X\+T\+I\+\_\+\+Init@{E\+X\+T\+I\+\_\+\+Init}}
+\index{E\+X\+T\+I\+\_\+\+Init@{E\+X\+T\+I\+\_\+\+Init}!E\+X\+TI@{E\+X\+TI}}
+\subsubsection{E\+X\+T\+I\+\_\+\+Init()}
+{\footnotesize\ttfamily void E\+X\+T\+I\+\_\+\+Init (\begin{DoxyParamCaption}\item[{\textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def} $\ast$}]{E\+X\+T\+I\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Initializes the E\+X\+TI peripheral according to the specified parameters in the E\+X\+T\+I\+\_\+\+Init\+Struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em E\+X\+T\+I\+\_\+\+Init\+Struct} & pointer to a \doxyref{E\+X\+T\+I\+\_\+\+Init\+Type\+Def}{p.}{structEXTI__InitTypeDef} structure that contains the configuration information for the E\+X\+TI peripheral. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 119} of file \textbf{ stm32f4xx\+\_\+exti.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def\+::\+E\+X\+T\+I\+\_\+\+Line\+Cmd}, \textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def\+::\+E\+X\+T\+I\+\_\+\+Mode}, \textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def\+::\+E\+X\+T\+I\+\_\+\+Trigger}, and \textbf{ E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Rising\+\_\+\+Falling}.
+
+
+
+Referenced by \textbf{ Disable\+Inv\+Interrupt()}, \textbf{ Enable\+Inv\+Interrupt()}, \textbf{ G\+P\+I\+O\+\_\+\+Config()}, and \textbf{ S\+T\+M\+\_\+\+E\+V\+A\+L\+\_\+\+P\+B\+Init()}.
+
+
+\begin{DoxyCode}
+00120 \{
+00121   uint32\_t tmp = 0;
+00122 
+00123   \textcolor{comment}{/* Check the parameters */}
+00124   assert_param(IS_EXTI_MODE(EXTI\_InitStruct->EXTI_Mode));
+00125   assert_param(IS_EXTI_TRIGGER(EXTI\_InitStruct->EXTI_Trigger));
+00126   assert_param(IS_EXTI_LINE(EXTI\_InitStruct->EXTI_Line));  
+00127   assert_param(IS_FUNCTIONAL_STATE(EXTI\_InitStruct->EXTI_LineCmd));
+00128 
+00129   tmp = (uint32\_t)EXTI_BASE;
+00130      
+00131   \textcolor{keywordflow}{if} (EXTI\_InitStruct->EXTI_LineCmd != DISABLE)
+00132   \{
+00133     \textcolor{comment}{/* Clear EXTI line configuration */}
+00134     EXTI->IMR &= ~EXTI\_InitStruct->EXTI_Line;
+00135     EXTI->EMR &= ~EXTI\_InitStruct->EXTI_Line;
+00136     
+00137     tmp += EXTI\_InitStruct->EXTI_Mode;
+00138 
+00139     *(\_\_IO uint32\_t *) tmp |= EXTI\_InitStruct->EXTI_Line;
+00140 
+00141     \textcolor{comment}{/* Clear Rising Falling edge configuration */}
+00142     EXTI->RTSR &= ~EXTI\_InitStruct->EXTI_Line;
+00143     EXTI->FTSR &= ~EXTI\_InitStruct->EXTI_Line;
+00144     
+00145     \textcolor{comment}{/* Select the trigger for the selected external interrupts */}
+00146     if (EXTI\_InitStruct->EXTI_Trigger == EXTI_Trigger_Rising_Falling)
+00147     \{
+00148       \textcolor{comment}{/* Rising Falling edge */}
+00149       EXTI->RTSR |= EXTI\_InitStruct->EXTI_Line;
+00150       EXTI->FTSR |= EXTI\_InitStruct->EXTI_Line;
+00151     \}
+00152     \textcolor{keywordflow}{else}
+00153     \{
+00154       tmp = (uint32\_t)EXTI_BASE;
+00155       tmp += EXTI\_InitStruct->EXTI_Trigger;
+00156 
+00157       *(\_\_IO uint32\_t *) tmp |= EXTI\_InitStruct->EXTI_Line;
+00158     \}
+00159   \}
+00160   \textcolor{keywordflow}{else}
+00161   \{
+00162     tmp += EXTI\_InitStruct->EXTI_Mode;
+00163 
+00164     \textcolor{comment}{/* Disable the selected external lines */}
+00165     *(\_\_IO uint32\_t *) tmp &= ~EXTI\_InitStruct->EXTI_Line;
+00166   \}
+00167 \}
+\end{DoxyCode}
+\mbox{\label{group__EXTI_ga86b9e662d18a2f829999cfb26aa7ca20}} 
+\index{E\+X\+TI@{E\+X\+TI}!E\+X\+T\+I\+\_\+\+Struct\+Init@{E\+X\+T\+I\+\_\+\+Struct\+Init}}
+\index{E\+X\+T\+I\+\_\+\+Struct\+Init@{E\+X\+T\+I\+\_\+\+Struct\+Init}!E\+X\+TI@{E\+X\+TI}}
+\subsubsection{E\+X\+T\+I\+\_\+\+Struct\+Init()}
+{\footnotesize\ttfamily void E\+X\+T\+I\+\_\+\+Struct\+Init (\begin{DoxyParamCaption}\item[{\textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def} $\ast$}]{E\+X\+T\+I\+\_\+\+Init\+Struct }\end{DoxyParamCaption})}
+
+
+
+Fills each E\+X\+T\+I\+\_\+\+Init\+Struct member with its reset value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em E\+X\+T\+I\+\_\+\+Init\+Struct} & pointer to a \doxyref{E\+X\+T\+I\+\_\+\+Init\+Type\+Def}{p.}{structEXTI__InitTypeDef} structure which will be initialized. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 175} of file \textbf{ stm32f4xx\+\_\+exti.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}, \textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def\+::\+E\+X\+T\+I\+\_\+\+Line}, \textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def\+::\+E\+X\+T\+I\+\_\+\+Line\+Cmd}, \textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def\+::\+E\+X\+T\+I\+\_\+\+Mode}, \textbf{ E\+X\+T\+I\+\_\+\+Mode\+\_\+\+Interrupt}, \textbf{ E\+X\+T\+I\+\_\+\+Init\+Type\+Def\+::\+E\+X\+T\+I\+\_\+\+Trigger}, and \textbf{ E\+X\+T\+I\+\_\+\+Trigger\+\_\+\+Falling}.
+
+
+\begin{DoxyCode}
+00176 \{
+00177   EXTI\_InitStruct->EXTI_Line = EXTI_LINENONE;
+00178   EXTI\_InitStruct->EXTI_Mode = EXTI_Mode_Interrupt;
+00179   EXTI\_InitStruct->EXTI_Trigger = EXTI_Trigger_Falling;
+00180   EXTI\_InitStruct->EXTI_LineCmd = DISABLE;
+00181 \}
+\end{DoxyCode}

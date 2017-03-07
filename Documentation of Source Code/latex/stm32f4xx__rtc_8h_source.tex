@@ -1,0 +1,1009 @@
+\section{stm32f4xx\+\_\+rtc.\+h}
+\label{stm32f4xx__rtc_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+rtc.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+rtc.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_rtc.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the RTC firmware}
+00008 \textcolor{comment}{  *          library.}
+00009 \textcolor{comment}{  ******************************************************************************}
+00010 \textcolor{comment}{  * @attention}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00013 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00014 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00015 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00016 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00017 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00020 \textcolor{comment}{  ****************************************************************************** }
+00021 \textcolor{comment}{  */}
+00022 
+00023 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_RTC\_H}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_RTC\_H}
+00026 
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00028  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00033 
+00034 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00035 \textcolor{comment}{  * @\{}
+00036 \textcolor{comment}{  */}
+00037 
+00038 \textcolor{comment}{/** @addtogroup RTC}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00043 
+00044 \textcolor{comment}{/** }
+00045 \textcolor{comment}{  * @brief  RTC Init structures definition  }
+00046 \textcolor{comment}{  */}
+00047 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00048 \{
+00049   uint32\_t RTC_HourFormat;   \textcolor{comment}{/*!< Specifies the RTC Hour Format.}
+00050 \textcolor{comment}{                             This parameter can be a value of @ref RTC\_Hour\_Formats */}
+00051 
+00052   uint32\_t RTC_AsynchPrediv; \textcolor{comment}{/*!< Specifies the RTC Asynchronous Predivider value.}
+00053 \textcolor{comment}{                             This parameter must be set to a value lower than 0x7F */}
+00054 
+00055   uint32\_t RTC_SynchPrediv;  \textcolor{comment}{/*!< Specifies the RTC Synchronous Predivider value.}
+00056 \textcolor{comment}{                             This parameter must be set to a value lower than 0x7FFF */}
+00057 \}RTC\_InitTypeDef;
+00058 
+00059 \textcolor{comment}{/** }
+00060 \textcolor{comment}{  * @brief  RTC Time structure definition  }
+00061 \textcolor{comment}{  */}
+00062 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00063 \{
+00064   uint8\_t RTC_Hours;    \textcolor{comment}{/*!< Specifies the RTC Time Hour.}
+00065 \textcolor{comment}{                        This parameter must be set to a value in the 0-12 range}
+00066 \textcolor{comment}{                        if the RTC\_HourFormat\_12 is selected or 0-23 range if}
+00067 \textcolor{comment}{                        the RTC\_HourFormat\_24 is selected. */}
+00068 
+00069   uint8\_t RTC_Minutes;  \textcolor{comment}{/*!< Specifies the RTC Time Minutes.}
+00070 \textcolor{comment}{                        This parameter must be set to a value in the 0-59 range. */}
+00071 
+00072   uint8\_t RTC_Seconds;  \textcolor{comment}{/*!< Specifies the RTC Time Seconds.}
+00073 \textcolor{comment}{                        This parameter must be set to a value in the 0-59 range. */}
+00074 
+00075   uint8\_t RTC_H12;      \textcolor{comment}{/*!< Specifies the RTC AM/PM Time.}
+00076 \textcolor{comment}{                        This parameter can be a value of @ref RTC\_AM\_PM\_Definitions */}
+00077 \}RTC\_TimeTypeDef;
+00078 
+00079 \textcolor{comment}{/** }
+00080 \textcolor{comment}{  * @brief  RTC Date structure definition  }
+00081 \textcolor{comment}{  */}
+00082 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00083 \{
+00084   uint8\_t RTC_WeekDay; \textcolor{comment}{/*!< Specifies the RTC Date WeekDay.}
+00085 \textcolor{comment}{                        This parameter can be a value of @ref RTC\_WeekDay\_Definitions */}
+00086 
+00087   uint8\_t RTC_Month;   \textcolor{comment}{/*!< Specifies the RTC Date Month (in BCD format).}
+00088 \textcolor{comment}{                        This parameter can be a value of @ref RTC\_Month\_Date\_Definitions */}
+00089 
+00090   uint8\_t RTC_Date;     \textcolor{comment}{/*!< Specifies the RTC Date.}
+00091 \textcolor{comment}{                        This parameter must be set to a value in the 1-31 range. */}
+00092 
+00093   uint8\_t RTC_Year;     \textcolor{comment}{/*!< Specifies the RTC Date Year.}
+00094 \textcolor{comment}{                        This parameter must be set to a value in the 0-99 range. */}
+00095 \}RTC\_DateTypeDef;
+00096 
+00097 \textcolor{comment}{/** }
+00098 \textcolor{comment}{  * @brief  RTC Alarm structure definition  }
+00099 \textcolor{comment}{  */}
+00100 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00101 \{
+00102   RTC\_TimeTypeDef RTC_AlarmTime;     \textcolor{comment}{/*!< Specifies the RTC Alarm Time members. */}
+00103 
+00104   uint32\_t RTC_AlarmMask;            \textcolor{comment}{/*!< Specifies the RTC Alarm Masks.}
+00105 \textcolor{comment}{                                     This parameter can be a value of @ref RTC\_AlarmMask\_Definitions
+       */}
+00106 
+00107   uint32\_t RTC_AlarmDateWeekDaySel;  \textcolor{comment}{/*!< Specifies the RTC Alarm is on Date or WeekDay.}
+00108 \textcolor{comment}{                                     This parameter can be a value of @ref
+       RTC\_AlarmDateWeekDay\_Definitions */}
+00109 
+00110   uint8\_t RTC_AlarmDateWeekDay;      \textcolor{comment}{/*!< Specifies the RTC Alarm Date/WeekDay.}
+00111 \textcolor{comment}{                                     If the Alarm Date is selected, this parameter}
+00112 \textcolor{comment}{                                     must be set to a value in the 1-31 range.}
+00113 \textcolor{comment}{                                     If the Alarm WeekDay is selected, this }
+00114 \textcolor{comment}{                                     parameter can be a value of @ref RTC\_WeekDay\_Definitions */}
+00115 \}RTC\_AlarmTypeDef;
+00116 
+00117 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00118 
+00119 \textcolor{comment}{/** @defgroup RTC\_Exported\_Constants}
+00120 \textcolor{comment}{  * @\{}
+00121 \textcolor{comment}{  */}
+00122 
+00123 
+00124 \textcolor{comment}{/** @defgroup RTC\_Hour\_Formats }
+00125 \textcolor{comment}{  * @\{}
+00126 \textcolor{comment}{  */}
+00127 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_HourFormat\_24}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00128 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_HourFormat\_12}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000040\textcolor{preprocessor}{)}
+00129 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_HOUR\_FORMAT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FORMAT}\textcolor{preprocessor}{)}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FORMAT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_HourFormat_12\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00130                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FORMAT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_HourFormat_24\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00131 \textcolor{comment}{/**}
+00132 \textcolor{comment}{  * @\}}
+00133 \textcolor{comment}{  */}
+00134 
+00135 \textcolor{comment}{/** @defgroup RTC\_Asynchronous\_Predivider }
+00136 \textcolor{comment}{  * @\{}
+00137 \textcolor{comment}{  */}
+00138 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_ASYNCH\_PREDIV}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PREDIV}\textcolor{preprocessor}{)}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PREDIV}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0x7F\textcolor{preprocessor}{)}
+00139 
+00140 \textcolor{comment}{/**}
+00141 \textcolor{comment}{  * @\}}
+00142 \textcolor{comment}{  */}
+00143 
+00144 
+00145 \textcolor{comment}{/** @defgroup RTC\_Synchronous\_Predivider }
+00146 \textcolor{comment}{  * @\{}
+00147 \textcolor{comment}{  */}
+00148 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_SYNCH\_PREDIV}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PREDIV}\textcolor{preprocessor}{)}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PREDIV}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0x7FFF\textcolor{preprocessor}{)}
+00149 
+00150 \textcolor{comment}{/**}
+00151 \textcolor{comment}{  * @\}}
+00152 \textcolor{comment}{  */}
+00153 
+00154 \textcolor{comment}{/** @defgroup RTC\_Time\_Definitions }
+00155 \textcolor{comment}{  * @\{}
+00156 \textcolor{comment}{  */}
+00157 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_HOUR12}\textcolor{preprocessor}{(}\textcolor{preprocessor}{HOUR}\textcolor{preprocessor}{)}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{HOUR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{>} 0\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{HOUR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 12\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00158 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_HOUR24}\textcolor{preprocessor}{(}\textcolor{preprocessor}{HOUR}\textcolor{preprocessor}{)}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{HOUR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 23\textcolor{preprocessor}{)}
+00159 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_MINUTES}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MINUTES}\textcolor{preprocessor}{)}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MINUTES}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 59\textcolor{preprocessor}{)}
+00160 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_SECONDS}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SECONDS}\textcolor{preprocessor}{)}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SECONDS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 59\textcolor{preprocessor}{)}
+00161 
+00162 \textcolor{comment}{/**}
+00163 \textcolor{comment}{  * @\}}
+00164 \textcolor{comment}{  */}
+00165 
+00166 \textcolor{comment}{/** @defgroup RTC\_AM\_PM\_Definitions }
+00167 \textcolor{comment}{  * @\{}
+00168 \textcolor{comment}{  */}
+00169 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_H12\_AM}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}
+00170 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_H12\_PM}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x40\textcolor{preprocessor}{)}
+00171 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_H12}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PM}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PM}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_H12_AM\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PM}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_H12_PM\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00172 
+00173 \textcolor{comment}{/**}
+00174 \textcolor{comment}{  * @\}}
+00175 \textcolor{comment}{  */}
+00176 
+00177 \textcolor{comment}{/** @defgroup RTC\_Year\_Date\_Definitions }
+00178 \textcolor{comment}{  * @\{}
+00179 \textcolor{comment}{  */}
+00180 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_YEAR}\textcolor{preprocessor}{(}\textcolor{preprocessor}{YEAR}\textcolor{preprocessor}{)}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{YEAR}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 99\textcolor{preprocessor}{)}
+00181 
+00182 \textcolor{comment}{/**}
+00183 \textcolor{comment}{  * @\}}
+00184 \textcolor{comment}{  */}
+00185 
+00186 \textcolor{comment}{/** @defgroup RTC\_Month\_Date\_Definitions }
+00187 \textcolor{comment}{  * @\{}
+00188 \textcolor{comment}{  */}
+00189 
+00190 \textcolor{comment}{/* Coded in BCD format */}
+00191 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Month\_January}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}
+00192 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Month\_February}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}
+00193 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Month\_March}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x03\textcolor{preprocessor}{)}
+00194 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Month\_April}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x04\textcolor{preprocessor}{)}
+00195 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Month\_May}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x05\textcolor{preprocessor}{)}
+00196 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Month\_June}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x06\textcolor{preprocessor}{)}
+00197 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Month\_July}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x07\textcolor{preprocessor}{)}
+00198 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Month\_August}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x08\textcolor{preprocessor}{)}
+00199 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Month\_September}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x09\textcolor{preprocessor}{)}
+00200 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Month\_October}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x10\textcolor{preprocessor}{)}
+00201 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Month\_November}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x11\textcolor{preprocessor}{)}
+00202 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Month\_December}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x12\textcolor{preprocessor}{)}
+00203 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_MONTH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MONTH}\textcolor{preprocessor}{)}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MONTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{>=} 1\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MONTH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 12\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00204 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_DATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATE}\textcolor{preprocessor}{)}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{>=} 1\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 31\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00205 
+00206 \textcolor{comment}{/**}
+00207 \textcolor{comment}{  * @\}}
+00208 \textcolor{comment}{  */}
+00209 
+00210 \textcolor{comment}{/** @defgroup RTC\_WeekDay\_Definitions }
+00211 \textcolor{comment}{  * @\{}
+00212 \textcolor{comment}{  */}
+00213 
+00214 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Weekday\_Monday}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}
+00215 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Weekday\_Tuesday}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x02\textcolor{preprocessor}{)}
+00216 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Weekday\_Wednesday}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x03\textcolor{preprocessor}{)}
+00217 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Weekday\_Thursday}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x04\textcolor{preprocessor}{)}
+00218 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Weekday\_Friday}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x05\textcolor{preprocessor}{)}
+00219 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Weekday\_Saturday}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x06\textcolor{preprocessor}{)}
+00220 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Weekday\_Sunday}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x07\textcolor{preprocessor}{)}
+00221 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_WEEKDAY}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WEEKDAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WEEKDAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_Weekday_Monday\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00222                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WEEKDAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_Weekday_Tuesday\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00223                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WEEKDAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_Weekday_Wednesday\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00224                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WEEKDAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_Weekday_Thursday\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00225                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WEEKDAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_Weekday_Friday\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00226                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WEEKDAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_Weekday_Saturday\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00227                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WEEKDAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_Weekday_Sunday\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00228 \textcolor{comment}{/**}
+00229 \textcolor{comment}{  * @\}}
+00230 \textcolor{comment}{  */}
+00231 
+00232 
+00233 \textcolor{comment}{/** @defgroup RTC\_Alarm\_Definitions}
+00234 \textcolor{comment}{  * @\{}
+00235 \textcolor{comment}{  */}
+00236 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_ALARM\_DATE\_WEEKDAY\_DATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{>} 0\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 31\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00237 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_ALARM\_DATE\_WEEKDAY\_WEEKDAY}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WEEKDAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WEEKDAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_Weekday_Monday\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00238                                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WEEKDAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_Weekday_Tuesday\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00239                                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WEEKDAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_Weekday_Wednesday\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00240                                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WEEKDAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_Weekday_Thursday\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00241                                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WEEKDAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_Weekday_Friday\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00242                                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WEEKDAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_Weekday_Saturday\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00243                                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{WEEKDAY}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_Weekday_Sunday\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00244 
+00245 \textcolor{comment}{/**}
+00246 \textcolor{comment}{  * @\}}
+00247 \textcolor{comment}{  */}
+00248 
+00249 
+00250 \textcolor{comment}{/** @defgroup RTC\_AlarmDateWeekDay\_Definitions }
+00251 \textcolor{comment}{  * @\{}
+00252 \textcolor{comment}{  */}
+00253 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmDateWeekDaySel\_Date}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00254 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmDateWeekDaySel\_WeekDay}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x40000000\textcolor{preprocessor}{)}
+00255 
+00256 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_ALARM\_DATE\_WEEKDAY\_SEL}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_AlarmDateWeekDaySel_Date\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00257                                             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_AlarmDateWeekDaySel_WeekDay\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00258 
+00259 \textcolor{comment}{/**}
+00260 \textcolor{comment}{  * @\}}
+00261 \textcolor{comment}{  */}
+00262 
+00263 
+00264 \textcolor{comment}{/** @defgroup RTC\_AlarmMask\_Definitions }
+00265 \textcolor{comment}{  * @\{}
+00266 \textcolor{comment}{  */}
+00267 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmMask\_None}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00268 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmMask\_DateWeekDay}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x80000000\textcolor{preprocessor}{)}
+00269 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmMask\_Hours}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00800000\textcolor{preprocessor}{)}
+00270 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmMask\_Minutes}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00008000\textcolor{preprocessor}{)}
+00271 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmMask\_Seconds}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000080\textcolor{preprocessor}{)}
+00272 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmMask\_All}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x80808080\textcolor{preprocessor}{)}
+00273 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_ALARM\_MASK}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MASK}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MASK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0x7F7F7F7F\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{RESET}\textcolor{preprocessor}{)}
+00274 
+00275 \textcolor{comment}{/**}
+00276 \textcolor{comment}{  * @\}}
+00277 \textcolor{comment}{  */}
+00278 
+00279 \textcolor{comment}{/** @defgroup RTC\_Alarms\_Definitions }
+00280 \textcolor{comment}{  * @\{}
+00281 \textcolor{comment}{  */}
+00282 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Alarm\_A}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000100\textcolor{preprocessor}{)}
+00283 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Alarm\_B}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000200\textcolor{preprocessor}{)}
+00284 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_ALARM}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALARM}\textcolor{preprocessor}{)}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALARM}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_Alarm_A\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALARM}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_Alarm_B\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00285 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_CMD\_ALARM}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALARM}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALARM}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}RTC_Alarm_A \textcolor{preprocessor}{|} RTC_Alarm_B\textcolor{preprocessor}{)}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{RESET}\textcolor{preprocessor}{)}
+00286 
+00287 \textcolor{comment}{/**}
+00288 \textcolor{comment}{  * @\}}
+00289 \textcolor{comment}{  */}
+00290 
+00291   \textcolor{comment}{/** @defgroup RTC\_Alarm\_Sub\_Seconds\_Masks\_Definitions}
+00292 \textcolor{comment}{  * @\{}
+00293 \textcolor{comment}{  */}
+00294 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmSubSecondMask\_All}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< All Alarm SS fields are masked.
+       }
+00295 \textcolor{comment}{                                                                       There is no comparison on sub
+       seconds }
+00296 \textcolor{comment}{                                                                       for Alarm */}
+00297 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmSubSecondMask\_SS14\_1}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x01000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< SS[14:1] are don't care in
+       Alarm }
+00298 \textcolor{comment}{                                                                       comparison. Only SS[0] is
+       compared. */}
+00299 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmSubSecondMask\_SS14\_2}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x02000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< SS[14:2] are don't care in
+       Alarm }
+00300 \textcolor{comment}{                                                                       comparison. Only SS[1:0] are
+       compared */}
+00301 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmSubSecondMask\_SS14\_3}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x03000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< SS[14:3] are don't care in
+       Alarm }
+00302 \textcolor{comment}{                                                                       comparison. Only SS[2:0] are
+       compared */}
+00303 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmSubSecondMask\_SS14\_4}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x04000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< SS[14:4] are don't care in
+       Alarm }
+00304 \textcolor{comment}{                                                                       comparison. Only SS[3:0] are
+       compared */}
+00305 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmSubSecondMask\_SS14\_5}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x05000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< SS[14:5] are don't care in
+       Alarm }
+00306 \textcolor{comment}{                                                                       comparison. Only SS[4:0] are
+       compared */}
+00307 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmSubSecondMask\_SS14\_6}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x06000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< SS[14:6] are don't care in
+       Alarm }
+00308 \textcolor{comment}{                                                                       comparison. Only SS[5:0] are
+       compared */}
+00309 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmSubSecondMask\_SS14\_7}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x07000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< SS[14:7] are don't care in
+       Alarm }
+00310 \textcolor{comment}{                                                                       comparison. Only SS[6:0] are
+       compared */}
+00311 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmSubSecondMask\_SS14\_8}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x08000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< SS[14:8] are don't care in
+       Alarm }
+00312 \textcolor{comment}{                                                                       comparison. Only SS[7:0] are
+       compared */}
+00313 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmSubSecondMask\_SS14\_9}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x09000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< SS[14:9] are don't care in
+       Alarm }
+00314 \textcolor{comment}{                                                                       comparison. Only SS[8:0] are
+       compared */}
+00315 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmSubSecondMask\_SS14\_10}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0A000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< SS[14:10] are don't care in
+       Alarm }
+00316 \textcolor{comment}{                                                                       comparison. Only SS[9:0] are
+       compared */}
+00317 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmSubSecondMask\_SS14\_11}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0B000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< SS[14:11] are don't care in
+       Alarm }
+00318 \textcolor{comment}{                                                                       comparison. Only SS[10:0] are
+       compared */}
+00319 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmSubSecondMask\_SS14\_12}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0C000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< SS[14:12] are don't care in
+       Alarm }
+00320 \textcolor{comment}{                                                                       comparison.Only SS[11:0] are
+       compared */}
+00321 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmSubSecondMask\_SS14\_13}     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0D000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< SS[14:13] are don't care in
+       Alarm }
+00322 \textcolor{comment}{                                                                       comparison. Only SS[12:0] are
+       compared */}
+00323 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmSubSecondMask\_SS14}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0E000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< SS[14] is don't care in Alarm }
+00324 \textcolor{comment}{                                                                       comparison.Only SS[13:0] are
+       compared */}
+00325 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_AlarmSubSecondMask\_None}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0F000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< SS[14:0] are compared and must
+       match }
+00326 \textcolor{comment}{                                                                       to activate alarm. */}
+00327 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_ALARM\_SUB\_SECOND\_MASK}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MASK}\textcolor{preprocessor}{)}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MASK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_AlarmSubSecondMask_All\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00328                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MASK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_AlarmSubSecondMask_SS14_1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00329                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MASK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_AlarmSubSecondMask_SS14_2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00330                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MASK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_AlarmSubSecondMask_SS14_3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00331                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MASK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_AlarmSubSecondMask_SS14_4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00332                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MASK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_AlarmSubSecondMask_SS14_5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00333                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MASK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_AlarmSubSecondMask_SS14_6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00334                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MASK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_AlarmSubSecondMask_SS14_7\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00335                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MASK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_AlarmSubSecondMask_SS14_8\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00336                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MASK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_AlarmSubSecondMask_SS14_9\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00337                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MASK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_AlarmSubSecondMask_SS14_10\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00338                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MASK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_AlarmSubSecondMask_SS14_11\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00339                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MASK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_AlarmSubSecondMask_SS14_12\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00340                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MASK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_AlarmSubSecondMask_SS14_13\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00341                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MASK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_AlarmSubSecondMask_SS14\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00342                                               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MASK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_AlarmSubSecondMask_None\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00343 \textcolor{comment}{/**}
+00344 \textcolor{comment}{  * @\}}
+00345 \textcolor{comment}{  */}
+00346 
+00347 \textcolor{comment}{/** @defgroup RTC\_Alarm\_Sub\_Seconds\_Value}
+00348 \textcolor{comment}{  * @\{}
+00349 \textcolor{comment}{  */}
+00350 
+00351 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_ALARM\_SUB\_SECOND\_VALUE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0x00007FFF\textcolor{preprocessor}{)}
+00352 
+00353 \textcolor{comment}{/**}
+00354 \textcolor{comment}{  * @\}}
+00355 \textcolor{comment}{  */}
+00356 
+00357 \textcolor{comment}{/** @defgroup RTC\_Wakeup\_Timer\_Definitions }
+00358 \textcolor{comment}{  * @\{}
+00359 \textcolor{comment}{  */}
+00360 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_WakeUpClock\_RTCCLK\_Div16}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00361 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_WakeUpClock\_RTCCLK\_Div8}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00362 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_WakeUpClock\_RTCCLK\_Div4}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}
+00363 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_WakeUpClock\_RTCCLK\_Div2}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000003\textcolor{preprocessor}{)}
+00364 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_WakeUpClock\_CK\_SPRE\_16bits}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)}
+00365 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_WakeUpClock\_CK\_SPRE\_17bits}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000006\textcolor{preprocessor}{)}
+00366 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_WAKEUP\_CLOCK}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CLOCK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CLOCK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_WakeUpClock_RTCCLK_Div16\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00367                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CLOCK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_WakeUpClock_RTCCLK_Div8\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00368                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CLOCK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_WakeUpClock_RTCCLK_Div4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00369                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CLOCK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_WakeUpClock_RTCCLK_Div2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00370                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CLOCK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_WakeUpClock_CK_SPRE_16bits\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00371                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CLOCK}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_WakeUpClock_CK_SPRE_17bits\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00372 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_WAKEUP\_COUNTER}\textcolor{preprocessor}{(}\textcolor{preprocessor}{COUNTER}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{COUNTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0xFFFF\textcolor{preprocessor}{)}
+00373 \textcolor{comment}{/**}
+00374 \textcolor{comment}{  * @\}}
+00375 \textcolor{comment}{  */}
+00376 
+00377 \textcolor{comment}{/** @defgroup RTC\_Time\_Stamp\_Edges\_definitions }
+00378 \textcolor{comment}{  * @\{}
+00379 \textcolor{comment}{  */}
+00380 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TimeStampEdge\_Rising}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00381 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TimeStampEdge\_Falling}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000008\textcolor{preprocessor}{)}
+00382 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_TIMESTAMP\_EDGE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EDGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EDGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_TimeStampEdge_Rising\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00383                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EDGE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_TimeStampEdge_Falling\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00384 \textcolor{comment}{/**}
+00385 \textcolor{comment}{  * @\}}
+00386 \textcolor{comment}{  */}
+00387 
+00388 \textcolor{comment}{/** @defgroup RTC\_Output\_selection\_Definitions }
+00389 \textcolor{comment}{  * @\{}
+00390 \textcolor{comment}{  */}
+00391 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Output\_Disable}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00392 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Output\_AlarmA}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00200000\textcolor{preprocessor}{)}
+00393 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Output\_AlarmB}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00400000\textcolor{preprocessor}{)}
+00394 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Output\_WakeUp}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00600000\textcolor{preprocessor}{)}
+00395 
+00396 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_OUTPUT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OUTPUT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OUTPUT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_Output_Disable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00397                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OUTPUT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_Output_AlarmA\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00398                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OUTPUT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_Output_AlarmB\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00399                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OUTPUT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_Output_WakeUp\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00400 
+00401 \textcolor{comment}{/**}
+00402 \textcolor{comment}{  * @\}}
+00403 \textcolor{comment}{  */}
+00404 
+00405 \textcolor{comment}{/** @defgroup RTC\_Output\_Polarity\_Definitions }
+00406 \textcolor{comment}{  * @\{}
+00407 \textcolor{comment}{  */}
+00408 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_OutputPolarity\_High}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00409 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_OutputPolarity\_Low}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00100000\textcolor{preprocessor}{)}
+00410 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_OUTPUT\_POL}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_OutputPolarity_High\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00411                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_OutputPolarity_Low\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00412 \textcolor{comment}{/**}
+00413 \textcolor{comment}{  * @\}}
+00414 \textcolor{comment}{  */}
+00415 
+00416 
+00417 \textcolor{comment}{/** @defgroup RTC\_Digital\_Calibration\_Definitions }
+00418 \textcolor{comment}{  * @\{}
+00419 \textcolor{comment}{  */}
+00420 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_CalibSign\_Positive}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00421 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_CalibSign\_Negative}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000080\textcolor{preprocessor}{)}
+00422 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_CALIB\_SIGN}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIGN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIGN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_CalibSign_Positive\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00423                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SIGN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_CalibSign_Negative\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00424 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_CALIB\_VALUE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<} 0x20\textcolor{preprocessor}{)}
+00425 
+00426 \textcolor{comment}{/**}
+00427 \textcolor{comment}{  * @\}}
+00428 \textcolor{comment}{  */}
+00429 
+00430  \textcolor{comment}{/** @defgroup RTC\_Calib\_Output\_selection\_Definitions }
+00431 \textcolor{comment}{  * @\{}
+00432 \textcolor{comment}{  */}
+00433 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_CalibOutput\_512Hz}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00434 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_CalibOutput\_1Hz}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00080000\textcolor{preprocessor}{)}
+00435 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_CALIB\_OUTPUT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OUTPUT}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OUTPUT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_CalibOutput_512Hz\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00436                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OUTPUT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_CalibOutput_1Hz\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00437 \textcolor{comment}{/**}
+00438 \textcolor{comment}{  * @\}}
+00439 \textcolor{comment}{  */}
+00440 
+00441 \textcolor{comment}{/** @defgroup RTC\_Smooth\_calib\_period\_Definitions }
+00442 \textcolor{comment}{  * @\{}
+00443 \textcolor{comment}{  */}
+00444 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_SmoothCalibPeriod\_32sec}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!<  if RTCCLK = 32768 Hz, Smooth
+       calibation}
+00445 \textcolor{comment}{                                                             period is 32s,  else 2exp20 RTCCLK
+       seconds */}
+00446 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_SmoothCalibPeriod\_16sec}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00002000\textcolor{preprocessor}{)} \textcolor{comment}{/*!<  if RTCCLK = 32768 Hz, Smooth
+       calibation }
+00447 \textcolor{comment}{                                                             period is 16s, else 2exp19 RTCCLK seconds
+       */}
+00448 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_SmoothCalibPeriod\_8sec}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00004000\textcolor{preprocessor}{)} \textcolor{comment}{/*!<  if RTCCLK = 32768 Hz, Smooth
+       calibation }
+00449 \textcolor{comment}{                                                             period is 8s, else 2exp18 RTCCLK seconds
+       */}
+00450 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_SMOOTH\_CALIB\_PERIOD}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIOD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIOD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_SmoothCalibPeriod_32sec\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00451                                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIOD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_SmoothCalibPeriod_16sec\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00452                                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIOD}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_SmoothCalibPeriod_8sec\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00453 
+00454 \textcolor{comment}{/**}
+00455 \textcolor{comment}{  * @\}}
+00456 \textcolor{comment}{  */}
+00457 
+00458 \textcolor{comment}{/** @defgroup RTC\_Smooth\_calib\_Plus\_pulses\_Definitions }
+00459 \textcolor{comment}{  * @\{}
+00460 \textcolor{comment}{  */}
+00461 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_SmoothCalibPlusPulses\_Set}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00008000\textcolor{preprocessor}{)} \textcolor{comment}{/*!<  The number of RTCCLK pulses
+       added  }
+00462 \textcolor{comment}{                                                                during a X -second window = Y -
+       CALM[8:0]. }
+00463 \textcolor{comment}{                                                                 with Y = 512, 256, 128 when X = 32,
+       16, 8 */}
+00464 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_SmoothCalibPlusPulses\_Reset}  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!<  The number of RTCCLK pulses
+       subbstited}
+00465 \textcolor{comment}{                                                                 during a 32-second window =  
+       CALM[8:0]. */}
+00466 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_SMOOTH\_CALIB\_PLUS}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PLUS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PLUS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_SmoothCalibPlusPulses_Set\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00467                                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PLUS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_SmoothCalibPlusPulses_Reset\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00468 
+00469 \textcolor{comment}{/**}
+00470 \textcolor{comment}{  * @\}}
+00471 \textcolor{comment}{  */}
+00472 
+00473 \textcolor{comment}{/** @defgroup RTC\_Smooth\_calib\_Minus\_pulses\_Definitions }
+00474 \textcolor{comment}{  * @\{}
+00475 \textcolor{comment}{  */}
+00476 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{IS\_RTC\_SMOOTH\_CALIB\_MINUS}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{VALUE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0x000001FF\textcolor{preprocessor}{)}
+00477 
+00478 \textcolor{comment}{/**}
+00479 \textcolor{comment}{  * @\}}
+00480 \textcolor{comment}{  */}
+00481 
+00482 \textcolor{comment}{/** @defgroup RTC\_DayLightSaving\_Definitions }
+00483 \textcolor{comment}{  * @\{}
+00484 \textcolor{comment}{  */}
+00485 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_DayLightSaving\_SUB1H}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00020000\textcolor{preprocessor}{)}
+00486 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_DayLightSaving\_ADD1H}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00010000\textcolor{preprocessor}{)}
+00487 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_DAYLIGHT\_SAVING}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SAVE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SAVE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_DayLightSaving_SUB1H\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00488                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SAVE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_DayLightSaving_ADD1H\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00489 
+00490 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_StoreOperation\_Reset}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00491 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_StoreOperation\_Set}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00040000\textcolor{preprocessor}{)}
+00492 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_STORE\_OPERATION}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OPERATION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OPERATION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_StoreOperation_Reset\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00493                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{OPERATION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_StoreOperation_Set\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00494 \textcolor{comment}{/**}
+00495 \textcolor{comment}{  * @\}}
+00496 \textcolor{comment}{  */}
+00497 
+00498 \textcolor{comment}{/** @defgroup RTC\_Tamper\_Trigger\_Definitions }
+00499 \textcolor{comment}{  * @\{}
+00500 \textcolor{comment}{  */}
+00501 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperTrigger\_RisingEdge}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00502 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperTrigger\_FallingEdge}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00503 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperTrigger\_LowLevel}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00504 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperTrigger\_HighLevel}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00505 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_TAMPER\_TRIGGER}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TRIGGER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TRIGGER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_TamperTrigger_RisingEdge\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00506                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TRIGGER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_TamperTrigger_FallingEdge\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00507                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TRIGGER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_TamperTrigger_LowLevel\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00508                                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TRIGGER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_TamperTrigger_HighLevel\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00509 
+00510 \textcolor{comment}{/**}
+00511 \textcolor{comment}{  * @\}}
+00512 \textcolor{comment}{  */}
+00513 
+00514 \textcolor{comment}{/** @defgroup RTC\_Tamper\_Filter\_Definitions }
+00515 \textcolor{comment}{  * @\{}
+00516 \textcolor{comment}{  */}
+00517 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperFilter\_Disable}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Tamper filter is disabled */}
+00518 
+00519 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperFilter\_2Sample}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000800\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Tamper is activated after 2 }
+00520 \textcolor{comment}{                                                          consecutive samples at the active level */}
+00521 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperFilter\_4Sample}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00001000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Tamper is activated after 4 }
+00522 \textcolor{comment}{                                                          consecutive samples at the active level */}
+00523 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperFilter\_8Sample}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00001800\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Tamper is activated after 8 }
+00524 \textcolor{comment}{                                                          consecutive samples at the active leve. */}
+00525 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_TAMPER\_FILTER}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FILTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FILTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_TamperFilter_Disable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00526                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FILTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_TamperFilter_2Sample\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00527                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FILTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_TamperFilter_4Sample\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00528                                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FILTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_TamperFilter_8Sample\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00529 \textcolor{comment}{/**}
+00530 \textcolor{comment}{  * @\}}
+00531 \textcolor{comment}{  */}
+00532 
+00533 \textcolor{comment}{/** @defgroup RTC\_Tamper\_Sampling\_Frequencies\_Definitions }
+00534 \textcolor{comment}{  * @\{}
+00535 \textcolor{comment}{  */}
+00536 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperSamplingFreq\_RTCCLK\_Div32768}  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Each of the tamper inputs
+       are sampled}
+00537 \textcolor{comment}{                                                                           with a frequency =  RTCCLK
+       / 32768 */}
+00538 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperSamplingFreq\_RTCCLK\_Div16384}  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000000100\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Each of the tamper inputs
+       are sampled}
+00539 \textcolor{comment}{                                                                            with a frequency =  RTCCLK
+       / 16384 */}
+00540 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperSamplingFreq\_RTCCLK\_Div8192}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000200\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Each of the tamper inputs
+       are sampled}
+00541 \textcolor{comment}{                                                                           with a frequency =  RTCCLK
+       / 8192  */}
+00542 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperSamplingFreq\_RTCCLK\_Div4096}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000300\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Each of the tamper inputs
+       are sampled}
+00543 \textcolor{comment}{                                                                           with a frequency =  RTCCLK
+       / 4096  */}
+00544 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperSamplingFreq\_RTCCLK\_Div2048}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000400\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Each of the tamper inputs
+       are sampled}
+00545 \textcolor{comment}{                                                                           with a frequency =  RTCCLK
+       / 2048  */}
+00546 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperSamplingFreq\_RTCCLK\_Div1024}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000500\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Each of the tamper inputs
+       are sampled}
+00547 \textcolor{comment}{                                                                           with a frequency =  RTCCLK
+       / 1024  */}
+00548 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperSamplingFreq\_RTCCLK\_Div512}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000600\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Each of the tamper inputs
+       are sampled}
+00549 \textcolor{comment}{                                                                           with a frequency =  RTCCLK
+       / 512   */}
+00550 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperSamplingFreq\_RTCCLK\_Div256}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000700\textcolor{preprocessor}{)} \textcolor{comment}{/*!< Each of the tamper inputs
+       are sampled}
+00551 \textcolor{comment}{                                                                           with a frequency =  RTCCLK
+       / 256   */}
+00552 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_TAMPER\_SAMPLING\_FREQ}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==}
+      RTC_TamperSamplingFreq_RTCCLK_Div32768\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00553                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==}
+      RTC_TamperSamplingFreq_RTCCLK_Div16384\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00554                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==}
+      RTC_TamperSamplingFreq_RTCCLK_Div8192\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00555                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==}
+      RTC_TamperSamplingFreq_RTCCLK_Div4096\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00556                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==}
+      RTC_TamperSamplingFreq_RTCCLK_Div2048\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00557                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==}
+      RTC_TamperSamplingFreq_RTCCLK_Div1024\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00558                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==}
+      RTC_TamperSamplingFreq_RTCCLK_Div512\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00559                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FREQ}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==}
+      RTC_TamperSamplingFreq_RTCCLK_Div256\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00560 
+00561 \textcolor{comment}{/**}
+00562 \textcolor{comment}{  * @\}}
+00563 \textcolor{comment}{  */}
+00564 
+00565   \textcolor{comment}{/** @defgroup RTC\_Tamper\_Pin\_Precharge\_Duration\_Definitions }
+00566 \textcolor{comment}{  * @\{}
+00567 \textcolor{comment}{  */}
+00568 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperPrechargeDuration\_1RTCCLK} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Tamper pins are pre-charged
+       before }
+00569 \textcolor{comment}{                                                                         sampling during 1 RTCCLK
+       cycle */}
+00570 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperPrechargeDuration\_2RTCCLK} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00002000\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Tamper pins are pre-charged
+       before }
+00571 \textcolor{comment}{                                                                         sampling during 2 RTCCLK
+       cycles */}
+00572 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperPrechargeDuration\_4RTCCLK} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00004000\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Tamper pins are pre-charged
+       before }
+00573 \textcolor{comment}{                                                                         sampling during 4 RTCCLK
+       cycles */}
+00574 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperPrechargeDuration\_8RTCCLK} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00006000\textcolor{preprocessor}{)}  \textcolor{comment}{/*!< Tamper pins are pre-charged
+       before }
+00575 \textcolor{comment}{                                                                         sampling during 8 RTCCLK
+       cycles */}
+00576 
+00577 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_TAMPER\_PRECHARGE\_DURATION}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DURATION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DURATION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_TamperPrechargeDuration_1RTCCLK\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00578                                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DURATION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_TamperPrechargeDuration_2RTCCLK\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00579                                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DURATION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_TamperPrechargeDuration_4RTCCLK\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00580                                                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DURATION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_TamperPrechargeDuration_8RTCCLK\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00581 \textcolor{comment}{/**}
+00582 \textcolor{comment}{  * @\}}
+00583 \textcolor{comment}{  */}
+00584 
+00585 \textcolor{comment}{/** @defgroup RTC\_Tamper\_Pins\_Definitions }
+00586 \textcolor{comment}{  * @\{}
+00587 \textcolor{comment}{  */}
+00588 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Tamper\_1}                    RTC_TAFCR_TAMP1E
+00589 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_TAMPER}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TAMPER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TAMPER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_Tamper_1\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00590 
+00591 \textcolor{comment}{/**}
+00592 \textcolor{comment}{  * @\}}
+00593 \textcolor{comment}{  */}
+00594 
+00595 \textcolor{comment}{/** @defgroup RTC\_Tamper\_Pin\_Selection }
+00596 \textcolor{comment}{  * @\{}
+00597 \textcolor{comment}{  */}
+00598 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperPin\_PC13}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00599 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TamperPin\_PI8}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00010000\textcolor{preprocessor}{)}
+00600 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_TAMPER\_PIN}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_TamperPin_PC13\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00601                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_TamperPin_PI8\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00602 \textcolor{comment}{/**}
+00603 \textcolor{comment}{  * @\}}
+00604 \textcolor{comment}{  */}
+00605 
+00606 \textcolor{comment}{/** @defgroup RTC\_TimeStamp\_Pin\_Selection }
+00607 \textcolor{comment}{  * @\{}
+00608 \textcolor{comment}{  */}
+00609 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TimeStampPin\_PC13}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00610 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_TimeStampPin\_PI8}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00020000\textcolor{preprocessor}{)}
+00611 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_TIMESTAMP\_PIN}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_TimeStampPin_PC13\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00612                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PIN}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_TimeStampPin_PI8\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00613 \textcolor{comment}{/**}
+00614 \textcolor{comment}{  * @\}}
+00615 \textcolor{comment}{  */}
+00616 
+00617 \textcolor{comment}{/** @defgroup RTC\_Output\_Type\_ALARM\_OUT }
+00618 \textcolor{comment}{  * @\{}
+00619 \textcolor{comment}{  */}
+00620 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_OutputType\_OpenDrain}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00621 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_OutputType\_PushPull}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00040000\textcolor{preprocessor}{)}
+00622 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_OUTPUT\_TYPE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_OutputType_OpenDrain\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00623                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{TYPE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_OutputType_PushPull\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00624 
+00625 \textcolor{comment}{/**}
+00626 \textcolor{comment}{  * @\}}
+00627 \textcolor{comment}{  */}
+00628 
+00629 \textcolor{comment}{/** @defgroup RTC\_Add\_1\_Second\_Parameter\_Definitions}
+00630 \textcolor{comment}{  * @\{}
+00631 \textcolor{comment}{  */}
+00632 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_ShiftAdd1S\_Reset}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00633 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_ShiftAdd1S\_Set}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x80000000\textcolor{preprocessor}{)}
+00634 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_SHIFT\_ADD1S}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_ShiftAdd1S_Reset\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00635                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SEL}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_ShiftAdd1S_Set\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00636 \textcolor{comment}{/**}
+00637 \textcolor{comment}{  * @\}}
+00638 \textcolor{comment}{  */}
+00639 
+00640 \textcolor{comment}{/** @defgroup RTC\_Substract\_Fraction\_Of\_Second\_Value}
+00641 \textcolor{comment}{  * @\{}
+00642 \textcolor{comment}{  */}
+00643 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_SHIFT\_SUBFS}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0x00007FFF\textcolor{preprocessor}{)}
+00644 
+00645 \textcolor{comment}{/**}
+00646 \textcolor{comment}{  * @\}}
+00647 \textcolor{comment}{  */}
+00648 
+00649 \textcolor{comment}{/** @defgroup RTC\_Backup\_Registers\_Definitions }
+00650 \textcolor{comment}{  * @\{}
+00651 \textcolor{comment}{  */}
+00652 
+00653 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_BKP\_DR0}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000000\textcolor{preprocessor}{)}
+00654 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_BKP\_DR1}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00655 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_BKP\_DR2}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}
+00656 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_BKP\_DR3}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000003\textcolor{preprocessor}{)}
+00657 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_BKP\_DR4}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)}
+00658 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_BKP\_DR5}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000005\textcolor{preprocessor}{)}
+00659 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_BKP\_DR6}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000006\textcolor{preprocessor}{)}
+00660 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_BKP\_DR7}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000007\textcolor{preprocessor}{)}
+00661 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_BKP\_DR8}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000008\textcolor{preprocessor}{)}
+00662 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_BKP\_DR9}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000009\textcolor{preprocessor}{)}
+00663 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_BKP\_DR10}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0000000A\textcolor{preprocessor}{)}
+00664 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_BKP\_DR11}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0000000B\textcolor{preprocessor}{)}
+00665 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_BKP\_DR12}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0000000C\textcolor{preprocessor}{)}
+00666 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_BKP\_DR13}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0000000D\textcolor{preprocessor}{)}
+00667 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_BKP\_DR14}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0000000E\textcolor{preprocessor}{)}
+00668 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_BKP\_DR15}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x0000000F\textcolor{preprocessor}{)}
+00669 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_BKP\_DR16}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000010\textcolor{preprocessor}{)}
+00670 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_BKP\_DR17}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000011\textcolor{preprocessor}{)}
+00671 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_BKP\_DR18}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000012\textcolor{preprocessor}{)}
+00672 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_BKP\_DR19}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000013\textcolor{preprocessor}{)}
+00673 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_BKP}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BKP}\textcolor{preprocessor}{)}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BKP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_BKP_DR0\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00674                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BKP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_BKP_DR1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00675                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BKP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_BKP_DR2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00676                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BKP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_BKP_DR3\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00677                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BKP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_BKP_DR4\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00678                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BKP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_BKP_DR5\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00679                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BKP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_BKP_DR6\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00680                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BKP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_BKP_DR7\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00681                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BKP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_BKP_DR8\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00682                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BKP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_BKP_DR9\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00683                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BKP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_BKP_DR10\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00684                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BKP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_BKP_DR11\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00685                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BKP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_BKP_DR12\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00686                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BKP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_BKP_DR13\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00687                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BKP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_BKP_DR14\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00688                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BKP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_BKP_DR15\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00689                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BKP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_BKP_DR16\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00690                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BKP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_BKP_DR17\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00691                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BKP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_BKP_DR18\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00692                                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{BKP}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_BKP_DR19\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00693 \textcolor{comment}{/**}
+00694 \textcolor{comment}{  * @\}}
+00695 \textcolor{comment}{  */}
+00696 
+00697 \textcolor{comment}{/** @defgroup RTC\_Input\_parameter\_format\_definitions }
+00698 \textcolor{comment}{  * @\{}
+00699 \textcolor{comment}{  */}
+00700 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Format\_BIN}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000000000\textcolor{preprocessor}{)}
+00701 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_Format\_BCD}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x000000001\textcolor{preprocessor}{)}
+00702 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_FORMAT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FORMAT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FORMAT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_Format_BIN\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FORMAT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_Format_BCD\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00703 
+00704 \textcolor{comment}{/**}
+00705 \textcolor{comment}{  * @\}}
+00706 \textcolor{comment}{  */}
+00707 
+00708 \textcolor{comment}{/** @defgroup RTC\_Flags\_Definitions }
+00709 \textcolor{comment}{  * @\{}
+00710 \textcolor{comment}{  */}
+00711 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_FLAG\_RECALPF}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00010000\textcolor{preprocessor}{)}
+00712 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_FLAG\_TAMP1F}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00002000\textcolor{preprocessor}{)}
+00713 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_FLAG\_TSOVF}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00001000\textcolor{preprocessor}{)}
+00714 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_FLAG\_TSF}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000800\textcolor{preprocessor}{)}
+00715 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_FLAG\_WUTF}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000400\textcolor{preprocessor}{)}
+00716 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_FLAG\_ALRBF}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000200\textcolor{preprocessor}{)}
+00717 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_FLAG\_ALRAF}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000100\textcolor{preprocessor}{)}
+00718 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_FLAG\_INITF}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000040\textcolor{preprocessor}{)}
+00719 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_FLAG\_RSF}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000020\textcolor{preprocessor}{)}
+00720 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_FLAG\_INITS}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000010\textcolor{preprocessor}{)}
+00721 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_FLAG\_SHPF}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000008\textcolor{preprocessor}{)}
+00722 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_FLAG\_WUTWF}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)}
+00723 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_FLAG\_ALRBWF}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000002\textcolor{preprocessor}{)}
+00724 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_FLAG\_ALRAWF}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000001\textcolor{preprocessor}{)}
+00725 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_GET\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_FLAG_TSOVF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_FLAG_TSF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00726                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_FLAG_WUTF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_FLAG_ALRBF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00727                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_FLAG_ALRAF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_FLAG_INITF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00728                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_FLAG_RSF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_FLAG_WUTWF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00729                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_FLAG_ALRBWF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_FLAG_ALRAWF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00730                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_FLAG_TAMP1F\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      RTC_FLAG_RECALPF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00731                                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_FLAG_SHPF\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00732 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_CLEAR\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{RESET}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0xFFFF00DF\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{
+      RESET}\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00733 \textcolor{comment}{/**}
+00734 \textcolor{comment}{  * @\}}
+00735 \textcolor{comment}{  */}
+00736 
+00737 \textcolor{comment}{/** @defgroup RTC\_Interrupts\_Definitions }
+00738 \textcolor{comment}{  * @\{}
+00739 \textcolor{comment}{  */}
+00740 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_IT\_TS}                         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00008000\textcolor{preprocessor}{)}
+00741 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_IT\_WUT}                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00004000\textcolor{preprocessor}{)}
+00742 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_IT\_ALRB}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00002000\textcolor{preprocessor}{)}
+00743 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_IT\_ALRA}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00001000\textcolor{preprocessor}{)}
+00744 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_IT\_TAMP}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000004\textcolor{preprocessor}{)} \textcolor{comment}{/* Used only to Enable the Tamper
+       Interrupt */}
+00745 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_IT\_TAMP1}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00020000\textcolor{preprocessor}{)}
+00746 
+00747 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_CONFIG\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{RESET}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0xFFFF0FFB\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{RESET}\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00748 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_GET\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_IT_TS\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_IT_WUT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00749                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_IT_ALRB\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_IT_ALRA\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00750                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} RTC_IT_TAMP1\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00751 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_RTC\_CLEAR\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{RESET}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} 0xFFFD0FFF\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{RESET}\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00752 
+00753 \textcolor{comment}{/**}
+00754 \textcolor{comment}{  * @\}}
+00755 \textcolor{comment}{  */}
+00756 
+00757 \textcolor{comment}{/** @defgroup RTC\_Legacy }
+00758 \textcolor{comment}{  * @\{}
+00759 \textcolor{comment}{  */}
+00760 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_DigitalCalibConfig}  \textcolor{preprocessor}{RTC\_CoarseCalibConfig}
+00761 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTC\_DigitalCalibCmd}     \textcolor{preprocessor}{RTC\_CoarseCalibCmd}
+00762 
+00763 \textcolor{comment}{/**}
+00764 \textcolor{comment}{  * @\}}
+00765 \textcolor{comment}{  */}
+00766 
+00767 \textcolor{comment}{/**}
+00768 \textcolor{comment}{  * @\}}
+00769 \textcolor{comment}{  */}
+00770 
+00771 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00772 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00773 
+00774 \textcolor{comment}{/*  Function used to set the RTC configuration to the default reset state *****/}
+00775 ErrorStatus RTC_DeInit(\textcolor{keywordtype}{void});
+00776 
+00777 \textcolor{comment}{/* Initialization and Configuration functions *********************************/}
+00778 ErrorStatus RTC_Init(RTC\_InitTypeDef* RTC\_InitStruct);
+00779 \textcolor{keywordtype}{void} RTC_StructInit(RTC\_InitTypeDef* RTC\_InitStruct);
+00780 \textcolor{keywordtype}{void} RTC_WriteProtectionCmd(FunctionalState NewState);
+00781 ErrorStatus RTC_EnterInitMode(\textcolor{keywordtype}{void});
+00782 \textcolor{keywordtype}{void} RTC_ExitInitMode(\textcolor{keywordtype}{void});
+00783 ErrorStatus RTC_WaitForSynchro(\textcolor{keywordtype}{void});
+00784 ErrorStatus RTC_RefClockCmd(FunctionalState NewState);
+00785 \textcolor{keywordtype}{void} RTC_BypassShadowCmd(FunctionalState NewState);
+00786 
+00787 \textcolor{comment}{/* Time and Date configuration functions **************************************/}
+00788 ErrorStatus RTC_SetTime(uint32\_t RTC\_Format, RTC\_TimeTypeDef* RTC\_TimeStruct);
+00789 \textcolor{keywordtype}{void} RTC_TimeStructInit(RTC\_TimeTypeDef* RTC\_TimeStruct);
+00790 \textcolor{keywordtype}{void} RTC_GetTime(uint32\_t RTC\_Format, RTC\_TimeTypeDef* RTC\_TimeStruct);
+00791 uint32\_t RTC_GetSubSecond(\textcolor{keywordtype}{void});
+00792 ErrorStatus RTC_SetDate(uint32\_t RTC\_Format, RTC\_DateTypeDef* RTC\_DateStruct);
+00793 \textcolor{keywordtype}{void} RTC_DateStructInit(RTC\_DateTypeDef* RTC\_DateStruct);
+00794 \textcolor{keywordtype}{void} RTC_GetDate(uint32\_t RTC\_Format, RTC\_DateTypeDef* RTC\_DateStruct);
+00795 
+00796 \textcolor{comment}{/* Alarms (Alarm A and Alarm B) configuration functions  **********************/}
+00797 \textcolor{keywordtype}{void} RTC_SetAlarm(uint32\_t RTC\_Format, uint32\_t RTC\_Alarm, RTC\_AlarmTypeDef* RTC\_AlarmStruct);
+00798 \textcolor{keywordtype}{void} RTC_AlarmStructInit(RTC\_AlarmTypeDef* RTC\_AlarmStruct);
+00799 \textcolor{keywordtype}{void} RTC_GetAlarm(uint32\_t RTC\_Format, uint32\_t RTC\_Alarm, RTC\_AlarmTypeDef* RTC\_AlarmStruct);
+00800 ErrorStatus RTC_AlarmCmd(uint32\_t RTC\_Alarm, FunctionalState NewState);
+00801 \textcolor{keywordtype}{void} RTC_AlarmSubSecondConfig(uint32\_t RTC\_Alarm, uint32\_t RTC\_AlarmSubSecondValue, uint32\_t 
+      RTC\_AlarmSubSecondMask);
+00802 uint32\_t RTC_GetAlarmSubSecond(uint32\_t RTC\_Alarm);
+00803 
+00804 \textcolor{comment}{/* WakeUp Timer configuration functions ***************************************/}
+00805 \textcolor{keywordtype}{void} RTC_WakeUpClockConfig(uint32\_t RTC\_WakeUpClock);
+00806 \textcolor{keywordtype}{void} RTC_SetWakeUpCounter(uint32\_t RTC\_WakeUpCounter);
+00807 uint32\_t RTC_GetWakeUpCounter(\textcolor{keywordtype}{void});
+00808 ErrorStatus RTC_WakeUpCmd(FunctionalState NewState);
+00809 
+00810 \textcolor{comment}{/* Daylight Saving configuration functions ************************************/}
+00811 \textcolor{keywordtype}{void} RTC_DayLightSavingConfig(uint32\_t RTC\_DayLightSaving, uint32\_t RTC\_StoreOperation);
+00812 uint32\_t RTC_GetStoreOperation(\textcolor{keywordtype}{void});
+00813 
+00814 \textcolor{comment}{/* Output pin Configuration function ******************************************/}
+00815 \textcolor{keywordtype}{void} RTC_OutputConfig(uint32\_t RTC\_Output, uint32\_t RTC\_OutputPolarity);
+00816 
+00817 \textcolor{comment}{/* Digital Calibration configuration functions *********************************/}
+00818 ErrorStatus RTC_CoarseCalibConfig(uint32\_t RTC\_CalibSign, uint32\_t Value);
+00819 ErrorStatus RTC_CoarseCalibCmd(FunctionalState NewState);
+00820 \textcolor{keywordtype}{void} RTC_CalibOutputCmd(FunctionalState NewState);
+00821 \textcolor{keywordtype}{void} RTC_CalibOutputConfig(uint32\_t RTC\_CalibOutput);
+00822 ErrorStatus RTC_SmoothCalibConfig(uint32\_t RTC\_SmoothCalibPeriod,
+00823                                   uint32\_t RTC\_SmoothCalibPlusPulses,
+00824                                   uint32\_t RTC\_SmouthCalibMinusPulsesValue);
+00825 
+00826 \textcolor{comment}{/* TimeStamp configuration functions ******************************************/}
+00827 \textcolor{keywordtype}{void} RTC_TimeStampCmd(uint32\_t RTC\_TimeStampEdge, FunctionalState NewState);
+00828 \textcolor{keywordtype}{void} RTC_GetTimeStamp(uint32\_t RTC\_Format, RTC\_TimeTypeDef* RTC\_StampTimeStruct,
+00829                                       RTC\_DateTypeDef* RTC\_StampDateStruct);
+00830 uint32\_t RTC_GetTimeStampSubSecond(\textcolor{keywordtype}{void});
+00831 
+00832 \textcolor{comment}{/* Tampers configuration functions ********************************************/}
+00833 \textcolor{keywordtype}{void} RTC_TamperTriggerConfig(uint32\_t RTC\_Tamper, uint32\_t RTC\_TamperTrigger);
+00834 \textcolor{keywordtype}{void} RTC_TamperCmd(uint32\_t RTC\_Tamper, FunctionalState NewState);
+00835 \textcolor{keywordtype}{void} RTC_TamperFilterConfig(uint32\_t RTC\_TamperFilter);
+00836 \textcolor{keywordtype}{void} RTC_TamperSamplingFreqConfig(uint32\_t RTC\_TamperSamplingFreq);
+00837 \textcolor{keywordtype}{void} RTC_TamperPinsPrechargeDuration(uint32\_t RTC\_TamperPrechargeDuration);
+00838 \textcolor{keywordtype}{void} RTC_TimeStampOnTamperDetectionCmd(FunctionalState NewState);
+00839 \textcolor{keywordtype}{void} RTC_TamperPullUpCmd(FunctionalState NewState);
+00840 
+00841 \textcolor{comment}{/* Backup Data Registers configuration functions ******************************/}
+00842 \textcolor{keywordtype}{void} RTC_WriteBackupRegister(uint32\_t RTC\_BKP\_DR, uint32\_t Data);
+00843 uint32\_t RTC_ReadBackupRegister(uint32\_t RTC\_BKP\_DR);
+00844 
+00845 \textcolor{comment}{/* RTC Tamper and TimeStamp Pins Selection and Output Type Config configuration}
+00846 \textcolor{comment}{   functions ******************************************************************/}
+00847 \textcolor{keywordtype}{void} RTC_TamperPinSelection(uint32\_t RTC\_TamperPin);
+00848 \textcolor{keywordtype}{void} RTC_TimeStampPinSelection(uint32\_t RTC\_TimeStampPin);
+00849 \textcolor{keywordtype}{void} RTC_OutputTypeConfig(uint32\_t RTC\_OutputType);
+00850 
+00851 \textcolor{comment}{/* RTC\_Shift\_control\_synchonisation\_functions *********************************/}
+00852 ErrorStatus RTC_SynchroShiftConfig(uint32\_t RTC\_ShiftAdd1S, uint32\_t RTC\_ShiftSubFS);
+00853 
+00854 \textcolor{comment}{/* Interrupts and flags management functions **********************************/}
+00855 \textcolor{keywordtype}{void} RTC_ITConfig(uint32\_t RTC\_IT, FunctionalState NewState);
+00856 FlagStatus RTC_GetFlagStatus(uint32\_t RTC\_FLAG);
+00857 \textcolor{keywordtype}{void} RTC_ClearFlag(uint32\_t RTC\_FLAG);
+00858 ITStatus RTC_GetITStatus(uint32\_t RTC\_IT);
+00859 \textcolor{keywordtype}{void} RTC_ClearITPendingBit(uint32\_t RTC\_IT);
+00860 
+00861 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00862 \}
+00863 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00864 
+00865 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/*\_\_STM32F4xx\_RTC\_H */}
+00866 
+00867 \textcolor{comment}{/**}
+00868 \textcolor{comment}{  * @\}}
+00869 \textcolor{comment}{  */}
+00870 
+00871 \textcolor{comment}{/**}
+00872 \textcolor{comment}{  * @\}}
+00873 \textcolor{comment}{  */}
+00874 
+00875 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

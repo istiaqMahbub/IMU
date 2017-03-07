@@ -1,0 +1,1821 @@
+\section{stm32f4xx\+\_\+rcc.\+c}
+\label{stm32f4xx__rcc_8c_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+rcc.\+c@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+rcc.\+c}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_rcc.c}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file provides firmware functions to manage the following }
+00008 \textcolor{comment}{  *          functionalities of the Reset and clock control (RCC) peripheral:}
+00009 \textcolor{comment}{  *           - Internal/external clocks, PLL, CSS and MCO configuration}
+00010 \textcolor{comment}{  *           - System, AHB and APB busses clocks configuration}
+00011 \textcolor{comment}{  *           - Peripheral clocks configuration}
+00012 \textcolor{comment}{  *           - Interrupts and flags management}
+00013 \textcolor{comment}{  *}
+00014 \textcolor{comment}{  *  @verbatim}
+00015 \textcolor{comment}{  *               }
+00016 \textcolor{comment}{  *          ===================================================================}
+00017 \textcolor{comment}{  *                               RCC specific features}
+00018 \textcolor{comment}{  *          ===================================================================}
+00019 \textcolor{comment}{  *    }
+00020 \textcolor{comment}{  *          After reset the device is running from Internal High Speed oscillator }
+00021 \textcolor{comment}{  *          (HSI 16MHz) with Flash 0 wait state, Flash prefetch buffer, D-Cache }
+00022 \textcolor{comment}{  *          and I-Cache are disabled, and all peripherals are off except internal}
+00023 \textcolor{comment}{  *          SRAM, Flash and JTAG.}
+00024 \textcolor{comment}{  *           - There is no prescaler on High speed (AHB) and Low speed (APB) busses;}
+00025 \textcolor{comment}{  *             all peripherals mapped on these busses are running at HSI speed.}
+00026 \textcolor{comment}{  *           - The clock for all peripherals is switched off, except the SRAM and FLASH.}
+00027 \textcolor{comment}{  *           - All GPIOs are in input floating state, except the JTAG pins which}
+00028 \textcolor{comment}{  *             are assigned to be used for debug purpose.}
+00029 \textcolor{comment}{  *        }
+00030 \textcolor{comment}{  *          Once the device started from reset, the user application has to:        }
+00031 \textcolor{comment}{  *           - Configure the clock source to be used to drive the System clock}
+00032 \textcolor{comment}{  *             (if the application needs higher frequency/performance)}
+00033 \textcolor{comment}{  *           - Configure the System clock frequency and Flash settings  }
+00034 \textcolor{comment}{  *           - Configure the AHB and APB busses prescalers}
+00035 \textcolor{comment}{  *           - Enable the clock for the peripheral(s) to be used}
+00036 \textcolor{comment}{  *           - Configure the clock source(s) for peripherals which clocks are not}
+00037 \textcolor{comment}{  *             derived from the System clock (I2S, RTC, ADC, USB OTG FS/SDIO/RNG)      }
+00038 \textcolor{comment}{  *                        }
+00039 \textcolor{comment}{  *  @endverbatim}
+00040 \textcolor{comment}{  *    }
+00041 \textcolor{comment}{  ******************************************************************************}
+00042 \textcolor{comment}{  * @attention}
+00043 \textcolor{comment}{  *}
+00044 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00045 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00046 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00047 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00048 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00049 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00050 \textcolor{comment}{  *}
+00051 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00052 \textcolor{comment}{  ******************************************************************************}
+00053 \textcolor{comment}{  */}
+00054 
+00055 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00056 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx_rcc.h"
+00057 
+00058 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00059 \textcolor{comment}{  * @\{}
+00060 \textcolor{comment}{  */}
+00061 
+00062 \textcolor{comment}{/** @defgroup RCC }
+00063 \textcolor{comment}{  * @brief RCC driver modules}
+00064 \textcolor{comment}{  * @\{}
+00065 \textcolor{comment}{  */}
+00066 
+00067 \textcolor{comment}{/* Private typedef -----------------------------------------------------------*/}
+00068 \textcolor{comment}{/* Private define ------------------------------------------------------------*/}
+00069 \textcolor{comment}{/* ------------ RCC registers bit address in the alias region ----------- */}
+00070 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RCC\_OFFSET}                \textcolor{preprocessor}{(}RCC_BASE \textcolor{preprocessor}{-} PERIPH_BASE\textcolor{preprocessor}{)}
+00071 \textcolor{comment}{/* --- CR Register ---*/}
+00072 \textcolor{comment}{/* Alias word address of HSION bit */}
+00073 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR\_OFFSET}                 \textcolor{preprocessor}{(}RCC_OFFSET \textcolor{preprocessor}{+} 0x00\textcolor{preprocessor}{)}
+00074 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{HSION\_BitNumber}           0x00
+00075 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR\_HSION\_BB}               \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}CR_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      HSION_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00076 \textcolor{comment}{/* Alias word address of CSSON bit */}
+00077 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CSSON\_BitNumber}           0x13
+00078 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR\_CSSON\_BB}               \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}CR_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      CSSON_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00079 \textcolor{comment}{/* Alias word address of PLLON bit */}
+00080 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PLLON\_BitNumber}           0x18
+00081 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR\_PLLON\_BB}               \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}CR_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      PLLON_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00082 \textcolor{comment}{/* Alias word address of PLLI2SON bit */}
+00083 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{PLLI2SON\_BitNumber}        0x1A
+00084 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR\_PLLI2SON\_BB}            \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}CR_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      PLLI2SON_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00085 
+00086 \textcolor{comment}{/* --- CFGR Register ---*/}
+00087 \textcolor{comment}{/* Alias word address of I2SSRC bit */}
+00088 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CFGR\_OFFSET}               \textcolor{preprocessor}{(}RCC_OFFSET \textcolor{preprocessor}{+} 0x08\textcolor{preprocessor}{)}
+00089 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2SSRC\_BitNumber}          0x17
+00090 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CFGR\_I2SSRC\_BB}            \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}CFGR_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      I2SSRC_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00091 
+00092 \textcolor{comment}{/* --- BDCR Register ---*/}
+00093 \textcolor{comment}{/* Alias word address of RTCEN bit */}
+00094 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{BDCR\_OFFSET}               \textcolor{preprocessor}{(}RCC_OFFSET \textcolor{preprocessor}{+} 0x70\textcolor{preprocessor}{)}
+00095 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{RTCEN\_BitNumber}           0x0F
+00096 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{BDCR\_RTCEN\_BB}             \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}BDCR_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      RTCEN_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00097 \textcolor{comment}{/* Alias word address of BDRST bit */}
+00098 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{BDRST\_BitNumber}           0x10
+00099 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{BDCR\_BDRST\_BB}             \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}BDCR_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      BDRST_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00100 \textcolor{comment}{/* --- CSR Register ---*/}
+00101 \textcolor{comment}{/* Alias word address of LSION bit */}
+00102 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CSR\_OFFSET}                \textcolor{preprocessor}{(}RCC_OFFSET \textcolor{preprocessor}{+} 0x74\textcolor{preprocessor}{)}
+00103 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{LSION\_BitNumber}           0x00
+00104 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CSR\_LSION\_BB}              \textcolor{preprocessor}{(}PERIPH_BB_BASE \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}CSR_OFFSET \textcolor{preprocessor}{*} 32\textcolor{preprocessor}{)} \textcolor{preprocessor}{+} \textcolor{preprocessor}{(}
+      LSION_BitNumber \textcolor{preprocessor}{*} 4\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00105 \textcolor{comment}{/* ---------------------- RCC registers bit mask ------------------------ */}
+00106 \textcolor{comment}{/* CFGR register bit mask */}
+00107 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CFGR\_MCO2\_RESET\_MASK}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x07FFFFFF\textcolor{preprocessor}{)}
+00108 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CFGR\_MCO1\_RESET\_MASK}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0xF89FFFFF\textcolor{preprocessor}{)}
+00109 
+00110 \textcolor{comment}{/* RCC Flag Mask */}
+00111 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{FLAG\_MASK}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x1F\textcolor{preprocessor}{)}
+00112 
+00113 \textcolor{comment}{/* CR register byte 3 (Bits[23:16]) base address */}
+00114 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CR\_BYTE3\_ADDRESS}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x40023802\textcolor{preprocessor}{)}
+00115 
+00116 \textcolor{comment}{/* CIR register byte 2 (Bits[15:8]) base address */}
+00117 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CIR\_BYTE2\_ADDRESS}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}RCC_BASE \textcolor{preprocessor}{+} 0x0C \textcolor{preprocessor}{+} 0x01\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00118 
+00119 \textcolor{comment}{/* CIR register byte 3 (Bits[23:16]) base address */}
+00120 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{CIR\_BYTE3\_ADDRESS}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}\textcolor{preprocessor}{(}RCC_BASE \textcolor{preprocessor}{+} 0x0C \textcolor{preprocessor}{+} 0x02\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00121 
+00122 \textcolor{comment}{/* BDCR register base address */}
+00123 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{BDCR\_ADDRESS}              \textcolor{preprocessor}{(}PERIPH_BASE \textcolor{preprocessor}{+} BDCR_OFFSET\textcolor{preprocessor}{)}
+00124 
+00125 \textcolor{comment}{/* Private macro -------------------------------------------------------------*/}
+00126 \textcolor{comment}{/* Private variables ---------------------------------------------------------*/}
+00127 \textcolor{keyword}{static} \_\_I uint8\_t APBAHBPrescTable[16] = \{0, 0, 0, 0, 1, 2, 3, 4, 1, 2, 3, 4, 6, 7, 8, 9\};
+00128 
+00129 \textcolor{comment}{/* Private function prototypes -----------------------------------------------*/}
+00130 \textcolor{comment}{/* Private functions ---------------------------------------------------------*/}
+00131 
+00132 \textcolor{comment}{/** @defgroup RCC\_Private\_Functions}
+00133 \textcolor{comment}{  * @\{}
+00134 \textcolor{comment}{  */}
+00135 
+00136 \textcolor{comment}{/** @defgroup RCC\_Group1 Internal and external clocks, PLL, CSS and MCO configuration functions}
+00137 \textcolor{comment}{ *  @brief   Internal and external clocks, PLL, CSS and MCO configuration functions }
+00138 \textcolor{comment}{ *}
+00139 \textcolor{comment}{@verbatim   }
+00140 \textcolor{comment}{ ===============================================================================}
+00141 \textcolor{comment}{      Internal/external clocks, PLL, CSS and MCO configuration functions}
+00142 \textcolor{comment}{ ===============================================================================  }
+00143 \textcolor{comment}{}
+00144 \textcolor{comment}{  This section provide functions allowing to configure the internal/external clocks,}
+00145 \textcolor{comment}{  PLLs, CSS and MCO pins.}
+00146 \textcolor{comment}{  }
+00147 \textcolor{comment}{  1. HSI (high-speed internal), 16 MHz factory-trimmed RC used directly or through}
+00148 \textcolor{comment}{     the PLL as System clock source.}
+00149 \textcolor{comment}{}
+00150 \textcolor{comment}{  2. LSI (low-speed internal), 32 KHz low consumption RC used as IWDG and/or RTC}
+00151 \textcolor{comment}{     clock source.}
+00152 \textcolor{comment}{}
+00153 \textcolor{comment}{  3. HSE (high-speed external), 4 to 26 MHz crystal oscillator used directly or}
+00154 \textcolor{comment}{     through the PLL as System clock source. Can be used also as RTC clock source.}
+00155 \textcolor{comment}{}
+00156 \textcolor{comment}{  4. LSE (low-speed external), 32 KHz oscillator used as RTC clock source.   }
+00157 \textcolor{comment}{}
+00158 \textcolor{comment}{  5. PLL (clocked by HSI or HSE), featuring two different output clocks:}
+00159 \textcolor{comment}{      - The first output is used to generate the high speed system clock (up to 168 MHz)}
+00160 \textcolor{comment}{      - The second output is used to generate the clock for the USB OTG FS (48 MHz),}
+00161 \textcolor{comment}{        the random analog generator (<=48 MHz) and the SDIO (<= 48 MHz).}
+00162 \textcolor{comment}{}
+00163 \textcolor{comment}{  6. PLLI2S (clocked by HSI or HSE), used to generate an accurate clock to achieve }
+00164 \textcolor{comment}{     high-quality audio performance on the I2S interface.}
+00165 \textcolor{comment}{  }
+00166 \textcolor{comment}{  7. CSS (Clock security system), once enable and if a HSE clock failure occurs }
+00167 \textcolor{comment}{     (HSE used directly or through PLL as System clock source), the System clock}
+00168 \textcolor{comment}{     is automatically switched to HSI and an interrupt is generated if enabled. }
+00169 \textcolor{comment}{     The interrupt is linked to the Cortex-M4 NMI (Non-Maskable Interrupt) }
+00170 \textcolor{comment}{     exception vector.   }
+00171 \textcolor{comment}{}
+00172 \textcolor{comment}{  8. MCO1 (microcontroller clock output), used to output HSI, LSE, HSE or PLL}
+00173 \textcolor{comment}{     clock (through a configurable prescaler) on PA8 pin.}
+00174 \textcolor{comment}{}
+00175 \textcolor{comment}{  9. MCO2 (microcontroller clock output), used to output HSE, PLL, SYSCLK or PLLI2S}
+00176 \textcolor{comment}{     clock (through a configurable prescaler) on PC9 pin.}
+00177 \textcolor{comment}{}
+00178 \textcolor{comment}{@endverbatim}
+00179 \textcolor{comment}{  * @\{}
+00180 \textcolor{comment}{  */}
+00181 
+00182 \textcolor{comment}{/**}
+00183 \textcolor{comment}{  * @brief  Resets the RCC clock configuration to the default reset state.}
+00184 \textcolor{comment}{  * @note   The default reset state of the clock configuration is given below:}
+00185 \textcolor{comment}{  *            - HSI ON and used as system clock source}
+00186 \textcolor{comment}{  *            - HSE, PLL and PLLI2S OFF}
+00187 \textcolor{comment}{  *            - AHB, APB1 and APB2 prescaler set to 1.}
+00188 \textcolor{comment}{  *            - CSS, MCO1 and MCO2 OFF}
+00189 \textcolor{comment}{  *            - All interrupts disabled}
+00190 \textcolor{comment}{  * @note   This function doesn't modify the configuration of the}
+00191 \textcolor{comment}{  *            - Peripheral clocks}
+00192 \textcolor{comment}{  *            - LSI, LSE and RTC clocks }
+00193 \textcolor{comment}{  * @param  None}
+00194 \textcolor{comment}{  * @retval None}
+00195 \textcolor{comment}{  */}
+00196 \textcolor{keywordtype}{void} RCC_DeInit(\textcolor{keywordtype}{void})
+00197 \{
+00198   \textcolor{comment}{/* Set HSION bit */}
+00199   RCC->CR |= (uint32\_t)0x00000001;
+00200 
+00201   \textcolor{comment}{/* Reset CFGR register */}
+00202   RCC->CFGR = 0x00000000;
+00203 
+00204   \textcolor{comment}{/* Reset HSEON, CSSON and PLLON bits */}
+00205   RCC->CR &= (uint32\_t)0xFEF6FFFF;
+00206 
+00207   \textcolor{comment}{/* Reset PLLCFGR register */}
+00208   RCC->PLLCFGR = 0x24003010;
+00209 
+00210   \textcolor{comment}{/* Reset HSEBYP bit */}
+00211   RCC->CR &= (uint32\_t)0xFFFBFFFF;
+00212 
+00213   \textcolor{comment}{/* Disable all interrupts */}
+00214   RCC->CIR = 0x00000000;
+00215 \}
+00216 
+00217 \textcolor{comment}{/**}
+00218 \textcolor{comment}{  * @brief  Configures the External High Speed oscillator (HSE).}
+00219 \textcolor{comment}{  * @note   After enabling the HSE (RCC\_HSE\_ON or RCC\_HSE\_Bypass), the application}
+00220 \textcolor{comment}{  *         software should wait on HSERDY flag to be set indicating that HSE clock}
+00221 \textcolor{comment}{  *         is stable and can be used to clock the PLL and/or system clock.}
+00222 \textcolor{comment}{  * @note   HSE state can not be changed if it is used directly or through the}
+00223 \textcolor{comment}{  *         PLL as system clock. In this case, you have to select another source}
+00224 \textcolor{comment}{  *         of the system clock then change the HSE state (ex. disable it).}
+00225 \textcolor{comment}{  * @note   The HSE is stopped by hardware when entering STOP and STANDBY modes.  }
+00226 \textcolor{comment}{  * @note   This function reset the CSSON bit, so if the Clock security system(CSS)}
+00227 \textcolor{comment}{  *         was previously enabled you have to enable it again after calling this}
+00228 \textcolor{comment}{  *         function.    }
+00229 \textcolor{comment}{  * @param  RCC\_HSE: specifies the new state of the HSE.}
+00230 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00231 \textcolor{comment}{  *            @arg RCC\_HSE\_OFF: turn OFF the HSE oscillator, HSERDY flag goes low after}
+00232 \textcolor{comment}{  *                              6 HSE oscillator clock cycles.}
+00233 \textcolor{comment}{  *            @arg RCC\_HSE\_ON: turn ON the HSE oscillator}
+00234 \textcolor{comment}{  *            @arg RCC\_HSE\_Bypass: HSE oscillator bypassed with external clock}
+00235 \textcolor{comment}{  * @retval None}
+00236 \textcolor{comment}{  */}
+00237 \textcolor{keywordtype}{void} RCC_HSEConfig(uint8\_t RCC\_HSE)
+00238 \{
+00239   \textcolor{comment}{/* Check the parameters */}
+00240   assert_param(IS\_RCC\_HSE(RCC\_HSE));
+00241 
+00242   \textcolor{comment}{/* Reset HSEON and HSEBYP bits before configuring the HSE ------------------*/}
+00243   *(\_\_IO uint8\_t *) CR_BYTE3_ADDRESS = RCC_HSE_OFF;
+00244 
+00245   \textcolor{comment}{/* Set the new HSE configuration -------------------------------------------*/}
+00246   *(\_\_IO uint8\_t *) CR_BYTE3_ADDRESS = RCC\_HSE;
+00247 \}
+00248 
+00249 \textcolor{comment}{/**}
+00250 \textcolor{comment}{  * @brief  Waits for HSE start-up.}
+00251 \textcolor{comment}{  * @note   This functions waits on HSERDY flag to be set and return SUCCESS if }
+00252 \textcolor{comment}{  *         this flag is set, otherwise returns ERROR if the timeout is reached }
+00253 \textcolor{comment}{  *         and this flag is not set. The timeout value is defined by the constant}
+00254 \textcolor{comment}{  *         HSE\_STARTUP\_TIMEOUT in stm32f4xx.h file. You can tailor it depending}
+00255 \textcolor{comment}{  *         on the HSE crystal used in your application. }
+00256 \textcolor{comment}{  * @param  None}
+00257 \textcolor{comment}{  * @retval An ErrorStatus enumeration value:}
+00258 \textcolor{comment}{  *          - SUCCESS: HSE oscillator is stable and ready to use}
+00259 \textcolor{comment}{  *          - ERROR: HSE oscillator not yet ready}
+00260 \textcolor{comment}{  */}
+00261 ErrorStatus RCC_WaitForHSEStartUp(\textcolor{keywordtype}{void})
+00262 \{
+00263   \_\_IO uint32\_t startupcounter = 0;
+00264   ErrorStatus status = ERROR;
+00265   FlagStatus hsestatus = RESET;
+00266   \textcolor{comment}{/* Wait till HSE is ready and if Time out is reached exit */}
+00267   \textcolor{keywordflow}{do}
+00268   \{
+00269     hsestatus = RCC\_GetFlagStatus(RCC_FLAG_HSERDY);
+00270     startupcounter++;
+00271   \} \textcolor{keywordflow}{while}((startupcounter != HSE_STARTUP_TIMEOUT) && (hsestatus == RESET));
+00272 
+00273   \textcolor{keywordflow}{if} (RCC_GetFlagStatus(RCC_FLAG_HSERDY) != RESET)
+00274   \{
+00275     status = SUCCESS;
+00276   \}
+00277   \textcolor{keywordflow}{else}
+00278   \{
+00279     status = ERROR;
+00280   \}
+00281   \textcolor{keywordflow}{return} (status);
+00282 \}
+00283 
+00284 \textcolor{comment}{/**}
+00285 \textcolor{comment}{  * @brief  Adjusts the Internal High Speed oscillator (HSI) calibration value.}
+00286 \textcolor{comment}{  * @note   The calibration is used to compensate for the variations in voltage}
+00287 \textcolor{comment}{  *         and temperature that influence the frequency of the internal HSI RC.}
+00288 \textcolor{comment}{  * @param  HSICalibrationValue: specifies the calibration trimming value.}
+00289 \textcolor{comment}{  *         This parameter must be a number between 0 and 0x1F.}
+00290 \textcolor{comment}{  * @retval None}
+00291 \textcolor{comment}{  */}
+00292 \textcolor{keywordtype}{void} RCC_AdjustHSICalibrationValue(uint8\_t HSICalibrationValue)
+00293 \{
+00294   uint32\_t tmpreg = 0;
+00295   \textcolor{comment}{/* Check the parameters */}
+00296   assert_param(IS\_RCC\_CALIBRATION\_VALUE(HSICalibrationValue));
+00297 
+00298   tmpreg = RCC->CR;
+00299 
+00300   \textcolor{comment}{/* Clear HSITRIM[4:0] bits */}
+00301   tmpreg &= ~RCC_CR_HSITRIM;
+00302 
+00303   \textcolor{comment}{/* Set the HSITRIM[4:0] bits according to HSICalibrationValue value */}
+00304   tmpreg |= (uint32\_t)HSICalibrationValue << 3;
+00305 
+00306   \textcolor{comment}{/* Store the new value */}
+00307   RCC->CR = tmpreg;
+00308 \}
+00309 
+00310 \textcolor{comment}{/**}
+00311 \textcolor{comment}{  * @brief  Enables or disables the Internal High Speed oscillator (HSI).}
+00312 \textcolor{comment}{  * @note   The HSI is stopped by hardware when entering STOP and STANDBY modes.}
+00313 \textcolor{comment}{  *         It is used (enabled by hardware) as system clock source after startup}
+00314 \textcolor{comment}{  *         from Reset, wakeup from STOP and STANDBY mode, or in case of failure}
+00315 \textcolor{comment}{  *         of the HSE used directly or indirectly as system clock (if the Clock}
+00316 \textcolor{comment}{  *         Security System CSS is enabled).             }
+00317 \textcolor{comment}{  * @note   HSI can not be stopped if it is used as system clock source. In this case,}
+00318 \textcolor{comment}{  *         you have to select another source of the system clock then stop the HSI.  }
+00319 \textcolor{comment}{  * @note   After enabling the HSI, the application software should wait on HSIRDY}
+00320 \textcolor{comment}{  *         flag to be set indicating that HSI clock is stable and can be used as}
+00321 \textcolor{comment}{  *         system clock source.  }
+00322 \textcolor{comment}{  * @param  NewState: new state of the HSI.}
+00323 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00324 \textcolor{comment}{  * @note   When the HSI is stopped, HSIRDY flag goes low after 6 HSI oscillator}
+00325 \textcolor{comment}{  *         clock cycles.  }
+00326 \textcolor{comment}{  * @retval None}
+00327 \textcolor{comment}{  */}
+00328 \textcolor{keywordtype}{void} RCC_HSICmd(FunctionalState NewState)
+00329 \{
+00330   \textcolor{comment}{/* Check the parameters */}
+00331   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00332 
+00333   *(\_\_IO uint32\_t *) CR_HSION_BB = (uint32\_t)NewState;
+00334 \}
+00335 
+00336 \textcolor{comment}{/**}
+00337 \textcolor{comment}{  * @brief  Configures the External Low Speed oscillator (LSE).}
+00338 \textcolor{comment}{  * @note   As the LSE is in the Backup domain and write access is denied to}
+00339 \textcolor{comment}{  *         this domain after reset, you have to enable write access using }
+00340 \textcolor{comment}{  *         PWR\_BackupAccessCmd(ENABLE) function before to configure the LSE}
+00341 \textcolor{comment}{  *         (to be done once after reset).  }
+00342 \textcolor{comment}{  * @note   After enabling the LSE (RCC\_LSE\_ON or RCC\_LSE\_Bypass), the application}
+00343 \textcolor{comment}{  *         software should wait on LSERDY flag to be set indicating that LSE clock}
+00344 \textcolor{comment}{  *         is stable and can be used to clock the RTC.}
+00345 \textcolor{comment}{  * @param  RCC\_LSE: specifies the new state of the LSE.}
+00346 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00347 \textcolor{comment}{  *            @arg RCC\_LSE\_OFF: turn OFF the LSE oscillator, LSERDY flag goes low after}
+00348 \textcolor{comment}{  *                              6 LSE oscillator clock cycles.}
+00349 \textcolor{comment}{  *            @arg RCC\_LSE\_ON: turn ON the LSE oscillator}
+00350 \textcolor{comment}{  *            @arg RCC\_LSE\_Bypass: LSE oscillator bypassed with external clock}
+00351 \textcolor{comment}{  * @retval None}
+00352 \textcolor{comment}{  */}
+00353 \textcolor{keywordtype}{void} RCC_LSEConfig(uint8\_t RCC\_LSE)
+00354 \{
+00355   \textcolor{comment}{/* Check the parameters */}
+00356   assert_param(IS\_RCC\_LSE(RCC\_LSE));
+00357 
+00358   \textcolor{comment}{/* Reset LSEON and LSEBYP bits before configuring the LSE ------------------*/}
+00359   \textcolor{comment}{/* Reset LSEON bit */}
+00360   *(\_\_IO uint8\_t *) BDCR_ADDRESS = RCC_LSE_OFF;
+00361 
+00362   \textcolor{comment}{/* Reset LSEBYP bit */}
+00363   *(\_\_IO uint8\_t *) BDCR_ADDRESS = RCC_LSE_OFF;
+00364 
+00365   \textcolor{comment}{/* Configure LSE (RCC\_LSE\_OFF is already covered by the code section above) */}
+00366   \textcolor{keywordflow}{switch} (RCC\_LSE)
+00367   \{
+00368     \textcolor{keywordflow}{case} RCC_LSE_ON:
+00369       \textcolor{comment}{/* Set LSEON bit */}
+00370       *(\_\_IO uint8\_t *) BDCR_ADDRESS = RCC_LSE_ON;
+00371       \textcolor{keywordflow}{break};
+00372     \textcolor{keywordflow}{case} RCC_LSE_Bypass:
+00373       \textcolor{comment}{/* Set LSEBYP and LSEON bits */}
+00374       *(\_\_IO uint8\_t *) BDCR_ADDRESS = RCC_LSE_Bypass | RCC_LSE_ON;
+00375       \textcolor{keywordflow}{break};
+00376     \textcolor{keywordflow}{default}:
+00377       \textcolor{keywordflow}{break};
+00378   \}
+00379 \}
+00380 
+00381 \textcolor{comment}{/**}
+00382 \textcolor{comment}{  * @brief  Enables or disables the Internal Low Speed oscillator (LSI).}
+00383 \textcolor{comment}{  * @note   After enabling the LSI, the application software should wait on }
+00384 \textcolor{comment}{  *         LSIRDY flag to be set indicating that LSI clock is stable and can}
+00385 \textcolor{comment}{  *         be used to clock the IWDG and/or the RTC.}
+00386 \textcolor{comment}{  * @note   LSI can not be disabled if the IWDG is running.  }
+00387 \textcolor{comment}{  * @param  NewState: new state of the LSI.}
+00388 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+00389 \textcolor{comment}{  * @note   When the LSI is stopped, LSIRDY flag goes low after 6 LSI oscillator}
+00390 \textcolor{comment}{  *         clock cycles. }
+00391 \textcolor{comment}{  * @retval None}
+00392 \textcolor{comment}{  */}
+00393 \textcolor{keywordtype}{void} RCC_LSICmd(FunctionalState NewState)
+00394 \{
+00395   \textcolor{comment}{/* Check the parameters */}
+00396   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00397 
+00398   *(\_\_IO uint32\_t *) CSR_LSION_BB = (uint32\_t)NewState;
+00399 \}
+00400 
+00401 \textcolor{comment}{/**}
+00402 \textcolor{comment}{  * @brief  Configures the main PLL clock source, multiplication and division factors.}
+00403 \textcolor{comment}{  * @note   This function must be used only when the main PLL is disabled.}
+00404 \textcolor{comment}{  *  }
+00405 \textcolor{comment}{  * @param  RCC\_PLLSource: specifies the PLL entry clock source.}
+00406 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00407 \textcolor{comment}{  *            @arg RCC\_PLLSource\_HSI: HSI oscillator clock selected as PLL clock entry}
+00408 \textcolor{comment}{  *            @arg RCC\_PLLSource\_HSE: HSE oscillator clock selected as PLL clock entry}
+00409 \textcolor{comment}{  * @note   This clock source (RCC\_PLLSource) is common for the main PLL and PLLI2S.  }
+00410 \textcolor{comment}{  *  }
+00411 \textcolor{comment}{  * @param  PLLM: specifies the division factor for PLL VCO input clock}
+00412 \textcolor{comment}{  *          This parameter must be a number between 0 and 63.}
+00413 \textcolor{comment}{  * @note   You have to set the PLLM parameter correctly to ensure that the VCO input}
+00414 \textcolor{comment}{  *         frequency ranges from 1 to 2 MHz. It is recommended to select a frequency}
+00415 \textcolor{comment}{  *         of 2 MHz to limit PLL jitter.}
+00416 \textcolor{comment}{  *  }
+00417 \textcolor{comment}{  * @param  PLLN: specifies the multiplication factor for PLL VCO output clock}
+00418 \textcolor{comment}{  *          This parameter must be a number between 192 and 432.}
+00419 \textcolor{comment}{  * @note   You have to set the PLLN parameter correctly to ensure that the VCO}
+00420 \textcolor{comment}{  *         output frequency is between 192 and 432 MHz.}
+00421 \textcolor{comment}{  *   }
+00422 \textcolor{comment}{  * @param  PLLP: specifies the division factor for main system clock (SYSCLK)}
+00423 \textcolor{comment}{  *          This parameter must be a number in the range \{2, 4, 6, or 8\}.}
+00424 \textcolor{comment}{  * @note   You have to set the PLLP parameter correctly to not exceed 168 MHz on}
+00425 \textcolor{comment}{  *         the System clock frequency.}
+00426 \textcolor{comment}{  *  }
+00427 \textcolor{comment}{  * @param  PLLQ: specifies the division factor for OTG FS, SDIO and RNG clocks}
+00428 \textcolor{comment}{  *          This parameter must be a number between 4 and 15.}
+00429 \textcolor{comment}{  * @note   If the USB OTG FS is used in your application, you have to set the}
+00430 \textcolor{comment}{  *         PLLQ parameter correctly to have 48 MHz clock for the USB. However,}
+00431 \textcolor{comment}{  *         the SDIO and RNG need a frequency lower than or equal to 48 MHz to work}
+00432 \textcolor{comment}{  *         correctly.}
+00433 \textcolor{comment}{  *   }
+00434 \textcolor{comment}{  * @retval None}
+00435 \textcolor{comment}{  */}
+00436 \textcolor{keywordtype}{void} RCC_PLLConfig(uint32\_t RCC\_PLLSource, uint32\_t PLLM, uint32\_t PLLN, uint32\_t PLLP, uint32\_t PLLQ)
+00437 \{
+00438   \textcolor{comment}{/* Check the parameters */}
+00439   assert_param(IS\_RCC\_PLL\_SOURCE(RCC\_PLLSource));
+00440   assert_param(IS\_RCC\_PLLM\_VALUE(PLLM));
+00441   assert_param(IS\_RCC\_PLLN\_VALUE(PLLN));
+00442   assert_param(IS\_RCC\_PLLP\_VALUE(PLLP));
+00443   assert_param(IS\_RCC\_PLLQ\_VALUE(PLLQ));
+00444 
+00445   RCC->PLLCFGR = PLLM | (PLLN << 6) | (((PLLP >> 1) -1) << 16) | (RCC\_PLLSource) |
+00446                  (PLLQ << 24);
+00447 \}
+00448 
+00449 \textcolor{comment}{/**}
+00450 \textcolor{comment}{  * @brief  Enables or disables the main PLL.}
+00451 \textcolor{comment}{  * @note   After enabling the main PLL, the application software should wait on }
+00452 \textcolor{comment}{  *         PLLRDY flag to be set indicating that PLL clock is stable and can}
+00453 \textcolor{comment}{  *         be used as system clock source.}
+00454 \textcolor{comment}{  * @note   The main PLL can not be disabled if it is used as system clock source}
+00455 \textcolor{comment}{  * @note   The main PLL is disabled by hardware when entering STOP and STANDBY modes.}
+00456 \textcolor{comment}{  * @param  NewState: new state of the main PLL. This parameter can be: ENABLE or DISABLE.}
+00457 \textcolor{comment}{  * @retval None}
+00458 \textcolor{comment}{  */}
+00459 \textcolor{keywordtype}{void} RCC_PLLCmd(FunctionalState NewState)
+00460 \{
+00461   \textcolor{comment}{/* Check the parameters */}
+00462   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00463   *(\_\_IO uint32\_t *) CR_PLLON_BB = (uint32\_t)NewState;
+00464 \}
+00465 
+00466 \textcolor{comment}{/**}
+00467 \textcolor{comment}{  * @brief  Configures the PLLI2S clock multiplication and division factors.}
+00468 \textcolor{comment}{  *  }
+00469 \textcolor{comment}{  * @note   This function must be used only when the PLLI2S is disabled.}
+00470 \textcolor{comment}{  * @note   PLLI2S clock source is common with the main PLL (configured in }
+00471 \textcolor{comment}{  *         RCC\_PLLConfig function )  }
+00472 \textcolor{comment}{  *             }
+00473 \textcolor{comment}{  * @param  PLLI2SN: specifies the multiplication factor for PLLI2S VCO output clock}
+00474 \textcolor{comment}{  *          This parameter must be a number between 192 and 432.}
+00475 \textcolor{comment}{  * @note   You have to set the PLLI2SN parameter correctly to ensure that the VCO }
+00476 \textcolor{comment}{  *         output frequency is between 192 and 432 MHz.}
+00477 \textcolor{comment}{  *    }
+00478 \textcolor{comment}{  * @param  PLLI2SR: specifies the division factor for I2S clock}
+00479 \textcolor{comment}{  *          This parameter must be a number between 2 and 7.}
+00480 \textcolor{comment}{  * @note   You have to set the PLLI2SR parameter correctly to not exceed 192 MHz}
+00481 \textcolor{comment}{  *         on the I2S clock frequency.}
+00482 \textcolor{comment}{  *   }
+00483 \textcolor{comment}{  * @retval None}
+00484 \textcolor{comment}{  */}
+00485 \textcolor{keywordtype}{void} RCC_PLLI2SConfig(uint32\_t PLLI2SN, uint32\_t PLLI2SR)
+00486 \{
+00487   \textcolor{comment}{/* Check the parameters */}
+00488   assert_param(IS\_RCC\_PLLI2SN\_VALUE(PLLI2SN));
+00489   assert_param(IS\_RCC\_PLLI2SR\_VALUE(PLLI2SR));
+00490 
+00491   RCC->PLLI2SCFGR = (PLLI2SN << 6) | (PLLI2SR << 28);
+00492 \}
+00493 
+00494 \textcolor{comment}{/**}
+00495 \textcolor{comment}{  * @brief  Enables or disables the PLLI2S. }
+00496 \textcolor{comment}{  * @note   The PLLI2S is disabled by hardware when entering STOP and STANDBY modes.  }
+00497 \textcolor{comment}{  * @param  NewState: new state of the PLLI2S. This parameter can be: ENABLE or DISABLE.}
+00498 \textcolor{comment}{  * @retval None}
+00499 \textcolor{comment}{  */}
+00500 \textcolor{keywordtype}{void} RCC_PLLI2SCmd(FunctionalState NewState)
+00501 \{
+00502   \textcolor{comment}{/* Check the parameters */}
+00503   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00504   *(\_\_IO uint32\_t *) CR_PLLI2SON_BB = (uint32\_t)NewState;
+00505 \}
+00506 
+00507 \textcolor{comment}{/**}
+00508 \textcolor{comment}{  * @brief  Enables or disables the Clock Security System.}
+00509 \textcolor{comment}{  * @note   If a failure is detected on the HSE oscillator clock, this oscillator}
+00510 \textcolor{comment}{  *         is automatically disabled and an interrupt is generated to inform the}
+00511 \textcolor{comment}{  *         software about the failure (Clock Security System Interrupt, CSSI),}
+00512 \textcolor{comment}{  *         allowing the MCU to perform rescue operations. The CSSI is linked to }
+00513 \textcolor{comment}{  *         the Cortex-M4 NMI (Non-Maskable Interrupt) exception vector.  }
+00514 \textcolor{comment}{  * @param  NewState: new state of the Clock Security System.}
+00515 \textcolor{comment}{  *         This parameter can be: ENABLE or DISABLE.}
+00516 \textcolor{comment}{  * @retval None}
+00517 \textcolor{comment}{  */}
+00518 \textcolor{keywordtype}{void} RCC_ClockSecuritySystemCmd(FunctionalState NewState)
+00519 \{
+00520   \textcolor{comment}{/* Check the parameters */}
+00521   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+00522   *(\_\_IO uint32\_t *) CR_CSSON_BB = (uint32\_t)NewState;
+00523 \}
+00524 
+00525 \textcolor{comment}{/**}
+00526 \textcolor{comment}{  * @brief  Selects the clock source to output on MCO1 pin(PA8).}
+00527 \textcolor{comment}{  * @note   PA8 should be configured in alternate function mode.}
+00528 \textcolor{comment}{  * @param  RCC\_MCO1Source: specifies the clock source to output.}
+00529 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00530 \textcolor{comment}{  *            @arg RCC\_MCO1Source\_HSI: HSI clock selected as MCO1 source}
+00531 \textcolor{comment}{  *            @arg RCC\_MCO1Source\_LSE: LSE clock selected as MCO1 source}
+00532 \textcolor{comment}{  *            @arg RCC\_MCO1Source\_HSE: HSE clock selected as MCO1 source}
+00533 \textcolor{comment}{  *            @arg RCC\_MCO1Source\_PLLCLK: main PLL clock selected as MCO1 source}
+00534 \textcolor{comment}{  * @param  RCC\_MCO1Div: specifies the MCO1 prescaler.}
+00535 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00536 \textcolor{comment}{  *            @arg RCC\_MCO1Div\_1: no division applied to MCO1 clock}
+00537 \textcolor{comment}{  *            @arg RCC\_MCO1Div\_2: division by 2 applied to MCO1 clock}
+00538 \textcolor{comment}{  *            @arg RCC\_MCO1Div\_3: division by 3 applied to MCO1 clock}
+00539 \textcolor{comment}{  *            @arg RCC\_MCO1Div\_4: division by 4 applied to MCO1 clock}
+00540 \textcolor{comment}{  *            @arg RCC\_MCO1Div\_5: division by 5 applied to MCO1 clock}
+00541 \textcolor{comment}{  * @retval None}
+00542 \textcolor{comment}{  */}
+00543 \textcolor{keywordtype}{void} RCC_MCO1Config(uint32\_t RCC\_MCO1Source, uint32\_t RCC\_MCO1Div)
+00544 \{
+00545   uint32\_t tmpreg = 0;
+00546 
+00547   \textcolor{comment}{/* Check the parameters */}
+00548   assert_param(IS\_RCC\_MCO1SOURCE(RCC\_MCO1Source));
+00549   assert_param(IS\_RCC\_MCO1DIV(RCC\_MCO1Div));
+00550 
+00551   tmpreg = RCC->CFGR;
+00552 
+00553   \textcolor{comment}{/* Clear MCO1[1:0] and MCO1PRE[2:0] bits */}
+00554   tmpreg &= CFGR_MCO1_RESET_MASK;
+00555 
+00556   \textcolor{comment}{/* Select MCO1 clock source and prescaler */}
+00557   tmpreg |= RCC\_MCO1Source | RCC\_MCO1Div;
+00558 
+00559   \textcolor{comment}{/* Store the new value */}
+00560   RCC->CFGR = tmpreg;
+00561 \}
+00562 
+00563 \textcolor{comment}{/**}
+00564 \textcolor{comment}{  * @brief  Selects the clock source to output on MCO2 pin(PC9).}
+00565 \textcolor{comment}{  * @note   PC9 should be configured in alternate function mode.}
+00566 \textcolor{comment}{  * @param  RCC\_MCO2Source: specifies the clock source to output.}
+00567 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00568 \textcolor{comment}{  *            @arg RCC\_MCO2Source\_SYSCLK: System clock (SYSCLK) selected as MCO2 source}
+00569 \textcolor{comment}{  *            @arg RCC\_MCO2Source\_PLLI2SCLK: PLLI2S clock selected as MCO2 source}
+00570 \textcolor{comment}{  *            @arg RCC\_MCO2Source\_HSE: HSE clock selected as MCO2 source}
+00571 \textcolor{comment}{  *            @arg RCC\_MCO2Source\_PLLCLK: main PLL clock selected as MCO2 source}
+00572 \textcolor{comment}{  * @param  RCC\_MCO2Div: specifies the MCO2 prescaler.}
+00573 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00574 \textcolor{comment}{  *            @arg RCC\_MCO2Div\_1: no division applied to MCO2 clock}
+00575 \textcolor{comment}{  *            @arg RCC\_MCO2Div\_2: division by 2 applied to MCO2 clock}
+00576 \textcolor{comment}{  *            @arg RCC\_MCO2Div\_3: division by 3 applied to MCO2 clock}
+00577 \textcolor{comment}{  *            @arg RCC\_MCO2Div\_4: division by 4 applied to MCO2 clock}
+00578 \textcolor{comment}{  *            @arg RCC\_MCO2Div\_5: division by 5 applied to MCO2 clock}
+00579 \textcolor{comment}{  * @retval None}
+00580 \textcolor{comment}{  */}
+00581 \textcolor{keywordtype}{void} RCC_MCO2Config(uint32\_t RCC\_MCO2Source, uint32\_t RCC\_MCO2Div)
+00582 \{
+00583   uint32\_t tmpreg = 0;
+00584 
+00585   \textcolor{comment}{/* Check the parameters */}
+00586   assert_param(IS\_RCC\_MCO2SOURCE(RCC\_MCO2Source));
+00587   assert_param(IS\_RCC\_MCO2DIV(RCC\_MCO2Div));
+00588 
+00589   tmpreg = RCC->CFGR;
+00590 
+00591   \textcolor{comment}{/* Clear MCO2 and MCO2PRE[2:0] bits */}
+00592   tmpreg &= CFGR_MCO2_RESET_MASK;
+00593 
+00594   \textcolor{comment}{/* Select MCO2 clock source and prescaler */}
+00595   tmpreg |= RCC\_MCO2Source | RCC\_MCO2Div;
+00596 
+00597   \textcolor{comment}{/* Store the new value */}
+00598   RCC->CFGR = tmpreg;
+00599 \}
+00600 
+00601 \textcolor{comment}{/**}
+00602 \textcolor{comment}{  * @\}}
+00603 \textcolor{comment}{  */}
+00604 
+00605 \textcolor{comment}{/** @defgroup RCC\_Group2 System AHB and APB busses clocks configuration functions}
+00606 \textcolor{comment}{ *  @brief   System, AHB and APB busses clocks configuration functions}
+00607 \textcolor{comment}{ *}
+00608 \textcolor{comment}{@verbatim   }
+00609 \textcolor{comment}{ ===============================================================================}
+00610 \textcolor{comment}{             System, AHB and APB busses clocks configuration functions}
+00611 \textcolor{comment}{ ===============================================================================  }
+00612 \textcolor{comment}{}
+00613 \textcolor{comment}{  This section provide functions allowing to configure the System, AHB, APB1 and }
+00614 \textcolor{comment}{  APB2 busses clocks.}
+00615 \textcolor{comment}{  }
+00616 \textcolor{comment}{  1. Several clock sources can be used to drive the System clock (SYSCLK): HSI,}
+00617 \textcolor{comment}{     HSE and PLL.}
+00618 \textcolor{comment}{     The AHB clock (HCLK) is derived from System clock through configurable prescaler}
+00619 \textcolor{comment}{     and used to clock the CPU, memory and peripherals mapped on AHB bus (DMA, GPIO...).}
+00620 \textcolor{comment}{     APB1 (PCLK1) and APB2 (PCLK2) clocks are derived from AHB clock through }
+00621 \textcolor{comment}{     configurable prescalers and used to clock the peripherals mapped on these busses.}
+00622 \textcolor{comment}{     You can use "RCC\_GetClocksFreq()" function to retrieve the frequencies of these clocks.  }
+00623 \textcolor{comment}{}
+00624 \textcolor{comment}{@note All the peripheral clocks are derived from the System clock (SYSCLK) except:}
+00625 \textcolor{comment}{       - I2S: the I2S clock can be derived either from a specific PLL (PLLI2S) or}
+00626 \textcolor{comment}{          from an external clock mapped on the I2S\_CKIN pin. }
+00627 \textcolor{comment}{          You have to use RCC\_I2SCLKConfig() function to configure this clock. }
+00628 \textcolor{comment}{       - RTC: the RTC clock can be derived either from the LSI, LSE or HSE clock}
+00629 \textcolor{comment}{          divided by 2 to 31. You have to use RCC\_RTCCLKConfig() and RCC\_RTCCLKCmd()}
+00630 \textcolor{comment}{          functions to configure this clock. }
+00631 \textcolor{comment}{       - USB OTG FS, SDIO and RTC: USB OTG FS require a frequency equal to 48 MHz}
+00632 \textcolor{comment}{          to work correctly, while the SDIO require a frequency equal or lower than}
+00633 \textcolor{comment}{          to 48. This clock is derived of the main PLL through PLLQ divider.}
+00634 \textcolor{comment}{       - IWDG clock which is always the LSI clock.}
+00635 \textcolor{comment}{       }
+00636 \textcolor{comment}{  2. The maximum frequency of the SYSCLK and HCLK is 168 MHz, PCLK2 82 MHz and PCLK1 42 MHz.}
+00637 \textcolor{comment}{     Depending on the device voltage range, the maximum frequency should be }
+00638 \textcolor{comment}{     adapted accordingly:}
+00639 \textcolor{comment}{ +-------------------------------------------------------------------------------------+     }
+00640 \textcolor{comment}{ | Latency       |                HCLK clock frequency (MHz)                           |}
+00641 \textcolor{comment}{ |               |---------------------------------------------------------------------|     }
+00642 \textcolor{comment}{ |               | voltage range  | voltage range  | voltage range   | voltage range   |}
+00643 \textcolor{comment}{ |               | 2.7 V - 3.6 V  | 2.4 V - 2.7 V  | 2.1 V - 2.4 V   | 1.8 V - 2.1 V   |}
+00644 \textcolor{comment}{ |---------------|----------------|----------------|-----------------|-----------------|              }
+00645 \textcolor{comment}{ |0WS(1CPU cycle)|0 < HCLK <= 30  |0 < HCLK <= 24  |0 < HCLK <= 18   |0 < HCLK <= 16   |}
+00646 \textcolor{comment}{ |---------------|----------------|----------------|-----------------|-----------------|   }
+00647 \textcolor{comment}{ |1WS(2CPU cycle)|30 < HCLK <= 60 |24 < HCLK <= 48 |18 < HCLK <= 36  |16 < HCLK <= 32  | }
+00648 \textcolor{comment}{ |---------------|----------------|----------------|-----------------|-----------------|   }
+00649 \textcolor{comment}{ |2WS(3CPU cycle)|60 < HCLK <= 90 |48 < HCLK <= 72 |36 < HCLK <= 54  |32 < HCLK <= 48  |}
+00650 \textcolor{comment}{ |---------------|----------------|----------------|-----------------|-----------------| }
+00651 \textcolor{comment}{ |3WS(4CPU cycle)|90 < HCLK <= 120|72 < HCLK <= 96 |54 < HCLK <= 72  |48 < HCLK <= 64  |}
+00652 \textcolor{comment}{ |---------------|----------------|----------------|-----------------|-----------------| }
+00653 \textcolor{comment}{ |4WS(5CPU cycle)|120< HCLK <= 150|96 < HCLK <= 120|72 < HCLK <= 90  |64 < HCLK <= 80  |}
+00654 \textcolor{comment}{ |---------------|----------------|----------------|-----------------|-----------------| }
+00655 \textcolor{comment}{ |5WS(6CPU cycle)|120< HCLK <= 168|120< HCLK <= 144|90 < HCLK <= 108 |80 < HCLK <= 96  | }
+00656 \textcolor{comment}{ |---------------|----------------|----------------|-----------------|-----------------| }
+00657 \textcolor{comment}{ |6WS(7CPU cycle)|      NA        |144< HCLK <= 168|108 < HCLK <= 120|96 < HCLK <= 112 | }
+00658 \textcolor{comment}{ |---------------|----------------|----------------|-----------------|-----------------| }
+00659 \textcolor{comment}{ |7WS(8CPU cycle)|      NA        |      NA        |120 < HCLK <= 138|112 < HCLK <= 120| }
+00660 \textcolor{comment}{ +-------------------------------------------------------------------------------------+    }
+00661 \textcolor{comment}{   @note When VOS bit (in PWR\_CR register) is reset to '0’, the maximum value of HCLK is 144 MHz.}
+00662 \textcolor{comment}{         You can use PWR\_MainRegulatorModeConfig() function to set or reset this bit.}
+00663 \textcolor{comment}{}
+00664 \textcolor{comment}{@endverbatim}
+00665 \textcolor{comment}{  * @\{}
+00666 \textcolor{comment}{  */}
+00667 
+00668 \textcolor{comment}{/**}
+00669 \textcolor{comment}{  * @brief  Configures the system clock (SYSCLK).}
+00670 \textcolor{comment}{  * @note   The HSI is used (enabled by hardware) as system clock source after}
+00671 \textcolor{comment}{  *         startup from Reset, wake-up from STOP and STANDBY mode, or in case}
+00672 \textcolor{comment}{  *         of failure of the HSE used directly or indirectly as system clock}
+00673 \textcolor{comment}{  *         (if the Clock Security System CSS is enabled).}
+00674 \textcolor{comment}{  * @note   A switch from one clock source to another occurs only if the target}
+00675 \textcolor{comment}{  *         clock source is ready (clock stable after startup delay or PLL locked). }
+00676 \textcolor{comment}{  *         If a clock source which is not yet ready is selected, the switch will}
+00677 \textcolor{comment}{  *         occur when the clock source will be ready. }
+00678 \textcolor{comment}{  *         You can use RCC\_GetSYSCLKSource() function to know which clock is}
+00679 \textcolor{comment}{  *         currently used as system clock source. }
+00680 \textcolor{comment}{  * @param  RCC\_SYSCLKSource: specifies the clock source used as system clock.}
+00681 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00682 \textcolor{comment}{  *            @arg RCC\_SYSCLKSource\_HSI:    HSI selected as system clock source}
+00683 \textcolor{comment}{  *            @arg RCC\_SYSCLKSource\_HSE:    HSE selected as system clock source}
+00684 \textcolor{comment}{  *            @arg RCC\_SYSCLKSource\_PLLCLK: PLL selected as system clock source}
+00685 \textcolor{comment}{  * @retval None}
+00686 \textcolor{comment}{  */}
+00687 \textcolor{keywordtype}{void} RCC_SYSCLKConfig(uint32\_t RCC\_SYSCLKSource)
+00688 \{
+00689   uint32\_t tmpreg = 0;
+00690 
+00691   \textcolor{comment}{/* Check the parameters */}
+00692   assert_param(IS\_RCC\_SYSCLK\_SOURCE(RCC\_SYSCLKSource));
+00693 
+00694   tmpreg = RCC->CFGR;
+00695 
+00696   \textcolor{comment}{/* Clear SW[1:0] bits */}
+00697   tmpreg &= ~RCC_CFGR_SW;
+00698 
+00699   \textcolor{comment}{/* Set SW[1:0] bits according to RCC\_SYSCLKSource value */}
+00700   tmpreg |= RCC\_SYSCLKSource;
+00701 
+00702   \textcolor{comment}{/* Store the new value */}
+00703   RCC->CFGR = tmpreg;
+00704 \}
+00705 
+00706 \textcolor{comment}{/**}
+00707 \textcolor{comment}{  * @brief  Returns the clock source used as system clock.}
+00708 \textcolor{comment}{  * @param  None}
+00709 \textcolor{comment}{  * @retval The clock source used as system clock. The returned value can be one}
+00710 \textcolor{comment}{  *         of the following:}
+00711 \textcolor{comment}{  *              - 0x00: HSI used as system clock}
+00712 \textcolor{comment}{  *              - 0x04: HSE used as system clock}
+00713 \textcolor{comment}{  *              - 0x08: PLL used as system clock}
+00714 \textcolor{comment}{  */}
+00715 uint8\_t RCC_GetSYSCLKSource(\textcolor{keywordtype}{void})
+00716 \{
+00717   \textcolor{keywordflow}{return} ((uint8\_t)(RCC->CFGR & RCC_CFGR_SWS));
+00718 \}
+00719 
+00720 \textcolor{comment}{/**}
+00721 \textcolor{comment}{  * @brief  Configures the AHB clock (HCLK).}
+00722 \textcolor{comment}{  * @note   Depending on the device voltage range, the software has to set correctly}
+00723 \textcolor{comment}{  *         these bits to ensure that HCLK not exceed the maximum allowed frequency}
+00724 \textcolor{comment}{  *         (for more details refer to section above}
+00725 \textcolor{comment}{  *           "CPU, AHB and APB busses clocks configuration functions")}
+00726 \textcolor{comment}{  * @param  RCC\_SYSCLK: defines the AHB clock divider. This clock is derived from }
+00727 \textcolor{comment}{  *         the system clock (SYSCLK).}
+00728 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00729 \textcolor{comment}{  *            @arg RCC\_SYSCLK\_Div1: AHB clock = SYSCLK}
+00730 \textcolor{comment}{  *            @arg RCC\_SYSCLK\_Div2: AHB clock = SYSCLK/2}
+00731 \textcolor{comment}{  *            @arg RCC\_SYSCLK\_Div4: AHB clock = SYSCLK/4}
+00732 \textcolor{comment}{  *            @arg RCC\_SYSCLK\_Div8: AHB clock = SYSCLK/8}
+00733 \textcolor{comment}{  *            @arg RCC\_SYSCLK\_Div16: AHB clock = SYSCLK/16}
+00734 \textcolor{comment}{  *            @arg RCC\_SYSCLK\_Div64: AHB clock = SYSCLK/64}
+00735 \textcolor{comment}{  *            @arg RCC\_SYSCLK\_Div128: AHB clock = SYSCLK/128}
+00736 \textcolor{comment}{  *            @arg RCC\_SYSCLK\_Div256: AHB clock = SYSCLK/256}
+00737 \textcolor{comment}{  *            @arg RCC\_SYSCLK\_Div512: AHB clock = SYSCLK/512}
+00738 \textcolor{comment}{  * @retval None}
+00739 \textcolor{comment}{  */}
+00740 \textcolor{keywordtype}{void} RCC_HCLKConfig(uint32\_t RCC\_SYSCLK)
+00741 \{
+00742   uint32\_t tmpreg = 0;
+00743 
+00744   \textcolor{comment}{/* Check the parameters */}
+00745   assert_param(IS\_RCC\_HCLK(RCC\_SYSCLK));
+00746 
+00747   tmpreg = RCC->CFGR;
+00748 
+00749   \textcolor{comment}{/* Clear HPRE[3:0] bits */}
+00750   tmpreg &= ~RCC_CFGR_HPRE;
+00751 
+00752   \textcolor{comment}{/* Set HPRE[3:0] bits according to RCC\_SYSCLK value */}
+00753   tmpreg |= RCC\_SYSCLK;
+00754 
+00755   \textcolor{comment}{/* Store the new value */}
+00756   RCC->CFGR = tmpreg;
+00757 \}
+00758 
+00759 
+00760 \textcolor{comment}{/**}
+00761 \textcolor{comment}{  * @brief  Configures the Low Speed APB clock (PCLK1).}
+00762 \textcolor{comment}{  * @param  RCC\_HCLK: defines the APB1 clock divider. This clock is derived from }
+00763 \textcolor{comment}{  *         the AHB clock (HCLK).}
+00764 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00765 \textcolor{comment}{  *            @arg RCC\_HCLK\_Div1:  APB1 clock = HCLK}
+00766 \textcolor{comment}{  *            @arg RCC\_HCLK\_Div2:  APB1 clock = HCLK/2}
+00767 \textcolor{comment}{  *            @arg RCC\_HCLK\_Div4:  APB1 clock = HCLK/4}
+00768 \textcolor{comment}{  *            @arg RCC\_HCLK\_Div8:  APB1 clock = HCLK/8}
+00769 \textcolor{comment}{  *            @arg RCC\_HCLK\_Div16: APB1 clock = HCLK/16}
+00770 \textcolor{comment}{  * @retval None}
+00771 \textcolor{comment}{  */}
+00772 \textcolor{keywordtype}{void} RCC_PCLK1Config(uint32\_t RCC\_HCLK)
+00773 \{
+00774   uint32\_t tmpreg = 0;
+00775 
+00776   \textcolor{comment}{/* Check the parameters */}
+00777   assert_param(IS\_RCC\_PCLK(RCC\_HCLK));
+00778 
+00779   tmpreg = RCC->CFGR;
+00780 
+00781   \textcolor{comment}{/* Clear PPRE1[2:0] bits */}
+00782   tmpreg &= ~RCC_CFGR_PPRE1;
+00783 
+00784   \textcolor{comment}{/* Set PPRE1[2:0] bits according to RCC\_HCLK value */}
+00785   tmpreg |= RCC\_HCLK;
+00786 
+00787   \textcolor{comment}{/* Store the new value */}
+00788   RCC->CFGR = tmpreg;
+00789 \}
+00790 
+00791 \textcolor{comment}{/**}
+00792 \textcolor{comment}{  * @brief  Configures the High Speed APB clock (PCLK2).}
+00793 \textcolor{comment}{  * @param  RCC\_HCLK: defines the APB2 clock divider. This clock is derived from }
+00794 \textcolor{comment}{  *         the AHB clock (HCLK).}
+00795 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00796 \textcolor{comment}{  *            @arg RCC\_HCLK\_Div1:  APB2 clock = HCLK}
+00797 \textcolor{comment}{  *            @arg RCC\_HCLK\_Div2:  APB2 clock = HCLK/2}
+00798 \textcolor{comment}{  *            @arg RCC\_HCLK\_Div4:  APB2 clock = HCLK/4}
+00799 \textcolor{comment}{  *            @arg RCC\_HCLK\_Div8:  APB2 clock = HCLK/8}
+00800 \textcolor{comment}{  *            @arg RCC\_HCLK\_Div16: APB2 clock = HCLK/16}
+00801 \textcolor{comment}{  * @retval None}
+00802 \textcolor{comment}{  */}
+00803 \textcolor{keywordtype}{void} RCC_PCLK2Config(uint32\_t RCC\_HCLK)
+00804 \{
+00805   uint32\_t tmpreg = 0;
+00806 
+00807   \textcolor{comment}{/* Check the parameters */}
+00808   assert_param(IS\_RCC\_PCLK(RCC\_HCLK));
+00809 
+00810   tmpreg = RCC->CFGR;
+00811 
+00812   \textcolor{comment}{/* Clear PPRE2[2:0] bits */}
+00813   tmpreg &= ~RCC_CFGR_PPRE2;
+00814 
+00815   \textcolor{comment}{/* Set PPRE2[2:0] bits according to RCC\_HCLK value */}
+00816   tmpreg |= RCC\_HCLK << 3;
+00817 
+00818   \textcolor{comment}{/* Store the new value */}
+00819   RCC->CFGR = tmpreg;
+00820 \}
+00821 
+00822 \textcolor{comment}{/**}
+00823 \textcolor{comment}{  * @brief  Returns the frequencies of different on chip clocks; SYSCLK, HCLK, }
+00824 \textcolor{comment}{  *         PCLK1 and PCLK2.       }
+00825 \textcolor{comment}{  * }
+00826 \textcolor{comment}{  * @note   The system frequency computed by this function is not the real }
+00827 \textcolor{comment}{  *         frequency in the chip. It is calculated based on the predefined }
+00828 \textcolor{comment}{  *         constant and the selected clock source:}
+00829 \textcolor{comment}{  * @note     If SYSCLK source is HSI, function returns values based on HSI\_VALUE(*)}
+00830 \textcolor{comment}{  * @note     If SYSCLK source is HSE, function returns values based on HSE\_VALUE(**)}
+00831 \textcolor{comment}{  * @note     If SYSCLK source is PLL, function returns values based on HSE\_VALUE(**) }
+00832 \textcolor{comment}{  *           or HSI\_VALUE(*) multiplied/divided by the PLL factors.         }
+00833 \textcolor{comment}{  * @note     (*) HSI\_VALUE is a constant defined in stm32f4xx.h file (default value}
+00834 \textcolor{comment}{  *               16 MHz) but the real value may vary depending on the variations}
+00835 \textcolor{comment}{  *               in voltage and temperature.}
+00836 \textcolor{comment}{  * @note     (**) HSE\_VALUE is a constant defined in stm32f4xx.h file (default value}
+00837 \textcolor{comment}{  *                25 MHz), user has to ensure that HSE\_VALUE is same as the real}
+00838 \textcolor{comment}{  *                frequency of the crystal used. Otherwise, this function may}
+00839 \textcolor{comment}{  *                have wrong result.}
+00840 \textcolor{comment}{  *                }
+00841 \textcolor{comment}{  * @note   The result of this function could be not correct when using fractional}
+00842 \textcolor{comment}{  *         value for HSE crystal.}
+00843 \textcolor{comment}{  *   }
+00844 \textcolor{comment}{  * @param  RCC\_Clocks: pointer to a RCC\_ClocksTypeDef structure which will hold}
+00845 \textcolor{comment}{  *          the clocks frequencies.}
+00846 \textcolor{comment}{  *     }
+00847 \textcolor{comment}{  * @note   This function can be used by the user application to compute the }
+00848 \textcolor{comment}{  *         baudrate for the communication peripherals or configure other parameters.}
+00849 \textcolor{comment}{  * @note   Each time SYSCLK, HCLK, PCLK1 and/or PCLK2 clock changes, this function}
+00850 \textcolor{comment}{  *         must be called to update the structure's field. Otherwise, any}
+00851 \textcolor{comment}{  *         configuration based on this function will be incorrect.}
+00852 \textcolor{comment}{  *    }
+00853 \textcolor{comment}{  * @retval None}
+00854 \textcolor{comment}{  */}
+00855 \textcolor{keywordtype}{void} RCC_GetClocksFreq(RCC\_ClocksTypeDef* RCC\_Clocks)
+00856 \{
+00857   uint32\_t tmp = 0, presc = 0, pllvco = 0, pllp = 2, pllsource = 0, pllm = 2;
+00858 
+00859   \textcolor{comment}{/* Get SYSCLK source -------------------------------------------------------*/}
+00860   tmp = RCC->CFGR & RCC_CFGR_SWS;
+00861 
+00862   \textcolor{keywordflow}{switch} (tmp)
+00863   \{
+00864     \textcolor{keywordflow}{case} 0x00:  \textcolor{comment}{/* HSI used as system clock source */}
+00865       RCC\_Clocks->SYSCLK_Frequency = HSI_VALUE;
+00866       \textcolor{keywordflow}{break};
+00867     \textcolor{keywordflow}{case} 0x04:  \textcolor{comment}{/* HSE used as system clock  source */}
+00868       RCC\_Clocks->SYSCLK_Frequency = HSE_VALUE;
+00869       \textcolor{keywordflow}{break};
+00870     \textcolor{keywordflow}{case} 0x08:  \textcolor{comment}{/* PLL used as system clock  source */}
+00871 
+00872       \textcolor{comment}{/* PLL\_VCO = (HSE\_VALUE or HSI\_VALUE / PLLM) * PLLN}
+00873 \textcolor{comment}{         SYSCLK = PLL\_VCO / PLLP}
+00874 \textcolor{comment}{         */}
+00875       pllsource = (RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC) >> 22;
+00876       pllm = RCC->PLLCFGR & RCC_PLLCFGR_PLLM;
+00877 
+00878       \textcolor{keywordflow}{if} (pllsource != 0)
+00879       \{
+00880         \textcolor{comment}{/* HSE used as PLL clock source */}
+00881         pllvco = (HSE_VALUE / pllm) * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6);
+00882       \}
+00883       \textcolor{keywordflow}{else}
+00884       \{
+00885         \textcolor{comment}{/* HSI used as PLL clock source */}
+00886         pllvco = (HSI_VALUE / pllm) * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6);
+00887       \}
+00888 
+00889       pllp = (((RCC->PLLCFGR & RCC_PLLCFGR_PLLP) >>16) + 1 ) *2;
+00890       RCC\_Clocks->SYSCLK_Frequency = pllvco/pllp;
+00891       \textcolor{keywordflow}{break};
+00892     \textcolor{keywordflow}{default}:
+00893       RCC\_Clocks->SYSCLK_Frequency = HSI_VALUE;
+00894       \textcolor{keywordflow}{break};
+00895   \}
+00896   \textcolor{comment}{/* Compute HCLK, PCLK1 and PCLK2 clocks frequencies ------------------------*/}
+00897 
+00898   \textcolor{comment}{/* Get HCLK prescaler */}
+00899   tmp = RCC->CFGR & RCC_CFGR_HPRE;
+00900   tmp = tmp >> 4;
+00901   presc = APBAHBPrescTable[tmp];
+00902   \textcolor{comment}{/* HCLK clock frequency */}
+00903   RCC\_Clocks->HCLK_Frequency = RCC\_Clocks->SYSCLK_Frequency >> presc;
+00904 
+00905   \textcolor{comment}{/* Get PCLK1 prescaler */}
+00906   tmp = RCC->CFGR & RCC_CFGR_PPRE1;
+00907   tmp = tmp >> 10;
+00908   presc = APBAHBPrescTable[tmp];
+00909   \textcolor{comment}{/* PCLK1 clock frequency */}
+00910   RCC\_Clocks->PCLK1_Frequency = RCC\_Clocks->HCLK_Frequency >> presc;
+00911 
+00912   \textcolor{comment}{/* Get PCLK2 prescaler */}
+00913   tmp = RCC->CFGR & RCC_CFGR_PPRE2;
+00914   tmp = tmp >> 13;
+00915   presc = APBAHBPrescTable[tmp];
+00916   \textcolor{comment}{/* PCLK2 clock frequency */}
+00917   RCC\_Clocks->PCLK2_Frequency = RCC\_Clocks->HCLK_Frequency >> presc;
+00918 \}
+00919 
+00920 \textcolor{comment}{/**}
+00921 \textcolor{comment}{  * @\}}
+00922 \textcolor{comment}{  */}
+00923 
+00924 \textcolor{comment}{/** @defgroup RCC\_Group3 Peripheral clocks configuration functions}
+00925 \textcolor{comment}{ *  @brief   Peripheral clocks configuration functions }
+00926 \textcolor{comment}{ *}
+00927 \textcolor{comment}{@verbatim   }
+00928 \textcolor{comment}{ ===============================================================================}
+00929 \textcolor{comment}{                   Peripheral clocks configuration functions}
+00930 \textcolor{comment}{ ===============================================================================  }
+00931 \textcolor{comment}{}
+00932 \textcolor{comment}{  This section provide functions allowing to configure the Peripheral clocks. }
+00933 \textcolor{comment}{  }
+00934 \textcolor{comment}{  1. The RTC clock which is derived from the LSI, LSE or HSE clock divided by 2 to 31.}
+00935 \textcolor{comment}{     }
+00936 \textcolor{comment}{  2. After restart from Reset or wakeup from STANDBY, all peripherals are off}
+00937 \textcolor{comment}{     except internal SRAM, Flash and JTAG. Before to start using a peripheral you}
+00938 \textcolor{comment}{     have to enable its interface clock. You can do this using RCC\_AHBPeriphClockCmd()}
+00939 \textcolor{comment}{     , RCC\_APB2PeriphClockCmd() and RCC\_APB1PeriphClockCmd() functions.}
+00940 \textcolor{comment}{}
+00941 \textcolor{comment}{  3. To reset the peripherals configuration (to the default state after device reset)}
+00942 \textcolor{comment}{     you can use RCC\_AHBPeriphResetCmd(), RCC\_APB2PeriphResetCmd() and }
+00943 \textcolor{comment}{     RCC\_APB1PeriphResetCmd() functions.}
+00944 \textcolor{comment}{     }
+00945 \textcolor{comment}{  4. To further reduce power consumption in SLEEP mode the peripheral clocks can}
+00946 \textcolor{comment}{     be disabled prior to executing the WFI or WFE instructions. You can do this}
+00947 \textcolor{comment}{     using RCC\_AHBPeriphClockLPModeCmd(), RCC\_APB2PeriphClockLPModeCmd() and}
+00948 \textcolor{comment}{     RCC\_APB1PeriphClockLPModeCmd() functions.  }
+00949 \textcolor{comment}{}
+00950 \textcolor{comment}{@endverbatim}
+00951 \textcolor{comment}{  * @\{}
+00952 \textcolor{comment}{  */}
+00953 
+00954 \textcolor{comment}{/**}
+00955 \textcolor{comment}{  * @brief  Configures the RTC clock (RTCCLK).}
+00956 \textcolor{comment}{  * @note   As the RTC clock configuration bits are in the Backup domain and write}
+00957 \textcolor{comment}{  *         access is denied to this domain after reset, you have to enable write}
+00958 \textcolor{comment}{  *         access using PWR\_BackupAccessCmd(ENABLE) function before to configure}
+00959 \textcolor{comment}{  *         the RTC clock source (to be done once after reset).    }
+00960 \textcolor{comment}{  * @note   Once the RTC clock is configured it can't be changed unless the  }
+00961 \textcolor{comment}{  *         Backup domain is reset using RCC\_BackupResetCmd() function, or by}
+00962 \textcolor{comment}{  *         a Power On Reset (POR).}
+00963 \textcolor{comment}{  *    }
+00964 \textcolor{comment}{  * @param  RCC\_RTCCLKSource: specifies the RTC clock source.}
+00965 \textcolor{comment}{  *          This parameter can be one of the following values:}
+00966 \textcolor{comment}{  *            @arg RCC\_RTCCLKSource\_LSE: LSE selected as RTC clock}
+00967 \textcolor{comment}{  *            @arg RCC\_RTCCLKSource\_LSI: LSI selected as RTC clock}
+00968 \textcolor{comment}{  *            @arg RCC\_RTCCLKSource\_HSE\_Divx: HSE clock divided by x selected}
+00969 \textcolor{comment}{  *                                            as RTC clock, where x:[2,31]}
+00970 \textcolor{comment}{  *  }
+00971 \textcolor{comment}{  * @note   If the LSE or LSI is used as RTC clock source, the RTC continues to}
+00972 \textcolor{comment}{  *         work in STOP and STANDBY modes, and can be used as wakeup source.}
+00973 \textcolor{comment}{  *         However, when the HSE clock is used as RTC clock source, the RTC}
+00974 \textcolor{comment}{  *         cannot be used in STOP and STANDBY modes.    }
+00975 \textcolor{comment}{  * @note   The maximum input clock frequency for RTC is 1MHz (when using HSE as}
+00976 \textcolor{comment}{  *         RTC clock source).}
+00977 \textcolor{comment}{  *  }
+00978 \textcolor{comment}{  * @retval None}
+00979 \textcolor{comment}{  */}
+00980 \textcolor{keywordtype}{void} RCC_RTCCLKConfig(uint32\_t RCC\_RTCCLKSource)
+00981 \{
+00982   uint32\_t tmpreg = 0;
+00983 
+00984   \textcolor{comment}{/* Check the parameters */}
+00985   assert_param(IS\_RCC\_RTCCLK\_SOURCE(RCC\_RTCCLKSource));
+00986 
+00987   \textcolor{keywordflow}{if} ((RCC\_RTCCLKSource & 0x00000300) == 0x00000300)
+00988   \{ \textcolor{comment}{/* If HSE is selected as RTC clock source, configure HSE division factor for RTC clock */}
+00989     tmpreg = RCC->CFGR;
+00990 
+00991     \textcolor{comment}{/* Clear RTCPRE[4:0] bits */}
+00992     tmpreg &= ~RCC_CFGR_RTCPRE;
+00993 
+00994     \textcolor{comment}{/* Configure HSE division factor for RTC clock */}
+00995     tmpreg |= (RCC\_RTCCLKSource & 0xFFFFCFF);
+00996 
+00997     \textcolor{comment}{/* Store the new value */}
+00998     RCC->CFGR = tmpreg;
+00999   \}
+01000 
+01001   \textcolor{comment}{/* Select the RTC clock source */}
+01002   RCC->BDCR |= (RCC\_RTCCLKSource & 0x00000FFF);
+01003 \}
+01004 
+01005 \textcolor{comment}{/**}
+01006 \textcolor{comment}{  * @brief  Enables or disables the RTC clock.}
+01007 \textcolor{comment}{  * @note   This function must be used only after the RTC clock source was selected}
+01008 \textcolor{comment}{  *         using the RCC\_RTCCLKConfig function.}
+01009 \textcolor{comment}{  * @param  NewState: new state of the RTC clock. This parameter can be: ENABLE or DISABLE.}
+01010 \textcolor{comment}{  * @retval None}
+01011 \textcolor{comment}{  */}
+01012 \textcolor{keywordtype}{void} RCC_RTCCLKCmd(FunctionalState NewState)
+01013 \{
+01014   \textcolor{comment}{/* Check the parameters */}
+01015   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01016 
+01017   *(\_\_IO uint32\_t *) BDCR_RTCEN_BB = (uint32\_t)NewState;
+01018 \}
+01019 
+01020 \textcolor{comment}{/**}
+01021 \textcolor{comment}{  * @brief  Forces or releases the Backup domain reset.}
+01022 \textcolor{comment}{  * @note   This function resets the RTC peripheral (including the backup registers)}
+01023 \textcolor{comment}{  *         and the RTC clock source selection in RCC\_CSR register.}
+01024 \textcolor{comment}{  * @note   The BKPSRAM is not affected by this reset.    }
+01025 \textcolor{comment}{  * @param  NewState: new state of the Backup domain reset.}
+01026 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01027 \textcolor{comment}{  * @retval None}
+01028 \textcolor{comment}{  */}
+01029 \textcolor{keywordtype}{void} RCC_BackupResetCmd(FunctionalState NewState)
+01030 \{
+01031   \textcolor{comment}{/* Check the parameters */}
+01032   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01033   *(\_\_IO uint32\_t *) BDCR_BDRST_BB = (uint32\_t)NewState;
+01034 \}
+01035 
+01036 \textcolor{comment}{/**}
+01037 \textcolor{comment}{  * @brief  Configures the I2S clock source (I2SCLK).}
+01038 \textcolor{comment}{  * @note   This function must be called before enabling the I2S APB clock.}
+01039 \textcolor{comment}{  * @param  RCC\_I2SCLKSource: specifies the I2S clock source.}
+01040 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01041 \textcolor{comment}{  *            @arg RCC\_I2S2CLKSource\_PLLI2S: PLLI2S clock used as I2S clock source}
+01042 \textcolor{comment}{  *            @arg RCC\_I2S2CLKSource\_Ext: External clock mapped on the I2S\_CKIN pin}
+01043 \textcolor{comment}{  *                                        used as I2S clock source}
+01044 \textcolor{comment}{  * @retval None}
+01045 \textcolor{comment}{  */}
+01046 \textcolor{keywordtype}{void} RCC_I2SCLKConfig(uint32\_t RCC\_I2SCLKSource)
+01047 \{
+01048   \textcolor{comment}{/* Check the parameters */}
+01049   assert_param(IS\_RCC\_I2SCLK\_SOURCE(RCC\_I2SCLKSource));
+01050 
+01051   *(\_\_IO uint32\_t *) CFGR_I2SSRC_BB = RCC\_I2SCLKSource;
+01052 \}
+01053 
+01054 \textcolor{comment}{/**}
+01055 \textcolor{comment}{  * @brief  Enables or disables the AHB1 peripheral clock.}
+01056 \textcolor{comment}{  * @note   After reset, the peripheral clock (used for registers read/write access)}
+01057 \textcolor{comment}{  *         is disabled and the application software has to enable this clock before }
+01058 \textcolor{comment}{  *         using it.   }
+01059 \textcolor{comment}{  * @param  RCC\_AHBPeriph: specifies the AHB1 peripheral to gates its clock.}
+01060 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+01061 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOA:       GPIOA clock}
+01062 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOB:       GPIOB clock }
+01063 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOC:       GPIOC clock}
+01064 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOD:       GPIOD clock}
+01065 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOE:       GPIOE clock}
+01066 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOF:       GPIOF clock}
+01067 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOG:       GPIOG clock}
+01068 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOG:       GPIOG clock}
+01069 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOI:       GPIOI clock}
+01070 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_CRC:         CRC clock}
+01071 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_BKPSRAM:     BKPSRAM interface clock}
+01072 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_CCMDATARAMEN CCM data RAM interface clock}
+01073 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_DMA1:        DMA1 clock}
+01074 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_DMA2:        DMA2 clock}
+01075 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_ETH\_MAC:     Ethernet MAC clock}
+01076 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_ETH\_MAC\_Tx:  Ethernet Transmission clock}
+01077 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_ETH\_MAC\_Rx:  Ethernet Reception clock}
+01078 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_ETH\_MAC\_PTP: Ethernet PTP clock}
+01079 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_OTG\_HS:      USB OTG HS clock}
+01080 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_OTG\_HS\_ULPI: USB OTG HS ULPI clock}
+01081 \textcolor{comment}{  * @param  NewState: new state of the specified peripheral clock.}
+01082 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01083 \textcolor{comment}{  * @retval None}
+01084 \textcolor{comment}{  */}
+01085 \textcolor{keywordtype}{void} RCC_AHB1PeriphClockCmd(uint32\_t RCC\_AHB1Periph, FunctionalState NewState)
+01086 \{
+01087   \textcolor{comment}{/* Check the parameters */}
+01088   assert_param(IS\_RCC\_AHB1\_CLOCK\_PERIPH(RCC\_AHB1Periph));
+01089 
+01090   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01091   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01092   \{
+01093     RCC->AHB1ENR |= RCC\_AHB1Periph;
+01094   \}
+01095   \textcolor{keywordflow}{else}
+01096   \{
+01097     RCC->AHB1ENR &= ~RCC\_AHB1Periph;
+01098   \}
+01099 \}
+01100 
+01101 \textcolor{comment}{/**}
+01102 \textcolor{comment}{  * @brief  Enables or disables the AHB2 peripheral clock.}
+01103 \textcolor{comment}{  * @note   After reset, the peripheral clock (used for registers read/write access)}
+01104 \textcolor{comment}{  *         is disabled and the application software has to enable this clock before }
+01105 \textcolor{comment}{  *         using it. }
+01106 \textcolor{comment}{  * @param  RCC\_AHBPeriph: specifies the AHB2 peripheral to gates its clock.}
+01107 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+01108 \textcolor{comment}{  *            @arg RCC\_AHB2Periph\_DCMI:   DCMI clock}
+01109 \textcolor{comment}{  *            @arg RCC\_AHB2Periph\_CRYP:   CRYP clock}
+01110 \textcolor{comment}{  *            @arg RCC\_AHB2Periph\_HASH:   HASH clock}
+01111 \textcolor{comment}{  *            @arg RCC\_AHB2Periph\_RNG:    RNG clock}
+01112 \textcolor{comment}{  *            @arg RCC\_AHB2Periph\_OTG\_FS: USB OTG FS clock}
+01113 \textcolor{comment}{  * @param  NewState: new state of the specified peripheral clock.}
+01114 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01115 \textcolor{comment}{  * @retval None}
+01116 \textcolor{comment}{  */}
+01117 \textcolor{keywordtype}{void} RCC_AHB2PeriphClockCmd(uint32\_t RCC\_AHB2Periph, FunctionalState NewState)
+01118 \{
+01119   \textcolor{comment}{/* Check the parameters */}
+01120   assert_param(IS\_RCC\_AHB2\_PERIPH(RCC\_AHB2Periph));
+01121   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01122 
+01123   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01124   \{
+01125     RCC->AHB2ENR |= RCC\_AHB2Periph;
+01126   \}
+01127   \textcolor{keywordflow}{else}
+01128   \{
+01129     RCC->AHB2ENR &= ~RCC\_AHB2Periph;
+01130   \}
+01131 \}
+01132 
+01133 \textcolor{comment}{/**}
+01134 \textcolor{comment}{  * @brief  Enables or disables the AHB3 peripheral clock.}
+01135 \textcolor{comment}{  * @note   After reset, the peripheral clock (used for registers read/write access)}
+01136 \textcolor{comment}{  *         is disabled and the application software has to enable this clock before }
+01137 \textcolor{comment}{  *         using it. }
+01138 \textcolor{comment}{  * @param  RCC\_AHBPeriph: specifies the AHB3 peripheral to gates its clock.}
+01139 \textcolor{comment}{  *          This parameter must be: RCC\_AHB3Periph\_FSMC}
+01140 \textcolor{comment}{  * @param  NewState: new state of the specified peripheral clock.}
+01141 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01142 \textcolor{comment}{  * @retval None}
+01143 \textcolor{comment}{  */}
+01144 \textcolor{keywordtype}{void} RCC_AHB3PeriphClockCmd(uint32\_t RCC\_AHB3Periph, FunctionalState NewState)
+01145 \{
+01146   \textcolor{comment}{/* Check the parameters */}
+01147   assert_param(IS\_RCC\_AHB3\_PERIPH(RCC\_AHB3Periph));
+01148   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01149 
+01150   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01151   \{
+01152     RCC->AHB3ENR |= RCC\_AHB3Periph;
+01153   \}
+01154   \textcolor{keywordflow}{else}
+01155   \{
+01156     RCC->AHB3ENR &= ~RCC\_AHB3Periph;
+01157   \}
+01158 \}
+01159 
+01160 \textcolor{comment}{/**}
+01161 \textcolor{comment}{  * @brief  Enables or disables the Low Speed APB (APB1) peripheral clock.}
+01162 \textcolor{comment}{  * @note   After reset, the peripheral clock (used for registers read/write access)}
+01163 \textcolor{comment}{  *         is disabled and the application software has to enable this clock before }
+01164 \textcolor{comment}{  *         using it. }
+01165 \textcolor{comment}{  * @param  RCC\_APB1Periph: specifies the APB1 peripheral to gates its clock.}
+01166 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+01167 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM2:   TIM2 clock}
+01168 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM3:   TIM3 clock}
+01169 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM4:   TIM4 clock}
+01170 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM5:   TIM5 clock}
+01171 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM6:   TIM6 clock}
+01172 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM7:   TIM7 clock}
+01173 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM12:  TIM12 clock}
+01174 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM13:  TIM13 clock}
+01175 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM14:  TIM14 clock}
+01176 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_WWDG:   WWDG clock}
+01177 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_SPI2:   SPI2 clock}
+01178 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_SPI3:   SPI3 clock}
+01179 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_USART2: USART2 clock}
+01180 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_USART3: USART3 clock}
+01181 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_UART4:  UART4 clock}
+01182 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_UART5:  UART5 clock}
+01183 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_I2C1:   I2C1 clock}
+01184 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_I2C2:   I2C2 clock}
+01185 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_I2C3:   I2C3 clock}
+01186 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_CAN1:   CAN1 clock}
+01187 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_CAN2:   CAN2 clock}
+01188 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_PWR:    PWR clock}
+01189 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_DAC:    DAC clock}
+01190 \textcolor{comment}{  * @param  NewState: new state of the specified peripheral clock.}
+01191 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01192 \textcolor{comment}{  * @retval None}
+01193 \textcolor{comment}{  */}
+01194 \textcolor{keywordtype}{void} RCC_APB1PeriphClockCmd(uint32\_t RCC\_APB1Periph, FunctionalState NewState)
+01195 \{
+01196   \textcolor{comment}{/* Check the parameters */}
+01197   assert_param(IS\_RCC\_APB1\_PERIPH(RCC\_APB1Periph));
+01198   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01199 
+01200   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01201   \{
+01202     RCC->APB1ENR |= RCC\_APB1Periph;
+01203   \}
+01204   \textcolor{keywordflow}{else}
+01205   \{
+01206     RCC->APB1ENR &= ~RCC\_APB1Periph;
+01207   \}
+01208 \}
+01209 
+01210 \textcolor{comment}{/**}
+01211 \textcolor{comment}{  * @brief  Enables or disables the High Speed APB (APB2) peripheral clock.}
+01212 \textcolor{comment}{  * @note   After reset, the peripheral clock (used for registers read/write access)}
+01213 \textcolor{comment}{  *         is disabled and the application software has to enable this clock before }
+01214 \textcolor{comment}{  *         using it.}
+01215 \textcolor{comment}{  * @param  RCC\_APB2Periph: specifies the APB2 peripheral to gates its clock.}
+01216 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+01217 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_TIM1:   TIM1 clock}
+01218 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_TIM8:   TIM8 clock}
+01219 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_USART1: USART1 clock}
+01220 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_USART6: USART6 clock}
+01221 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_ADC1:   ADC1 clock}
+01222 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_ADC2:   ADC2 clock}
+01223 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_ADC3:   ADC3 clock}
+01224 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_SDIO:   SDIO clock}
+01225 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_SPI1:   SPI1 clock}
+01226 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_SYSCFG: SYSCFG clock}
+01227 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_TIM9:   TIM9 clock}
+01228 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_TIM10:  TIM10 clock}
+01229 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_TIM11:  TIM11 clock}
+01230 \textcolor{comment}{  * @param  NewState: new state of the specified peripheral clock.}
+01231 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01232 \textcolor{comment}{  * @retval None}
+01233 \textcolor{comment}{  */}
+01234 \textcolor{keywordtype}{void} RCC_APB2PeriphClockCmd(uint32\_t RCC\_APB2Periph, FunctionalState NewState)
+01235 \{
+01236   \textcolor{comment}{/* Check the parameters */}
+01237   assert_param(IS\_RCC\_APB2\_PERIPH(RCC\_APB2Periph));
+01238   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01239 
+01240   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01241   \{
+01242     RCC->APB2ENR |= RCC\_APB2Periph;
+01243   \}
+01244   \textcolor{keywordflow}{else}
+01245   \{
+01246     RCC->APB2ENR &= ~RCC\_APB2Periph;
+01247   \}
+01248 \}
+01249 
+01250 \textcolor{comment}{/**}
+01251 \textcolor{comment}{  * @brief  Forces or releases AHB1 peripheral reset.}
+01252 \textcolor{comment}{  * @param  RCC\_AHB1Periph: specifies the AHB1 peripheral to reset.}
+01253 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+01254 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOA:   GPIOA clock}
+01255 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOB:   GPIOB clock }
+01256 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOC:   GPIOC clock}
+01257 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOD:   GPIOD clock}
+01258 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOE:   GPIOE clock}
+01259 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOF:   GPIOF clock}
+01260 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOG:   GPIOG clock}
+01261 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOG:   GPIOG clock}
+01262 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOI:   GPIOI clock}
+01263 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_CRC:     CRC clock}
+01264 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_DMA1:    DMA1 clock}
+01265 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_DMA2:    DMA2 clock}
+01266 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_ETH\_MAC: Ethernet MAC clock}
+01267 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_OTG\_HS:  USB OTG HS clock}
+01268 \textcolor{comment}{  *                  }
+01269 \textcolor{comment}{  * @param  NewState: new state of the specified peripheral reset.}
+01270 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01271 \textcolor{comment}{  * @retval None}
+01272 \textcolor{comment}{  */}
+01273 \textcolor{keywordtype}{void} RCC_AHB1PeriphResetCmd(uint32\_t RCC\_AHB1Periph, FunctionalState NewState)
+01274 \{
+01275   \textcolor{comment}{/* Check the parameters */}
+01276   assert_param(IS\_RCC\_AHB1\_RESET\_PERIPH(RCC\_AHB1Periph));
+01277   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01278 
+01279   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01280   \{
+01281     RCC->AHB1RSTR |= RCC\_AHB1Periph;
+01282   \}
+01283   \textcolor{keywordflow}{else}
+01284   \{
+01285     RCC->AHB1RSTR &= ~RCC\_AHB1Periph;
+01286   \}
+01287 \}
+01288 
+01289 \textcolor{comment}{/**}
+01290 \textcolor{comment}{  * @brief  Forces or releases AHB2 peripheral reset.}
+01291 \textcolor{comment}{  * @param  RCC\_AHB2Periph: specifies the AHB2 peripheral to reset.}
+01292 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+01293 \textcolor{comment}{  *            @arg RCC\_AHB2Periph\_DCMI:   DCMI clock}
+01294 \textcolor{comment}{  *            @arg RCC\_AHB2Periph\_CRYP:   CRYP clock}
+01295 \textcolor{comment}{  *            @arg RCC\_AHB2Periph\_HASH:   HASH clock}
+01296 \textcolor{comment}{  *            @arg RCC\_AHB2Periph\_RNG:    RNG clock}
+01297 \textcolor{comment}{  *            @arg RCC\_AHB2Periph\_OTG\_FS: USB OTG FS clock}
+01298 \textcolor{comment}{  * @param  NewState: new state of the specified peripheral reset.}
+01299 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01300 \textcolor{comment}{  * @retval None}
+01301 \textcolor{comment}{  */}
+01302 \textcolor{keywordtype}{void} RCC_AHB2PeriphResetCmd(uint32\_t RCC\_AHB2Periph, FunctionalState NewState)
+01303 \{
+01304   \textcolor{comment}{/* Check the parameters */}
+01305   assert_param(IS\_RCC\_AHB2\_PERIPH(RCC\_AHB2Periph));
+01306   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01307 
+01308   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01309   \{
+01310     RCC->AHB2RSTR |= RCC\_AHB2Periph;
+01311   \}
+01312   \textcolor{keywordflow}{else}
+01313   \{
+01314     RCC->AHB2RSTR &= ~RCC\_AHB2Periph;
+01315   \}
+01316 \}
+01317 
+01318 \textcolor{comment}{/**}
+01319 \textcolor{comment}{  * @brief  Forces or releases AHB3 peripheral reset.}
+01320 \textcolor{comment}{  * @param  RCC\_AHB3Periph: specifies the AHB3 peripheral to reset.}
+01321 \textcolor{comment}{  *          This parameter must be: RCC\_AHB3Periph\_FSMC}
+01322 \textcolor{comment}{  * @param  NewState: new state of the specified peripheral reset.}
+01323 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01324 \textcolor{comment}{  * @retval None}
+01325 \textcolor{comment}{  */}
+01326 \textcolor{keywordtype}{void} RCC_AHB3PeriphResetCmd(uint32\_t RCC\_AHB3Periph, FunctionalState NewState)
+01327 \{
+01328   \textcolor{comment}{/* Check the parameters */}
+01329   assert_param(IS\_RCC\_AHB3\_PERIPH(RCC\_AHB3Periph));
+01330   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01331 
+01332   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01333   \{
+01334     RCC->AHB3RSTR |= RCC\_AHB3Periph;
+01335   \}
+01336   \textcolor{keywordflow}{else}
+01337   \{
+01338     RCC->AHB3RSTR &= ~RCC\_AHB3Periph;
+01339   \}
+01340 \}
+01341 
+01342 \textcolor{comment}{/**}
+01343 \textcolor{comment}{  * @brief  Forces or releases Low Speed APB (APB1) peripheral reset.}
+01344 \textcolor{comment}{  * @param  RCC\_APB1Periph: specifies the APB1 peripheral to reset.}
+01345 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+01346 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM2:   TIM2 clock}
+01347 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM3:   TIM3 clock}
+01348 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM4:   TIM4 clock}
+01349 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM5:   TIM5 clock}
+01350 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM6:   TIM6 clock}
+01351 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM7:   TIM7 clock}
+01352 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM12:  TIM12 clock}
+01353 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM13:  TIM13 clock}
+01354 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM14:  TIM14 clock}
+01355 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_WWDG:   WWDG clock}
+01356 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_SPI2:   SPI2 clock}
+01357 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_SPI3:   SPI3 clock}
+01358 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_USART2: USART2 clock}
+01359 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_USART3: USART3 clock}
+01360 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_UART4:  UART4 clock}
+01361 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_UART5:  UART5 clock}
+01362 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_I2C1:   I2C1 clock}
+01363 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_I2C2:   I2C2 clock}
+01364 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_I2C3:   I2C3 clock}
+01365 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_CAN1:   CAN1 clock}
+01366 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_CAN2:   CAN2 clock}
+01367 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_PWR:    PWR clock}
+01368 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_DAC:    DAC clock}
+01369 \textcolor{comment}{  * @param  NewState: new state of the specified peripheral reset.}
+01370 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01371 \textcolor{comment}{  * @retval None}
+01372 \textcolor{comment}{  */}
+01373 \textcolor{keywordtype}{void} RCC_APB1PeriphResetCmd(uint32\_t RCC\_APB1Periph, FunctionalState NewState)
+01374 \{
+01375   \textcolor{comment}{/* Check the parameters */}
+01376   assert_param(IS\_RCC\_APB1\_PERIPH(RCC\_APB1Periph));
+01377   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01378   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01379   \{
+01380     RCC->APB1RSTR |= RCC\_APB1Periph;
+01381   \}
+01382   \textcolor{keywordflow}{else}
+01383   \{
+01384     RCC->APB1RSTR &= ~RCC\_APB1Periph;
+01385   \}
+01386 \}
+01387 
+01388 \textcolor{comment}{/**}
+01389 \textcolor{comment}{  * @brief  Forces or releases High Speed APB (APB2) peripheral reset.}
+01390 \textcolor{comment}{  * @param  RCC\_APB2Periph: specifies the APB2 peripheral to reset.}
+01391 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+01392 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_TIM1:   TIM1 clock}
+01393 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_TIM8:   TIM8 clock}
+01394 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_USART1: USART1 clock}
+01395 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_USART6: USART6 clock}
+01396 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_ADC1:   ADC1 clock}
+01397 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_ADC2:   ADC2 clock}
+01398 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_ADC3:   ADC3 clock}
+01399 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_SDIO:   SDIO clock}
+01400 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_SPI1:   SPI1 clock}
+01401 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_SYSCFG: SYSCFG clock}
+01402 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_TIM9:   TIM9 clock}
+01403 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_TIM10:  TIM10 clock}
+01404 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_TIM11:  TIM11 clock}
+01405 \textcolor{comment}{  * @param  NewState: new state of the specified peripheral reset.}
+01406 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01407 \textcolor{comment}{  * @retval None}
+01408 \textcolor{comment}{  */}
+01409 \textcolor{keywordtype}{void} RCC_APB2PeriphResetCmd(uint32\_t RCC\_APB2Periph, FunctionalState NewState)
+01410 \{
+01411   \textcolor{comment}{/* Check the parameters */}
+01412   assert_param(IS\_RCC\_APB2\_RESET\_PERIPH(RCC\_APB2Periph));
+01413   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01414   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01415   \{
+01416     RCC->APB2RSTR |= RCC\_APB2Periph;
+01417   \}
+01418   \textcolor{keywordflow}{else}
+01419   \{
+01420     RCC->APB2RSTR &= ~RCC\_APB2Periph;
+01421   \}
+01422 \}
+01423 
+01424 \textcolor{comment}{/**}
+01425 \textcolor{comment}{  * @brief  Enables or disables the AHB1 peripheral clock during Low Power (Sleep) mode.}
+01426 \textcolor{comment}{  * @note   Peripheral clock gating in SLEEP mode can be used to further reduce}
+01427 \textcolor{comment}{  *         power consumption.}
+01428 \textcolor{comment}{  * @note   After wakeup from SLEEP mode, the peripheral clock is enabled again.}
+01429 \textcolor{comment}{  * @note   By default, all peripheral clocks are enabled during SLEEP mode.}
+01430 \textcolor{comment}{  * @param  RCC\_AHBPeriph: specifies the AHB1 peripheral to gates its clock.}
+01431 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+01432 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOA:       GPIOA clock}
+01433 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOB:       GPIOB clock }
+01434 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOC:       GPIOC clock}
+01435 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOD:       GPIOD clock}
+01436 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOE:       GPIOE clock}
+01437 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOF:       GPIOF clock}
+01438 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOG:       GPIOG clock}
+01439 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOG:       GPIOG clock}
+01440 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_GPIOI:       GPIOI clock}
+01441 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_CRC:         CRC clock}
+01442 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_BKPSRAM:     BKPSRAM interface clock}
+01443 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_DMA1:        DMA1 clock}
+01444 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_DMA2:        DMA2 clock}
+01445 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_ETH\_MAC:     Ethernet MAC clock}
+01446 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_ETH\_MAC\_Tx:  Ethernet Transmission clock}
+01447 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_ETH\_MAC\_Rx:  Ethernet Reception clock}
+01448 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_ETH\_MAC\_PTP: Ethernet PTP clock}
+01449 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_OTG\_HS:      USB OTG HS clock}
+01450 \textcolor{comment}{  *            @arg RCC\_AHB1Periph\_OTG\_HS\_ULPI: USB OTG HS ULPI clock}
+01451 \textcolor{comment}{  * @param  NewState: new state of the specified peripheral clock.}
+01452 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01453 \textcolor{comment}{  * @retval None}
+01454 \textcolor{comment}{  */}
+01455 \textcolor{keywordtype}{void} RCC_AHB1PeriphClockLPModeCmd(uint32\_t RCC\_AHB1Periph, FunctionalState NewState)
+01456 \{
+01457   \textcolor{comment}{/* Check the parameters */}
+01458   assert_param(IS\_RCC\_AHB1\_LPMODE\_PERIPH(RCC\_AHB1Periph));
+01459   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01460   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01461   \{
+01462     RCC->AHB1LPENR |= RCC\_AHB1Periph;
+01463   \}
+01464   \textcolor{keywordflow}{else}
+01465   \{
+01466     RCC->AHB1LPENR &= ~RCC\_AHB1Periph;
+01467   \}
+01468 \}
+01469 
+01470 \textcolor{comment}{/**}
+01471 \textcolor{comment}{  * @brief  Enables or disables the AHB2 peripheral clock during Low Power (Sleep) mode.}
+01472 \textcolor{comment}{  * @note   Peripheral clock gating in SLEEP mode can be used to further reduce}
+01473 \textcolor{comment}{  *           power consumption.}
+01474 \textcolor{comment}{  * @note   After wakeup from SLEEP mode, the peripheral clock is enabled again.}
+01475 \textcolor{comment}{  * @note   By default, all peripheral clocks are enabled during SLEEP mode.}
+01476 \textcolor{comment}{  * @param  RCC\_AHBPeriph: specifies the AHB2 peripheral to gates its clock.}
+01477 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+01478 \textcolor{comment}{  *            @arg RCC\_AHB2Periph\_DCMI:   DCMI clock}
+01479 \textcolor{comment}{  *            @arg RCC\_AHB2Periph\_CRYP:   CRYP clock}
+01480 \textcolor{comment}{  *            @arg RCC\_AHB2Periph\_HASH:   HASH clock}
+01481 \textcolor{comment}{  *            @arg RCC\_AHB2Periph\_RNG:    RNG clock}
+01482 \textcolor{comment}{  *            @arg RCC\_AHB2Periph\_OTG\_FS: USB OTG FS clock  }
+01483 \textcolor{comment}{  * @param  NewState: new state of the specified peripheral clock.}
+01484 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01485 \textcolor{comment}{  * @retval None}
+01486 \textcolor{comment}{  */}
+01487 \textcolor{keywordtype}{void} RCC_AHB2PeriphClockLPModeCmd(uint32\_t RCC\_AHB2Periph, FunctionalState NewState)
+01488 \{
+01489   \textcolor{comment}{/* Check the parameters */}
+01490   assert_param(IS\_RCC\_AHB2\_PERIPH(RCC\_AHB2Periph));
+01491   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01492   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01493   \{
+01494     RCC->AHB2LPENR |= RCC\_AHB2Periph;
+01495   \}
+01496   \textcolor{keywordflow}{else}
+01497   \{
+01498     RCC->AHB2LPENR &= ~RCC\_AHB2Periph;
+01499   \}
+01500 \}
+01501 
+01502 \textcolor{comment}{/**}
+01503 \textcolor{comment}{  * @brief  Enables or disables the AHB3 peripheral clock during Low Power (Sleep) mode.}
+01504 \textcolor{comment}{  * @note   Peripheral clock gating in SLEEP mode can be used to further reduce}
+01505 \textcolor{comment}{  *         power consumption.}
+01506 \textcolor{comment}{  * @note   After wakeup from SLEEP mode, the peripheral clock is enabled again.}
+01507 \textcolor{comment}{  * @note   By default, all peripheral clocks are enabled during SLEEP mode.}
+01508 \textcolor{comment}{  * @param  RCC\_AHBPeriph: specifies the AHB3 peripheral to gates its clock.}
+01509 \textcolor{comment}{  *          This parameter must be: RCC\_AHB3Periph\_FSMC}
+01510 \textcolor{comment}{  * @param  NewState: new state of the specified peripheral clock.}
+01511 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01512 \textcolor{comment}{  * @retval None}
+01513 \textcolor{comment}{  */}
+01514 \textcolor{keywordtype}{void} RCC_AHB3PeriphClockLPModeCmd(uint32\_t RCC\_AHB3Periph, FunctionalState NewState)
+01515 \{
+01516   \textcolor{comment}{/* Check the parameters */}
+01517   assert_param(IS\_RCC\_AHB3\_PERIPH(RCC\_AHB3Periph));
+01518   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01519   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01520   \{
+01521     RCC->AHB3LPENR |= RCC\_AHB3Periph;
+01522   \}
+01523   \textcolor{keywordflow}{else}
+01524   \{
+01525     RCC->AHB3LPENR &= ~RCC\_AHB3Periph;
+01526   \}
+01527 \}
+01528 
+01529 \textcolor{comment}{/**}
+01530 \textcolor{comment}{  * @brief  Enables or disables the APB1 peripheral clock during Low Power (Sleep) mode.}
+01531 \textcolor{comment}{  * @note   Peripheral clock gating in SLEEP mode can be used to further reduce}
+01532 \textcolor{comment}{  *         power consumption.}
+01533 \textcolor{comment}{  * @note   After wakeup from SLEEP mode, the peripheral clock is enabled again.}
+01534 \textcolor{comment}{  * @note   By default, all peripheral clocks are enabled during SLEEP mode.}
+01535 \textcolor{comment}{  * @param  RCC\_APB1Periph: specifies the APB1 peripheral to gates its clock.}
+01536 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+01537 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM2:   TIM2 clock}
+01538 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM3:   TIM3 clock}
+01539 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM4:   TIM4 clock}
+01540 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM5:   TIM5 clock}
+01541 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM6:   TIM6 clock}
+01542 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM7:   TIM7 clock}
+01543 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM12:  TIM12 clock}
+01544 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM13:  TIM13 clock}
+01545 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_TIM14:  TIM14 clock}
+01546 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_WWDG:   WWDG clock}
+01547 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_SPI2:   SPI2 clock}
+01548 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_SPI3:   SPI3 clock}
+01549 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_USART2: USART2 clock}
+01550 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_USART3: USART3 clock}
+01551 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_UART4:  UART4 clock}
+01552 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_UART5:  UART5 clock}
+01553 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_I2C1:   I2C1 clock}
+01554 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_I2C2:   I2C2 clock}
+01555 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_I2C3:   I2C3 clock}
+01556 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_CAN1:   CAN1 clock}
+01557 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_CAN2:   CAN2 clock}
+01558 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_PWR:    PWR clock}
+01559 \textcolor{comment}{  *            @arg RCC\_APB1Periph\_DAC:    DAC clock}
+01560 \textcolor{comment}{  * @param  NewState: new state of the specified peripheral clock.}
+01561 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01562 \textcolor{comment}{  * @retval None}
+01563 \textcolor{comment}{  */}
+01564 \textcolor{keywordtype}{void} RCC_APB1PeriphClockLPModeCmd(uint32\_t RCC\_APB1Periph, FunctionalState NewState)
+01565 \{
+01566   \textcolor{comment}{/* Check the parameters */}
+01567   assert_param(IS\_RCC\_APB1\_PERIPH(RCC\_APB1Periph));
+01568   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01569   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01570   \{
+01571     RCC->APB1LPENR |= RCC\_APB1Periph;
+01572   \}
+01573   \textcolor{keywordflow}{else}
+01574   \{
+01575     RCC->APB1LPENR &= ~RCC\_APB1Periph;
+01576   \}
+01577 \}
+01578 
+01579 \textcolor{comment}{/**}
+01580 \textcolor{comment}{  * @brief  Enables or disables the APB2 peripheral clock during Low Power (Sleep) mode.}
+01581 \textcolor{comment}{  * @note   Peripheral clock gating in SLEEP mode can be used to further reduce}
+01582 \textcolor{comment}{  *         power consumption.}
+01583 \textcolor{comment}{  * @note   After wakeup from SLEEP mode, the peripheral clock is enabled again.}
+01584 \textcolor{comment}{  * @note   By default, all peripheral clocks are enabled during SLEEP mode.}
+01585 \textcolor{comment}{  * @param  RCC\_APB2Periph: specifies the APB2 peripheral to gates its clock.}
+01586 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+01587 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_TIM1:   TIM1 clock}
+01588 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_TIM8:   TIM8 clock}
+01589 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_USART1: USART1 clock}
+01590 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_USART6: USART6 clock}
+01591 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_ADC1:   ADC1 clock}
+01592 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_ADC2:   ADC2 clock}
+01593 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_ADC3:   ADC3 clock}
+01594 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_SDIO:   SDIO clock}
+01595 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_SPI1:   SPI1 clock}
+01596 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_SYSCFG: SYSCFG clock}
+01597 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_TIM9:   TIM9 clock}
+01598 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_TIM10:  TIM10 clock}
+01599 \textcolor{comment}{  *            @arg RCC\_APB2Periph\_TIM11:  TIM11 clock}
+01600 \textcolor{comment}{  * @param  NewState: new state of the specified peripheral clock.}
+01601 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01602 \textcolor{comment}{  * @retval None}
+01603 \textcolor{comment}{  */}
+01604 \textcolor{keywordtype}{void} RCC_APB2PeriphClockLPModeCmd(uint32\_t RCC\_APB2Periph, FunctionalState NewState)
+01605 \{
+01606   \textcolor{comment}{/* Check the parameters */}
+01607   assert_param(IS\_RCC\_APB2\_PERIPH(RCC\_APB2Periph));
+01608   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01609   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01610   \{
+01611     RCC->APB2LPENR |= RCC\_APB2Periph;
+01612   \}
+01613   \textcolor{keywordflow}{else}
+01614   \{
+01615     RCC->APB2LPENR &= ~RCC\_APB2Periph;
+01616   \}
+01617 \}
+01618 
+01619 \textcolor{comment}{/**}
+01620 \textcolor{comment}{  * @\}}
+01621 \textcolor{comment}{  */}
+01622 
+01623 \textcolor{comment}{/** @defgroup RCC\_Group4 Interrupts and flags management functions}
+01624 \textcolor{comment}{ *  @brief   Interrupts and flags management functions }
+01625 \textcolor{comment}{ *}
+01626 \textcolor{comment}{@verbatim   }
+01627 \textcolor{comment}{ ===============================================================================}
+01628 \textcolor{comment}{                   Interrupts and flags management functions}
+01629 \textcolor{comment}{ ===============================================================================  }
+01630 \textcolor{comment}{}
+01631 \textcolor{comment}{@endverbatim}
+01632 \textcolor{comment}{  * @\{}
+01633 \textcolor{comment}{  */}
+01634 
+01635 \textcolor{comment}{/**}
+01636 \textcolor{comment}{  * @brief  Enables or disables the specified RCC interrupts.}
+01637 \textcolor{comment}{  * @param  RCC\_IT: specifies the RCC interrupt sources to be enabled or disabled.}
+01638 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+01639 \textcolor{comment}{  *            @arg RCC\_IT\_LSIRDY: LSI ready interrupt}
+01640 \textcolor{comment}{  *            @arg RCC\_IT\_LSERDY: LSE ready interrupt}
+01641 \textcolor{comment}{  *            @arg RCC\_IT\_HSIRDY: HSI ready interrupt}
+01642 \textcolor{comment}{  *            @arg RCC\_IT\_HSERDY: HSE ready interrupt}
+01643 \textcolor{comment}{  *            @arg RCC\_IT\_PLLRDY: main PLL ready interrupt}
+01644 \textcolor{comment}{  *            @arg RCC\_IT\_PLLI2SRDY: PLLI2S ready interrupt  }
+01645 \textcolor{comment}{  * @param  NewState: new state of the specified RCC interrupts.}
+01646 \textcolor{comment}{  *          This parameter can be: ENABLE or DISABLE.}
+01647 \textcolor{comment}{  * @retval None}
+01648 \textcolor{comment}{  */}
+01649 \textcolor{keywordtype}{void} RCC_ITConfig(uint8\_t RCC\_IT, FunctionalState NewState)
+01650 \{
+01651   \textcolor{comment}{/* Check the parameters */}
+01652   assert_param(IS\_RCC\_IT(RCC\_IT));
+01653   assert_param(IS\_FUNCTIONAL\_STATE(NewState));
+01654   \textcolor{keywordflow}{if} (NewState != DISABLE)
+01655   \{
+01656     \textcolor{comment}{/* Perform Byte access to RCC\_CIR[14:8] bits to enable the selected interrupts */}
+01657     *(\_\_IO uint8\_t *) CIR_BYTE2_ADDRESS |= RCC\_IT;
+01658   \}
+01659   \textcolor{keywordflow}{else}
+01660   \{
+01661     \textcolor{comment}{/* Perform Byte access to RCC\_CIR[14:8] bits to disable the selected interrupts */}
+01662     *(\_\_IO uint8\_t *) CIR_BYTE2_ADDRESS &= (uint8\_t)~RCC\_IT;
+01663   \}
+01664 \}
+01665 
+01666 \textcolor{comment}{/**}
+01667 \textcolor{comment}{  * @brief  Checks whether the specified RCC flag is set or not.}
+01668 \textcolor{comment}{  * @param  RCC\_FLAG: specifies the flag to check.}
+01669 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01670 \textcolor{comment}{  *            @arg RCC\_FLAG\_HSIRDY: HSI oscillator clock ready}
+01671 \textcolor{comment}{  *            @arg RCC\_FLAG\_HSERDY: HSE oscillator clock ready}
+01672 \textcolor{comment}{  *            @arg RCC\_FLAG\_PLLRDY: main PLL clock ready}
+01673 \textcolor{comment}{  *            @arg RCC\_FLAG\_PLLI2SRDY: PLLI2S clock ready}
+01674 \textcolor{comment}{  *            @arg RCC\_FLAG\_LSERDY: LSE oscillator clock ready}
+01675 \textcolor{comment}{  *            @arg RCC\_FLAG\_LSIRDY: LSI oscillator clock ready}
+01676 \textcolor{comment}{  *            @arg RCC\_FLAG\_BORRST: POR/PDR or BOR reset}
+01677 \textcolor{comment}{  *            @arg RCC\_FLAG\_PINRST: Pin reset}
+01678 \textcolor{comment}{  *            @arg RCC\_FLAG\_PORRST: POR/PDR reset}
+01679 \textcolor{comment}{  *            @arg RCC\_FLAG\_SFTRST: Software reset}
+01680 \textcolor{comment}{  *            @arg RCC\_FLAG\_IWDGRST: Independent Watchdog reset}
+01681 \textcolor{comment}{  *            @arg RCC\_FLAG\_WWDGRST: Window Watchdog reset}
+01682 \textcolor{comment}{  *            @arg RCC\_FLAG\_LPWRRST: Low Power reset}
+01683 \textcolor{comment}{  * @retval The new state of RCC\_FLAG (SET or RESET).}
+01684 \textcolor{comment}{  */}
+01685 FlagStatus RCC_GetFlagStatus(uint8\_t RCC\_FLAG)
+01686 \{
+01687   uint32\_t tmp = 0;
+01688   uint32\_t statusreg = 0;
+01689   FlagStatus bitstatus = RESET;
+01690 
+01691   \textcolor{comment}{/* Check the parameters */}
+01692   assert_param(IS\_RCC\_FLAG(RCC\_FLAG));
+01693 
+01694   \textcolor{comment}{/* Get the RCC register index */}
+01695   tmp = RCC\_FLAG >> 5;
+01696   \textcolor{keywordflow}{if} (tmp == 1)               \textcolor{comment}{/* The flag to check is in CR register */}
+01697   \{
+01698     statusreg = RCC->CR;
+01699   \}
+01700   \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (tmp == 2)          \textcolor{comment}{/* The flag to check is in BDCR register */}
+01701   \{
+01702     statusreg = RCC->BDCR;
+01703   \}
+01704   \textcolor{keywordflow}{else}                       \textcolor{comment}{/* The flag to check is in CSR register */}
+01705   \{
+01706     statusreg = RCC->CSR;
+01707   \}
+01708 
+01709   \textcolor{comment}{/* Get the flag position */}
+01710   tmp = RCC\_FLAG & FLAG_MASK;
+01711   \textcolor{keywordflow}{if} ((statusreg & ((uint32\_t)1 << tmp)) != (uint32\_t)RESET)
+01712   \{
+01713     bitstatus = SET;
+01714   \}
+01715   \textcolor{keywordflow}{else}
+01716   \{
+01717     bitstatus = RESET;
+01718   \}
+01719   \textcolor{comment}{/* Return the flag status */}
+01720   \textcolor{keywordflow}{return} bitstatus;
+01721 \}
+01722 
+01723 \textcolor{comment}{/**}
+01724 \textcolor{comment}{  * @brief  Clears the RCC reset flags.}
+01725 \textcolor{comment}{  *         The reset flags are: RCC\_FLAG\_PINRST, RCC\_FLAG\_PORRST,  RCC\_FLAG\_SFTRST,}
+01726 \textcolor{comment}{  *         RCC\_FLAG\_IWDGRST, RCC\_FLAG\_WWDGRST, RCC\_FLAG\_LPWRRST}
+01727 \textcolor{comment}{  * @param  None}
+01728 \textcolor{comment}{  * @retval None}
+01729 \textcolor{comment}{  */}
+01730 \textcolor{keywordtype}{void} RCC_ClearFlag(\textcolor{keywordtype}{void})
+01731 \{
+01732   \textcolor{comment}{/* Set RMVF bit to clear the reset flags */}
+01733   RCC->CSR |= RCC_CSR_RMVF;
+01734 \}
+01735 
+01736 \textcolor{comment}{/**}
+01737 \textcolor{comment}{  * @brief  Checks whether the specified RCC interrupt has occurred or not.}
+01738 \textcolor{comment}{  * @param  RCC\_IT: specifies the RCC interrupt source to check.}
+01739 \textcolor{comment}{  *          This parameter can be one of the following values:}
+01740 \textcolor{comment}{  *            @arg RCC\_IT\_LSIRDY: LSI ready interrupt}
+01741 \textcolor{comment}{  *            @arg RCC\_IT\_LSERDY: LSE ready interrupt}
+01742 \textcolor{comment}{  *            @arg RCC\_IT\_HSIRDY: HSI ready interrupt}
+01743 \textcolor{comment}{  *            @arg RCC\_IT\_HSERDY: HSE ready interrupt}
+01744 \textcolor{comment}{  *            @arg RCC\_IT\_PLLRDY: main PLL ready interrupt}
+01745 \textcolor{comment}{  *            @arg RCC\_IT\_PLLI2SRDY: PLLI2S ready interrupt  }
+01746 \textcolor{comment}{  *            @arg RCC\_IT\_CSS: Clock Security System interrupt}
+01747 \textcolor{comment}{  * @retval The new state of RCC\_IT (SET or RESET).}
+01748 \textcolor{comment}{  */}
+01749 ITStatus RCC_GetITStatus(uint8\_t RCC\_IT)
+01750 \{
+01751   ITStatus bitstatus = RESET;
+01752 
+01753   \textcolor{comment}{/* Check the parameters */}
+01754   assert_param(IS\_RCC\_GET\_IT(RCC\_IT));
+01755 
+01756   \textcolor{comment}{/* Check the status of the specified RCC interrupt */}
+01757   \textcolor{keywordflow}{if} ((RCC->CIR & RCC\_IT) != (uint32\_t)RESET)
+01758   \{
+01759     bitstatus = SET;
+01760   \}
+01761   \textcolor{keywordflow}{else}
+01762   \{
+01763     bitstatus = RESET;
+01764   \}
+01765   \textcolor{comment}{/* Return the RCC\_IT status */}
+01766   \textcolor{keywordflow}{return}  bitstatus;
+01767 \}
+01768 
+01769 \textcolor{comment}{/**}
+01770 \textcolor{comment}{  * @brief  Clears the RCC's interrupt pending bits.}
+01771 \textcolor{comment}{  * @param  RCC\_IT: specifies the interrupt pending bit to clear.}
+01772 \textcolor{comment}{  *          This parameter can be any combination of the following values:}
+01773 \textcolor{comment}{  *            @arg RCC\_IT\_LSIRDY: LSI ready interrupt}
+01774 \textcolor{comment}{  *            @arg RCC\_IT\_LSERDY: LSE ready interrupt}
+01775 \textcolor{comment}{  *            @arg RCC\_IT\_HSIRDY: HSI ready interrupt}
+01776 \textcolor{comment}{  *            @arg RCC\_IT\_HSERDY: HSE ready interrupt}
+01777 \textcolor{comment}{  *            @arg RCC\_IT\_PLLRDY: main PLL ready interrupt}
+01778 \textcolor{comment}{  *            @arg RCC\_IT\_PLLI2SRDY: PLLI2S ready interrupt  }
+01779 \textcolor{comment}{  *            @arg RCC\_IT\_CSS: Clock Security System interrupt}
+01780 \textcolor{comment}{  * @retval None}
+01781 \textcolor{comment}{  */}
+01782 \textcolor{keywordtype}{void} RCC_ClearITPendingBit(uint8\_t RCC\_IT)
+01783 \{
+01784   \textcolor{comment}{/* Check the parameters */}
+01785   assert_param(IS\_RCC\_CLEAR\_IT(RCC\_IT));
+01786 
+01787   \textcolor{comment}{/* Perform Byte access to RCC\_CIR[23:16] bits to clear the selected interrupt}
+01788 \textcolor{comment}{     pending bits */}
+01789   *(\_\_IO uint8\_t *) CIR_BYTE3_ADDRESS = RCC\_IT;
+01790 \}
+01791 
+01792 \textcolor{comment}{/**}
+01793 \textcolor{comment}{  * @\}}
+01794 \textcolor{comment}{  */}
+01795 
+01796 \textcolor{comment}{/**}
+01797 \textcolor{comment}{  * @\}}
+01798 \textcolor{comment}{  */}
+01799 
+01800 \textcolor{comment}{/**}
+01801 \textcolor{comment}{  * @\}}
+01802 \textcolor{comment}{  */}
+01803 
+01804 \textcolor{comment}{/**}
+01805 \textcolor{comment}{  * @\}}
+01806 \textcolor{comment}{  */}
+01807 
+01808 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

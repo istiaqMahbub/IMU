@@ -1,0 +1,110 @@
+\section{Flags management functions}
+\label{group__PWR__Group7}\index{Flags management functions@{Flags management functions}}
+
+
+Flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Flag\+Status} \textbf{ P\+W\+R\+\_\+\+Get\+Flag\+Status} (uint32\+\_\+t P\+W\+R\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified P\+WR flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ P\+W\+R\+\_\+\+Clear\+Flag} (uint32\+\_\+t P\+W\+R\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the P\+WR\textquotesingle{}s pending flags. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Flags management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                           Flags management functions
+ ===============================================================================  \end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__PWR__Group7_ga01c4b2fbd16514b993324e101c3ddf7c}} 
+\index{Flags management functions@{Flags management functions}!P\+W\+R\+\_\+\+Clear\+Flag@{P\+W\+R\+\_\+\+Clear\+Flag}}
+\index{P\+W\+R\+\_\+\+Clear\+Flag@{P\+W\+R\+\_\+\+Clear\+Flag}!Flags management functions@{Flags management functions}}
+\subsubsection{P\+W\+R\+\_\+\+Clear\+Flag()}
+{\footnotesize\ttfamily void P\+W\+R\+\_\+\+Clear\+Flag (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{P\+W\+R\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Clears the P\+WR\textquotesingle{}s pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em P\+W\+R\+\_\+\+F\+L\+AG} & specifies the flag to clear. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item P\+W\+R\+\_\+\+F\+L\+A\+G\+\_\+\+WU\+: Wake Up flag \item P\+W\+R\+\_\+\+F\+L\+A\+G\+\_\+\+SB\+: Stand\+By flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 632} of file \textbf{ stm32f4xx\+\_\+pwr.\+c}.
+
+
+\begin{DoxyCode}
+00633 \{
+00634   \textcolor{comment}{/* Check the parameters */}
+00635   assert_param(IS_PWR_CLEAR_FLAG(PWR\_FLAG));
+00636          
+00637   PWR->CR |=  PWR\_FLAG << 2;
+00638 \}
+\end{DoxyCode}
+\mbox{\label{group__PWR__Group7_gaa980163a4d83304280ee34942464b4ec}} 
+\index{Flags management functions@{Flags management functions}!P\+W\+R\+\_\+\+Get\+Flag\+Status@{P\+W\+R\+\_\+\+Get\+Flag\+Status}}
+\index{P\+W\+R\+\_\+\+Get\+Flag\+Status@{P\+W\+R\+\_\+\+Get\+Flag\+Status}!Flags management functions@{Flags management functions}}
+\subsubsection{P\+W\+R\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} P\+W\+R\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{P\+W\+R\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified P\+WR flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em P\+W\+R\+\_\+\+F\+L\+AG} & specifies the flag to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item P\+W\+R\+\_\+\+F\+L\+A\+G\+\_\+\+WU\+: Wake Up flag. This flag indicates that a wakeup event was received from the W\+K\+UP pin or from the R\+TC alarm (Alarm A or Alarm B), R\+TC Tamper event, R\+TC Time\+Stamp event or R\+TC Wakeup. An additional wakeup event is detected if the W\+K\+UP pin is enabled (by setting the E\+W\+UP bit) when the W\+K\+UP pin level is already high. \item P\+W\+R\+\_\+\+F\+L\+A\+G\+\_\+\+SB\+: Stand\+By flag. This flag indicates that the system was resumed from Stand\+By mode. \item P\+W\+R\+\_\+\+F\+L\+A\+G\+\_\+\+P\+V\+DO\+: P\+VD Output. This flag is valid only if P\+VD is enabled by the \doxyref{P\+W\+R\+\_\+\+P\+V\+D\+Cmd()}{p.}{group__PWR__Group2_ga42cad476b816e0a33594a933b3ed1acd} function. The P\+VD is stopped by Standby mode For this reason, this bit is equal to 0 after Standby or reset until the P\+V\+DE bit is set. \item P\+W\+R\+\_\+\+F\+L\+A\+G\+\_\+\+B\+RR\+: Backup regulator ready flag. This bit is not reset when the device wakes up from Standby mode or by a system reset or power reset. \item P\+W\+R\+\_\+\+F\+L\+A\+G\+\_\+\+V\+O\+S\+R\+DY\+: This flag indicates that the Regulator voltage scaling output selection is ready. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of P\+W\+R\+\_\+\+F\+L\+AG (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 605} of file \textbf{ stm32f4xx\+\_\+pwr.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+00606 \{
+00607   FlagStatus bitstatus = RESET;
+00608   
+00609   \textcolor{comment}{/* Check the parameters */}
+00610   assert_param(IS_PWR_GET_FLAG(PWR\_FLAG));
+00611   
+00612   \textcolor{keywordflow}{if} ((PWR->CSR & PWR\_FLAG) != (uint32\_t)RESET)
+00613   \{
+00614     bitstatus = SET;
+00615   \}
+00616   \textcolor{keywordflow}{else}
+00617   \{
+00618     bitstatus = RESET;
+00619   \}
+00620   \textcolor{comment}{/* Return the flag status */}
+00621   \textcolor{keywordflow}{return} bitstatus;
+00622 \}
+\end{DoxyCode}

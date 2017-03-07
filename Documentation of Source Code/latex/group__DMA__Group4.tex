@@ -1,0 +1,582 @@
+\section{Interrupts and flags management functions}
+\label{group__DMA__Group4}\index{Interrupts and flags management functions@{Interrupts and flags management functions}}
+
+
+Interrupts and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Functional\+State} \textbf{ D\+M\+A\+\_\+\+Get\+Cmd\+Status} (\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$D\+M\+Ay\+\_\+\+Streamx)
+\begin{DoxyCompactList}\small\item\em Returns the status of EN bit for the specified D\+M\+Ay Streamx. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ D\+M\+A\+\_\+\+Get\+F\+I\+F\+O\+Status} (\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$D\+M\+Ay\+\_\+\+Streamx)
+\begin{DoxyCompactList}\small\item\em Returns the current D\+M\+Ay Streamx F\+I\+FO filled level. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ D\+M\+A\+\_\+\+Get\+Flag\+Status} (\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$D\+M\+Ay\+\_\+\+Streamx, uint32\+\_\+t D\+M\+A\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified D\+M\+Ay Streamx flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ D\+M\+A\+\_\+\+Clear\+Flag} (\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$D\+M\+Ay\+\_\+\+Streamx, uint32\+\_\+t D\+M\+A\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the D\+M\+Ay Streamx\textquotesingle{}s pending flags. \end{DoxyCompactList}\item 
+void \textbf{ D\+M\+A\+\_\+\+I\+T\+Config} (\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$D\+M\+Ay\+\_\+\+Streamx, uint32\+\_\+t D\+M\+A\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified D\+M\+Ay Streamx interrupts. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ D\+M\+A\+\_\+\+Get\+I\+T\+Status} (\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$D\+M\+Ay\+\_\+\+Streamx, uint32\+\_\+t D\+M\+A\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified D\+M\+Ay Streamx interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ D\+M\+A\+\_\+\+Clear\+I\+T\+Pending\+Bit} (\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$D\+M\+Ay\+\_\+\+Streamx, uint32\+\_\+t D\+M\+A\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the D\+M\+Ay Streamx\textquotesingle{}s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts and flags management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                  Interrupts and flags management functions
+ ===============================================================================  
+
+  This subsection provides functions allowing to
+   - Check the DMA enable status
+   - Check the FIFO status 
+   - Configure the DMA Interrupts sources and check or clear the flags or pending bits status.   
+   
+ 1. DMA Enable status:
+   After configuring the DMA Stream (DMA_Init() function) and enabling the stream,
+   it is recommended to check (or wait until) the DMA Stream is effectively enabled.
+   A Stream may remain disabled if a configuration parameter is wrong.
+   After disabling a DMA Stream, it is also recommended to check (or wait until) the DMA
+   Stream is effectively disabled. If a Stream is disabled while a data transfer is ongoing, 
+   the current data will be transferred and the Stream will be effectively disabled only after
+   this data transfer completion.
+   To monitor this state it is possible to use the following function:
+     - FunctionalState DMA_GetCmdStatus(DMA_Stream_TypeDef* DMAy_Streamx); 
+ 
+ 2. FIFO Status:
+   It is possible to monitor the FIFO status when a transfer is ongoing using the following 
+   function:
+     - uint32_t DMA_GetFIFOStatus(DMA_Stream_TypeDef* DMAy_Streamx); 
+ 
+ 3. DMA Interrupts and Flags:
+  The user should identify which mode will be used in his application to manage the
+  DMA controller events: Polling mode or Interrupt mode. 
+    
+  Polling Mode
+  =============
+    Each DMA stream can be managed through 4 event Flags:
+    (x : DMA Stream number )
+       1. DMA_FLAG_FEIFx  : to indicate that a FIFO Mode Transfer Error event occurred.
+       2. DMA_FLAG_DMEIFx : to indicate that a Direct Mode Transfer Error event occurred.
+       3. DMA_FLAG_TEIFx  : to indicate that a Transfer Error event occurred.
+       4. DMA_FLAG_HTIFx  : to indicate that a Half-Transfer Complete event occurred.
+       5. DMA_FLAG_TCIFx  : to indicate that a Transfer Complete event occurred .       
+
+   In this Mode it is advised to use the following functions:
+      - FlagStatus DMA_GetFlagStatus(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_FLAG);
+      - void DMA_ClearFlag(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_FLAG);
+
+  Interrupt Mode
+  ===============
+    Each DMA Stream can be managed through 4 Interrupts:
+
+    Interrupt Source
+    ----------------
+       1. DMA_IT_FEIFx  : specifies the interrupt source for the  FIFO Mode Transfer Error event.
+       2. DMA_IT_DMEIFx : specifies the interrupt source for the Direct Mode Transfer Error event.
+       3. DMA_IT_TEIFx  : specifies the interrupt source for the Transfer Error event.
+       4. DMA_IT_HTIFx  : specifies the interrupt source for the Half-Transfer Complete event.
+       5. DMA_IT_TCIFx  : specifies the interrupt source for the a Transfer Complete event. 
+     
+  In this Mode it is advised to use the following functions:
+     - void DMA_ITConfig(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_IT, FunctionalState NewState);
+     - ITStatus DMA_GetITStatus(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_IT);
+     - void DMA_ClearITPendingBit(DMA_Stream_TypeDef* DMAy_Streamx, uint32_t DMA_IT);\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__DMA__Group4_ga510d62b4051f5a5de164e84b266b851d}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\+M\+A\+\_\+\+Clear\+Flag@{D\+M\+A\+\_\+\+Clear\+Flag}}
+\index{D\+M\+A\+\_\+\+Clear\+Flag@{D\+M\+A\+\_\+\+Clear\+Flag}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{D\+M\+A\+\_\+\+Clear\+Flag()}
+{\footnotesize\ttfamily void D\+M\+A\+\_\+\+Clear\+Flag (\begin{DoxyParamCaption}\item[{\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$}]{D\+M\+Ay\+\_\+\+Streamx,  }\item[{uint32\+\_\+t}]{D\+M\+A\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Clears the D\+M\+Ay Streamx\textquotesingle{}s pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+M\+Ay\+\_\+\+Streamx} & where y can be 1 or 2 to select the D\+MA and x can be 0 to 7 to select the D\+MA Stream. \\
+\hline
+{\em D\+M\+A\+\_\+\+F\+L\+AG} & specifies the flag to clear. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item D\+M\+A\+\_\+\+F\+L\+A\+G\+\_\+\+T\+C\+I\+Fx\+: Streamx transfer complete flag \item D\+M\+A\+\_\+\+F\+L\+A\+G\+\_\+\+H\+T\+I\+Fx\+: Streamx half transfer complete flag \item D\+M\+A\+\_\+\+F\+L\+A\+G\+\_\+\+T\+E\+I\+Fx\+: Streamx transfer error flag \item D\+M\+A\+\_\+\+F\+L\+A\+G\+\_\+\+D\+M\+E\+I\+Fx\+: Streamx direct mode error flag \item D\+M\+A\+\_\+\+F\+L\+A\+G\+\_\+\+F\+E\+I\+Fx\+: Streamx F\+I\+FO error flag Where x can be 0 to 7 to select the D\+MA Stream. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1053} of file \textbf{ stm32f4xx\+\_\+dma.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+01054 \{
+01055   DMA_TypeDef* DMAy;
+01056 
+01057   \textcolor{comment}{/* Check the parameters */}
+01058   assert_param(IS_DMA_ALL_PERIPH(DMAy\_Streamx));
+01059   assert_param(IS_DMA_CLEAR_FLAG(DMA\_FLAG));
+01060 
+01061   \textcolor{comment}{/* Determine the DMA to which belongs the stream */}
+01062   \textcolor{keywordflow}{if} (DMAy\_Streamx < DMA2_Stream0)
+01063   \{
+01064     \textcolor{comment}{/* DMAy\_Streamx belongs to DMA1 */}
+01065     DMAy = DMA1; 
+01066   \} 
+01067   \textcolor{keywordflow}{else} 
+01068   \{
+01069     \textcolor{comment}{/* DMAy\_Streamx belongs to DMA2 */}
+01070     DMAy = DMA2; 
+01071   \}
+01072 
+01073   \textcolor{comment}{/* Check if LIFCR or HIFCR register is targeted */}
+01074   \textcolor{keywordflow}{if} ((DMA\_FLAG & HIGH_ISR_MASK) != (uint32\_t)RESET)
+01075   \{
+01076     \textcolor{comment}{/* Set DMAy HIFCR register clear flag bits */}
+01077     DMAy->HIFCR = (uint32\_t)(DMA\_FLAG & RESERVED_MASK);
+01078   \}
+01079   \textcolor{keywordflow}{else} 
+01080   \{
+01081     \textcolor{comment}{/* Set DMAy LIFCR register clear flag bits */}
+01082     DMAy->LIFCR = (uint32\_t)(DMA\_FLAG & RESERVED_MASK);
+01083   \}    
+01084 \}
+\end{DoxyCode}
+\mbox{\label{group__DMA__Group4_gad5433018889cd36140d98bb380c4e76e}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\+M\+A\+\_\+\+Clear\+I\+T\+Pending\+Bit@{D\+M\+A\+\_\+\+Clear\+I\+T\+Pending\+Bit}}
+\index{D\+M\+A\+\_\+\+Clear\+I\+T\+Pending\+Bit@{D\+M\+A\+\_\+\+Clear\+I\+T\+Pending\+Bit}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{D\+M\+A\+\_\+\+Clear\+I\+T\+Pending\+Bit()}
+{\footnotesize\ttfamily void D\+M\+A\+\_\+\+Clear\+I\+T\+Pending\+Bit (\begin{DoxyParamCaption}\item[{\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$}]{D\+M\+Ay\+\_\+\+Streamx,  }\item[{uint32\+\_\+t}]{D\+M\+A\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Clears the D\+M\+Ay Streamx\textquotesingle{}s interrupt pending bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+M\+Ay\+\_\+\+Streamx} & where y can be 1 or 2 to select the D\+MA and x can be 0 to 7 to select the D\+MA Stream. \\
+\hline
+{\em D\+M\+A\+\_\+\+IT} & specifies the D\+MA interrupt pending bit to clear. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item D\+M\+A\+\_\+\+I\+T\+\_\+\+T\+C\+I\+Fx\+: Streamx transfer complete interrupt \item D\+M\+A\+\_\+\+I\+T\+\_\+\+H\+T\+I\+Fx\+: Streamx half transfer complete interrupt \item D\+M\+A\+\_\+\+I\+T\+\_\+\+T\+E\+I\+Fx\+: Streamx transfer error interrupt \item D\+M\+A\+\_\+\+I\+T\+\_\+\+D\+M\+E\+I\+Fx\+: Streamx direct mode error interrupt \item D\+M\+A\+\_\+\+I\+T\+\_\+\+F\+E\+I\+Fx\+: Streamx F\+I\+FO error interrupt Where x can be 0 to 7 to select the D\+MA Stream. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1234} of file \textbf{ stm32f4xx\+\_\+dma.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}.
+
+
+\begin{DoxyCode}
+01235 \{
+01236   DMA_TypeDef* DMAy;
+01237 
+01238   \textcolor{comment}{/* Check the parameters */}
+01239   assert_param(IS_DMA_ALL_PERIPH(DMAy\_Streamx));
+01240   assert_param(IS_DMA_CLEAR_IT(DMA\_IT));
+01241 
+01242   \textcolor{comment}{/* Determine the DMA to which belongs the stream */}
+01243   \textcolor{keywordflow}{if} (DMAy\_Streamx < DMA2_Stream0)
+01244   \{
+01245     \textcolor{comment}{/* DMAy\_Streamx belongs to DMA1 */}
+01246     DMAy = DMA1; 
+01247   \} 
+01248   \textcolor{keywordflow}{else} 
+01249   \{
+01250     \textcolor{comment}{/* DMAy\_Streamx belongs to DMA2 */}
+01251     DMAy = DMA2; 
+01252   \}
+01253 
+01254   \textcolor{comment}{/* Check if LIFCR or HIFCR register is targeted */}
+01255   \textcolor{keywordflow}{if} ((DMA\_IT & HIGH_ISR_MASK) != (uint32\_t)RESET)
+01256   \{
+01257     \textcolor{comment}{/* Set DMAy HIFCR register clear interrupt bits */}
+01258     DMAy->HIFCR = (uint32\_t)(DMA\_IT & RESERVED_MASK);
+01259   \}
+01260   \textcolor{keywordflow}{else} 
+01261   \{
+01262     \textcolor{comment}{/* Set DMAy LIFCR register clear interrupt bits */}
+01263     DMAy->LIFCR = (uint32\_t)(DMA\_IT & RESERVED_MASK);
+01264   \}   
+01265 \}
+\end{DoxyCode}
+\mbox{\label{group__DMA__Group4_gaa4d631cdd6cd020106435f30c0c6fb15}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\+M\+A\+\_\+\+Get\+Cmd\+Status@{D\+M\+A\+\_\+\+Get\+Cmd\+Status}}
+\index{D\+M\+A\+\_\+\+Get\+Cmd\+Status@{D\+M\+A\+\_\+\+Get\+Cmd\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{D\+M\+A\+\_\+\+Get\+Cmd\+Status()}
+{\footnotesize\ttfamily \textbf{ Functional\+State} D\+M\+A\+\_\+\+Get\+Cmd\+Status (\begin{DoxyParamCaption}\item[{\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$}]{D\+M\+Ay\+\_\+\+Streamx }\end{DoxyParamCaption})}
+
+
+
+Returns the status of EN bit for the specified D\+M\+Ay Streamx. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+M\+Ay\+\_\+\+Streamx} & where y can be 1 or 2 to select the D\+MA and x can be 0 to 7 to select the D\+MA Stream.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+After configuring the D\+MA Stream (\doxyref{D\+M\+A\+\_\+\+Init()}{p.}{group__DMA__Group1_gaced8a4149acfb0a50b50e63273a87148} function) and enabling the stream, it is recommended to check (or wait until) the D\+MA Stream is effectively enabled. A Stream may remain disabled if a configuration parameter is wrong. After disabling a D\+MA Stream, it is also recommended to check (or wait until) the D\+MA Stream is effectively disabled. If a Stream is disabled while a data transfer is ongoing, the current data will be transferred and the Stream will be effectively disabled only after the transfer of this single data is finished.
+\end{DoxyNote}
+
+\begin{DoxyRetVals}{Return values}
+{\em Current} & state of the D\+M\+Ay Streamx (E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 925} of file \textbf{ stm32f4xx\+\_\+dma.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+00926 \{
+00927   FunctionalState state = DISABLE;
+00928 
+00929   \textcolor{comment}{/* Check the parameters */}
+00930   assert_param(IS_DMA_ALL_PERIPH(DMAy\_Streamx));
+00931 
+00932   \textcolor{keywordflow}{if} ((DMAy\_Streamx->CR & (uint32\_t)DMA_SxCR_EN) != 0)
+00933   \{
+00934     \textcolor{comment}{/* The selected DMAy Streamx EN bit is set (DMA is still transferring) */}
+00935     state = ENABLE;
+00936   \}
+00937   \textcolor{keywordflow}{else}
+00938   \{
+00939     \textcolor{comment}{/* The selected DMAy Streamx EN bit is cleared (DMA is disabled and }
+00940 \textcolor{comment}{        all transfers are complete) */}
+00941     state = DISABLE;
+00942   \}
+00943   \textcolor{keywordflow}{return} state;
+00944 \}
+\end{DoxyCode}
+\mbox{\label{group__DMA__Group4_ga9893809a7067861ec111f7d712ebf28d}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\+M\+A\+\_\+\+Get\+F\+I\+F\+O\+Status@{D\+M\+A\+\_\+\+Get\+F\+I\+F\+O\+Status}}
+\index{D\+M\+A\+\_\+\+Get\+F\+I\+F\+O\+Status@{D\+M\+A\+\_\+\+Get\+F\+I\+F\+O\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{D\+M\+A\+\_\+\+Get\+F\+I\+F\+O\+Status()}
+{\footnotesize\ttfamily uint32\+\_\+t D\+M\+A\+\_\+\+Get\+F\+I\+F\+O\+Status (\begin{DoxyParamCaption}\item[{\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$}]{D\+M\+Ay\+\_\+\+Streamx }\end{DoxyParamCaption})}
+
+
+
+Returns the current D\+M\+Ay Streamx F\+I\+FO filled level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+M\+Ay\+\_\+\+Streamx} & where y can be 1 or 2 to select the D\+MA and x can be 0 to 7 to select the D\+MA Stream. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & F\+I\+FO filling state.
+\begin{DoxyItemize}
+\item D\+M\+A\+\_\+\+F\+I\+F\+O\+Status\+\_\+\+Less1\+Quarter\+Full\+: when F\+I\+FO is less than 1 quarter-\/full and not empty.
+\item D\+M\+A\+\_\+\+F\+I\+F\+O\+Status\+\_\+1\+Quarter\+Full\+: if more than 1 quarter-\/full.
+\item D\+M\+A\+\_\+\+F\+I\+F\+O\+Status\+\_\+\+Half\+Full\+: if more than 1 half-\/full.
+\item D\+M\+A\+\_\+\+F\+I\+F\+O\+Status\+\_\+3\+Quarters\+Full\+: if more than 3 quarters-\/full.
+\item D\+M\+A\+\_\+\+F\+I\+F\+O\+Status\+\_\+\+Empty\+: when F\+I\+FO is empty
+\item D\+M\+A\+\_\+\+F\+I\+F\+O\+Status\+\_\+\+Full\+: when F\+I\+FO is full 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 959} of file \textbf{ stm32f4xx\+\_\+dma.\+c}.
+
+
+\begin{DoxyCode}
+00960 \{
+00961   uint32\_t tmpreg = 0;
+00962  
+00963   \textcolor{comment}{/* Check the parameters */}
+00964   assert_param(IS_DMA_ALL_PERIPH(DMAy\_Streamx));
+00965   
+00966   \textcolor{comment}{/* Get the FIFO level bits */}
+00967   tmpreg = (uint32\_t)((DMAy\_Streamx->FCR & DMA_SxFCR_FS));
+00968   
+00969   \textcolor{keywordflow}{return} tmpreg;
+00970 \}
+\end{DoxyCode}
+\mbox{\label{group__DMA__Group4_ga10cfc0fe31d64a1fd8fb3efb4ae2a411}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\+M\+A\+\_\+\+Get\+Flag\+Status@{D\+M\+A\+\_\+\+Get\+Flag\+Status}}
+\index{D\+M\+A\+\_\+\+Get\+Flag\+Status@{D\+M\+A\+\_\+\+Get\+Flag\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{D\+M\+A\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} D\+M\+A\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$}]{D\+M\+Ay\+\_\+\+Streamx,  }\item[{uint32\+\_\+t}]{D\+M\+A\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified D\+M\+Ay Streamx flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+M\+Ay\+\_\+\+Streamx} & where y can be 1 or 2 to select the D\+MA and x can be 0 to 7 to select the D\+MA Stream. \\
+\hline
+{\em D\+M\+A\+\_\+\+F\+L\+AG} & specifies the flag to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item D\+M\+A\+\_\+\+F\+L\+A\+G\+\_\+\+T\+C\+I\+Fx\+: Streamx transfer complete flag \item D\+M\+A\+\_\+\+F\+L\+A\+G\+\_\+\+H\+T\+I\+Fx\+: Streamx half transfer complete flag \item D\+M\+A\+\_\+\+F\+L\+A\+G\+\_\+\+T\+E\+I\+Fx\+: Streamx transfer error flag \item D\+M\+A\+\_\+\+F\+L\+A\+G\+\_\+\+D\+M\+E\+I\+Fx\+: Streamx direct mode error flag \item D\+M\+A\+\_\+\+F\+L\+A\+G\+\_\+\+F\+E\+I\+Fx\+: Streamx F\+I\+FO error flag Where x can be 0 to 7 to select the D\+MA Stream. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of D\+M\+A\+\_\+\+F\+L\+AG (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 986} of file \textbf{ stm32f4xx\+\_\+dma.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}, and \textbf{ S\+ET}.
+
+
+\begin{DoxyCode}
+00987 \{
+00988   FlagStatus bitstatus = RESET;
+00989   DMA_TypeDef* DMAy;
+00990   uint32\_t tmpreg = 0;
+00991 
+00992   \textcolor{comment}{/* Check the parameters */}
+00993   assert_param(IS_DMA_ALL_PERIPH(DMAy\_Streamx));
+00994   assert_param(IS_DMA_GET_FLAG(DMA\_FLAG));
+00995 
+00996   \textcolor{comment}{/* Determine the DMA to which belongs the stream */}
+00997   \textcolor{keywordflow}{if} (DMAy\_Streamx < DMA2_Stream0)
+00998   \{
+00999     \textcolor{comment}{/* DMAy\_Streamx belongs to DMA1 */}
+01000     DMAy = DMA1; 
+01001   \} 
+01002   \textcolor{keywordflow}{else} 
+01003   \{
+01004     \textcolor{comment}{/* DMAy\_Streamx belongs to DMA2 */}
+01005     DMAy = DMA2; 
+01006   \}
+01007 
+01008   \textcolor{comment}{/* Check if the flag is in HISR or LISR */}
+01009   \textcolor{keywordflow}{if} ((DMA\_FLAG & HIGH_ISR_MASK) != (uint32\_t)RESET)
+01010   \{
+01011     \textcolor{comment}{/* Get DMAy HISR register value */}
+01012     tmpreg = DMAy->HISR;
+01013   \}
+01014   \textcolor{keywordflow}{else}
+01015   \{
+01016     \textcolor{comment}{/* Get DMAy LISR register value */}
+01017     tmpreg = DMAy->LISR;
+01018   \}   
+01019  
+01020   \textcolor{comment}{/* Mask the reserved bits */}
+01021   tmpreg &= (uint32\_t)RESERVED_MASK;
+01022 
+01023   \textcolor{comment}{/* Check the status of the specified DMA flag */}
+01024   \textcolor{keywordflow}{if} ((tmpreg & DMA\_FLAG) != (uint32\_t)RESET)
+01025   \{
+01026     \textcolor{comment}{/* DMA\_FLAG is set */}
+01027     bitstatus = SET;
+01028   \}
+01029   \textcolor{keywordflow}{else}
+01030   \{
+01031     \textcolor{comment}{/* DMA\_FLAG is reset */}
+01032     bitstatus = RESET;
+01033   \}
+01034 
+01035   \textcolor{comment}{/* Return the DMA\_FLAG status */}
+01036   \textcolor{keywordflow}{return}  bitstatus;
+01037 \}
+\end{DoxyCode}
+\mbox{\label{group__DMA__Group4_gad0ccf5f6548bd7cf8f2cae30393bb716}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\+M\+A\+\_\+\+Get\+I\+T\+Status@{D\+M\+A\+\_\+\+Get\+I\+T\+Status}}
+\index{D\+M\+A\+\_\+\+Get\+I\+T\+Status@{D\+M\+A\+\_\+\+Get\+I\+T\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{D\+M\+A\+\_\+\+Get\+I\+T\+Status()}
+{\footnotesize\ttfamily \textbf{ I\+T\+Status} D\+M\+A\+\_\+\+Get\+I\+T\+Status (\begin{DoxyParamCaption}\item[{\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$}]{D\+M\+Ay\+\_\+\+Streamx,  }\item[{uint32\+\_\+t}]{D\+M\+A\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified D\+M\+Ay Streamx interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+M\+Ay\+\_\+\+Streamx} & where y can be 1 or 2 to select the D\+MA and x can be 0 to 7 to select the D\+MA Stream. \\
+\hline
+{\em D\+M\+A\+\_\+\+IT} & specifies the D\+MA interrupt source to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item D\+M\+A\+\_\+\+I\+T\+\_\+\+T\+C\+I\+Fx\+: Streamx transfer complete interrupt \item D\+M\+A\+\_\+\+I\+T\+\_\+\+H\+T\+I\+Fx\+: Streamx half transfer complete interrupt \item D\+M\+A\+\_\+\+I\+T\+\_\+\+T\+E\+I\+Fx\+: Streamx transfer error interrupt \item D\+M\+A\+\_\+\+I\+T\+\_\+\+D\+M\+E\+I\+Fx\+: Streamx direct mode error interrupt \item D\+M\+A\+\_\+\+I\+T\+\_\+\+F\+E\+I\+Fx\+: Streamx F\+I\+FO error interrupt Where x can be 0 to 7 to select the D\+MA Stream. \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of D\+M\+A\+\_\+\+IT (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1152} of file \textbf{ stm32f4xx\+\_\+dma.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}, and \textbf{ S\+ET}.
+
+
+\begin{DoxyCode}
+01153 \{
+01154   ITStatus bitstatus = RESET;
+01155   DMA_TypeDef* DMAy;
+01156   uint32\_t tmpreg = 0, enablestatus = 0;
+01157 
+01158   \textcolor{comment}{/* Check the parameters */}
+01159   assert_param(IS_DMA_ALL_PERIPH(DMAy\_Streamx));
+01160   assert_param(IS_DMA_GET_IT(DMA\_IT));
+01161  
+01162   \textcolor{comment}{/* Determine the DMA to which belongs the stream */}
+01163   \textcolor{keywordflow}{if} (DMAy\_Streamx < DMA2_Stream0)
+01164   \{
+01165     \textcolor{comment}{/* DMAy\_Streamx belongs to DMA1 */}
+01166     DMAy = DMA1; 
+01167   \} 
+01168   \textcolor{keywordflow}{else} 
+01169   \{
+01170     \textcolor{comment}{/* DMAy\_Streamx belongs to DMA2 */}
+01171     DMAy = DMA2; 
+01172   \}
+01173 
+01174   \textcolor{comment}{/* Check if the interrupt enable bit is in the CR or FCR register */}
+01175   \textcolor{keywordflow}{if} ((DMA\_IT & TRANSFER_IT_MASK) != (uint32\_t)RESET)
+01176   \{
+01177     \textcolor{comment}{/* Get the interrupt enable position mask in CR register */}
+01178     tmpreg = (uint32\_t)((DMA\_IT >> 11) & TRANSFER_IT_ENABLE_MASK);   
+01179     
+01180     \textcolor{comment}{/* Check the enable bit in CR register */}
+01181     enablestatus = (uint32\_t)(DMAy\_Streamx->CR & tmpreg);
+01182   \}
+01183   \textcolor{keywordflow}{else} 
+01184   \{
+01185     \textcolor{comment}{/* Check the enable bit in FCR register */}
+01186     enablestatus = (uint32\_t)(DMAy\_Streamx->FCR & DMA_IT_FE); 
+01187   \}
+01188  
+01189   \textcolor{comment}{/* Check if the interrupt pending flag is in LISR or HISR */}
+01190   \textcolor{keywordflow}{if} ((DMA\_IT & HIGH_ISR_MASK) != (uint32\_t)RESET)
+01191   \{
+01192     \textcolor{comment}{/* Get DMAy HISR register value */}
+01193     tmpreg = DMAy->HISR ;
+01194   \}
+01195   \textcolor{keywordflow}{else}
+01196   \{
+01197     \textcolor{comment}{/* Get DMAy LISR register value */}
+01198     tmpreg = DMAy->LISR ;
+01199   \} 
+01200 
+01201   \textcolor{comment}{/* mask all reserved bits */}
+01202   tmpreg &= (uint32\_t)RESERVED_MASK;
+01203 
+01204   \textcolor{comment}{/* Check the status of the specified DMA interrupt */}
+01205   \textcolor{keywordflow}{if} (((tmpreg & DMA\_IT) != (uint32\_t)RESET) && (enablestatus != (uint32\_t)RESET))
+01206   \{
+01207     \textcolor{comment}{/* DMA\_IT is set */}
+01208     bitstatus = SET;
+01209   \}
+01210   \textcolor{keywordflow}{else}
+01211   \{
+01212     \textcolor{comment}{/* DMA\_IT is reset */}
+01213     bitstatus = RESET;
+01214   \}
+01215 
+01216   \textcolor{comment}{/* Return the DMA\_IT status */}
+01217   \textcolor{keywordflow}{return}  bitstatus;
+01218 \}
+\end{DoxyCode}
+\mbox{\label{group__DMA__Group4_gab9c469a3f5d4aca5c97dee798ffc2f05}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!D\+M\+A\+\_\+\+I\+T\+Config@{D\+M\+A\+\_\+\+I\+T\+Config}}
+\index{D\+M\+A\+\_\+\+I\+T\+Config@{D\+M\+A\+\_\+\+I\+T\+Config}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{D\+M\+A\+\_\+\+I\+T\+Config()}
+{\footnotesize\ttfamily void D\+M\+A\+\_\+\+I\+T\+Config (\begin{DoxyParamCaption}\item[{\textbf{ D\+M\+A\+\_\+\+Stream\+\_\+\+Type\+Def} $\ast$}]{D\+M\+Ay\+\_\+\+Streamx,  }\item[{uint32\+\_\+t}]{D\+M\+A\+\_\+\+IT,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified D\+M\+Ay Streamx interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em D\+M\+Ay\+\_\+\+Streamx} & where y can be 1 or 2 to select the D\+MA and x can be 0 to 7 to select the D\+MA Stream. \\
+\hline
+{\em D\+M\+A\+\_\+\+IT} & specifies the D\+MA interrupt sources to be enabled or disabled. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item D\+M\+A\+\_\+\+I\+T\+\_\+\+TC\+: Transfer complete interrupt mask \item D\+M\+A\+\_\+\+I\+T\+\_\+\+HT\+: Half transfer complete interrupt mask \item D\+M\+A\+\_\+\+I\+T\+\_\+\+TE\+: Transfer error interrupt mask \item D\+M\+A\+\_\+\+I\+T\+\_\+\+FE\+: F\+I\+FO error interrupt mask \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the specified D\+MA interrupts. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 1100} of file \textbf{ stm32f4xx\+\_\+dma.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+01101 \{
+01102   \textcolor{comment}{/* Check the parameters */}
+01103   assert_param(IS_DMA_ALL_PERIPH(DMAy\_Streamx));
+01104   assert_param(IS_DMA_CONFIG_IT(DMA\_IT));
+01105   assert_param(IS_FUNCTIONAL_STATE(NewState));
+01106 
+01107   \textcolor{comment}{/* Check if the DMA\_IT parameter contains a FIFO interrupt */}
+01108   \textcolor{keywordflow}{if} ((DMA\_IT & DMA_IT_FE) != 0)
+01109   \{
+01110     \textcolor{keywordflow}{if} (NewState != DISABLE)
+01111     \{
+01112       \textcolor{comment}{/* Enable the selected DMA FIFO interrupts */}
+01113       DMAy\_Streamx->FCR |= (uint32\_t)DMA\_IT\_FE;
+01114     \}    
+01115     \textcolor{keywordflow}{else} 
+01116     \{
+01117       \textcolor{comment}{/* Disable the selected DMA FIFO interrupts */}
+01118       DMAy\_Streamx->FCR &= ~(uint32\_t)DMA\_IT\_FE;  
+01119     \}
+01120   \}
+01121 
+01122   \textcolor{comment}{/* Check if the DMA\_IT parameter contains a Transfer interrupt */}
+01123   \textcolor{keywordflow}{if} (DMA\_IT != DMA\_IT\_FE)
+01124   \{
+01125     \textcolor{keywordflow}{if} (NewState != DISABLE)
+01126     \{
+01127       \textcolor{comment}{/* Enable the selected DMA transfer interrupts */}
+01128       DMAy\_Streamx->CR |= (uint32\_t)(DMA\_IT  & TRANSFER_IT_ENABLE_MASK);
+01129     \}
+01130     \textcolor{keywordflow}{else}
+01131     \{
+01132       \textcolor{comment}{/* Disable the selected DMA transfer interrupts */}
+01133       DMAy\_Streamx->CR &= ~(uint32\_t)(DMA\_IT & TRANSFER_IT_ENABLE_MASK);
+01134     \}    
+01135   \}
+01136 \}
+\end{DoxyCode}

@@ -1,0 +1,743 @@
+\section{stm32f4xx\+\_\+i2c.\+h}
+\label{stm32f4xx__i2c_8h_source}\index{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+i2c.\+h@{C\+:/\+Users/\+Md. Istiaq Mahbub/\+Desktop/\+I\+M\+U/\+M\+P\+U6050\+\_\+\+Motion\+Driver/\+S\+T\+M32\+F4xx\+\_\+\+Std\+Periph\+\_\+\+Driver/src/stm32f4xx\+\_\+i2c.\+h}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{/**}
+00002 \textcolor{comment}{  ******************************************************************************}
+00003 \textcolor{comment}{  * @file    stm32f4xx\_i2c.h}
+00004 \textcolor{comment}{  * @author  MCD Application Team}
+00005 \textcolor{comment}{  * @version V1.0.0}
+00006 \textcolor{comment}{  * @date    30-September-2011}
+00007 \textcolor{comment}{  * @brief   This file contains all the functions prototypes for the I2C firmware }
+00008 \textcolor{comment}{  *          library.}
+00009 \textcolor{comment}{  ******************************************************************************}
+00010 \textcolor{comment}{  * @attention}
+00011 \textcolor{comment}{  *}
+00012 \textcolor{comment}{  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS}
+00013 \textcolor{comment}{  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE}
+00014 \textcolor{comment}{  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY}
+00015 \textcolor{comment}{  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING}
+00016 \textcolor{comment}{  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE}
+00017 \textcolor{comment}{  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.}
+00018 \textcolor{comment}{  *}
+00019 \textcolor{comment}{  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>}
+00020 \textcolor{comment}{  ******************************************************************************  }
+00021 \textcolor{comment}{  */}
+00022 
+00023 \textcolor{comment}{/* Define to prevent recursive inclusion -------------------------------------*/}
+00024 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifndef} \textcolor{preprocessor}{\_\_STM32F4xx\_I2C\_H}
+00025 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{\_\_STM32F4xx\_I2C\_H}
+00026 
+00027 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00028  \textcolor{keyword}{extern} \textcolor{stringliteral}{"C"} \{
+00029 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00030 
+00031 \textcolor{comment}{/* Includes ------------------------------------------------------------------*/}
+00032 \textcolor{preprocessor}{#}\textcolor{preprocessor}{include} "stm32f4xx.h"
+00033 
+00034 \textcolor{comment}{/** @addtogroup STM32F4xx\_StdPeriph\_Driver}
+00035 \textcolor{comment}{  * @\{}
+00036 \textcolor{comment}{  */}
+00037 
+00038 \textcolor{comment}{/** @addtogroup I2C}
+00039 \textcolor{comment}{  * @\{}
+00040 \textcolor{comment}{  */}
+00041 
+00042 \textcolor{comment}{/* Exported types ------------------------------------------------------------*/}
+00043 
+00044 \textcolor{comment}{/** }
+00045 \textcolor{comment}{  * @brief  I2C Init structure definition  }
+00046 \textcolor{comment}{  */}
+00047 
+00048 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}
+00049 \{
+00050   uint32\_t I2C_ClockSpeed;          \textcolor{comment}{/*!< Specifies the clock frequency.}
+00051 \textcolor{comment}{                                         This parameter must be set to a value lower than 400kHz */}
+00052 
+00053   uint16\_t I2C_Mode;                \textcolor{comment}{/*!< Specifies the I2C mode.}
+00054 \textcolor{comment}{                                         This parameter can be a value of @ref I2C\_mode */}
+00055 
+00056   uint16\_t I2C_DutyCycle;           \textcolor{comment}{/*!< Specifies the I2C fast mode duty cycle.}
+00057 \textcolor{comment}{                                         This parameter can be a value of @ref
+       I2C\_duty\_cycle\_in\_fast\_mode */}
+00058 
+00059   uint16\_t I2C_OwnAddress1;         \textcolor{comment}{/*!< Specifies the first device own address.}
+00060 \textcolor{comment}{                                         This parameter can be a 7-bit or 10-bit address. */}
+00061 
+00062   uint16\_t I2C_Ack;                 \textcolor{comment}{/*!< Enables or disables the acknowledgement.}
+00063 \textcolor{comment}{                                         This parameter can be a value of @ref I2C\_acknowledgement */}
+00064 
+00065   uint16\_t I2C_AcknowledgedAddress; \textcolor{comment}{/*!< Specifies if 7-bit or 10-bit address is acknowledged.}
+00066 \textcolor{comment}{                                         This parameter can be a value of @ref
+       I2C\_acknowledged\_address */}
+00067 \}I2C\_InitTypeDef;
+00068 
+00069 \textcolor{comment}{/* Exported constants --------------------------------------------------------*/}
+00070 
+00071 
+00072 \textcolor{comment}{/** @defgroup I2C\_Exported\_Constants}
+00073 \textcolor{comment}{  * @\{}
+00074 \textcolor{comment}{  */}
+00075 
+00076 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2C\_ALL\_PERIPH}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00077                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00078                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{PERIPH}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C3\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00079 \textcolor{comment}{/** @defgroup I2C\_mode }
+00080 \textcolor{comment}{  * @\{}
+00081 \textcolor{comment}{  */}
+00082 
+00083 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_Mode\_I2C}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00084 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_Mode\_SMBusDevice}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0002\textcolor{preprocessor}{)}
+00085 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_Mode\_SMBusHost}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x000A\textcolor{preprocessor}{)}
+00086 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2C\_MODE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_Mode_I2C\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00087                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_Mode_SMBusDevice\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00088                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{MODE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_Mode_SMBusHost\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00089 \textcolor{comment}{/**}
+00090 \textcolor{comment}{  * @\}}
+00091 \textcolor{comment}{  */}
+00092 
+00093 \textcolor{comment}{/** @defgroup I2C\_duty\_cycle\_in\_fast\_mode }
+00094 \textcolor{comment}{  * @\{}
+00095 \textcolor{comment}{  */}
+00096 
+00097 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_DutyCycle\_16\_9}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x4000\textcolor{preprocessor}{)} \textcolor{comment}{/*!< I2C fast mode Tlow/Thigh = 16/9 */}
+00098 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_DutyCycle\_2}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xBFFF\textcolor{preprocessor}{)} \textcolor{comment}{/*!< I2C fast mode Tlow/Thigh = 2 */}
+00099 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2C\_DUTY\_CYCLE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CYCLE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CYCLE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_DutyCycle_16_9\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00100                                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{CYCLE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_DutyCycle_2\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00101 \textcolor{comment}{/**}
+00102 \textcolor{comment}{  * @\}}
+00103 \textcolor{comment}{  */}
+00104 
+00105 \textcolor{comment}{/** @defgroup I2C\_acknowledgement}
+00106 \textcolor{comment}{  * @\{}
+00107 \textcolor{comment}{  */}
+00108 
+00109 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_Ack\_Enable}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0400\textcolor{preprocessor}{)}
+00110 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_Ack\_Disable}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0000\textcolor{preprocessor}{)}
+00111 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2C\_ACK\_STATE}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_Ack_Enable\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00112                                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{STATE}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_Ack_Disable\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00113 \textcolor{comment}{/**}
+00114 \textcolor{comment}{  * @\}}
+00115 \textcolor{comment}{  */}
+00116 
+00117 \textcolor{comment}{/** @defgroup I2C\_transfer\_direction }
+00118 \textcolor{comment}{  * @\{}
+00119 \textcolor{comment}{  */}
+00120 
+00121 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{I2C\_Direction\_Transmitter}      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}
+00122 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{I2C\_Direction\_Receiver}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x01\textcolor{preprocessor}{)}
+00123 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2C\_DIRECTION}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIRECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIRECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_Direction_Transmitter\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00124                                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{DIRECTION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_Direction_Receiver\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00125 \textcolor{comment}{/**}
+00126 \textcolor{comment}{  * @\}}
+00127 \textcolor{comment}{  */}
+00128 
+00129 \textcolor{comment}{/** @defgroup I2C\_acknowledged\_address }
+00130 \textcolor{comment}{  * @\{}
+00131 \textcolor{comment}{  */}
+00132 
+00133 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_AcknowledgedAddress\_7bit}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x4000\textcolor{preprocessor}{)}
+00134 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_AcknowledgedAddress\_10bit}   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xC000\textcolor{preprocessor}{)}
+00135 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2C\_ACKNOWLEDGE\_ADDRESS}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ADDRESS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ADDRESS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_AcknowledgedAddress_7bit\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00136                                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ADDRESS}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_AcknowledgedAddress_10bit\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00137 \textcolor{comment}{/**}
+00138 \textcolor{comment}{  * @\}}
+00139 \textcolor{comment}{  */}
+00140 
+00141 \textcolor{comment}{/** @defgroup I2C\_registers }
+00142 \textcolor{comment}{  * @\{}
+00143 \textcolor{comment}{  */}
+00144 
+00145 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_Register\_CR1}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}
+00146 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_Register\_CR2}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x04\textcolor{preprocessor}{)}
+00147 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_Register\_OAR1}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x08\textcolor{preprocessor}{)}
+00148 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_Register\_OAR2}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x0C\textcolor{preprocessor}{)}
+00149 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_Register\_DR}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x10\textcolor{preprocessor}{)}
+00150 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_Register\_SR1}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x14\textcolor{preprocessor}{)}
+00151 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_Register\_SR2}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x18\textcolor{preprocessor}{)}
+00152 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_Register\_CCR}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x1C\textcolor{preprocessor}{)}
+00153 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_Register\_TRISE}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint8\_t}\textcolor{preprocessor}{)}0x20\textcolor{preprocessor}{)}
+00154 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2C\_REGISTER}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGISTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGISTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_Register_CR1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00155                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGISTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_Register_CR2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00156                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGISTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_Register_OAR1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00157                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGISTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_Register_OAR2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00158                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGISTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_Register_DR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00159                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGISTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_Register_SR1\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00160                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGISTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_Register_SR2\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00161                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGISTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_Register_CCR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00162                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{REGISTER}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_Register_TRISE\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00163 \textcolor{comment}{/**}
+00164 \textcolor{comment}{  * @\}}
+00165 \textcolor{comment}{  */}
+00166 
+00167 \textcolor{comment}{/** @defgroup I2C\_NACK\_position }
+00168 \textcolor{comment}{  * @\{}
+00169 \textcolor{comment}{  */}
+00170 
+00171 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_NACKPosition\_Next}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0800\textcolor{preprocessor}{)}
+00172 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_NACKPosition\_Current}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xF7FF\textcolor{preprocessor}{)}
+00173 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2C\_NACK\_POSITION}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POSITION}\textcolor{preprocessor}{)}  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POSITION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_NACKPosition_Next\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00174                                          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POSITION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_NACKPosition_Current\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00175 \textcolor{comment}{/**}
+00176 \textcolor{comment}{  * @\}}
+00177 \textcolor{comment}{  */}
+00178 
+00179 \textcolor{comment}{/** @defgroup I2C\_SMBus\_alert\_pin\_level }
+00180 \textcolor{comment}{  * @\{}
+00181 \textcolor{comment}{  */}
+00182 
+00183 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_SMBusAlert\_Low}              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x2000\textcolor{preprocessor}{)}
+00184 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_SMBusAlert\_High}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xDFFF\textcolor{preprocessor}{)}
+00185 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2C\_SMBUS\_ALERT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALERT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALERT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_SMBusAlert_Low\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00186                                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ALERT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_SMBusAlert_High\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00187 \textcolor{comment}{/**}
+00188 \textcolor{comment}{  * @\}}
+00189 \textcolor{comment}{  */}
+00190 
+00191 \textcolor{comment}{/** @defgroup I2C\_PEC\_position }
+00192 \textcolor{comment}{  * @\{}
+00193 \textcolor{comment}{  */}
+00194 
+00195 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_PECPosition\_Next}            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0800\textcolor{preprocessor}{)}
+00196 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_PECPosition\_Current}         \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xF7FF\textcolor{preprocessor}{)}
+00197 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2C\_PEC\_POSITION}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POSITION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POSITION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_PECPosition_Next\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00198                                        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{POSITION}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_PECPosition_Current\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00199 \textcolor{comment}{/**}
+00200 \textcolor{comment}{  * @\}}
+00201 \textcolor{comment}{  */}
+00202 
+00203 \textcolor{comment}{/** @defgroup I2C\_interrupts\_definition }
+00204 \textcolor{comment}{  * @\{}
+00205 \textcolor{comment}{  */}
+00206 
+00207 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_IT\_BUF}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0400\textcolor{preprocessor}{)}
+00208 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_IT\_EVT}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0200\textcolor{preprocessor}{)}
+00209 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_IT\_ERR}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x0100\textcolor{preprocessor}{)}
+00210 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2C\_CONFIG\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0xF8FF\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} 0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00211 \textcolor{comment}{/**}
+00212 \textcolor{comment}{  * @\}}
+00213 \textcolor{comment}{  */}
+00214 
+00215 \textcolor{comment}{/** @defgroup I2C\_interrupts\_definition }
+00216 \textcolor{comment}{  * @\{}
+00217 \textcolor{comment}{  */}
+00218 
+00219 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_IT\_SMBALERT}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x01008000\textcolor{preprocessor}{)}
+00220 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_IT\_TIMEOUT}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x01004000\textcolor{preprocessor}{)}
+00221 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_IT\_PECERR}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x01001000\textcolor{preprocessor}{)}
+00222 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_IT\_OVR}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x01000800\textcolor{preprocessor}{)}
+00223 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_IT\_AF}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x01000400\textcolor{preprocessor}{)}
+00224 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_IT\_ARLO}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x01000200\textcolor{preprocessor}{)}
+00225 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_IT\_BERR}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x01000100\textcolor{preprocessor}{)}
+00226 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_IT\_TXE}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x06000080\textcolor{preprocessor}{)}
+00227 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_IT\_RXNE}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x06000040\textcolor{preprocessor}{)}
+00228 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_IT\_STOPF}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x02000010\textcolor{preprocessor}{)}
+00229 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_IT\_ADD10}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x02000008\textcolor{preprocessor}{)}
+00230 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_IT\_BTF}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x02000004\textcolor{preprocessor}{)}
+00231 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_IT\_ADDR}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x02000002\textcolor{preprocessor}{)}
+00232 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_IT\_SB}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x02000001\textcolor{preprocessor}{)}
+00233 
+00234 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2C\_CLEAR\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x20FF\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00235 
+00236 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2C\_GET\_IT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_IT_SMBALERT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_IT_TIMEOUT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00237                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_IT_PECERR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_IT_OVR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00238                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_IT_AF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_IT_ARLO\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00239                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_IT_BERR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_IT_TXE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00240                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_IT_RXNE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_IT_STOPF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00241                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_IT_ADD10\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_IT_BTF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00242                            \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_IT_ADDR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{IT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_IT_SB\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00243 \textcolor{comment}{/**}
+00244 \textcolor{comment}{  * @\}}
+00245 \textcolor{comment}{  */}
+00246 
+00247 \textcolor{comment}{/** @defgroup I2C\_flags\_definition }
+00248 \textcolor{comment}{  * @\{}
+00249 \textcolor{comment}{  */}
+00250 
+00251 \textcolor{comment}{/** }
+00252 \textcolor{comment}{  * @brief  SR2 register flags  }
+00253 \textcolor{comment}{  */}
+00254 
+00255 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_FLAG\_DUALF}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00800000\textcolor{preprocessor}{)}
+00256 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_FLAG\_SMBHOST}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00400000\textcolor{preprocessor}{)}
+00257 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_FLAG\_SMBDEFAULT}             \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00200000\textcolor{preprocessor}{)}
+00258 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_FLAG\_GENCALL}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00100000\textcolor{preprocessor}{)}
+00259 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_FLAG\_TRA}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00040000\textcolor{preprocessor}{)}
+00260 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_FLAG\_BUSY}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00020000\textcolor{preprocessor}{)}
+00261 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_FLAG\_MSL}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00010000\textcolor{preprocessor}{)}
+00262 
+00263 \textcolor{comment}{/** }
+00264 \textcolor{comment}{  * @brief  SR1 register flags  }
+00265 \textcolor{comment}{  */}
+00266 
+00267 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_FLAG\_SMBALERT}               \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10008000\textcolor{preprocessor}{)}
+00268 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_FLAG\_TIMEOUT}                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10004000\textcolor{preprocessor}{)}
+00269 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_FLAG\_PECERR}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10001000\textcolor{preprocessor}{)}
+00270 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_FLAG\_OVR}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000800\textcolor{preprocessor}{)}
+00271 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_FLAG\_AF}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000400\textcolor{preprocessor}{)}
+00272 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_FLAG\_ARLO}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000200\textcolor{preprocessor}{)}
+00273 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_FLAG\_BERR}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000100\textcolor{preprocessor}{)}
+00274 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_FLAG\_TXE}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000080\textcolor{preprocessor}{)}
+00275 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_FLAG\_RXNE}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000040\textcolor{preprocessor}{)}
+00276 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_FLAG\_STOPF}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000010\textcolor{preprocessor}{)}
+00277 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_FLAG\_ADD10}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000008\textcolor{preprocessor}{)}
+00278 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_FLAG\_BTF}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000004\textcolor{preprocessor}{)}
+00279 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_FLAG\_ADDR}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000002\textcolor{preprocessor}{)}
+00280 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_FLAG\_SB}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x10000001\textcolor{preprocessor}{)}
+00281 
+00282 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2C\_CLEAR\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x20FF\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 0x00\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{!=} \textcolor{preprocessor}{(}\textcolor{preprocessor}{uint16\_t}\textcolor{preprocessor}{)}0x00\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00283 
+00284 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2C\_GET\_FLAG}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_FLAG_DUALF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_FLAG_SMBHOST\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00285                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_FLAG_SMBDEFAULT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_FLAG_GENCALL\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00286                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_FLAG_TRA\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_FLAG_BUSY\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00287                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_FLAG_MSL\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_FLAG_SMBALERT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00288                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_FLAG_TIMEOUT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_FLAG_PECERR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00289                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_FLAG_OVR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_FLAG_AF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00290                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_FLAG_ARLO\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_FLAG_BERR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00291                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_FLAG_TXE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_FLAG_RXNE\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00292                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_FLAG_STOPF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_FLAG_ADD10\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00293                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_FLAG_BTF\textcolor{preprocessor}{)} \textcolor{preprocessor}{||} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_FLAG_ADDR\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00294                                \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{FLAG}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_FLAG_SB\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00295 \textcolor{comment}{/**}
+00296 \textcolor{comment}{  * @\}}
+00297 \textcolor{comment}{  */}
+00298 
+00299 \textcolor{comment}{/** @defgroup I2C\_Events }
+00300 \textcolor{comment}{  * @\{}
+00301 \textcolor{comment}{  */}
+00302 
+00303 \textcolor{comment}{/**}
+00304 \textcolor{comment}{ ===============================================================================}
+00305 \textcolor{comment}{               I2C Master Events (Events grouped in order of communication)}
+00306 \textcolor{comment}{ ===============================================================================}
+00307 \textcolor{comment}{ */}
+00308 
+00309 \textcolor{comment}{/** }
+00310 \textcolor{comment}{  * @brief  Communication start}
+00311 \textcolor{comment}{  * }
+00312 \textcolor{comment}{  * After sending the START condition (I2C\_GenerateSTART() function) the master }
+00313 \textcolor{comment}{  * has to wait for this event. It means that the Start condition has been correctly }
+00314 \textcolor{comment}{  * released on the I2C bus (the bus is free, no other devices is communicating).}
+00315 \textcolor{comment}{  * }
+00316 \textcolor{comment}{  */}
+00317 \textcolor{comment}{/* --EV5 */}
+00318 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{I2C\_EVENT\_MASTER\_MODE\_SELECT}                      \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00030001\textcolor{preprocessor}{)}  \textcolor{comment}{/* BUSY, MSL and SB
+       flag */}
+00319 
+00320 \textcolor{comment}{/** }
+00321 \textcolor{comment}{  * @brief  Address Acknowledge}
+00322 \textcolor{comment}{  * }
+00323 \textcolor{comment}{  * After checking on EV5 (start condition correctly released on the bus), the }
+00324 \textcolor{comment}{  * master sends the address of the slave(s) with which it will communicate }
+00325 \textcolor{comment}{  * (I2C\_Send7bitAddress() function, it also determines the direction of the communication: }
+00326 \textcolor{comment}{  * Master transmitter or Receiver). Then the master has to wait that a slave acknowledges }
+00327 \textcolor{comment}{  * his address. If an acknowledge is sent on the bus, one of the following events will }
+00328 \textcolor{comment}{  * be set:}
+00329 \textcolor{comment}{  * }
+00330 \textcolor{comment}{  *  1) In case of Master Receiver (7-bit addressing): the I2C\_EVENT\_MASTER\_RECEIVER\_MODE\_SELECTED }
+00331 \textcolor{comment}{  *     event is set.}
+00332 \textcolor{comment}{  *  }
+00333 \textcolor{comment}{  *  2) In case of Master Transmitter (7-bit addressing): the
+       I2C\_EVENT\_MASTER\_TRANSMITTER\_MODE\_SELECTED }
+00334 \textcolor{comment}{  *     is set}
+00335 \textcolor{comment}{  *  }
+00336 \textcolor{comment}{  *  3) In case of 10-Bit addressing mode, the master (just after generating the START }
+00337 \textcolor{comment}{  *  and checking on EV5) has to send the header of 10-bit addressing mode (I2C\_SendData() }
+00338 \textcolor{comment}{  *  function). Then master should wait on EV9. It means that the 10-bit addressing }
+00339 \textcolor{comment}{  *  header has been correctly sent on the bus. Then master should send the second part of }
+00340 \textcolor{comment}{  *  the 10-bit address (LSB) using the function I2C\_Send7bitAddress(). Then master }
+00341 \textcolor{comment}{  *  should wait for event EV6. }
+00342 \textcolor{comment}{  *     }
+00343 \textcolor{comment}{  */}
+00344 
+00345 \textcolor{comment}{/* --EV6 */}
+00346 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{I2C\_EVENT\_MASTER\_TRANSMITTER\_MODE\_SELECTED}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00070082\textcolor{preprocessor}{)}  \textcolor{comment}{/* BUSY, MSL, ADDR,
+       TXE and TRA flags */}
+00347 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{I2C\_EVENT\_MASTER\_RECEIVER\_MODE\_SELECTED}           \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00030002\textcolor{preprocessor}{)}  \textcolor{comment}{/* BUSY, MSL and
+       ADDR flags */}
+00348 \textcolor{comment}{/* --EV9 */}
+00349 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{I2C\_EVENT\_MASTER\_MODE\_ADDRESS10}                   \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00030008\textcolor{preprocessor}{)}  \textcolor{comment}{/* BUSY, MSL and
+       ADD10 flags */}
+00350 
+00351 \textcolor{comment}{/** }
+00352 \textcolor{comment}{  * @brief Communication events}
+00353 \textcolor{comment}{  * }
+00354 \textcolor{comment}{  * If a communication is established (START condition generated and slave address }
+00355 \textcolor{comment}{  * acknowledged) then the master has to check on one of the following events for }
+00356 \textcolor{comment}{  * communication procedures:}
+00357 \textcolor{comment}{  *  }
+00358 \textcolor{comment}{  * 1) Master Receiver mode: The master has to wait on the event EV7 then to read }
+00359 \textcolor{comment}{  *    the data received from the slave (I2C\_ReceiveData() function).}
+00360 \textcolor{comment}{  * }
+00361 \textcolor{comment}{  * 2) Master Transmitter mode: The master has to send data (I2C\_SendData() }
+00362 \textcolor{comment}{  *    function) then to wait on event EV8 or EV8\_2.}
+00363 \textcolor{comment}{  *    These two events are similar: }
+00364 \textcolor{comment}{  *     - EV8 means that the data has been written in the data register and is }
+00365 \textcolor{comment}{  *       being shifted out.}
+00366 \textcolor{comment}{  *     - EV8\_2 means that the data has been physically shifted out and output }
+00367 \textcolor{comment}{  *       on the bus.}
+00368 \textcolor{comment}{  *     In most cases, using EV8 is sufficient for the application.}
+00369 \textcolor{comment}{  *     Using EV8\_2 leads to a slower communication but ensure more reliable test.}
+00370 \textcolor{comment}{  *     EV8\_2 is also more suitable than EV8 for testing on the last data transmission }
+00371 \textcolor{comment}{  *     (before Stop condition generation).}
+00372 \textcolor{comment}{  *     }
+00373 \textcolor{comment}{  *  @note In case the  user software does not guarantee that this event EV7 is }
+00374 \textcolor{comment}{  *        managed before the current byte end of transfer, then user may check on EV7 }
+00375 \textcolor{comment}{  *        and BTF flag at the same time (ie. (I2C\_EVENT\_MASTER\_BYTE\_RECEIVED | I2C\_FLAG\_BTF)).}
+00376 \textcolor{comment}{  *        In this case the communication may be slower.}
+00377 \textcolor{comment}{  * }
+00378 \textcolor{comment}{  */}
+00379 
+00380 \textcolor{comment}{/* Master RECEIVER mode -----------------------------*/}
+00381 \textcolor{comment}{/* --EV7 */}
+00382 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{I2C\_EVENT\_MASTER\_BYTE\_RECEIVED}                    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00030040\textcolor{preprocessor}{)}  \textcolor{comment}{/* BUSY, MSL and
+       RXNE flags */}
+00383 
+00384 \textcolor{comment}{/* Master TRANSMITTER mode --------------------------*/}
+00385 \textcolor{comment}{/* --EV8 */}
+00386 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{I2C\_EVENT\_MASTER\_BYTE\_TRANSMITTING}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00070080\textcolor{preprocessor}{)} \textcolor{comment}{/* TRA, BUSY, MSL,
+       TXE flags */}
+00387 \textcolor{comment}{/* --EV8\_2 */}
+00388 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{I2C\_EVENT\_MASTER\_BYTE\_TRANSMITTED}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00070084\textcolor{preprocessor}{)}  \textcolor{comment}{/* TRA, BUSY, MSL,
+       TXE and BTF flags */}
+00389 
+00390 
+00391 \textcolor{comment}{/**}
+00392 \textcolor{comment}{ ===============================================================================}
+00393 \textcolor{comment}{               I2C Slave Events (Events grouped in order of communication)}
+00394 \textcolor{comment}{ ===============================================================================}
+00395 \textcolor{comment}{ */}
+00396 
+00397 
+00398 \textcolor{comment}{/** }
+00399 \textcolor{comment}{  * @brief  Communication start events}
+00400 \textcolor{comment}{  * }
+00401 \textcolor{comment}{  * Wait on one of these events at the start of the communication. It means that }
+00402 \textcolor{comment}{  * the I2C peripheral detected a Start condition on the bus (generated by master }
+00403 \textcolor{comment}{  * device) followed by the peripheral address. The peripheral generates an ACK }
+00404 \textcolor{comment}{  * condition on the bus (if the acknowledge feature is enabled through function }
+00405 \textcolor{comment}{  * I2C\_AcknowledgeConfig()) and the events listed above are set :}
+00406 \textcolor{comment}{  *  }
+00407 \textcolor{comment}{  * 1) In normal case (only one address managed by the slave), when the address }
+00408 \textcolor{comment}{  *   sent by the master matches the own address of the peripheral (configured by }
+00409 \textcolor{comment}{  *   I2C\_OwnAddress1 field) the I2C\_EVENT\_SLAVE\_XXX\_ADDRESS\_MATCHED event is set }
+00410 \textcolor{comment}{  *   (where XXX could be TRANSMITTER or RECEIVER).}
+00411 \textcolor{comment}{  *    }
+00412 \textcolor{comment}{  * 2) In case the address sent by the master matches the second address of the }
+00413 \textcolor{comment}{  *   peripheral (configured by the function I2C\_OwnAddress2Config() and enabled }
+00414 \textcolor{comment}{  *   by the function I2C\_DualAddressCmd()) the events I2C\_EVENT\_SLAVE\_XXX\_SECONDADDRESS\_MATCHED }
+00415 \textcolor{comment}{  *   (where XXX could be TRANSMITTER or RECEIVER) are set.}
+00416 \textcolor{comment}{  *   }
+00417 \textcolor{comment}{  * 3) In case the address sent by the master is General Call (address 0x00) and }
+00418 \textcolor{comment}{  *   if the General Call is enabled for the peripheral (using function I2C\_GeneralCallCmd()) }
+00419 \textcolor{comment}{  *   the following event is set I2C\_EVENT\_SLAVE\_GENERALCALLADDRESS\_MATCHED.   }
+00420 \textcolor{comment}{  * }
+00421 \textcolor{comment}{  */}
+00422 
+00423 \textcolor{comment}{/* --EV1  (all the events below are variants of EV1) */}
+00424 \textcolor{comment}{/* 1) Case of One Single Address managed by the slave */}
+00425 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{I2C\_EVENT\_SLAVE\_RECEIVER\_ADDRESS\_MATCHED}          \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00020002\textcolor{preprocessor}{)} \textcolor{comment}{/* BUSY and ADDR
+       flags */}
+00426 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{I2C\_EVENT\_SLAVE\_TRANSMITTER\_ADDRESS\_MATCHED}       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00060082\textcolor{preprocessor}{)} \textcolor{comment}{/* TRA, BUSY, TXE
+       and ADDR flags */}
+00427 
+00428 \textcolor{comment}{/* 2) Case of Dual address managed by the slave */}
+00429 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{I2C\_EVENT\_SLAVE\_RECEIVER\_SECONDADDRESS\_MATCHED}    \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00820000\textcolor{preprocessor}{)}  \textcolor{comment}{/* DUALF and BUSY
+       flags */}
+00430 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{I2C\_EVENT\_SLAVE\_TRANSMITTER\_SECONDADDRESS\_MATCHED} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00860080\textcolor{preprocessor}{)}  \textcolor{comment}{/* DUALF, TRA, BUSY
+       and TXE flags */}
+00431 
+00432 \textcolor{comment}{/* 3) Case of General Call enabled for the slave */}
+00433 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{I2C\_EVENT\_SLAVE\_GENERALCALLADDRESS\_MATCHED}        \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00120000\textcolor{preprocessor}{)}  \textcolor{comment}{/* GENCALL and BUSY
+       flags */}
+00434 
+00435 \textcolor{comment}{/** }
+00436 \textcolor{comment}{  * @brief  Communication events}
+00437 \textcolor{comment}{  * }
+00438 \textcolor{comment}{  * Wait on one of these events when EV1 has already been checked and: }
+00439 \textcolor{comment}{  * }
+00440 \textcolor{comment}{  * - Slave RECEIVER mode:}
+00441 \textcolor{comment}{  *     - EV2: When the application is expecting a data byte to be received. }
+00442 \textcolor{comment}{  *     - EV4: When the application is expecting the end of the communication: master }
+00443 \textcolor{comment}{  *       sends a stop condition and data transmission is stopped.}
+00444 \textcolor{comment}{  *    }
+00445 \textcolor{comment}{  * - Slave Transmitter mode:}
+00446 \textcolor{comment}{  *    - EV3: When a byte has been transmitted by the slave and the application is expecting }
+00447 \textcolor{comment}{  *      the end of the byte transmission. The two events I2C\_EVENT\_SLAVE\_BYTE\_TRANSMITTED and}
+00448 \textcolor{comment}{  *      I2C\_EVENT\_SLAVE\_BYTE\_TRANSMITTING are similar. The second one can optionally be }
+00449 \textcolor{comment}{  *      used when the user software doesn't guarantee the EV3 is managed before the}
+00450 \textcolor{comment}{  *      current byte end of transfer.}
+00451 \textcolor{comment}{  *    - EV3\_2: When the master sends a NACK in order to tell slave that data transmission }
+00452 \textcolor{comment}{  *      shall end (before sending the STOP condition). In this case slave has to stop sending }
+00453 \textcolor{comment}{  *      data bytes and expect a Stop condition on the bus.}
+00454 \textcolor{comment}{  *      }
+00455 \textcolor{comment}{  *  @note In case the  user software does not guarantee that the event EV2 is }
+00456 \textcolor{comment}{  *        managed before the current byte end of transfer, then user may check on EV2 }
+00457 \textcolor{comment}{  *        and BTF flag at the same time (ie. (I2C\_EVENT\_SLAVE\_BYTE\_RECEIVED | I2C\_FLAG\_BTF)).}
+00458 \textcolor{comment}{  *        In this case the communication may be slower.}
+00459 \textcolor{comment}{  *}
+00460 \textcolor{comment}{  */}
+00461 
+00462 \textcolor{comment}{/* Slave RECEIVER mode --------------------------*/}
+00463 \textcolor{comment}{/* --EV2 */}
+00464 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{I2C\_EVENT\_SLAVE\_BYTE\_RECEIVED}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00020040\textcolor{preprocessor}{)}  \textcolor{comment}{/* BUSY and RXNE
+       flags */}
+00465 \textcolor{comment}{/* --EV4  */}
+00466 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{I2C\_EVENT\_SLAVE\_STOP\_DETECTED}                     \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000010\textcolor{preprocessor}{)}  \textcolor{comment}{/* STOPF flag */}
+00467 
+00468 \textcolor{comment}{/* Slave TRANSMITTER mode -----------------------*/}
+00469 \textcolor{comment}{/* --EV3 */}
+00470 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{I2C\_EVENT\_SLAVE\_BYTE\_TRANSMITTED}                  \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00060084\textcolor{preprocessor}{)}  \textcolor{comment}{/* TRA, BUSY, TXE
+       and BTF flags */}
+00471 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{I2C\_EVENT\_SLAVE\_BYTE\_TRANSMITTING}                 \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00060080\textcolor{preprocessor}{)}  \textcolor{comment}{/* TRA, BUSY and
+       TXE flags */}
+00472 \textcolor{comment}{/* --EV3\_2 */}
+00473 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define}  \textcolor{preprocessor}{I2C\_EVENT\_SLAVE\_ACK\_FAILURE}                       \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{uint32\_t}\textcolor{preprocessor}{)}0x00000400\textcolor{preprocessor}{)}  \textcolor{comment}{/* AF flag */}
+00474 
+00475 \textcolor{comment}{/*}
+00476 \textcolor{comment}{ ===============================================================================}
+00477 \textcolor{comment}{                          End of Events Description}
+00478 \textcolor{comment}{ ===============================================================================}
+00479 \textcolor{comment}{ */}
+00480 
+00481 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2C\_EVENT}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EVENT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EVENT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_EVENT_SLAVE_TRANSMITTER_ADDRESS_MATCHED\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00482                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EVENT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_EVENT_SLAVE_RECEIVER_ADDRESS_MATCHED\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00483                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EVENT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_EVENT_SLAVE_TRANSMITTER_SECONDADDRESS_MATCHED\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00484                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EVENT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_EVENT_SLAVE_RECEIVER_SECONDADDRESS_MATCHED\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00485                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EVENT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_EVENT_SLAVE_GENERALCALLADDRESS_MATCHED\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00486                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EVENT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_EVENT_SLAVE_BYTE_RECEIVED\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00487                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EVENT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{(}I2C_EVENT_SLAVE_BYTE_RECEIVED \textcolor{preprocessor}{|} 
+      I2C_FLAG_DUALF\textcolor{preprocessor}{)}\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00488                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EVENT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{(}I2C_EVENT_SLAVE_BYTE_RECEIVED \textcolor{preprocessor}{|} 
+      I2C_FLAG_GENCALL\textcolor{preprocessor}{)}\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00489                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EVENT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_EVENT_SLAVE_BYTE_TRANSMITTED\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00490                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EVENT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{(}I2C_EVENT_SLAVE_BYTE_TRANSMITTED \textcolor{preprocessor}{|} 
+      I2C_FLAG_DUALF\textcolor{preprocessor}{)}\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00491                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EVENT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} \textcolor{preprocessor}{(}I2C_EVENT_SLAVE_BYTE_TRANSMITTED \textcolor{preprocessor}{|} 
+      I2C_FLAG_GENCALL\textcolor{preprocessor}{)}\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00492                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EVENT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_EVENT_SLAVE_STOP_DETECTED\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00493                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EVENT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_EVENT_MASTER_MODE_SELECT\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00494                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EVENT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00495                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EVENT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} 
+      I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00496                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EVENT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_EVENT_MASTER_BYTE_RECEIVED\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00497                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EVENT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_EVENT_MASTER_BYTE_TRANSMITTED\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00498                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EVENT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_EVENT_MASTER_BYTE_TRANSMITTING\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00499                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EVENT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_EVENT_MASTER_MODE_ADDRESS10\textcolor{preprocessor}{)} \textcolor{preprocessor}{||}
+00500                              \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{EVENT}\textcolor{preprocessor}{)} \textcolor{preprocessor}{==} I2C_EVENT_SLAVE_ACK_FAILURE\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00501 \textcolor{comment}{/**}
+00502 \textcolor{comment}{  * @\}}
+00503 \textcolor{comment}{  */}
+00504 
+00505 \textcolor{comment}{/** @defgroup I2C\_own\_address1 }
+00506 \textcolor{comment}{  * @\{}
+00507 \textcolor{comment}{  */}
+00508 
+00509 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2C\_OWN\_ADDRESS1}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ADDRESS1}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{ADDRESS1}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 0x3FF\textcolor{preprocessor}{)}
+00510 \textcolor{comment}{/**}
+00511 \textcolor{comment}{  * @\}}
+00512 \textcolor{comment}{  */}
+00513 
+00514 \textcolor{comment}{/** @defgroup I2C\_clock\_speed }
+00515 \textcolor{comment}{  * @\{}
+00516 \textcolor{comment}{  */}
+00517 
+00518 \textcolor{preprocessor}{#}\textcolor{preprocessor}{define} \textcolor{preprocessor}{IS\_I2C\_CLOCK\_SPEED}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SPEED}\textcolor{preprocessor}{)} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SPEED}\textcolor{preprocessor}{)} \textcolor{preprocessor}{>=} 0x1\textcolor{preprocessor}{)} \textcolor{preprocessor}{&&} \textcolor{preprocessor}{(}\textcolor{preprocessor}{(}\textcolor{preprocessor}{SPEED}\textcolor{preprocessor}{)} \textcolor{preprocessor}{<=} 400000\textcolor{preprocessor}{)}\textcolor{preprocessor}{)}
+00519 \textcolor{comment}{/**}
+00520 \textcolor{comment}{  * @\}}
+00521 \textcolor{comment}{  */}
+00522 
+00523 \textcolor{comment}{/**}
+00524 \textcolor{comment}{  * @\}}
+00525 \textcolor{comment}{  */}
+00526 
+00527 \textcolor{comment}{/* Exported macro ------------------------------------------------------------*/}
+00528 \textcolor{comment}{/* Exported functions --------------------------------------------------------*/}
+00529 
+00530 \textcolor{comment}{/*  Function used to set the I2C configuration to the default reset state *****/}
+00531 \textcolor{keywordtype}{void} I2C_DeInit(I2C\_TypeDef* I2Cx);
+00532 
+00533 \textcolor{comment}{/* Initialization and Configuration functions *********************************/}
+00534 \textcolor{keywordtype}{void} I2C_Init(I2C\_TypeDef* I2Cx, I2C\_InitTypeDef* I2C\_InitStruct);
+00535 \textcolor{keywordtype}{void} I2C_StructInit(I2C\_InitTypeDef* I2C\_InitStruct);
+00536 \textcolor{keywordtype}{void} I2C_Cmd(I2C\_TypeDef* I2Cx, FunctionalState NewState);
+00537 \textcolor{keywordtype}{void} I2C_GenerateSTART(I2C\_TypeDef* I2Cx, FunctionalState NewState);
+00538 \textcolor{keywordtype}{void} I2C_GenerateSTOP(I2C\_TypeDef* I2Cx, FunctionalState NewState);
+00539 \textcolor{keywordtype}{void} I2C_Send7bitAddress(I2C\_TypeDef* I2Cx, uint8\_t Address, uint8\_t I2C\_Direction);
+00540 \textcolor{keywordtype}{void} I2C_AcknowledgeConfig(I2C\_TypeDef* I2Cx, FunctionalState NewState);
+00541 \textcolor{keywordtype}{void} I2C_OwnAddress2Config(I2C\_TypeDef* I2Cx, uint8\_t Address);
+00542 \textcolor{keywordtype}{void} I2C_DualAddressCmd(I2C\_TypeDef* I2Cx, FunctionalState NewState);
+00543 \textcolor{keywordtype}{void} I2C_GeneralCallCmd(I2C\_TypeDef* I2Cx, FunctionalState NewState);
+00544 \textcolor{keywordtype}{void} I2C_SoftwareResetCmd(I2C\_TypeDef* I2Cx, FunctionalState NewState);
+00545 \textcolor{keywordtype}{void} I2C_StretchClockCmd(I2C\_TypeDef* I2Cx, FunctionalState NewState);
+00546 \textcolor{keywordtype}{void} I2C_FastModeDutyCycleConfig(I2C\_TypeDef* I2Cx, uint16\_t I2C\_DutyCycle);
+00547 \textcolor{keywordtype}{void} I2C_NACKPositionConfig(I2C\_TypeDef* I2Cx, uint16\_t I2C\_NACKPosition);
+00548 \textcolor{keywordtype}{void} I2C_SMBusAlertConfig(I2C\_TypeDef* I2Cx, uint16\_t I2C\_SMBusAlert);
+00549 \textcolor{keywordtype}{void} I2C_ARPCmd(I2C\_TypeDef* I2Cx, FunctionalState NewState);
+00550 
+00551 \textcolor{comment}{/* Data transfers functions ***************************************************/}
+00552 \textcolor{keywordtype}{void} I2C_SendData(I2C\_TypeDef* I2Cx, uint8\_t Data);
+00553 uint8\_t I2C_ReceiveData(I2C\_TypeDef* I2Cx);
+00554 
+00555 \textcolor{comment}{/* PEC management functions ***************************************************/}
+00556 \textcolor{keywordtype}{void} I2C_TransmitPEC(I2C\_TypeDef* I2Cx, FunctionalState NewState);
+00557 \textcolor{keywordtype}{void} I2C_PECPositionConfig(I2C\_TypeDef* I2Cx, uint16\_t I2C\_PECPosition);
+00558 \textcolor{keywordtype}{void} I2C_CalculatePEC(I2C\_TypeDef* I2Cx, FunctionalState NewState);
+00559 uint8\_t I2C_GetPEC(I2C\_TypeDef* I2Cx);
+00560 
+00561 \textcolor{comment}{/* DMA transfers management functions *****************************************/}
+00562 \textcolor{keywordtype}{void} I2C_DMACmd(I2C\_TypeDef* I2Cx, FunctionalState NewState);
+00563 \textcolor{keywordtype}{void} I2C_DMALastTransferCmd(I2C\_TypeDef* I2Cx, FunctionalState NewState);
+00564 
+00565 \textcolor{comment}{/* Interrupts, events and flags management functions **************************/}
+00566 uint16\_t I2C_ReadRegister(I2C\_TypeDef* I2Cx, uint8\_t I2C\_Register);
+00567 \textcolor{keywordtype}{void} I2C_ITConfig(I2C\_TypeDef* I2Cx, uint16\_t I2C\_IT, FunctionalState NewState);
+00568 
+00569 \textcolor{comment}{/* }
+00570 \textcolor{comment}{ ===============================================================================}
+00571 \textcolor{comment}{                          I2C State Monitoring Functions}
+00572 \textcolor{comment}{ ===============================================================================}
+00573 \textcolor{comment}{  This I2C driver provides three different ways for I2C state monitoring}
+00574 \textcolor{comment}{  depending on the application requirements and constraints:}
+00575 \textcolor{comment}{         }
+00576 \textcolor{comment}{   }
+00577 \textcolor{comment}{     1. Basic state monitoring (Using I2C\_CheckEvent() function)}
+00578 \textcolor{comment}{     -----------------------------------------------------------}
+00579 \textcolor{comment}{        It compares the status registers (SR1 and SR2) content to a given event}
+00580 \textcolor{comment}{        (can be the combination of one or more flags).}
+00581 \textcolor{comment}{        It returns SUCCESS if the current status includes the given flags }
+00582 \textcolor{comment}{        and returns ERROR if one or more flags are missing in the current status.}
+00583 \textcolor{comment}{}
+00584 \textcolor{comment}{          - When to use}
+00585 \textcolor{comment}{             - This function is suitable for most applications as well as for startup }
+00586 \textcolor{comment}{               activity since the events are fully described in the product reference }
+00587 \textcolor{comment}{               manual (RM0090).}
+00588 \textcolor{comment}{             - It is also suitable for users who need to define their own events.}
+00589 \textcolor{comment}{}
+00590 \textcolor{comment}{          - Limitations}
+00591 \textcolor{comment}{             - If an error occurs (ie. error flags are set besides to the monitored }
+00592 \textcolor{comment}{               flags), the I2C\_CheckEvent() function may return SUCCESS despite }
+00593 \textcolor{comment}{               the communication hold or corrupted real state. }
+00594 \textcolor{comment}{               In this case, it is advised to use error interrupts to monitor }
+00595 \textcolor{comment}{               the error events and handle them in the interrupt IRQ handler.}
+00596 \textcolor{comment}{         }
+00597 \textcolor{comment}{     Note }
+00598 \textcolor{comment}{         For error management, it is advised to use the following functions:}
+00599 \textcolor{comment}{           - I2C\_ITConfig() to configure and enable the error interrupts (I2C\_IT\_ERR).}
+00600 \textcolor{comment}{           - I2Cx\_ER\_IRQHandler() which is called when the error interrupt occurs.}
+00601 \textcolor{comment}{             Where x is the peripheral instance (I2C1, I2C2 ...)}
+00602 \textcolor{comment}{           - I2C\_GetFlagStatus() or I2C\_GetITStatus()  to be called into the }
+00603 \textcolor{comment}{             I2Cx\_ER\_IRQHandler() function in order to determine which error occurred.}
+00604 \textcolor{comment}{           - I2C\_ClearFlag() or I2C\_ClearITPendingBit() and/or I2C\_SoftwareResetCmd() }
+00605 \textcolor{comment}{             and/or I2C\_GenerateStop() in order to clear the error flag and source }
+00606 \textcolor{comment}{             and return to correct  communication status.}
+00607 \textcolor{comment}{             }
+00608 \textcolor{comment}{ }
+00609 \textcolor{comment}{     2. Advanced state monitoring (Using the function I2C\_GetLastEvent())}
+00610 \textcolor{comment}{     -------------------------------------------------------------------- }
+00611 \textcolor{comment}{        Using the function I2C\_GetLastEvent() which returns the image of both status }
+00612 \textcolor{comment}{        registers in a single word (uint32\_t) (Status Register 2 value is shifted left }
+00613 \textcolor{comment}{        by 16 bits and concatenated to Status Register 1).}
+00614 \textcolor{comment}{}
+00615 \textcolor{comment}{          - When to use}
+00616 \textcolor{comment}{             - This function is suitable for the same applications above but it }
+00617 \textcolor{comment}{               allows to overcome the mentioned limitation of I2C\_GetFlagStatus() }
+00618 \textcolor{comment}{               function.}
+00619 \textcolor{comment}{             - The returned value could be compared to events already defined in }
+00620 \textcolor{comment}{               this file or to custom values defined by user.}
+00621 \textcolor{comment}{               This function is suitable when multiple flags are monitored at the }
+00622 \textcolor{comment}{               same time.}
+00623 \textcolor{comment}{             - At the opposite of I2C\_CheckEvent() function, this function allows }
+00624 \textcolor{comment}{               user to choose when an event is accepted (when all events flags are }
+00625 \textcolor{comment}{               set and no other flags are set or just when the needed flags are set }
+00626 \textcolor{comment}{               like I2C\_CheckEvent() function.}
+00627 \textcolor{comment}{}
+00628 \textcolor{comment}{          - Limitations}
+00629 \textcolor{comment}{             - User may need to define his own events.}
+00630 \textcolor{comment}{             - Same remark concerning the error management is applicable for this }
+00631 \textcolor{comment}{               function if user decides to check only regular communication flags }
+00632 \textcolor{comment}{               (and ignores error flags).}
+00633 \textcolor{comment}{      }
+00634 \textcolor{comment}{ }
+00635 \textcolor{comment}{     3. Flag-based state monitoring (Using the function I2C\_GetFlagStatus())}
+00636 \textcolor{comment}{     -----------------------------------------------------------------------}
+00637 \textcolor{comment}{     }
+00638 \textcolor{comment}{      Using the function I2C\_GetFlagStatus() which simply returns the status of }
+00639 \textcolor{comment}{      one single flag (ie. I2C\_FLAG\_RXNE ...). }
+00640 \textcolor{comment}{}
+00641 \textcolor{comment}{          - When to use}
+00642 \textcolor{comment}{             - This function could be used for specific applications or in debug }
+00643 \textcolor{comment}{               phase.}
+00644 \textcolor{comment}{             - It is suitable when only one flag checking is needed (most I2C }
+00645 \textcolor{comment}{               events are monitored through multiple flags).}
+00646 \textcolor{comment}{          - Limitations: }
+00647 \textcolor{comment}{             - When calling this function, the Status register is accessed. }
+00648 \textcolor{comment}{               Some flags are cleared when the status register is accessed. }
+00649 \textcolor{comment}{               So checking the status of one Flag, may clear other ones.}
+00650 \textcolor{comment}{             - Function may need to be called twice or more in order to monitor }
+00651 \textcolor{comment}{               one single event.           }
+00652 \textcolor{comment}{ */}
+00653 
+00654 \textcolor{comment}{/*}
+00655 \textcolor{comment}{ ===============================================================================}
+00656 \textcolor{comment}{                          1. Basic state monitoring}
+00657 \textcolor{comment}{ ===============================================================================}
+00658 \textcolor{comment}{ */}
+00659 ErrorStatus I2C_CheckEvent(I2C\_TypeDef* I2Cx, uint32\_t I2C\_EVENT);
+00660 \textcolor{comment}{/*}
+00661 \textcolor{comment}{ ===============================================================================}
+00662 \textcolor{comment}{                          2. Advanced state monitoring}
+00663 \textcolor{comment}{ ===============================================================================}
+00664 \textcolor{comment}{ */}
+00665 uint32\_t I2C_GetLastEvent(I2C\_TypeDef* I2Cx);
+00666 \textcolor{comment}{/*}
+00667 \textcolor{comment}{ ===============================================================================}
+00668 \textcolor{comment}{                          3. Flag-based state monitoring}
+00669 \textcolor{comment}{ ===============================================================================}
+00670 \textcolor{comment}{ */}
+00671 FlagStatus I2C_GetFlagStatus(I2C\_TypeDef* I2Cx, uint32\_t I2C\_FLAG);
+00672 
+00673 
+00674 \textcolor{keywordtype}{void} I2C_ClearFlag(I2C\_TypeDef* I2Cx, uint32\_t I2C\_FLAG);
+00675 ITStatus I2C_GetITStatus(I2C\_TypeDef* I2Cx, uint32\_t I2C\_IT);
+00676 \textcolor{keywordtype}{void} I2C_ClearITPendingBit(I2C\_TypeDef* I2Cx, uint32\_t I2C\_IT);
+00677 
+00678 \textcolor{preprocessor}{#}\textcolor{preprocessor}{ifdef} \_\_cplusplus
+00679 \}
+00680 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif}
+00681 
+00682 \textcolor{preprocessor}{#}\textcolor{preprocessor}{endif} \textcolor{comment}{/*\_\_STM32F4xx\_I2C\_H */}
+00683 
+00684 \textcolor{comment}{/**}
+00685 \textcolor{comment}{  * @\}}
+00686 \textcolor{comment}{  */}
+00687 
+00688 \textcolor{comment}{/**}
+00689 \textcolor{comment}{  * @\}}
+00690 \textcolor{comment}{  */}
+00691 
+00692 \textcolor{comment}{/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/}
+\end{DoxyCode}

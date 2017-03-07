@@ -1,0 +1,302 @@
+\section{High Level M\+D5 functions}
+\label{group__HASH__Group7}\index{High Level M\+D5 functions@{High Level M\+D5 functions}}
+
+
+High Level M\+D5 Hash and H\+M\+AC functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Error\+Status} \textbf{ H\+A\+S\+H\+\_\+\+M\+D5} (uint8\+\_\+t $\ast$Input, uint32\+\_\+t Ilen, uint8\+\_\+t Output[16])
+\begin{DoxyCompactList}\small\item\em Compute the H\+A\+SH M\+D5 digest. \end{DoxyCompactList}\item 
+\textbf{ Error\+Status} \textbf{ H\+M\+A\+C\+\_\+\+M\+D5} (uint8\+\_\+t $\ast$Key, uint32\+\_\+t Keylen, uint8\+\_\+t $\ast$Input, uint32\+\_\+t Ilen, uint8\+\_\+t Output[16])
+\begin{DoxyCompactList}\small\item\em Compute the H\+M\+AC M\+D5 digest. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+High Level M\+D5 Hash and H\+M\+AC functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                          High Level MD5 Hash and HMAC functions
+ ===============================================================================\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__HASH__Group7_ga82a155884e458cc6b7c1a4565c1ac8e9}} 
+\index{High Level M\+D5 functions@{High Level M\+D5 functions}!H\+A\+S\+H\+\_\+\+M\+D5@{H\+A\+S\+H\+\_\+\+M\+D5}}
+\index{H\+A\+S\+H\+\_\+\+M\+D5@{H\+A\+S\+H\+\_\+\+M\+D5}!High Level M\+D5 functions@{High Level M\+D5 functions}}
+\subsubsection{H\+A\+S\+H\+\_\+\+M\+D5()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} H\+A\+S\+H\+\_\+\+M\+D5 (\begin{DoxyParamCaption}\item[{uint8\+\_\+t $\ast$}]{Input,  }\item[{uint32\+\_\+t}]{Ilen,  }\item[{uint8\+\_\+t}]{Output[16] }\end{DoxyParamCaption})}
+
+
+
+Compute the H\+A\+SH M\+D5 digest. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Input} & pointer to the Input buffer to be treated. \\
+\hline
+{\em Ilen} & length of the Input buffer. \\
+\hline
+{\em Output} & the returned digest \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: digest computation done
+\item E\+R\+R\+OR\+: digest computation failed 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 87} of file \textbf{ stm32f4xx\+\_\+hash\+\_\+md5.\+c}.
+
+
+
+References \textbf{ H\+A\+S\+H\+\_\+\+De\+Init()}, \textbf{ H\+A\+S\+H\+\_\+\+Init()}, \textbf{ H\+A\+S\+H\+\_\+\+Start\+Digest()}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+00088 \{
+00089   HASH_InitTypeDef MD5\_HASH\_InitStructure;
+00090   HASH_MsgDigest MD5\_MessageDigest;
+00091   \_\_IO uint16\_t nbvalidbitsdata = 0;
+00092   uint32\_t i = 0;
+00093   \_\_IO uint32\_t counter = 0;
+00094   uint32\_t busystatus = 0;
+00095   ErrorStatus status = SUCCESS;
+00096   uint32\_t inputaddr  = (uint32\_t)Input;
+00097   uint32\_t outputaddr = (uint32\_t)Output;
+00098 
+00099 
+00100   \textcolor{comment}{/* Number of valid bits in last word of the Input data */}
+00101   nbvalidbitsdata = 8 * (Ilen % 4);
+00102 
+00103   \textcolor{comment}{/* HASH peripheral initialization */}
+00104   HASH_DeInit();
+00105 
+00106   \textcolor{comment}{/* HASH Configuration */}
+00107   MD5\_HASH\_InitStructure.HASH_AlgoSelection = HASH_AlgoSelection_MD5;
+00108   MD5\_HASH\_InitStructure.HASH_AlgoMode = HASH_AlgoMode_HASH;
+00109   MD5\_HASH\_InitStructure.HASH_DataType = HASH_DataType_8b;
+00110   HASH_Init(&MD5\_HASH\_InitStructure);
+00111 
+00112   \textcolor{comment}{/* Configure the number of valid bits in last word of the data */}
+00113   HASH_SetLastWordValidBitsNbr(nbvalidbitsdata);
+00114 
+00115   \textcolor{comment}{/* Write the Input block in the IN FIFO */}
+00116   \textcolor{keywordflow}{for}(i=0; i<Ilen; i+=4)
+00117   \{
+00118     HASH_DataIn(*(uint32\_t*)inputaddr);
+00119     inputaddr+=4;
+00120   \}
+00121 
+00122   \textcolor{comment}{/* Start the HASH processor */}
+00123   HASH_StartDigest();
+00124 
+00125   \textcolor{comment}{/* wait until the Busy flag is RESET */}
+00126   \textcolor{keywordflow}{do}
+00127   \{
+00128     busystatus = HASH_GetFlagStatus(HASH_FLAG_BUSY);
+00129     counter++;
+00130   \}\textcolor{keywordflow}{while} ((counter != MD5BUSY_TIMEOUT) && (busystatus != RESET));
+00131 
+00132   \textcolor{keywordflow}{if} (busystatus != RESET)
+00133   \{
+00134      status = ERROR;
+00135   \}
+00136   \textcolor{keywordflow}{else}
+00137   \{
+00138     \textcolor{comment}{/* Read the message digest */}
+00139     HASH_GetDigest(&MD5\_MessageDigest);
+00140     *(uint32\_t*)(outputaddr)  = \_\_REV(MD5\_MessageDigest.Data[0]);
+00141     outputaddr+=4;
+00142     *(uint32\_t*)(outputaddr)  = \_\_REV(MD5\_MessageDigest.Data[1]);
+00143     outputaddr+=4;
+00144     *(uint32\_t*)(outputaddr)  = \_\_REV(MD5\_MessageDigest.Data[2]);
+00145     outputaddr+=4;
+00146     *(uint32\_t*)(outputaddr)  = \_\_REV(MD5\_MessageDigest.Data[3]);
+00147   \}
+00148   \textcolor{keywordflow}{return} status; 
+00149 \}
+\end{DoxyCode}
+\mbox{\label{group__HASH__Group7_gac61733e7aa66bdd2f21be4b34165b5be}} 
+\index{High Level M\+D5 functions@{High Level M\+D5 functions}!H\+M\+A\+C\+\_\+\+M\+D5@{H\+M\+A\+C\+\_\+\+M\+D5}}
+\index{H\+M\+A\+C\+\_\+\+M\+D5@{H\+M\+A\+C\+\_\+\+M\+D5}!High Level M\+D5 functions@{High Level M\+D5 functions}}
+\subsubsection{H\+M\+A\+C\+\_\+\+M\+D5()}
+{\footnotesize\ttfamily \textbf{ Error\+Status} H\+M\+A\+C\+\_\+\+M\+D5 (\begin{DoxyParamCaption}\item[{uint8\+\_\+t $\ast$}]{Key,  }\item[{uint32\+\_\+t}]{Keylen,  }\item[{uint8\+\_\+t $\ast$}]{Input,  }\item[{uint32\+\_\+t}]{Ilen,  }\item[{uint8\+\_\+t}]{Output[16] }\end{DoxyParamCaption})}
+
+
+
+Compute the H\+M\+AC M\+D5 digest. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Key} & pointer to the Key used for H\+M\+AC. \\
+\hline
+{\em Keylen} & length of the Key used for H\+M\+AC. \\
+\hline
+{\em Input} & pointer to the Input buffer to be treated. \\
+\hline
+{\em Ilen} & length of the Input buffer. \\
+\hline
+{\em Output} & the returned digest \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em An} & Error\+Status enumeration value\+:
+\begin{DoxyItemize}
+\item S\+U\+C\+C\+E\+SS\+: digest computation done
+\item E\+R\+R\+OR\+: digest computation failed 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 162} of file \textbf{ stm32f4xx\+\_\+hash\+\_\+md5.\+c}.
+
+
+
+References \textbf{ H\+A\+S\+H\+\_\+\+De\+Init()}, \textbf{ H\+A\+S\+H\+\_\+\+Init()}, \textbf{ H\+A\+S\+H\+\_\+\+Start\+Digest()}, and \textbf{ S\+U\+C\+C\+E\+SS}.
+
+
+\begin{DoxyCode}
+00164 \{
+00165   HASH_InitTypeDef MD5\_HASH\_InitStructure;
+00166   HASH_MsgDigest MD5\_MessageDigest;
+00167   \_\_IO uint16\_t nbvalidbitsdata = 0;
+00168   \_\_IO uint16\_t nbvalidbitskey = 0;
+00169   uint32\_t i = 0;
+00170   \_\_IO uint32\_t counter = 0;
+00171   uint32\_t busystatus = 0;
+00172   ErrorStatus status = SUCCESS;
+00173   uint32\_t keyaddr    = (uint32\_t)Key;
+00174   uint32\_t inputaddr  = (uint32\_t)Input;
+00175   uint32\_t outputaddr = (uint32\_t)Output;
+00176 
+00177   \textcolor{comment}{/* Number of valid bits in last word of the Input data */}
+00178   nbvalidbitsdata = 8 * (Ilen % 4);
+00179 
+00180   \textcolor{comment}{/* Number of valid bits in last word of the Key */}
+00181   nbvalidbitskey = 8 * (Keylen % 4);
+00182    
+00183   \textcolor{comment}{/* HASH peripheral initialization */}
+00184   HASH_DeInit();
+00185 
+00186   \textcolor{comment}{/* HASH Configuration */}
+00187   MD5\_HASH\_InitStructure.HASH_AlgoSelection = HASH_AlgoSelection_MD5;
+00188   MD5\_HASH\_InitStructure.HASH_AlgoMode = HASH_AlgoMode_HMAC;
+00189   MD5\_HASH\_InitStructure.HASH_DataType = HASH_DataType_8b;
+00190   \textcolor{keywordflow}{if}(Keylen > 64)
+00191   \{
+00192     \textcolor{comment}{/* HMAC long Key */}
+00193     MD5\_HASH\_InitStructure.HASH_HMACKeyType = HASH_HMACKeyType_LongKey;
+00194   \}
+00195   \textcolor{keywordflow}{else}
+00196   \{
+00197     \textcolor{comment}{/* HMAC short Key */}
+00198     MD5\_HASH\_InitStructure.HASH_HMACKeyType = HASH_HMACKeyType_ShortKey;
+00199   \}
+00200   HASH_Init(&MD5\_HASH\_InitStructure);
+00201 
+00202   \textcolor{comment}{/* Configure the number of valid bits in last word of the Key */}
+00203   HASH_SetLastWordValidBitsNbr(nbvalidbitskey);
+00204 
+00205   \textcolor{comment}{/* Write the Key */}
+00206   \textcolor{keywordflow}{for}(i=0; i<Keylen; i+=4)
+00207   \{
+00208     HASH_DataIn(*(uint32\_t*)keyaddr);
+00209     keyaddr+=4;
+00210   \}
+00211   
+00212   \textcolor{comment}{/* Start the HASH processor */}
+00213   HASH_StartDigest();
+00214 
+00215   \textcolor{comment}{/* wait until the Busy flag is RESET */}
+00216   \textcolor{keywordflow}{do}
+00217   \{
+00218     busystatus = HASH_GetFlagStatus(HASH_FLAG_BUSY);
+00219     counter++;
+00220   \}\textcolor{keywordflow}{while} ((counter != MD5BUSY_TIMEOUT) && (busystatus != RESET));
+00221 
+00222   \textcolor{keywordflow}{if} (busystatus != RESET)
+00223   \{
+00224      status = ERROR;
+00225   \}
+00226   \textcolor{keywordflow}{else}
+00227   \{
+00228     \textcolor{comment}{/* Configure the number of valid bits in last word of the Input data */}
+00229     HASH_SetLastWordValidBitsNbr(nbvalidbitsdata);
+00230 
+00231     \textcolor{comment}{/* Write the Input block in the IN FIFO */}
+00232     \textcolor{keywordflow}{for}(i=0; i<Ilen; i+=4)
+00233     \{
+00234       HASH_DataIn(*(uint32\_t*)inputaddr);
+00235       inputaddr+=4;
+00236     \}
+00237 
+00238     \textcolor{comment}{/* Start the HASH processor */}
+00239     HASH_StartDigest();
+00240 
+00241     \textcolor{comment}{/* wait until the Busy flag is RESET */}
+00242     counter =0;
+00243     \textcolor{keywordflow}{do}
+00244     \{
+00245        busystatus = HASH_GetFlagStatus(HASH_FLAG_BUSY);
+00246        counter++;
+00247     \}\textcolor{keywordflow}{while} ((counter != MD5BUSY_TIMEOUT) && (busystatus != RESET));
+00248 
+00249     \textcolor{keywordflow}{if} (busystatus != RESET)
+00250     \{
+00251       status = ERROR;
+00252     \}
+00253     \textcolor{keywordflow}{else}
+00254     \{  
+00255       \textcolor{comment}{/* Configure the number of valid bits in last word of the Key */}
+00256       HASH_SetLastWordValidBitsNbr(nbvalidbitskey);
+00257 
+00258       \textcolor{comment}{/* Write the Key */}
+00259       keyaddr = (uint32\_t)Key;
+00260       \textcolor{keywordflow}{for}(i=0; i<Keylen; i+=4)
+00261       \{
+00262         HASH_DataIn(*(uint32\_t*)keyaddr);
+00263         keyaddr+=4;
+00264       \}
+00265   
+00266        \textcolor{comment}{/* Start the HASH processor */}
+00267        HASH_StartDigest();
+00268 
+00269        \textcolor{comment}{/* wait until the Busy flag is RESET */}
+00270        counter =0;
+00271        \textcolor{keywordflow}{do}
+00272        \{
+00273           busystatus = HASH_GetFlagStatus(HASH_FLAG_BUSY);
+00274           counter++;
+00275       \}\textcolor{keywordflow}{while} ((counter != MD5BUSY_TIMEOUT) && (busystatus != RESET));
+00276 
+00277       \textcolor{keywordflow}{if} (busystatus != RESET)
+00278       \{
+00279          status = ERROR;
+00280       \}
+00281       \textcolor{keywordflow}{else}
+00282       \{
+00283          \textcolor{comment}{/* Read the message digest */}
+00284          HASH_GetDigest(&MD5\_MessageDigest);
+00285          *(uint32\_t*)(outputaddr)  = \_\_REV(MD5\_MessageDigest.Data[0]);
+00286          outputaddr+=4;
+00287          *(uint32\_t*)(outputaddr)  = \_\_REV(MD5\_MessageDigest.Data[1]);
+00288          outputaddr+=4;
+00289          *(uint32\_t*)(outputaddr)  = \_\_REV(MD5\_MessageDigest.Data[2]);
+00290          outputaddr+=4;
+00291          *(uint32\_t*)(outputaddr)  = \_\_REV(MD5\_MessageDigest.Data[3]);
+00292       \}
+00293     \}
+00294   \}
+00295   \textcolor{keywordflow}{return} status;  
+00296 \}
+\end{DoxyCode}

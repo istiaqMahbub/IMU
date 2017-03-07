@@ -1,0 +1,319 @@
+\section{Interrupts and flags management functions}
+\label{group__RTC__Group13}\index{Interrupts and flags management functions@{Interrupts and flags management functions}}
+
+
+Interrupts and flags management functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ R\+T\+C\+\_\+\+I\+T\+Config} (uint32\+\_\+t R\+T\+C\+\_\+\+IT, \textbf{ Functional\+State} New\+State)
+\begin{DoxyCompactList}\small\item\em Enables or disables the specified R\+TC interrupts. \end{DoxyCompactList}\item 
+\textbf{ Flag\+Status} \textbf{ R\+T\+C\+\_\+\+Get\+Flag\+Status} (uint32\+\_\+t R\+T\+C\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified R\+TC flag is set or not. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Clear\+Flag} (uint32\+\_\+t R\+T\+C\+\_\+\+F\+L\+AG)
+\begin{DoxyCompactList}\small\item\em Clears the R\+TC\textquotesingle{}s pending flags. \end{DoxyCompactList}\item 
+\textbf{ I\+T\+Status} \textbf{ R\+T\+C\+\_\+\+Get\+I\+T\+Status} (uint32\+\_\+t R\+T\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Checks whether the specified R\+TC interrupt has occurred or not. \end{DoxyCompactList}\item 
+void \textbf{ R\+T\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit} (uint32\+\_\+t R\+T\+C\+\_\+\+IT)
+\begin{DoxyCompactList}\small\item\em Clears the R\+TC\textquotesingle{}s interrupt pending bits. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interrupts and flags management functions. 
+
+\begin{DoxyVerb} ===============================================================================
+                       Interrupts and flags management functions
+ ===============================================================================  
+ All RTC interrupts are connected to the EXTI controller.
+ 
+ - To enable the RTC Alarm interrupt, the following sequence is required:
+   - Configure and enable the EXTI Line 17 in interrupt mode and select the rising 
+     edge sensitivity using the EXTI_Init() function.
+   - Configure and enable the RTC_Alarm IRQ channel in the NVIC using the NVIC_Init()
+     function.
+   - Configure the RTC to generate RTC alarms (Alarm A and/or Alarm B) using
+     the RTC_SetAlarm() and RTC_AlarmCmd() functions.
+
+ - To enable the RTC Wakeup interrupt, the following sequence is required:
+   - Configure and enable the EXTI Line 22 in interrupt mode and select the rising 
+     edge sensitivity using the EXTI_Init() function.
+   - Configure and enable the RTC_WKUP IRQ channel in the NVIC using the NVIC_Init()
+     function.
+   - Configure the RTC to generate the RTC wakeup timer event using the 
+     RTC_WakeUpClockConfig(), RTC_SetWakeUpCounter() and RTC_WakeUpCmd() functions.
+
+ - To enable the RTC Tamper interrupt, the following sequence is required:
+   - Configure and enable the EXTI Line 21 in interrupt mode and select the rising 
+     edge sensitivity using the EXTI_Init() function.
+   - Configure and enable the TAMP_STAMP IRQ channel in the NVIC using the NVIC_Init()
+     function.
+   - Configure the RTC to detect the RTC tamper event using the 
+     RTC_TamperTriggerConfig() and RTC_TamperCmd() functions.
+
+ - To enable the RTC TimeStamp interrupt, the following sequence is required:
+   - Configure and enable the EXTI Line 21 in interrupt mode and select the rising 
+     edge sensitivity using the EXTI_Init() function.
+   - Configure and enable the TAMP_STAMP IRQ channel in the NVIC using the NVIC_Init()
+     function.
+   - Configure the RTC to detect the RTC time-stamp event using the 
+     RTC_TimeStampCmd() functions.\end{DoxyVerb}
+ 
+
+\subsection{Function Documentation}
+\mbox{\label{group__RTC__Group13_ga9be3325e05418d05c8c5a5ad369c7d50}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!R\+T\+C\+\_\+\+Clear\+Flag@{R\+T\+C\+\_\+\+Clear\+Flag}}
+\index{R\+T\+C\+\_\+\+Clear\+Flag@{R\+T\+C\+\_\+\+Clear\+Flag}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{R\+T\+C\+\_\+\+Clear\+Flag()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Clear\+Flag (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Clears the R\+TC\textquotesingle{}s pending flags. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+F\+L\+AG} & specifies the R\+TC flag to clear. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+A\+M\+P1F\+: Tamper 1 event flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+S\+O\+VF\+: Time Stamp Overflow flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+SF\+: Time Stamp event flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+W\+U\+TF\+: Wake\+Up Timer flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+R\+BF\+: Alarm B flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+R\+AF\+: Alarm A flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+R\+SF\+: Registers Synchronized flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2612} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02613 \{
+02614   \textcolor{comment}{/* Check the parameters */}
+02615   assert_param(IS_RTC_CLEAR_FLAG(RTC\_FLAG));
+02616 
+02617   \textcolor{comment}{/* Clear the Flags in the RTC\_ISR register */}
+02618   RTC->ISR = (uint32\_t)((uint32\_t)(~((RTC\_FLAG | RTC_ISR_INIT)& 0x0000FFFF) | (uint32\_t)(
+      RTC->ISR & RTC_ISR_INIT)));  
+02619 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group13_gacac6accc75ae54f1b799fa8e7e83ccdb}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!R\+T\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit@{R\+T\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit}}
+\index{R\+T\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit@{R\+T\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{R\+T\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+Clear\+I\+T\+Pending\+Bit (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Clears the R\+TC\textquotesingle{}s interrupt pending bits. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+IT} & specifies the R\+TC interrupt pending bit to clear. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+I\+T\+\_\+\+TS\+: Time Stamp interrupt \item R\+T\+C\+\_\+\+I\+T\+\_\+\+W\+UT\+: Wake\+Up Timer interrupt \item R\+T\+C\+\_\+\+I\+T\+\_\+\+A\+L\+RB\+: Alarm B interrupt \item R\+T\+C\+\_\+\+I\+T\+\_\+\+A\+L\+RA\+: Alarm A interrupt \item R\+T\+C\+\_\+\+I\+T\+\_\+\+T\+A\+M\+P1\+: Tamper 1 event interrupt \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2672} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+\begin{DoxyCode}
+02673 \{
+02674   uint32\_t tmpreg = 0;
+02675 
+02676   \textcolor{comment}{/* Check the parameters */}
+02677   assert_param(IS_RTC_CLEAR_IT(RTC\_IT));
+02678 
+02679   \textcolor{comment}{/* Get the RTC\_ISR Interrupt pending bits mask */}
+02680   tmpreg = (uint32\_t)(RTC\_IT >> 4);
+02681 
+02682   \textcolor{comment}{/* Clear the interrupt pending bits in the RTC\_ISR register */}
+02683   RTC->ISR = (uint32\_t)((uint32\_t)(~((tmpreg | RTC_ISR_INIT)& 0x0000FFFF) | (uint32\_t)(
+      RTC->ISR & RTC_ISR_INIT))); 
+02684 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group13_gaf2a7f11aa7160e95650fd10845e7780b}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!R\+T\+C\+\_\+\+Get\+Flag\+Status@{R\+T\+C\+\_\+\+Get\+Flag\+Status}}
+\index{R\+T\+C\+\_\+\+Get\+Flag\+Status@{R\+T\+C\+\_\+\+Get\+Flag\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{R\+T\+C\+\_\+\+Get\+Flag\+Status()}
+{\footnotesize\ttfamily \textbf{ Flag\+Status} R\+T\+C\+\_\+\+Get\+Flag\+Status (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+F\+L\+AG }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified R\+TC flag is set or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+F\+L\+AG} & specifies the flag to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+A\+M\+P1F\+: Tamper 1 event flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+S\+O\+VF\+: Time Stamp Over\+Flow flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+T\+SF\+: Time Stamp event flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+W\+U\+TF\+: Wake\+Up Timer flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+R\+BF\+: Alarm B flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+R\+AF\+: Alarm A flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+I\+N\+I\+TF\+: Initialization mode flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+R\+SF\+: Registers Synchronized flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+I\+N\+I\+TS\+: Registers Configured flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+W\+U\+T\+WF\+: Wake\+Up Timer Write flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+R\+B\+WF\+: Alarm B Write flag \item R\+T\+C\+\_\+\+F\+L\+A\+G\+\_\+\+A\+L\+R\+A\+WF\+: Alarm A write flag \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of R\+T\+C\+\_\+\+F\+L\+AG (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2576} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}, and \textbf{ S\+ET}.
+
+
+\begin{DoxyCode}
+02577 \{
+02578   FlagStatus bitstatus = RESET;
+02579   uint32\_t tmpreg = 0;
+02580   
+02581   \textcolor{comment}{/* Check the parameters */}
+02582   assert_param(IS_RTC_GET_FLAG(RTC\_FLAG));
+02583   
+02584   \textcolor{comment}{/* Get all the flags */}
+02585   tmpreg = (uint32\_t)(RTC->ISR & RTC_FLAGS_MASK);
+02586   
+02587   \textcolor{comment}{/* Return the status of the flag */}
+02588   \textcolor{keywordflow}{if} ((tmpreg & RTC\_FLAG) != (uint32\_t)RESET)
+02589   \{
+02590     bitstatus = SET;
+02591   \}
+02592   \textcolor{keywordflow}{else}
+02593   \{
+02594     bitstatus = RESET;
+02595   \}
+02596   \textcolor{keywordflow}{return} bitstatus;
+02597 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group13_gaab81adc6d2a5a5c1e37a49707c6bf640}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!R\+T\+C\+\_\+\+Get\+I\+T\+Status@{R\+T\+C\+\_\+\+Get\+I\+T\+Status}}
+\index{R\+T\+C\+\_\+\+Get\+I\+T\+Status@{R\+T\+C\+\_\+\+Get\+I\+T\+Status}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{R\+T\+C\+\_\+\+Get\+I\+T\+Status()}
+{\footnotesize\ttfamily \textbf{ I\+T\+Status} R\+T\+C\+\_\+\+Get\+I\+T\+Status (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+IT }\end{DoxyParamCaption})}
+
+
+
+Checks whether the specified R\+TC interrupt has occurred or not. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+IT} & specifies the R\+TC interrupt source to check. This parameter can be one of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+I\+T\+\_\+\+TS\+: Time Stamp interrupt \item R\+T\+C\+\_\+\+I\+T\+\_\+\+W\+UT\+: Wake\+Up Timer interrupt \item R\+T\+C\+\_\+\+I\+T\+\_\+\+A\+L\+RB\+: Alarm B interrupt \item R\+T\+C\+\_\+\+I\+T\+\_\+\+A\+L\+RA\+: Alarm A interrupt \item R\+T\+C\+\_\+\+I\+T\+\_\+\+T\+A\+M\+P1\+: Tamper 1 event interrupt \end{DoxyItemize}
+\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em The} & new state of R\+T\+C\+\_\+\+IT (S\+ET or R\+E\+S\+ET). \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2632} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ R\+E\+S\+ET}, and \textbf{ S\+ET}.
+
+
+\begin{DoxyCode}
+02633 \{
+02634   ITStatus bitstatus = RESET;
+02635   uint32\_t tmpreg = 0, enablestatus = 0;
+02636  
+02637   \textcolor{comment}{/* Check the parameters */}
+02638   assert_param(IS_RTC_GET_IT(RTC\_IT));
+02639   
+02640   \textcolor{comment}{/* Get the TAMPER Interrupt enable bit and pending bit */}
+02641   tmpreg = (uint32\_t)(RTC->TAFCR & (RTC_TAFCR_TAMPIE));
+02642  
+02643   \textcolor{comment}{/* Get the Interrupt enable Status */}
+02644   enablestatus = (uint32\_t)((RTC->CR & RTC\_IT) | (tmpreg & (RTC\_IT >> 15)));
+02645   
+02646   \textcolor{comment}{/* Get the Interrupt pending bit */}
+02647   tmpreg = (uint32\_t)((RTC->ISR & (uint32\_t)(RTC\_IT >> 4)));
+02648   
+02649   \textcolor{comment}{/* Get the status of the Interrupt */}
+02650   \textcolor{keywordflow}{if} ((enablestatus != (uint32\_t)RESET) && ((tmpreg & 0x0000FFFF) != (uint32\_t)
+      RESET))
+02651   \{
+02652     bitstatus = SET;
+02653   \}
+02654   \textcolor{keywordflow}{else}
+02655   \{
+02656     bitstatus = RESET;
+02657   \}
+02658   \textcolor{keywordflow}{return} bitstatus;
+02659 \}
+\end{DoxyCode}
+\mbox{\label{group__RTC__Group13_gaa8469b33b3a99025baf52f007683b925}} 
+\index{Interrupts and flags management functions@{Interrupts and flags management functions}!R\+T\+C\+\_\+\+I\+T\+Config@{R\+T\+C\+\_\+\+I\+T\+Config}}
+\index{R\+T\+C\+\_\+\+I\+T\+Config@{R\+T\+C\+\_\+\+I\+T\+Config}!Interrupts and flags management functions@{Interrupts and flags management functions}}
+\subsubsection{R\+T\+C\+\_\+\+I\+T\+Config()}
+{\footnotesize\ttfamily void R\+T\+C\+\_\+\+I\+T\+Config (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{R\+T\+C\+\_\+\+IT,  }\item[{\textbf{ Functional\+State}}]{New\+State }\end{DoxyParamCaption})}
+
+
+
+Enables or disables the specified R\+TC interrupts. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em R\+T\+C\+\_\+\+IT} & specifies the R\+TC interrupt sources to be enabled or disabled. This parameter can be any combination of the following values\+: \begin{DoxyItemize}
+\item R\+T\+C\+\_\+\+I\+T\+\_\+\+TS\+: Time Stamp interrupt mask \item R\+T\+C\+\_\+\+I\+T\+\_\+\+W\+UT\+: Wake\+Up Timer interrupt mask \item R\+T\+C\+\_\+\+I\+T\+\_\+\+A\+L\+RB\+: Alarm B interrupt mask \item R\+T\+C\+\_\+\+I\+T\+\_\+\+A\+L\+RA\+: Alarm A interrupt mask \item R\+T\+C\+\_\+\+I\+T\+\_\+\+T\+A\+MP\+: Tamper event interrupt mask \end{DoxyItemize}
+\\
+\hline
+{\em New\+State} & new state of the specified R\+TC interrupts. This parameter can be\+: E\+N\+A\+B\+LE or D\+I\+S\+A\+B\+LE. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+
+
+Definition at line \textbf{ 2530} of file \textbf{ stm32f4xx\+\_\+rtc.\+c}.
+
+
+
+References \textbf{ D\+I\+S\+A\+B\+LE}.
+
+
+\begin{DoxyCode}
+02531 \{
+02532   \textcolor{comment}{/* Check the parameters */}
+02533   assert_param(IS_RTC_CONFIG_IT(RTC\_IT));
+02534   assert_param(IS_FUNCTIONAL_STATE(NewState));
+02535 
+02536   \textcolor{comment}{/* Disable the write protection for RTC registers */}
+02537   RTC->WPR = 0xCA;
+02538   RTC->WPR = 0x53;
+02539 
+02540   \textcolor{keywordflow}{if} (NewState != DISABLE)
+02541   \{
+02542     \textcolor{comment}{/* Configure the Interrupts in the RTC\_CR register */}
+02543     RTC->CR |= (uint32\_t)(RTC\_IT & ~RTC_TAFCR_TAMPIE);
+02544     \textcolor{comment}{/* Configure the Tamper Interrupt in the RTC\_TAFCR */}
+02545     RTC->TAFCR |= (uint32\_t)(RTC\_IT & RTC_TAFCR_TAMPIE);
+02546   \}
+02547   \textcolor{keywordflow}{else}
+02548   \{
+02549     \textcolor{comment}{/* Configure the Interrupts in the RTC\_CR register */}
+02550     RTC->CR &= (uint32\_t)~(RTC\_IT & (uint32\_t)~RTC_TAFCR_TAMPIE);
+02551     \textcolor{comment}{/* Configure the Tamper Interrupt in the RTC\_TAFCR */}
+02552     RTC->TAFCR &= (uint32\_t)~(RTC\_IT & RTC_TAFCR_TAMPIE);
+02553   \}
+02554   \textcolor{comment}{/* Enable the write protection for RTC registers */}
+02555   RTC->WPR = 0xFF; 
+02556 \}
+\end{DoxyCode}
