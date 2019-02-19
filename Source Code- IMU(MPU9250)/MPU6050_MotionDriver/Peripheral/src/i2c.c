@@ -1,7 +1,7 @@
 /*******************************************************************************
 File    : i2c.c
 Purpose : I2c 3 to communicate with the sensors
-Author  : 
+Author  : Md. Istiaq Mahbub
 ********************************** Includes ***********************************/
 #include <stdio.h>
 #include "stm32f4xx.h"
@@ -105,7 +105,7 @@ static uint32_t I2Cx_TIMEOUT_UserCallback(char value)
 {
   
   /* The following code allows I2C error recovery and return to normal communication
-     if the error source doesn’t still exist (ie. hardware issue..) */
+     if the error source doesnâ€™t still exist (ie. hardware issue..) */
   I2C_InitTypeDef I2C_InitStructure;
   
   I2C_GenerateSTOP(SENSORS_I2C, ENABLE);
